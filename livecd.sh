@@ -89,6 +89,12 @@ do_initrd = yes
 link_in_boot = no
 @@EOF
 
+cat << @@EOF > ${ROOT}etc/locale.gen
+en_US.UTF-8 UTF-8
+en_GB.UTF-8 UTF-8
+en_ZA.UTF-8 UTF-8
+@@EOF
+
 mkdir -p ${ROOT}proc
 mount -tproc none ${ROOT}proc
 
