@@ -64,7 +64,7 @@ done
 
 for FS in "$@"; do
     ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
-    IMG=livecd.fsimg
+    IMG=livecd.${FS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
     DEV=""
 
@@ -72,12 +72,12 @@ for FS in "$@"; do
 
     mkdir -p ${ROOT}var/cache/debconf
     cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
-    Name: debconf/frontend
-    Template: debconf/frontend
-    Value: Noninteractive
-    Owners: debconf
-    Flags: seen
-    @@EOF
+Name: debconf/frontend
+Template: debconf/frontend
+Value: Noninteractive
+Owners: debconf
+Flags: seen
+@@EOF
 
     case "$FS" in
 	ubuntu)
@@ -105,31 +105,31 @@ for FS in "$@"; do
 
     # /bin/true won't cut it for mkinitrd, need to have -o support.
     cat << @@EOF > ${ROOT}/usr/sbin/mkinitrd
-    #!/usr/bin/python
-    import sys
-    for i in range(len(sys.argv)):
-	if sys.argv[i]=='-o':
-	    open(sys.argv[i+1],"w")
-    @@EOF
+#!/usr/bin/python
+import sys
+for i in range(len(sys.argv)):
+    if sys.argv[i]=='-o':
+	open(sys.argv[i+1],"w")
+@@EOF
     chmod 755 ${ROOT}usr/sbin/mkinitrd
 
     trap "cleanup" 0 1 2 3 15
 
     # Make a good /etc/kernel-img.conf for the kernel packages
     cat << @@EOF >> ${ROOT}etc/kernel-img.conf
-    do_symlinks = yes
-    relative_links = yes
-    do_bootloader = no
-    do_bootfloppy = no
-    do_initrd = yes
-    link_in_boot = no
-    @@EOF
+do_symlinks = yes
+relative_links = yes
+do_bootloader = no
+do_bootfloppy = no
+do_initrd = yes
+link_in_boot = no
+@@EOF
 
     cat << @@EOF > ${ROOT}etc/locale.gen
-    en_US.UTF-8 UTF-8
-    en_GB.UTF-8 UTF-8
-    en_ZA.UTF-8 UTF-8
-    @@EOF
+en_US.UTF-8 UTF-8
+en_GB.UTF-8 UTF-8
+en_ZA.UTF-8 UTF-8
+@@EOF
 
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
@@ -169,22 +169,22 @@ for FS in "$@"; do
     # And make this look more pristene
     cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
-    deb http://archive.ubuntu.com/ubuntu $STE main restricted
-    deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
+deb http://archive.ubuntu.com/ubuntu $STE main restricted
+deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
 
-    ## Uncomment the following two lines to add software from the 'universe'
-    ## repository.
-    ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-    ## team, and may not be under a free licence. Please satisfy yourself as to
-    ## your rights to use the software. Also, please note that software in
-    ## universe WILL NOT receive any review or updates from the Ubuntu security
-    ## team.
-    # deb http://archive.ubuntu.com/ubuntu $STE universe
-    # deb-src http://archive.ubuntu.com/ubuntu $STE universe
+## Uncomment the following two lines to add software from the 'universe'
+## repository.
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## universe WILL NOT receive any review or updates from the Ubuntu security
+## team.
+# deb http://archive.ubuntu.com/ubuntu $STE universe
+# deb-src http://archive.ubuntu.com/ubuntu $STE universe
 
-    deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
-    deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
-    @@EOF
+deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+@@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
     # get rid of the .debs - we don't need them.
@@ -193,7 +193,7 @@ for FS in "$@"; do
     rm -f ${ROOT}var/spool/postfix/maildrop/*
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
     rm ${ROOT}etc/resolv.conf
-    chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.manifest
+    chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.${FS}.manifest
 
     mkdir -p livecd.mnt
     MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
@@ -207,7 +207,7 @@ for FS in "$@"; do
     for fsbs in 1024:65536; do 
       FSBLOCK=${fsbs%:*}
       COMP=${fsbs#*:}
-      IMGNAME=${IMG}-${FS}-${FSBLOCK}
+      IMGNAME=${IMG}-${FSBLOCK}
       if [ ! -f ${IMGNAME} ]; then
 	if [ -f old-${IMGNAME} ]; then
 	  cp old-${IMGNAME} new-${IMGNAME}
@@ -230,7 +230,6 @@ for FS in "$@"; do
 	mv new-${IMGNAME} ${IMGNAME}
 	cp ${IMGNAME} old-${IMGNAME}
       fi
-      create_compressed_fs $IMGNAME $COMP > livecd.cloop-${FS}-${fsbs}
+      create_compressed_fs $IMGNAME $COMP > livecd.${FS}.cloop-${fsbs}
     done
-
 done
