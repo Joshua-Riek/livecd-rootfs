@@ -1,4 +1,8 @@
-#!/bin/sh -xe
+#!/bin/sh -eu
+
+#################################################################
+#### (c) Copyright 2004 Canonical Ltd.  All rights reserved. ####
+#################################################################
 
 # Depends: debootstrap, rsync, cloop-utils, python
 
@@ -140,11 +144,15 @@ mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 # get rid of the .debs - we don't need them.
 chroot ${ROOT} apt-get clean
 rm ${ROOT}var/lib/apt/lists/*_*
+rm ${ROOT}var/spool/postfix/maildrop/*
 
 # Make the filesystem, with some room for meta data and such
 SZ=$(python -c "print int($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)")
+(( SZ > 2097150 )) && SZ=2097150
+rm -f $IMG
 dd if=/dev/zero of=$IMG seek=$SZ bs=1024 count=1
-if [-n "$UINUM" ]; then
+INUM=""
+if [ -n "$UINUM" ]; then
     INUM="-N "$(python -c "print $(find ${ROOT} | wc -l)+$UINUM")
 fi
 mke2fs $INUM -Osparse_super -F $IMG

@@ -1,6 +1,8 @@
 livecd-rootfs (0.2) hoary; urgency=low
 
   * Better divertion setup, fix sources.list
+  * copyright in file.
+  * Flush postfix's queue of the install mail
 
  -- LaMont Jones <lamont@debian.org>  Fri,  7 Jan 2005 13:00:37 -0700
 
