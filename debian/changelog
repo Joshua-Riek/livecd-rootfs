@@ -1,3 +1,9 @@
+livecd-rootfs (0.17) hoary; urgency=low
+
+  * locales cleanup.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Mon,  7 Mar 2005 09:53:54 -0700
+
 livecd-rootfs (0.16) hoary; urgency=low
 
   * Bunch of cleanup for kubunut-live.
