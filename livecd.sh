@@ -25,6 +25,7 @@ kill_users() {
 	sleep 2
 	PIDLIST="$(ls -l /proc/*/root 2>/dev/null | grep -- " -> ${ROOT%/}" | sed -n 's/^.*proc.\([0-9]*\).*$/\1/p')"
     done
+    set -e
 }
 
 without_package() {

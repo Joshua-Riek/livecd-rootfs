@@ -1,3 +1,9 @@
+livecd-rootfs (0.18) hoary; urgency=low
+
+  * set +e affects callers.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Tue,  5 Apr 2005 16:20:32 -0600
+
 livecd-rootfs (0.17) hoary; urgency=low
 
   * locales cleanup.
