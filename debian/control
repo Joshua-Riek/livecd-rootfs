@@ -6,7 +6,7 @@ Maintainer: LaMont Jones <lamont@canonical.com>
 Standards-Version: 3.6.1.0
 
 Package: livecd-rootfs
-Architecture: any
+Architecture: all
 Depends: sudo, debootstrap, rsync, cloop-utils, python-minimal|python
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem

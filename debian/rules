@@ -6,9 +6,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-ARCH=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
-VERSION=$(shell LC_ALL=C dpkg-parsechangelog | grep ^Version: | cut -d ' ' -f 2)
-CLOOPIMG=livecd-root-${VERSION}-${ARCH}.cloopimg
+#ARCH=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+#VERS=$(shell LC_ALL=C dpkg-parsechangelog | grep ^Version: | cut -d ' ' -f 2)
+#CLOOPIMG=livecd-root-${VERS}-${ARCH}.cloopimg
 
 build: build-stamp
 build-stamp:
@@ -16,8 +16,6 @@ build-stamp:
 
 	# Add here commands to compile the package.
 	#$(MAKE)
-	chmod 755 debian/livecd.sh
-	sudo $$(pwd)/debian/livecd.sh
 
 	touch build-stamp
 
@@ -29,7 +27,6 @@ clean:
 	# Add here commands to clean up after the build process.
 	#-$(MAKE) clean
 	#-$(MAKE) distclean
-	rm -rf livecd*
 
 	dh_clean
 
@@ -42,12 +39,12 @@ install: build
 	# Add here commands to install the package into debian/<packagename>
 	#$(MAKE) prefix=`pwd`/debian/`dh_listpackages`/usr install
 
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
 # Build architecture-dependent files here.
 binary-arch: build install
+# We have nothing to do by default.
+
+# Build architecture-independent files here.
+binary-indep: build install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs
@@ -74,9 +71,7 @@ binary-arch: build install
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
-	install -m755 debian/livecd.sh debian/tmp/usr/sbin
-	mv livecd.cloop ../$(CLOOPIMG)
-	dpkg-distaddfile $(CLOOPIMG) byhand -
+	install -m755 livecd.sh debian/tmp/usr/sbin
 
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install

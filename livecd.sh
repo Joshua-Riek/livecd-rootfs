@@ -85,10 +85,22 @@ mount -tproc none ${ROOT}proc
 cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
 cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
+case $(dpkg --print-architecture) in
+  amd64)	KERNEL="linux-amd64-generic";;
+  i386)		KERNEL=linux-386;;
+  ia64)		KERNEL="linux-itanium-smp linux-mckinley-smp";;
+  powerpc)	KERNEL="linux-powerpc linux-power3 linux-power4";;
+
+  # and the bastard stepchildren
+  hppa)		KERNEL="linux-hppa32 linux-hppa64";;
+  sparc*)	KERNEL="linux-sparc64";;
+  *)		echo "Unknown architecture: no kernel."; exit 1;;
+esac
+
 # Create a good sources.list, and finish the install
 echo deb $MIRROR hoary main restricted > ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
-chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop linux-386 </dev/null
+chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $KERNEL </dev/null
 
 # remove our diversions
 for file in $DIVERTS; do
