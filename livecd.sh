@@ -166,6 +166,7 @@ mkdir -p livecd.mnt
 MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
 mount $DEV livecd.mnt
 rsync -a ${ROOT} livecd.mnt
+umount $DEV
 
 create_compressed_fs $IMG 65536 > livecd.cloop
 chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.manifest

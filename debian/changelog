@@ -1,3 +1,9 @@
+livecd-rootfs (0.4) hoary; urgency=low
+
+  * Need to actually umount the fsimg before compressing it.
+
+ -- LaMont Jones <lamont@debian.org>  Tue, 11 Jan 2005 15:21:32 -0700
+
 livecd-rootfs (0.3) hoary; urgency=low
 
   * add manifest file
