@@ -25,7 +25,13 @@ case $(hostname --fqdn) in
   *)			MIRROR=http://archive.ubuntu.com/ubuntu;;
 esac
 
-ROOT=$(pwd)/chroot-livecd/
+# How much space do we leave on the filesystem for the user?
+USZ="400*1024"		# 400MB for the user
+# And how many inodes?  Default currently gives them > 100000
+UINUM=""		# blank (default), or number of inodes desired.
+STE=hoary
+
+ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 IMG=livecd.fsimg
 MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
 
@@ -42,7 +48,7 @@ Flags: seen
 
 # need to defer udev until the apt-get, since debootstrap doesn't believe
 # in diversions
-debootstrap --exclude=udev,ubuntu-base hoary $ROOT $MIRROR
+debootstrap --exclude=udev,ubuntu-base $STE $ROOT $MIRROR
 
 # Just make a few things go away, which lets us skip a few other things.
 # sadly, udev's postinst does some actual work, so we can't just make it
@@ -50,8 +56,9 @@ debootstrap --exclude=udev,ubuntu-base hoary $ROOT $MIRROR
 DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d etc/init.d/dbus-1 sbin/udevd"
 for file in $DIVERTS; do
     mkdir -p ${ROOT}${file%/*}
+    sudo chroot $ROOT dpkg-divert --add --local \
+    				--divert /${file}.livecd --rename /${file}
     cp /bin/true ${ROOT}$file
-    (echo /$file; echo /${file}.livecd; echo :) >> ${ROOT}var/lib/dpkg/diversions
 done
 
 # /bin/true won't cut it for mkinitrd, need to have -o support.
@@ -98,22 +105,35 @@ case $(dpkg --print-architecture) in
 esac
 
 # Create a good sources.list, and finish the install
-echo deb $MIRROR hoary main restricted > ${ROOT}etc/apt/sources.list
+echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
 chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $KERNEL </dev/null
 
 # remove our diversions
 for file in $DIVERTS; do
-    ls -ld ${ROOT}$file ${ROOT}$file.livecd || true
-    rm -f ${ROOT}$file
-    chroot $ROOT dpkg-divert --remove --rename /$file
+    ls -ld ${ROOT}${file} ${ROOT}${file}.livecd || true
+    rm -f ${ROOT}${file}
+    chroot $ROOT dpkg-divert --remove --rename /${file}
 done
 
 # And make this look more pristene
 cleanup
 cat << @@EOF > ${ROOT}etc/apt/sources.list
-echo deb http://archive.ubuntu.com/ubuntu hoary main restricted
-echo deb-src http://archive.ubuntu.com/ubuntu hoary main restricted
+deb http://archive.ubuntu.com/ubuntu $STE main restricted
+deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
+
+## Uncomment the following two lines to add software from the 'universe'
+## repository.
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## universe WILL NOT receive any review or updates from the Ubuntu security
+## team.
+# deb http://archive.ubuntu.com/ubuntu $STE universe
+# deb-src http://archive.ubuntu.com/ubuntu $STE universe
+
+# deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
 @@EOF
 mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
@@ -122,8 +142,6 @@ chroot ${ROOT} apt-get clean
 rm ${ROOT}var/lib/apt/lists/*_*
 
 # Make the filesystem, with some room for meta data and such
-USZ="400*1024"		# 400MB for the user
-UINUM=""		# blank (default), or number of inodes desired.
 SZ=$(python -c "print int($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)")
 dd if=/dev/zero of=$IMG seek=$SZ bs=1024 count=1
 if [-n "$UINUM" ]; then
@@ -135,8 +153,6 @@ losetup $DEV $IMG
 mkdir -p livecd.mnt
 MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
 mount $DEV livecd.mnt
-rsync -a ${ROOT}/ livecd.mnt
-
-rm -rf ${ROOT} &
+rsync -a ${ROOT} livecd.mnt
 
 create_compressed_fs $IMG 65536 > livecd.cloop
