@@ -57,12 +57,14 @@ USZ="400*1024"		# 400MB for the user
 UINUM=""		# blank (default), or number of inodes desired.
 STE=hoary
 EXCLUDE=""
+LIST=""
 
-while getopts :e:i:ms:: name; do case $name in
+while getopts :e:i:I:mS:: name; do case $name in
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
-    i)	UINUM=$(sanitize int "$OPTARG");;
+    i)  LIST="$LIST $OPTARG";;
+    I)	UINUM=$(sanitize int "$OPTARG");;
     m)	MIRROR=$(sanitize url "$OPTARG");;
-    s)	USZ=$(sanitize int "$OPTARG");;
+    S)	USZ=$(sanitize int "$OPTARG");;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -104,10 +106,10 @@ Flags: seen
 
     case "$FS" in
 	ubuntu)
-	    LIST="ubuntu-base ubuntu-desktop ubuntu-live"
+	    LIST="$LIST ubuntu-base ubuntu-desktop ubuntu-live"
 	    ;;
 	kubuntu)
-	    LIST="ubuntu-base kubuntu-desktop ubuntu-live"
+	    LIST="$LIST ubuntu-base kubuntu-desktop ubuntu-live"
 	    ;;
     esac
     LIST="$LIST xresprobe laptop-detect"
