@@ -16,6 +16,7 @@ cleanup() {
 }
 kill_users() {
 
+    set +e
     PIDLIST="$(ls -l /proc/*/root 2>/dev/null | grep -- " -> ${ROOT%/}" | sed -n 's/^.*proc.\([0-9]*\).*$/\1/p')"
     while [ -n "${PIDLIST}" ]; do
 	echo killing $PIDLIST
@@ -100,13 +101,9 @@ Flags: seen
     esac
     LIST="$LIST xresprobe laptop-detect"
 
-    # need to defer udev until the apt-get, since debootstrap doesn't believe
-    # in diversions
-    debootstrap --exclude=udev,ubuntu-base $STE $ROOT $MIRROR
+    debootstrap $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
-    # sadly, udev's postinst does some actual work, so we can't just make it
-    # go away completely.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
     for file in $DIVERTS; do
 	mkdir -p ${ROOT}${file%/*}
@@ -165,16 +162,6 @@ en_ZA.UTF-8 UTF-8
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
     chroot $ROOT apt-get update
-
-    # I really, really, really hate udev some days.
-    chroot $ROOT apt-get -y install udev < /dev/null
-    kill_users
-    umount ${ROOT}/dev/shm || true
-    umount ${ROOT}/dev/pts || true
-    umount ${ROOT}/.dev || true
-    umount ${ROOT}/dev || exit 5	# this one is fatal
-    mount -tdevpts none ${ROOT}/dev/pts
-    mount -ttmpfs none ${ROOT}/dev/shm
     chroot $ROOT apt-get -y install $LIST </dev/null
     kill_users
 

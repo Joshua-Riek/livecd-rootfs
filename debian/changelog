@@ -1,3 +1,9 @@
+livecd-rootfs (0.16) hoary; urgency=low
+
+  * Bunch of cleanup for kubunut-live.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Thu,  3 Mar 2005 16:02:21 -0700
+
 livecd-rootfs (0.15) hoary; urgency=low
 
   * Can't have arch-specific Depends.  Poor partimage.
