@@ -38,6 +38,7 @@ STE=hoary
 ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 IMG=livecd.fsimg
 MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
+DEV=""
 
 rm -rf ${ROOT}
 
@@ -112,6 +113,8 @@ esac
 echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
 chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $KERNEL </dev/null
+chroot $ROOT /etc/cron.daily/slocate
+chroot $ROOT /etc/cron.daily/man-db
 
 # remove our diversions
 for file in $DIVERTS; do
