@@ -14,8 +14,8 @@ cleanup() {
     [ -n "$DEV" ] && losetup -d $DEV || true
     grep ${ROOT} /proc/mounts && return 1 || return 0
 }
-kill_users() {
 
+kill_users() {
     set +e
     PIDLIST="$(ls -l /proc/*/root 2>/dev/null | grep -- " -> ${ROOT%/}" | sed -n 's/^.*proc.\([0-9]*\).*$/\1/p')"
     while [ -n "${PIDLIST}" ]; do
@@ -82,6 +82,7 @@ for FS in "$@"; do
 
     rm -rf ${ROOT}
 
+    export DEBIAN_FRONTEND=noninteractive	# HACK for update-inetd
     mkdir -p ${ROOT}var/cache/debconf
     cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
 Name: debconf/frontend
@@ -89,6 +90,7 @@ Template: debconf/frontend
 Value: Noninteractive
 Owners: debconf
 Flags: seen
+
 @@EOF
 
     case "$FS" in
