@@ -156,6 +156,7 @@ chroot ${ROOT} apt-get clean
 rm -f ${ROOT}var/lib/apt/lists/*_*
 rm -f ${ROOT}var/spool/postfix/maildrop/*
 chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
+rm ${ROOT}etc/resolv.conf
 
 mkdir -p livecd.mnt
 MOUNTS="$MOUNTS $(pwd)/livecd.mnt"

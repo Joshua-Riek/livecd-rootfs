@@ -1,3 +1,9 @@
+livecd-rootfs (0.14) hoary; urgency=low
+
+  * Remove /etc/resolv.conf from the chroot.  Closes: #6954
+
+ -- LaMont Jones <lamont@ubuntu.com>  Sat, 26 Feb 2005 18:39:22 -0700
+
 livecd-rootfs (0.13) hoary; urgency=low
 
   * Add ubuntu-live
