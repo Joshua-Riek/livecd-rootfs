@@ -40,7 +40,7 @@ IMG=livecd.fsimg
 MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
 DEV=""
 
-rm -rf ${ROOT} $(pwd)/${IMG}-*
+rm -rf ${ROOT}
 
 mkdir -p ${ROOT}var/cache/debconf
 cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
@@ -172,15 +172,24 @@ for fsbs in 1024:65536; do
   COMP=${fsbs#*:}
   IMGNAME=${IMG}-${FSBLOCK}
   if [ ! -f ${IMGNAME} ]; then
-    dd if=/dev/zero of=$IMGNAME count=$SZ bs=1M
-    INUM=""
-    [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
-    mke2fs -b $FSBLOCK $INUM -Osparse_super -F $IMGNAME
-    losetup $DEV $IMGNAME
+    if [ -f old-${IMGNAME} ]; then
+      cp old-${IMGNAME} new-${IMGNAME}
+    else
+      dd if=/dev/zero of=new-${IMGNAME} count=$SZ bs=1M
+      INUM=""
+      [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
+      mke2fs -b $FSBLOCK $INUM -Osparse_super -F new-${IMGNAME}
+    fi
+    losetup $DEV new-${IMGNAME}
     mount $DEV livecd.mnt
-    rsync -a ${ROOT} livecd.mnt
+    rsync -a --delete --inplace --no-whole-file ${ROOT} livecd.mnt
     umount $DEV
+    rm -rf partimg-${IMGNAME}.*
+    partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
+    cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
     losetup -d $DEV
+    mv new-${IMGNAME} ${IMGNAME}
+    cp ${IMGNAME} old-${IMGNAME}
   fi
   create_compressed_fs $IMGNAME $COMP > livecd.cloop-${fsbs}
 done
