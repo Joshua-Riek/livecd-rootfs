@@ -11,7 +11,7 @@ cleanup() {
 	umount $mnt || true
     done
 
-    [ -n "$DEV" ] && losetup -d $DEV
+    [ -n "$DEV" ] && losetup -d $DEV || true
     grep ${ROOT} /proc/mounts && return 1 || return 0
 }
 
