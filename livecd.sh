@@ -150,24 +150,30 @@ chroot ${ROOT} apt-get clean
 rm ${ROOT}var/lib/apt/lists/*_*
 rm ${ROOT}var/spool/postfix/maildrop/*
 
+mkdir -p livecd.mnt
+MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
+DEV=$(losetup -f);
+
 # Make the filesystem, with some room for meta data and such
 SZ=$(python -c "print int($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)")
 (( SZ > 2097150 )) && SZ=2097150
-rm -f $IMG
-dd if=/dev/zero of=$IMG seek=$SZ bs=1024 count=1
-INUM=""
-if [ -n "$UINUM" ]; then
-    INUM="-N "$(python -c "print $(find ${ROOT} | wc -l)+$UINUM")
-fi
-mke2fs $INUM -Osparse_super -F $IMG
-DEV=$(losetup -f);
-losetup $DEV $IMG
-mkdir -p livecd.mnt
-MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
-mount $DEV livecd.mnt
-rsync -a ${ROOT} livecd.mnt
-umount $DEV
+SZ=2097150				# XXX fix size for now
 
-create_compressed_fs $IMG 65536 > livecd.cloop
+for fsbs in 4096:4096 1024:65536; do 
+  FSBLOCK=${fsbs%:*}
+  COMP=${fsbs#*:}
+  IMGNAME=${IMG}.${fsbs}
+  rm -f $IMGNAME
+  dd if=/dev/zero of=$IMGNAME seek=$SZ bs=1024 count=1
+  INUM=""
+  [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
+  mke2fs -b $FSBLOCK $INUM -Osparse_super -F $IMGNAME
+  losetup $DEV $IMGNAME
+  mount $DEV livecd.mnt
+  rsync -a ${ROOT} livecd.mnt
+  umount $DEV
+  losetup -d $DEV
+  create_compressed_fs $IMGNAME $COMP > livecd.cloop-${FSBS}
+done
+
 chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.manifest
-
