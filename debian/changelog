@@ -1,3 +1,9 @@
+livecd-rootfs (0.7) hoary; urgency=low
+
+  * rsync does not love what we do in cloop.  :(
+
+ -- LaMont Jones <lamont@debian.org>  Fri, 14 Jan 2005 22:13:03 -0700
+
 livecd-rootfs (0.6) hoary; urgency=low
 
   * fix typos in livecd.sh.  sigh.
