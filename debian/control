@@ -7,7 +7,8 @@ Standards-Version: 3.6.1.0
 
 Package: livecd-rootfs
 Architecture: all
-Depends: sudo, debootstrap, rsync, cloop-utils, python-minimal|python, partimage [!ia64 !alpha !amd64]
+Depends: sudo, debootstrap, rsync, cloop-utils, python-minimal|python
+Recommends: partimage
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem
  on the livecd.
