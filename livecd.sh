@@ -112,6 +112,7 @@ esac
 
 # Create a good sources.list, and finish the install
 echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
+#echo deb http://rockhopper.warthogs.hbd.com/~lamont/lrm / >>  ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
 chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $OTHER </dev/null
 chroot $ROOT /etc/cron.daily/slocate
@@ -173,7 +174,7 @@ for fsbs in 4096:4096 1024:65536; do
   rsync -a ${ROOT} livecd.mnt
   umount $DEV
   losetup -d $DEV
-  create_compressed_fs $IMGNAME $COMP > livecd.cloop-${FSBS}
+  create_compressed_fs $IMGNAME $COMP > livecd.cloop-${fsbs}
 done
 
 chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.manifest
