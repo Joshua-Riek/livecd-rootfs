@@ -25,33 +25,44 @@ export TTY=unknown
 export TERM=vt100
 case $(hostname --fqdn) in
     *.mmjgroup.com)	MIRROR=http://ia/ubuntu;;
-    *.warthogs.hbd.com)	MIRROR=http://jackass.warthogs.hbd.com;;
-    *.ubuntu.com)	MIRROR=http://jackass.warthogs.hbd.com;;
+    *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
+    *.buildd)		MIRROR=http://jackass.ubuntu.com;;
     *)			MIRROR=http://archive.ubuntu.com/ubuntu;;
 esac
 
-while getopts :m: name; do case $name in
-    m)	MIRROR="$OPTARG";;
-    \?) echo bad usage >&2; exit 2;;
-    \:) echo missing argument >&2; exit 2;;
-esac; done;
-shift $((OPTIND-1))
+# How much space do we leave on the filesystem for the user?
+USZ="400*1024"		# 400MB for the user
+# And how many inodes?  Default currently gives them > 100000
+UINUM=""		# blank (default), or number of inodes desired.
+STE=hoary
 
-(( $# == 0 )) && set -- ubuntu || true
-[ "X$1" = "Xall" ] && set -- ubuntu kubuntu || true
+if /bin/false; then	# not right now
+    while getopts :i:ms:: name; do case $name in
+	s)	USZ=$(sanitize int "$OPTARG");;
+	i)	UINUM=$(sanitize int "$OPTARG");;
+	m)	MIRROR=$(sanitize url "$OPTARG");;
+	\?) echo bad usage >&2; exit 2;;
+	\:) echo missing argument >&2; exit 2;;
+    esac; done;
+    shift $((OPTIND-1))
+fi
 
-for arg in "$@"; do case "$arg" in
-    ubuntu|kubuntu)	;;
-    *)		echo bad name >&2; exit 2;;
-esac; done
+if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
+    set -- ubuntu kubuntu
+fi
+
+for arg in "$@"; do
+    case "$arg" in
+	ubuntu|kubuntu)
+	    ;;
+	*)
+	    echo bad name >&2;
+	    exit 2
+	    ;;
+    esac
+done
 
 for FS in "$@"; do
-    # How much space do we leave on the filesystem for the user?
-    USZ="400*1024"		# 400MB for the user
-    # And how many inodes?  Default currently gives them > 100000
-    UINUM=""		# blank (default), or number of inodes desired.
-    STE=hoary
-
     ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
     IMG=livecd.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
@@ -88,7 +99,7 @@ for FS in "$@"; do
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d sbin/udevd"
     for file in $DIVERTS; do
 	mkdir -p ${ROOT}${file%/*}
-	sudo chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
+	chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
 	cp /bin/true ${ROOT}$file
     done
 
