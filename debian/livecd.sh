@@ -27,7 +27,7 @@ esac
 
 ROOT=$(pwd)/chroot-livecd/
 IMG=livecd.fsimg
-MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev $(pwd)/$IMG ${ROOT}proc"
+MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
 
 rm -rf ${ROOT}
 
@@ -121,6 +121,7 @@ mke2fs $INUM -Osparse_super -F $IMG
 DEV=$(losetup -f);
 losetup $DEV $IMG
 mkdir -p livecd.mnt
+MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
 mount $DEV livecd.mnt
 rsync -a ${ROOT}/ livecd.mnt
 
