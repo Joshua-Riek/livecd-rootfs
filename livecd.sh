@@ -40,7 +40,7 @@ IMG=livecd.fsimg
 MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
 DEV=""
 
-rm -rf ${ROOT}
+rm -rf ${ROOT} $(pwd)/${IMG}-*
 
 mkdir -p ${ROOT}var/cache/debconf
 cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
@@ -141,15 +141,15 @@ deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
 # deb http://archive.ubuntu.com/ubuntu $STE universe
 # deb-src http://archive.ubuntu.com/ubuntu $STE universe
 
-# deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
-# deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
 @@EOF
 mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
 # get rid of the .debs - we don't need them.
 chroot ${ROOT} apt-get clean
-rm ${ROOT}var/lib/apt/lists/*_*
-rm ${ROOT}var/spool/postfix/maildrop/*
+rm -f ${ROOT}var/lib/apt/lists/*_*
+rm -f ${ROOT}var/spool/postfix/maildrop/*
 
 mkdir -p livecd.mnt
 MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
@@ -160,20 +160,21 @@ SZ=$(python -c "print int($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)")
 (( SZ > 2097150 )) && SZ=2097150
 SZ=2097150				# XXX fix size for now
 
-for fsbs in 4096:4096 1024:65536; do 
+for fsbs in 1024:65536; do 
   FSBLOCK=${fsbs%:*}
   COMP=${fsbs#*:}
-  IMGNAME=${IMG}.${fsbs}
-  rm -f $IMGNAME
-  dd if=/dev/zero of=$IMGNAME seek=$SZ bs=1024 count=1
-  INUM=""
-  [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
-  mke2fs -b $FSBLOCK $INUM -Osparse_super -F $IMGNAME
-  losetup $DEV $IMGNAME
-  mount $DEV livecd.mnt
-  rsync -a ${ROOT} livecd.mnt
-  umount $DEV
-  losetup -d $DEV
+  IMGNAME=${IMG}-${FSBLOCK}
+  if [ ! -f ${IMGNAME} ]; then
+    dd if=/dev/zero of=$IMGNAME seek=$SZ bs=1024 count=1
+    INUM=""
+    [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
+    mke2fs -b $FSBLOCK $INUM -Osparse_super -F $IMGNAME
+    losetup $DEV $IMGNAME
+    mount $DEV livecd.mnt
+    rsync -a ${ROOT} livecd.mnt
+    umount $DEV
+    losetup -d $DEV
+  fi
   create_compressed_fs $IMGNAME $COMP > livecd.cloop-${fsbs}
 done
 
