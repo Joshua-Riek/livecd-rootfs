@@ -216,8 +216,8 @@ deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
     rm ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
     sed -i '/^myhostname/d; /^mydestination/d; /^myorigin/d' ${ROOT}etc/postfix/main.cf
-    echo set postfix/destinations | chroot ${ROOT}/usr/bin/debconf-communicate postfix
-    echo set postfix/mailname | chroot ${ROOT}/usr/bin/debconf-communicate postfix
+    echo set postfix/destinations | chroot ${ROOT} /usr/bin/debconf-communicate postfix
+    echo set postfix/mailname | chroot ${ROOT} /usr/bin/debconf-communicate postfix
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.${FS}.manifest
 
     mkdir -p livecd.mnt
