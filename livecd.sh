@@ -61,8 +61,7 @@ debootstrap --exclude=udev,ubuntu-base $STE $ROOT $MIRROR
 DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d sbin/udevd"
 for file in $DIVERTS; do
     mkdir -p ${ROOT}${file%/*}
-    sudo chroot $ROOT dpkg-divert --add --local \
-    				--divert /${file}.livecd --rename /${file}
+    sudo chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
     cp /bin/true ${ROOT}$file
 done
 
@@ -70,7 +69,6 @@ done
 cat << @@EOF > ${ROOT}/usr/sbin/mkinitrd
 #!/usr/bin/python
 import sys
-
 for i in range(len(sys.argv)):
     if sys.argv[i]=='-o':
 	open(sys.argv[i+1],"w")
@@ -103,16 +101,16 @@ mount -tproc none ${ROOT}proc
 cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
 cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
-OTHER="xresprobe laptop-detect"
+LIST="ubuntu-base ubuntu-desktop xresprobe laptop-detect"
 case $(dpkg --print-architecture) in
-  amd64)	OTHER="$OTHER linux-amd64-generic";;
-  i386)		OTHER="$OTHER linux-386";;
-  ia64)		OTHER="$OTHER linux-itanium-smp linux-mckinley-smp";;
-  powerpc)	OTHER="$OTHER linux-powerpc linux-power3 linux-power4";;
+  amd64)	LIST="$LIST linux-amd64-generic";;
+  i386)		LIST="$LIST linux-386";;
+  ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
+  powerpc)	LIST="$LIST linux-powerpc linux-power3 linux-power4";;
 
   # and the bastard stepchildren
-  hppa)		OTHER="$OTHER linux-hppa32-smp linux-hppa64-smp";;
-  sparc*)	OTHER="$OTHER linux-sparc64";;
+  hppa)		LIST="$LIST linux-hppa32-smp linux-hppa64-smp";;
+  sparc*)	LIST="$LIST linux-sparc64";;
   *)		echo "Unknown architecture: no kernel."; exit 1;;
 esac
 
@@ -120,7 +118,7 @@ esac
 echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
 #echo deb http://rockhopper.warthogs.hbd.com/~lamont/lrm / >>  ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
-chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $OTHER </dev/null
+chroot $ROOT apt-get -y install $LIST </dev/null
 chroot $ROOT /etc/cron.daily/slocate
 chroot $ROOT /etc/cron.daily/man-db
 chroot $ROOT /usr/sbin/locale-gen
@@ -157,6 +155,7 @@ mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 chroot ${ROOT} apt-get clean
 rm -f ${ROOT}var/lib/apt/lists/*_*
 rm -f ${ROOT}var/spool/postfix/maildrop/*
+chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
 
 mkdir -p livecd.mnt
 MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
@@ -185,8 +184,10 @@ for fsbs in 1024:65536; do
     rsync -a --delete --inplace --no-whole-file ${ROOT} livecd.mnt
     umount $DEV
     rm -rf partimg-${IMGNAME}.*
-    partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
-    cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
+    if [ -x /usr/sbin/partimage ]; then
+      partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
+      cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
+    fi
     losetup -d $DEV
     mv new-${IMGNAME} ${IMGNAME}
     cp ${IMGNAME} old-${IMGNAME}
