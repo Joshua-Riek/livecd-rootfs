@@ -22,6 +22,7 @@ fi
 
 umask 022
 export TTY=unknown
+export TERM=vt100
 case $(hostname --fqdn) in
   *.mmjgroup.com)	MIRROR=http://ia/ubuntu;;
   *.warthogs.hbd.com)	MIRROR=http://jackass.warthogs.hbd.com;;
