@@ -14,6 +14,17 @@ cleanup() {
     [ -n "$DEV" ] && losetup -d $DEV || true
     grep ${ROOT} /proc/mounts && return 1 || return 0
 }
+kill_users() {
+
+    PIDLIST="$(ls -l /proc/*/root 2>/dev/null | grep -- " -> ${ROOT%/}" | sed -n 's/^.*proc.\([0-9]*\).*$/\1/p')"
+    while [ -n "${PIDLIST}" ]; do
+	echo killing $PIDLIST
+	ps -l $(for p in $PIDLIST; do echo ' '-p $p; done)
+	kill -9 $PIDLIST
+	sleep 2
+	PIDLIST="$(ls -l /proc/*/root 2>/dev/null | grep -- " -> ${ROOT%/}" | sed -n 's/^.*proc.\([0-9]*\).*$/\1/p')"
+    done
+}
 
 if [ $(id -u) != 0 ];then
   echo "must be run as root"
@@ -62,8 +73,8 @@ for arg in "$@"; do
     esac
 done
 
+ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
-    ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
     IMG=livecd.${FS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
     DEV=""
@@ -96,7 +107,7 @@ Flags: seen
     # Just make a few things go away, which lets us skip a few other things.
     # sadly, udev's postinst does some actual work, so we can't just make it
     # go away completely.
-    DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d sbin/udevd"
+    DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
     for file in $DIVERTS; do
 	mkdir -p ${ROOT}${file%/*}
 	chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
@@ -154,7 +165,19 @@ en_ZA.UTF-8 UTF-8
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
     chroot $ROOT apt-get update
+
+    # I really, really, really hate udev some days.
+    chroot $ROOT apt-get -y install udev < /dev/null
+    kill_users
+    umount ${ROOT}/dev/shm || true
+    umount ${ROOT}/dev/pts || true
+    umount ${ROOT}/.dev || true
+    umount ${ROOT}/dev || exit 5	# this one is fatal
+    mount -tdevpts none ${ROOT}/dev/pts
+    mount -ttmpfs none ${ROOT}/dev/shm
     chroot $ROOT apt-get -y install $LIST </dev/null
+    kill_users
+
     chroot $ROOT /etc/cron.daily/slocate
     chroot $ROOT /etc/cron.daily/man-db
     chroot $ROOT /usr/sbin/locale-gen
