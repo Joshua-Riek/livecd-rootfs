@@ -58,7 +58,7 @@ debootstrap --exclude=udev,ubuntu-base $STE $ROOT $MIRROR
 # Just make a few things go away, which lets us skip a few other things.
 # sadly, udev's postinst does some actual work, so we can't just make it
 # go away completely.
-DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d etc/init.d/dbus-1 sbin/udevd"
+DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d sbin/udevd"
 for file in $DIVERTS; do
     mkdir -p ${ROOT}${file%/*}
     sudo chroot $ROOT dpkg-divert --add --local \
