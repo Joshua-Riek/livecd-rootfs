@@ -102,7 +102,7 @@ mount -tproc none ${ROOT}proc
 cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
 cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
-LIST="ubuntu-base ubuntu-desktop xresprobe laptop-detect"
+LIST="ubuntu-base ubuntu-desktop ubuntu-live xresprobe laptop-detect"
 case $(dpkg --print-architecture) in
   amd64)	LIST="$LIST linux-amd64-generic";;
   i386)		LIST="$LIST linux-386";;
@@ -117,7 +117,6 @@ esac
 
 # Create a good sources.list, and finish the install
 echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
-#echo deb http://rockhopper.warthogs.hbd.com/~lamont/lrm / >>  ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
 chroot $ROOT apt-get -y install $LIST </dev/null
 chroot $ROOT /etc/cron.daily/slocate
