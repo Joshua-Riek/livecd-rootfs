@@ -27,6 +27,15 @@ kill_users() {
     done
 }
 
+without_package() {
+    echo "$2" | tr ' ' '\n' | grep -v "^$1$" | tr '\n' ' '
+}
+
+subst_package() {
+    echo "$3" | tr ' ' '\n' | sed "s/^$1$/$2/" | tr '\n' ' '
+}
+
+
 if [ $(id -u) != 0 ];then
   echo "must be run as root"
   exit 2
@@ -47,17 +56,17 @@ USZ="400*1024"		# 400MB for the user
 # And how many inodes?  Default currently gives them > 100000
 UINUM=""		# blank (default), or number of inodes desired.
 STE=hoary
+EXCLUDE=""
 
-if /bin/false; then	# not right now
-    while getopts :i:ms:: name; do case $name in
-	s)	USZ=$(sanitize int "$OPTARG");;
-	i)	UINUM=$(sanitize int "$OPTARG");;
-	m)	MIRROR=$(sanitize url "$OPTARG");;
-	\?) echo bad usage >&2; exit 2;;
-	\:) echo missing argument >&2; exit 2;;
-    esac; done;
-    shift $((OPTIND-1))
-fi
+while getopts :e:i:ms:: name; do case $name in
+    e)  EXCLUDE="$EXCLUDE $OPTARG";;
+    i)	UINUM=$(sanitize int "$OPTARG");;
+    m)	MIRROR=$(sanitize url "$OPTARG");;
+    s)	USZ=$(sanitize int "$OPTARG");;
+    \?) echo bad usage >&2; exit 2;;
+    \:) echo missing argument >&2; exit 2;;
+esac; done;
+shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu
@@ -135,12 +144,6 @@ do_initrd = yes
 link_in_boot = no
 @@EOF
 
-    cat << @@EOF > ${ROOT}etc/locale.gen
-en_US.UTF-8 UTF-8
-en_GB.UTF-8 UTF-8
-en_ZA.UTF-8 UTF-8
-@@EOF
-
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
 
@@ -156,10 +159,16 @@ en_ZA.UTF-8 UTF-8
 	powerpc)	LIST="$LIST linux-powerpc linux-power3 linux-power4";;
 
 	# and the bastard stepchildren
-	hppa)		LIST="$LIST linux-hppa32-smp linux-hppa64-smp";;
+	hppa)		LIST="$LIST linux-hppa32-smp linux-hppa64-smp"
+			EXCLUDE="$EXCLUDE ubuntu-desktop kubuntu-desktop"	# can't handle it yet.
+			;;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
+
+    for x in $EXCLUDE; do
+	LIST="$(without_package "$x" "$LIST")"
+    done
 
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
@@ -169,7 +178,6 @@ en_ZA.UTF-8 UTF-8
 
     chroot $ROOT /etc/cron.daily/slocate
     chroot $ROOT /etc/cron.daily/man-db
-    chroot $ROOT /usr/sbin/locale-gen
 
     # remove our diversions
     for file in $DIVERTS; do
