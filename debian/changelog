@@ -1,3 +1,9 @@
+livecd-rootfs (0.3) hoary; urgency=low
+
+  * add manifest file
+
+ -- LaMont Jones <lamont@debian.org>  Sun,  9 Jan 2005 13:27:07 -0700
+
 livecd-rootfs (0.2) hoary; urgency=low
 
   * Better divertion setup, fix sources.list

@@ -97,22 +97,23 @@ mount -tproc none ${ROOT}proc
 cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
 cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
+OTHER="xresprobe laptop-detect"
 case $(dpkg --print-architecture) in
-  amd64)	KERNEL="linux-amd64-generic";;
-  i386)		KERNEL=linux-386;;
-  ia64)		KERNEL="linux-itanium-smp linux-mckinley-smp";;
-  powerpc)	KERNEL="linux-powerpc linux-power3 linux-power4";;
+  amd64)	OTHER="$OTHER linux-amd64-generic";;
+  i386)		OTHER="$OTHER linux-386";;
+  ia64)		OTHER="$OTHER linux-itanium-smp linux-mckinley-smp";;
+  powerpc)	OTHER="$OTHER linux-powerpc linux-power3 linux-power4";;
 
   # and the bastard stepchildren
-  hppa)		KERNEL="linux-hppa32 linux-hppa64";;
-  sparc*)	KERNEL="linux-sparc64";;
+  hppa)		OTHER="$OTHER linux-hppa32-smp linux-hppa64-smp";;
+  sparc*)	OTHER="$OTHER linux-sparc64";;
   *)		echo "Unknown architecture: no kernel."; exit 1;;
 esac
 
 # Create a good sources.list, and finish the install
 echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
 chroot $ROOT apt-get update
-chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $KERNEL </dev/null
+chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $OTHER </dev/null
 chroot $ROOT /etc/cron.daily/slocate
 chroot $ROOT /etc/cron.daily/man-db
 
@@ -167,3 +168,5 @@ mount $DEV livecd.mnt
 rsync -a ${ROOT} livecd.mnt
 
 create_compressed_fs $IMG 65536 > livecd.cloop
+chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.manifest
+
