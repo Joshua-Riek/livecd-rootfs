@@ -1,3 +1,10 @@
+livecd-rootfs (0.10) hoary; urgency=low
+
+  * Actually run /usr/sbin/locale-gen to generate the locales.
+  * Try zero-filling the fsimage file
+
+ -- LaMont Jones <lamont@debian.org>  Thu, 20 Jan 2005 19:14:45 -0700
+
 livecd-rootfs (0.9) hoary; urgency=low
 
   * Can't divert conffiles, nor do we need to anymore.

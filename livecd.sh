@@ -123,6 +123,7 @@ chroot $ROOT apt-get update
 chroot $ROOT apt-get -y install ubuntu-base ubuntu-desktop $OTHER </dev/null
 chroot $ROOT /etc/cron.daily/slocate
 chroot $ROOT /etc/cron.daily/man-db
+chroot $ROOT /usr/sbin/locale-gen
 
 # remove our diversions
 for file in $DIVERTS; do
@@ -162,16 +163,16 @@ MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
 DEV=$(losetup -f);
 
 # Make the filesystem, with some room for meta data and such
-SZ=$(python -c "print int($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)")
-(( SZ > 2097150 )) && SZ=2097150
-SZ=2097150				# XXX fix size for now
+SZ=$(python -c "print int(($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)/1024)")
+(( SZ > 2047 )) && SZ=2047
+SZ=2047				# XXX fix size for now
 
 for fsbs in 1024:65536; do 
   FSBLOCK=${fsbs%:*}
   COMP=${fsbs#*:}
   IMGNAME=${IMG}-${FSBLOCK}
   if [ ! -f ${IMGNAME} ]; then
-    dd if=/dev/zero of=$IMGNAME seek=$SZ bs=1024 count=1
+    dd if=/dev/zero of=$IMGNAME count=$SZ bs=1M
     INUM=""
     [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
     mke2fs -b $FSBLOCK $INUM -Osparse_super -F $IMGNAME
