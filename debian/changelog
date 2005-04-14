@@ -1,3 +1,9 @@
+livecd-rootfs (0.19) hoary; urgency=low
+
+  * Add 'base' target
+
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 13 Apr 2005 18:43:04 -0600
+
 livecd-rootfs (0.18) hoary; urgency=low
 
   * set +e affects callers.
