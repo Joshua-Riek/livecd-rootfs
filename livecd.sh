@@ -48,6 +48,7 @@ export TERM=vt100
 case $(hostname --fqdn) in
     *.mmjgroup.com)	MIRROR=http://ia/ubuntu;;
     *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
+    *.warthogs.hbd.com)	MIRROR=http://jackass.ubuntu.com;;
     *.buildd)		MIRROR=http://jackass.ubuntu.com;;
     *)			MIRROR=http://archive.ubuntu.com/ubuntu;;
 esac
@@ -72,12 +73,12 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu
+    set -- ubuntu kubuntu base
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|kubuntu)
+	ubuntu|kubuntu|base)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -108,12 +109,16 @@ Flags: seen
     case "$FS" in
 	ubuntu)
 	    LIST="$LIST ubuntu-base ubuntu-desktop ubuntu-live"
+	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	kubuntu)
 	    LIST="$LIST ubuntu-base kubuntu-desktop ubuntu-live"
+	    LIST="$LIST xresprobe laptop-detect"
+	    ;;
+	base)
+	    LIST="$LIST ubuntu-base"
 	    ;;
     esac
-    LIST="$LIST xresprobe laptop-detect"
 
     debootstrap $STE $ROOT $MIRROR
 
@@ -179,8 +184,8 @@ link_in_boot = no
     chroot $ROOT apt-get -y install $LIST </dev/null
     kill_users
 
-    chroot $ROOT /etc/cron.daily/slocate
-    chroot $ROOT /etc/cron.daily/man-db
+    chroot $ROOT /etc/cron.daily/slocate || true
+    chroot $ROOT /etc/cron.daily/man-db	|| true
 
     # remove our diversions
     for file in $DIVERTS; do
