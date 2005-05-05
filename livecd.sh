@@ -45,12 +45,22 @@ fi
 umask 022
 export TTY=unknown
 export TERM=vt100
+case $(dpkg --print-architecture) in
+    i386|powerpc|amd64)
+	USERMIRROR=http://archive.ubuntu.com/ubuntu
+	SECMIRROR=http://security.ubuntu.com/ubuntu
+	;;
+    *)
+    	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+    	SECMIRROR=http://ports.ubuntu.com/ubuntu-ports
+	;;
+esac
 case $(hostname --fqdn) in
     *.mmjgroup.com)	MIRROR=http://ia/ubuntu;;
     *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
     *.warthogs.hbd.com)	MIRROR=http://jackass.ubuntu.com;;
     *.buildd)		MIRROR=http://jackass.ubuntu.com;;
-    *)			MIRROR=http://archive.ubuntu.com/ubuntu;;
+    *)			MIRROR=${USERMIRROR};;
 esac
 
 # How much space do we leave on the filesystem for the user?
@@ -197,8 +207,8 @@ link_in_boot = no
     # And make this look more pristene
     cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
-deb http://archive.ubuntu.com/ubuntu $STE main restricted
-deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
+deb ${USERMIRROR} $STE main restricted
+deb-src ${USERMIRROR} $STE main restricted
 
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
@@ -207,11 +217,11 @@ deb-src http://archive.ubuntu.com/ubuntu $STE main restricted
 ## your rights to use the software. Also, please note that software in
 ## universe WILL NOT receive any review or updates from the Ubuntu security
 ## team.
-# deb http://archive.ubuntu.com/ubuntu $STE universe
-# deb-src http://archive.ubuntu.com/ubuntu $STE universe
+# deb ${USERMIRROR} $STE universe
+# deb-src ${USERMIRROR} $STE universe
 
-deb http://security.ubuntu.com/ubuntu ${STE}-security main restricted
-deb-src http://security.ubuntu.com/ubuntu ${STE}-security main restricted
+deb ${SECMIRROR} ${STE}-security main restricted
+deb-src ${SECMIRROR} ${STE}-security main restricted
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
