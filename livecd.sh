@@ -52,11 +52,11 @@ case $(dpkg --print-architecture) in
 	;;
     *)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-    	SECMIRROR=http://ports.ubuntu.com/ubuntu-ports
+    	SECMIRROR=${USERMIRROR}
 	;;
 esac
 case $(hostname --fqdn) in
-    *.mmjgroup.com)	MIRROR=http://ia/ubuntu;;
+    *.mmjgroup.com)	MIRROR=http://ia.mmjgroup.com/${USERMIRROR##*/};;
     *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
     *.warthogs.hbd.com)	MIRROR=http://jackass.ubuntu.com;;
     *.buildd)		MIRROR=http://jackass.ubuntu.com;;
@@ -67,11 +67,12 @@ esac
 USZ="400*1024"		# 400MB for the user
 # And how many inodes?  Default currently gives them > 100000
 UINUM=""		# blank (default), or number of inodes desired.
-STE=hoary
+STE=breezy
 EXCLUDE=""
 LIST=""
 
-while getopts :e:i:I:mS:: name; do case $name in
+while getopts :d:e:i:I:mS:: name; do case $name in
+    d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
     I)	UINUM=$(sanitize int "$OPTARG");;

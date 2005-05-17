@@ -1,8 +1,9 @@
 livecd-rootfs (0.20) breezy; urgency=low
 
   * incorporate ports.ubuntu.com repositories
+  * make distro name a parameter.
 
- -- LaMont Jones <lamont@ubuntu.com>  Thu,  5 May 2005 16:35:16 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Tue, 17 May 2005 10:09:11 -0600
 
 livecd-rootfs (0.19) hoary; urgency=low
 
