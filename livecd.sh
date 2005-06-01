@@ -45,6 +45,7 @@ fi
 umask 022
 export TTY=unknown
 export TERM=vt100
+SRCMIRROR=http://archive.ubuntu.com/ubuntu
 case $(dpkg --print-architecture) in
     i386|powerpc|amd64)
 	USERMIRROR=http://archive.ubuntu.com/ubuntu
@@ -209,7 +210,7 @@ link_in_boot = no
     cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
 deb ${USERMIRROR} $STE main restricted
-deb-src ${USERMIRROR} $STE main restricted
+deb-src ${SRCMIRROR} $STE main restricted
 
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
@@ -219,10 +220,10 @@ deb-src ${USERMIRROR} $STE main restricted
 ## universe WILL NOT receive any review or updates from the Ubuntu security
 ## team.
 # deb ${USERMIRROR} $STE universe
-# deb-src ${USERMIRROR} $STE universe
+# deb-src ${SRCMIRROR} $STE universe
 
 deb ${SECMIRROR} ${STE}-security main restricted
-deb-src ${SECMIRROR} ${STE}-security main restricted
+deb-src ${SRCMIRROR} ${STE}-security main restricted
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
@@ -231,10 +232,12 @@ deb-src ${SECMIRROR} ${STE}-security main restricted
     rm -f ${ROOT}var/lib/apt/lists/*_*
     rm -f ${ROOT}var/spool/postfix/maildrop/*
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
-    rm ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
-    sed -i '/^myhostname/d; /^mydestination/d; /^myorigin/d' ${ROOT}etc/postfix/main.cf
-    echo set postfix/destinations | chroot ${ROOT} /usr/bin/debconf-communicate postfix
-    echo set postfix/mailname | chroot ${ROOT} /usr/bin/debconf-communicate postfix
+    rm -f ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
+    if [ -f ${ROOT}/etc/postfix/main.cf ]; then
+	sed -i '/^myhostname/d; /^mydestination/d; /^myorigin/d' ${ROOT}etc/postfix/main.cf
+	echo set postfix/destinations | chroot ${ROOT} /usr/bin/debconf-communicate postfix
+	echo set postfix/mailname | chroot ${ROOT} /usr/bin/debconf-communicate postfix
+    fi
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.${FS}.manifest
 
     mkdir -p livecd.mnt

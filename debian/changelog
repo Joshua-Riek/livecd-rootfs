@@ -1,3 +1,11 @@
+livecd-rootfs (0.21) hoary-cat-UNRELEASED; urgency=low
+
+  * a bit more ports.ubuntu.com cleanup: deb-src still needs to point at
+    archive.ubuntu.com.
+  * postfix isn't there anymore, make the postfix stripping stuff conditional.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Wed,  1 Jun 2005 00:08:09 -0600
+
 livecd-rootfs (0.20) hoary-cat; urgency=low
 
   * incorporate ports.ubuntu.com repositories
