@@ -231,6 +231,7 @@ deb-src ${SRCMIRROR} ${STE}-security main restricted
     chroot ${ROOT} apt-get clean
     rm -f ${ROOT}var/lib/apt/lists/*_*
     rm -f ${ROOT}var/spool/postfix/maildrop/*
+    rm -f ${ROOT}var/lib/update-notifier/user.d/*
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
     rm -f ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
     if [ -f ${ROOT}/etc/postfix/main.cf ]; then
