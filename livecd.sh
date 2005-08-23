@@ -229,6 +229,7 @@ deb-src ${SRCMIRROR} ${STE}-security main restricted
 
     # get rid of the .debs - we don't need them.
     chroot ${ROOT} apt-get clean
+    rm -f ${ROOT}etc/X11/xorg.conf
     rm -f ${ROOT}var/lib/apt/lists/*_*
     rm -f ${ROOT}var/spool/postfix/maildrop/*
     rm -f ${ROOT}var/lib/update-notifier/user.d/*
