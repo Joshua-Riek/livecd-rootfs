@@ -1,8 +1,10 @@
 livecd-rootfs (0.24) hoary-cat-UNRELEASED; urgency=low
 
-  * dummy
+  * Incorporate e2fs-zero.py from Paul Sladen:
+    http://www.paul.sladen.org/ubuntu/e2fszero/e2fs-zero.py
+  * Print package version during script run.
 
- -- LaMont Jones <lamont@ubuntu.com>  Thu,  8 Sep 2005 09:57:22 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Thu,  8 Sep 2005 10:13:48 -0600
 
 livecd-rootfs (0.23) hoary-cat; urgency=low
 

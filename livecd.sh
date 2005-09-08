@@ -132,6 +132,7 @@ Flags: seen
 	    ;;
     esac
 
+    dpkg -l livecd-rootfs	# get our version # in the log.
     debootstrap $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
