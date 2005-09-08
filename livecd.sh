@@ -124,7 +124,7 @@ Flags: seen
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	kubuntu)
-	    LIST="$LIST ubuntu-base kubuntu-desktop ubuntu-live"
+	    LIST="$LIST ubuntu-base kubuntu-desktop kubuntu-live"
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	base)
