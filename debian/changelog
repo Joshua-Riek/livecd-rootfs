@@ -1,8 +1,8 @@
-livecd-rootfs (0.23) hoary-cat-UNRELEASED; urgency=low
+livecd-rootfs (0.23) hoary-cat; urgency=low
 
-  * dummy
+  * use kubuntu-live in the kubuntu case, per cjwatson.
 
- -- LaMont Jones <lamont@ubuntu.com>  Mon, 22 Aug 2005 22:07:57 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Thu,  8 Sep 2005 09:48:12 -0600
 
 livecd-rootfs (0.22) hoary-cat; urgency=low
 
