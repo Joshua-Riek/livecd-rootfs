@@ -4,8 +4,9 @@ livecd-rootfs (0.24) hoary-cat-UNRELEASED; urgency=low
     http://www.paul.sladen.org/ubuntu/e2fszero/e2fs-zero.py
   * Print package version during script run.
   * some HPPA fixes, allow architectures to have more than just main.
+  * add debian/compat
 
- -- LaMont Jones <lamont@ubuntu.com>  Sat, 24 Sep 2005 15:50:52 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Sat, 24 Sep 2005 15:54:09 -0600
 
 livecd-rootfs (0.23) hoary-cat; urgency=low
 
