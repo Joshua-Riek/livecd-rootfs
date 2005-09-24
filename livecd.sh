@@ -46,10 +46,17 @@ umask 022
 export TTY=unknown
 export TERM=vt100
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
-case $(dpkg --print-architecture) in
+COMP="main restricted"
+ARCH=$(dpkg --print-architecture)
+case $ARCH in
     i386|powerpc|amd64)
 	USERMIRROR=http://archive.ubuntu.com/ubuntu
 	SECMIRROR=http://security.ubuntu.com/ubuntu
+	;;
+    hppa)
+    	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+    	SECMIRROR=${USERMIRROR}
+	COMP="main restricted universe"
 	;;
     *)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
@@ -57,6 +64,7 @@ case $(dpkg --print-architecture) in
 	;;
 esac
 case $(hostname --fqdn) in
+    bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
     *.mmjgroup.com)	MIRROR=http://ia.mmjgroup.com/${USERMIRROR##*/};;
     *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
     *.warthogs.hbd.com)	MIRROR=http://jackass.ubuntu.com;;
@@ -124,7 +132,7 @@ Flags: seen
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	kubuntu)
-	    LIST="$LIST ubuntu-base kubuntu-desktop kubuntu-live"
+	    LIST="$LIST kubuntu-base kubuntu-desktop kubuntu-live"
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	base)
@@ -133,7 +141,7 @@ Flags: seen
     esac
 
     dpkg -l livecd-rootfs	# get our version # in the log.
-    debootstrap $STE $ROOT $MIRROR
+    debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
@@ -173,7 +181,7 @@ link_in_boot = no
     cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
-    case $(dpkg --print-architecture) in
+    case $ARCH in
 	amd64)		LIST="$LIST linux-amd64-generic";;
 	i386)		LIST="$LIST linux-386";;
 	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
@@ -182,6 +190,7 @@ link_in_boot = no
 	# and the bastard stepchildren
 	hppa)		LIST="$LIST linux-hppa32-smp linux-hppa64-smp"
 			EXCLUDE="$EXCLUDE ubuntu-desktop kubuntu-desktop"	# can't handle it yet.
+			EXCLUDE="$EXCLUDE ubuntu-live kubuntu-live"		# can't handle it yet.
 			;;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
@@ -192,7 +201,7 @@ link_in_boot = no
     done
 
     # Create a good sources.list, and finish the install
-    echo deb $MIRROR $STE main restricted > ${ROOT}etc/apt/sources.list
+    echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
     chroot $ROOT apt-get update
     chroot $ROOT apt-get -y install $LIST </dev/null
     kill_users
@@ -210,8 +219,8 @@ link_in_boot = no
     # And make this look more pristene
     cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
-deb ${USERMIRROR} $STE main restricted
-deb-src ${SRCMIRROR} $STE main restricted
+deb ${USERMIRROR} $STE ${COMP}
+deb-src ${SRCMIRROR} $STE ${COMP}
 
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
@@ -223,8 +232,8 @@ deb-src ${SRCMIRROR} $STE main restricted
 # deb ${USERMIRROR} $STE universe
 # deb-src ${SRCMIRROR} $STE universe
 
-deb ${SECMIRROR} ${STE}-security main restricted
-deb-src ${SRCMIRROR} ${STE}-security main restricted
+deb ${SECMIRROR} ${STE}-security ${COMP}
+deb-src ${SRCMIRROR} ${STE}-security ${COMP}
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
