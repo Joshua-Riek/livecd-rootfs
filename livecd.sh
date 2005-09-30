@@ -98,7 +98,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|kubuntu|base)
+	ubuntu|kubuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -138,6 +138,28 @@ Flags: seen
 	base)
 	    LIST="$LIST ubuntu-base"
 	    ;;
+	tocd)
+	    LIST="$LIST ubuntu-base"
+	    tocdtmp=`mktemp -d` || exit 1
+	    tocdgerminate='http://people.ubuntu.com/~cjwatson/germinate-output/tocd3.1-breezy/'
+	    if wget -O "$tocdtmp"/desktop "$tocdgerminate"/desktop; then
+	        tocddesktop=`awk '{print $1}' "$tocdtmp"/desktop | egrep -v '^-|^Package|^\|' | tr '\n' ' '`
+	        echo "TheOpenCD desktop package list is: $tocddesktop"
+	    else
+	        echo "Unable to fetch tocd-desktop germinate output."
+	        [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
+		exit 1
+	    fi
+	    if wget -O "$tocdtmp"/live "$tocdgerminate"/live; then
+	        tocdlive=`awk '{print $1}' "$tocdtmp"/live | egrep -v '^-|^Package|^\|' | tr '\n' ' '`
+	        echo "TheOpenCD live package list is: $tocdlive"
+	    else
+	        echo "Unable to fetch tocd-live germinate output."
+	        [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
+		exit 1
+	    fi
+	    [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
+	    LIST="$LIST $tocddesktop $tocdlive"
     esac
 
     dpkg -l livecd-rootfs	# get our version # in the log.

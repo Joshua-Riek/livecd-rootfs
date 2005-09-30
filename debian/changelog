@@ -1,5 +1,6 @@
 livecd-rootfs (0.24) hoary-cat-UNRELEASED; urgency=low
 
+  [ LaMont Jones ]
   * Incorporate e2fs-zero.py from Paul Sladen:
     http://www.paul.sladen.org/ubuntu/e2fszero/e2fs-zero.py
     And use it instead of partimage.  Suggest: partimage instead of
@@ -8,7 +9,11 @@ livecd-rootfs (0.24) hoary-cat-UNRELEASED; urgency=low
   * some HPPA fixes, allow architectures to have more than just main.
   * add debian/compat
 
- -- LaMont Jones <lamont@ubuntu.com>  Thu, 29 Sep 2005 19:07:57 -0600
+  [ Adam Conrad ]
+  * Incorporate 'tocd' target, including hideous hack to get the
+    germinate output from Colin's lists at people.ubuntu.com
+
+ -- Adam Conrad <adconrad@0c3.net>  Fri, 30 Sep 2005 23:25:02 +1000
 
 livecd-rootfs (0.23) hoary-cat; urgency=low
 
