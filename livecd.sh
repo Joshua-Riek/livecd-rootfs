@@ -278,11 +278,13 @@ deb-src ${SRCMIRROR} ${STE}-security ${COMP}
 	mount $DEV livecd.mnt
 	rsync -a --delete --inplace --no-whole-file ${ROOT} livecd.mnt
 	umount $DEV
-	rm -rf partimg-${IMGNAME}.*
-	if [ -x /usr/sbin/partimage ]; then
-	  partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
-	  cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
-	fi
+	#rm -rf partimg-${IMGNAME}.*
+	#if [ -x /usr/sbin/partimage ]; then
+	#  partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
+	#  cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
+	#else
+	  /usr/sbin/e2fs-zero.py new-${IMGNAME}
+	#fi
 	losetup -d $DEV
 	mv new-${IMGNAME} ${IMGNAME}
 	cp ${IMGNAME} old-${IMGNAME}
