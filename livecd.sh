@@ -163,7 +163,7 @@ Flags: seen
     esac
 
     dpkg -l livecd-rootfs	# get our version # in the log.
-    debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
+    debootstrap --resolve-deps --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
@@ -206,13 +206,11 @@ link_in_boot = no
     case $ARCH in
 	amd64)		LIST="$LIST linux-amd64-generic";;
 	i386)		LIST="$LIST linux-386";;
-	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
 	powerpc)	LIST="$LIST linux-powerpc linux-power3 linux-power4";;
 
 	# and the bastard stepchildren
+	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
 	hppa)		LIST="$LIST linux-hppa32-smp linux-hppa64-smp"
-			EXCLUDE="$EXCLUDE ubuntu-desktop kubuntu-desktop"	# can't handle it yet.
-			EXCLUDE="$EXCLUDE ubuntu-live kubuntu-live"		# can't handle it yet.
 			;;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;

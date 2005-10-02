@@ -8,12 +8,13 @@ livecd-rootfs (0.24) hoary-cat-UNRELEASED; urgency=low
   * Print package version during script run.
   * some HPPA fixes, allow architectures to have more than just main.
   * add debian/compat
+  * Add --resolve-deps to debootstrap command.
 
   [ Adam Conrad ]
   * Incorporate 'tocd' target, including hideous hack to get the
     germinate output from Colin's lists at people.ubuntu.com
 
- -- Adam Conrad <adconrad@0c3.net>  Fri, 30 Sep 2005 23:25:02 +1000
+ -- LaMont Jones <lamont@ubuntu.com>  Sun,  2 Oct 2005 17:03:44 -0600
 
 livecd-rootfs (0.23) hoary-cat; urgency=low
 
