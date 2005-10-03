@@ -4,7 +4,7 @@
 #### (c) Copyright 2004,2005 Canonical Ltd.  All rights reserved. ####
 ######################################################################
 
-# Depends: debootstrap, rsync, cloop-utils, python
+# Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps
 
 cleanup() {
     for mnt in $MOUNTS; do
@@ -56,7 +56,7 @@ case $ARCH in
     hppa)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
     	SECMIRROR=${USERMIRROR}
-	COMP="main restricted universe"
+	#COMP="main restricted universe"
 	;;
     *)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
