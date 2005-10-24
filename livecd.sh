@@ -76,7 +76,7 @@ esac
 USZ="400*1024"		# 400MB for the user
 # And how many inodes?  Default currently gives them > 100000
 UINUM=""		# blank (default), or number of inodes desired.
-STE=breezy
+STE=dapper
 EXCLUDE=""
 LIST=""
 
@@ -98,7 +98,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|kubuntu|base|tocd)
+	ubuntu|edubuntu|kubuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -135,13 +135,17 @@ Flags: seen
 	    LIST="$LIST kubuntu-base kubuntu-desktop kubuntu-live"
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
+	edubuntu)
+	    LIST="$LIST edubuntu-base edubuntu-desktop edubuntu-live"
+	    LIST="$LIST xresprobe laptop-detect"
+	    ;;
 	base)
 	    LIST="$LIST ubuntu-base"
 	    ;;
 	tocd)
 	    LIST="$LIST ubuntu-base"
 	    tocdtmp=`mktemp -d` || exit 1
-	    tocdgerminate='http://people.ubuntu.com/~cjwatson/germinate-output/tocd3.1-breezy/'
+	    tocdgerminate='http://people.ubuntu.com/~cjwatson/germinate-output/tocd3.1-dapper/'
 	    if wget -O "$tocdtmp"/desktop "$tocdgerminate"/desktop; then
 	        tocddesktop=`awk '{print $1}' "$tocdtmp"/desktop | egrep -v '^-|^Package|^\|' | tr '\n' ' '`
 	        echo "TheOpenCD desktop package list is: $tocddesktop"
@@ -297,13 +301,13 @@ deb-src ${SRCMIRROR} ${STE}-security ${COMP}
 	mount $DEV livecd.mnt
 	rsync -a --delete --inplace --no-whole-file ${ROOT} livecd.mnt
 	umount $DEV
-	#rm -rf partimg-${IMGNAME}.*
-	#if [ -x /usr/sbin/partimage ]; then
-	#  partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
-	#  cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
-	#else
+	rm -rf partimg-${IMGNAME}.*
+	if [ -x /usr/sbin/partimage ]; then
+	  partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
+	  cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
+	else
 	  /usr/sbin/e2fs-zero.py new-${IMGNAME}
-	#fi
+	fi
 	losetup -d $DEV
 	mv new-${IMGNAME} ${IMGNAME}
 	cp ${IMGNAME} old-${IMGNAME}
