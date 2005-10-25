@@ -1,7 +1,7 @@
 Source: livecd-rootfs
 Section: devel
 Priority: optional
-Build-Depends: debhelper
+Build-Depends: debhelper (>=4)
 Maintainer: LaMont Jones <lamont@canonical.com>
 Standards-Version: 3.6.1.0
 

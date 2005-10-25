@@ -14,7 +14,7 @@ livecd-rootfs (0.24) hoary-cat; urgency=low
   * Incorporate 'tocd' target, including hideous hack to get the
     germinate output from Colin's lists at people.ubuntu.com
 
- -- LaMont Jones <lamont@ubuntu.com>  Tue, 25 Oct 2005 12:00:45 -0600
+ -- LaMont Jones <lamont@canonical.com>  Tue, 25 Oct 2005 12:00:45 -0600
 
 livecd-rootfs (0.23) hoary-cat; urgency=low
 
