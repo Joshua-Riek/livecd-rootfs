@@ -1,3 +1,9 @@
+livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
+
+  * dummy
+
+ -- LaMont Jones <lamont@ubuntu.com>  Tue, 25 Oct 2005 12:04:39 -0600
+
 livecd-rootfs (0.24) hoary-cat; urgency=low
 
   [ LaMont Jones ]
