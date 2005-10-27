@@ -1,8 +1,8 @@
 livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
 
-  * dummy
+  * Really use e2fs-zero.py: it needs -w.  Comment out partimage.
 
- -- LaMont Jones <lamont@ubuntu.com>  Tue, 25 Oct 2005 12:04:39 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 26 Oct 2005 23:59:38 -0600
 
 livecd-rootfs (0.24) hoary-cat; urgency=low
 
