@@ -1,3 +1,9 @@
+livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
+
+  * Make livecd.sh umount the lrm tmpfs during the cleanup process.
+
+ -- Adam Conrad <adconrad@0c3.net>  Fri, 11 Nov 2005 09:33:14 +1100
+
 livecd-rootfs (0.24) hoary-cat; urgency=low
 
   [ LaMont Jones ]
