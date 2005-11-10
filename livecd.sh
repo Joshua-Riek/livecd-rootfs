@@ -7,7 +7,7 @@
 # Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps
 
 cleanup() {
-    for mnt in $MOUNTS; do
+    for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile; do
 	umount $mnt || true
     done
 

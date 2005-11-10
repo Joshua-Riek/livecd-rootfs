@@ -1,8 +1,12 @@
 livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
 
+  [ LaMont Jones ]
   * Really use e2fs-zero.py: it needs -w.  Comment out partimage.
 
- -- LaMont Jones <lamont@ubuntu.com>  Wed, 26 Oct 2005 23:59:38 -0600
+  [ Adam Conrad ]
+  * Make livecd.sh umount the lrm tmpfs during the cleanup process.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Thu, 10 Nov 2005 15:59:33 -0700
 
 livecd-rootfs (0.24) hoary-cat; urgency=low
 
