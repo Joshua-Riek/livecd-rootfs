@@ -52,15 +52,18 @@ case $ARCH in
     i386|powerpc|amd64)
 	USERMIRROR=http://archive.ubuntu.com/ubuntu
 	SECMIRROR=http://security.ubuntu.com/ubuntu
+	SECSRCMIRROR=${SECMIRROR}
 	;;
     hppa)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
     	SECMIRROR=${USERMIRROR}
+	SECSRCMIRROR=${SRCMIRROR}
 	#COMP="main restricted universe"
 	;;
     *)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
     	SECMIRROR=${USERMIRROR}
+	SECSRCMIRROR=${SRCMIRROR}
 	;;
 esac
 case $(hostname --fqdn) in
@@ -256,7 +259,7 @@ deb-src ${SRCMIRROR} $STE ${COMP}
 # deb-src ${SRCMIRROR} $STE universe
 
 deb ${SECMIRROR} ${STE}-security ${COMP}
-deb-src ${SRCMIRROR} ${STE}-security ${COMP}
+deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
