@@ -135,11 +135,11 @@ Flags: seen
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	kubuntu)
-	    LIST="$LIST kubuntu-base kubuntu-desktop kubuntu-live"
+	    LIST="$LIST ubuntu-base kubuntu-desktop kubuntu-live"
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	edubuntu)
-	    LIST="$LIST edubuntu-base edubuntu-desktop edubuntu-live"
+	    LIST="$LIST ubuntu-base edubuntu-desktop edubuntu-live"
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	base)

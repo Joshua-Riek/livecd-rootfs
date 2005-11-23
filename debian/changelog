@@ -2,6 +2,7 @@ livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
 
   [ LaMont Jones ]
   * Really use e2fs-zero.py: it needs -w.  Comment out partimage.
+  * edubuntu/kubuntu need to use ubuntu-base
 
   [ Adam Conrad ]
   * Make livecd.sh umount the lrm tmpfs during the cleanup process.
@@ -9,7 +10,7 @@ livecd-rootfs (0.25) hoary-cat-UNRELEASED; urgency=low
     sources, defaulting to SECMIRROR for release arches and SRCMIRROR for
     ports (since ports don't have security binaries and sources in one place)
 
- -- Adam Conrad <adconrad@ubuntu.com>  Sat, 19 Nov 2005 15:54:33 +1100
+ -- LaMont Jones <lamont@ubuntu.com>  Tue, 22 Nov 2005 23:54:11 -0700
 
 livecd-rootfs (0.24) hoary-cat; urgency=low
 
