@@ -143,7 +143,7 @@ Flags: seen
 	    LIST="$LIST xresprobe laptop-detect"
 	    ;;
 	base)
-	    LIST="$LIST ubuntu-base"
+	    LIST="$LIST ubuntu-base casper"
 	    ;;
 	tocd)
 	    LIST="$LIST ubuntu-base"
