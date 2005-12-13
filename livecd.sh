@@ -277,6 +277,8 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	echo set postfix/mailname | chroot ${ROOT} /usr/bin/debconf-communicate postfix
     fi
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.${FS}.manifest
+    KVER=`chroot ${ROOT} dpkg -l linux-image-2\*|grep ^i|awk '{print $2}'|sed 's/linux-image-//'`
+    cp ${ROOT}/boot/initrd.img-"$KVER" livecd.${FS}.initrd
 
     mkdir -p livecd.mnt
     MOUNTS="$MOUNTS $(pwd)/livecd.mnt"

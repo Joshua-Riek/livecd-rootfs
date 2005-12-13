@@ -1,8 +1,8 @@
 livecd-rootfs (0.26) hoary-cat-UNRELEASED; urgency=low
 
-  * dummy entry
+  * Copy the initrd out of the livefs for us in the SimplifiedLiveCD setup
 
- -- LaMont Jones <lamont@ubuntu.com>  Thu, 24 Nov 2005 10:15:44 -0700
+ -- Adam Conrad <adconrad@0c3.net>  Wed, 14 Dec 2005 02:58:19 +1100
 
 livecd-rootfs (0.25) hoary-cat; urgency=low
 
