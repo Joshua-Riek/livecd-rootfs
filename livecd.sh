@@ -213,7 +213,7 @@ link_in_boot = no
     case $ARCH in
 	amd64)		LIST="$LIST linux-amd64-generic";;
 	i386)		LIST="$LIST linux-386";;
-	powerpc)	LIST="$LIST linux-powerpc linux-power3 linux-power4";;
+	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 
 	# and the bastard stepchildren
 	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
