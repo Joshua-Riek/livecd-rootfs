@@ -283,7 +283,8 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	chroot ${ROOT} update-initramfs -k "${KVER}" -u
 	cp ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FS}.initrd-"${SUBARCH}"
     done
-    if [ "${KVERS% *}" = "$KVERS" ]; then
+    NUMKVERS="$(set -- $KVERS; echo $#)"
+    if [ "$NUMKVERS" = 1 ]; then
 	# only one kernel
 	SUBARCH="${KVERS#*-*-}"
 	ln -s livecd.${FS}.initrd-"${SUBARCH}" livecd.${FS}.initrd
