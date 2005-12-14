@@ -132,15 +132,15 @@ Flags: seen
     case "$FS" in
 	ubuntu)
 	    LIST="$LIST ubuntu-base ubuntu-desktop ubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect"
+	    LIST="$LIST xresprobe laptop-detect casper"
 	    ;;
 	kubuntu)
 	    LIST="$LIST ubuntu-base kubuntu-desktop kubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect"
+	    LIST="$LIST xresprobe laptop-detect casper"
 	    ;;
 	edubuntu)
 	    LIST="$LIST ubuntu-base edubuntu-desktop edubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect"
+	    LIST="$LIST xresprobe laptop-detect casper"
 	    ;;
 	base)
 	    LIST="$LIST ubuntu-base casper"
