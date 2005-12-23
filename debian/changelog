@@ -1,4 +1,4 @@
-livecd-rootfs (0.26) hoary-cat-UNRELEASED; urgency=low
+livecd-rootfs (0.26) hoary-cat; urgency=low
 
   [ Adam Conrad ]
   * Copy the initrd out of the livefs for us in the SimplifiedLiveCD setup
@@ -7,7 +7,7 @@ livecd-rootfs (0.26) hoary-cat-UNRELEASED; urgency=low
   * linux-image-power{3,4} -> powerpc64-smp
   * casper needs to be in the livecd image (change base).
 
- -- LaMont Jones <lamont@ubuntu.com>  Tue, 13 Dec 2005 16:37:43 -0700
+ -- LaMont Jones <lamont@ubuntu.com>  Fri, 23 Dec 2005 09:37:57 -0700
 
 livecd-rootfs (0.25) hoary-cat; urgency=low
 
