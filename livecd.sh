@@ -282,12 +282,14 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	SUBARCH="${KVER#*-*-}"
 	chroot ${ROOT} update-initramfs -k "${KVER}" -u
 	cp ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FS}.initrd-"${SUBARCH}"
+	cp ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FS}.kernel-"${SUBARCH}"
     done
     NUMKVERS="$(set -- $KVERS; echo $#)"
     if [ "$NUMKVERS" = 1 ]; then
 	# only one kernel
 	SUBARCH="${KVERS#*-*-}"
 	ln -s livecd.${FS}.initrd-"${SUBARCH}" livecd.${FS}.initrd
+	ln -s livecd.${FS}.kernel-"${SUBARCH}" livecd.${FS}.kernel
     fi
 
     mkdir -p livecd.mnt

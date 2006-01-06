@@ -1,3 +1,9 @@
+livecd-rootfs (0.27) UNRELEASED; urgency=low
+
+  * Copy the kernel out of the livefs as well, so we have one that matches.
+
+ -- Adam Conrad <adconrad@0c3.net>  Sat,  7 Jan 2006 00:25:10 +1100
+
 livecd-rootfs (0.26) hoary-cat; urgency=low
 
   [ Adam Conrad ]
