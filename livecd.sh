@@ -4,7 +4,10 @@
 #### (c) Copyright 2004,2005 Canonical Ltd.  All rights reserved. ####
 ######################################################################
 
-# Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps
+# Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps, squashfs-tools
+
+SQUASH_ARCHES="i386 amd64 powerpc"
+CLOOP_ARCHES="ia64 hppa sparc"
 
 cleanup() {
     for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile; do
@@ -292,6 +295,8 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FS}.kernel-"${SUBARCH}" livecd.${FS}.kernel
     fi
 
+  livefs_cloop()
+  {
     mkdir -p livecd.mnt
     MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
     DEV=$(losetup -f);
@@ -331,4 +336,20 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
       fi
       create_compressed_fs $IMGNAME $COMP > livecd.${FS}.cloop-${fsbs}
     done
+  }
+
+  livefs_squash()
+  {
+    mksquashfs ${ROOT} livecd.${FS}.squashfs
+    chmod 644 livecd.${FS}.squashfs
+  }
+
+  for i in $SQUASH_ARCHES; do
+    if [ "$ARCH" = "$i" ]; then livefs_squash; fi
+  done
+
+  for i in $CLOOP_ARCHES; do
+    if [ "$ARCH" = "$i" ]; then livefs_cloop; fi
+  done
+
 done
