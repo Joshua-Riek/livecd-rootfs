@@ -1,10 +1,14 @@
 livecd-rootfs (0.27) UNRELEASED; urgency=low
 
+  [ Adam Conrad ]
   * Copy the kernel out of the livefs as well, so we have one that matches.
   * Enable rudimentary support for squashfs filesystems, initially enabling
     it on the primary architectures only (powerpc, i386, amd64)
 
- -- Adam Conrad <adconrad@0c3.net>  Sat,  7 Jan 2006 00:25:10 +1100
+  [ LaMont Jones ]
+  * umount /var/{run,lock}
+
+ -- LaMont Jones <lamont@ubuntu.com>  Thu, 26 Jan 2006 20:57:04 -0700
 
 livecd-rootfs (0.26) hoary-cat; urgency=low
 

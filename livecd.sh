@@ -10,7 +10,7 @@ SQUASH_ARCHES="i386 amd64 powerpc"
 CLOOP_ARCHES="ia64 hppa sparc"
 
 cleanup() {
-    for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile; do
+    for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
 	umount $mnt || true
     done
 
