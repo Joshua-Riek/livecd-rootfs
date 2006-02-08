@@ -7,8 +7,9 @@ livecd-rootfs (0.27) UNRELEASED; urgency=low
 
   [ LaMont Jones ]
   * umount /var/{run,lock}
+  * changes for launchpad archive (ftpmaster.internal instead of jackass)
 
- -- LaMont Jones <lamont@ubuntu.com>  Thu, 26 Jan 2006 20:57:04 -0700
+ -- LaMont Jones <lamont@debian.org>  Wed,  8 Feb 2006 10:49:27 -0700
 
 livecd-rootfs (0.26) hoary-cat; urgency=low
 

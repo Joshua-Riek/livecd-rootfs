@@ -71,10 +71,10 @@ case $ARCH in
 esac
 case $(hostname --fqdn) in
     bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
-    *.mmjgroup.com)	MIRROR=http://ia.mmjgroup.com/${USERMIRROR##*/};;
-    *.ubuntu.com)	MIRROR=http://jackass.ubuntu.com;;
-    *.warthogs.hbd.com)	MIRROR=http://jackass.ubuntu.com;;
-    *.buildd)		MIRROR=http://jackass.ubuntu.com;;
+    *.mmjgroup.com)	MIRROR=http://archive.mmjgroup.com/${USERMIRROR##*/};;
+    *.ubuntu.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
+    *.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
+    *.buildd)		MIRROR=http://ftpmaster.internal/ubuntu;;
     *)			MIRROR=${USERMIRROR};;
 esac
 
