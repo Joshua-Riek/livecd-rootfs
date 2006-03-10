@@ -50,7 +50,7 @@ export TTY=unknown
 export TERM=vt100
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
-ARCH=$(dpkg --print-architecture)
+ARCH=$(dpkg --print-installation-architecture)
 case $ARCH in
     i386|powerpc|amd64)
 	USERMIRROR=http://archive.ubuntu.com/ubuntu
@@ -134,19 +134,20 @@ Flags: seen
 
     case "$FS" in
 	ubuntu)
-	    LIST="$LIST ubuntu-base ubuntu-desktop ubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-base ubuntu-desktop"
+	    LIVELIST="ubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	kubuntu)
-	    LIST="$LIST ubuntu-base kubuntu-desktop kubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-base kubuntu-desktop"
+	    LIVELIST="kubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	edubuntu)
-	    LIST="$LIST ubuntu-base edubuntu-desktop edubuntu-live"
-	    LIST="$LIST xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-base edubuntu-desktop"
+	    LIVELIST="edubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	base)
-	    LIST="$LIST ubuntu-base casper"
+	    LIST="$LIST ubuntu-base"
+	    LIVELIST="casper"
 	    ;;
 	tocd)
 	    LIST="$LIST ubuntu-base"
@@ -169,7 +170,8 @@ Flags: seen
 		exit 1
 	    fi
 	    [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
-	    LIST="$LIST $tocddesktop $tocdlive"
+	    LIST="$LIST $tocddesktop"
+	    LIVELIST="$tocdlive casper"
     esac
 
     dpkg -l livecd-rootfs	# get our version # in the log.
@@ -233,6 +235,11 @@ link_in_boot = no
     echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
     chroot $ROOT apt-get update
     chroot $ROOT apt-get -y install $LIST </dev/null
+    chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
+	> livecd.${FS}.manifest-desktop
+    chroot $ROOT apt-get -y install $LIVELIST </dev/null
+    chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
+	> livecd.${FS}.manifest
     kill_users
 
     chroot $ROOT /etc/cron.daily/slocate || true
@@ -279,7 +286,6 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	echo set postfix/destinations | chroot ${ROOT} /usr/bin/debconf-communicate postfix
 	echo set postfix/mailname | chroot ${ROOT} /usr/bin/debconf-communicate postfix
     fi
-    chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' > livecd.${FS}.manifest
     KVERS=`chroot ${ROOT} dpkg -l linux-image-2\*|grep ^i|awk '{print $2}'|sed 's/linux-image-//'`
     for KVER in ${KVERS}; do
 	SUBARCH="${KVER#*-*-}"

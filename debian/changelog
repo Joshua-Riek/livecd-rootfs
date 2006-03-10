@@ -4,6 +4,9 @@ livecd-rootfs (0.27) UNRELEASED; urgency=low
   * Copy the kernel out of the livefs as well, so we have one that matches.
   * Enable rudimentary support for squashfs filesystems, initially enabling
     it on the primary architectures only (powerpc, i386, amd64)
+  * Split the package LIST into LIST and LIVELIST, and generate a manifest
+    before installing LIVELIST, so espresso can calculate the difference.
+  * Use --print-installation-architecture instead of --print-architecture
 
   [ LaMont Jones ]
   * umount /var/{run,lock}
