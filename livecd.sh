@@ -99,12 +99,12 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu base
+    set -- ubuntu kubuntu edubuntu xubuntu base
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|edubuntu|kubuntu|base|tocd)
+	ubuntu|edubuntu|kubuntu|xubuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -144,6 +144,10 @@ Flags: seen
 	edubuntu)
 	    LIST="$LIST ubuntu-base edubuntu-desktop"
 	    LIVELIST="edubuntu-live xresprobe laptop-detect casper"
+	    ;;
+	xubuntu)
+	    LIST="$LIST ubuntu-base xubuntu-desktop"
+	    LIVELIST="xubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	base)
 	    LIST="$LIST ubuntu-base"
