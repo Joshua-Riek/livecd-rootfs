@@ -52,7 +52,7 @@ SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
 case $ARCH in
-    i386|powerpc|amd64)
+    i386|powerpc|amd64|sparc)
 	USERMIRROR=http://archive.ubuntu.com/ubuntu
 	SECMIRROR=http://security.ubuntu.com/ubuntu
 	SECSRCMIRROR=${SECMIRROR}
@@ -311,6 +311,9 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     SZ=$(python -c "print int(($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)/1024)")
     (( SZ > 2047 )) && SZ=2047
     SZ=2047				# XXX fix size for now
+    if [ "$FS" = "kubuntu" ]; then
+      SZ=2559
+    fi
 
     for fsbs in 1024:65536; do 
       FSBLOCK=${fsbs%:*}

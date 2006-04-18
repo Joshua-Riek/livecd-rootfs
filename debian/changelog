@@ -7,6 +7,8 @@ livecd-rootfs (0.27) UNRELEASED; urgency=low
   * Split the package LIST into LIST and LIVELIST, and generate a manifest
     before installing LIVELIST, so espresso can calculate the difference.
   * Use --print-installation-architecture instead of --print-architecture
+  * Special-case kubuntu cloops to be slightly larger, so we don't overflow.
+  * Make sparc use archive.ubuntu.com, it's no longer a ports arch.
 
   [ LaMont Jones ]
   * umount /var/{run,lock}
