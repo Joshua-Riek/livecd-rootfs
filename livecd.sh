@@ -6,8 +6,8 @@
 
 # Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps, squashfs-tools
 
-SQUASH_ARCHES="i386 amd64 powerpc hppa"
-CLOOP_ARCHES="ia64 sparc"
+SQUASH_ARCHES="i386 amd64 powerpc"
+CLOOP_ARCHES="ia64 sparc hppa"
 
 cleanup() {
     for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
