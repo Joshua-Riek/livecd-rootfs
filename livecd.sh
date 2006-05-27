@@ -146,7 +146,7 @@ Flags: seen
 	    LIVELIST="edubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	xubuntu)
-	    LIST="$LIST ubuntu-base xterm xubuntu-desktop"
+	    LIST="$LIST ubuntu-base xterm libgoffice-gtk-1-2 xubuntu-desktop"
 	    LIVELIST="xubuntu-live xresprobe laptop-detect casper"
 	    ;;
 	base)

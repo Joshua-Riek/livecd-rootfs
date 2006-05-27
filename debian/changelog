@@ -9,7 +9,7 @@ livecd-rootfs (0.27) UNRELEASED; urgency=low
   * Use --print-installation-architecture instead of --print-architecture
   * Special-case kubuntu cloops to be slightly larger, so we don't overflow.
   * Make sparc use archive.ubuntu.com, it's no longer a ports arch.
-  * Add xubuntu support to livecd.sh, including hackish workaround.
+  * Add xubuntu support to livecd.sh, including hackish workarounds.
 
   [ LaMont Jones ]
   * umount /var/{run,lock}
