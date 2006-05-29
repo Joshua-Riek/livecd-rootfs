@@ -304,6 +304,9 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FS}.initrd-"${SUBARCH}" livecd.${FS}.initrd
 	ln -s livecd.${FS}.kernel-"${SUBARCH}" livecd.${FS}.kernel
     fi
+    # all done with the chroot; reset the deconf frontend, so Colin doesn't cry
+    echo RESET debconf/frontend | chroot $ROOT debconf-communicate
+    echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
 
   livefs_cloop()
   {

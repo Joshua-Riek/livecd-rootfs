@@ -10,6 +10,7 @@ livecd-rootfs (0.27) UNRELEASED; urgency=low
   * Special-case kubuntu cloops to be slightly larger, so we don't overflow.
   * Make sparc use archive.ubuntu.com, it's no longer a ports arch.
   * Add xubuntu support to livecd.sh, including hackish workarounds.
+  * Reset the debconf frontend after we're all done with the chroot.
 
   [ LaMont Jones ]
   * umount /var/{run,lock}
