@@ -82,7 +82,7 @@ esac
 USZ="400*1024"		# 400MB for the user
 # And how many inodes?  Default currently gives them > 100000
 UINUM=""		# blank (default), or number of inodes desired.
-STE=dapper
+STE=edgy
 EXCLUDE=""
 LIST=""
 
