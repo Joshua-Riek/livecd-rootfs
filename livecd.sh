@@ -356,7 +356,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 
   livefs_squash()
   {
-    $squashsort="http://people.ubuntu.com/~tfheen/livesort/${FS}.list.${ARCH}"
+    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FS}.list.${ARCH}"
     if wget -O livecd.${FS}.sort ${squashsort} > /dev/null 2>&1; then
       echo "Using the squashfs sort list from ${squashsort}."
     else
