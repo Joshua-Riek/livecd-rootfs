@@ -2,6 +2,7 @@ livecd-rootfs (0.28) UNRELEASED; urgency=low
 
   * Welcome to Edgy... Switch the default i386 kernel to -686, yay!
   * And when I say "edgy", I really mean it (ie: change the suite too)
+  * Add the use of a sortfile from Tollef to the squashfs invocation.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Fri,  9 Jun 2006 23:13:11 +1000
 

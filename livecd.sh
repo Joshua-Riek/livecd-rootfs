@@ -356,7 +356,15 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 
   livefs_squash()
   {
-    mksquashfs ${ROOT} livecd.${FS}.squashfs
+    $squashsort="http://people.ubuntu.com/~tfheen/livesort/${FS}.list.${ARCH}"
+    if wget -O livecd.${FS}.sort ${squashsort} > /dev/null 2>&1; then
+      echo "Using the squashfs sort list from ${squashsort}."
+    else
+      echo "Unable to fetch squashfs sort list; using a blank list."
+      : > livecd.${FS}.sort
+    fi
+
+    mksquashfs -sort livecd.${FS}.sort ${ROOT} livecd.${FS}.squashfs
     chmod 644 livecd.${FS}.squashfs
   }
 
