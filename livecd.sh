@@ -364,7 +364,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
       : > livecd.${FS}.sort
     fi
 
-    mksquashfs -sort livecd.${FS}.sort ${ROOT} livecd.${FS}.squashfs
+    mksquashfs ${ROOT} livecd.${FS}.squashfs -sort livecd.${FS}.sort
     chmod 644 livecd.${FS}.squashfs
   }
 
