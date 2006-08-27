@@ -4,8 +4,9 @@ livecd-rootfs (0.28) UNRELEASED; urgency=low
   * And when I say "edgy", I really mean it (ie: change the suite too)
   * Add the use of a sortfile from Tollef to the squashfs invocation.
   * s/libgoffice-gtk-1-2/libgoffice-gtk-0-3/ for the xubuntu hint.
+  * s/ubuntu-base/ubuntu-minimal ubuntu-standard/g for seed changes.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Fri,  9 Jun 2006 23:13:11 +1000
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 28 Aug 2006 03:40:28 +1000
 
 livecd-rootfs (0.27) UNRELEASED; urgency=low
 
