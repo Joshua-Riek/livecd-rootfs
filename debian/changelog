@@ -1,3 +1,10 @@
+livecd-rootfs (0.29) UNRELEASED; urgency=low
+
+  * Update copyright to 2006, 9 months late is better than never, right?
+  * Update kernels for i386 and amd64 to reflect recent renaming.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 21 Sep 2006 10:33:08 +1000
+
 livecd-rootfs (0.28) UNRELEASED; urgency=low
 
   * Welcome to Edgy... Switch the default i386 kernel to -686, yay!

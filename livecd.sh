@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 ######################################################################
-#### (c) Copyright 2004,2005 Canonical Ltd.  All rights reserved. ####
+#### (c) Copyright 2004-2006 Canonical Ltd.  All rights reserved. ####
 ######################################################################
 
 # Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps, squashfs-tools
@@ -220,8 +220,8 @@ link_in_boot = no
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
     case $ARCH in
-	amd64)		LIST="$LIST linux-amd64-generic";;
-	i386)		LIST="$LIST linux-686";;
+	amd64)		LIST="$LIST linux-generic";;
+	i386)		LIST="$LIST linux-generic";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 
 	# and the bastard stepchildren
