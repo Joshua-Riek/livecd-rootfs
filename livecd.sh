@@ -4,10 +4,7 @@
 #### (c) Copyright 2004-2006 Canonical Ltd.  All rights reserved. ####
 ######################################################################
 
-# Depends: debootstrap, rsync, cloop-utils, python-minimal|python, procps, squashfs-tools
-
-SQUASH_ARCHES="i386 amd64 powerpc"
-CLOOP_ARCHES="ia64 sparc hppa"
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools
 
 cleanup() {
     for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
@@ -72,16 +69,13 @@ esac
 case $(hostname --fqdn) in
     bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
     *.mmjgroup.com)	MIRROR=http://archive.mmjgroup.com/${USERMIRROR##*/};;
+    *.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu;;
     *.ubuntu.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
     *.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
     *.buildd)		MIRROR=http://ftpmaster.internal/ubuntu;;
     *)			MIRROR=${USERMIRROR};;
 esac
 
-# How much space do we leave on the filesystem for the user?
-USZ="400*1024"		# 400MB for the user
-# And how many inodes?  Default currently gives them > 100000
-UINUM=""		# blank (default), or number of inodes desired.
 STE=edgy
 EXCLUDE=""
 LIST=""
@@ -90,9 +84,7 @@ while getopts :d:e:i:I:mS:: name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
-    I)	UINUM=$(sanitize int "$OPTARG");;
     m)	MIRROR=$(sanitize url "$OPTARG");;
-    S)	USZ=$(sanitize int "$OPTARG");;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -308,52 +300,6 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
 
-  livefs_cloop()
-  {
-    mkdir -p livecd.mnt
-    MOUNTS="$MOUNTS $(pwd)/livecd.mnt"
-    DEV=$(losetup -f);
-
-    # Make the filesystem, with some room for meta data and such
-    SZ=$(python -c "print int(($(du -sk $ROOT|sed 's/[^0-9].*$//')*1.1+$USZ)/1024)")
-    (( SZ > 2047 )) && SZ=2047
-    SZ=2047				# XXX fix size for now
-    if [ "$FS" = "kubuntu" ]; then
-      SZ=2559
-    fi
-
-    for fsbs in 1024:65536; do 
-      FSBLOCK=${fsbs%:*}
-      COMP=${fsbs#*:}
-      IMGNAME=${IMG}-${FSBLOCK}
-      if [ ! -f ${IMGNAME} ]; then
-	if [ -f old-${IMGNAME} ]; then
-	  cp old-${IMGNAME} new-${IMGNAME}
-	else
-	  dd if=/dev/zero of=new-${IMGNAME} count=$SZ bs=1M
-	  INUM=""
-	  [ -n "$UINUM" ] && INUM="-N "$(python -c "print $(find ${ROOT}|wc -l)+$UINUM") || INUM=""
-	  mke2fs -b $FSBLOCK $INUM -Osparse_super -F new-${IMGNAME}
-	fi
-	losetup $DEV new-${IMGNAME}
-	mount $DEV livecd.mnt
-	rsync -a --delete --inplace --no-whole-file ${ROOT} livecd.mnt
-	umount $DEV
-	rm -rf partimg-${IMGNAME}.*
-	#if [ -x /usr/sbin/partimage ]; then
-	#  partimage -b -z0 --nodesc -f3 -c -o -y save $DEV partimg-${IMGNAME}
-	#  cat partimg-${IMGNAME}.*|partimage -b -z0 --nodesc -e -f3 -c -o -y restore $DEV stdin
-	#else
-	  /usr/sbin/e2fs-zero.py -w new-${IMGNAME}
-	#fi
-	losetup -d $DEV
-	mv new-${IMGNAME} ${IMGNAME}
-	cp ${IMGNAME} old-${IMGNAME}
-      fi
-      create_compressed_fs $IMGNAME $COMP > livecd.${FS}.cloop-${fsbs}
-    done
-  }
-
   livefs_squash()
   {
     squashsort="http://people.ubuntu.com/~tfheen/livesort/${FS}.list.${ARCH}"
@@ -368,12 +314,6 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     chmod 644 livecd.${FS}.squashfs
   }
 
-  for i in $SQUASH_ARCHES; do
-    if [ "$ARCH" = "$i" ]; then livefs_squash; fi
-  done
-
-  for i in $CLOOP_ARCHES; do
-    if [ "$ARCH" = "$i" ]; then livefs_cloop; fi
-  done
+  livefs_squash
 
 done
