@@ -45,6 +45,8 @@ fi
 umask 022
 export TTY=unknown
 export TERM=vt100
+export DEBIAN_FRONTEND=noninteractive
+export LANG=C
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
@@ -107,13 +109,11 @@ done
 
 ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
-    IMG=livecd.${FS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
     DEV=""
 
     rm -rf ${ROOT}
 
-    export DEBIAN_FRONTEND=noninteractive	# HACK for update-inetd
     mkdir -p ${ROOT}var/cache/debconf
     cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
 Name: debconf/frontend
@@ -126,27 +126,27 @@ Flags: seen
 
     case "$FS" in
 	ubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard ubuntu-desktop"
-	    LIVELIST="ubuntu-live xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^ ubuntu-desktop^"
+	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	kubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard kubuntu-desktop"
-	    LIVELIST="kubuntu-live xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^ kubuntu-desktop^"
+	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	edubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard edubuntu-desktop"
-	    LIVELIST="edubuntu-live xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^ edubuntu-desktop^"
+	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	xubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard xterm libgoffice-gtk-0-3 xubuntu-desktop"
-	    LIVELIST="xubuntu-live xresprobe laptop-detect casper"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^ xterm libgoffice-gtk-0-3 xubuntu-desktop^"
+	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	base)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^"
 	    LIVELIST="casper"
 	    ;;
 	tocd)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard"
+	    LIST="$LIST ubuntu-minimal ubuntu-standard^"
 	    tocdtmp=`mktemp -d` || exit 1
 	    tocdgerminate='http://people.ubuntu.com/~cjwatson/germinate-output/tocd3.1-dapper/'
 	    if wget -O "$tocdtmp"/desktop "$tocdgerminate"/desktop; then
@@ -170,7 +170,7 @@ Flags: seen
 	    LIVELIST="$tocdlive casper"
     esac
 
-    dpkg -l livecd-rootfs	# get our version # in the log.
+    #dpkg -l livecd-rootfs	# get our version # in the log.
     debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
