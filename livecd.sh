@@ -126,27 +126,27 @@ Flags: seen
 
     case "$FS" in
 	ubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^ ubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
 	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	kubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^ kubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	edubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^ edubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
 	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	xubuntu)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^ xterm libgoffice-gtk-0-3 xubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-3 xubuntu-desktop^"
 	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	base)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^"
+	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="casper"
 	    ;;
 	tocd)
-	    LIST="$LIST ubuntu-minimal ubuntu-standard^"
+	    LIST="$LIST minimal^ standard^"
 	    tocdtmp=`mktemp -d` || exit 1
 	    tocdgerminate='http://people.ubuntu.com/~cjwatson/germinate-output/tocd3.1-dapper/'
 	    if wget -O "$tocdtmp"/desktop "$tocdgerminate"/desktop; then
