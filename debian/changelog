@@ -7,6 +7,7 @@ livecd-rootfs (0.30) gutsy; urgency=low
   * Change the maintainer in debian/control to me; so long, LaMont.
   * Install the BuildLiveCD script to doc/examples, so we have a handy
     place to yank it from, and to provide an example of our SSH trigger.
+  * Remove duplicate debconf cruft from the chroot before building.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jul 2007 10:48:04 +0100
 

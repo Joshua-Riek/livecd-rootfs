@@ -336,6 +336,10 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     # all done with the chroot; reset the deconf frontend, so Colin doesn't cry
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
+
+    # And now that we're done messing with debconf, destroy the backup files:
+    rm -f ${ROOT}/var/cache/debconf/*-old
+
     # Dirty hack to mark langpack stuff as manually installed
     perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
         ${ROOT}/var/lib/apt/extended_states
