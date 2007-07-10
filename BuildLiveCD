@@ -1,0 +1,144 @@
+#!/bin/bash
+BUILD_LOG=~/public_html/BuildLive.out
+ALWAYS_SEND_LOG=yes
+
+finish() {
+    [ $? != "0" ] && STATUS="Failed" || STATUS="Successful"
+    if [ "$STATUS" = "Failed" ] || [ "$ALWAYS_SEND_LOG" = "yes" ]; then
+    	SEND_LOG=yes
+    fi
+    if [ -e "$LOG" ]; then
+        echo "======================= Log of livefs.sh output follows ======================="
+        cat $LOG
+    fi
+    if [ "$SEND_LOG" = "yes" ]; then
+        exec >/dev/null 2>&1
+        mailx -s "LiveCD: $STATUS $STE:$arg${SUBARCH:+-$SUBARCH} build on ${ARCH}" buildd+porters < "$BUILD_LOG"
+    fi
+    rm -f ~/buildLiveCD.lock
+    nohup ~/bin/pruneLiveCD >/dev/null 2>&1 &
+}
+
+if [ -n "$SSH_ORIGINAL_COMMAND" ]; then
+    set -- $SSH_ORIGINAL_COMMAND
+    [ ${1##*/} != 'BuildLiveCD' ] && echo bad command >&2 && exit 2
+    shift
+fi
+SUBARCH=""
+SUBARCHARG=""
+DEFAULTSUITE="gutsy"
+NEWSUITE=""
+SUITES=""
+PROPOSED=""
+if [ "$1" = '-s' ]; then
+    shift
+    SUBARCH="$1"
+    SUBARCHARG="-s$SUBARCH"
+    shift
+fi
+if [ "$1" = '-p' ]; then
+    PROPOSED='-p'
+    shift
+fi
+if [ "$1" = '-d' ]; then
+    shift
+    NEWSUITE="$1"
+    shift
+else
+    NEWSUITE="$DEFAULTSUITE"
+fi
+for s in $NEWSUITE; do
+    if [ -d build-${s}-live/chroot-${s} ]; then SUITES="$SUITES $s"; fi
+done
+if [ -z "$SUITES" ]; then
+    echo "No valid suites to build for" >&2 && exit 1
+fi
+if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
+    set -- ubuntu kubuntu edubuntu xubuntu base
+fi
+
+ARCH=$(dpkg --print-installation-architecture)
+case ${ARCH} in
+    hppa|sparc|powerpc) LINUX32=linux32;;
+    *) LINUX32="";;
+esac
+
+for arg in "$@"; do
+    case "$arg" in
+	*ubuntu|base|tocd)	;;
+	*)
+	    echo "bad project: $arg" >&2
+	    exit 2
+	    ;;
+    esac
+done
+if [ "`echo $@ | wc -w`" -gt "1" ]; then
+    for arg in "$@"; do
+        $0 $arg
+    done
+    exit 0
+fi
+
+lockfile ~/buildLiveCD.lock || exit 1
+trap "finish" 0
+trap "rm -f ~/buildLiveCD.lock; exit 1" 1 2 3 15
+exec > $BUILD_LOG 2>&1
+set -e
+
+for STE in $SUITES; do
+    if cd ~/build-${STE}-live 2>/dev/null; then
+	DIR=~/build-${STE}-live/chroot-${STE}/./build/
+    else
+	cd ~/build.live
+	DIR=~/build.live/chroot-${STE}/./build/
+    fi
+
+    for arg in "$@"; do
+	PUBDIR=~/public_html/LiveCD/${STE}/${arg}${SUBARCH:+-$SUBARCH}/
+	mkdir -p ${PUBDIR}
+
+	NOW=$(date +%Y%m%d)
+	if [ -d ${PUBDIR}${NOW} ]; then
+	    typeset -i n=1; while [ -d ${PUBDIR}${NOW}.$n ]; do n=n+1; done
+	    NOW=${NOW}.$n
+	fi
+	NOW=${NOW}
+	LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
+
+	rm -f ${PUBDIR}latest
+	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
+	mkdir -p ${PUBDIR}${NOW}
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} $arg" > ${LOG} 2>&1; then
+	    rm -f ${PUBDIR}current
+	    ln -sf ${NOW} ${PUBDIR}current
+
+	    for file in ${DIR}livecd.*; do
+		if [ -f ${file} ]; then
+		    ext=${file##*.}
+		    base=${file%.*}; base=${base##*/}
+		    sudo chown buildd ${file}
+		    sudo mv ${file} ${PUBDIR}${NOW}/${base}-${NOW}-${ARCH}.${ext}
+		    ln -sf ${base}-${NOW}-${ARCH}.${ext} ${PUBDIR}${NOW}/${base}.${ext}
+		fi
+	    done
+
+	    for f in ${PUBDIR}${NOW}/livecd.*.cloop-*; do 
+		target=${f%-*}
+		if [ ! -f ${target} ]; then
+		    for fsbs in 4096:4096 1024:65536; do
+			if [ -f ${target}-${fsbs} ]; then
+			    ln -sf ${target##*/}-${fsbs} ${target}
+			    break
+			fi
+		    done
+		    if [ ! -f ${target} ]; then
+			best=$(ls -ld ${target}-* | sort -k5,5n| awk '{print $NF; quit}')
+			ln -sf ${best##*/} ${target}
+		    fi
+		fi
+	    done
+	else
+	    exit 1
+	fi
+    done
+done

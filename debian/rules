@@ -39,6 +39,7 @@ install: build
 	# Add here commands to install the package into debian/<packagename>
 	#$(MAKE) prefix=`pwd`/debian/`dh_listpackages`/usr install
 	install -m755 livecd.sh e2fs-zero.py debian/livecd-rootfs/usr/sbin
+	install -m644 BuildLiveCD debian/livecd-rootfs/usr/share/doc/livecd-rootfs/examples
 
 # Build architecture-dependent files here.
 binary-arch: build install
