@@ -1,8 +1,18 @@
+livecd-rootfs (0.30) gutsy; urgency=low
+
+  * Relicense livecd.sh under the terms of the GPLv2, in preparation
+    for our first public release of this hideous mess of shell.
+  * Merge in Colin Watson's subarch hacks from the production buildds.
+  * Update copyright again, this time only seven months late!
+  * Change the maintainer in debian/control to me; so long, LaMont.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jul 2007 10:48:04 +0100
+
 livecd-rootfs (0.29) UNRELEASED; urgency=low
 
   * Update copyright to 2006, 9 months late is better than never, right?
   * Update kernels for i386 and amd64 to reflect recent renaming.
-  * Remove all cloop-related code, we're not squashfs-only on all arches.
+  * Remove all cloop-related code, we're now squashfs-only on all arches.
   * Add mirror information to make things work faster on my network.
   * Swap out more metapackages for tasks (ubuntu-minimal/ubuntu-standard)
 

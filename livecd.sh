@@ -1,8 +1,24 @@
 #!/bin/bash -eu
 
-######################################################################
-#### (c) Copyright 2004-2006 Canonical Ltd.  All rights reserved. ####
-######################################################################
+##########################################################################
+####           (c) Copyright 2004-2007 Canonical Ltd.                #####
+#                                                                        #
+# This program is free software; you can redistribute it and/or modify   #
+# it under the terms of the GNU General Public License as published by   #
+# the Free Software Foundation; either version 2, or (at your option)    #
+# any later version.                                                     #
+#                                                                        #
+# This program is distributed in the hope that it will be useful, but    #
+# WITHOUT ANY WARRANTY; without even the implied warranty of             #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU      #
+# General Public License for more details.                               #
+#                                                                        #
+# You should have received a copy of the GNU General Public License with #
+# your Ubuntu system, in /usr/share/common-licenses/GPL, or with the     #
+# livecd-rootfs source package as the file COPYING.  If not, write to    #
+# the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,   #
+# Boston, MA 02110-1301 USA.                                             #
+##########################################################################
 
 # Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools
 
@@ -78,15 +94,19 @@ case $(hostname --fqdn) in
     *)			MIRROR=${USERMIRROR};;
 esac
 
-STE=edgy
+STE=gutsy
 EXCLUDE=""
 LIST=""
+SUBARCH=""
 
-while getopts :d:e:i:I:mS:: name; do case $name in
+while getopts :d:e:i:I:mS::s: name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
+    I)	UINUM=$(sanitize int "$OPTARG");;
     m)	MIRROR=$(sanitize url "$OPTARG");;
+    S)	USZ=$(sanitize int "$OPTARG");;
+    s)	SUBARCH="$OPTARG";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -109,6 +129,8 @@ done
 
 ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
+    FSS="$FS${SUBARCH:+-$SUBARCH}"
+    IMG=livecd.${FSS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc"
     DEV=""
 
@@ -193,6 +215,15 @@ for i in range(len(sys.argv)):
 
     trap "cleanup" 0 1 2 3 15
 
+    case $ARCH in
+        alpha|amd64|i386|ia64|m68k|mips|mipsel)
+            link_in_boot=no
+            ;;
+        *)
+            link_in_boot=yes
+            ;;
+    esac
+
     # Make a good /etc/kernel-img.conf for the kernel packages
     cat << @@EOF >> ${ROOT}etc/kernel-img.conf
 do_symlinks = yes
@@ -200,7 +231,7 @@ relative_links = yes
 do_bootloader = no
 do_bootfloppy = no
 do_initrd = yes
-link_in_boot = no
+link_in_boot = $link_in_boot
 @@EOF
 
     mkdir -p ${ROOT}proc
@@ -214,7 +245,11 @@ link_in_boot = no
     case $ARCH in
 	amd64)		LIST="$LIST linux-generic";;
 	i386)		LIST="$LIST linux-generic";;
-	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
+	powerpc)
+	    case $SUBARCH in
+		ps3)	LIST="$LIST linux-ps3";;
+		*)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
+	    esac;;
 
 	# and the bastard stepchildren
 	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
@@ -232,10 +267,10 @@ link_in_boot = no
     chroot $ROOT apt-get update
     chroot $ROOT apt-get -y install $LIST </dev/null
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
-	> livecd.${FS}.manifest-desktop
+	> livecd.${FSS}.manifest-desktop
     chroot $ROOT apt-get -y install $LIVELIST </dev/null
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
-	> livecd.${FS}.manifest
+	> livecd.${FSS}.manifest
     kill_users
 
     chroot $ROOT /etc/cron.daily/slocate || true
@@ -274,7 +309,8 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     rm -f ${ROOT}etc/X11/xorg.conf
     rm -f ${ROOT}var/lib/apt/lists/*_*
     rm -f ${ROOT}var/spool/postfix/maildrop/*
-    rm -f ${ROOT}var/lib/update-notifier/user.d/*
+    # Removing update-notifier notes is now considered harmful:
+    #rm -f ${ROOT}var/lib/update-notifier/user.d/*
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
     rm -f ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
     if [ -f ${ROOT}/etc/postfix/main.cf ]; then
@@ -286,32 +322,36 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     for KVER in ${KVERS}; do
 	SUBARCH="${KVER#*-*-}"
 	chroot ${ROOT} update-initramfs -k "${KVER}" -u
-	cp ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FS}.initrd-"${SUBARCH}"
-	cp ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FS}.kernel-"${SUBARCH}"
+	# we mv the initramfs, so it's not wasting space on the livefs
+	mv ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FSS}.initrd-"${SUBARCH}"
+	cp ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
     done
     NUMKVERS="$(set -- $KVERS; echo $#)"
     if [ "$NUMKVERS" = 1 ]; then
 	# only one kernel
 	SUBARCH="${KVERS#*-*-}"
-	ln -s livecd.${FS}.initrd-"${SUBARCH}" livecd.${FS}.initrd
-	ln -s livecd.${FS}.kernel-"${SUBARCH}" livecd.${FS}.kernel
+	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
+	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
     # all done with the chroot; reset the deconf frontend, so Colin doesn't cry
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
+    # Dirty hack to mark langpack stuff as manually installed
+    perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
+        ${ROOT}/var/lib/apt/extended_states
 
   livefs_squash()
   {
-    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FS}.list.${ARCH}"
-    if wget -O livecd.${FS}.sort ${squashsort} > /dev/null 2>&1; then
+    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${ARCH}"
+    if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
       echo "Using the squashfs sort list from ${squashsort}."
     else
       echo "Unable to fetch squashfs sort list; using a blank list."
-      : > livecd.${FS}.sort
+      : > livecd.${FSS}.sort
     fi
 
-    mksquashfs ${ROOT} livecd.${FS}.squashfs -sort livecd.${FS}.sort
-    chmod 644 livecd.${FS}.squashfs
+    mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
+    chmod 644 livecd.${FSS}.squashfs
   }
 
   livefs_squash
