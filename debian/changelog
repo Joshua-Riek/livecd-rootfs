@@ -1,8 +1,9 @@
-livecd-rootfs (0.31) UNRELEASED; urgency=low
+livecd-rootfs (0.31) gutsy; urgency=low
 
   * Remove a duplicate "copyright" from debian/copyright.  Typing is hard.
+  * Bump SOVER for libgoffice-gtk to make Xubuntu builds happy again.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Wed, 11 Jul 2007 16:18:46 +0100
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 18 Jul 2007 10:39:08 +0100
 
 livecd-rootfs (0.30) gutsy; urgency=low
 
