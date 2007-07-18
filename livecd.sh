@@ -160,7 +160,7 @@ Flags: seen
 	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	xubuntu)
-	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-3 xubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-4 xubuntu-desktop^"
 	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
 	base)
