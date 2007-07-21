@@ -269,6 +269,17 @@ link_in_boot = $link_in_boot
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
     chroot $ROOT apt-get -y install $LIVELIST </dev/null
+    case $FS in
+	edubuntu)
+	    chroot $ROOT apt-cache dumpavail | \
+		grep-dctrl -nsPackage -FTask edubuntu-ship-addon -a \
+				      -FTask edubuntu-live | \
+		sort -u | \
+		xargs chroot $ROOT \
+		    dpkg-query -W --showformat='${Package} ${Version}\n' \
+		>> livecd.${FSS}.manifest-desktop
+	    ;;
+    esac
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest
     kill_users

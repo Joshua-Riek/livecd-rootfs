@@ -1,3 +1,11 @@
+livecd-rootfs (0.32) UNRELEASED; urgency=low
+
+  * For Edubuntu images, include the intersection of edubuntu-ship-addon and
+    edubuntu-live in manifest-desktop, so that packages also on the add-on
+    CD aren't removed after installation by ubiquity.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 21 Jul 2007 11:45:37 +0100
+
 livecd-rootfs (0.31) gutsy; urgency=low
 
   * Remove a duplicate "copyright" from debian/copyright.  Typing is hard.
