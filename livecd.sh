@@ -114,11 +114,14 @@ shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu edubuntu xubuntu base
+    if [ "$ARCH" = "i386" ]; then
+        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu base
+    fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|edubuntu|kubuntu|xubuntu|base|tocd)
+	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -147,7 +150,7 @@ Flags: seen
 @@EOF
 
     case "$FS" in
-	ubuntu)
+	ubuntu|ubuntu-lpia)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
 	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper"
 	    ;;
@@ -192,8 +195,25 @@ Flags: seen
 	    LIVELIST="$tocdlive casper"
     esac
 
-    #dpkg -l livecd-rootfs	# get our version # in the log.
-    debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
+    dpkg -l livecd-rootfs	# get our version # in the log.
+    if [ "$FS" != "ubuntu-lpia" ]; then
+        debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
+    else
+        debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch lpia $STE $ROOT $MIRROR
+        cp -r /build/lpia-apt $ROOT/tmp/
+        chroot $ROOT dpkg --force-architecture -i \
+          /tmp/lpia-apt/apt-utils_0.7.4adam1_i386.deb \
+          /tmp/lpia-apt/apt_0.7.4adam1_i386.deb \
+          /tmp/lpia-apt/libapt-pkg-dev_0.7.4adam1_i386.deb
+        /bin/echo -e "apt hold\napt-utils hold\nlibapt-pkg-dev hold\ndpkg hold" | \
+          chroot $ROOT dpkg --set-selections
+        cat << @@EOF > $ROOT/etc/apt/apt.conf.d/90lpia
+APT::Architecture "lpia";
+APT::SecondaryArch "i386";
+DPkg::Options {"--force-overwrite";"--force-downgrade";"--force-architecture";}
+@@EOF
+        rm -rf $ROOT/tmp/lpia-apt
+    fi
 
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
@@ -244,7 +264,11 @@ link_in_boot = $link_in_boot
 
     case $ARCH in
 	amd64)		LIST="$LIST linux-generic";;
-	i386)		LIST="$LIST linux-generic";;
+	i386)
+	    case $FS in
+		ubuntu-lpia) LIST="$LIST linux-lpia";;
+		*)	LIST="$LIST linux-generic";;
+	    esac;;
 	powerpc)
 	    case $SUBARCH in
 		ps3)	LIST="$LIST linux-ps3";;
@@ -313,6 +337,16 @@ deb-src ${SRCMIRROR} $STE ${COMP}
 deb ${SECMIRROR} ${STE}-security ${COMP}
 deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 @@EOF
+    if [ "$FS" = "ubuntu-lpia" ]; then
+        cat << @@EOF > ${ROOT}etc/apt/sources.list
+deb http://ports.ubuntu.com/ubuntu-ports $STE ${COMP}
+deb http://archive.ubuntu.com/ubuntu $STE ${COMP}
+deb-src http://archive.ubuntu.com/ubuntu $STE ${COMP}
+deb http://ports.ubuntu.com/ubuntu-ports ${STE}-security ${COMP}
+deb http://archive.ubuntu.com/ubuntu ${STE}-security ${COMP}
+deb-src http://archive.ubuntu.com/ubuntu ${STE}-security ${COMP}
+@@EOF
+    fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
     # get rid of the .debs - we don't need them.

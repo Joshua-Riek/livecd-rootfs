@@ -1,3 +1,10 @@
+livecd-rootfs (0.33) UNRELEASED; urgency=low
+
+  * Implement hideous hacks to build lpia mixed-arch livecds for developers
+    to test with.  This should be reverted ASAP once LPIA main is built.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sat,  4 Aug 2007 00:09:01 +1000
+
 livecd-rootfs (0.32) gutsy; urgency=low
 
   * For Edubuntu images, include the intersection of edubuntu-ship-addon and

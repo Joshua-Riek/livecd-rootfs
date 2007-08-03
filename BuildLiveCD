@@ -24,6 +24,7 @@ if [ -n "$SSH_ORIGINAL_COMMAND" ]; then
     [ ${1##*/} != 'BuildLiveCD' ] && echo bad command >&2 && exit 2
     shift
 fi
+ARCH=$(dpkg --print-installation-architecture)
 SUBARCH=""
 SUBARCHARG=""
 DEFAULTSUITE="gutsy"
@@ -55,9 +56,11 @@ if [ -z "$SUITES" ]; then
 fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu edubuntu xubuntu base
+    if [ "$ARCH" = "i386" ]; then
+        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu base
+    fi
 fi
 
-ARCH=$(dpkg --print-installation-architecture)
 case ${ARCH} in
     hppa|sparc|powerpc) LINUX32=linux32;;
     *) LINUX32="";;
@@ -65,7 +68,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|base|tocd)	;;
+	*ubuntu|ubuntu-lpia|base|tocd)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2
