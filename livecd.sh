@@ -152,23 +152,23 @@ Flags: seen
     case "$FS" in
 	ubuntu|ubuntu-lpia)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
-	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper"
+	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	kubuntu)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
-	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper"
+	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	edubuntu)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
-	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper"
+	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-4 xubuntu-desktop^"
-	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper"
+	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
-	    LIVELIST="casper"
+	    LIVELIST="casper lupin-casper"
 	    ;;
 	tocd)
 	    LIST="$LIST minimal^ standard^"

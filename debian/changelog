@@ -1,8 +1,12 @@
 livecd-rootfs (0.33) UNRELEASED; urgency=low
 
+  [ Adam Conrad ]
   * Implement hideous hacks to build lpia mixed-arch livecds for developers
     to test with.  This should be reverted ASAP once LPIA main is built.
   * Add missing ${ROOT}sys to $MOUNTS; a bug exposed by a buggy debootstrap.
+
+  [ Colin Watson ]
+  * Add lupin-casper as well as casper, for installer-for-windows.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Tue, 21 Aug 2007 23:56:12 +1000
 
