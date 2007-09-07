@@ -68,9 +68,18 @@ COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
 case $ARCH in
     i386|powerpc|amd64|sparc)
-	USERMIRROR=http://archive.ubuntu.com/ubuntu
-	SECMIRROR=http://security.ubuntu.com/ubuntu
-	SECSRCMIRROR=${SECMIRROR}
+	case $FS in
+	    ubuntu-lpia)
+		USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+		SECMIRROR=${USERMIRROR}
+		SECSRCMIRROR=${SRCMIRROR}
+		;;
+	    *)
+		USERMIRROR=http://archive.ubuntu.com/ubuntu
+		SECMIRROR=http://security.ubuntu.com/ubuntu
+		SECSRCMIRROR=${SECMIRROR}
+		;;
+	esac
 	;;
     hppa)
     	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
@@ -200,19 +209,6 @@ Flags: seen
         debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
     else
         debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch lpia $STE $ROOT $MIRROR
-        cp -r /build/lpia-apt $ROOT/tmp/
-        chroot $ROOT dpkg --force-architecture -i \
-          /tmp/lpia-apt/apt-utils_0.7.4adam1_i386.deb \
-          /tmp/lpia-apt/apt_0.7.4adam1_i386.deb \
-          /tmp/lpia-apt/libapt-pkg-dev_0.7.4adam1_i386.deb
-        /bin/echo -e "apt hold\napt-utils hold\nlibapt-pkg-dev hold\ndpkg hold" | \
-          chroot $ROOT dpkg --set-selections
-        cat << @@EOF > $ROOT/etc/apt/apt.conf.d/90lpia
-APT::Architecture "lpia";
-APT::SecondaryArch "i386";
-DPkg::Options {"--force-overwrite";"--force-downgrade";"--force-architecture";}
-@@EOF
-        rm -rf $ROOT/tmp/lpia-apt
     fi
 
     # Just make a few things go away, which lets us skip a few other things.
@@ -337,16 +333,6 @@ deb-src ${SRCMIRROR} $STE ${COMP}
 deb ${SECMIRROR} ${STE}-security ${COMP}
 deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 @@EOF
-    if [ "$FS" = "ubuntu-lpia" ]; then
-        cat << @@EOF > ${ROOT}etc/apt/sources.list
-deb http://ports.ubuntu.com/ubuntu-ports $STE ${COMP}
-deb http://archive.ubuntu.com/ubuntu $STE ${COMP}
-deb-src http://archive.ubuntu.com/ubuntu $STE ${COMP}
-deb http://ports.ubuntu.com/ubuntu-ports ${STE}-security ${COMP}
-deb http://archive.ubuntu.com/ubuntu ${STE}-security ${COMP}
-deb-src http://archive.ubuntu.com/ubuntu ${STE}-security ${COMP}
-@@EOF
-    fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
     # get rid of the .debs - we don't need them.
