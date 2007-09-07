@@ -1,4 +1,4 @@
-livecd-rootfs (0.33) UNRELEASED; urgency=low
+livecd-rootfs (0.33) gutsy; urgency=low
 
   [ Adam Conrad ]
   * Implement hideous hacks to build lpia mixed-arch livecds for developers
@@ -11,7 +11,7 @@ livecd-rootfs (0.33) UNRELEASED; urgency=low
     still need a few of them to make the ubuntu-lpia project work.
   * Move powerpc to ports.ubuntu.com.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Tue, 21 Aug 2007 23:56:12 +1000
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 07 Sep 2007 19:11:03 +0100
 
 livecd-rootfs (0.32) gutsy; urgency=low
 
