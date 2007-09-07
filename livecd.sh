@@ -67,7 +67,7 @@ SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
 case $ARCH in
-    i386|powerpc|amd64|sparc)
+    i386|amd64|sparc)
 	case $FS in
 	    ubuntu-lpia)
 		USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
