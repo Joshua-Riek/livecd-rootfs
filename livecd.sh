@@ -324,7 +324,7 @@ link_in_boot = $link_in_boot
 	chroot $ROOT dpkg-divert --remove --rename /${file}
     done
 
-    # And make this look more pristene
+    # And make this look more pristine
     cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
 deb ${USERMIRROR} $STE ${COMP}
@@ -374,7 +374,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
 	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
-    # all done with the chroot; reset the deconf frontend, so Colin doesn't cry
+    # all done with the chroot; reset the debconf frontend, so Colin doesn't cry
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
 
