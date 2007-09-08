@@ -66,42 +66,50 @@ export LANG=C
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
-case $ARCH in
-    i386|amd64|sparc)
-	case $FS in
-	    ubuntu-lpia)
-		USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-		SECMIRROR=${USERMIRROR}
-		SECSRCMIRROR=${SRCMIRROR}
-		;;
-	    *)
-		USERMIRROR=http://archive.ubuntu.com/ubuntu
-		SECMIRROR=http://security.ubuntu.com/ubuntu
-		SECSRCMIRROR=${SECMIRROR}
-		;;
-	esac
-	;;
-    hppa)
-    	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-    	SECMIRROR=${USERMIRROR}
-	SECSRCMIRROR=${SRCMIRROR}
-	#COMP="main restricted universe"
-	;;
-    *)
-    	USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-    	SECMIRROR=${USERMIRROR}
-	SECSRCMIRROR=${SRCMIRROR}
-	;;
-esac
-case $(hostname --fqdn) in
-    bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
-    *.mmjgroup.com)	MIRROR=http://archive.mmjgroup.com/${USERMIRROR##*/};;
-    *.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu;;
-    *.ubuntu.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
-    *.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
-    *.buildd)		MIRROR=http://ftpmaster.internal/ubuntu;;
-    *)			MIRROR=${USERMIRROR};;
-esac
+OPTMIRROR=
+
+select_mirror () {
+    case $ARCH in
+	i386|amd64|sparc)
+	    case $FS in
+		ubuntu-lpia)
+		    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+		    SECMIRROR=${USERMIRROR}
+		    SECSRCMIRROR=${SRCMIRROR}
+		    ;;
+		*)
+		    USERMIRROR=http://archive.ubuntu.com/ubuntu
+		    SECMIRROR=http://security.ubuntu.com/ubuntu
+		    SECSRCMIRROR=${SECMIRROR}
+		    ;;
+	    esac
+	    ;;
+	hppa)
+	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+	    SECMIRROR=${USERMIRROR}
+	    SECSRCMIRROR=${SRCMIRROR}
+	    #COMP="main restricted universe"
+	    ;;
+	*)
+	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
+	    SECMIRROR=${USERMIRROR}
+	    SECSRCMIRROR=${SRCMIRROR}
+	    ;;
+    esac
+    case $(hostname --fqdn) in
+	bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
+	*.mmjgroup.com)		MIRROR=http://archive.mmjgroup.com/${USERMIRROR##*/};;
+	*.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu;;
+	*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu;;
+	*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
+	*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu;;
+	*)			MIRROR=${USERMIRROR};;
+    esac
+
+    if [ "$OPTMIRROR" ]; then
+	MIRROR="$OPTMIRROR"
+    fi
+}
 
 STE=gutsy
 EXCLUDE=""
@@ -113,7 +121,7 @@ while getopts :d:e:i:I:mS::s: name; do case $name in
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
     I)	UINUM=$(sanitize int "$OPTARG");;
-    m)	MIRROR=$(sanitize url "$OPTARG");;
+    m)	OPTMIRROR=$(sanitize url "$OPTARG");;
     S)	USZ=$(sanitize int "$OPTARG");;
     s)	SUBARCH="$OPTARG";;
     \?) echo bad usage >&2; exit 2;;
@@ -145,6 +153,8 @@ for FS in "$@"; do
     IMG=livecd.${FSS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc ${ROOT}sys"
     DEV=""
+
+    select_mirror
 
     rm -rf ${ROOT}
 
