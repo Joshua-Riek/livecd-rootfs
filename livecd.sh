@@ -277,7 +277,7 @@ link_in_boot = $link_in_boot
 	    esac;;
 	powerpc)
 	    case $SUBARCH in
-		ps3)	LIST="$LIST linux-ps3";;
+		ps3)	LIST="$LIST linux-cell";;
 		*)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	    esac;;
 
