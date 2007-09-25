@@ -1,8 +1,8 @@
-livecd-rootfs (0.35) UNRELEASED; urgency=low
+livecd-rootfs (0.35) gutsy; urgency=low
 
   * Use linux-cell rather than linux-ps3.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 25 Sep 2007 12:35:53 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 25 Sep 2007 12:36:20 +0100
 
 livecd-rootfs (0.34) gutsy; urgency=low
 
