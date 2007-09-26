@@ -214,7 +214,7 @@ Flags: seen
 	    LIVELIST="$tocdlive casper"
     esac
 
-    dpkg -l livecd-rootfs	# get our version # in the log.
+    dpkg -l livecd-rootfs || true	# get our version # in the log.
     if [ "$FS" != "ubuntu-lpia" ]; then
         debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
     else
@@ -282,7 +282,7 @@ link_in_boot = $link_in_boot
 	    esac;;
 
 	# and the bastard stepchildren
-	ia64)		LIST="$LIST linux-itanium-smp linux-mckinley-smp";;
+	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
