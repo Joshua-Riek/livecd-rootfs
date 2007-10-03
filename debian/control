@@ -7,7 +7,7 @@ Standards-Version: 3.6.1.0
 
 Package: livecd-rootfs
 Architecture: all
-Depends: debootstrap, rsync, python-minimal | python, procps, squashfs-tools, grep-dctrl
+Depends: debootstrap, rsync, python-minimal | python, procps, squashfs-tools, grep-dctrl, fdupes
 Suggests: partimage
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem

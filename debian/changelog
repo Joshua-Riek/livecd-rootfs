@@ -1,9 +1,15 @@
-livecd-rootfs (0.36) UNRELEASED; urgency=low
+livecd-rootfs (0.37) gutsy; urgency=low
+
+  * Run fdupes on ${ROOT}/usr.
+
+ -- Matthias Klose <doko@ubuntu.com>  Wed, 03 Oct 2007 16:46:14 +0200
+
+livecd-rootfs (0.36) gutsy; urgency=low
 
   * Change the names of ia64 kernels to the right (non-SMP since they're
     merged) ones.
 
- -- LaMont Jones <lamont@ubuntu.com>  Wed, 26 Sep 2007 13:47:15 -0600
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 26 Sep 2007 13:50:19 -0600
 
 livecd-rootfs (0.35) gutsy; urgency=low
 

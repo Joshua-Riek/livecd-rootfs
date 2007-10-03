@@ -381,6 +381,13 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     # And now that we're done messing with debconf, destroy the backup files:
     rm -f ${ROOT}/var/cache/debconf/*-old
 
+    # search for duplicate files, write the summary to stdout, 
+    if which fdupes >/dev/null 2>&1; then
+	echo BEGIN fdupes
+	fdupes --recurse --noempty --sameline --size --quiet ${ROOT}/usr
+	echo END fdupes
+    fi
+
     # Dirty hack to mark langpack stuff as manually installed
     perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
         ${ROOT}/var/lib/apt/extended_states
