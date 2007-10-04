@@ -1,3 +1,9 @@
+livecd-rootfs (0.38) gutsy; urgency=low
+
+  * Avoid the ${ROOT} prefix in fdupes output, compact and sort the output.
+
+ -- Matthias Klose <doko@ubuntu.com>  Thu, 04 Oct 2007 10:13:48 +0200
+
 livecd-rootfs (0.37) gutsy; urgency=low
 
   * Run fdupes on ${ROOT}/usr.

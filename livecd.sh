@@ -383,8 +383,14 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 
     # search for duplicate files, write the summary to stdout, 
     if which fdupes >/dev/null 2>&1; then
+	echo "first line: <total size for dupes> <different dupes> <all dupes>"
+	echo "data lines: <size for dupes> <number of dupes> <filename> [<filename> ...]"
 	echo BEGIN fdupes
-	fdupes --recurse --noempty --sameline --size --quiet ${ROOT}/usr
+	(cd $ROOT \
+	   && fdupes --recurse --noempty --sameline --size --quiet usr \
+	   | awk '/bytes each/ {s=$1} /^usr/ { n+=1; n2+=NF-1; sum+=s*(NF-1); print s*(NF-1),size, NF, $0 } END {print sum, n, n2}' \
+	   | sort -nr
+	)
 	echo END fdupes
     fi
 
