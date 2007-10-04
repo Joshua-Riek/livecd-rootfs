@@ -63,6 +63,7 @@ export TTY=unknown
 export TERM=vt100
 export DEBIAN_FRONTEND=noninteractive
 export LANG=C
+export CASPER_GENERATE_UUID=1
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
 COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
