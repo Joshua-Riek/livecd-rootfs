@@ -1,3 +1,9 @@
+livecd-rootfs (0.39) gutsy; urgency=low
+
+  * Print the file size in fdupes output as well.
+
+ -- Matthias Klose <doko@ubuntu.com>  Thu, 04 Oct 2007 12:28:27 +0200
+
 livecd-rootfs (0.38) gutsy; urgency=low
 
   * Avoid the ${ROOT} prefix in fdupes output, compact and sort the output.
