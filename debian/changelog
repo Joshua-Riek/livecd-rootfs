@@ -1,3 +1,9 @@
+livecd-rootfs (0.41) gutsy; urgency=low
+
+  * Log the size of doc directories to stdout.
+
+ -- Matthias Klose <doko@ubuntu.com>  Sun, 07 Oct 2007 14:07:59 +0200
+
 livecd-rootfs (0.40) gutsy; urgency=low
 
   * Set CASPER_GENERATE_UUID=1 to tell casper's initramfs hook to generate a

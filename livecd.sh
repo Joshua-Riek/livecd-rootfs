@@ -382,6 +382,11 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     # And now that we're done messing with debconf, destroy the backup files:
     rm -f ${ROOT}/var/cache/debconf/*-old
 
+    # show the size of directories in /usr/share/doc
+    echo BEGIN docdirs
+    (cd $ROOT && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
+    echo END docdirs
+
     # search for duplicate files, write the summary to stdout, 
     if which fdupes >/dev/null 2>&1; then
 	echo "first line: <total size for dupes> <different dupes> <all dupes>"
