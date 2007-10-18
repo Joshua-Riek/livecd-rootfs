@@ -1,3 +1,9 @@
+livecd-rootfs (0.42) UNRELEASED; urgency=low
+
+  * Create /spu directory for powerpc+ps3 builds.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 18 Oct 2007 14:56:18 +0100
+
 livecd-rootfs (0.41) gutsy; urgency=low
 
   * Log the size of doc directories to stdout.

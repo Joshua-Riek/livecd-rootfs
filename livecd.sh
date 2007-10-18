@@ -264,6 +264,11 @@ link_in_boot = $link_in_boot
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
 
+    case $ARCH+$SUBARCH in
+	powerpc+ps3)
+	    mkdir -p ${ROOT}spu;;
+    esac
+
     # In addition to the ones we got from apt, trust whatever the local system
     # believes in, but put things back afterwards.
     cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
