@@ -380,6 +380,10 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
 	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
+    case $ARCH+$SUBARCH in
+	powerpc+ps3)
+	    chroot ${ROOT} addgroup --system spu;;
+    esac
     # all done with the chroot; reset the debconf frontend, so Colin doesn't cry
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
