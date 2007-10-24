@@ -1,9 +1,9 @@
-livecd-rootfs (0.42) UNRELEASED; urgency=low
+livecd-rootfs (0.42) hardy; urgency=low
 
   * Create /spu directory and spu group for powerpc+ps3 builds.
   * Add XS-Vcs-Bzr field.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 18 Oct 2007 14:56:18 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 24 Oct 2007 23:20:58 +0100
 
 livecd-rootfs (0.41) gutsy; urgency=low
 
