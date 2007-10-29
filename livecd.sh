@@ -65,7 +65,6 @@ export DEBIAN_FRONTEND=noninteractive
 export LANG=C
 export CASPER_GENERATE_UUID=1
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
-COMP="main restricted"
 ARCH=$(dpkg --print-installation-architecture)
 OPTMIRROR=
 
@@ -89,7 +88,6 @@ select_mirror () {
 	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 	    SECMIRROR=${USERMIRROR}
 	    SECSRCMIRROR=${SRCMIRROR}
-	    #COMP="main restricted universe"
 	    ;;
 	*)
 	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
@@ -131,15 +129,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu edubuntu xubuntu base
+    set -- ubuntu kubuntu edubuntu xubuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu base
+        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|base|tocd)
+	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|gobuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -154,6 +152,7 @@ for FS in "$@"; do
     IMG=livecd.${FSS}.fsimg
     MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc ${ROOT}sys"
     DEV=""
+    COMP="main restricted"
 
     select_mirror
 
@@ -185,6 +184,11 @@ Flags: seen
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-4 xubuntu-desktop^"
 	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    ;;
+	gobuntu)
+	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
+	    LIVELIST="gobuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    COMP="main"
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
