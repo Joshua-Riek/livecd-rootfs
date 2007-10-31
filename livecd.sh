@@ -129,15 +129,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu edubuntu xubuntu gobuntu base
+    set -- ubuntu kubuntu edubuntu xubuntu gobuntu mythbuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu gobuntu mythbuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|gobuntu|base|tocd)
+	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|gobuntu|mythbuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -189,6 +189,11 @@ Flags: seen
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
 	    LIVELIST="gobuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    COMP="main"
+	    ;;
+	mythbuntu)
+	    LIST="$LIST minimal^ standard^ mythbuntu-desktop"
+	    LIVELIST="mythbuntu-live xresprobe laptop-detect casper lupin-casper"
+	    COMP="main restricted universe multiverse"
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
@@ -400,7 +405,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     (cd $ROOT && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
     echo END docdirs
 
-    # search for duplicate files, write the summary to stdout, 
+    # search for duplicate files, write the summary to stdout,
     if which fdupes >/dev/null 2>&1; then
 	echo "first line: <total size for dupes> <different dupes> <all dupes>"
 	echo "data lines: <size for dupes> <number of dupes> <file size> <filename> [<filename> ...]"
