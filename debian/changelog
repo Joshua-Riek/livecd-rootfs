@@ -1,3 +1,9 @@
+livecd-rootfs (0.44) hardy; urgency=low
+
+  * xubuntu seed change - libgoffice-gtk-0-4 --> libgoffice-gtk-0-5
+
+ -- Sarah Hobbs <hobbsee@ubuntu.com>  Fri, 30 Nov 2007 14:52:29 +1100
+
 livecd-rootfs (0.43) hardy; urgency=low
 
   * Add Gobuntu support.
