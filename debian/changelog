@@ -1,4 +1,4 @@
-livecd-rootfs (0.47) UNRELEASED; urgency=low
+livecd-rootfs (0.47) hardy; urgency=low
 
   * Fix versioned dependency to squashfs-tools. "." != "-", silly me.
 
