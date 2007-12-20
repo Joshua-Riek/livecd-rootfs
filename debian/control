@@ -8,7 +8,7 @@ Vcs-Bzr: http://bazaar.launchpad.net/~ubuntu-core-dev/livecd-rootfs/trunk
 
 Package: livecd-rootfs
 Architecture: all
-Depends: debootstrap, rsync, python-minimal | python, procps, squashfs-tools, grep-dctrl, fdupes
+Depends: debootstrap, rsync, python-minimal | python, procps, squashfs-tools (>= 1:3.3.1), grep-dctrl, fdupes
 Suggests: partimage
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem

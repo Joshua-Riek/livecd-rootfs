@@ -1,3 +1,11 @@
+livecd-rootfs (0.46) UNRELEASED; urgency=low
+
+  * Use -nolzma option of mksquashfs, since our current kernel squashfs module
+    does not support it yet (see LP #177634). Bump dependency to
+    squashfs-tools to ensure availability of that option.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 20 Dec 2007 12:03:41 +0100
+
 livecd-rootfs (0.45) hardy; urgency=low
 
   [ Colin Watson ]
