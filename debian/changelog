@@ -1,4 +1,4 @@
-livecd-rootfs (0.46) UNRELEASED; urgency=low
+livecd-rootfs (0.46) hardy; urgency=low
 
   * Use -nolzma option of mksquashfs, since our current kernel squashfs module
     does not support it yet (see LP #177634). Bump dependency to
