@@ -115,7 +115,7 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 
-while getopts :d:e:i:I:mS::s: name; do case $name in
+while getopts :d:e:i:I:m:S:s: name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
