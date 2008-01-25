@@ -119,9 +119,9 @@ while getopts :d:e:i:I:m:S:s: name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
-    I)	UINUM=$(sanitize int "$OPTARG");;
-    m)	OPTMIRROR=$(sanitize url "$OPTARG");;
-    S)	USZ=$(sanitize int "$OPTARG");;
+    I)	UINUM="$OPTARG";;
+    m)	OPTMIRROR="$OPTARG";;
+    S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
