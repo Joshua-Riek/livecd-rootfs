@@ -184,6 +184,7 @@ Flags: seen
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-5 xubuntu-desktop^"
 	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    COMP="main restricted universe multiverse"
 	    ;;
 	gobuntu)
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
