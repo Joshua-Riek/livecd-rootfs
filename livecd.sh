@@ -129,15 +129,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu edubuntu xubuntu gobuntu base
+    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-lpia kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|gobuntu|base|tocd)
+	ubuntu|ubuntu-lpia|edubuntu|kubuntu|kubuntu-kde4|xubuntu|gobuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -176,6 +176,10 @@ Flags: seen
 	kubuntu)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    ;;
+	kubuntu-kde4)
+	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
+	    LIVELIST="kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	edubuntu)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
