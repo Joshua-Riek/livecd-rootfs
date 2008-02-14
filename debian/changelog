@@ -1,4 +1,4 @@
-livecd-rootfs (0.51) UNRELEASED; urgency=low
+livecd-rootfs (0.51) hardy; urgency=low
 
   [ Jonathan Riddell ]
   * Add kubuntu-kde4
@@ -6,7 +6,7 @@ livecd-rootfs (0.51) UNRELEASED; urgency=low
   [ Steve Langasek ]
   * Add new targets for {k,ed,}ubuntu-dvd
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Feb 2008 14:08:35 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 14 Feb 2008 10:15:33 -0800
 
 livecd-rootfs (0.50) hardy; urgency=low
 
