@@ -131,13 +131,13 @@ shift $((OPTIND-1))
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-lpia|edubuntu|kubuntu|kubuntu-kde4|xubuntu|gobuntu|base|tocd)
+	ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|gobuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -169,11 +169,11 @@ Flags: seen
 @@EOF
 
     case "$FS" in
-	ubuntu|ubuntu-lpia)
+	ubuntu|ubuntu-lpia|ubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
 	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
-	kubuntu)
+	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
@@ -181,7 +181,7 @@ Flags: seen
 	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
 	    LIVELIST="kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
-	edubuntu)
+	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
 	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
@@ -222,6 +222,11 @@ Flags: seen
 	    [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
 	    LIST="$LIST $tocddesktop"
 	    LIVELIST="$tocdlive casper"
+    esac
+    case "$FS" in
+	*-dvd)
+	    LIVELIST="$LIVELIST ${FS}-live"
+	    ;;
     esac
 
     dpkg -l livecd-rootfs || true	# get our version # in the log.
