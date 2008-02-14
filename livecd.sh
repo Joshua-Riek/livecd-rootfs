@@ -225,7 +225,7 @@ Flags: seen
     esac
     case "$FS" in
 	*-dvd)
-	    LIVELIST="$LIVELIST ${FS}-live"
+	    LIVELIST="$LIVELIST ${FS}-live^"
 	    ;;
     esac
 
