@@ -1,3 +1,9 @@
+livecd-rootfs (0.51ubuntu1) UNRELEASED; urgency=low
+
+  * Enable *ubuntu-dvd and kubuntu-kde4 as known projects in BuildLiveCD
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 14 Feb 2008 15:56:32 -0800
+
 livecd-rootfs (0.51) hardy; urgency=low
 
   [ Jonathan Riddell ]
