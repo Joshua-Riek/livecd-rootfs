@@ -57,7 +57,7 @@ fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu kubuntu-kde4 edubuntu xubuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu base
     fi
 fi
 
