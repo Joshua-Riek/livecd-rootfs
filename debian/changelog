@@ -1,3 +1,10 @@
+livecd-rootfs (0.51) UNRELEASED; urgency=low
+
+  [Jonathan Riddell]
+  * Add kubuntu-kde4
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Feb 2008 14:08:35 -0800
+
 livecd-rootfs (0.50) hardy; urgency=low
 
   * Switch Xubuntu to libgoffice-gtk-0-6.
