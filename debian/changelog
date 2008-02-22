@@ -1,3 +1,9 @@
+livecd-rootfs (0.53) hardy; urgency=low
+
+  * Set kubuntu-kde4 to universe
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 22 Feb 2008 09:42:15 +0000
+
 livecd-rootfs (0.52) hardy; urgency=low
 
   * Enable *ubuntu-dvd and kubuntu-kde4 as known projects in BuildLiveCD
