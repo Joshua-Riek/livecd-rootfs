@@ -335,7 +335,7 @@ link_in_boot = $link_in_boot
 	> livecd.${FSS}.manifest
     kill_users
 
-    chroot $ROOT /etc/cron.daily/slocate || true
+    chroot $ROOT /etc/cron.daily/mlocate || true
     chroot $ROOT /etc/cron.daily/man-db	|| true
 
     # remove our diversions
