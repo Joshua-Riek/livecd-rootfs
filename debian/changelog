@@ -1,8 +1,8 @@
-livecd-rootfs (0.54) UNRELEASED; urgency=low
+livecd-rootfs (0.54) hardy; urgency=low
 
   * Run /etc/cron.daily/mlocate rather than /etc/cron.daily/slocate.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 06:52:34 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 06:54:12 +0000
 
 livecd-rootfs (0.53) hardy; urgency=low
 
