@@ -296,15 +296,11 @@ link_in_boot = $link_in_boot
 		ubuntu-lpia) LIST="$LIST linux-lpia";;
 		*)	LIST="$LIST linux-generic";;
 	    esac;;
-	powerpc)
-	    case $SUBARCH in
-		ps3)	LIST="$LIST linux-cell";;
-		*)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
-	    esac;;
 
 	# and the bastard stepchildren
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
+	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
