@@ -1,9 +1,9 @@
-livecd-rootfs (0.55) UNRELEASED; urgency=low
+livecd-rootfs (0.55) hardy; urgency=low
 
   * All powerpc builds (including ps3) use the powerpc/powerpc64-smp kernels
     now.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 20:18:27 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 20:19:16 +0000
 
 livecd-rootfs (0.54) hardy; urgency=low
 
