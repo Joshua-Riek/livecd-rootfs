@@ -129,15 +129,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu edubuntu xubuntu gobuntu mythbuntu base
+    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu gobuntu mythbuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-lpia|edubuntu|kubuntu|xubuntu|gobuntu|mythbuntu|base|tocd)
+	ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|gobuntu|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -169,15 +169,20 @@ Flags: seen
 @@EOF
 
     case "$FS" in
-	ubuntu|ubuntu-lpia)
+	ubuntu|ubuntu-lpia|ubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
 	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
-	kubuntu)
+	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
-	edubuntu)
+	kubuntu-kde4)
+	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
+	    LIVELIST="kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
+	    COMP="main restricted universe multiverse"
+	    ;;
+	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
 	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
@@ -222,6 +227,11 @@ Flags: seen
 	    [ -d "$tocdtmp" ] && rm -rf "$tocdtmp"
 	    LIST="$LIST $tocddesktop"
 	    LIVELIST="$tocdlive casper"
+    esac
+    case "$FS" in
+	*-dvd)
+	    LIVELIST="$LIVELIST ${FS}-live^"
+	    ;;
     esac
 
     dpkg -l livecd-rootfs || true	# get our version # in the log.
@@ -290,15 +300,11 @@ link_in_boot = $link_in_boot
 		ubuntu-lpia) LIST="$LIST linux-lpia";;
 		*)	LIST="$LIST linux-generic";;
 	    esac;;
-	powerpc)
-	    case $SUBARCH in
-		ps3)	LIST="$LIST linux-cell";;
-		*)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
-	    esac;;
 
 	# and the bastard stepchildren
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
+	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
@@ -329,7 +335,7 @@ link_in_boot = $link_in_boot
 	> livecd.${FSS}.manifest
     kill_users
 
-    chroot $ROOT /etc/cron.daily/slocate || true
+    chroot $ROOT /etc/cron.daily/mlocate || true
     chroot $ROOT /etc/cron.daily/man-db	|| true
 
     # remove our diversions
@@ -363,6 +369,8 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     # get rid of the .debs - we don't need them.
     chroot ${ROOT} apt-get clean
     rm -f ${ROOT}etc/X11/xorg.conf
+    # Restore an empty xorg.conf, else xserver-xorg postinst will be confused
+    touch ${ROOT}etc/X11/xorg.conf
     rm -f ${ROOT}var/lib/apt/lists/*_*
     rm -f ${ROOT}var/spool/postfix/maildrop/*
     # Removing update-notifier notes is now considered harmful:
@@ -405,7 +413,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     (cd $ROOT && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
     echo END docdirs
 
-    # search for duplicate files, write the summary to stdout,
+    # search for duplicate files, write the summary to stdout, 
     if which fdupes >/dev/null 2>&1; then
 	echo "first line: <total size for dupes> <different dupes> <all dupes>"
 	echo "data lines: <size for dupes> <number of dupes> <file size> <filename> [<filename> ...]"
@@ -432,7 +440,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
       : > livecd.${FSS}.sort
     fi
 
-    mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
+    mksquashfs ${ROOT} livecd.${FSS}.squashfs -nolzma -sort livecd.${FSS}.sort
     chmod 644 livecd.${FSS}.squashfs
   }
 

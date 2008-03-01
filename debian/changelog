@@ -1,9 +1,95 @@
-livecd-rootfs (0.44) UNRELEASED; urgency=low
+livecd-rootfs (0.56) UNRELEASED; urgency=low
 
   * Add Mythbuntu support.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 31 Oct 2007 10:26:25 -0400
 
+livecd-rootfs (0.55) hardy; urgency=low
+
+  * All powerpc builds (including ps3) use the powerpc/powerpc64-smp kernels
+    now.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 20:19:16 +0000
+
+livecd-rootfs (0.54) hardy; urgency=low
+
+  * Run /etc/cron.daily/mlocate rather than /etc/cron.daily/slocate.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Feb 2008 06:54:12 +0000
+
+livecd-rootfs (0.53) hardy; urgency=low
+
+  * Set kubuntu-kde4 to universe
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 22 Feb 2008 09:42:15 +0000
+
+livecd-rootfs (0.52) hardy; urgency=low
+
+  * Enable *ubuntu-dvd and kubuntu-kde4 as known projects in BuildLiveCD
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 14 Feb 2008 15:58:31 -0800
+
+livecd-rootfs (0.51) hardy; urgency=low
+
+  [ Jonathan Riddell ]
+  * Add kubuntu-kde4
+
+  [ Steve Langasek ]
+  * Add new targets for {k,ed,}ubuntu-dvd
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 14 Feb 2008 10:15:33 -0800
+
+livecd-rootfs (0.50) hardy; urgency=low
+
+  * Switch Xubuntu to libgoffice-gtk-0-6.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 31 Jan 2008 17:22:35 +0000
+
+livecd-rootfs (0.49) hardy; urgency=low
+
+  * Allow Xubuntu to build against universe and multiverse.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 28 Jan 2008 16:33:06 +0000
+
+livecd-rootfs (0.48) hardy; urgency=low
+
+  * fix typo in getopts call so the -m and -S options are recognized
+  * drop call to non-existent sanitize command (LP: #179130)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 25 Jan 2008 17:40:57 +0100
+
+livecd-rootfs (0.47) hardy; urgency=low
+
+  * Fix versioned dependency to squashfs-tools. "." != "-", silly me.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 20 Dec 2007 14:17:47 +0100
+
+livecd-rootfs (0.46) hardy; urgency=low
+
+  * Use -nolzma option of mksquashfs, since our current kernel squashfs module
+    does not support it yet (see LP #177634). Bump dependency to
+    squashfs-tools to ensure availability of that option.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 20 Dec 2007 12:03:41 +0100
+
+livecd-rootfs (0.45) hardy; urgency=low
+
+  [ Colin Watson ]
+  * Vcs-Bzr is now an official field. Use an unauthenticated URL for it.
+
+  [ Bryce Harrington ]
+  * livecd.sh: Leave a token empty xorg.conf in place to let
+    xserver-xorg postinst know it needs to regenerate it. (LP: #174537)
+
+ -- Timo Aaltonen <tepsipakki@ubuntu.com>  Wed, 19 Dec 2007 01:23:32 +0200
+
+livecd-rootfs (0.44) hardy; urgency=low
+
+  * xubuntu seed change - libgoffice-gtk-0-4 --> libgoffice-gtk-0-5
+
+ -- Sarah Hobbs <hobbsee@ubuntu.com>  Fri, 30 Nov 2007 14:52:29 +1100
+
+>>>>>>> MERGE-SOURCE
 livecd-rootfs (0.43) hardy; urgency=low
 
   * Add Gobuntu support.

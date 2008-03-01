@@ -55,9 +55,9 @@ if [ -z "$SUITES" ]; then
     echo "No valid suites to build for" >&2 && exit 1
 fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu edubuntu xubuntu base
+    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-lpia kubuntu edubuntu xubuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu base
     fi
 fi
 
@@ -68,7 +68,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|ubuntu-lpia|base|tocd)	;;
+	*ubuntu|*ubuntu-dvd|kubuntu-kde4|ubuntu-lpia|base|tocd)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2
