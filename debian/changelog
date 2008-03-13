@@ -1,3 +1,11 @@
+livecd-rootfs (0.56) hardy; urgency=low
+
+  * Explicitly install language-support-en first for kubuntu-kde4
+    live, should stop apt wanting to install firefox for no good
+    reason.
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 13 Mar 2008 14:32:14 +0000
+
 livecd-rootfs (0.55) hardy; urgency=low
 
   * All powerpc builds (including ps3) use the powerpc/powerpc64-smp kernels

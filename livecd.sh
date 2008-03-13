@@ -179,7 +179,7 @@ Flags: seen
 	    ;;
 	kubuntu-kde4)
 	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
-	    LIVELIST="kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="language-support-en kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	edubuntu|edubuntu-dvd)
