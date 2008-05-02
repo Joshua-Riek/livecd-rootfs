@@ -113,7 +113,7 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 
-while getopts :d:e:i:I:m:S:s: name; do case $name in
+while getopts :d:e:i:I:m:S:s:a: name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
@@ -286,7 +286,7 @@ link_in_boot = $link_in_boot
 
     case $TARGETARCH in
 	amd64)		LIST="$LIST linux-generic";;
-	i386)
+	i386)		LIST="$LIST linux-generic";;
 
 	# and the bastard stepchildren
 	lpia)		LIST="$LIST linux-lpia";;
