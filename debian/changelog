@@ -1,3 +1,11 @@
+livecd-rootfs (0.58) intrepid; urgency=low
+
+  * Fix up BuildLiveCD to only pass -a$ARCH when building for intrepid,
+    and to disallow multi-suite builds (does anyone use it for this) of
+    suites >= intrepid and <= hardy in the same invocation.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 02 May 2008 15:44:17 -0600
+
 livecd-rootfs (0.57) intrepid; urgency=low
 
   * Allow the user to specify the ARCH on the livecd.sh command line,
