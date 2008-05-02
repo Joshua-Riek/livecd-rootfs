@@ -59,9 +59,11 @@ for s in $SUITES; do
         dapper|edgy|feisty|gutsy|hardy)
             ARCHARG=""
             old_suite="yes"
+            ;;
         *)
             ARCHARG="-a$ARCH"
             new_suite="yes"
+            ;;
     esac
 done
 if [ "$new_suite" = "yes" ] && [ "$old_suite" = "yes" ]; then
