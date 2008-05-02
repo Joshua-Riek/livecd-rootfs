@@ -27,7 +27,7 @@ fi
 ARCH=$(dpkg --print-installation-architecture)
 SUBARCH=""
 SUBARCHARG=""
-DEFAULTSUITE="gutsy"
+DEFAULTSUITE="intrepid"
 NEWSUITE=""
 SUITES=""
 PROPOSED=""
@@ -111,7 +111,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} -a${ARCH} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 

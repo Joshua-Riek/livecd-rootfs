@@ -70,29 +70,27 @@ OPTMIRROR=
 
 select_mirror () {
     case $ARCH in
-	i386|amd64|sparc)
+	i386|amd64)
 	    case $FS in
 		ubuntu-lpia)
 		    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 		    SECMIRROR=${USERMIRROR}
 		    SECSRCMIRROR=${SRCMIRROR}
+		    TARGETARCH=lpia
 		    ;;
 		*)
 		    USERMIRROR=http://archive.ubuntu.com/ubuntu
 		    SECMIRROR=http://security.ubuntu.com/ubuntu
 		    SECSRCMIRROR=${SECMIRROR}
+		    TARGETARCH=${ARCH}
 		    ;;
 	    esac
-	    ;;
-	hppa)
-	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-	    SECMIRROR=${USERMIRROR}
-	    SECSRCMIRROR=${SRCMIRROR}
 	    ;;
 	*)
 	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 	    SECMIRROR=${USERMIRROR}
 	    SECSRCMIRROR=${SRCMIRROR}
+	    TARGETARCH=${ARCH}
 	    ;;
     esac
     case $(hostname --fqdn) in
@@ -123,6 +121,7 @@ while getopts :d:e:i:I:m:S:s: name; do case $name in
     m)	OPTMIRROR="$OPTARG";;
     S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
+    a)	ARCH="$OPTARG";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -131,7 +130,7 @@ shift $((OPTIND-1))
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu gobuntu base
     fi
 fi
 
@@ -231,11 +230,7 @@ Flags: seen
     esac
 
     dpkg -l livecd-rootfs || true	# get our version # in the log.
-    if [ "$FS" != "ubuntu-lpia" ]; then
-        debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
-    else
-        debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch lpia $STE $ROOT $MIRROR
-    fi
+    debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch $TARGETARCH $STE $ROOT $MIRROR
 
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
@@ -257,8 +252,8 @@ for i in range(len(sys.argv)):
 
     trap "cleanup" 0 1 2 3 15
 
-    case $ARCH in
-        alpha|amd64|i386|ia64|m68k|mips|mipsel)
+    case $TARGETARCH in
+        alpha|amd64|i386|ia64|lpia|m68k|mips|mipsel)
             link_in_boot=no
             ;;
         *)
@@ -279,7 +274,7 @@ link_in_boot = $link_in_boot
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
 
-    case $ARCH+$SUBARCH in
+    case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
 	    mkdir -p ${ROOT}spu;;
     esac
@@ -289,15 +284,12 @@ link_in_boot = $link_in_boot
     cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
-    case $ARCH in
+    case $TARGETARCH in
 	amd64)		LIST="$LIST linux-generic";;
 	i386)
-	    case $FS in
-		ubuntu-lpia) LIST="$LIST linux-lpia";;
-		*)	LIST="$LIST linux-generic";;
-	    esac;;
 
 	# and the bastard stepchildren
+	lpia)		LIST="$LIST linux-lpia";;
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
@@ -393,7 +385,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
 	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
-    case $ARCH+$SUBARCH in
+    case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
 	    chroot ${ROOT} addgroup --system spu;;
     esac
@@ -428,7 +420,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 
   livefs_squash()
   {
-    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${ARCH}"
+    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
     if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
       echo "Using the squashfs sort list from ${squashsort}."
     else

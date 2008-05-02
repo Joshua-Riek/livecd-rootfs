@@ -1,3 +1,15 @@
+livecd-rootfs (0.57) intrepid; urgency=low
+
+  * Allow the user to specify the ARCH on the livecd.sh command line,
+    overriding the use of the dpkg architecture for the livecd run.
+  * Differentiate between ARCH (the local architecture) and TARGETARCH,
+    so that builds of ubuntu-lpia continue to work on the i386 buildd.
+  * Pass ARCH by default from BuildLiveCD to livecd.sh; this should be
+    manually overridden on cross-arch buildds, instead of using dpkg.
+  * Update default suite in BuildLiveCD to intrepid, gutsy's a bit old.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 02 May 2008 15:10:32 -0600
+
 livecd-rootfs (0.56) hardy; urgency=low
 
   * Explicitly install language-support-en first for kubuntu-kde4
