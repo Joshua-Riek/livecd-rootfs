@@ -376,6 +376,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	chroot ${ROOT} update-initramfs -k "${KVER}" -u
 	# we mv the initramfs, so it's not wasting space on the livefs
 	mv ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FSS}.initrd-"${SUBARCH}"
+	rm -f ${ROOT}/boot/initrd.img-"${KVER}".bak
 	cp ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
     done
     NUMKVERS="$(set -- $KVERS; echo $#)"
