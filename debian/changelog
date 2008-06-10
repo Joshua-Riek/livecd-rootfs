@@ -1,8 +1,16 @@
-livecd-rootfs (0.59) UNRELEASED; urgency=low
+livecd-rootfs (0.59) intrepid; urgency=low
 
+  [ Colin Watson ]
   * Remove /boot/initrd.img-*.bak (LP: #64887).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 06 May 2008 11:58:01 +0100
+  [ Adam Conrad ]
+  * Resurrect the proposed option for livecd.sh/BuildLiveCD, so
+    we can build test images that include packages from proposed.
+  * Build with updates and security by default, which is a no-op
+    on development releases (where these suites are empty), but
+    a necessity for point-release image building.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jun 2008 13:16:17 -0600
 
 livecd-rootfs (0.58) intrepid; urgency=low
 

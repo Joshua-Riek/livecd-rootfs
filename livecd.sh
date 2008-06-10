@@ -112,8 +112,9 @@ STE=gutsy
 EXCLUDE=""
 LIST=""
 SUBARCH=""
+PROPOSED=""
 
-while getopts :d:e:i:I:m:S:s:a: name; do case $name in
+while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
@@ -122,6 +123,7 @@ while getopts :d:e:i:I:m:S:s:a: name; do case $name in
     S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     a)	ARCH="$OPTARG";;
+    p)  PROPOSED="yes";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -237,7 +239,7 @@ Flags: seen
     for file in $DIVERTS; do
 	mkdir -p ${ROOT}${file%/*}
 	chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
-	cp /bin/true ${ROOT}$file
+	cp ${ROOT}/bin/true ${ROOT}$file
     done
 
     # /bin/true won't cut it for mkinitrd, need to have -o support.
@@ -303,7 +305,13 @@ link_in_boot = $link_in_boot
 
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
+    echo deb $MIRROR ${STE}-security ${COMP} >> ${ROOT}etc/apt/sources.list
+    echo deb $MIRROR ${STE}-updates ${COMP} >> ${ROOT}etc/apt/sources.list
+    if [ "$PROPOSED" = "yes" ]; then
+        echo deb $MIRROR ${STE}-proposed ${COMP} >> ${ROOT}etc/apt/sources.list
+    fi
     chroot $ROOT apt-get update
+    chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y install $LIST </dev/null
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
@@ -339,6 +347,14 @@ link_in_boot = $link_in_boot
 deb ${USERMIRROR} $STE ${COMP}
 deb-src ${SRCMIRROR} $STE ${COMP}
 
+deb ${SECMIRROR} ${STE}-security ${COMP}
+deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb ${USERMIRROR} ${STE}-updates ${COMP}
+deb-src ${USERMIRROR} ${STE}-updates ${COMP}
+
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
@@ -348,9 +364,10 @@ deb-src ${SRCMIRROR} $STE ${COMP}
 ## team.
 # deb ${USERMIRROR} $STE universe
 # deb-src ${SRCMIRROR} $STE universe
-
-deb ${SECMIRROR} ${STE}-security ${COMP}
-deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
+# deb ${USERMIRROR} ${STE}-updates universe
+# deb-src ${USERMIRROR} ${STE}-updates universe
+# deb ${USERMIRROR} ${STE}-security universe
+# deb-src ${USERMIRROR} ${STE}-security universe
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
