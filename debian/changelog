@@ -9,8 +9,10 @@ livecd-rootfs (0.59) intrepid; urgency=low
   * Build with updates and security by default, which is a no-op
     on development releases (where these suites are empty), but
     a necessity for point-release image building.
+  * Copy bin/true from the chroot, not from the real root, so
+    image builds for i386/lpia work on amd64, as intended.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jun 2008 13:16:17 -0600
+ -- Adam Conrad <adconrad@cthulhu>  Tue, 10 Jun 2008 13:22:07 -0600
 
 livecd-rootfs (0.58) intrepid; urgency=low
 
