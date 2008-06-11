@@ -1,3 +1,14 @@
+livecd-rootfs (0.60) intrepid; urgency=low
+
+  * Employ hideous hack to ensure that when we're building against
+    updates/proposed, we only get one version of kernel headers.
+  * Move the cleanup() call to the end of the script, so we still
+    have proc mounted for coreutils when update-initramfs is run.
+  * Mount dev/pts immediately after debootstrap, as dpkg has begun
+    whining pretty loudly (and occasionally exiting) if it's gone.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jun 2008 17:20:10 -0600
+
 livecd-rootfs (0.59) intrepid; urgency=low
 
   [ Colin Watson ]

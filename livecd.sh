@@ -234,6 +234,10 @@ Flags: seen
     dpkg -l livecd-rootfs || true	# get our version # in the log.
     debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch $TARGETARCH $STE $ROOT $MIRROR
 
+    # Recent dpkg has started complaining pretty loudly if dev/pts isn't 
+    # mounted, so let's get it mounted immediately after debootstrap:
+    mount -t devpts devpts-${STE}-${FSS}-livefs ${ROOT}dev/pts
+
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
     for file in $DIVERTS; do
@@ -313,6 +317,24 @@ link_in_boot = $link_in_boot
     chroot $ROOT apt-get update
     chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y install $LIST </dev/null
+
+    # launchpad likes to put dependencies of seeded packages in tasks along with the
+    # actual seeded packages.  In general, this isn't an issue.  With updated kernels
+    # and point-releases, though, we end up with extra header packages:
+    chroot ${ROOT} dpkg -l linux-headers-2\* | grep ^i | awk '{print $2}' \
+        > livecd.${FSS}.manifest-headers
+    chroot ${ROOT} dpkg -l linux-headers-\* | grep ^i | awk '{print $2}' \
+        > livecd.${FSS}.manifest-headers-full
+    HEADERPACKAGES=`cat livecd.${FSS}.manifest-headers-full`
+    HEADERMETA=""
+    for i in `comm -3 livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full`; do
+        HEADERMETA="$HEADERMETA $i"
+    done
+    rm -f livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full
+    chroot ${ROOT} apt-get -y --purge remove $HEADERPACKAGES </dev/null || true
+    chroot ${ROOT} apt-get -y install $HEADERMETA </dev/null || true
+    # End horrible linux-header launchpad workaround.  Hopefully this is temporary.
+
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
     chroot $ROOT apt-get -y install $LIVELIST </dev/null
@@ -342,7 +364,6 @@ link_in_boot = $link_in_boot
     done
 
     # And make this look more pristine
-    cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
 deb ${USERMIRROR} $STE ${COMP}
 deb-src ${SRCMIRROR} $STE ${COMP}
@@ -435,6 +456,10 @@ deb-src ${USERMIRROR} ${STE}-updates ${COMP}
     # Dirty hack to mark langpack stuff as manually installed
     perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
         ${ROOT}/var/lib/apt/extended_states
+
+  # And run the cleanup function dead last, to umount /proc after nothing
+  # else needs to be run in the chroot (umounting it earlier breaks rm):
+  cleanup
 
   livefs_squash()
   {
