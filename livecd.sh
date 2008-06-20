@@ -307,6 +307,18 @@ link_in_boot = $link_in_boot
 	LIST="$(without_package "$x" "$LIST")"
     done
 
+    if [ "$STE" = "hardy" ]; then
+	# <hack, hack, hack> use the version of ssl-cert from the release
+	# pocket, because the version in -updates pulls in the large
+	# openssl-blacklist package which we should never need on the
+	# live CD
+	cat << @@EOF > ${ROOT}etc/apt/preferences
+Package: ssl-cert
+Pin: version 1.0.14-0ubuntu2
+Pin-Priority: 900
+@@EOF
+    fi
+
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
     echo deb $MIRROR ${STE}-security ${COMP} >> ${ROOT}etc/apt/sources.list
@@ -362,6 +374,9 @@ link_in_boot = $link_in_boot
 	rm -f ${ROOT}${file}
 	chroot $ROOT dpkg-divert --remove --rename /${file}
     done
+
+    # remove the apt preferences hack if it was added
+    rm -f ${ROOT}etc/apt/preferences
 
     # And make this look more pristine
     cat << @@EOF > ${ROOT}etc/apt/sources.list

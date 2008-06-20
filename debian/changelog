@@ -1,3 +1,11 @@
+livecd-rootfs (0.61) UNRELEASED; urgency=low
+
+  * Use apt pinning to force use of the version of ssl-cert from the hardy
+    release pocket, not the one from -updates, so we avoid pulling in the
+    very large openssl-blacklist package that we don't need on live CDs
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 20 Jun 2008 00:23:23 -0700
+
 livecd-rootfs (0.60) intrepid; urgency=low
 
   * Employ hideous hack to ensure that when we're building against
