@@ -1,4 +1,4 @@
-livecd-rootfs (0.61) hardy; urgency=low
+livecd-rootfs (0.61) intrepid; urgency=low
 
   * Use apt pinning to force use of the version of ssl-cert from the hardy
     release pocket, not the one from -updates, so we avoid pulling in the
