@@ -1,3 +1,11 @@
+livecd-rootfs (0.62) UNRELEASED; urgency=low
+
+  * Use 'set -eu' rather than putting -eu on the #! line, so that running
+    'sh -x /usr/sbin/livecd.sh' for testing doesn't invoke different
+    error-handling behaviour.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 08 Jul 2008 10:14:50 +0100
+
 livecd-rootfs (0.61) intrepid; urgency=low
 
   * Use apt pinning to force use of the version of ssl-cert from the hardy
