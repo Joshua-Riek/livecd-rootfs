@@ -3,6 +3,8 @@ livecd-rootfs (0.62) UNRELEASED; urgency=low
   * Use 'set -eu' rather than putting -eu on the #! line, so that running
     'sh -x /usr/sbin/livecd.sh' for testing doesn't invoke different
     error-handling behaviour.
+  * Remove the kernel from the livefs; ubiquity >= 1.9.4 will copy it from
+    the CD root if it needs to (LP: #80385).
 
  -- Colin Watson <cjwatson@ubuntu.com>  Tue, 08 Jul 2008 10:14:50 +0100
 
