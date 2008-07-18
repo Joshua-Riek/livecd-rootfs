@@ -431,7 +431,7 @@ deb-src ${USERMIRROR} ${STE}-updates ${COMP}
 	# we mv the initramfs, so it's not wasting space on the livefs
 	mv ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FSS}.initrd-"${SUBARCH}"
 	rm -f ${ROOT}/boot/initrd.img-"${KVER}".bak
-	# ubiquity >= 1.9.3 copies the kernel from the CD root if it doesn't
+	# ubiquity >= 1.9.4 copies the kernel from the CD root if it doesn't
 	# find one on the livefs, allowing us to save space
 	mv ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
     done
