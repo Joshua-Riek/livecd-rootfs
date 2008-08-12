@@ -1,4 +1,5 @@
-#!/bin/bash -eu
+#!/bin/bash
+set -eu
 
 ##########################################################################
 ####           (c) Copyright 2004-2007 Canonical Ltd.                #####
@@ -70,29 +71,27 @@ OPTMIRROR=
 
 select_mirror () {
     case $ARCH in
-	i386|amd64|sparc)
+	i386|amd64)
 	    case $FS in
 		ubuntu-lpia)
 		    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 		    SECMIRROR=${USERMIRROR}
 		    SECSRCMIRROR=${SRCMIRROR}
+		    TARGETARCH=lpia
 		    ;;
 		*)
 		    USERMIRROR=http://archive.ubuntu.com/ubuntu
 		    SECMIRROR=http://security.ubuntu.com/ubuntu
 		    SECSRCMIRROR=${SECMIRROR}
+		    TARGETARCH=${ARCH}
 		    ;;
 	    esac
-	    ;;
-	hppa)
-	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
-	    SECMIRROR=${USERMIRROR}
-	    SECSRCMIRROR=${SRCMIRROR}
 	    ;;
 	*)
 	    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 	    SECMIRROR=${USERMIRROR}
 	    SECSRCMIRROR=${SRCMIRROR}
+	    TARGETARCH=${ARCH}
 	    ;;
     esac
     case $(hostname --fqdn) in
@@ -114,15 +113,18 @@ STE=gutsy
 EXCLUDE=""
 LIST=""
 SUBARCH=""
+PROPOSED=""
 
-while getopts :d:e:i:I:mS::s: name; do case $name in
+while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
-    I)	UINUM=$(sanitize int "$OPTARG");;
-    m)	OPTMIRROR=$(sanitize url "$OPTARG");;
-    S)	USZ=$(sanitize int "$OPTARG");;
+    I)	UINUM="$OPTARG";;
+    m)	OPTMIRROR="$OPTARG";;
+    S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
+    a)	ARCH="$OPTARG";;
+    p)  PROPOSED="yes";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
 esac; done;
@@ -131,7 +133,7 @@ shift $((OPTIND-1))
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
     fi
 fi
 
@@ -179,7 +181,7 @@ Flags: seen
 	    ;;
 	kubuntu-kde4)
 	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
-	    LIVELIST="kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="language-support-en kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	edubuntu|edubuntu-dvd)
@@ -187,8 +189,9 @@ Flags: seen
 	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
 	    ;;
 	xubuntu)
-	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-4 xubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-6 xubuntu-desktop^"
 	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    COMP="main restricted universe multiverse"
 	    ;;
 	gobuntu)
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
@@ -235,18 +238,18 @@ Flags: seen
     esac
 
     dpkg -l livecd-rootfs || true	# get our version # in the log.
-    if [ "$FS" != "ubuntu-lpia" ]; then
-        debootstrap --components=$(echo $COMP | sed 's/ /,/g') $STE $ROOT $MIRROR
-    else
-        debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch lpia $STE $ROOT $MIRROR
-    fi
+    debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch $TARGETARCH $STE $ROOT $MIRROR
+
+    # Recent dpkg has started complaining pretty loudly if dev/pts isn't 
+    # mounted, so let's get it mounted immediately after debootstrap:
+    mount -t devpts devpts-${STE}-${FSS}-livefs ${ROOT}dev/pts
 
     # Just make a few things go away, which lets us skip a few other things.
     DIVERTS="usr/sbin/mkinitrd usr/sbin/invoke-rc.d"
     for file in $DIVERTS; do
 	mkdir -p ${ROOT}${file%/*}
 	chroot $ROOT dpkg-divert --add --local --divert /${file}.livecd --rename /${file}
-	cp /bin/true ${ROOT}$file
+	cp ${ROOT}/bin/true ${ROOT}$file
     done
 
     # /bin/true won't cut it for mkinitrd, need to have -o support.
@@ -261,8 +264,8 @@ for i in range(len(sys.argv)):
 
     trap "cleanup" 0 1 2 3 15
 
-    case $ARCH in
-        alpha|amd64|i386|ia64|m68k|mips|mipsel)
+    case $TARGETARCH in
+        alpha|amd64|i386|ia64|lpia|m68k|mips|mipsel)
             link_in_boot=no
             ;;
         *)
@@ -283,7 +286,7 @@ link_in_boot = $link_in_boot
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
 
-    case $ARCH+$SUBARCH in
+    case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
 	    mkdir -p ${ROOT}spu;;
     esac
@@ -293,15 +296,12 @@ link_in_boot = $link_in_boot
     cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
-    case $ARCH in
+    case $TARGETARCH in
 	amd64)		LIST="$LIST linux-generic";;
-	i386)
-	    case $FS in
-		ubuntu-lpia) LIST="$LIST linux-lpia";;
-		*)	LIST="$LIST linux-generic";;
-	    esac;;
+	i386)		LIST="$LIST linux-generic";;
 
 	# and the bastard stepchildren
+	lpia)		LIST="$LIST linux-lpia";;
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
@@ -313,10 +313,46 @@ link_in_boot = $link_in_boot
 	LIST="$(without_package "$x" "$LIST")"
     done
 
+    if [ "$STE" = "hardy" ]; then
+	# <hack, hack, hack> use the version of ssl-cert from the release
+	# pocket, because the version in -updates pulls in the large
+	# openssl-blacklist package which we should never need on the
+	# live CD
+	cat << @@EOF > ${ROOT}etc/apt/preferences
+Package: ssl-cert
+Pin: version 1.0.14-0ubuntu2
+Pin-Priority: 900
+@@EOF
+    fi
+
     # Create a good sources.list, and finish the install
     echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
+    echo deb $MIRROR ${STE}-security ${COMP} >> ${ROOT}etc/apt/sources.list
+    echo deb $MIRROR ${STE}-updates ${COMP} >> ${ROOT}etc/apt/sources.list
+    if [ "$PROPOSED" = "yes" ]; then
+        echo deb $MIRROR ${STE}-proposed ${COMP} >> ${ROOT}etc/apt/sources.list
+    fi
     chroot $ROOT apt-get update
+    chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y install $LIST </dev/null
+
+    # launchpad likes to put dependencies of seeded packages in tasks along with the
+    # actual seeded packages.  In general, this isn't an issue.  With updated kernels
+    # and point-releases, though, we end up with extra header packages:
+    chroot ${ROOT} dpkg -l linux-headers-2\* | grep ^i | awk '{print $2}' \
+        > livecd.${FSS}.manifest-headers
+    chroot ${ROOT} dpkg -l linux-headers-\* | grep ^i | awk '{print $2}' \
+        > livecd.${FSS}.manifest-headers-full
+    HEADERPACKAGES=`cat livecd.${FSS}.manifest-headers-full`
+    HEADERMETA=""
+    for i in `comm -3 livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full`; do
+        HEADERMETA="$HEADERMETA $i"
+    done
+    rm -f livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full
+    chroot ${ROOT} apt-get -y --purge remove $HEADERPACKAGES </dev/null || true
+    chroot ${ROOT} apt-get -y install $HEADERMETA </dev/null || true
+    # End horrible linux-header launchpad workaround.  Hopefully this is temporary.
+
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
     chroot $ROOT apt-get -y install $LIVELIST </dev/null
@@ -345,11 +381,21 @@ link_in_boot = $link_in_boot
 	chroot $ROOT dpkg-divert --remove --rename /${file}
     done
 
+    # remove the apt preferences hack if it was added
+    rm -f ${ROOT}etc/apt/preferences
+
     # And make this look more pristine
-    cleanup
     cat << @@EOF > ${ROOT}etc/apt/sources.list
 deb ${USERMIRROR} $STE ${COMP}
 deb-src ${SRCMIRROR} $STE ${COMP}
+
+deb ${SECMIRROR} ${STE}-security ${COMP}
+deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb ${USERMIRROR} ${STE}-updates ${COMP}
+deb-src ${USERMIRROR} ${STE}-updates ${COMP}
 
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
@@ -360,9 +406,10 @@ deb-src ${SRCMIRROR} $STE ${COMP}
 ## team.
 # deb ${USERMIRROR} $STE universe
 # deb-src ${SRCMIRROR} $STE universe
-
-deb ${SECMIRROR} ${STE}-security ${COMP}
-deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
+# deb ${USERMIRROR} ${STE}-updates universe
+# deb-src ${USERMIRROR} ${STE}-updates universe
+# deb ${USERMIRROR} ${STE}-security universe
+# deb-src ${USERMIRROR} ${STE}-security universe
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
@@ -388,7 +435,10 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	chroot ${ROOT} update-initramfs -k "${KVER}" -u
 	# we mv the initramfs, so it's not wasting space on the livefs
 	mv ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FSS}.initrd-"${SUBARCH}"
-	cp ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
+	rm -f ${ROOT}/boot/initrd.img-"${KVER}".bak
+	# ubiquity >= 1.9.4 copies the kernel from the CD root if it doesn't
+	# find one on the livefs, allowing us to save space
+	mv ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
     done
     NUMKVERS="$(set -- $KVERS; echo $#)"
     if [ "$NUMKVERS" = 1 ]; then
@@ -397,7 +447,7 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
 	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
-    case $ARCH+$SUBARCH in
+    case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
 	    chroot ${ROOT} addgroup --system spu;;
     esac
@@ -430,9 +480,13 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
     perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
         ${ROOT}/var/lib/apt/extended_states
 
+  # And run the cleanup function dead last, to umount /proc after nothing
+  # else needs to be run in the chroot (umounting it earlier breaks rm):
+  cleanup
+
   livefs_squash()
   {
-    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${ARCH}"
+    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
     if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
       echo "Using the squashfs sort list from ${squashsort}."
     else

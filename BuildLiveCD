@@ -27,7 +27,7 @@ fi
 ARCH=$(dpkg --print-installation-architecture)
 SUBARCH=""
 SUBARCHARG=""
-DEFAULTSUITE="gutsy"
+DEFAULTSUITE="intrepid"
 NEWSUITE=""
 SUITES=""
 PROPOSED=""
@@ -53,6 +53,23 @@ for s in $NEWSUITE; do
 done
 if [ -z "$SUITES" ]; then
     echo "No valid suites to build for" >&2 && exit 1
+fi
+for s in $SUITES; do
+    case $s in
+        dapper|edgy|feisty|gutsy|hardy)
+            ARCHARG=""
+            old_suite="yes"
+            ;;
+        *)
+            ARCHARG="-a$ARCH"
+            new_suite="yes"
+            ;;
+    esac
+done
+if [ "$new_suite" = "yes" ] && [ "$old_suite" = "yes" ]; then
+    echo "Can't build images for suites older than intrepid and suites" >&2
+    echo "greater than hardy at the same time, please use two invocations" >&2
+    exit 1
 fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu base
@@ -111,7 +128,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${ARCHARG} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 

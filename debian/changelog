@@ -1,8 +1,81 @@
-livecd-rootfs (0.56) UNRELEASED; urgency=low
+livecd-rootfs (0.63) UNRELEASED; urgency=low
 
   * Add Mythbuntu support.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 31 Oct 2007 10:26:25 -0400
+
+livecd-rootfs (0.62) intrepid; urgency=low
+
+  * Use 'set -eu' rather than putting -eu on the #! line, so that running
+    'sh -x /usr/sbin/livecd.sh' for testing doesn't invoke different
+    error-handling behaviour.
+  * Remove the kernel from the livefs; ubiquity >= 1.9.4 will copy it from
+    the CD root if it needs to (LP: #80385).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 18 Jul 2008 20:01:15 +0100
+
+livecd-rootfs (0.61) intrepid; urgency=low
+
+  * Use apt pinning to force use of the version of ssl-cert from the hardy
+    release pocket, not the one from -updates, so we avoid pulling in the
+    very large openssl-blacklist package that we don't need on live CDs
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 20 Jun 2008 13:53:17 -0700
+
+livecd-rootfs (0.60) intrepid; urgency=low
+
+  * Employ hideous hack to ensure that when we're building against
+    updates/proposed, we only get one version of kernel headers.
+  * Move the cleanup() call to the end of the script, so we still
+    have proc mounted for coreutils when update-initramfs is run.
+  * Mount dev/pts immediately after debootstrap, as dpkg has begun
+    whining pretty loudly (and occasionally exiting) if it's gone.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jun 2008 17:20:10 -0600
+
+livecd-rootfs (0.59) intrepid; urgency=low
+
+  [ Colin Watson ]
+  * Remove /boot/initrd.img-*.bak (LP: #64887).
+
+  [ Adam Conrad ]
+  * Resurrect the proposed option for livecd.sh/BuildLiveCD, so
+    we can build test images that include packages from proposed.
+  * Build with updates and security by default, which is a no-op
+    on development releases (where these suites are empty), but
+    a necessity for point-release image building.
+  * Copy bin/true from the chroot, not from the real root, so
+    image builds for i386/lpia work on amd64, as intended.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jun 2008 13:23:18 -0600
+
+livecd-rootfs (0.58) intrepid; urgency=low
+
+  * Fix up BuildLiveCD to only pass -a$ARCH when building for intrepid,
+    and to disallow multi-suite builds (does anyone use it for this) of
+    suites >= intrepid and <= hardy in the same invocation.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 02 May 2008 15:44:17 -0600
+
+livecd-rootfs (0.57) intrepid; urgency=low
+
+  * Allow the user to specify the ARCH on the livecd.sh command line,
+    overriding the use of the dpkg architecture for the livecd run.
+  * Differentiate between ARCH (the local architecture) and TARGETARCH,
+    so that builds of ubuntu-lpia continue to work on the i386 buildd.
+  * Pass ARCH by default from BuildLiveCD to livecd.sh; this should be
+    manually overridden on cross-arch buildds, instead of using dpkg.
+  * Update default suite in BuildLiveCD to intrepid, gutsy's a bit old.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 02 May 2008 15:10:32 -0600
+
+livecd-rootfs (0.56) hardy; urgency=low
+
+  * Explicitly install language-support-en first for kubuntu-kde4
+    live, should stop apt wanting to install firefox for no good
+    reason.
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 13 Mar 2008 14:32:14 +0000
 
 livecd-rootfs (0.55) hardy; urgency=low
 
@@ -89,7 +162,6 @@ livecd-rootfs (0.44) hardy; urgency=low
 
  -- Sarah Hobbs <hobbsee@ubuntu.com>  Fri, 30 Nov 2007 14:52:29 +1100
 
->>>>>>> MERGE-SOURCE
 livecd-rootfs (0.43) hardy; urgency=low
 
   * Add Gobuntu support.
