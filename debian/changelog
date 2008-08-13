@@ -1,9 +1,9 @@
-livecd-rootfs (0.63) UNRELEASED; urgency=low
+livecd-rootfs (0.63) intrepid; urgency=low
 
   * Do not install xresprobe, it is not necessary any more and in universe
     now.
 
- -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 13 Aug 2008 09:44:40 +0200
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 13 Aug 2008 09:45:15 +0200
 
 livecd-rootfs (0.62) intrepid; urgency=low
 
