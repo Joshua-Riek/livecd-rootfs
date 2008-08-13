@@ -173,29 +173,29 @@ Flags: seen
     case "$FS" in
 	ubuntu|ubuntu-lpia|ubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
-	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="ubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
-	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="kubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	kubuntu-kde4)
 	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
-	    LIVELIST="language-support-en kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="language-support-en kubuntu-kde4-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
-	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="edubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-6 xubuntu-desktop^"
-	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="xubuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	gobuntu)
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
-	    LIVELIST="gobuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="gobuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main"
 	    ;;
 	base)
