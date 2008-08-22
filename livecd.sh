@@ -73,7 +73,7 @@ select_mirror () {
     case $ARCH in
 	i386|amd64)
 	    case $FS in
-		ubuntu-lpia)
+		ubuntu-lpia|ubuntu-mid)
 		    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 		    SECMIRROR=${USERMIRROR}
 		    SECSRCMIRROR=${SRCMIRROR}
@@ -139,7 +139,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|gobuntu|base|tocd)
+	ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|gobuntu|ubuntu-mid|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -198,6 +198,11 @@ Flags: seen
 	    LIVELIST="gobuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main"
 	    ;;
+    ubuntu-mid)
+        LIST="$LIST minimal^ ubuntu-mid casper xserver-xorg-input-evtouch usplash"
+        LIVELIST=""
+        COMP="main restricted universe multiverse"
+        ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="casper lupin-casper"
@@ -296,13 +301,26 @@ link_in_boot = $link_in_boot
 	i386)		LIST="$LIST linux-generic";;
 
 	# and the bastard stepchildren
-	lpia)		LIST="$LIST linux-lpia";;
+	lpia)		LIST="$LIST linux-image-2.6.26-1-lpia";;
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
+
+    if [ $FS = "ubuntu-mid" ]; then
+      case "$SUBARCH" in
+        *proprietary*)
+          case "$SUBARCH" in
+            menlow*)
+              LIST="$LIST marvell-8686-firmware-9 psb-video libgl1-mesa-dri-psb xorg-modules-xpsb"
+              ;;
+          esac
+          LIST="$LIST mobile-usb-client-utils mobile-usb-host-utils"
+          ;;
+      esac
+    fi
 
     for x in $EXCLUDE; do
 	LIST="$(without_package "$x" "$LIST")"

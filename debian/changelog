@@ -1,3 +1,11 @@
+livecd-rootfs (0.64) intrepid; urgency=low
+
+  * Add support for building Ubuntu MID images.
+    - Includes changing the kernel name for lpia due to the lack of meta
+      package for the time being.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Fri, 22 Aug 2008 18:10:38 +1000
+
 livecd-rootfs (0.63) intrepid; urgency=low
 
   * Do not install xresprobe, it is not necessary any more and in universe
