@@ -1,3 +1,9 @@
+livecd-rootfs (0.65) intrepid; urgency=low
+
+  * Fiddle the kernel name for lpia.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Tue, 09 Sep 2008 09:21:10 +1000
+
 livecd-rootfs (0.64) intrepid; urgency=low
 
   * Add support for building Ubuntu MID images.

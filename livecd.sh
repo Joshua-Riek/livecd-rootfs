@@ -301,7 +301,7 @@ link_in_boot = $link_in_boot
 	i386)		LIST="$LIST linux-generic";;
 
 	# and the bastard stepchildren
-	lpia)		LIST="$LIST linux-image-2.6.26-1-lpia";;
+	lpia)		LIST="$LIST linux-image-2.6.27-2-lpia";;
 	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
