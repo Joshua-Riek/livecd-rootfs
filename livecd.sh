@@ -199,8 +199,8 @@ Flags: seen
 	    COMP="main"
 	    ;;
     ubuntu-mid)
-        LIST="$LIST minimal^ ubuntu-mid casper xserver-xorg-input-evtouch usplash"
-        LIVELIST=""
+        LIST="$LIST minimal^ ubuntu-mid"
+        LIVELIST="casper ubiquity"
         COMP="main restricted universe multiverse"
         ;;
 	base)

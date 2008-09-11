@@ -1,3 +1,11 @@
+livecd-rootfs (0.66) intrepid; urgency=low
+
+  * Remove a bunch of seeded packages from ubuntu-mid's LIST.
+  * Move casper from ubuntu-mid's LIST to LIVELIST.
+  * Add ubiquity to ubuntu-mid's LIVELIST.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 11 Sep 2008 19:02:52 +1000
+
 livecd-rootfs (0.65) intrepid; urgency=low
 
   * Fiddle the kernel name for lpia.
