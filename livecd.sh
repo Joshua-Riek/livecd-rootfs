@@ -24,7 +24,9 @@ set -eu
 # Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools
 
 cleanup() {
-    for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
+    for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
+	       ${ROOT}proc/sys/fs/binfmt_misc ${ROOT}proc ${ROOT}sys \
+	       ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
 	umount $mnt || true
     done
 
@@ -152,7 +154,6 @@ ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
     FSS="$FS${SUBARCH:+-$SUBARCH}"
     IMG=livecd.${FSS}.fsimg
-    MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc/sys/fs/binfmt_misc ${ROOT}proc ${ROOT}sys"
     DEV=""
     COMP="main restricted"
 

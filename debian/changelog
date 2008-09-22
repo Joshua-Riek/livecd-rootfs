@@ -2,6 +2,8 @@ livecd-rootfs (0.68) UNRELEASED; urgency=low
 
   * Unmount /proc/sys/fs/binfmt_misc, in case binfmt-support is installed
     and manages to mount it.
+  * Move MOUNTS variable into cleanup function for clarity; it's used
+    nowhere else.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Mon, 22 Sep 2008 11:46:43 +0100
 
