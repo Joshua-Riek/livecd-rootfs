@@ -152,7 +152,7 @@ ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
     FSS="$FS${SUBARCH:+-$SUBARCH}"
     IMG=livecd.${FSS}.fsimg
-    MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc ${ROOT}sys"
+    MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc/sys/fs/binfmt_misc ${ROOT}proc ${ROOT}sys"
     DEV=""
     COMP="main restricted"
 
