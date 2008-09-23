@@ -2,7 +2,7 @@ livecd-rootfs (0.69) intrepid; urgency=low
 
   * add ubuntu-mobile to build targets
 
- -- Oliver Grawert <ogra@osiris>  Tue, 23 Sep 2008 12:46:50 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 23 Sep 2008 12:46:50 +0200
 
 livecd-rootfs (0.68) intrepid; urgency=low
 
