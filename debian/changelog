@@ -1,3 +1,9 @@
+livecd-rootfs (0.70) intrepid; urgency=low
+
+  * linux-lpia-meta exists, change lpia's kernel back to linux-lpia.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Fri, 26 Sep 2008 16:09:54 +1000
+
 livecd-rootfs (0.69) intrepid; urgency=low
 
   * add ubuntu-mobile to build targets
