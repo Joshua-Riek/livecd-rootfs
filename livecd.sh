@@ -205,7 +205,7 @@ Flags: seen
         COMP="main restricted universe multiverse"
         ;;
         ubuntu-mobile)
-            LIST="$LIST minimal^ ubuntu-mobile"
+            LIST="$LIST minimal^ mobile-mobile^"
             LIVELIST="casper ubiquity"
             COMP="main restricted universe multiverse"
             ;;
