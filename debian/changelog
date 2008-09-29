@@ -1,3 +1,10 @@
+livecd-rootfs (0.71) intrepid; urgency=low
+
+  * change mobile to use the mobile-mobile task instead of teh metapackage for
+    building images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 29 Sep 2008 23:24:15 +0200
+
 livecd-rootfs (0.70) intrepid; urgency=low
 
   * linux-lpia-meta exists, change lpia's kernel back to linux-lpia.
