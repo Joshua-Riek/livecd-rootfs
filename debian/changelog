@@ -1,3 +1,14 @@
+livecd-rootfs (0.72) UNRELEASED; urgency=low
+
+  * Fix source mirror for -updates in generated sources.list (it was
+    incorrect for ports architectures).
+  * Fix description of universe in generated sources.list: packages there
+    are expected to be under a free licence.
+  * Enable universe and multiverse for DVDs (there isn't generally enough
+    space on CDs; see LP #105511).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 09 Oct 2008 02:08:25 +0100
+
 livecd-rootfs (0.71) intrepid; urgency=low
 
   * change mobile to use the mobile-mobile task instead of teh metapackage for

@@ -240,6 +240,12 @@ Flags: seen
     case "$FS" in
 	*-dvd)
 	    LIVELIST="$LIVELIST ${FS}-live^"
+	    UNIVERSE=1
+	    MULTIVERSE=1
+	    ;;
+	*)
+	    UNIVERSE=
+	    MULTIVERSE=
 	    ;;
     esac
 
@@ -414,21 +420,47 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 ## Major bug fix updates produced after the final release of the
 ## distribution.
 deb ${USERMIRROR} ${STE}-updates ${COMP}
-deb-src ${USERMIRROR} ${STE}-updates ${COMP}
+deb-src ${SRCMIRROR} ${STE}-updates ${COMP}
 
+@@EOF
+    if [ "$UNIVERSE" ]; then
+	COMMENT=
+    else
+	cat << @@EOF >> ${ROOT}etc/apt/sources.list
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
+@@EOF
+	COMMENT='# '
+    fi
+    cat << @@EOF >> ${ROOT}etc/apt/sources.list
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+${COMMENT}deb ${USERMIRROR} $STE universe
+${COMMENT}deb-src ${SRCMIRROR} $STE universe
+${COMMENT}deb ${USERMIRROR} ${STE}-updates universe
+${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates universe
+${COMMENT}deb ${SECMIRROR} ${STE}-security universe
+${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security universe
+
+@@EOF
+    if [ "$MULTIVERSE" ]; then
+	COMMENT=
+    else
+	COMMENT='# '
+    fi
+    cat << @@EOF >> ${ROOT}etc/apt/sources.list
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team, and may not be under a free licence. Please satisfy yourself as to
 ## your rights to use the software. Also, please note that software in
-## universe WILL NOT receive any review or updates from the Ubuntu security
-## team.
-# deb ${USERMIRROR} $STE universe
-# deb-src ${SRCMIRROR} $STE universe
-# deb ${USERMIRROR} ${STE}-updates universe
-# deb-src ${USERMIRROR} ${STE}-updates universe
-# deb ${USERMIRROR} ${STE}-security universe
-# deb-src ${USERMIRROR} ${STE}-security universe
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+${COMMENT}deb ${USERMIRROR} $STE multiverse
+${COMMENT}deb-src ${SRCMIRROR} $STE multiverse
+${COMMENT}deb ${USERMIRROR} ${STE}-updates multiverse
+${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates multiverse
+${COMMENT}deb ${SECMIRROR} ${STE}-security multiverse
+${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
