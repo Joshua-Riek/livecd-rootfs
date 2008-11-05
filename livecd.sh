@@ -24,7 +24,9 @@ set -eu
 # Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools
 
 cleanup() {
-    for mnt in $MOUNTS ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
+    for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
+	       ${ROOT}proc/sys/fs/binfmt_misc ${ROOT}proc ${ROOT}sys \
+	       ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
 	umount $mnt || true
     done
 
@@ -73,7 +75,7 @@ select_mirror () {
     case $ARCH in
 	i386|amd64)
 	    case $FS in
-		ubuntu-lpia)
+		ubuntu-lpia|ubuntu-mid)
 		    USERMIRROR=http://ports.ubuntu.com/ubuntu-ports
 		    SECMIRROR=${USERMIRROR}
 		    SECSRCMIRROR=${SRCMIRROR}
@@ -139,7 +141,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-	ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|mythbuntu|gobuntu|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-mobile|ubuntu-umpc|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -152,7 +154,6 @@ ROOT=$(pwd)/chroot-livecd/	# trailing / is CRITICAL
 for FS in "$@"; do
     FSS="$FS${SUBARCH:+-$SUBARCH}"
     IMG=livecd.${FSS}.fsimg
-    MOUNTS="${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev ${ROOT}proc ${ROOT}sys"
     DEV=""
     COMP="main restricted"
 
@@ -173,34 +174,44 @@ Flags: seen
     case "$FS" in
 	ubuntu|ubuntu-lpia|ubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
-	    LIVELIST="ubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="ubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
-	    LIVELIST="kubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="kubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	kubuntu-kde4)
 	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
-	    LIVELIST="language-support-en kubuntu-kde4-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="language-support-en kubuntu-kde4-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
-	    LIVELIST="edubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="edubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm libgoffice-gtk-0-6 xubuntu-desktop^"
-	    LIVELIST="xubuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="xubuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	gobuntu)
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
-	    LIVELIST="gobuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIVELIST="gobuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main"
 	    ;;
+    ubuntu-mid)
+        LIST="$LIST minimal^ ubuntu-mid"
+        LIVELIST="casper ubiquity"
+        COMP="main restricted universe multiverse"
+        ;;
+        ubuntu-mobile|ubuntu-umpc)
+            LIST="$LIST minimal^ mobile-mobile^"
+            LIVELIST="casper ubiquity"
+            COMP="main restricted universe multiverse"
+            ;;
 	mythbuntu)
-	    LIST="$LIST minimal^ standard^ mythbuntu-desktop"
-	    LIVELIST="mythbuntu-live^ xresprobe laptop-detect casper lupin-casper"
+	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
+	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	base)
@@ -234,6 +245,12 @@ Flags: seen
     case "$FS" in
 	*-dvd)
 	    LIVELIST="$LIVELIST ${FS}-live^"
+	    UNIVERSE=1
+	    MULTIVERSE=1
+	    ;;
+	*)
+	    UNIVERSE=
+	    MULTIVERSE=
 	    ;;
     esac
 
@@ -308,6 +325,19 @@ link_in_boot = $link_in_boot
 	sparc*)		LIST="$LIST linux-sparc64";;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
+
+    if [ $FS = "ubuntu-mid" ]; then
+      case "$SUBARCH" in
+        *proprietary*)
+          case "$SUBARCH" in
+            menlow*)
+              LIST="$LIST marvell-8686-firmware-9 psb-video libgl1-mesa-dri-psb xorg-modules-xpsb"
+              ;;
+          esac
+          LIST="$LIST mobile-usb-client-utils mobile-usb-host-utils"
+          ;;
+      esac
+    fi
 
     for x in $EXCLUDE; do
 	LIST="$(without_package "$x" "$LIST")"
@@ -395,21 +425,47 @@ deb-src ${SECSRCMIRROR} ${STE}-security ${COMP}
 ## Major bug fix updates produced after the final release of the
 ## distribution.
 deb ${USERMIRROR} ${STE}-updates ${COMP}
-deb-src ${USERMIRROR} ${STE}-updates ${COMP}
+deb-src ${SRCMIRROR} ${STE}-updates ${COMP}
 
+@@EOF
+    if [ "$UNIVERSE" ]; then
+	COMMENT=
+    else
+	cat << @@EOF >> ${ROOT}etc/apt/sources.list
 ## Uncomment the following two lines to add software from the 'universe'
 ## repository.
+@@EOF
+	COMMENT='# '
+    fi
+    cat << @@EOF >> ${ROOT}etc/apt/sources.list
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+${COMMENT}deb ${USERMIRROR} $STE universe
+${COMMENT}deb-src ${SRCMIRROR} $STE universe
+${COMMENT}deb ${USERMIRROR} ${STE}-updates universe
+${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates universe
+${COMMENT}deb ${SECMIRROR} ${STE}-security universe
+${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security universe
+
+@@EOF
+    if [ "$MULTIVERSE" ]; then
+	COMMENT=
+    else
+	COMMENT='# '
+    fi
+    cat << @@EOF >> ${ROOT}etc/apt/sources.list
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team, and may not be under a free licence. Please satisfy yourself as to
 ## your rights to use the software. Also, please note that software in
-## universe WILL NOT receive any review or updates from the Ubuntu security
-## team.
-# deb ${USERMIRROR} $STE universe
-# deb-src ${SRCMIRROR} $STE universe
-# deb ${USERMIRROR} ${STE}-updates universe
-# deb-src ${USERMIRROR} ${STE}-updates universe
-# deb ${USERMIRROR} ${STE}-security universe
-# deb-src ${USERMIRROR} ${STE}-security universe
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+${COMMENT}deb ${USERMIRROR} $STE multiverse
+${COMMENT}deb-src ${SRCMIRROR} $STE multiverse
+${COMMENT}deb ${USERMIRROR} ${STE}-updates multiverse
+${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates multiverse
+${COMMENT}deb ${SECMIRROR} ${STE}-security multiverse
+${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 @@EOF
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 

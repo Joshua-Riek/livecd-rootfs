@@ -1,8 +1,83 @@
-livecd-rootfs (0.63) UNRELEASED; urgency=low
+livecd-rootfs (0.73) UNRELEASED; urgency=low
 
+  * Add ubuntu-umpc support (equivalent to previous ubuntu-mobile).
   * Add Mythbuntu support.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Wed, 31 Oct 2007 10:26:25 -0400
+ -- Mario Limonciello <superm1@ubuntu.com>  Tue, 04 Nov 2008 19:28:35 -0600
+
+livecd-rootfs (0.72) intrepid; urgency=low
+
+  * Fix source mirror for -updates in generated sources.list (it was
+    incorrect for ports architectures).
+  * Fix description of universe in generated sources.list: packages there
+    are expected to be under a free licence.
+  * Enable universe and multiverse for DVDs (there isn't generally enough
+    space on CDs; see LP #105511).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 09 Oct 2008 02:13:41 +0100
+
+livecd-rootfs (0.71) intrepid; urgency=low
+
+  * change mobile to use the mobile-mobile task instead of teh metapackage for
+    building images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 29 Sep 2008 23:24:15 +0200
+
+livecd-rootfs (0.70) intrepid; urgency=low
+
+  * linux-lpia-meta exists, change lpia's kernel back to linux-lpia.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Fri, 26 Sep 2008 16:09:54 +1000
+
+livecd-rootfs (0.69) intrepid; urgency=low
+
+  * add ubuntu-mobile to build targets
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 23 Sep 2008 12:46:50 +0200
+
+livecd-rootfs (0.68) intrepid; urgency=low
+
+  * Unmount /proc/sys/fs/binfmt_misc, in case binfmt-support is installed
+    and manages to mount it.
+  * Move MOUNTS variable into cleanup function for clarity; it's used
+    nowhere else.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 22 Sep 2008 11:52:22 +0100
+
+livecd-rootfs (0.67) intrepid; urgency=low
+
+  * Bump linux-lpia to -3.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Mon, 15 Sep 2008 16:41:34 +1000
+
+livecd-rootfs (0.66) intrepid; urgency=low
+
+  * Remove a bunch of seeded packages from ubuntu-mid's LIST.
+  * Move casper from ubuntu-mid's LIST to LIVELIST.
+  * Add ubiquity to ubuntu-mid's LIVELIST.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 11 Sep 2008 19:02:52 +1000
+
+livecd-rootfs (0.65) intrepid; urgency=low
+
+  * Fiddle the kernel name for lpia.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Tue, 09 Sep 2008 09:21:10 +1000
+
+livecd-rootfs (0.64) intrepid; urgency=low
+
+  * Add support for building Ubuntu MID images.
+    - Includes changing the kernel name for lpia due to the lack of meta
+      package for the time being.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Fri, 22 Aug 2008 18:10:38 +1000
+
+livecd-rootfs (0.63) intrepid; urgency=low
+
+  * Do not install xresprobe, it is not necessary any more and in universe
+    now.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 13 Aug 2008 09:45:15 +0200
 
 livecd-rootfs (0.62) intrepid; urgency=low
 
