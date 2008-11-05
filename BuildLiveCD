@@ -72,9 +72,9 @@ if [ "$new_suite" = "yes" ] && [ "$old_suite" = "yes" ]; then
     exit 1
 fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu base
+    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu mythbuntu base
     fi
 fi
 

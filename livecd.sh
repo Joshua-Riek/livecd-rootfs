@@ -133,15 +133,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu gobuntu base
+    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|gobuntu|ubuntu-mid|ubuntu-mobile|ubuntu-umpc|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-mobile|ubuntu-umpc|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -209,6 +209,11 @@ Flags: seen
             LIVELIST="casper ubiquity"
             COMP="main restricted universe multiverse"
             ;;
+	mythbuntu)
+	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
+	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
+	    COMP="main restricted universe multiverse"
+	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="casper lupin-casper"
