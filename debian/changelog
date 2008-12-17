@@ -1,7 +1,11 @@
 livecd-rootfs (0.74ubuntu1) UNRELEASED; urgency=low
 
+  [ Steve Langasek ]
   * BuildLiveCD: recognize 'mythbuntu' and 'ubuntu-mobile' as valid project
     names
+
+  [ Colin Watson ]
+  * BuildLiveCD: add ubuntu-umpc too.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 15 Nov 2008 23:28:26 -0800
 
