@@ -1,4 +1,4 @@
-livecd-rootfs (0.74ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (0.75) jaunty; urgency=low
 
   [ Steve Langasek ]
   * BuildLiveCD: recognize 'mythbuntu' and 'ubuntu-mobile' as valid project
@@ -7,7 +7,11 @@ livecd-rootfs (0.74ubuntu1) UNRELEASED; urgency=low
   [ Colin Watson ]
   * BuildLiveCD: add ubuntu-umpc too.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 15 Nov 2008 23:28:26 -0800
+  [ Steve Kowalik ]
+  * BuildLiveCD: Add ubuntu-netbook-remix.
+  * livecd.sh: Support ubuntu-netbook-remix. 
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Sat, 10 Jan 2009 11:08:29 +1100
 
 livecd-rootfs (0.74) jaunty; urgency=low
 
