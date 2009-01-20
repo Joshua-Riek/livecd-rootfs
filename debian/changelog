@@ -1,3 +1,10 @@
+livecd-rootfs (0.76) UNRELEASED; urgency=low
+
+  * Allow kernel-less builds for armel for now (see
+    https://wiki.ubuntu.com/Specs/ARMImageSelection).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 20 Jan 2009 23:38:58 +0000
+
 livecd-rootfs (0.75) jaunty; urgency=low
 
   [ Steve Langasek ]

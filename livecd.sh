@@ -323,6 +323,7 @@ link_in_boot = $link_in_boot
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
+	armel)		;; # no kernel for now
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
 
