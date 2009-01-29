@@ -1,9 +1,9 @@
-livecd-rootfs (0.77) UNRELEASED; urgency=low
+livecd-rootfs (0.77) jaunty; urgency=low
 
   * Remove the D-Bus machine identifier from the livefs; it needs to be
     unique, and it's generated at boot time if it's missing (LP: #322830).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 29 Jan 2009 17:20:00 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 29 Jan 2009 17:21:23 +0000
 
 livecd-rootfs (0.76) jaunty; urgency=low
 
