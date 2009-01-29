@@ -479,6 +479,9 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
     rm -f ${ROOT}var/spool/postfix/maildrop/*
     # Removing update-notifier notes is now considered harmful:
     #rm -f ${ROOT}var/lib/update-notifier/user.d/*
+    # The D-Bus machine identifier needs to be unique, and is generated at
+    # boot time if it's missing.
+    rm -f ${ROOT}var/lib/dbus/machine-id
     chroot $ROOT apt-get update || true	# give them fresh lists, but don't fail
     rm -f ${ROOT}etc/resolv.conf ${ROOT}etc/mailname
     if [ -f ${ROOT}/etc/postfix/main.cf ]; then
