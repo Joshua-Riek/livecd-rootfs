@@ -1,4 +1,4 @@
-livecd-rootfs (0.78) UNRELEASED; urgency=low
+livecd-rootfs (0.78) jaunty; urgency=low
 
   * Use the imx51 kernel on armel.
 
