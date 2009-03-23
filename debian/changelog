@@ -1,3 +1,9 @@
+livecd-rootfs (0.78) UNRELEASED; urgency=low
+
+  * Use the imx51 kernel on armel.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Mon, 23 Mar 2009 09:49:30 +1100
+
 livecd-rootfs (0.77) jaunty; urgency=low
 
   * Remove the D-Bus machine identifier from the livefs; it needs to be
