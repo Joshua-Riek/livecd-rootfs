@@ -365,7 +365,7 @@ Pin-Priority: 900
     fi
     chroot $ROOT apt-get update
     chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
-    chroot $ROOT apt-get -y install $LIST </dev/null
+    chroot $ROOT apt-get -y --purge install $LIST </dev/null
 
     # launchpad likes to put dependencies of seeded packages in tasks along with the
     # actual seeded packages.  In general, this isn't an issue.  With updated kernels
@@ -381,12 +381,12 @@ Pin-Priority: 900
     done
     rm -f livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full
     chroot ${ROOT} apt-get -y --purge remove $HEADERPACKAGES </dev/null || true
-    chroot ${ROOT} apt-get -y install $HEADERMETA </dev/null || true
+    chroot ${ROOT} apt-get -y --purge install $HEADERMETA </dev/null || true
     # End horrible linux-header launchpad workaround.  Hopefully this is temporary.
 
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
-    chroot $ROOT apt-get -y install $LIVELIST </dev/null
+    chroot $ROOT apt-get -y --purge install $LIVELIST </dev/null
     case $FS in
 	edubuntu)
 	    chroot $ROOT apt-cache dumpavail | \
