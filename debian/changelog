@@ -1,9 +1,9 @@
-livecd-rootfs (0.79) UNRELEASED; urgency=low
+livecd-rootfs (0.79) jaunty; urgency=low
 
   * Use the --purge option to 'apt-get install', to ensure that any packages
     removed as a result of Conflicts are purged (LP: #327821).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 Apr 2009 01:04:11 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 Apr 2009 01:06:18 +0100
 
 livecd-rootfs (0.78) jaunty; urgency=low
 
