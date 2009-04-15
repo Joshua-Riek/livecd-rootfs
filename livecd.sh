@@ -201,12 +201,12 @@ Flags: seen
 	    ;;
 	ubuntu-mid)
 	    LIST="$LIST minimal^ mobile-mid^"
-	    LIVELIST="casper ubiquity"
+	    LIVELIST="mobile-live^ casper ubiquity"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	ubuntu-netbook-remix)
 	    LIST="$LIST minimal^ mobile-netbook-remix^"
-	    LIVELIST="casper ubiquity"
+	    LIVELIST="mobile-live^ casper ubiquity"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	mythbuntu)
