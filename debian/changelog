@@ -1,4 +1,4 @@
-livecd-rootfs (0.80) UNRELEASED; urgency=low
+livecd-rootfs (0.80) jaunty; urgency=low
 
   * Add mobile-live^ to LIVELIST for MID and UNR. 
 
