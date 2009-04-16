@@ -207,7 +207,7 @@ Flags: seen
 	ubuntu-netbook-remix)
 	    LIST="$LIST minimal^ standard^ mobile-netbook-remix^"
 	    LIVELIST="mobile-live^ casper ubiquity"
-	    COMP="main restricted universe multiverse"
+	    COMP="main restricted universe"
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop"

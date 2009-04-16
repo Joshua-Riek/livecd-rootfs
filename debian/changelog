@@ -2,6 +2,7 @@ livecd-rootfs (0.80) UNRELEASED; urgency=low
 
   * Add standard^ to UNR.
   * Add mobile-live^ to LIVELIST for MID and UNR. 
+  * Only build UNR from main, restricted and universe.
 
  -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 15 Apr 2009 16:56:51 +1000
 
