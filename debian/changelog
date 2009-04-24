@@ -1,6 +1,6 @@
 livecd-rootfs (0.81) UNRELEASED; urgency=low
 
-  * linux-mckinley no longer exists on ia64.
+  * ia64 uses -ia64-generic kernels across the board now.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Fri, 24 Apr 2009 17:23:55 +0100
 
