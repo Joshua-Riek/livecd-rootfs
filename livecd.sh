@@ -319,7 +319,7 @@ link_in_boot = $link_in_boot
 
 	# and the bastard stepchildren
 	lpia)		LIST="$LIST linux-lpia";;
-	ia64)		LIST="$LIST linux-itanium linux-mckinley";;
+	ia64)		LIST="$LIST linux-itanium";;
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
