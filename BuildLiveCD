@@ -27,7 +27,7 @@ fi
 ARCH=$(dpkg --print-installation-architecture)
 SUBARCH=""
 SUBARCHARG=""
-DEFAULTSUITE="jaunty"
+DEFAULTSUITE="karmic"
 NEWSUITE=""
 SUITES=""
 PROPOSED=""
