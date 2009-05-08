@@ -1,9 +1,9 @@
-livecd-rootfs (0.81) UNRELEASED; urgency=low
+livecd-rootfs (0.81) karmic; urgency=low
 
   * ia64 uses -ia64 kernels across the board now.
   * BuildLiveCD: default to karmic.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 24 Apr 2009 17:23:55 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 09 May 2009 00:34:38 +0100
 
 livecd-rootfs (0.80) jaunty; urgency=low
 
