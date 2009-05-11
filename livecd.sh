@@ -111,7 +111,7 @@ select_mirror () {
     fi
 }
 
-STE=gutsy
+STE=$(lsb_release -cs)
 EXCLUDE=""
 LIST=""
 SUBARCH=""

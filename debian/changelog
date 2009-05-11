@@ -1,3 +1,10 @@
+livecd-rootfs (0.82) UNRELEASED; urgency=low
+
+  * Default suite is the current one as returned by $(lsb_release -cs); depend
+    on lsb-release.
+
+ -- Loic Minier <lool@dooz.org>  Mon, 11 May 2009 09:53:39 +0200
+
 livecd-rootfs (0.81) karmic; urgency=low
 
   * ia64 uses -ia64 kernels across the board now.
