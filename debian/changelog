@@ -2,6 +2,8 @@ livecd-rootfs (0.82) UNRELEASED; urgency=low
 
   * Default suite is the current one as returned by $(lsb_release -cs); depend
     on lsb-release.
+  * Use dpkg --print-architecture as --print-installation-architecture is
+    deprecated.
 
  -- Loic Minier <lool@dooz.org>  Mon, 11 May 2009 09:53:39 +0200
 

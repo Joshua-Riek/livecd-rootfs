@@ -68,7 +68,7 @@ export DEBIAN_FRONTEND=noninteractive
 export LANG=C
 export CASPER_GENERATE_UUID=1
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
-ARCH=$(dpkg --print-installation-architecture)
+ARCH=$(dpkg --print-architecture)
 OPTMIRROR=
 
 select_mirror () {
