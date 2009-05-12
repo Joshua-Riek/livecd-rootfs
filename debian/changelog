@@ -4,6 +4,9 @@ livecd-rootfs (0.82) UNRELEASED; urgency=low
     on lsb-release.
   * Use dpkg --print-architecture as --print-installation-architecture is
     deprecated.
+  * Don't explicitely install linux-headers-imx51 on armel; all other arches
+    get around this requirement by explicitely seeding the headers in
+    desktop-common which we do as well.
 
  -- Loic Minier <lool@dooz.org>  Mon, 11 May 2009 09:53:39 +0200
 
