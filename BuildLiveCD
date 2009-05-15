@@ -24,7 +24,7 @@ if [ -n "$SSH_ORIGINAL_COMMAND" ]; then
     [ ${1##*/} != 'BuildLiveCD' ] && echo bad command >&2 && exit 2
     shift
 fi
-ARCH=$(dpkg --print-installation-architecture)
+ARCH=$(dpkg --print-architecture)
 SUBARCH=""
 SUBARCHARG=""
 DEFAULTSUITE="karmic"
