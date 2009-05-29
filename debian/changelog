@@ -2,7 +2,7 @@ livecd-rootfs (0.82) UNRELEASED; urgency=low
 
   [ Loic Minier ]
   * Default suite is the current one as returned by $(lsb_release -cs); depend
-    on lsb-release.
+    on lsb-release (LP: #301963).
   * Use dpkg --print-architecture as --print-installation-architecture is
     deprecated.
   * Don't explicitely install linux-headers-imx51 on armel; all other arches
