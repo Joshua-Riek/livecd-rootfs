@@ -554,7 +554,7 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
       : > livecd.${FSS}.sort
     fi
 
-    mksquashfs ${ROOT} livecd.${FSS}.squashfs -nolzma -sort livecd.${FSS}.sort
+    mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
     chmod 644 livecd.${FSS}.squashfs
   }
 
