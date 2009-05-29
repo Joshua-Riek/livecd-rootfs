@@ -504,8 +504,8 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
     if [ "$NUMKVERS" = 1 ]; then
 	# only one kernel
 	SUBARCH="${KVERS#*-*-}"
-	ln -s livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
-	ln -s livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
+	ln -sf livecd.${FSS}.initrd-"${SUBARCH}" livecd.${FSS}.initrd
+	ln -sf livecd.${FSS}.kernel-"${SUBARCH}" livecd.${FSS}.kernel
     fi
     case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
