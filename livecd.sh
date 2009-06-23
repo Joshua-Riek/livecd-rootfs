@@ -70,6 +70,7 @@ export CASPER_GENERATE_UUID=1
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
 ARCH=$(dpkg --print-architecture)
 OPTMIRROR=
+INITRD_COMPRESSOR=lzma
 
 select_mirror () {
     case $ARCH in
@@ -499,6 +500,12 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 	# ubiquity >= 1.9.4 copies the kernel from the CD root if it doesn't
 	# find one on the livefs, allowing us to save space
 	mv ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
+	if [ "$INITRD_COMPRESSOR" != gz ]; then
+	    zcat "livecd.${FSS}.initrd-${SUBARCH}" | "$INITRD_COMPRESSOR" -9c \
+		> "livecd.${FSS}.initrd-${SUBARCH}.new"
+	    mv "livecd.${FSS}.initrd-${SUBARCH}.new" \
+		"livecd.${FSS}.initrd-${SUBARCH}"
+	fi
     done
     NUMKVERS="$(set -- $KVERS; echo $#)"
     if [ "$NUMKVERS" = 1 ]; then
