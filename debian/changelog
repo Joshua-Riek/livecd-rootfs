@@ -1,9 +1,9 @@
-livecd-rootfs (0.85) UNRELEASED; urgency=low
+livecd-rootfs (0.85) karmic; urgency=low
 
   * Compress the initrd with LZMA by default, now that the kernel supports
     this across the board. Saves about 3MB on Ubuntu live CDs.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Jun 2009 17:26:36 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Jun 2009 17:28:19 +0100
 
 livecd-rootfs (0.84) karmic; urgency=low
 
