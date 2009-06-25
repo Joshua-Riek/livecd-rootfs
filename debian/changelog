@@ -1,3 +1,10 @@
+livecd-rootfs (0.86) karmic; urgency=low
+
+  * BuildLiveCD: Add kubuntu-netbook, drop kubuntu-kde4
+  * livecd.sh: Support kubuntu-netbook, drop kubuntu-kde4
+
+ -- Scott Kitterman <scott@kitterman.com>  Thu, 25 Jun 2009 00:19:36 -0400
+
 livecd-rootfs (0.85) karmic; urgency=low
 
   * Compress the initrd with LZMA by default, now that the kernel supports

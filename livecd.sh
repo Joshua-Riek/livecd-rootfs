@@ -134,15 +134,15 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu gobuntu base
+    set -- ubuntu kubuntu kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
     fi
 fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-kde4|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook-remix|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook-remix|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -181,10 +181,9 @@ Flags: seen
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
-	kubuntu-kde4)
-	    LIST="$LIST minimal^ standard^ kubuntu-kde4-desktop^"
-	    LIVELIST="language-support-en kubuntu-kde4-live^ laptop-detect casper lupin-casper"
-	    COMP="main restricted universe multiverse"
+	kubuntu-netbook)
+	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
+	    LIVELIST="language-support-en kubuntu-netbook-live^ laptop-detect casper lupin-casper"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"

@@ -72,9 +72,9 @@ if [ "$new_suite" = "yes" ] && [ "$old_suite" = "yes" ]; then
     exit 1
 fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-kde4 edubuntu xubuntu mythbuntu base
+    set -- ubuntu kubuntu kubuntu-netbook edubuntu xubuntu mythbuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd ubuntu-lpia ubuntu-netbook-remix kubuntu kubuntu-dvd kubuntu-kde4 edubuntu edubuntu-dvd xubuntu mythbuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia ubuntu-netbook-remix kubuntu kubuntu-dvd kubuntu-netbook edubuntu edubuntu-dvd xubuntu mythbuntu base
     fi
 fi
 
@@ -85,7 +85,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|*ubuntu-dvd|kubuntu-kde4|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook-remix|mythbuntu|base|tocd)	;;
+	*ubuntu|*ubuntu-dvd|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook-remix|mythbuntu|base|tocd)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2
