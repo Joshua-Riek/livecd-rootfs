@@ -1,4 +1,4 @@
-livecd-rootfs (0.86) karmic; urgency=low
+livecd-rootfs (0.86) UNRELEASED; urgency=low
 
   * BuildLiveCD: Add kubuntu-netbook, drop kubuntu-kde4
   * livecd.sh: Support kubuntu-netbook, drop kubuntu-kde4
