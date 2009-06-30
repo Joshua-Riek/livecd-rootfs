@@ -1,4 +1,4 @@
-livecd-rootfs (0.86) UNRELEASED; urgency=low
+livecd-rootfs (0.86) karmic; urgency=low
 
   [ Scott Kitterman ]
   * BuildLiveCD: Add kubuntu-netbook, drop kubuntu-kde4
@@ -7,7 +7,7 @@ livecd-rootfs (0.86) UNRELEASED; urgency=low
   [ Steve Kowalik ]
   * livecd.sh: Switch UNR to using ubuntu-netbook-remix^ and unr-live^. 
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Fri, 26 Jun 2009 15:32:26 +1000
+ -- Steve Kowalik <stevenk@ubuntu.com>  Tue, 30 Jun 2009 12:13:08 +1000
 
 livecd-rootfs (0.85) karmic; urgency=low
 
