@@ -1,3 +1,10 @@
+livecd-rootfs (0.87) UNRELEASED; urgency=low
+
+  * livecd.sh: Don't mess with xorg.conf anymore, we don't install one
+    by default.
+
+ -- Timo Aaltonen <tjaalton@ubuntu.com>  Tue, 30 Jun 2009 23:20:20 +0300
+
 livecd-rootfs (0.86) karmic; urgency=low
 
   [ Scott Kitterman ]
