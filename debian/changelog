@@ -1,4 +1,4 @@
-livecd-rootfs (0.87) UNRELEASED; urgency=low
+livecd-rootfs (0.87) karmic; urgency=low
 
   [ Timo Aaltonen ]
   * livecd.sh: Don't mess with xorg.conf anymore, we don't install one
@@ -8,7 +8,7 @@ livecd-rootfs (0.87) UNRELEASED; urgency=low
   * Clean up the chroot tree before trying to remove it, just in case
     there's some leftover junk from a previous failed build.
 
- -- Timo Aaltonen <tjaalton@ubuntu.com>  Tue, 30 Jun 2009 23:20:20 +0300
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 07 Jul 2009 13:07:47 +0100
 
 livecd-rootfs (0.86) karmic; urgency=low
 
