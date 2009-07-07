@@ -160,6 +160,9 @@ for FS in "$@"; do
 
     select_mirror
 
+    # Just in case there's some leftover junk here:
+    cleanup 2>/dev/null || true
+
     rm -rf ${ROOT}
 
     mkdir -p ${ROOT}var/cache/debconf

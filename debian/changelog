@@ -1,7 +1,12 @@
 livecd-rootfs (0.87) UNRELEASED; urgency=low
 
+  [ Timo Aaltonen ]
   * livecd.sh: Don't mess with xorg.conf anymore, we don't install one
     by default.
+
+  [ Colin Watson ]
+  * Clean up the chroot tree before trying to remove it, just in case
+    there's some leftover junk from a previous failed build.
 
  -- Timo Aaltonen <tjaalton@ubuntu.com>  Tue, 30 Jun 2009 23:20:20 +0300
 
