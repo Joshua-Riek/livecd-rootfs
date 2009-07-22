@@ -553,7 +553,8 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
   livefs_squash()
   {
     squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
-    if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
+    #if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
+    if false; then
       echo "Using the squashfs sort list from ${squashsort}."
     else
       echo "Unable to fetch squashfs sort list; using a blank list."
