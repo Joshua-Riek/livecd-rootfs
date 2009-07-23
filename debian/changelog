@@ -1,10 +1,16 @@
 livecd-rootfs (0.88) UNRELEASED; urgency=low
 
+  [ Adam Conrad ]
   * Make the sort file fetch a no-op for now, since the old URL was
     hanging the builds, and we don't actually HAVE sort files.  If
     that ever changes, we can undo this.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Wed, 22 Jul 2009 10:22:51 -0600
+  [ Mario Limonciello ]
+  * Install a hybrid of tasks and a meta package for mythbuntu to
+    boot out all the gnome stuff that's getting added by dependency
+    resolution order.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Thu, 23 Jul 2009 03:07:25 -0500
 
 livecd-rootfs (0.87) karmic; urgency=low
 

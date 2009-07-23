@@ -213,8 +213,8 @@ Flags: seen
 	    COMP="main restricted universe"
 	    ;;
 	mythbuntu)
-	    LIST="$LIST minimal^ standard^ mythbuntu-desktop"
-	    LIVELIST="mythbuntu-live laptop-detect casper lupin-casper"
+	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^ mythbuntu-desktop"
+	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	base)
