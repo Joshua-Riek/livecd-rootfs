@@ -1,4 +1,4 @@
-livecd-rootfs (0.89) UNRELEASED; urgency=low
+livecd-rootfs (0.89) karmic; urgency=low
 
   [ Michael Casadevall ]
   * Move armel to subarchitectures so we can support dove .
@@ -7,7 +7,7 @@ livecd-rootfs (0.89) UNRELEASED; urgency=low
   [ Steve Kowalik ]
   * livecd.sh: Stop building UNR from universe.
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 05 Aug 2009 20:32:19 +1000
+ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 05 Aug 2009 14:20:37 +0100
 
 livecd-rootfs (0.88) karmic; urgency=low
 
