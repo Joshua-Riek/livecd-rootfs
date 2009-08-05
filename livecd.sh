@@ -210,7 +210,6 @@ Flags: seen
 	ubuntu-netbook-remix)
 	    LIST="$LIST minimal^ standard^ ubuntu-netbook-remix^"
 	    LIVELIST="unr-live^ casper ubiquity"
-	    COMP="main restricted universe"
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^ mythbuntu-desktop"

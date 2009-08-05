@@ -1,3 +1,9 @@
+livecd-rootfs (0.89) UNRELEASED; urgency=low
+
+  * livecd.sh: Stop building UNR from universe.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 05 Aug 2009 20:32:19 +1000
+
 livecd-rootfs (0.88) karmic; urgency=low
 
   [ Adam Conrad ]
