@@ -330,7 +330,7 @@ link_in_boot = $link_in_boot
 			case "$SUBARCH" in 
 				imx51)	LIST="$LIST linux-imx51";;
 				dove)	LIST="$LIST linux-dove";;
-				*)	echo "Unknown armel subarch: no kernel." exit 1;;
+				*)	LIST="$LIST linux-imx51";;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
