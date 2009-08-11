@@ -1,3 +1,12 @@
+livecd-rootfs (0.90) UNRELEASED; urgency=low
+
+  * make armel imx51 build from universe for alpha4 until our kernel package
+    is in main.
+  * change linux metapackage name to linux-babbage on imx51 to reflect the new
+    name choice of the kernel team.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 11 Aug 2009 10:55:54 +0200
+
 livecd-rootfs (0.89) karmic; urgency=low
 
   [ Michael Casadevall ]

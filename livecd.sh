@@ -327,9 +327,13 @@ link_in_boot = $link_in_boot
 	sparc*)		LIST="$LIST linux-sparc64";;
 	armel)	
 			case "$SUBARCH" in 
-				imx51)	LIST="$LIST linux-imx51";;
+				imx51)
+					LIST="$LIST linux-babbage"
+					# temporarily enable universe until kernel is in main
+					COMP="main restricted universe"
+					;;
 				dove)	LIST="$LIST linux-dove";;
-				*)	LIST="$LIST linux-imx51";;
+				*)	LIST="$LIST linux-babbage";;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
