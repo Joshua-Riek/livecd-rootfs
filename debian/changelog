@@ -1,4 +1,4 @@
-livecd-rootfs (0.90) UNRELEASED; urgency=low
+livecd-rootfs (0.90) karmic; urgency=low
 
   * make armel imx51 build from universe for alpha4 until our kernel package
     is in main.
