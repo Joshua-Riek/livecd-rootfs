@@ -1,4 +1,4 @@
-livecd-rootfs (0.91) UNRELEASED; urgency=low
+livecd-rootfs (0.91) karmic; urgency=low
 
   [ Steve Kowalik ]
   * Remove subarch hack for ubuntu-mid, it was never used.
