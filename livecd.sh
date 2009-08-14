@@ -212,7 +212,7 @@ Flags: seen
 	    LIVELIST="unr-live^ casper ubiquity"
 	    ;;
 	mythbuntu)
-	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^ mythbuntu-desktop"
+	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
 	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
 	    ;;

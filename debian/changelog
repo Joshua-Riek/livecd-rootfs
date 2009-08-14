@@ -1,8 +1,13 @@
 livecd-rootfs (0.91) UNRELEASED; urgency=low
 
+  [ Steve Kowalik ]
   * Remove subarch hack for ubuntu-mid, it was never used.
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 13 Aug 2009 17:22:31 +1000
+  [ Mario Limonciello ]
+  * Remove metapackage hack for mythbuntu.  Now that tasks are published for 
+    multiverse, it's no longer necessary.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Thu, 13 Aug 2009 22:19:26 -0500
 
 livecd-rootfs (0.90) karmic; urgency=low
 
