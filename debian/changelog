@@ -1,4 +1,4 @@
-livecd-rootfs (0.92) UNRELEASED; urgency=low
+livecd-rootfs (0.92) karmic; urgency=low
 
   * change armel+imx51 back to the proper metapackage name
   * enable universe for armel+dove build
