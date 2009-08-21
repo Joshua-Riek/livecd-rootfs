@@ -325,15 +325,18 @@ link_in_boot = $link_in_boot
 	hppa)		LIST="$LIST linux-hppa32 linux-hppa64";;
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
-	armel)	
-			case "$SUBARCH" in 
+	armel)
+			case "$SUBARCH" in
 				imx51)
-					LIST="$LIST linux-babbage"
+					LIST="$LIST linux-imx51"
 					# temporarily enable universe until kernel is in main
 					COMP="main restricted universe"
 					;;
-				dove)	LIST="$LIST linux-dove";;
-				*)	LIST="$LIST linux-babbage";;
+				dove)
+					LIST="$LIST linux-dove"
+					# temporarily enable universe until kernel is in main
+					COMP="main restricted universe"
+					;;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac

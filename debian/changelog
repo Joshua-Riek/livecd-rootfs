@@ -1,3 +1,12 @@
+livecd-rootfs (0.92) UNRELEASED; urgency=low
+
+  * change armel+imx51 back to the proper metapackage name
+  * enable universe for armel+dove build
+  * drop armel fallback, we want to fail officially if no armel subarch is set
+  * clean some trailing whitespace in the armel subarch case statement
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 21 Aug 2009 19:33:15 +0200
+
 livecd-rootfs (0.91) karmic; urgency=low
 
   [ Steve Kowalik ]
