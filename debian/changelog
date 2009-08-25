@@ -1,4 +1,4 @@
-livecd-rootfs (0.93) UNRELEASED; urgency=low
+livecd-rootfs (0.93) karmic; urgency=low
 
   * remove temporary enablement of universe from the armel subarchitectures
 
