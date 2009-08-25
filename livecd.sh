@@ -330,12 +330,10 @@ link_in_boot = $link_in_boot
 				imx51)
 					LIST="$LIST linux-imx51"
 					# temporarily enable universe until kernel is in main
-					COMP="main restricted universe"
 					;;
 				dove)
 					LIST="$LIST linux-dove"
 					# temporarily enable universe until kernel is in main
-					COMP="main restricted universe"
 					;;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;

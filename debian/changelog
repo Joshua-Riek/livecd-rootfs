@@ -1,3 +1,9 @@
+livecd-rootfs (0.93) UNRELEASED; urgency=low
+
+  * remove temporary enablement of universe from the armel subarchitectures
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 25 Aug 2009 18:38:07 +0200
+
 livecd-rootfs (0.92) karmic; urgency=low
 
   * change armel+imx51 back to the proper metapackage name
