@@ -85,7 +85,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|*ubuntu-dvd|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook-remix|mythbuntu|base|tocd)	;;
+	*ubuntu|*ubuntu-dvd|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook-remix|ubuntu-moblin-remix|mythbuntu|base|tocd)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2

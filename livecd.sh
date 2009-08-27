@@ -117,6 +117,7 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 PROPOSED=""
+EXTRASOURCE=""
 
 while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
     d)  STE=$OPTARG;;
@@ -142,7 +143,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook-remix|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook-remix|ubuntu-moblin-remix|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -215,6 +216,12 @@ Flags: seen
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
 	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
 	    COMP="main restricted universe multiverse"
+	    ;;
+	ubuntu-moblin-remix)
+	    LIST="$LIST minimal^ ubuntu-moblin-remix"
+	    LIVELIST="casper lupin-casper"
+	    COMP="main restricted universe"
+	    EXTRASOURCE="http://ppa.launchpad.net/moblin/ppa/ubuntu/"
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
@@ -362,7 +369,14 @@ Pin-Priority: 900
     if [ "$PROPOSED" = "yes" ]; then
         echo deb $MIRROR ${STE}-proposed ${COMP} >> ${ROOT}etc/apt/sources.list
     fi
+    if [ -n "$EXTRASOURCE" ]; then
+	echo deb $EXTRASOURCE $STE ${COMP} >> ${ROOT}etc/apt/sources.list
+    fi
     chroot $ROOT apt-get update
+    if [ "$FS" = "ubuntu-moblin-remix" ]; then
+	chroot $ROOT apt-get -y --force-yes install ubuntu-moblin-ppa-keyring
+	chroot $ROOT apt-get update
+    fi
     chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y --purge install $LIST </dev/null
 
