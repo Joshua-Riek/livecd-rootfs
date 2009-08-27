@@ -1,4 +1,4 @@
-livecd-rootfs (0.94) UNRELEASED; urgency=low
+livecd-rootfs (0.94) karmic; urgency=low
 
   [ Steve Kowalik ]
   * Add support for UMR.
@@ -6,7 +6,7 @@ livecd-rootfs (0.94) UNRELEASED; urgency=low
   [ Loïc Minier ]
   * Use ubuntu-moblin-live in LIVELIST instead of a hardcoded list.
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 27 Aug 2009 16:36:51 +1000
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 27 Aug 2009 12:36:10 +0200
 
 livecd-rootfs (0.93) karmic; urgency=low
 
