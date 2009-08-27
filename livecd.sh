@@ -219,7 +219,7 @@ Flags: seen
 	    ;;
 	ubuntu-moblin-remix)
 	    LIST="$LIST minimal^ ubuntu-moblin-remix"
-	    LIVELIST="casper lupin-casper"
+	    LIVELIST="ubuntu-moblin-live"
 	    COMP="main restricted universe"
 	    EXTRASOURCE="http://ppa.launchpad.net/moblin/ppa/ubuntu/"
 	    ;;
