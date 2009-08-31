@@ -481,6 +481,9 @@ ${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates multiverse
 ${COMMENT}deb ${SECMIRROR} ${STE}-security multiverse
 ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 @@EOF
+    if [ -n "$EXTRASOURCE" ]; then
+	echo deb $EXTRASOURCE $STE ${COMP} >> ${ROOT}etc/apt/sources.list
+    fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
     # get rid of the .debs - we don't need them.
