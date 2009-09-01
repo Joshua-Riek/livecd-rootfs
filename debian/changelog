@@ -1,8 +1,8 @@
-livecd-rootfs (0.95) UNRELEASED; urgency=low
+livecd-rootfs (0.95) karmic; urgency=low
 
   * Add the EXTRASOURCE apt source to the "pristine" /etc/apt/sources.list.
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Mon, 31 Aug 2009 17:31:54 +1000
+ -- Steve Kowalik <stevenk@ubuntu.com>  Tue, 01 Sep 2009 17:34:57 +1000
 
 livecd-rootfs (0.94) karmic; urgency=low
 
