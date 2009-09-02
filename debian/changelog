@@ -1,3 +1,9 @@
+livecd-rootfs (0.96) UNRELEASED; urgency=low
+
+  * Append ${SUBARCH:+-$SUBARCH} to LOG filename for consistency.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 02 Sep 2009 09:23:59 +0200
+
 livecd-rootfs (0.95) karmic; urgency=low
 
   * Add the EXTRASOURCE apt source to the "pristine" /etc/apt/sources.list.
