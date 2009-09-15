@@ -346,6 +346,16 @@ link_in_boot = $link_in_boot
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
 
+    # this indicates whether or not to keep /boot/vmlinuz; the default is to
+    # strip it from the livefs as ubiquity >= 1.9.4 copies the kernel from the
+    # CD root (/casper/vmlinuz) to the target if it doesn't find one on the
+    # livefs, allowing us to save space; however some subarches use the uImage
+    # format and wouldn't save any space so the stripping doesn't make sense
+    STRIP_VMLINUZ=yes
+    if [ "$TARGETARCH" = "armel" ] && [ "$SUBARCH" = "dove" ]; then
+        STRIP_VMLINUZ=no
+    fi
+
     for x in $EXCLUDE; do
 	LIST="$(without_package "$x" "$LIST")"
     done
@@ -509,9 +519,12 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 	# we mv the initramfs, so it's not wasting space on the livefs
 	mv ${ROOT}/boot/initrd.img-"${KVER}" livecd.${FSS}.initrd-"${SUBARCH}"
 	rm -f ${ROOT}/boot/initrd.img-"${KVER}".bak
-	# ubiquity >= 1.9.4 copies the kernel from the CD root if it doesn't
-	# find one on the livefs, allowing us to save space
-	mv ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
+	# whether to strip vmlinuz or not to save space thanks to ubiquity
+	action="cp"
+	if [ "$STRIP_VMLINUZ" = "yes" ]; then
+	    action="mv"
+	fi
+	$action ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
 	if [ "$INITRD_COMPRESSOR" != gz ]; then
 	    zcat "livecd.${FSS}.initrd-${SUBARCH}" | "$INITRD_COMPRESSOR" -9c \
 		> "livecd.${FSS}.initrd-${SUBARCH}.new"
