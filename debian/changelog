@@ -1,4 +1,4 @@
-livecd-rootfs (0.97) UNRELEASED; urgency=low
+livecd-rootfs (0.97) karmic; urgency=low
 
   [ Colin Watson ]
   * Upgrade to debhelper v7.
@@ -7,7 +7,7 @@ livecd-rootfs (0.97) UNRELEASED; urgency=low
   * Make stripping of vmlinuz from livefs optional for uImage subarches where
     we can't use this trick to save space and disable it on armel+dove.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 15 Sep 2009 13:16:34 +0100
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 16 Sep 2009 00:52:18 +0200
 
 livecd-rootfs (0.96) karmic; urgency=low
 
