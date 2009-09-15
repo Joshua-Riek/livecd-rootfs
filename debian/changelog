@@ -1,3 +1,9 @@
+livecd-rootfs (0.97) UNRELEASED; urgency=low
+
+  * Upgrade to debhelper v7.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 15 Sep 2009 13:16:34 +0100
+
 livecd-rootfs (0.96) karmic; urgency=low
 
   [ Loïc Minier ]
