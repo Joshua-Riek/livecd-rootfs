@@ -1,0 +1,4 @@
+debian/*.debhelper*
+debian/*.substvars
+debian/files
+debian/livecd-rootfs
