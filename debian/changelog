@@ -1,4 +1,4 @@
-livecd-rootfs (0.96) UNRELEASED; urgency=low
+livecd-rootfs (0.96) karmic; urgency=low
 
   [ Loïc Minier ]
   * Append ${SUBARCH:+-$SUBARCH} to LOG filename for consistency.
@@ -6,7 +6,7 @@ livecd-rootfs (0.96) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Edubuntu's desktop task is edubuntu-desktop-gnome, not edubuntu-desktop.
 
- -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 02 Sep 2009 09:23:59 +0200
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 15 Sep 2009 13:13:10 +0100
 
 livecd-rootfs (0.95) karmic; urgency=low
 
