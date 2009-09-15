@@ -190,7 +190,7 @@ Flags: seen
 	    LIVELIST="language-support-en kubuntu-netbook-live^ laptop-detect casper lupin-casper"
 	    ;;
 	edubuntu|edubuntu-dvd)
-	    LIST="$LIST minimal^ standard^ edubuntu-desktop^"
+	    LIST="$LIST minimal^ standard^ edubuntu-desktop-gnome^"
 	    LIVELIST="edubuntu-live^ laptop-detect casper lupin-casper"
 	    ;;
 	xubuntu)
