@@ -1,8 +1,8 @@
-livecd-rootfs (0.98) UNRELEASED; urgency=low
+livecd-rootfs (0.98) karmic; urgency=low
 
   * Put livecd logs into project/ not project-subarch/.
 
- -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 23 Sep 2009 09:45:23 +0200
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 23 Sep 2009 09:46:43 +0200
 
 livecd-rootfs (0.97) karmic; urgency=low
 
