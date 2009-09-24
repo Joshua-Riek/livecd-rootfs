@@ -1,3 +1,13 @@
+livecd-rootfs (0.99) UNRELEASED; urgency=low
+
+  * Revert last change; it's actually much more wide-ranging than I thought as
+    it would cause each livefs build on a subarch to rotate the timestamped
+    dir and hence would mask the previous builds; and even if that would be
+    fixed, arch-indepedent filenames such as manifest/kernel/initrd/etc.
+    symlinks would clash.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
+
 livecd-rootfs (0.98) karmic; urgency=low
 
   * Put livecd logs into project/ not project-subarch/.
