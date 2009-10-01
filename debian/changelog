@@ -10,6 +10,8 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
     deb lines and having an useful comment in sources.list.
   * Create an etc/apt/preferences file Pin-ing the PPA at 550 when there's
     one.
+  * Gross hack to reinstall the moblin-ppa-keyring package after the trusted
+    db is put back in place since otherwise we miss the GPG key we wanted.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 

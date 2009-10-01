@@ -517,6 +517,12 @@ Pin-Priority: 550
     fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
+    # gross hack to re-register the GPG key
+    if [ "$FS" = "ubuntu-moblin-remix" ]; then
+	chroot $ROOT apt-get -y --force-yes install --reinstall ubuntu-moblin-ppa-keyring
+	chroot $ROOT apt-get update
+    fi
+
     # get rid of the .debs - we don't need them.
     chroot ${ROOT} apt-get clean
     rm -f ${ROOT}var/lib/apt/lists/*_*
