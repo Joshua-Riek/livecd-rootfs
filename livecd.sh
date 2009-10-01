@@ -382,6 +382,13 @@ Pin-Priority: 900
     fi
     if [ -n "$PPA" ]; then
         echo deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main >> ${ROOT}etc/apt/sources.list
+
+        touch ${ROOT}etc/apt/preferences
+        cat << @@EOF >> ${ROOT}etc/apt/preferences
+Package: *
+Pin: release o=LP-PPA-${PPA/\//-}
+Pin-Priority: 550
+@@EOF
     fi
     chroot $ROOT apt-get update
     if [ "$FS" = "ubuntu-moblin-remix" ]; then
@@ -499,6 +506,13 @@ ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 ## to create the base image of this system
 deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main
 deb-src http://$PPAMIRROR/$PPA/ubuntu ${STE} main
+@@EOF
+
+        touch ${ROOT}etc/apt/preferences
+        cat << @@EOF >> ${ROOT}etc/apt/preferences
+Package: *
+Pin: release o=LP-PPA-${PPA/\//-}
+Pin-Priority: 550
 @@EOF
     fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
