@@ -5,6 +5,9 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
     dir and hence would mask the previous builds; and even if that would be
     fixed, arch-indepedent filenames such as manifest/kernel/initrd/etc.
     symlinks would clash.
+  * Rename EXTRASOURCE to PPA and also define PPAMIRROR near top, set to
+    ppa.launchpad.net.  Changing to PPA avoids listing non-main components in
+    deb lines and having an useful comment in sources.list.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 

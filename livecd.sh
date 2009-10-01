@@ -68,6 +68,7 @@ export DEBIAN_FRONTEND=noninteractive
 export LANG=C
 export CASPER_GENERATE_UUID=1
 SRCMIRROR=http://archive.ubuntu.com/ubuntu
+PPAMIRROR=ppa.launchpad.net
 ARCH=$(dpkg --print-architecture)
 OPTMIRROR=
 INITRD_COMPRESSOR=lzma
@@ -117,7 +118,7 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 PROPOSED=""
-EXTRASOURCE=""
+PPA=""
 
 while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
     d)  STE=$OPTARG;;
@@ -221,7 +222,7 @@ Flags: seen
 	    LIST="$LIST minimal^ ubuntu-moblin-remix"
 	    LIVELIST="ubuntu-moblin-live"
 	    COMP="main restricted universe"
-	    EXTRASOURCE="http://ppa.launchpad.net/moblin/ppa/ubuntu/"
+	    PPA="moblin/ppa"
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
@@ -379,8 +380,8 @@ Pin-Priority: 900
     if [ "$PROPOSED" = "yes" ]; then
         echo deb $MIRROR ${STE}-proposed ${COMP} >> ${ROOT}etc/apt/sources.list
     fi
-    if [ -n "$EXTRASOURCE" ]; then
-	echo deb $EXTRASOURCE $STE ${COMP} >> ${ROOT}etc/apt/sources.list
+    if [ -n "$PPA" ]; then
+        echo deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main >> ${ROOT}etc/apt/sources.list
     fi
     chroot $ROOT apt-get update
     if [ "$FS" = "ubuntu-moblin-remix" ]; then
@@ -491,8 +492,14 @@ ${COMMENT}deb-src ${SRCMIRROR} ${STE}-updates multiverse
 ${COMMENT}deb ${SECMIRROR} ${STE}-security multiverse
 ${COMMENT}deb-src ${SECSRCMIRROR} ${STE}-security multiverse
 @@EOF
-    if [ -n "$EXTRASOURCE" ]; then
-	echo deb $EXTRASOURCE $STE ${COMP} >> ${ROOT}etc/apt/sources.list
+    if [ -n "$PPA" ]; then
+    cat << @@EOF >> ${ROOT}etc/apt/sources.list
+
+## The following unsupported and untrusted Personal Archives (PPAs) were used
+## to create the base image of this system
+deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main
+deb-src http://$PPAMIRROR/$PPA/ubuntu ${STE} main
+@@EOF
     fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
