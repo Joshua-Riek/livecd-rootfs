@@ -1,6 +1,6 @@
 livecd-rootfs (0.99) UNRELEASED; urgency=low
 
-  * Revert last change; it's actually much more wide-ranging than I thought as
+  * Revert 0.98 change; it's actually much more wide-ranging than I thought as
     it would cause each livefs build on a subarch to rotate the timestamped
     dir and hence would mask the previous builds; and even if that would be
     fixed, arch-indepedent filenames such as manifest/kernel/initrd/etc.
