@@ -14,6 +14,12 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
     db is put back in place since otherwise we miss the GPG key we wanted.
   * Fix computation of Origin fields for PPAs named "ppa" and document the
     exception along with the expected format for the PPA var in comments.
+  * Move the code taking a backup of the APT trusted keyring to just after
+    sources.list generation (this is safe since there's no apt call inbetween)
+    and move the installation of the moblin-archive-keyring just before the
+    backup is taken; this allows dropping the hack of reinstalling the keyring
+    package at the end of the build.  It might break apt-get update for UMR
+    before the host keys are appended to the trusted keyring though.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 

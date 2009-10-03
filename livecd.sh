@@ -320,11 +320,6 @@ link_in_boot = $link_in_boot
 	    mkdir -p ${ROOT}spu;;
     esac
 
-    # In addition to the ones we got from apt, trust whatever the local system
-    # believes in, but put things back afterwards.
-    cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
-    cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
-
     case $TARGETARCH in
 	amd64)		LIST="$LIST linux-generic";;
 	i386)		LIST="$LIST linux-generic";;
@@ -396,11 +391,18 @@ Pin: release o=LP-PPA-$origin
 Pin-Priority: 550
 @@EOF
     fi
-    chroot $ROOT apt-get update
+
     if [ "$FS" = "ubuntu-moblin-remix" ]; then
-	chroot $ROOT apt-get -y --force-yes install ubuntu-moblin-ppa-keyring
 	chroot $ROOT apt-get update
+	chroot $ROOT apt-get -y --force-yes install ubuntu-moblin-ppa-keyring
     fi
+
+    # In addition to the ones we got from apt, trust whatever the local system
+    # believes in, but put things back afterwards.
+    cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
+    cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
+
+    chroot $ROOT apt-get update
     chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y --purge install $LIST </dev/null
 
@@ -522,12 +524,6 @@ Pin-Priority: 550
 @@EOF
     fi
     mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
-
-    # gross hack to re-register the GPG key
-    if [ "$FS" = "ubuntu-moblin-remix" ]; then
-	chroot $ROOT apt-get -y --force-yes install --reinstall ubuntu-moblin-ppa-keyring
-	chroot $ROOT apt-get update
-    fi
 
     # get rid of the .debs - we don't need them.
     chroot ${ROOT} apt-get clean
