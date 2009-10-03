@@ -12,6 +12,8 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
     one.
   * Gross hack to reinstall the moblin-ppa-keyring package after the trusted
     db is put back in place since otherwise we miss the GPG key we wanted.
+  * Fix computation of Origin fields for PPAs named "ppa" and document the
+    exception along with the expected format for the PPA var in comments.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 

@@ -118,6 +118,8 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 PROPOSED=""
+# must be in the "team / PPA name" form; e.g. "moblin/ppa"; the default PPA
+# name is "ppa", don't omit it
 PPA=""
 
 while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
@@ -383,10 +385,14 @@ Pin-Priority: 900
     if [ -n "$PPA" ]; then
         echo deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main >> ${ROOT}etc/apt/sources.list
 
+        # handle PPAs named "ppa" specially; their Origin field in the Release
+        # file does not end with "-ppa" for backwards compatibility
+        origin="${PPA%/ppa}"
+        origin="${origin/\//-}"
         touch ${ROOT}etc/apt/preferences
         cat << @@EOF >> ${ROOT}etc/apt/preferences
 Package: *
-Pin: release o=LP-PPA-${PPA/\//-}
+Pin: release o=LP-PPA-$origin
 Pin-Priority: 550
 @@EOF
     fi
