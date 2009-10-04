@@ -395,6 +395,8 @@ Pin-Priority: 550
     if [ "$FS" = "ubuntu-moblin-remix" ]; then
 	chroot $ROOT apt-get update
 	chroot $ROOT apt-get -y --force-yes install ubuntu-moblin-ppa-keyring
+	# workaround LP #442082
+	rm -f ${ROOT}var/cache/apt/{,src}pkgcache.bin
     fi
 
     # In addition to the ones we got from apt, trust whatever the local system
