@@ -26,6 +26,10 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
   * Run apt-get update one more time after installing the moblin keyring
     package, to promote Release.gpg from APT's lists/partial/ to lists/.
     Ideally APT would do that for us on apt-key updates.
+  * Also change computation of Origin field for PPAs when generating the final
+    APT config; ideally we wouldn't have to duplicate this code though;
+    perhaps the removal of APT preferences file can be limited to hardy too.
+    Also add an Explanation: header in the final preferences.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 

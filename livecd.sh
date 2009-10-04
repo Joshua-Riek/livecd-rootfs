@@ -520,10 +520,15 @@ deb http://$PPAMIRROR/$PPA/ubuntu ${STE} main
 deb-src http://$PPAMIRROR/$PPA/ubuntu ${STE} main
 @@EOF
 
+        # handle PPAs named "ppa" specially; their Origin field in the Release
+        # file does not end with "-ppa" for backwards compatibility
+        origin="${PPA%/ppa}"
+        origin="${origin/\//-}"
         touch ${ROOT}etc/apt/preferences
         cat << @@EOF >> ${ROOT}etc/apt/preferences
+Explanation: This prefers the Personal Archive $PPA over the other sources
 Package: *
-Pin: release o=LP-PPA-${PPA/\//-}
+Pin: release o=LP-PPA-$origin
 Pin-Priority: 550
 @@EOF
     fi
