@@ -23,6 +23,9 @@ livecd-rootfs (0.99) UNRELEASED; urgency=low
     before the host keys are appended to the trusted keyring though.
   * Remove ${ROOT}var/cache/apt/{,src}pkgcache.bin after installing the moblin
     keyring package, workaround for LP #442082.
+  * Run apt-get update one more time after installing the moblin keyring
+    package, to promote Release.gpg from APT's lists/partial/ to lists/.
+    Ideally APT would do that for us on apt-key updates.
 
  -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 11:52:25 +0200
 
