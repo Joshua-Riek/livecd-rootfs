@@ -1,10 +1,10 @@
-livecd-rootfs (0.100) UNRELEASED; urgency=low
+livecd-rootfs (0.100) karmic; urgency=low
 
   * UNR LIVELIST: list lupin-casper and laptop-detect explicitly and drop
     ubiquity which is in the live seed already.  Fixes lack of wubi support in
     UNR images; LP: #457246.
 
- -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 22 Oct 2009 14:07:15 +0200
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 22 Oct 2009 14:09:41 +0200
 
 livecd-rootfs (0.99) karmic; urgency=low
 
