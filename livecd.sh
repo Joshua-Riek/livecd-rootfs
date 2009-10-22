@@ -213,7 +213,7 @@ Flags: seen
 	    ;;
 	ubuntu-netbook-remix)
 	    LIST="$LIST minimal^ standard^ ubuntu-netbook-remix^"
-	    LIVELIST="unr-live^ casper ubiquity"
+	    LIVELIST="unr-live^ laptop-detect casper lupin-casper"
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
