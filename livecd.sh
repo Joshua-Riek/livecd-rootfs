@@ -614,6 +614,12 @@ Pin-Priority: 550
   # else needs to be run in the chroot (umounting it earlier breaks rm):
   cleanup
 
+  # Squashfs does not report unpacked disk space usage, which is explained at
+  # <http://lkml.org/lkml/2006/6/16/163>.  However, we would like to cache this
+  # number for partman's sufficient free space check and ubiquity's
+  # installation progress calculation.
+  du -sx --block-size=1 ${ROOT} | cut -f1 > livecd.${FSS}.size || true
+
   livefs_squash()
   {
     squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
