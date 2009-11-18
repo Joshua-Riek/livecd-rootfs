@@ -1,9 +1,9 @@
-livecd-rootfs (0.101) UNRELEASED; urgency=low
+livecd-rootfs (0.101) lucid; urgency=low
 
   * Write out the total size of uncompressed squashfs to be used by
     partman and ubiquity.
 
- -- Evan Dandrea <evand@ubuntu.com>  Wed, 18 Nov 2009 12:08:48 -0600
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 18 Nov 2009 12:11:10 -0600
 
 livecd-rootfs (0.100) karmic; urgency=low
 
