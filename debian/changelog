@@ -1,8 +1,8 @@
-livecd-rootfs (1.102) UNRELEASED; urgency=low
+livecd-rootfs (1.102) lucid; urgency=low
 
   * Don't output a newline in filesystem.size.
 
- -- Evan Dandrea <evand@ubuntu.com>  Thu, 19 Nov 2009 14:56:27 -0600
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 19 Nov 2009 14:57:10 -0600
 
 livecd-rootfs (0.101) lucid; urgency=low
 
