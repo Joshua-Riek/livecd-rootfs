@@ -618,7 +618,7 @@ Pin-Priority: 550
   # <http://lkml.org/lkml/2006/6/16/163>.  However, we would like to cache this
   # number for partman's sufficient free space check and ubiquity's
   # installation progress calculation.
-  du -sx --block-size=1 ${ROOT} | cut -f1 > livecd.${FSS}.size || true
+  printf $(du -sx --block-size=1 ${ROOT} | cut -f1) > livecd.${FSS}.size || true
 
   livefs_squash()
   {
