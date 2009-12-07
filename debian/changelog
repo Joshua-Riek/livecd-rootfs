@@ -1,3 +1,10 @@
+livecd-rootfs (1.103) UNRELEASED; urgency=low
+
+  * make sure there is no old squashfs around before attempting to squash a
+    new one.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 07 Dec 2009 11:27:50 +0100
+
 livecd-rootfs (1.102) lucid; urgency=low
 
   * Don't output a newline in filesystem.size.

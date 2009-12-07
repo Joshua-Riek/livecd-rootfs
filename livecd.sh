@@ -631,6 +631,9 @@ Pin-Priority: 550
       : > livecd.${FSS}.sort
     fi
 
+    # make sure there is no old squashfs idling around
+    rm -f livecd.${FSS}.squashfs
+
     mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
     chmod 644 livecd.${FSS}.squashfs
   }
