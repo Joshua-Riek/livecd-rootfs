@@ -146,7 +146,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook-remix|ubuntu-moblin-remix|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -211,9 +211,9 @@ Flags: seen
 	    LIVELIST="mobile-live^ casper ubiquity"
 	    COMP="main restricted universe multiverse"
 	    ;;
-	ubuntu-netbook-remix)
-	    LIST="$LIST minimal^ standard^ ubuntu-netbook-remix^"
-	    LIVELIST="unr-live^ laptop-detect casper lupin-casper"
+	ubuntu-netbook)
+	    LIST="$LIST minimal^ standard^ ubuntu-netbook^"
+	    LIVELIST="netbook-live^ laptop-detect casper lupin-casper"
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"

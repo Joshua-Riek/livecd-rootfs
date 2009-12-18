@@ -74,7 +74,7 @@ fi
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     set -- ubuntu kubuntu kubuntu-netbook edubuntu xubuntu mythbuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd ubuntu-lpia ubuntu-netbook-remix kubuntu kubuntu-dvd kubuntu-netbook edubuntu edubuntu-dvd xubuntu mythbuntu base
+        set -- ubuntu ubuntu-dvd ubuntu-lpia ubuntu-netbook kubuntu kubuntu-dvd kubuntu-netbook edubuntu edubuntu-dvd xubuntu mythbuntu base
     fi
 fi
 
@@ -85,7 +85,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|*ubuntu-dvd|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook-remix|ubuntu-moblin-remix|mythbuntu|base|tocd)	;;
+	*ubuntu|*ubuntu-dvd|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook|ubuntu-moblin-remix|mythbuntu|base|tocd)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2
