@@ -1,4 +1,4 @@
-livecd-rootfs (1.104) UNRELEASED; urgency=low
+livecd-rootfs (1.104) lucid; urgency=low
 
   * Rename Ubuntu Netbook Remix to Ubuntu Netbook.
 
