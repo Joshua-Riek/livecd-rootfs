@@ -195,6 +195,7 @@ Flags: seen
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop-gnome^"
 	    LIVELIST="edubuntu-live^ laptop-detect casper lupin-casper"
+	    COMP="main restricted universe"
 	    ;;
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm xubuntu-desktop^"
