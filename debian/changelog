@@ -1,8 +1,8 @@
-livecd-rootfs (1.105) UNRELEASED; urgency=low
+livecd-rootfs (1.105) lucid; urgency=low
 
   * Edubuntu is allowed to pull from universe; update livecd.sh accordingly
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Jan 2010 17:11:14 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Jan 2010 17:17:35 -0800
 
 livecd-rootfs (1.104) lucid; urgency=low
 
