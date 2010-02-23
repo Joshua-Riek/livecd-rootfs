@@ -1,3 +1,9 @@
+livecd-rootfs (1.106) UNRELEASED; urgency=low
+
+  * Delete Gnome icon cache for Kubuntu images
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 23 Feb 2010 17:51:57 +0000
+
 livecd-rootfs (1.105) lucid; urgency=low
 
   * Edubuntu is allowed to pull from universe; update livecd.sh accordingly

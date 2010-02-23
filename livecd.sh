@@ -582,6 +582,12 @@ Pin-Priority: 550
 	powerpc+ps3)
 	    chroot ${ROOT} addgroup --system spu;;
     esac
+
+    # No point keeping Gnome icon cache around for Kubuntu
+    if [ "$FS" = "kubuntu" || "$FS" = "kubuntu-netbook" ]; then
+        rm -f ${ROOT}/usr/share/icons/*/icon-theme.cache
+    fi
+
     # all done with the chroot; reset the debconf frontend, so Colin doesn't cry
     echo RESET debconf/frontend | chroot $ROOT debconf-communicate
     echo FSET debconf/frontend seen true | chroot $ROOT debconf-communicate
