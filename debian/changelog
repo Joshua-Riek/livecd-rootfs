@@ -1,4 +1,4 @@
-livecd-rootfs (1.106) UNRELEASED; urgency=low
+livecd-rootfs (1.106) lucid; urgency=low
 
   * Delete Gnome icon cache for Kubuntu images
 
