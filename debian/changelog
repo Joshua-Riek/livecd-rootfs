@@ -1,10 +1,10 @@
-livecd-rootfs (1.110) UNRELEASED; urgency=low
+livecd-rootfs (1.110) lucid; urgency=low
 
   * Add support for armel+omap, and remove incorrect comments from the armel
     kernel installation block.
   * Really update the maintainer field.
 
- -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 25 Mar 2010 00:43:56 +1100
+ -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 25 Mar 2010 00:49:17 +1100
 
 livecd-rootfs (1.109) lucid; urgency=low
 
