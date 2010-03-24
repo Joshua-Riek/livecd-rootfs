@@ -335,11 +335,12 @@ link_in_boot = $link_in_boot
 			case "$SUBARCH" in
 				imx51)
 					LIST="$LIST linux-imx51"
-					# temporarily enable universe until kernel is in main
 					;;
 				dove)
 					LIST="$LIST linux-dove"
-					# temporarily enable universe until kernel is in main
+					;;
+				omap)
+					LIST="$LIST linux-omap"
 					;;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
