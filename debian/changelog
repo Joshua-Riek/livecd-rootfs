@@ -1,3 +1,26 @@
+livecd-rootfs (1.109) lucid; urgency=low
+
+  * if the ltsp squashfs image build fails, fail the build.
+  * use mksquashfs directly, instead of ltsp-update-image
+
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 24 Mar 2010 05:15:39 -0600
+
+livecd-rootfs (1.108) lucid; urgency=low
+
+  * Deliver edubuntu-dvd/i386 ltsp squashfs image, since that's what
+    actually gets built these days.
+  * Update maintainer field.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Mon, 22 Mar 2010 21:40:59 -0600
+
+livecd-rootfs (1.107) lucid; urgency=low
+
+  * Deliver edubuntu/i386 ltsp sqaushfs image. LP: #531546
+  * fix typo in deciding to remove /usr/share/icons/*/icon-theme.cache
+    on kubuntu-ish images.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 17 Mar 2010 15:07:12 -0600
+
 livecd-rootfs (1.106) lucid; urgency=low
 
   * Delete Gnome icon cache for Kubuntu images

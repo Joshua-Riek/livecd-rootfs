@@ -21,7 +21,7 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
@@ -584,7 +584,7 @@ Pin-Priority: 550
     esac
 
     # No point keeping Gnome icon cache around for Kubuntu
-    if [ "$FS" = "kubuntu" || "$FS" = "kubuntu-netbook" ]; then
+    if [ "$FS" = "kubuntu" ] || [ "$FS" = "kubuntu-netbook" ]; then
         rm -f ${ROOT}/usr/share/icons/*/icon-theme.cache
     fi
 
@@ -647,4 +647,20 @@ Pin-Priority: 550
 
   livefs_squash
 
+    # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
+    case $FS in
+        edubuntu-dvd)
+            if [ "$TARGETARCH" = "i386" ]; then
+                ltsp-build-client --base $(pwd) --mirror $MIRROR --arch $TARGETARCH --dist $STE --chroot ltsp-live --purge-chroot --skipimage
+                mksquashfs $(pwd)/ltsp-live $(pwd)/images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
+                rm -Rf $(pwd)/ltsp-live
+                if [ -f $(pwd)/images/ltsp-live.img ]; then
+                    mv $(pwd)/images/ltsp-live.img livecd.$FS-ltsp.squashfs
+                    rmdir --ignore-fail-on-non-empty $(pwd)/images/
+                else
+                    echo "LTSP: Unable to build the chroot, see above for details."
+                fi
+            fi
+        ;;
+    esac
 done
