@@ -1,3 +1,10 @@
+livecd-rootfs (1.111) lucid; urgency=low
+
+  * edubuntu-dvd/ltsp: mksquashfs needs the directory to exist
+  * clean up comments
+
+ -- LaMont Jones <lamont@ubuntu.com>  Fri, 26 Mar 2010 19:09:25 -0600
+
 livecd-rootfs (1.110) lucid; urgency=low
 
   * Add support for armel+omap, and remove incorrect comments from the armel

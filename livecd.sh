@@ -21,7 +21,7 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386]
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
@@ -653,6 +653,7 @@ Pin-Priority: 550
         edubuntu-dvd)
             if [ "$TARGETARCH" = "i386" ]; then
                 ltsp-build-client --base $(pwd) --mirror $MIRROR --arch $TARGETARCH --dist $STE --chroot ltsp-live --purge-chroot --skipimage
+                mkdir -p $(pwd)/images
                 mksquashfs $(pwd)/ltsp-live $(pwd)/images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
                 rm -Rf $(pwd)/ltsp-live
                 if [ -f $(pwd)/images/ltsp-live.img ]; then
