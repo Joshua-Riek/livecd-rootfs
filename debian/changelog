@@ -1,3 +1,9 @@
+livecd-rootfs (1.112) lucid; urgency=low
+
+  * ltsp image needs to be readable
+
+ -- LaMont Jones <lamont@ubuntu.com>  Fri, 26 Mar 2010 20:23:41 -0600
+
 livecd-rootfs (1.111) lucid; urgency=low
 
   * edubuntu-dvd/ltsp: mksquashfs needs the directory to exist

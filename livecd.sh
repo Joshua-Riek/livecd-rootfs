@@ -658,6 +658,7 @@ Pin-Priority: 550
                 rm -Rf $(pwd)/ltsp-live
                 if [ -f $(pwd)/images/ltsp-live.img ]; then
                     mv $(pwd)/images/ltsp-live.img livecd.$FS-ltsp.squashfs
+                    chmod 644 livecd.$FS-ltsp.squashfs
                     rmdir --ignore-fail-on-non-empty $(pwd)/images/
                 else
                     echo "LTSP: Unable to build the chroot, see above for details."
