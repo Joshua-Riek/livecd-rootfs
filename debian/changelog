@@ -1,3 +1,9 @@
+livecd-rootfs (1.113) lucid; urgency=low
+
+  * fix typo
+
+ -- LaMont Jones <lamont@ubuntu.com>  Sat, 27 Mar 2010 21:10:16 -0600
+
 livecd-rootfs (1.112) lucid; urgency=low
 
   * ltsp image needs to be readable
