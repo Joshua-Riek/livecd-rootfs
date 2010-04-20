@@ -316,6 +316,14 @@ link_in_boot = $link_in_boot
     mkdir -p ${ROOT}proc
     mount -tproc none ${ROOT}proc
 
+    # this indicates whether or not to keep /boot/vmlinuz; the default is to
+    # strip it from the livefs as ubiquity >= 1.9.4 copies the kernel from the
+    # CD root (/casper/vmlinuz) to the target if it doesn't find one on the
+    # livefs, allowing us to save space; however some subarches use the uImage
+    # format in casper/ so we would end up with no vmlinuz file in /boot at the
+    # end. Not stripping it in the first place from /boot saves us from that.
+    STRIP_VMLINUZ=yes
+
     case $TARGETARCH+$SUBARCH in
 	powerpc+ps3)
 	    mkdir -p ${ROOT}spu;;
@@ -338,23 +346,15 @@ link_in_boot = $link_in_boot
 					;;
 				dove)
 					LIST="$LIST linux-dove"
+					STRIP_VMLINUZ=no
 					;;
 				omap)
 					LIST="$LIST linux-omap"
+					STRIP_VMLINUZ=no
 					;;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac
-
-    # this indicates whether or not to keep /boot/vmlinuz; the default is to
-    # strip it from the livefs as ubiquity >= 1.9.4 copies the kernel from the
-    # CD root (/casper/vmlinuz) to the target if it doesn't find one on the
-    # livefs, allowing us to save space; however some subarches use the uImage
-    # format and wouldn't save any space so the stripping doesn't make sense
-    STRIP_VMLINUZ=yes
-    if [ "$TARGETARCH" = "armel" ] && [ "$SUBARCH" = "dove" ]; then
-        STRIP_VMLINUZ=no
-    fi
 
     for x in $EXCLUDE; do
 	LIST="$(without_package "$x" "$LIST")"
