@@ -167,7 +167,13 @@ for FS in "$@"; do
     # Just in case there's some leftover junk here:
     cleanup 2>/dev/null || true
 
+    umount ${ROOT} || true
     rm -rf ${ROOT}
+    mkdir ${ROOT}
+    # if we have > 1GB of RAM, use a tmpfs
+    if  awk '/^MemTotal:/ { exit !(int($2/1024) > 1024)}' /proc/meminfo; then
+        mount -t tmpfs -o size=8192M tmpfs ${ROOT} && echo using tmpfs
+    fi
 
     mkdir -p ${ROOT}var/cache/debconf
     cat << @@EOF > ${ROOT}var/cache/debconf/config.dat

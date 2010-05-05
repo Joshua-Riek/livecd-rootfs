@@ -1,3 +1,10 @@
+livecd-rootfs (1.115) maverick; urgency=low
+
+  * use a tmpfs for the livefs root directory, to get some speed
+    on the build machines. (ubuntu-dvd requires > 5GB, so use 8GB)
+
+ -- LaMont Jones <lamont@ubuntu.com>  Wed, 05 May 2010 10:42:00 -0600
+
 livecd-rootfs (1.114) lucid; urgency=low
 
   * make sure STRIP_VMLINUZ=no is set for omap, also change the code to only
