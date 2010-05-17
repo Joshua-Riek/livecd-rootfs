@@ -4,6 +4,7 @@ livecd-rootfs (1.116) UNRELEASED; urgency=low
   * added support for building ext2 and ext3 images in addition to squashfs
   * fixed spacing in the livefs build code
   * extended BuildLiveCD to handle the -f switch
+  * reworked BuildLiveCD command line parsing to be more sane
 
  -- Michael Casadevall <mcasadevall@ubuntu.com>  Mon, 17 May 2010 13:59:28 -0400
 
