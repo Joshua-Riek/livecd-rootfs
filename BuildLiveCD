@@ -31,6 +31,7 @@ DEFAULTSUITE="karmic"
 NEWSUITE=""
 SUITES=""
 PROPOSED=""
+IMAGEFORMAT=""
 if [ "$1" = '-s' ]; then
     shift
     SUBARCH="$1"
@@ -47,6 +48,11 @@ if [ "$1" = '-d' ]; then
     shift
 else
     NEWSUITE="$DEFAULTSUITE"
+fi
+if [ "$1" = '-f' ]; then
+    shift
+    IMAGEFORMAT=$1
+    shift
 fi
 for s in $NEWSUITE; do
     if [ -d build-${s}-live/chroot-${s} ]; then SUITES="$SUITES $s"; fi
@@ -128,7 +134,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${ARCHARG} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${ARCHARG} ${IMAGEFORMAT} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 
