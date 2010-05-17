@@ -656,30 +656,29 @@ Pin-Priority: 550
     perl -i -nle 'print unless /^Package: language-(pack|support)/ .. /^$/;' \
         ${ROOT}/var/lib/apt/extended_states
 
-  # And run the cleanup function dead last, to umount /proc after nothing
-  # else needs to be run in the chroot (umounting it earlier breaks rm):
-  cleanup
+    # And run the cleanup function dead last, to umount /proc after nothing
+    # else needs to be run in the chroot (umounting it earlier breaks rm):
+    cleanup
 
-  # Squashfs does not report unpacked disk space usage, which is explained at
-  # <http://lkml.org/lkml/2006/6/16/163>.  However, we would like to cache this
-  # number for partman's sufficient free space check and ubiquity's
-  # installation progress calculation.
-  printf $(du -sx --block-size=1 ${ROOT} | cut -f1) > livecd.${FSS}.size || true
+    # Squashfs does not report unpacked disk space usage, which is explained at
+    # <http://lkml.org/lkml/2006/6/16/163>.  However, we would like to cache this
+    # number for partman's sufficient free space check and ubiquity's
+    # installation progress calculation.
+    printf $(du -sx --block-size=1 ${ROOT} | cut -f1) > livecd.${FSS}.size || true
 
 
-  # Build our images
-  if [ "$IMAGE_FORMAT" = "ext2" ] || [ "$IMAGE_FORMAT" = "ext3" ]; then
-      livefs_ext2
-  else
-      livefs_squash
-  fi
+    # Build our images
+    if [ "$IMAGE_FORMAT" = "ext2" ] || [ "$IMAGE_FORMAT" = "ext3" ]; then
+        livefs_ext2
+    else
+        livefs_squash
+    fi
 
-  # Upgrade ext2->ext3 if that's what is requested
-  if [ "$IMAGE_FORMAT" = "ext3" ]; then
-      tune2fs -j livecd.${FSS}.ext2
-      mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
-  fi
-exit
+    # Upgrade ext2->ext3 if that's what is requested
+    if [ "$IMAGE_FORMAT" = "ext3" ]; then
+        tune2fs -j livecd.${FSS}.ext2
+        mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
+    fi
 
     # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
     case $FS in
