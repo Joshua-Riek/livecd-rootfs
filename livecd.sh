@@ -21,7 +21,7 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386]
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], e2tools
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
@@ -118,11 +118,12 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 PROPOSED=""
+IMAGE_FORMAT="squashfs"
 # must be in the "team / PPA name" form; e.g. "moblin/ppa"; the default PPA
 # name is "ppa", don't omit it
 PPA=""
 
-while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
+while getopts :d:e:i:I:m:S:s:a:f:p name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
@@ -131,6 +132,7 @@ while getopts :d:e:i:I:m:S:s:a:p name; do case $name in
     S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     a)	ARCH="$OPTARG";;
+    f)	IMAGE_FORMAT="$OPTARG";;
     p)  PROPOSED="yes";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
@@ -652,7 +654,22 @@ Pin-Priority: 550
     chmod 644 livecd.${FSS}.squashfs
   }
 
-  livefs_squash
+  livefs_ext2()
+  {
+    size=$(du -sx --block-size=1024 ${ROOT} | cut -f1)
+    echo "Building ext2 filesystem."
+
+    # remove any stale filesystem images
+    rm -f livecd.${FSS}.squashfs
+
+    genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
+  }
+
+  if [ "$IMAGE_FORMAT" = "ext2" ] || [ "$IMAGE_FORMAT" = "ext3" ]; then
+      livefs_ext2
+  else
+      livefs_squash
+  fi
 
     # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
     case $FS in

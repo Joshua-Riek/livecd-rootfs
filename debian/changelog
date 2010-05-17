@@ -1,3 +1,10 @@
+livecd-rootfs (1.116) UNRELEASED; urgency=low
+
+  * added new -f switch for changing image build type
+  * added support for building ext2 and ext3 images in addition to squashfs
+
+ -- Michael Casadevall <mcasadevall@ubuntu.com>  Mon, 17 May 2010 12:47:16 -0400
+
 livecd-rootfs (1.115) maverick; urgency=low
 
   * use a tmpfs for the livefs root directory, to get some speed
