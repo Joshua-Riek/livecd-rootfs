@@ -148,7 +148,7 @@ EXCLUDE=""
 LIST=""
 SUBARCH=""
 PROPOSED=""
-IMAGE_FORMAT="squashfs"
+IMAGEFORMAT="squashfs"
 # must be in the "team / PPA name" form; e.g. "moblin/ppa"; the default PPA
 # name is "ppa", don't omit it
 PPA=""
@@ -162,7 +162,7 @@ while getopts :d:e:i:I:m:S:s:a:f:p name; do case $name in
     S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     a)	ARCH="$OPTARG";;
-    f)	IMAGE_FORMAT="$OPTARG";;
+    f)	IMAGEFORMAT="$OPTARG";;
     p)  PROPOSED="yes";;
     \?) echo bad usage >&2; exit 2;;
     \:) echo missing argument >&2; exit 2;;
@@ -668,14 +668,14 @@ Pin-Priority: 550
 
 
     # Build our images
-    if [ "$IMAGE_FORMAT" = "ext2" ] || [ "$IMAGE_FORMAT" = "ext3" ]; then
+    if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
         livefs_ext2
     else
         livefs_squash
     fi
 
     # Upgrade ext2->ext3 if that's what is requested
-    if [ "$IMAGE_FORMAT" = "ext3" ]; then
+    if [ "$IMAGEFORMAT" = "ext3" ]; then
         tune2fs -j livecd.${FSS}.ext2
         mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
     fi
