@@ -21,7 +21,7 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], e2tools
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], genext2fs
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
@@ -55,6 +55,36 @@ subst_package() {
     echo "$3" | tr ' ' '\n' | sed "s/^$1$/$2/" | tr '\n' ' '
 }
 
+
+livefs_squash()
+{
+  squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
+  #if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
+  if false; then
+    echo "Using the squashfs sort list from ${squashsort}."
+  else
+    echo "Unable to fetch squashfs sort list; using a blank list."
+    : > livecd.${FSS}.sort
+  fi
+
+  # make sure there is no old squashfs idling around
+  rm -f livecd.${FSS}.squashfs
+
+  mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
+  chmod 644 livecd.${FSS}.squashfs
+}
+
+livefs_ext2()
+{
+  # Add 10MiB extra free space for first boot + ext3 journal
+  size=$(($(du -sx --block-size=1024 ${ROOT} | cut -f1) + (10240)))
+  echo "Building ext2 filesystem."
+
+  # remove any stale filesystem images
+  rm -f livecd.${FSS}.squashfs
+
+  genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
+}
 
 if [ $(id -u) != 0 ];then
   echo "must be run as root"
@@ -636,40 +666,20 @@ Pin-Priority: 550
   # installation progress calculation.
   printf $(du -sx --block-size=1 ${ROOT} | cut -f1) > livecd.${FSS}.size || true
 
-  livefs_squash()
-  {
-    squashsort="http://people.ubuntu.com/~tfheen/livesort/${FSS}.list.${TARGETARCH}"
-    #if wget -O livecd.${FSS}.sort ${squashsort} > /dev/null 2>&1; then
-    if false; then
-      echo "Using the squashfs sort list from ${squashsort}."
-    else
-      echo "Unable to fetch squashfs sort list; using a blank list."
-      : > livecd.${FSS}.sort
-    fi
 
-    # make sure there is no old squashfs idling around
-    rm -f livecd.${FSS}.squashfs
-
-    mksquashfs ${ROOT} livecd.${FSS}.squashfs -sort livecd.${FSS}.sort
-    chmod 644 livecd.${FSS}.squashfs
-  }
-
-  livefs_ext2()
-  {
-    size=$(du -sx --block-size=1024 ${ROOT} | cut -f1)
-    echo "Building ext2 filesystem."
-
-    # remove any stale filesystem images
-    rm -f livecd.${FSS}.squashfs
-
-    genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
-  }
-
+  # Build our images
   if [ "$IMAGE_FORMAT" = "ext2" ] || [ "$IMAGE_FORMAT" = "ext3" ]; then
       livefs_ext2
   else
       livefs_squash
   fi
+
+  # Upgrade ext2->ext3 if that's what is requested
+  if [ "$IMAGE_FORMAT" = "ext3" ]; then
+      tune2fs -j livecd.${FSS}.ext2
+      mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
+  fi
+exit
 
     # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
     case $FS in
