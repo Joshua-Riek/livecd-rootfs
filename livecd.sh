@@ -21,12 +21,13 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], genext2fs
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386]
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
 	       ${ROOT}proc/sys/fs/binfmt_misc ${ROOT}proc ${ROOT}sys \
-	       ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run}; do
+	       ${ROOT}lib/modules/*/volatile ${ROOT}var/{lock,run} \
+	       `pwd`/mount-livefs; do
 	umount $mnt || true
     done
 
@@ -74,16 +75,33 @@ livefs_squash()
   chmod 644 livecd.${FSS}.squashfs
 }
 
-livefs_ext2()
+# This function could be extended for other non-ext filesystems, but
+# they aren't consistant on how you format a non-block device
+
+livefs_ext()
 {
   # Add 10MiB extra free space for first boot + ext3 journal
-  size=$(($(du -sx --block-size=1024 ${ROOT} | cut -f1) + (10240)))
-  echo "Building ext2 filesystem."
+  size=$((($(du -sx --block-size=1024 ${ROOT} | cut -f1) + (10240)) * 1024))
+  mountpoint=`pwd`/mount-livefs/
+  echo "Building $IMAGEFORMAT filesystem."
 
   # remove any stale filesystem images
-  rm -f livecd.${FSS}.squashfs
+  rm -f livecd.${FSS}.$IMAGEFORMAT
 
-  genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
+  # Make blank filesystem, and loopmount it
+  dd if=/dev/zero of=livecd.$FSS.$IMAGEFORMAT bs=$size count=1
+  mkfs -t $IMAGEFORMAT -F livecd.$FSS.$IMAGEFORMAT
+  rm -fr $mountpoint
+  mkdir $mountpoint
+  mount -o loop ./livecd.$FSS.$IMAGEFORMAT $mountpoint
+  rm -fr $mountpoint/lost+found
+
+  # Copy everything from the rootfs into the ext2 image
+  cp -ar $ROOT/* $mountpoint
+
+  # Call cleanup again to unmount everything and make sure loop0 is cleared
+  cleanup
+  rm -rf mount-livefs
 }
 
 if [ $(id -u) != 0 ];then
@@ -668,16 +686,11 @@ Pin-Priority: 550
 
 
     # Build our images
-    if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
-        livefs_ext2
+    if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ] \
+	|| [ "$IMAGEFORMAT" = "ext4" ]; then
+        livefs_ext
     else
         livefs_squash
-    fi
-
-    # Upgrade ext2->ext3 if that's what is requested
-    if [ "$IMAGEFORMAT" = "ext3" ]; then
-        tune2fs -j livecd.${FSS}.ext2
-        mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
     fi
 
     # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
