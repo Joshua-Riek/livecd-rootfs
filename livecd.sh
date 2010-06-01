@@ -81,7 +81,7 @@ livefs_ext2()
   echo "Building ext2 filesystem."
 
   # remove any stale filesystem images
-  rm -f livecd.${FSS}.ext2
+  rm -f livecd.${FSS}.ext?
 
   genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
   chmod 644 livecd.${FSS}.ext2
