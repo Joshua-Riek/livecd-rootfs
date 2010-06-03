@@ -27,27 +27,19 @@ fi
 ARCH=$(dpkg --print-architecture)
 SUBARCH=""
 SUBARCHARG=""
-DEFAULTSUITE="karmic"
-NEWSUITE=""
+NEWSUITE="maverick"
 SUITES=""
 PROPOSED=""
-if [ "$1" = '-s' ]; then
-    shift
-    SUBARCH="$1"
-    SUBARCHARG="-s$SUBARCH"
-    shift
-fi
-if [ "$1" = '-p' ]; then
-    PROPOSED='-p'
-    shift
-fi
-if [ "$1" = '-d' ]; then
-    shift
-    NEWSUITE="$1"
-    shift
-else
-    NEWSUITE="$DEFAULTSUITE"
-fi
+IMAGEFORMAT="squashfs"
+
+while getopts :s:d:f:p name; do case $name in
+    s)	SUBARCH="$OPTARG";;
+    d)	NEWSUITE="$OPTARG";;
+    f)	IMAGEFORMAT="$OPTARG";;
+    p)	PROPOSED="-p";;
+esac; done;
+shift $((OPTIND-1))
+
 for s in $NEWSUITE; do
     if [ -d build-${s}-live/chroot-${s} ]; then SUITES="$SUITES $s"; fi
 done
@@ -128,7 +120,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${ARCHARG} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} -f${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 
