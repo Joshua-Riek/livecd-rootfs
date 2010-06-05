@@ -1,3 +1,10 @@
+livecd-rootfs (1.117) maverick; urgency=low
+
+  * Only use tmpfs on amd64, due to space restrictions on the current
+    build machines.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Sat, 05 Jun 2010 06:50:24 -0600
+
 livecd-rootfs (1.116) maverick; urgency=low
 
   [Michael Casadevall]

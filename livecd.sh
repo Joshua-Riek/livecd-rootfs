@@ -203,8 +203,8 @@ for FS in "$@"; do
     umount ${ROOT} || true
     rm -rf ${ROOT}
     mkdir ${ROOT}
-    # if we have > 1GB of RAM, use a tmpfs
-    if  awk '/^MemTotal:/ { exit !(int($2/1024) > 1024)}' /proc/meminfo; then
+    # if we are on amd64 and have > 1GB of RAM, use a tmpfs
+    if  test $(uname -m) = x86_64 && awk '/^MemTotal:/ { exit !(int($2/1024) > 1024)}' /proc/meminfo; then
         mount -t tmpfs -o size=8192M tmpfs ${ROOT} && echo using tmpfs
     fi
 
