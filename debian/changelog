@@ -1,3 +1,10 @@
+livecd-rootfs (1.118) UNRELEASED; urgency=low
+
+  * add temporary workaround for genext2fs bug 583317 (wrong filesystem
+    revision for ext3 filesystems)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 10 Jun 2010 07:37:05 +0200
+
 livecd-rootfs (1.117) maverick; urgency=low
 
   * Only use tmpfs on amd64, due to space restrictions on the current
