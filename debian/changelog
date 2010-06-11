@@ -1,3 +1,10 @@
+livecd-rootfs (1.119) lucid; urgency=low
+
+  * Depends: lzma
+  * drop tmpfs in general while allowing a envvar to enable it again
+
+ -- LaMont Jones <lamont@ubuntu.com>  Fri, 11 Jun 2010 08:37:17 -0600
+
 livecd-rootfs (1.118) maverick; urgency=low
 
   * add temporary workaround for genext2fs bug 583317 (wrong filesystem
