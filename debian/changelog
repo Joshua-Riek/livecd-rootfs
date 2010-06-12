@@ -1,4 +1,4 @@
-livecd-rootfs (1.119) lucid; urgency=low
+livecd-rootfs (1.119) maverick; urgency=low
 
   * Depends: lzma
   * drop tmpfs in general while allowing a envvar to enable it again
