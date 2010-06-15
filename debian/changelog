@@ -1,3 +1,10 @@
+livecd-rootfs (1.120) UNRELEASED; urgency=low
+
+  * add special case to ubuntu-netbook on omap3 and 4, we want jasper instead of
+    casper in the initramfs
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 15 Jun 2010 16:17:05 +0200
+
 livecd-rootfs (1.119) maverick; urgency=low
 
   * Depends: lzma

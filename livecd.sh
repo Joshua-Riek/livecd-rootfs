@@ -255,6 +255,11 @@ Flags: seen
 	ubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ ubuntu-netbook^"
 	    LIVELIST="netbook-live^ laptop-detect casper lupin-casper"
+		case $TARGETARCH+$SUBARCH in
+			armel+omap*)
+	    		LIVELIST="netbook-live^ laptop-detect jasper"
+				;;
+		esac
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
