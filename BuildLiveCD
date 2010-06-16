@@ -30,12 +30,12 @@ SUBARCHARG=""
 NEWSUITE="maverick"
 SUITES=""
 PROPOSED=""
-IMAGEFORMAT="squashfs"
+IMAGEFORMAT=""
 
 while getopts :s:d:f:p name; do case $name in
     s)	SUBARCH="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
-    f)	IMAGEFORMAT="$OPTARG";;
+    f)	IMAGEFORMAT="-f$OPTARG";;
     p)	PROPOSED="-p";;
 esac; done;
 shift $((OPTIND-1))
@@ -120,7 +120,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} -f${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 
