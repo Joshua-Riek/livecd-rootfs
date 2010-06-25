@@ -178,6 +178,12 @@ if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
     fi
 fi
 
+if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
+       LIVE_BOOT_SCRIPTS="jasper"
+else
+       LIVE_BOOT_SCRIPTS="$LIVE_BOOT_SCRIPTS"
+fi
+
 for arg in "$@"; do
     case "$arg" in
        ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|tocd)
@@ -222,29 +228,29 @@ Flags: seen
     case "$FS" in
 	ubuntu|ubuntu-lpia|ubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ ubuntu-desktop^"
-	    LIVELIST="ubuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="ubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
-	    LIVELIST="kubuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="kubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	kubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
-	    LIVELIST="language-support-en kubuntu-netbook-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="language-support-en kubuntu-netbook-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop-gnome^"
-	    LIVELIST="edubuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="edubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe"
 	    ;;
 	xubuntu)
 	    LIST="$LIST minimal^ standard^ xterm xubuntu-desktop^"
-	    LIVELIST="xubuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="xubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	gobuntu)
 	    LIST="$LIST minimal^ standard^ gobuntu-desktop^"
-	    LIVELIST="gobuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="gobuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main"
 	    ;;
 	ubuntu-mid)
@@ -254,16 +260,11 @@ Flags: seen
 	    ;;
 	ubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ ubuntu-netbook^"
-	    LIVELIST="netbook-live^ laptop-detect casper lupin-casper"
-		case $TARGETARCH+$SUBARCH in
-			armel+omap*)
-	    		LIVELIST="netbook-live^ laptop-detect jasper"
-				;;
-		esac
+	    LIVELIST="netbook-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	mythbuntu)
 	    LIST="$LIST minimal^ standard^ mythbuntu-desktop^"
-	    LIVELIST="mythbuntu-live^ laptop-detect casper lupin-casper"
+	    LIVELIST="mythbuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe multiverse"
 	    ;;
 	ubuntu-moblin-remix)
@@ -274,7 +275,7 @@ Flags: seen
 	    ;;
 	base)
 	    LIST="$LIST minimal^ standard^"
-	    LIVELIST="casper lupin-casper"
+	    LIVELIST="$LIVE_BOOT_SCRIPTS"
 	    ;;
 	tocd)
 	    LIST="$LIST minimal^ standard^"
