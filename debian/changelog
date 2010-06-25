@@ -1,4 +1,4 @@
-livecd-rootfs (1.121) UNRELEASED; urgency=low
+livecd-rootfs (1.121) maverick; urgency=low
 
   [ LaMont Jones ]
   * BuildLiveCD: only pass -f if we were told it, since older chroots don't
@@ -9,7 +9,7 @@ livecd-rootfs (1.121) UNRELEASED; urgency=low
     inclusion on the IMAGETYPE variable
   * depend on genext2fs
 
- -- Oliver Grawert <ogra@ubuntu.com>  Fri, 25 Jun 2010 17:15:28 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 25 Jun 2010 17:30:28 +0200
 
 livecd-rootfs (1.120) maverick; urgency=low
 
