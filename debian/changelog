@@ -1,6 +1,7 @@
 livecd-rootfs (1.123) UNRELEASED; urgency=low
 
   * Make sure LIVE_BOOT_SCRIPTS is always defined.
+  * Convert to source format 3.0 (native).
 
  -- Colin Watson <cjwatson@ubuntu.com>  Sat, 26 Jun 2010 10:26:36 +0100
 
