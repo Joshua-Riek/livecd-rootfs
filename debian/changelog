@@ -1,9 +1,9 @@
-livecd-rootfs (1.123) UNRELEASED; urgency=low
+livecd-rootfs (1.123) maverick; urgency=low
 
   * Make sure LIVE_BOOT_SCRIPTS is always defined.
   * Convert to source format 3.0 (native).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Sat, 26 Jun 2010 10:26:36 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 26 Jun 2010 10:28:40 +0100
 
 livecd-rootfs (1.122) maverick; urgency=low
 
