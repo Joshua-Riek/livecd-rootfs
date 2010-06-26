@@ -180,8 +180,6 @@ fi
 
 if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
        LIVE_BOOT_SCRIPTS="jasper"
-else
-       LIVE_BOOT_SCRIPTS="$LIVE_BOOT_SCRIPTS"
 fi
 
 for arg in "$@"; do
