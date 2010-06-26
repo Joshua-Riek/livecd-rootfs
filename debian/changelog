@@ -1,9 +1,9 @@
-livecd-rootfs (1.122) UNRELEASED; urgency=low
+livecd-rootfs (1.122) maverick; urgency=low
 
   * livecd.sh don't set a variable to itself, especially when the variable
     is empty and causes build failures under set -u.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 25 Jun 2010 21:57:56 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 25 Jun 2010 21:59:16 -0700
 
 livecd-rootfs (1.121) maverick; urgency=low
 
