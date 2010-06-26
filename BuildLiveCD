@@ -98,6 +98,12 @@ exec > $BUILD_LOG 2>&1
 set -e
 
 for STE in $SUITES; do
+    if [ -d ~/build-${STE}-live/chroot-${STE} ]; then
+	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -qq update || true
+	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y dist-upgrade || true
+    fi
+done
+for STE in $SUITES; do
     if cd ~/build-${STE}-live 2>/dev/null; then
 	DIR=~/build-${STE}-live/chroot-${STE}/./build/
     else

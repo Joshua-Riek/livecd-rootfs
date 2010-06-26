@@ -1,3 +1,10 @@
+livecd-rootfs (1.124) maverick; urgency=low
+
+  * BuildLiveCD: update livecd chroot at start of run, for freshest
+    livecd-rootfs package.
+
+ -- LaMont Jones <lamont@ubuntu.com>  Sat, 26 Jun 2010 07:37:46 -0600
+
 livecd-rootfs (1.123) maverick; urgency=low
 
   * Make sure LIVE_BOOT_SCRIPTS is always defined.
