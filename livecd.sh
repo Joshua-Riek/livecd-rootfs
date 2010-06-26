@@ -179,7 +179,9 @@ if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
 fi
 
 if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
-       LIVE_BOOT_SCRIPTS="jasper"
+    LIVE_BOOT_SCRIPTS="jasper"
+else
+    LIVE_BOOT_SCRIPTS=
 fi
 
 for arg in "$@"; do

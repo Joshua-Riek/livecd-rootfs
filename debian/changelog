@@ -1,3 +1,9 @@
+livecd-rootfs (1.123) UNRELEASED; urgency=low
+
+  * Make sure LIVE_BOOT_SCRIPTS is always defined.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 26 Jun 2010 10:26:36 +0100
+
 livecd-rootfs (1.122) maverick; urgency=low
 
   * livecd.sh don't set a variable to itself, especially when the variable
