@@ -1,3 +1,10 @@
+livecd-rootfs (1.125) UNRELEASED; urgency=low
+
+  * make livecd.sh not fail if e2fsck returns non-zero (which is always the
+    case with genext2fs images due to bug 583317)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 28 Jun 2010 16:25:51 +0200
+
 livecd-rootfs (1.124) maverick; urgency=low
 
   * BuildLiveCD: update livecd chroot at start of run, for freshest

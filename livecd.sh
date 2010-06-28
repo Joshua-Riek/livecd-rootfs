@@ -687,7 +687,7 @@ Pin-Priority: 550
         tune2fs -j livecd.${FSS}.ext2
         mv livecd.${FSS}.ext2 livecd.${FSS}.ext3
         # temporary workaround for LP: #583317 with ext3 images
-        e2fsck -fy livecd.${FSS}.ext3 > /dev/null 2>&1
+        e2fsck -fy livecd.${FSS}.ext3 || true
     fi
 
     # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
