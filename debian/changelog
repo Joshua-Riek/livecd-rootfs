@@ -1,3 +1,10 @@
+livecd-rootfs (1.126) UNRELEASED; urgency=low
+
+  * Set LIVE_BOOT_SCRIPTS to "casper lupin-casper" for non-jasper builds,
+    rather than leaving it empty.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 28 Jun 2010 16:48:25 +0100
+
 livecd-rootfs (1.125) maverick; urgency=low
 
   * make livecd.sh not fail if e2fsck returns non-zero (which is always the
