@@ -1,8 +1,8 @@
-livecd-rootfs (1.129) UNRELEASED; urgency=low
+livecd-rootfs (1.129) maverick; urgency=low
 
   * fix typo
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 30 Jun 2010 01:11:11 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 30 Jun 2010 01:11:51 +0200
 
 livecd-rootfs (1.128) maverick; urgency=low
 
