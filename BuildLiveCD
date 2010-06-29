@@ -40,6 +40,10 @@ while getopts :s:d:f:p name; do case $name in
 esac; done;
 shift $((OPTIND-1))
 
+if [ -n "$SUBARCH" ]; then
+    SUBARCHARG="-s$SUBARCH"
+fi
+
 for s in $NEWSUITE; do
     if [ -d build-${s}-live/chroot-${s} ]; then SUITES="$SUITES $s"; fi
 done
