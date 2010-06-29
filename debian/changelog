@@ -1,9 +1,9 @@
-livecd-rootfs (1.128) UNRELEASED; urgency=low
+livecd-rootfs (1.128) maverick; urgency=low
 
   * do not mangle the project name by attaching the subarch to it on armel,
     this results in livefs names that confuse find-live_filesystem
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 29 Jun 2010 23:01:16 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 29 Jun 2010 23:04:10 +0200
 
 livecd-rootfs (1.127) maverick; urgency=low
 
