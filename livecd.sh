@@ -209,7 +209,6 @@ for FS in "$@"; do
             FSS=$FS
             ;;
     esac
-    ;;
 
     select_mirror
 

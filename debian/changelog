@@ -1,3 +1,9 @@
+livecd-rootfs (1.129) UNRELEASED; urgency=low
+
+  * fix typo
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 30 Jun 2010 01:11:11 +0200
+
 livecd-rootfs (1.128) maverick; urgency=low
 
   * do not mangle the project name by attaching the subarch to it on armel,
