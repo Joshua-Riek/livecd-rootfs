@@ -202,6 +202,15 @@ for FS in "$@"; do
     DEV=""
     COMP="main restricted"
 
+    # we dont want to mangle the project name on armel
+    # but keep it to not confuse debian-cd/cdimage
+    case $TARGETARCH in
+        armel)
+            FSS=$FS
+            ;;
+    esac
+    ;;
+
     select_mirror
 
     # Just in case there's some leftover junk here:
