@@ -2,6 +2,9 @@ livecd-rootfs (1.130) UNRELEASED; urgency=low
 
   * Revert to version 1.127: we do want the subarch in the filename so these
     files can coexist in the same directory, as they do for all other archs.
+  * BuildLiveCD: drop the subarch from the directory name, which has never
+    made sense; but we don't want this to go live without coordination with
+    cdimage.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 29 Jun 2010 17:38:04 -0700
 

@@ -116,7 +116,7 @@ for STE in $SUITES; do
     fi
 
     for arg in "$@"; do
-	PUBDIR=~/public_html/LiveCD/${STE}/${arg}${SUBARCH:+-$SUBARCH}/
+	PUBDIR=~/public_html/LiveCD/${STE}/${arg}/
 	mkdir -p ${PUBDIR}
 
 	NOW=$(date +%Y%m%d)
