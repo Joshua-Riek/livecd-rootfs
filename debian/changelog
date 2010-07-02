@@ -1,8 +1,8 @@
-livecd-rootfs (1.131) UNRELEASED; urgency=low
+livecd-rootfs (1.131) maverick; urgency=low
 
   * add support for omap4 images
 
- -- Oliver Grawert <ogra@ubuntu.com>  Fri, 02 Jul 2010 09:41:55 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 02 Jul 2010 11:24:55 +0200
 
 livecd-rootfs (1.130) maverick; urgency=low
 
