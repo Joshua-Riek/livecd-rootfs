@@ -398,6 +398,10 @@ link_in_boot = $link_in_boot
 					LIST="$LIST linux-omap"
 					STRIP_VMLINUZ=no
 					;;
+				omap4)
+					LIST="$LIST linux-omap4"
+					STRIP_VMLINUZ=no
+					;;
 			esac;;
 	*)		echo "Unknown architecture: no kernel."; exit 1;;
     esac

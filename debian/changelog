@@ -1,3 +1,9 @@
+livecd-rootfs (1.131) UNRELEASED; urgency=low
+
+  * add support for omap4 images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 02 Jul 2010 09:41:55 +0200
+
 livecd-rootfs (1.130) maverick; urgency=low
 
   * Revert to version 1.127: we do want the subarch in the filename so these
