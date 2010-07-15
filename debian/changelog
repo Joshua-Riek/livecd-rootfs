@@ -1,9 +1,9 @@
-livecd-rootfs (1.132) UNRELEASED; urgency=low
+livecd-rootfs (1.132) maverick; urgency=low
 
   * BuildLiveCD: revert change from revno 284 that adds subarch to the logfile
     names as it breaks mailing of the logs from the cdimage buildlive script
 
- -- Oliver Grawert <ogra@ubuntu.com>  Thu, 15 Jul 2010 11:15:54 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 15 Jul 2010 11:19:54 +0200
 
 livecd-rootfs (1.131) maverick; urgency=low
 
