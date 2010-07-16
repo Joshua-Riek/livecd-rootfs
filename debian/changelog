@@ -1,3 +1,10 @@
+livecd-rootfs (1.133) UNRELEASED; urgency=low
+
+  * adjust BuildLiveCD PUBDIR variable to match reality (uses SUBARCH on the
+    buildd)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 16 Jul 2010 15:54:01 +0200
+
 livecd-rootfs (1.132) maverick; urgency=low
 
   * BuildLiveCD: revert change from revno 284 that adds subarch to the logfile
