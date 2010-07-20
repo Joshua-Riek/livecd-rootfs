@@ -32,7 +32,7 @@ SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
 
-while getopts :s:d:f:p:a name; do case $name in
+while getopts :s:d:f:pa: name; do case $name in
     s)	SUBARCH="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
     f)	IMAGEFORMAT="-f$OPTARG";;
