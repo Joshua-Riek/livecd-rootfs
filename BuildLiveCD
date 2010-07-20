@@ -37,7 +37,7 @@ while getopts :s:d:f:pa: name; do case $name in
     d)	NEWSUITE="$OPTARG";;
     f)	IMAGEFORMAT="-f$OPTARG";;
     p)	PROPOSED="-p";;
-    a)	APT_SOURCE="$OPTARG";;
+    a)	APT_SOURCE="-A $OPTARG";;
 esac; done;
 shift $((OPTIND-1))
 
@@ -104,23 +104,6 @@ set -e
 
 for STE in $SUITES; do
     if [ -d ~/build-${STE}-live/chroot-${STE} ]; then
-	if [ -n "$APT_SOURCE" ]; then
-	    sudo sed -i -e"\$a\
-deb $APT_SOURCE $STE main" ~/build-${STE}-live/chroot-${STE}/etc/apt/sources.list
-	    # allow unsigned sources, unfortunately
-	    echo 'APT::Get::AllowUnauthenticated "yes";' | sudo tee ~/build-${STE}-live/chroot-${STE}/etc/apt/apt.conf.d/extra-source-allows-unauthenticated-sources > /dev/null
-	    # and add the preferences rules :(
-	    APT_PIN=$(echo $APT_SOURCE | sed -e's,http://,,; s,/.*,,')
-	    cat | sudo tee ~/build-${STE}-live/chroot-${STE}/etc/apt/preferences.d/local-source-preferred-even-downgrade > /dev/null <<EOF
-Package: *
-Pin: release a=$STE
-Pin-Priority: 500
-
-Package: *
-Pin: origin $APT_PIN
-Pin-Priority: 1001
-EOF
-	fi
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -qq update || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y dist-upgrade || true
     fi
@@ -148,7 +131,7 @@ for STE in $SUITES; do
 	rm -f ${PUBDIR}latest
 	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
 	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
+	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
 	    rm -f ${PUBDIR}current
 	    ln -sf ${NOW} ${PUBDIR}current
 
@@ -181,11 +164,4 @@ for STE in $SUITES; do
 	    exit 1
 	fi
     done
-done
-for STE in $SUITES; do
-    if [ -d ~/build-${STE}-live/chroot-${STE} ] && [ -n "$APT_SOURCE" ]; then
-	sudo sed -i -e"/$APT_SOURCE $STE/d" ~/build-${STE}-live/chroot-${STE}/etc/apt/sources.list
-	sudo rm -f ~/build-${STE}-live/chroot-${STE}/etc/apt/apt.conf.d/extra-source-allows-unauthenticated-sources
-	sudo rm -f ~/build-${STE}-live/chroot-${STE}/etc/apt/preferences.d/local-source-preferred-even-downgrade
-    fi
 done

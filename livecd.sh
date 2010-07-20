@@ -155,7 +155,7 @@ IMAGEFORMAT="squashfs"
 # name is "ppa", don't omit it
 PPA=""
 
-while getopts :d:e:i:I:m:S:s:a:f:p name; do case $name in
+while getopts :d:e:i:I:m:S:s:a:A:f:p name; do case $name in
     d)  STE=$OPTARG;;
     e)  EXCLUDE="$EXCLUDE $OPTARG";;
     i)  LIST="$LIST $OPTARG";;
@@ -164,6 +164,7 @@ while getopts :d:e:i:I:m:S:s:a:f:p name; do case $name in
     S)	USZ="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     a)	ARCH="$OPTARG";;
+    A)	APT_SOURCE="$OPTARG";;
     f)	IMAGEFORMAT="$OPTARG";;
     p)  PROPOSED="yes";;
     \?) echo bad usage >&2; exit 2;;
@@ -441,6 +442,23 @@ Pin-Priority: 900
 Package: *
 Pin: release o=LP-PPA-$origin
 Pin-Priority: 550
+@@EOF
+    fi
+    if [ -n "$APT_SOURCE" ]; then
+	echo deb $APT_SOURCE $STE $COMP >> ${ROOT}etc/apt/sources.list
+	# allow unsigned sources, unfortunately
+	mkdir -p ${ROOT}etc/apt/apt.conf.d
+	echo 'APT::Get::AllowUnauthenticated "yes";' > ${ROOT}etc/apt/apt.conf.d/extra-source-allows-unauthenticated-sources
+	# and add the preferences rules :(
+	APT_PIN=$(echo $APT_SOURCE | sed -e's,http://,,; s,/.*,,')
+	cat >> ${ROOT}etc/apt/preferences << @@EOF
+Package: *
+Pin: release a=$STE
+Pin-Priority: 500
+
+Package: *
+Pin: origin $APT_PIN
+Pin-Priority: 1001
 @@EOF
     fi
 
