@@ -1,9 +1,9 @@
-livecd-rootfs (1.133ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (1.134) maverick; urgency=low
 
   * Add -a option to BuildLiveCD to allow pulling from an additional apt
     source.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 20 Jul 2010 18:15:22 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 20 Jul 2010 18:25:13 +0200
 
 livecd-rootfs (1.133) maverick; urgency=low
 
