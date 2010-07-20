@@ -1,3 +1,10 @@
+livecd-rootfs (1.136) UNRELEASED; urgency=low
+ 
+  * One more fix; if we're asking apt to downgrade packages, we have to
+    explicitly pass --force-yes.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Jul 2010 00:29:59 +0200
+
 livecd-rootfs (1.135) maverick; urgency=low
 
   * Implement the -a option in the right place - in livecd.sh, not in

@@ -460,6 +460,7 @@ Package: *
 Pin: origin $APT_PIN
 Pin-Priority: 1001
 @@EOF
+	FORCE_YES=--force-yes
     fi
 
     if [ "$FS" = "ubuntu-moblin-remix" ]; then
@@ -477,7 +478,7 @@ Pin-Priority: 1001
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
     chroot $ROOT apt-get update
-    chroot $ROOT apt-get -y --purge dist-upgrade </dev/null
+    chroot $ROOT apt-get -y $FORCE_YES --purge dist-upgrade </dev/null
     chroot $ROOT apt-get -y --purge install $LIST </dev/null
 
     # launchpad likes to put dependencies of seeded packages in tasks along with the
