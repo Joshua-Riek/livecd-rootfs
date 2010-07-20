@@ -1,9 +1,9 @@
-livecd-rootfs (1.135) UNRELEASED; urgency=low
+livecd-rootfs (1.135) maverick; urgency=low
 
   * Implement the -a option in the right place - in livecd.sh, not in
     BuildLiveCD.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 20 Jul 2010 22:31:09 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 20 Jul 2010 22:38:10 +0200
 
 livecd-rootfs (1.134) maverick; urgency=low
 
