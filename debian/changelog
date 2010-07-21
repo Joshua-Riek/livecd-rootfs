@@ -1,8 +1,8 @@
-livecd-rootfs (1.137) UNRELEASED; urgency=low
+livecd-rootfs (1.137) maverick; urgency=low
 
   * Make sure APT_SOURCE is always set.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Jul 2010 07:52:14 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Jul 2010 07:52:47 +0100
 
 livecd-rootfs (1.136) maverick; urgency=low
  
