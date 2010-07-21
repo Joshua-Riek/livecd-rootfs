@@ -155,6 +155,7 @@ IMAGEFORMAT="squashfs"
 # name is "ppa", don't omit it
 PPA=""
 APT_SOURCE=""
+FORCE_YES=""
 
 while getopts :d:e:i:I:m:S:s:a:A:f:p name; do case $name in
     d)  STE=$OPTARG;;

@@ -1,3 +1,9 @@
+livecd-rootfs (1.139) UNRELEASED; urgency=low
+
+  * One more undefined variable fix for set -u
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Jul 2010 11:10:44 +0200
+
 livecd-rootfs (1.138) maverick; urgency=low
 
   * Don't go overboard with the downgrading of packages; this probably caused
