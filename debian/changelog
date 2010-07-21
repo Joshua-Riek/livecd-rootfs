@@ -1,8 +1,13 @@
 livecd-rootfs (1.139) UNRELEASED; urgency=low
 
+  [ Steve Langasek ]
   * One more undefined variable fix for set -u
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Jul 2010 11:10:44 +0200
+  [ Oliver Grawert ]
+  * drop genext2fs, it is simply to slow, instead we use a loop munted ext2
+    image now.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 21 Jul 2010 15:12:18 +0200
 
 livecd-rootfs (1.138) maverick; urgency=low
 

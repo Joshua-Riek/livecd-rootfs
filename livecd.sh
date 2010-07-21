@@ -21,7 +21,7 @@ set -eu
 # Boston, MA 02110-1301 USA.                                             #
 ##########################################################################
 
-# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], genext2fs
+# Depends: debootstrap, rsync, python-minimal|python, procps, squashfs-tools, ltsp-server [i386], e2fsprogs
 
 cleanup() {
     for mnt in ${ROOT}dev/pts ${ROOT}dev/shm ${ROOT}.dev ${ROOT}dev \
@@ -30,7 +30,7 @@ cleanup() {
 	umount $mnt || true
     done
 
-    [ -n "$DEV" ] && losetup -d $DEV || true
+    [ -n "$DEV" ] && umount $DEV && losetup -d $DEV || true
     grep ${ROOT} /proc/mounts && return 1 || return 0
 }
 
@@ -78,12 +78,25 @@ livefs_ext2()
 {
   # Add 10MiB extra free space for first boot + ext3 journal
   size=$(($(du -ks ${ROOT} | cut -f1) + (10240)))
+  MOUNTPOINT=$(mktemp -d)
+  DEV=$(losetup -f)
   echo "Building ext2 filesystem."
 
   # remove any stale filesystem images
   rm -f livecd.${FSS}.ext?
 
-  genext2fs -b $size -d ${ROOT} livecd.${FSS}.ext2
+  # create an empty ext2 image and loop mount it
+  dd if=/dev/zero of=livecd.${FSS}.ext2 bs=1024 count=0 seek=$size
+  mke2fs livecd.${FSS}.ext2
+  mount -o loop=${DEV} livecd.${FSS}.ext2 ${MOUNTPOINT}
+
+  # copy chroot content to image
+  cp -a ${ROOT} ${MOUNTPOINT}
+
+  # clean up
+  umount ${MOUNTPOINT}
+  rm -rf ${MOUNTPOINT}
+  losetup -d $DEV
   chmod 644 livecd.${FSS}.ext2
 }
 
