@@ -1,10 +1,10 @@
-livecd-rootfs (1.138) UNRELEASED; urgency=low
+livecd-rootfs (1.138) maverick; urgency=low
 
   * Don't go overboard with the downgrading of packages; this probably caused
     the rebuild failure attempts, we'll do without downgrading base packages
     already installed by debootstrap in this use case.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Jul 2010 09:11:16 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Jul 2010 09:18:48 +0200
 
 livecd-rootfs (1.137) maverick; urgency=low
 
