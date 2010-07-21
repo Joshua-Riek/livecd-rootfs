@@ -154,6 +154,7 @@ IMAGEFORMAT="squashfs"
 # must be in the "team / PPA name" form; e.g. "moblin/ppa"; the default PPA
 # name is "ppa", don't omit it
 PPA=""
+APT_SOURCE=""
 
 while getopts :d:e:i:I:m:S:s:a:A:f:p name; do case $name in
     d)  STE=$OPTARG;;

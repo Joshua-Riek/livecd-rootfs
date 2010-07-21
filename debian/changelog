@@ -1,3 +1,9 @@
+livecd-rootfs (1.137) UNRELEASED; urgency=low
+
+  * Make sure APT_SOURCE is always set.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Jul 2010 07:52:14 +0100
+
 livecd-rootfs (1.136) maverick; urgency=low
  
   * One more fix; if we're asking apt to downgrade packages, we have to
