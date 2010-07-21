@@ -420,7 +420,7 @@ link_in_boot = $link_in_boot
 	cat << @@EOF > ${ROOT}etc/apt/preferences
 Package: ssl-cert
 Pin: version 1.0.14-0ubuntu2
-Pin-Priority: 900
+Pin-Priority: 991
 @@EOF
     fi
 
@@ -459,7 +459,7 @@ Pin-Priority: 500
 
 Package: *
 Pin: origin $APT_PIN
-Pin-Priority: 1001
+Pin-Priority: 900
 @@EOF
 	FORCE_YES=--force-yes
     fi
