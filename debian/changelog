@@ -1,3 +1,9 @@
+livecd-rootfs (1.140) UNRELEASED; urgency=low
+
+  * tell mke2fs that we _really_ want a filesystem on this "non-blockdevice"
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 22 Jul 2010 09:08:14 +0200
+
 livecd-rootfs (1.139) maverick; urgency=low
 
   [ Steve Langasek ]

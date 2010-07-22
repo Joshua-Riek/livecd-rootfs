@@ -87,7 +87,7 @@ livefs_ext2()
 
   # create an empty ext2 image and loop mount it
   dd if=/dev/zero of=livecd.${FSS}.ext2 bs=1024 count=0 seek=$size
-  mke2fs livecd.${FSS}.ext2
+  mke2fs -F livecd.${FSS}.ext2
   mount -o loop=${DEV} livecd.${FSS}.ext2 ${MOUNTPOINT}
 
   # copy chroot content to image
