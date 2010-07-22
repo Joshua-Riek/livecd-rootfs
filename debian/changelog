@@ -1,8 +1,8 @@
-livecd-rootfs (1.141) UNRELEASED; urgency=low
+livecd-rootfs (1.141) maverick; urgency=low
 
   * add some debug output to teh ext2 image creation to see whats going on
 
- -- Oliver Grawert <ogra@ubuntu.com>  Thu, 22 Jul 2010 18:27:53 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 22 Jul 2010 18:29:53 +0200
 
 livecd-rootfs (1.140) maverick; urgency=low
 
