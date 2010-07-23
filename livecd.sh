@@ -102,7 +102,7 @@ livefs_ext2()
   # clean up
   umount ${MOUNTPOINT}
   rm -rf ${MOUNTPOINT}
-  losetup -d $DEV
+  losetup -d $DEV || true
   chmod 644 livecd.${FSS}.ext2
 }
 
