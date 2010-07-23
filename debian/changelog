@@ -1,8 +1,8 @@
-livecd-rootfs (1.142) UNRELEASED; urgency=low
+livecd-rootfs (1.142) maverick; urgency=low
 
   * do not fail if losetup -d does not find a device
 
- -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Jul 2010 10:38:16 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Jul 2010 10:39:16 +0200
 
 livecd-rootfs (1.141) maverick; urgency=low
 
