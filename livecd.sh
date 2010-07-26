@@ -76,8 +76,8 @@ livefs_squash()
 
 livefs_ext2()
 {
-  # Add 10MiB extra free space for first boot + ext3 journal
-  size=$(($(du -ks ${ROOT} | cut -f1) + (10240)))
+  # Add 500MiB extra free space for first boot + ext3 journal
+  size=$(($(du -ks ${ROOT} | cut -f1) + (512000)))
   # DEBUG: get the detected size in the log
   echo "size variable set to: ${size}"
   MOUNTPOINT=$(mktemp -d)
@@ -89,7 +89,7 @@ livefs_ext2()
 
   # create an empty ext2 image and loop mount it
   dd if=/dev/zero of=livecd.${FSS}.ext2 bs=1024 count=0 seek=$size
-  mke2fs -F livecd.${FSS}.ext2
+  mke2fs -m 0 -F livecd.${FSS}.ext2
   # DEBUG: see if the image size matches the detected size value
   ls -l livecd.${FSS}.ext2
   mount -o loop=${DEV} livecd.${FSS}.ext2 ${MOUNTPOINT}

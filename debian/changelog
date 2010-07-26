@@ -1,3 +1,11 @@
+livecd-rootfs (1.143) UNRELEASED; urgency=low
+
+  * add more spare space to the ext2 filesystem images to compensate journal
+    overhead and make it possible to run oem-config even without resizing
+  * do not reserve 5% for root in the ext2 image files.
+
+ -- Oliver Grawert <ogra@osiris.example.org>  Mon, 26 Jul 2010 14:23:08 +0200
+
 livecd-rootfs (1.142) maverick; urgency=low
 
   * do not fail if losetup -d does not find a device
