@@ -1,3 +1,11 @@
+livecd-rootfs (1.144) UNRELEASED; urgency=low
+
+  * cat /proc/mounts before trying to copy to the ext2 image, there still
+    seems to be some virtual fs mounted in the chroot we try to copy to the
+    image.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 27 Jul 2010 11:47:15 +0200
+
 livecd-rootfs (1.143) maverick; urgency=low
 
   * add more spare space to the ext2 filesystem images to compensate journal

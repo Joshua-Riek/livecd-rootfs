@@ -96,6 +96,7 @@ livefs_ext2()
 
   # DEBUG: see if the imounted image free space matches
   df
+  cat /proc/mounts
   # copy chroot content to image
   cp -a ${ROOT} ${MOUNTPOINT}
 
