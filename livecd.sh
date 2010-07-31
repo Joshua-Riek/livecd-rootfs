@@ -78,8 +78,6 @@ livefs_ext2()
 {
   # Add 500MiB extra free space for first boot + ext3 journal
   size=$(($(du -ks ${ROOT} | cut -f1) + (512000)))
-  # DEBUG: get the detected size in the log
-  echo "size variable set to: ${size}"
   MOUNTPOINT=$(mktemp -d)
   DEV=$(losetup -f)
   echo "Building ext2 filesystem."
@@ -89,16 +87,11 @@ livefs_ext2()
 
   # create an empty ext2 image and loop mount it
   dd if=/dev/zero of=livecd.${FSS}.ext2 bs=1024 count=0 seek=$size
-  mke2fs -m 0 -F livecd.${FSS}.ext2
-  # DEBUG: see if the image size matches the detected size value
-  ls -l livecd.${FSS}.ext2
+  mke2fs -i 8192 -F livecd.${FSS}.ext2
   mount -o loop=${DEV} livecd.${FSS}.ext2 ${MOUNTPOINT}
 
-  # DEBUG: see if the imounted image free space matches
-  df
-  cat /proc/mounts
   # copy chroot content to image
-  cp -a ${ROOT} ${MOUNTPOINT}
+  cp -a ${ROOT}/* ${MOUNTPOINT}
 
   # clean up
   umount ${MOUNTPOINT}

@@ -1,3 +1,11 @@
+livecd-rootfs (1.145) UNRELEASED; urgency=low
+
+  * raise inode count during ext2fs build to be able to use the full size of
+    the ext2 image
+  * drop debugging code
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 31 Jul 2010 12:15:40 +0200
+
 livecd-rootfs (1.144) maverick; urgency=low
 
   * cat /proc/mounts before trying to copy to the ext2 image, there still
