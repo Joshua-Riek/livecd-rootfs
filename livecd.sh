@@ -100,10 +100,18 @@ livefs_ext2()
   chmod 644 livecd.${FSS}.ext2
 }
 
+checkpoint()
+{
+  echo "===== $1 ====="
+  date
+}
+
 if [ $(id -u) != 0 ];then
   echo "must be run as root"
   exit 2
 fi
+
+checkpoint "Starting build"
 
 umask 022
 export TTY=unknown
@@ -330,6 +338,7 @@ Flags: seen
     esac
 
     dpkg -l livecd-rootfs || true	# get our version # in the log.
+    checkpoint "Bootstrapping base system"
     debootstrap --components=$(echo $COMP | sed 's/ /,/g') --arch $TARGETARCH $STE $ROOT $MIRROR
 
     # Recent dpkg has started complaining pretty loudly if dev/pts isn't 
@@ -439,6 +448,7 @@ Pin-Priority: 991
     fi
 
     # Create a good sources.list, and finish the install
+    checkpoint "Configuring APT"
     echo deb $MIRROR $STE ${COMP} > ${ROOT}etc/apt/sources.list
     echo deb $MIRROR ${STE}-security ${COMP} >> ${ROOT}etc/apt/sources.list
     echo deb $MIRROR ${STE}-updates ${COMP} >> ${ROOT}etc/apt/sources.list
@@ -493,12 +503,15 @@ Pin-Priority: 900
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
     chroot $ROOT apt-get update
+    checkpoint "Upgrading"
     chroot $ROOT apt-get -y $FORCE_YES --purge dist-upgrade </dev/null
+    checkpoint "Installing main packages"
     chroot $ROOT apt-get -y --purge install $LIST </dev/null
 
     # launchpad likes to put dependencies of seeded packages in tasks along with the
     # actual seeded packages.  In general, this isn't an issue.  With updated kernels
     # and point-releases, though, we end up with extra header packages:
+    checkpoint "Cleaning up kernel headers"
     chroot ${ROOT} dpkg -l linux-headers-2\* | grep ^i | awk '{print $2}' \
         > livecd.${FSS}.manifest-headers
     chroot ${ROOT} dpkg -l linux-headers-\* | grep ^i | awk '{print $2}' \
@@ -515,6 +528,7 @@ Pin-Priority: 900
 
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest-desktop
+    checkpoint "Installing live packages"
     chroot $ROOT apt-get -y --purge install $LIVELIST </dev/null
     case $FS in
 	edubuntu)
@@ -529,6 +543,9 @@ Pin-Priority: 900
     esac
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest
+
+    checkpoint "Cleaning up"
+
     kill_users
 
     chroot $ROOT /etc/cron.daily/mlocate || true
@@ -681,12 +698,14 @@ Pin-Priority: 550
     rm -f ${ROOT}/var/cache/debconf/*-old
 
     # show the size of directories in /usr/share/doc
+    checkpoint "Checking size of /usr/share/doc"
     echo BEGIN docdirs
     (cd $ROOT && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
     echo END docdirs
 
     # search for duplicate files, write the summary to stdout, 
     if which fdupes >/dev/null 2>&1; then
+	checkpoint "Checking for duplicate files"
 	echo "first line: <total size for dupes> <different dupes> <all dupes>"
 	echo "data lines: <size for dupes> <number of dupes> <file size> <filename> [<filename> ...]"
 	echo BEGIN fdupes
@@ -710,10 +729,12 @@ Pin-Priority: 550
     # <http://lkml.org/lkml/2006/6/16/163>.  However, we would like to cache this
     # number for partman's sufficient free space check and ubiquity's
     # installation progress calculation.
+    checkpoint "Calculating total size"
     printf $(du -sx --block-size=1 ${ROOT} | cut -f1) > livecd.${FSS}.size || true
 
 
     # Build our images
+    checkpoint "Building image"
     if [ "$IMAGEFORMAT" = "ext2" ] || [ "$IMAGEFORMAT" = "ext3" ]; then
         livefs_ext2
     else
@@ -732,6 +753,7 @@ Pin-Priority: 550
     case $FS in
         edubuntu-dvd)
             if [ "$TARGETARCH" = "i386" ]; then
+                checkpoint "Building LTSP chroot"
                 ltsp-build-client --base $(pwd) --mirror $MIRROR --arch $TARGETARCH --dist $STE --chroot ltsp-live --purge-chroot --skipimage
                 mkdir -p $(pwd)/images
                 mksquashfs $(pwd)/ltsp-live $(pwd)/images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
@@ -747,3 +769,5 @@ Pin-Priority: 550
         ;;
     esac
 done
+
+checkpoint "Done"

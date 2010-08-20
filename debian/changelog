@@ -1,3 +1,9 @@
+livecd-rootfs (1.146) UNRELEASED; urgency=low
+
+  * Add a series of checkpoints where the current time is logged.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 20 Aug 2010 15:53:45 +0100
+
 livecd-rootfs (1.145) maverick; urgency=low
 
   * raise inode count during ext2fs build to be able to use the full size of
