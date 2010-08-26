@@ -1,8 +1,8 @@
-livecd-rootfs (1.148) UNRELEASED; urgency=low
+livecd-rootfs (1.148) maverick; urgency=low
 
   * Add universe support to kubuntu-mobile to work around seed change
 
- -- Emmet Hikory <persia@ubuntu.com>  Thu, 26 Aug 2010 23:56:28 +0900
+ -- Emmet Hikory <persia@ubuntu.com>  Thu, 26 Aug 2010 23:57:25 +0900
 
 livecd-rootfs (1.147) maverick; urgency=low
 
