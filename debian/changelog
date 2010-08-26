@@ -1,3 +1,9 @@
+livecd-rootfs (1.147) maverick; urgency=low
+
+  * Add support for kubuntu-mobile
+
+ -- Emmet Hikory <persia@ubuntu.com>  Thu, 26 Aug 2010 13:29:12 +0900
+
 livecd-rootfs (1.146) maverick; urgency=low
 
   * Add a series of checkpoints where the current time is logged.
