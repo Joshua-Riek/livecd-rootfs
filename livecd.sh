@@ -196,9 +196,9 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base
+    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
     fi
 fi
 
@@ -210,7 +210,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -257,6 +257,10 @@ Flags: seen
 	kubuntu|kubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
+	    ;;
+	kubuntu-mobile)
+	    LIST="$LIST minimal^ standard^ kubuntu-mobile^"
+	    LIVELIST="language-support-en kubuntu-mobile-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	kubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
@@ -686,7 +690,9 @@ Pin-Priority: 550
     esac
 
     # No point keeping Gnome icon cache around for Kubuntu
-    if [ "$FS" = "kubuntu" ] || [ "$FS" = "kubuntu-netbook" ]; then
+    if [ "$FS" = "kubuntu" ] || \
+       [ "$FS" = "kubuntu-netbook" ] || \
+       [ "$FS" = "kubuntu-mobile"] ; then
         rm -f ${ROOT}/usr/share/icons/*/icon-theme.cache
     fi
 
