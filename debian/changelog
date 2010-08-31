@@ -1,8 +1,8 @@
-livecd-rootfs (1.150) UNRELEASED; urgency=low
+livecd-rootfs (1.150) maverick; urgency=low
 
   * Set GDM's default session to une-efl on ubuntu-netbook armel+dove.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 31 Aug 2010 19:39:57 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 31 Aug 2010 19:44:43 +0100
 
 livecd-rootfs (1.149) maverick; urgency=low
 
