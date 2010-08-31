@@ -692,7 +692,7 @@ Pin-Priority: 550
     # No point keeping Gnome icon cache around for Kubuntu
     if [ "$FS" = "kubuntu" ] || \
        [ "$FS" = "kubuntu-netbook" ] || \
-       [ "$FS" = "kubuntu-mobile"] ; then
+       [ "$FS" = "kubuntu-mobile" ]; then
         rm -f ${ROOT}/usr/share/icons/*/icon-theme.cache
     fi
 
