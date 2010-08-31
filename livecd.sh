@@ -261,6 +261,7 @@ Flags: seen
 	kubuntu-mobile)
 	    LIST="$LIST minimal^ standard^ kubuntu-mobile^"
 	    LIVELIST="language-support-en kubuntu-mobile-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
+	    COMP="main restricted universe"
 	    ;;
 	kubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
