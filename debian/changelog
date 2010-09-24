@@ -1,3 +1,10 @@
+livecd-rootfs (1.151) UNRELEASED; urgency=low
+
+  * enforce installation of only suitable header packages for the respective
+    subarch on armel instead of blindly installing all armel headers (LP: #600478)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 24 Sep 2010 14:51:53 +0200
+
 livecd-rootfs (1.150) maverick; urgency=low
 
   * Set GDM's default session to une-efl on ubuntu-netbook armel+dove.

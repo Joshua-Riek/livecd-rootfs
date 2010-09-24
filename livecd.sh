@@ -526,6 +526,11 @@ Pin-Priority: 900
     for i in `comm -3 livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full`; do
         HEADERMETA="$HEADERMETA $i"
     done
+    case $TARGETARCH in
+        armel)
+            HEADERMETA=linux-headers-${SUBARCH}
+            ;;
+    esac
     rm -f livecd.${FSS}.manifest-headers livecd.${FSS}.manifest-headers-full
     chroot ${ROOT} apt-get -y --purge remove $HEADERPACKAGES </dev/null || true
     chroot ${ROOT} apt-get -y --purge install $HEADERMETA </dev/null || true
