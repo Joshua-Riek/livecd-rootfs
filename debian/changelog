@@ -1,3 +1,12 @@
+livecd-rootfs (1.152) UNRELEASED; urgency=low
+
+  * livecd.sh:
+    - Restore the keyring earlier in the chroot (before the dist-upgrade).
+      This fixes the missng key for the extras.ubuntu.com that is added
+      during the livecd build dist-ugprade (LP: #650525)
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 30 Sep 2010 11:48:36 +0200
+
 livecd-rootfs (1.151) maverick; urgency=low
 
   * enforce installation of only suitable header packages for the respective

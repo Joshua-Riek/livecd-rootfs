@@ -507,7 +507,12 @@ Pin-Priority: 900
     cp ${ROOT}etc/apt/trusted.gpg ${ROOT}etc/apt/trusted.gpg.$$
     cat /etc/apt/trusted.gpg >> ${ROOT}etc/apt/trusted.gpg
 
+    # update and immediately restore the trusted keyring
     chroot $ROOT apt-get update
+    # we restore the keyring here because on dist-upgrade the
+    # ubuntu-extras-keyring package installs additional keys
+    mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
+
     checkpoint "Upgrading"
     chroot $ROOT apt-get -y $FORCE_YES --purge dist-upgrade </dev/null
     checkpoint "Installing main packages"
@@ -645,7 +650,6 @@ Pin: release o=LP-PPA-$origin
 Pin-Priority: 550
 @@EOF
     fi
-    mv ${ROOT}etc/apt/trusted.gpg.$$ ${ROOT}etc/apt/trusted.gpg
 
     # get rid of the .debs - we don't need them.
     chroot ${ROOT} apt-get clean
