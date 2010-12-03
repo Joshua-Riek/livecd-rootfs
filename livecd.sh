@@ -239,6 +239,11 @@ for FS in "$@"; do
         mount -t tmpfs -o size=8192M tmpfs ${ROOT} && echo using tmpfs
     fi
 
+    mkdir -p ${ROOT}etc/dpkg/dpkg.cfg.d
+    cat << @@EOF > ${ROOT}etc/dpkg/dpkg.cfg.d/livecd-rootfs
+force-unsafe-io
+@@EOF
+
     mkdir -p ${ROOT}var/cache/debconf
     cat << @@EOF > ${ROOT}var/cache/debconf/config.dat
 Name: debconf/frontend
@@ -718,6 +723,8 @@ Pin-Priority: 550
 
     # And now that we're done messing with debconf, destroy the backup files:
     rm -f ${ROOT}/var/cache/debconf/*-old
+
+    rm -f ${ROOT}/etc/dpkg/dpkg.cfg.d/livecd-rootfs
 
     # show the size of directories in /usr/share/doc
     checkpoint "Checking size of /usr/share/doc"

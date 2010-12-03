@@ -1,6 +1,8 @@
 livecd-rootfs (1.153) UNRELEASED; urgency=low
 
   * Update default suite in BuildLiveCD to natty.
+  * Use --force-unsafe-io for all dpkg operations.  If we crash we'll just
+    destroy the chroot and start from scratch, so syncing is pointless.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 Dec 2010 16:36:55 +0000
 
