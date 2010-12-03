@@ -27,7 +27,7 @@ fi
 ARCH=$(dpkg --print-architecture)
 SUBARCH=""
 SUBARCHARG=""
-NEWSUITE="maverick"
+NEWSUITE="natty"
 SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
