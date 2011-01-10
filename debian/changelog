@@ -1,4 +1,4 @@
-livecd-rootfs (1.154) UNRELEASED; urgency=low
+livecd-rootfs (1.154) natty; urgency=low
 
   * apply setting of the default session to all ubuntu-armel builds
     so we do not need to do this on first boot.
