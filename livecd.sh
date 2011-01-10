@@ -712,7 +712,7 @@ Pin-Priority: 550
     fi
 
     if [ "$FS" = ubuntu-netbook ] && \
-       [ "$TARGETARCH+$SUBARCH" = armel+dove ] && \
+       [ "$TARGETARCH" = armel ] && \
        [ -e "$ROOT/usr/share/xsessions/une-efl.desktop" ]; then
         chroot $ROOT /usr/lib/gdm/gdm-set-default-session une-efl
     fi

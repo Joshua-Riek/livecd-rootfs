@@ -1,3 +1,10 @@
+livecd-rootfs (1.154) UNRELEASED; urgency=low
+
+  * apply setting of the default session to all ubuntu-armel builds
+    so we do not need to do this on first boot.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 10 Jan 2011 23:27:43 +0100
+
 livecd-rootfs (1.153) natty; urgency=low
 
   * Update default suite in BuildLiveCD to natty.
