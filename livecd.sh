@@ -421,6 +421,8 @@ link_in_boot = $link_in_boot
 	powerpc)	LIST="$LIST linux-powerpc linux-powerpc64-smp";;
 	sparc*)		LIST="$LIST linux-sparc64";;
 	armel)
+			#inhibit running of flash-kernel for armel
+    			export FLASH_KERNEL_SKIP=1
 			case "$SUBARCH" in
 				imx51)
 					LIST="$LIST linux-imx51"
