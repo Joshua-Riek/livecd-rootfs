@@ -196,9 +196,9 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base
+    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base headless
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base headless
     fi
 fi
 
@@ -210,7 +210,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|headless|tocd)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -308,6 +308,10 @@ Flags: seen
 	    PPA="moblin/ppa"
 	    ;;
 	base)
+	    LIST="$LIST minimal^ standard^"
+	    LIVELIST="$LIVE_BOOT_SCRIPTS"
+	    ;;
+	headless)
 	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="$LIVE_BOOT_SCRIPTS"
 	    ;;
