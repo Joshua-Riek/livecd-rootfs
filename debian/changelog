@@ -1,3 +1,12 @@
+livecd-rootfs (1.155) UNRELEASED; urgency=low
+
+  * Add headless image type for armel minimal developer image building,
+    same as base now, but may be modified later.
+  * Disable running of flash-kernel on armel as it breaks the script when
+    there is no boot partition available to update.
+
+ -- Jani Monoses <jani@ubuntu.com>  Wed, 26 Jan 2011 14:01:18 +0200
+
 livecd-rootfs (1.154) natty; urgency=low
 
   * apply setting of the default session to all ubuntu-armel builds
