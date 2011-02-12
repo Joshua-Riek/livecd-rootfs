@@ -1,4 +1,4 @@
-livecd-rootfs (1.156) UNRELEASED; urgency=low
+livecd-rootfs (1.156) natty; urgency=low
 
   * Add X-Loader and U-Boot packages for IGEPv2, Beagle and Panda
     in the OMAP3/4 images.
