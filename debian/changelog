@@ -1,9 +1,9 @@
-livecd-rootfs (1.157) UNRELEASED; urgency=low
+livecd-rootfs (1.157) natty; urgency=low
 
   * drop IGEPv2 x-loader and u-boot from livefs.sh, they are not in main 
     and thus break image builds
 
- -- Oliver Grawert <ogra@ubuntu.com>  Sat, 12 Feb 2011 13:30:59 +0100
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 12 Feb 2011 13:32:59 +0100
 
 livecd-rootfs (1.156) natty; urgency=low
 
