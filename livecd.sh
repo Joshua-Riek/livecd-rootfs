@@ -436,7 +436,7 @@ link_in_boot = $link_in_boot
 					STRIP_VMLINUZ=no
 					;;
 				omap)
-					LIST="$LIST linux-omap x-loader-omap3-igepv2 u-boot-linaro-igep0020 x-loader-omap3-beagle u-boot-linaro-omap3-beagle"
+					LIST="$LIST linux-omap x-loader-omap3-beagle u-boot-linaro-omap3-beagle"
 					STRIP_VMLINUZ=no
 					;;
 				omap4)
