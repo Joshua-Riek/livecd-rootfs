@@ -719,8 +719,8 @@ Pin-Priority: 550
 
     if [ "$FS" = ubuntu-netbook ] && \
        [ "$TARGETARCH" = armel ] && \
-       [ -e "$ROOT/usr/share/xsessions/une-efl.desktop" ]; then
-        chroot $ROOT /usr/lib/gdm/gdm-set-default-session une-efl
+       [ -e "$ROOT/usr/share/xsessions/unity-2d.desktop" ]; then
+        chroot $ROOT /usr/lib/gdm/gdm-set-default-session unity-2d
     fi
 
     # all done with the chroot; reset the debconf frontend, so Colin doesn't cry
