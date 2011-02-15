@@ -1,8 +1,8 @@
-livecd-rootfs (1.158) UNRELEASED; urgency=low
+livecd-rootfs (1.158) natty; urgency=low
 
   * switch default session for armel netbook images to unity-2d
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 15 Feb 2011 18:18:57 +0100
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 15 Feb 2011 18:20:57 +0100
 
 livecd-rootfs (1.157) natty; urgency=low
 
