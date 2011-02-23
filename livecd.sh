@@ -76,8 +76,8 @@ livefs_squash()
 
 livefs_ext2()
 {
-  # Add 500MiB extra free space for first boot + ext3 journal
-  size=$(($(du -ks ${ROOT} | cut -f1) + (512000)))
+  # Add 1024MiB extra free space for first boot + ext3 journal + swapfile
+  size=$(($(du -ks ${ROOT} | cut -f1) + (1024000)))
   MOUNTPOINT=$(mktemp -d)
   DEV=$(losetup -f)
   echo "Building ext2 filesystem."
@@ -92,6 +92,13 @@ livefs_ext2()
 
   # copy chroot content to image
   cp -a ${ROOT}/* ${MOUNTPOINT}
+
+  # Create a swapfile in rootfs we can use or delete later on during first boot.
+  # doing it *during* first boot adds 3min to the bootprocess so the decision
+  # was to do it here. Luckily the file will compress to nearly zero so it does
+  # not add to the image size once we gzipped the image.
+  dd if=/dev/zero of=${MOUNTPOINT}/SWAP.swap bs=1048576 count=512
+  mkswap ${MOUNTPOINT}/SWAP.swap
 
   # clean up
   umount ${MOUNTPOINT}

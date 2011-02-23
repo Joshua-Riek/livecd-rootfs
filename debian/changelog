@@ -1,3 +1,11 @@
+livecd-rootfs (1.159) UNRELEASED; urgency=low
+
+  * create an empty swapfile on ext2/3 images by default, we care for use
+    or deletion on first boot, this cuts of 3min from the first boot of 
+    preinstalled images.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 23 Feb 2011 14:53:06 +0100
+
 livecd-rootfs (1.158) natty; urgency=low
 
   * switch default session for armel netbook images to unity-2d
