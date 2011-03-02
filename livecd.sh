@@ -577,6 +577,14 @@ Pin-Priority: 900
     chroot ${ROOT} dpkg-query -W --showformat='${Package} ${Version}\n' \
 	> livecd.${FSS}.manifest
 
+    # HACK! HACK! HACK!
+    # Remove ubiquity-slideshow as webkit is completely hosed on armel
+    if [ "$TARGETARCH" = "armel" ]; then
+        checkpoint "Removing ubiquity-slideshow"
+        chroot ${ROOT} apt-get -y --purge remove ubiquity-slideshow-* \
+                </dev/null || true
+    fi
+
     checkpoint "Cleaning up"
 
     kill_users

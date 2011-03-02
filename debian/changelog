@@ -1,3 +1,10 @@
+livecd-rootfs (1.160) natty; urgency=critical
+
+  * Emergency hack to remove ubiquity-slideshow-* on armel due to python-webkit
+    causing a segfault (Works aroud LP: #727368)
+
+ -- Michael Casadevall <mcasadevall@ubuntu.com>  Wed, 02 Mar 2011 11:33:51 -0800
+
 livecd-rootfs (1.159) natty; urgency=low
 
   * create an empty swapfile on ext2/3 images by default, we care for use
