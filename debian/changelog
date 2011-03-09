@@ -1,8 +1,8 @@
-livecd-rootfs (1.161) UNRELEASED; urgency=low
+livecd-rootfs (1.161) natty; urgency=low
 
   * add ubuntu-headless as allowed flavour to BuildLiveCD
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Mar 2011 13:50:11 +0100
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Mar 2011 13:51:11 +0100
 
 livecd-rootfs (1.160) natty; urgency=critical
 
