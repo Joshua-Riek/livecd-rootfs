@@ -1,8 +1,8 @@
-livecd-rootfs (1.162) UNRELEASED; urgency=low
+livecd-rootfs (1.162) natty; urgency=low
 
   * the name of the flavour needs to be ubuntu-headless, not just headless
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Mar 2011 16:46:28 +0100
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Mar 2011 16:48:28 +0100
 
 livecd-rootfs (1.161) natty; urgency=low
 
