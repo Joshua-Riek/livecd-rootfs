@@ -1,3 +1,10 @@
+livecd-rootfs (1.163) UNRELEASED; urgency=low
+
+  * make sure preinstalled images do not have the build machine set as
+    hostname before oem-config runs (LP: #605972)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 10 Mar 2011 14:43:43 +0100
+
 livecd-rootfs (1.162) natty; urgency=low
 
   * the name of the flavour needs to be ubuntu-headless, not just headless

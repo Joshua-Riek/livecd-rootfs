@@ -100,6 +100,9 @@ livefs_ext2()
   dd if=/dev/zero of=${MOUNTPOINT}/SWAP.swap bs=1048576 count=512
   mkswap ${MOUNTPOINT}/SWAP.swap
 
+  # make sure we dont have the buildd name set as hostname (LP: #605972)
+  echo "localhost" >${MOUNTPOINT}/etc/hostname
+
   # clean up
   umount ${MOUNTPOINT}
   rm -rf ${MOUNTPOINT}
