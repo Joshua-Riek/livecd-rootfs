@@ -1,8 +1,8 @@
-livecd-rootfs (1.164) UNRELEASED; urgency=low
+livecd-rootfs (1.164) natty; urgency=low
 
   * Use Edubuntu theming for Edubuntu LTSP chroot.
 
- -- Jonathan Carter <jonathan@ubuntu.com>  Tue, 01 Mar 2011 11:06:49 -0500
+ -- Jonathan Carter <jonathan@ubuntu.com>  Mon, 14 Mar 2011 10:03:33 +0000
 
 livecd-rootfs (1.163) natty; urgency=low
 
