@@ -1,3 +1,10 @@
+livecd-rootfs (1.165) UNRELEASED; urgency=low
+
+  * Drop the hack that removes ubiquity-slideshow-* on armel, webkit works
+    again.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 16 Mar 2011 12:08:28 +0100
+
 livecd-rootfs (1.164) natty; urgency=low
 
   * Use Edubuntu theming for Edubuntu LTSP chroot.
