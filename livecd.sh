@@ -701,6 +701,7 @@ Pin-Priority: 550
 	    action="mv"
 	fi
 	$action ${ROOT}/boot/vmlinu?-"${KVER}" livecd.${FSS}.kernel-"${SUBARCH}"
+	chmod 644 livecd.${FSS}.kernel-"${SUBARCH}"
 	if [ "$INITRD_COMPRESSOR" != gz ]; then
 	    zcat "livecd.${FSS}.initrd-${SUBARCH}" | "$INITRD_COMPRESSOR" -9c \
 		> "livecd.${FSS}.initrd-${SUBARCH}.new"

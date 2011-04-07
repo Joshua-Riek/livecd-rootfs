@@ -1,3 +1,10 @@
+livecd-rootfs (1.166) UNRELEASED; urgency=low
+
+  * Make the output kernel world-readable, since it was changed to be
+    world-unreadable in linux 2.6.38-8.40.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 07 Apr 2011 11:40:19 +0100
+
 livecd-rootfs (1.165) natty; urgency=low
 
   * Drop the hack that removes ubiquity-slideshow-* on armel, webkit works
