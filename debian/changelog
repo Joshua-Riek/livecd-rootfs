@@ -1,3 +1,11 @@
+livecd-rootfs (1.167) UNRELEASED; urgency=low
+
+  * Drop language-support-en from LIVELIST for kubuntu-mobile and
+    kubuntu-netbook; it's not in the oneiric archive any more, and the
+    necessary packages are already in the respective tasks.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sun, 29 May 2011 21:09:29 +0100
+
 livecd-rootfs (1.166) natty; urgency=low
 
   * Make the output kernel world-readable, since it was changed to be

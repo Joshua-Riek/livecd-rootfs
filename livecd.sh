@@ -275,12 +275,12 @@ Flags: seen
 	    ;;
 	kubuntu-mobile)
 	    LIST="$LIST minimal^ standard^ kubuntu-mobile^"
-	    LIVELIST="language-support-en kubuntu-mobile-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
+	    LIVELIST="kubuntu-mobile-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe"
 	    ;;
 	kubuntu-netbook)
 	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
-	    LIVELIST="language-support-en kubuntu-netbook-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
+	    LIVELIST="kubuntu-netbook-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop-gnome^"
