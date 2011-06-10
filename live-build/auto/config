@@ -1,0 +1,153 @@
+#! /bin/sh
+set -e
+
+MIRROR=
+case $(hostname --fqdn) in
+	bld-*.mmjgroup.com)	;;
+	# TODO suffix is either ubuntu or ubuntu-ports
+	*.mmjgroup.com)
+		case $ARCH in
+			i386|amd64)	MIRROR=http://archive.mmjgroup.com/ubuntu/ ;;
+			*)		MIRROR=http://archive.mmjgroup.com/ubuntu-ports/ ;;
+		esac
+		;;
+	*.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu/ ;;
+	*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+	*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+	*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+	*)			;;
+esac
+
+OPTS=
+PACKAGES=
+TASKS=
+LIVE_TASKS=
+COMPONENTS=
+BINARY_REMOVE_LINUX=true
+
+case $IMAGEFORMAT in
+	ext2|ext3)
+		OPTS="${OPTS:+$OPTS }--initramfs none"
+		PACKAGES="${PACKAGES:+$PACKAGES }jasper"
+		;;
+
+	*)
+		PACKAGES="${PACKAGES:+$PACKAGES }lupin-casper"
+		;;
+esac
+
+case $PROJECT in
+	ubuntu|ubuntu-dvd)
+		TASKS='minimal standard ubuntu-desktop'
+		LIVE_TASKS='ubuntu-live'
+		;;
+
+	kubuntu|kubuntu-dvd)
+		TASKS='minimal standard kubuntu-desktop'
+		LIVE_TASKS='kubuntu-live'
+		;;
+
+	kubuntu-mobile)
+		TASKS='minimal standard kubuntu-mobile'
+		LIVE_TASKS='kubuntu-mobile-live'
+		COMPONENTS='main restricted universe'
+		;;
+
+	edubuntu|edubuntu-dvd)
+		TASKS='minimal standard edubuntu-desktop-gnome'
+		LIVE_TASKS='edubuntu-live'
+		COMPONENTS='main restricted universe'
+		;;
+
+	xubuntu)
+		TASKS='minimal standard xubuntu-desktop'
+		PACKAGES="${PACKAGES:+$PACKAGES }xterm"
+		LIVE_TASKS='edubuntu-live'
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
+	ubuntu-netbook)
+		TASKS='minimal standard ubuntu-netbook'
+		LIVE_TASKS='netbook-live'
+		;;
+
+	mythbuntu)
+		TASKS='minimal standard mythbuntu-desktop'
+		LIVE_TASKS='mythbuntu-live'
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
+	base)
+		TASKS='minimal standard'
+		;;
+
+	ubuntu-headless)
+		TASKS='minimal standard'
+		;;
+
+	*)
+		echo "unknown project $PROJECT" >&2
+		exit 2
+		;;
+esac
+case $PROJECT in
+	*-dvd)
+		LIVE_TASKS="${LIVE_TASKS:+$LIVE_TASKS }$PROJECT-live"
+		;;
+esac
+
+case $ARCH in
+	armel)
+		# TODO export FLASH_KERNEL_SKIP=1
+		KERNEL_FLAVOURS="$SUBARCH"
+		case $SUBARCH in
+			dove)
+				BINARY_REMOVE_LINUX=false
+				;;
+			omap)
+				PACKAGES="${PACKAGES:+$PACKAGES }x-loader-omap3-beagle u-boot-linaro-omap3-beagle"
+				BINARY_REMOVE_LINUX=false
+				;;
+			omap4)
+				PACKAGES="${PACKAGES:+$PACKAGES }x-loader-omap4-panda u-boot-linaro-omap4-panda"
+				BINARY_REMOVE_LINUX=false
+				;;
+		esac
+		;;
+esac
+
+lb config noauto \
+	--mode ubuntu \
+	--distribution "$SUITE" \
+	--bootstrap-keyring ubuntu-keyring \
+	--binary-images tar \
+	--binary-remove-linux "$BINARY_REMOVE_LINUX" \
+	--source false \
+	--build-with-chroot false \
+	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
+	${COMPONENTS:+--parent-archive-areas "$COMPONENTS"} \
+	--initsystem none \
+	--bootloader none \
+	--initramfs-compression lzma \
+	${PACKAGES:+--packages "$PACKAGES"} \
+	${TASKS:+--tasks "$TASKS"} \
+	${LIVE_TASKS:+--live-tasks "$LIVE_TASKS"} \
+	$OPTS
+
+case $PROJECT in
+	kubuntu|kubuntu-mobile)
+		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
+		;;
+esac
+
+case $PROJECT in
+	*-dvd)
+		. config/bootstrap
+
+		cat > config/chroot_sources/dvd.binary << EOF
+deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
+deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
+EOF
+		;;
+esac

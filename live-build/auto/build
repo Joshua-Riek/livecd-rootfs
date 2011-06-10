@@ -1,0 +1,29 @@
+#! /bin/sh
+set -e
+
+export LC_ALL=C
+
+(
+	lb bootstrap "$@"
+	lb chroot "$@"
+
+	echo "===== Checking size of /usr/share/doc ====="
+	echo BEGIN docdirs
+	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
+	echo END docdirs
+
+	if which fdupes >/dev/null 2>&1; then
+		echo "===== Checking for duplicate files ====="
+		echo "first line: <total size for dupes> <different dupes> <all dupes>"
+		echo "data lines: <size for dupes> <number of dupes> <file size> <filename> [<filename> ...]"
+		echo BEGIN fdupes
+		(cd chroot \
+		   && fdupes --recurse --noempty --sameline --size --quiet usr \
+		   | awk '/bytes each/ {s=$1} /^usr/ { n+=1; n2+=NF-1; sum+=s*(NF-1); print s*(NF-1), NF-1, s, $0 } END {print sum, n, n2}' \
+		   | sort -nr
+		)
+		echo END fdupes
+	fi
+
+	lb binary "$@"
+) 2>&1 | tee binary.log
