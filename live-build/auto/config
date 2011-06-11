@@ -18,8 +18,19 @@ case $(hostname --fqdn) in
 	*)			;;
 esac
 
+mkdir -p config/local-packagelists
+rm -f config/local-packagelists/livecd-rootfs.list
+
+add_package ()
+{
+	local pkg
+
+	for pkg; do
+		echo "$pkg" >> config/local-packagelists/livecd-rootfs.list
+	done
+}
+
 OPTS=
-PACKAGES=
 TASKS=
 LIVE_TASKS=
 COMPONENTS=
@@ -28,11 +39,11 @@ BINARY_REMOVE_LINUX=true
 case $IMAGEFORMAT in
 	ext2|ext3)
 		OPTS="${OPTS:+$OPTS }--initramfs none"
-		PACKAGES="${PACKAGES:+$PACKAGES }jasper"
+		add_package jasper
 		;;
 
 	*)
-		PACKAGES="${PACKAGES:+$PACKAGES }lupin-casper"
+		add_package lupin-casper
 		;;
 esac
 
@@ -61,7 +72,7 @@ case $PROJECT in
 
 	xubuntu)
 		TASKS='minimal standard xubuntu-desktop'
-		PACKAGES="${PACKAGES:+$PACKAGES }xterm"
+		add_package xterm
 		LIVE_TASKS='edubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		;;
@@ -105,11 +116,11 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap)
-				PACKAGES="${PACKAGES:+$PACKAGES }x-loader-omap3-beagle u-boot-linaro-omap3-beagle"
+				add_package x-loader-omap3-beagle u-boot-linaro-omap3-beagle
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				PACKAGES="${PACKAGES:+$PACKAGES }x-loader-omap4-panda u-boot-linaro-omap4-panda"
+				add_package x-loader-omap4-panda u-boot-linaro-omap4-panda
 				BINARY_REMOVE_LINUX=false
 				;;
 		esac
@@ -129,7 +140,6 @@ lb config noauto \
 	--initsystem none \
 	--bootloader none \
 	--initramfs-compression lzma \
-	${PACKAGES:+--packages "$PACKAGES"} \
 	${TASKS:+--tasks "$TASKS"} \
 	${LIVE_TASKS:+--live-tasks "$LIVE_TASKS"} \
 	$OPTS
