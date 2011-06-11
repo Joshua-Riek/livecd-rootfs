@@ -4,7 +4,6 @@ set -e
 MIRROR=
 case $(hostname --fqdn) in
 	bld-*.mmjgroup.com)	;;
-	# TODO suffix is either ubuntu or ubuntu-ports
 	*.mmjgroup.com)
 		case $ARCH in
 			i386|amd64)	MIRROR=http://archive.mmjgroup.com/ubuntu/ ;;
