@@ -18,82 +18,93 @@ case $(hostname --fqdn) in
 	*)			;;
 esac
 
-mkdir -p config/local-packagelists
-rm -f config/local-packagelists/livecd-rootfs.list
+mkdir -p config/local-tasklists config/local-packagelists
+rm -f config/local-tasklists/livecd-rootfs.list config/local-packagelists/livecd-rootfs.list
+
+add_task ()
+{
+	local pass="$1"
+	shift
+	local task
+
+	for task; do
+		echo "$task" >> "config/local-tasklists/livecd-rootfs.list.$pass"
+	done
+}
 
 add_package ()
 {
+	local pass="$1"
+	shift
 	local pkg
 
 	for pkg; do
-		echo "$pkg" >> config/local-packagelists/livecd-rootfs.list
+		echo "$pkg" >> "config/local-packagelists/livecd-rootfs.list.$pass"
 	done
 }
 
 OPTS=
-TASKS=
-LIVE_TASKS=
 COMPONENTS=
 BINARY_REMOVE_LINUX=true
 
 case $IMAGEFORMAT in
 	ext2|ext3)
 		OPTS="${OPTS:+$OPTS }--initramfs none"
-		add_package jasper
+		add_package live jasper
 		;;
 
 	*)
-		add_package lupin-casper
+		add_package live lupin-casper
 		;;
 esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		TASKS='minimal standard ubuntu-desktop'
-		LIVE_TASKS='ubuntu-live'
+		add_task install minimal standard ubuntu-desktop
+		add_task live ubuntu-live
 		;;
 
 	kubuntu|kubuntu-dvd)
-		TASKS='minimal standard kubuntu-desktop'
-		LIVE_TASKS='kubuntu-live'
+		add_task install minimal standard kubuntu-desktop
+		add_task live kubuntu-live
 		;;
 
 	kubuntu-mobile)
-		TASKS='minimal standard kubuntu-mobile'
-		LIVE_TASKS='kubuntu-mobile-live'
+		add_task install minimal standard kubuntu-mobile
+		add_task live kubuntu-mobile-live
 		COMPONENTS='main restricted universe'
 		;;
 
 	edubuntu|edubuntu-dvd)
-		TASKS='minimal standard edubuntu-desktop-gnome'
-		LIVE_TASKS='edubuntu-live'
+		add_task install minimal standard edubuntu-desktop-gnome
+		add_task live edubuntu-live
 		COMPONENTS='main restricted universe'
 		;;
 
 	xubuntu)
-		TASKS='minimal standard xubuntu-desktop'
-		add_package xterm
-		LIVE_TASKS='edubuntu-live'
+		add_task install minimal standard xubuntu-desktop
+		add_package install xterm
+		add_task live edubuntu-live
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	ubuntu-netbook)
-		TASKS='minimal standard ubuntu-netbook'
-		LIVE_TASKS='netbook-live'
+		add_task install minimal standard ubuntu-netbook
+		add_task live netbook-live
 		;;
 
 	mythbuntu)
-		TASKS='minimal standard mythbuntu-desktop'
-		LIVE_TASKS='mythbuntu-live'
+		add_task install minimal standard mythbuntu-desktop
+		add_task live mythbuntu-live
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	base)
-		TASKS='minimal standard'
+		add_task install minimal standard
 		;;
 
 	ubuntu-headless)
-		TASKS='minimal standard'
+		add_task install minimal standard
 		;;
 
 	*)
@@ -103,7 +114,7 @@ case $PROJECT in
 esac
 case $PROJECT in
 	*-dvd)
-		LIVE_TASKS="${LIVE_TASKS:+$LIVE_TASKS }$PROJECT-live"
+		add_task live "$PROJECT-live"
 		;;
 esac
 
@@ -116,11 +127,11 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap)
-				add_package x-loader-omap3-beagle u-boot-linaro-omap3-beagle
+				add_package install x-loader-omap3-beagle u-boot-linaro-omap3-beagle
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				add_package x-loader-omap4-panda u-boot-linaro-omap4-panda
+				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda
 				BINARY_REMOVE_LINUX=false
 				;;
 		esac
@@ -140,8 +151,6 @@ lb config noauto \
 	--initsystem none \
 	--bootloader none \
 	--initramfs-compression lzma \
-	${TASKS:+--tasks "$TASKS"} \
-	${LIVE_TASKS:+--live-tasks "$LIVE_TASKS"} \
 	$OPTS
 
 case $PROJECT in
