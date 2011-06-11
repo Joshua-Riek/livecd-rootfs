@@ -147,6 +147,7 @@ lb config noauto \
 	--build-with-chroot false \
 	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
 	${COMPONENTS:+--parent-archive-areas "$COMPONENTS"} \
+	--package-lists none \
 	--initsystem none \
 	--bootloader none \
 	--initramfs-compression lzma \
