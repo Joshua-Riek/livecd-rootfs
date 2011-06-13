@@ -3,6 +3,13 @@ set -e
 
 export LC_ALL=C
 
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+Arguments "${@}"
+
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
 (
 	lb bootstrap "$@"
 	lb chroot "$@"
@@ -27,3 +34,52 @@ export LC_ALL=C
 
 	lb binary "$@"
 ) 2>&1 | tee binary.log
+
+# Link output files somewhere BuildLiveCD will be able to find them.
+PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+
+case $LB_INITRAMFS in
+	casper)
+		INITFS="casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		;;
+
+	*)
+		INITFS="boot"
+		;;
+esac
+
+for OUTPUT in ext2 ext3 manifest manifest-remove size squashfs; do
+	[ -e "binary/$INITFS/filesystem.$OUTPUT" ] || continue
+	ln "binary/$INITFS/filesystem.$OUTPUT" "$PREFIX.$OUTPUT"
+	chmod 644 "$PREFIX.$OUTPUT"
+done
+
+for FLAVOUR in $LB_LINUX_FLAVOURS; do
+	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)/\\1/p" )"
+	if [ -z "$KVERS" ]; then
+		echo "No kernel output for $FLAVOUR!" >&2
+		exit 1
+	fi
+	NUMKVERS="$(set -- $KVERS; echo $#)"
+	if [ "$NUMKVERS" -gt 1 ]; then
+		echo "Cannot handle more than one kernel for $FLAVOUR ($KVERS)!" >&2
+		exit 1
+	fi
+	ln "binary/$INITFS/"vmlinu?-"$KVERS" "$PREFIX.kernel-$FLAVOUR"
+	chmod 644 "$PREFIX.kernel-$FLAVOUR"
+	if [ -e "binary/$INITFS/initrd.img-$KVERS" ]; then
+		ln "binary/$INITFS/initrd.img-$KVERS" "$PREFIX.initrd-$FLAVOUR"
+		chmod 644 "$PREFIX.initrd-$FLAVOUR"
+	fi
+done
+
+NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
+if [ "$NUMFLAVOURS" = 1 ]; then
+	# only one kernel flavour
+	ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
+	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
+fi
