@@ -1,3 +1,9 @@
+livecd-rootfs (2.1) UNRELEASED; urgency=low
+
+  * Fix ordering of log file creation in BuildLiveCD.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 13 Jun 2011 19:42:59 +0100
+
 livecd-rootfs (2.0) oneiric; urgency=low
 
   * Add live-build support.  The old livecd.sh is still here for

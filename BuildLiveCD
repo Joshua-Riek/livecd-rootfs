@@ -130,11 +130,11 @@ for STE in $SUITES; do
     fi
     NOW=${NOW}
     LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
-    > ${LOG}
 
     rm -f ${PUBDIR}latest
     ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
     mkdir -p ${PUBDIR}${NOW}
+    > ${LOG}
     if $LIVE_BUILD; then
 	mkdir -p "${DIR}/auto"
 	for f in config build clean; do
