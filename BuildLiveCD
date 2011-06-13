@@ -144,7 +144,7 @@ for STE in $SUITES; do
 	if ! $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && SUITE=${STE} PROJECT=${FS} ARCH=${ARCH} SUBARCH=${SUBARCH} IMAGEFORMAT=${IMAGEFORMAT} lb config" >> ${LOG} 2>&1; then
 	    exit 1
 	fi
-	COMMAND="PROJECT=${FS} SUBARCH=${SUBARCH} lb build"
+	COMMAND="PROJECT=${FS} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
     else
 	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
     fi

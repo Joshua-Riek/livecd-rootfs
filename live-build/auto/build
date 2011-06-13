@@ -83,3 +83,23 @@ if [ "$NUMFLAVOURS" = 1 ]; then
 	ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
 	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
 fi
+
+# LTSP chroot building (only in 32bit and for Edubuntu (DVD))
+case $PROJECT in
+	edubuntu-dvd)
+		if [ "$ARCH" = i386 ]; then
+			echo "Building LTSP chroot"
+			ltsp-build-client --base $(pwd) --mirror $LB_PARENT_MIRROR_BOOTSTRAP --arch $ARCH --dist $LB_PARENT_DISTRIBUTION --chroot ltsp-live --late-packages ldm-edubuntu-theme,plymouth-theme-edubuntu --purge-chroot --skipimage
+			mkdir -p images
+			mksquashfs ltsp-live images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
+			rm -Rf ltsp-live
+			if [ -f images/ltsp-live.img ]; then
+				mv images/ltsp-live.img livecd.$PROJECT-ltsp.squashfs
+				chmod 0644 livecd.$PROJECT-ltsp.squashfs
+				rmdir --ignore-fail-on-non-empty images
+			else
+				echo "LTSP: Unable to build the chroot, see above for details."
+			fi
+		fi
+		;;
+esac
