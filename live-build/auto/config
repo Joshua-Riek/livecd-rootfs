@@ -44,7 +44,7 @@ add_package ()
 
 OPTS=
 COMPONENTS=
-BINARY_REMOVE_LINUX=true
+BINARY_REMOVE_LINUX=:
 
 case $IMAGEFORMAT in
 	ext2|ext3)
@@ -141,7 +141,6 @@ lb config noauto \
 	--distribution "$SUITE" \
 	--bootstrap-keyring ubuntu-keyring \
 	--binary-images none \
-	--binary-remove-linux "$BINARY_REMOVE_LINUX" \
 	--memtest none \
 	--source false \
 	--build-with-chroot false \
@@ -152,6 +151,13 @@ lb config noauto \
 	--bootloader none \
 	--initramfs-compression lzma \
 	$OPTS
+
+if $BINARY_REMOVE_LINUX; then
+	cat > config/binary_rootfs/excludes << EOF
+boot/vmlinu?-*
+boot/initrd.img-*
+EOF
+fi
 
 case $PROJECT in
 	kubuntu|kubuntu-mobile)
