@@ -140,8 +140,9 @@ lb config noauto \
 	--mode ubuntu \
 	--distribution "$SUITE" \
 	--bootstrap-keyring ubuntu-keyring \
-	--binary-images tar \
+	--binary-images none \
 	--binary-remove-linux "$BINARY_REMOVE_LINUX" \
+	--memtest none \
 	--source false \
 	--build-with-chroot false \
 	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
