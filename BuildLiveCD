@@ -13,7 +13,7 @@ finish() {
     fi
     if [ "$SEND_LOG" = "yes" ]; then
         exec >/dev/null 2>&1
-        mailx -s "LiveCD: $STATUS $STE:$arg${SUBARCH:+-$SUBARCH} build on ${ARCH}" buildd+porters < "$BUILD_LOG"
+        mailx -s "LiveCD: $STATUS $STE:$FS${SUBARCH:+-$SUBARCH} build on ${ARCH}" buildd+porters < "$BUILD_LOG"
     fi
     rm -f ~/buildLiveCD.lock
     nohup ~/bin/pruneLiveCD >/dev/null 2>&1 &
@@ -31,13 +31,15 @@ NEWSUITE="natty"
 SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
+LIVE_BUILD=false
 
-while getopts :s:d:f:pa: name; do case $name in
+while getopts :s:d:f:pa:l name; do case $name in
     s)	SUBARCH="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
     f)	IMAGEFORMAT="-f$OPTARG";;
     p)	PROPOSED="-p";;
     a)	APT_SOURCE="-A $OPTARG";;
+    l)	LIVE_BUILD=:;;
 esac; done;
 shift $((OPTIND-1))
 
@@ -68,7 +70,7 @@ if [ "$new_suite" = "yes" ] && [ "$old_suite" = "yes" ]; then
     echo "greater than hardy at the same time, please use two invocations" >&2
     exit 1
 fi
-if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
+if ([ $# = 0 ] || [ "X$1" = "Xall" ]) && ! $LIVE_BUILD; then
     set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu base
     if [ "$ARCH" = "i386" ]; then
         set -- ubuntu ubuntu-dvd ubuntu-lpia ubuntu-netbook kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd xubuntu mythbuntu base
@@ -95,6 +97,8 @@ if [ "`echo $@ | wc -w`" -gt "1" ]; then
     done
     exit 0
 fi
+FS="$1"
+shift
 
 lockfile ~/buildLiveCD.lock || exit 1
 trap "finish" 0
@@ -116,52 +120,64 @@ for STE in $SUITES; do
 	DIR=~/build.live/chroot-${STE}/./build/
     fi
 
-    for arg in "$@"; do
-	PUBDIR=~/public_html/LiveCD/${STE}/${arg}${SUBARCH:+-$SUBARCH}/
-	mkdir -p ${PUBDIR}
+    PUBDIR=~/public_html/LiveCD/${STE}/${FS}${SUBARCH:+-$SUBARCH}/
+    mkdir -p ${PUBDIR}
 
-	NOW=$(date +%Y%m%d)
-	if [ -d ${PUBDIR}${NOW} ]; then
-	    typeset -i n=1; while [ -d ${PUBDIR}${NOW}.$n ]; do n=n+1; done
-	    NOW=${NOW}.$n
-	fi
-	NOW=${NOW}
-	LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
+    NOW=$(date +%Y%m%d)
+    if [ -d ${PUBDIR}${NOW} ]; then
+	typeset -i n=1; while [ -d ${PUBDIR}${NOW}.$n ]; do n=n+1; done
+	NOW=${NOW}.$n
+    fi
+    NOW=${NOW}
+    LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
+    > ${LOG}
 
-	rm -f ${PUBDIR}latest
-	ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
-	mkdir -p ${PUBDIR}${NOW}
-	if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && /usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} $arg" > ${LOG} 2>&1; then
-	    rm -f ${PUBDIR}current
-	    ln -sf ${NOW} ${PUBDIR}current
-
-	    for file in ${DIR}livecd.*; do
-		if [ -f ${file} ]; then
-		    ext=${file##*.}
-		    base=${file%.*}; base=${base##*/}
-		    sudo chown buildd ${file}
-		    sudo mv ${file} ${PUBDIR}${NOW}/${base}-${NOW}-${ARCH}.${ext}
-		    ln -sf ${base}-${NOW}-${ARCH}.${ext} ${PUBDIR}${NOW}/${base}.${ext}
-		fi
-	    done
-
-	    for f in ${PUBDIR}${NOW}/livecd.*.cloop-*; do 
-		target=${f%-*}
-		if [ ! -f ${target} ]; then
-		    for fsbs in 4096:4096 1024:65536; do
-			if [ -f ${target}-${fsbs} ]; then
-			    ln -sf ${target##*/}-${fsbs} ${target}
-			    break
-			fi
-		    done
-		    if [ ! -f ${target} ]; then
-			best=$(ls -ld ${target}-* | sort -k5,5n| awk '{print $NF; quit}')
-			ln -sf ${best##*/} ${target}
-		    fi
-		fi
-	    done
-	else
+    rm -f ${PUBDIR}latest
+    ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
+    mkdir -p ${PUBDIR}${NOW}
+    if $LIVE_BUILD; then
+	mkdir -p "${DIR}/auto"
+	for f in config build clean; do
+	    ln -s "/usr/share/livecd-rootfs/live-build/auto/$f" "${DIR}/auto/"
+	done
+	$LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && lb clean --purge" >> ${LOG} 2>&1 || true
+	if ! $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && SUITE=${STE} PROJECT=${FS} ARCH=${ARCH} SUBARCH=${SUBARCH} IMAGEFORMAT=${IMAGEFORMAT} lb config" >> ${LOG} 2>&1; then
 	    exit 1
 	fi
-    done
+	COMMAND="PROJECT=${FS} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
+    else
+	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
+    fi
+    if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && $COMMAND" >> ${LOG} 2>&1; then
+	rm -f ${PUBDIR}current
+	ln -sf ${NOW} ${PUBDIR}current
+
+	for file in ${DIR}livecd.*; do
+	    if [ -f ${file} ]; then
+		ext=${file##*.}
+		base=${file%.*}; base=${base##*/}
+		sudo chown buildd ${file}
+		sudo mv ${file} ${PUBDIR}${NOW}/${base}-${NOW}-${ARCH}.${ext}
+		ln -sf ${base}-${NOW}-${ARCH}.${ext} ${PUBDIR}${NOW}/${base}.${ext}
+	    fi
+	done
+
+	for f in ${PUBDIR}${NOW}/livecd.*.cloop-*; do 
+	    target=${f%-*}
+	    if [ ! -f ${target} ]; then
+		for fsbs in 4096:4096 1024:65536; do
+		    if [ -f ${target}-${fsbs} ]; then
+			ln -sf ${target##*/}-${fsbs} ${target}
+			break
+		    fi
+		done
+		if [ ! -f ${target} ]; then
+		    best=$(ls -ld ${target}-* | sort -k5,5n| awk '{print $NF; quit}')
+		    ln -sf ${best##*/} ${target}
+		fi
+	    fi
+	done
+    else
+	exit 1
+    fi
 done

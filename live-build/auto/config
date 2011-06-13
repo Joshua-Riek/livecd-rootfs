@@ -1,0 +1,172 @@
+#! /bin/sh
+set -e
+
+if [ -z "$MIRROR" ]; then
+	case $(hostname --fqdn) in
+		bld-*.mmjgroup.com)	;;
+		*.mmjgroup.com)
+			case $ARCH in
+				i386|amd64)	MIRROR=http://archive.mmjgroup.com/ubuntu/ ;;
+				*)		MIRROR=http://archive.mmjgroup.com/ubuntu-ports/ ;;
+			esac
+			;;
+		*.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu/ ;;
+		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+	esac
+fi
+
+mkdir -p config/chroot_local-tasklists config/chroot_local-packagelists
+rm -f config/chroot_local-tasklists/livecd-rootfs.list config/chroot_local-packagelists/livecd-rootfs.list
+
+add_task ()
+{
+	local pass="$1"
+	shift
+	local task
+
+	for task; do
+		echo "$task" >> "config/chroot_local-tasklists/livecd-rootfs.list.$pass"
+	done
+}
+
+add_package ()
+{
+	local pass="$1"
+	shift
+	local pkg
+
+	for pkg; do
+		echo "$pkg" >> "config/chroot_local-packagelists/livecd-rootfs.list.$pass"
+	done
+}
+
+OPTS=
+COMPONENTS=
+BINARY_REMOVE_LINUX=true
+
+case $IMAGEFORMAT in
+	ext2|ext3)
+		OPTS="${OPTS:+$OPTS }--initramfs none"
+		add_package live jasper
+		;;
+
+	*)
+		add_package live lupin-casper
+		;;
+esac
+
+case $PROJECT in
+	ubuntu|ubuntu-dvd)
+		add_task install minimal standard ubuntu-desktop
+		add_task live ubuntu-live
+		;;
+
+	kubuntu|kubuntu-dvd)
+		add_task install minimal standard kubuntu-desktop
+		add_task live kubuntu-live
+		;;
+
+	kubuntu-mobile)
+		add_task install minimal standard kubuntu-mobile
+		add_task live kubuntu-mobile-live
+		COMPONENTS='main restricted universe'
+		;;
+
+	edubuntu|edubuntu-dvd)
+		add_task install minimal standard edubuntu-desktop-gnome
+		add_task live edubuntu-live
+		COMPONENTS='main restricted universe'
+		;;
+
+	xubuntu)
+		add_task install minimal standard xubuntu-desktop
+		add_package install xterm
+		add_task live edubuntu-live
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
+	ubuntu-netbook)
+		add_task install minimal standard ubuntu-netbook
+		add_task live netbook-live
+		;;
+
+	mythbuntu)
+		add_task install minimal standard mythbuntu-desktop
+		add_task live mythbuntu-live
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
+	base)
+		add_task install minimal standard
+		;;
+
+	ubuntu-headless)
+		add_task install minimal standard
+		;;
+
+	*)
+		echo "unknown project $PROJECT" >&2
+		exit 2
+		;;
+esac
+case $PROJECT in
+	*-dvd)
+		add_task live "$PROJECT-live"
+		;;
+esac
+
+case $ARCH in
+	armel)
+		KERNEL_FLAVOURS="$SUBARCH"
+		case $SUBARCH in
+			dove)
+				BINARY_REMOVE_LINUX=false
+				;;
+			omap)
+				add_package install x-loader-omap3-beagle u-boot-linaro-omap3-beagle
+				BINARY_REMOVE_LINUX=false
+				;;
+			omap4)
+				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda
+				BINARY_REMOVE_LINUX=false
+				;;
+		esac
+		;;
+esac
+
+lb config noauto \
+	--mode ubuntu \
+	--distribution "$SUITE" \
+	--bootstrap-keyring ubuntu-keyring \
+	--binary-images none \
+	--binary-remove-linux "$BINARY_REMOVE_LINUX" \
+	--memtest none \
+	--source false \
+	--build-with-chroot false \
+	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
+	${COMPONENTS:+--parent-archive-areas "$COMPONENTS"} \
+	--package-lists none \
+	--initsystem none \
+	--bootloader none \
+	--initramfs-compression lzma \
+	$OPTS
+
+case $PROJECT in
+	kubuntu|kubuntu-mobile)
+		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
+		;;
+esac
+
+case $PROJECT in
+	*-dvd)
+		. config/bootstrap
+
+		cat > config/chroot_sources/dvd.binary << EOF
+deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
+deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
+EOF
+		;;
+esac

@@ -1,3 +1,11 @@
+livecd-rootfs (2.0) UNRELEASED; urgency=low
+
+  * Add live-build support.  The old livecd.sh is still here for
+    compatibility, but this package's primary purpose is now to provide
+    Ubuntu-specific configuration for live-build.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 13 Jun 2011 12:32:28 +0100
+
 livecd-rootfs (1.167) oneiric; urgency=low
 
   * Drop language-support-en from LIVELIST for kubuntu-mobile and

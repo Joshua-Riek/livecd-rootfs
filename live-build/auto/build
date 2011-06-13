@@ -1,0 +1,105 @@
+#! /bin/sh
+set -e
+
+export LC_ALL=C
+
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+Arguments "${@}"
+
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+(
+	lb bootstrap "$@"
+	lb chroot "$@"
+
+	echo "===== Checking size of /usr/share/doc ====="
+	echo BEGIN docdirs
+	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
+	echo END docdirs
+
+	if which fdupes >/dev/null 2>&1; then
+		echo "===== Checking for duplicate files ====="
+		echo "first line: <total size for dupes> <different dupes> <all dupes>"
+		echo "data lines: <size for dupes> <number of dupes> <file size> <filename> [<filename> ...]"
+		echo BEGIN fdupes
+		(cd chroot \
+		   && fdupes --recurse --noempty --sameline --size --quiet usr \
+		   | awk '/bytes each/ {s=$1} /^usr/ { n+=1; n2+=NF-1; sum+=s*(NF-1); print s*(NF-1), NF-1, s, $0 } END {print sum, n, n2}' \
+		   | sort -nr
+		)
+		echo END fdupes
+	fi
+
+	lb binary "$@"
+) 2>&1 | tee binary.log
+
+# Link output files somewhere BuildLiveCD will be able to find them.
+PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+
+case $LB_INITRAMFS in
+	casper)
+		INITFS="casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		;;
+
+	*)
+		INITFS="boot"
+		;;
+esac
+
+for OUTPUT in ext2 ext3 manifest manifest-remove size squashfs; do
+	[ -e "binary/$INITFS/filesystem.$OUTPUT" ] || continue
+	ln "binary/$INITFS/filesystem.$OUTPUT" "$PREFIX.$OUTPUT"
+	chmod 644 "$PREFIX.$OUTPUT"
+done
+
+for FLAVOUR in $LB_LINUX_FLAVOURS; do
+	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)/\\1/p" )"
+	if [ -z "$KVERS" ]; then
+		echo "No kernel output for $FLAVOUR!" >&2
+		exit 1
+	fi
+	NUMKVERS="$(set -- $KVERS; echo $#)"
+	if [ "$NUMKVERS" -gt 1 ]; then
+		echo "Cannot handle more than one kernel for $FLAVOUR ($KVERS)!" >&2
+		exit 1
+	fi
+	ln "binary/$INITFS/"vmlinu?-"$KVERS" "$PREFIX.kernel-$FLAVOUR"
+	chmod 644 "$PREFIX.kernel-$FLAVOUR"
+	if [ -e "binary/$INITFS/initrd.img-$KVERS" ]; then
+		ln "binary/$INITFS/initrd.img-$KVERS" "$PREFIX.initrd-$FLAVOUR"
+		chmod 644 "$PREFIX.initrd-$FLAVOUR"
+	fi
+done
+
+NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
+if [ "$NUMFLAVOURS" = 1 ]; then
+	# only one kernel flavour
+	ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
+	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
+fi
+
+# LTSP chroot building (only in 32bit and for Edubuntu (DVD))
+case $PROJECT in
+	edubuntu-dvd)
+		if [ "$ARCH" = i386 ]; then
+			echo "Building LTSP chroot"
+			ltsp-build-client --base $(pwd) --mirror $LB_PARENT_MIRROR_BOOTSTRAP --arch $ARCH --dist $LB_PARENT_DISTRIBUTION --chroot ltsp-live --late-packages ldm-edubuntu-theme,plymouth-theme-edubuntu --purge-chroot --skipimage
+			mkdir -p images
+			mksquashfs ltsp-live images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
+			rm -Rf ltsp-live
+			if [ -f images/ltsp-live.img ]; then
+				mv images/ltsp-live.img livecd.$PROJECT-ltsp.squashfs
+				chmod 0644 livecd.$PROJECT-ltsp.squashfs
+				rmdir --ignore-fail-on-non-empty images
+			else
+				echo "LTSP: Unable to build the chroot, see above for details."
+			fi
+		fi
+		;;
+esac
