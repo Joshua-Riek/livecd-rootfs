@@ -1,10 +1,10 @@
-livecd-rootfs (2.1) UNRELEASED; urgency=low
+livecd-rootfs (2.1) oneiric; urgency=low
 
   * Fix ordering of log file creation in BuildLiveCD.
   * Fix permissions in BuildLiveCD when setting up auto directory.
   * Switch from --binary-remove-linux to config/binary_rootfs/excludes.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 13 Jun 2011 19:42:59 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 13 Jun 2011 23:32:40 +0100
 
 livecd-rootfs (2.0) oneiric; urgency=low
 
