@@ -2,6 +2,8 @@ livecd-rootfs (2.3) UNRELEASED; urgency=low
 
   * Set pipefail (bash-specific) in auto/build so that we fail immediately
     if the main image build fails.
+  * Anchor regex to avoid misdetecting vmlinux-3.0-0-powerpc64-smp as a
+    powerpc flavour kernel.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Jun 2011 08:58:02 +0100
 

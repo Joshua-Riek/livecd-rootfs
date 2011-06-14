@@ -60,7 +60,7 @@ for OUTPUT in ext2 ext3 manifest manifest-remove size squashfs; do
 done
 
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
-	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)/\\1/p" )"
+	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		echo "No kernel output for $FLAVOUR!" >&2
 		exit 1
