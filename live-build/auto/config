@@ -147,6 +147,7 @@ lb config noauto \
 	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
 	${COMPONENTS:+--parent-archive-areas "$COMPONENTS"} \
 	--package-lists none \
+	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
 	--bootloader none \
 	--initramfs-compression lzma \
