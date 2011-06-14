@@ -1,8 +1,8 @@
-livecd-rootfs (2.2) UNRELEASED; urgency=low
+livecd-rootfs (2.2) oneiric; urgency=low
 
   * Pass --linux-flavours to lb config if necessary.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Jun 2011 08:29:30 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Jun 2011 08:30:10 +0100
 
 livecd-rootfs (2.1) oneiric; urgency=low
 
