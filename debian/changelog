@@ -1,3 +1,10 @@
+livecd-rootfs (2.3) UNRELEASED; urgency=low
+
+  * Set pipefail (bash-specific) in auto/build so that we fail immediately
+    if the main image build fails.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Jun 2011 08:58:02 +0100
+
 livecd-rootfs (2.2) oneiric; urgency=low
 
   * Pass --linux-flavours to lb config if necessary.
