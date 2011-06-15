@@ -100,6 +100,12 @@ case $PROJECT in
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
+	lubuntu)
+		add_task install minimal standard lubuntu-desktop
+		add_task live lubuntu-live
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
 	base)
 		add_task install minimal standard
 		;;
