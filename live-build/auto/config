@@ -50,7 +50,7 @@ BINARY_REMOVE_LINUX=:
 
 case $IMAGEFORMAT in
 	ext2|ext3)
-		OPTS="${OPTS:+$OPTS }--initramfs none"
+		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
 		add_package live jasper
 		;;
 
