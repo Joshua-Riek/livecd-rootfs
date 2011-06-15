@@ -1,3 +1,9 @@
+livecd-rootfs (2.5) UNRELEASED; urgency=low
+
+  * Pass correct IMAGEFORMAT through to live-build from BuildLiveCD.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 15 Jun 2011 10:21:08 +0100
+
 livecd-rootfs (2.4) oneiric; urgency=low
 
   * Remove old config directory before creating a new configuration.

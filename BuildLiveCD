@@ -36,7 +36,7 @@ LIVE_BUILD=false
 while getopts :s:d:f:pa:l name; do case $name in
     s)	SUBARCH="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
-    f)	IMAGEFORMAT="-f$OPTARG";;
+    f)	IMAGEFORMAT="$OPTARG";;
     p)	PROPOSED="-p";;
     a)	APT_SOURCE="-A $OPTARG";;
     l)	LIVE_BUILD=:;;
@@ -143,7 +143,7 @@ for STE in $SUITES; do
 	fi
 	COMMAND="PROJECT=${FS} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
     else
-	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
+	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT:+-f$IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
     fi
     if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && $COMMAND" >> ${LOG} 2>&1; then
 	rm -f ${PUBDIR}current
