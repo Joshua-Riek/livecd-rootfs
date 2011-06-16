@@ -1,9 +1,9 @@
-livecd-rootfs (2.6) UNRELEASED; urgency=low
+livecd-rootfs (2.6) oneiric; urgency=low
 
   * '--initramfs none' produces *.packages* outputs rather than *.manifest*;
     handle this.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 16 Jun 2011 12:48:38 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 16 Jun 2011 12:59:09 +0100
 
 livecd-rootfs (2.5) oneiric; urgency=low
 
