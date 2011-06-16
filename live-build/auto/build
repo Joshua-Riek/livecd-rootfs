@@ -59,6 +59,16 @@ for OUTPUT in ext2 ext3 manifest manifest-remove size squashfs; do
 	chmod 644 "$PREFIX.$OUTPUT"
 done
 
+# '--initramfs none' produces different manifest names.
+if [ -e "binary/$INITFS/filesystem.packages" ]; then
+	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"
+	chmod 644 "$PREFIX.manifest"
+fi
+if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
+	ln "binary/$INITFS/filesystem.packages-remove" "$PREFIX.manifest-remove"
+	chmod 644 "$PREFIX.manifest-remove"
+fi
+
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
