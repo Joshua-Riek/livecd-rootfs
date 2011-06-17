@@ -177,7 +177,7 @@ case $PROJECT in
 	*-dvd)
 		. config/bootstrap
 
-		cat > config/chroot_sources/dvd.binary << EOF
+		cat > config/archives/dvd.binary.list << EOF
 deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse

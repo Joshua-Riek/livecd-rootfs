@@ -1,6 +1,7 @@
 livecd-rootfs (2.8) UNRELEASED; urgency=low
 
   * Handle package/task list changes in live-build 3.0~a22-1.
+  * Handle local sources.list changes in live-build 3.0~a22-1.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Fri, 17 Jun 2011 08:24:52 +0100
 
