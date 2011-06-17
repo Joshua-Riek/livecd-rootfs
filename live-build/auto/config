@@ -19,8 +19,7 @@ if [ -z "$MIRROR" ]; then
 	esac
 fi
 
-mkdir -p config/chroot_local-tasklists config/chroot_local-packagelists
-rm -f config/chroot_local-tasklists/livecd-rootfs.list config/chroot_local-packagelists/livecd-rootfs.list
+mkdir -p config/task-lists config/package-lists
 
 add_task ()
 {
@@ -29,7 +28,7 @@ add_task ()
 	local task
 
 	for task; do
-		echo "$task" >> "config/chroot_local-tasklists/livecd-rootfs.list.$pass"
+		echo "$task" >> "config/task-lists/livecd-rootfs.chroot_$pass.list"
 	done
 }
 
@@ -40,7 +39,7 @@ add_package ()
 	local pkg
 
 	for pkg; do
-		echo "$pkg" >> "config/chroot_local-packagelists/livecd-rootfs.list.$pass"
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.chroot_$pass.list"
 	done
 }
 
