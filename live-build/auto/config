@@ -85,7 +85,7 @@ case $PROJECT in
 	xubuntu)
 		add_task install minimal standard xubuntu-desktop
 		add_package install xterm
-		add_task live edubuntu-live
+		add_task live xubuntu-live
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
