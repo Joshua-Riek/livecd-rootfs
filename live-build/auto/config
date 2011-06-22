@@ -168,6 +168,8 @@ boot/initrd.img-*
 EOF
 fi
 
+ln -s /usr/share/live/build/examples/hooks/all_chroot_pyc-purge.sh config/chroot_local-hooks/
+
 case $PROJECT in
 	kubuntu|kubuntu-mobile)
 		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/

@@ -1,3 +1,9 @@
+livecd-rootfs (2.8) UNRELEASED; urgency=low
+
+  * Use all_chroot_pyc-purge.sh hook from live-build 3.0~a21-1ubuntu4.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 22 Jun 2011 13:22:35 +0100
+
 livecd-rootfs (2.7) oneiric; urgency=low
 
   * Install xubuntu-live for xubuntu, not edubuntu-live (LP: #800211).
