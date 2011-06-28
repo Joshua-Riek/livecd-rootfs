@@ -49,7 +49,7 @@ COMPONENTS=
 BINARY_REMOVE_LINUX=:
 
 case $IMAGEFORMAT in
-	ext2|ext3)
+	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
 		add_package live jasper
 		;;
@@ -110,7 +110,7 @@ case $PROJECT in
 		add_task install minimal standard
 		;;
 
-	ubuntu-headless)
+	ubuntu-server)
 		add_task install minimal standard
 		;;
 

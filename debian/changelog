@@ -1,3 +1,10 @@
+livecd-rootfs (2.9) oneiric; urgency=low
+
+  * Rename the ARM headless image to ubuntu-server for oneiric
+  * Future-proof --chroot-filesystem support for a switch to ext4
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 28 Jun 2011 14:20:35 +0100
+
 livecd-rootfs (2.8) oneiric; urgency=low
 
   * Use all_chroot_pyc-purge.sh hook from live-build 3.0~a21-1ubuntu4.
