@@ -164,7 +164,12 @@ select_mirror () {
     case $(hostname --fqdn) in
 	bld-*.mmjgroup.com)	MIRROR=${USERMIRROR};;
 	*.mmjgroup.com)		MIRROR=http://archive.mmjgroup.com/${USERMIRROR##*/};;
-	*.0c3.net)		MIRROR=http://ftp.iinet.net.au/linux/ubuntu;;
+	*.0c3.net)
+		case $ARCH in
+			i386|amd64)	MIRROR=http://mirrors.0c3.net/ubuntu/ ;;
+			*)		MIRROR=http://mirrors.0c3.net/ubuntu-ports/ ;;
+		esac
+		;;
 	*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu;;
 	*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu;;
 	*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu;;
