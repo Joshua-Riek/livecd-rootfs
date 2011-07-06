@@ -1,3 +1,10 @@
+livecd-rootfs (2.13) UNRELEASED; urgency=low
+
+  * Didn't realize that you can pass multiple projects to BuildLiveCD.
+    Let's try SUBPROJECT using an argument.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Wed, 06 Jul 2011 17:20:24 +0100
+
 livecd-rootfs (2.12) oneiric; urgency=low
 
   [ Colin Watson ]

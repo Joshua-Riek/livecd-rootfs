@@ -33,8 +33,9 @@ PROPOSED=""
 IMAGEFORMAT=""
 LIVE_BUILD=false
 
-while getopts :s:d:f:pa:l name; do case $name in
+while getopts :s:r:d:f:pa:l name; do case $name in
     s)	SUBARCH="$OPTARG";;
+    r)	SUBPROJECT="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
     f)	IMAGEFORMAT="$OPTARG";;
     p)	PROPOSED="-p";;
@@ -98,8 +99,7 @@ if [ "`echo $@ | wc -w`" -gt "1" ]; then
     exit 0
 fi
 FS="$1"
-SUBPROJECT="$2"
-shift 2
+shift
 
 lockfile ~/buildLiveCD.lock || exit 1
 trap "finish" 0
