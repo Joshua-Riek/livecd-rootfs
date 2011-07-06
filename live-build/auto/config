@@ -53,11 +53,19 @@ OPTS=
 COMPONENTS=
 BINARY_REMOVE_LINUX=:
 SOURCE='--source false'
+LIVE_TASK=
 
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
-		add_package live jasper
+		case $SUBPROJECT in
+			wubi)
+				add_package install lupin-support
+				;;
+			*)
+				add_package live jasper
+				;;
+		esac
 		;;
 
 	*)
@@ -68,48 +76,47 @@ esac
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
-		add_task live ubuntu-live
+		LIVE_TASK='ubuntu-live'
 		;;
 
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard kubuntu-desktop
-		add_task live kubuntu-live
+		LIVE_TASK='kubuntu-live'
 		;;
 
 	kubuntu-mobile)
 		add_task install minimal standard kubuntu-mobile
-		add_task live kubuntu-mobile-live
+		LIVE_TASK='kubuntu-mobile-live'
 		COMPONENTS='main restricted universe'
 		;;
 
 	edubuntu|edubuntu-dvd)
 		add_task install minimal standard edubuntu-desktop-gnome
-		add_task live edubuntu-live
+		LIVE_TASK='edubuntu-live'
 		COMPONENTS='main restricted universe'
-		SOURCE='--source true --source-images none'
 		;;
 
 	xubuntu)
 		add_task install minimal standard xubuntu-desktop
 		add_package install xterm
-		add_task live xubuntu-live
+		LIVE_TASK='xubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	ubuntu-netbook)
 		add_task install minimal standard ubuntu-netbook
-		add_task live netbook-live
+		LIVE_TASK='netbook-live'
 		;;
 
 	mythbuntu)
 		add_task install minimal standard mythbuntu-desktop
-		add_task live mythbuntu-live
+		LIVE_TASK='mythbuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	lubuntu)
 		add_task install minimal standard lubuntu-desktop
-		add_task live lubuntu-live
+		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
@@ -126,6 +133,15 @@ case $PROJECT in
 		exit 2
 		;;
 esac
+
+case $SUBPROJECT in
+	wubi)
+		;;
+	*)
+		add_task live "$LIVE_TASK"
+		;;
+esac
+
 case $PROJECT in
 	*-dvd)
 		add_task live "$PROJECT-live"
@@ -180,6 +196,12 @@ ln -s /usr/share/live/build/examples/hooks/all_chroot_pyc-purge.sh config/chroot
 case $PROJECT in
 	kubuntu|kubuntu-mobile)
 		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
+		;;
+esac
+
+case $SUBPROJECT in
+	wubi)
+		ln -s /usr/share/live/build/examples/hooks/ubuntu_binary_build-wubildr.sh config/binary_local-hooks/
 		;;
 esac
 
