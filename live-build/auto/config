@@ -24,8 +24,7 @@ if [ -z "$MIRROR" ]; then
 	esac
 fi
 
-mkdir -p config/chroot_local-tasklists config/chroot_local-packagelists
-rm -f config/chroot_local-tasklists/livecd-rootfs.list config/chroot_local-packagelists/livecd-rootfs.list
+mkdir -p config/task-lists config/package-lists
 
 add_task ()
 {
@@ -34,7 +33,7 @@ add_task ()
 	local task
 
 	for task; do
-		echo "$task" >> "config/chroot_local-tasklists/livecd-rootfs.list.$pass"
+		echo "$task" >> "config/task-lists/livecd-rootfs.chroot_$pass.list"
 	done
 }
 
@@ -45,7 +44,7 @@ add_package ()
 	local pkg
 
 	for pkg; do
-		echo "$pkg" >> "config/chroot_local-packagelists/livecd-rootfs.list.$pass"
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.chroot_$pass.list"
 	done
 }
 
@@ -209,7 +208,7 @@ case $PROJECT in
 	*-dvd)
 		. config/bootstrap
 
-		cat > config/chroot_sources/dvd.binary << EOF
+		cat > config/archives/dvd.binary.list << EOF
 deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
