@@ -51,7 +51,10 @@ add_package ()
 OPTS=
 COMPONENTS=
 BINARY_REMOVE_LINUX=:
+BINARY_IMAGES=none
+MEMTEST=none
 SOURCE='--source false'
+BOOTLOADER=none
 LIVE_TASK=
 
 case $IMAGEFORMAT in
@@ -69,6 +72,14 @@ case $IMAGEFORMAT in
 
 	*)
 		add_package live lupin-casper
+		;;
+esac
+
+case $BINARYFORMAT in
+	iso*|usb*)
+		BINARY_IMAGES="$BINARYFORMAT"
+		MEMTEST=memtest86+
+		BOOTLOADER=syslinux
 		;;
 esac
 
@@ -170,8 +181,8 @@ lb config noauto \
 	--mode ubuntu \
 	--distribution "$SUITE" \
 	--bootstrap-keyring ubuntu-keyring \
-	--binary-images none \
-	--memtest none \
+	--binary-images "$BINARY_IMAGES" \
+	--memtest "$MEMTEST" \
 	$SOURCE \
 	--build-with-chroot false \
 	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
@@ -179,7 +190,7 @@ lb config noauto \
 	--package-lists none \
 	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
-	--bootloader none \
+	--bootloader "$BOOTLOADER" \
 	--initramfs-compression lzma \
 	$OPTS
 

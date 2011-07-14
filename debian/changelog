@@ -1,3 +1,11 @@
+livecd-rootfs (2.15) UNRELEASED; urgency=low
+
+  * Support generating different binary image types using
+    BINARYFORMAT=iso-hybrid and so on (although this won't actually work
+    until we create a syslinux-themes-ubuntu package).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 14 Jul 2011 18:26:02 +0100
+
 livecd-rootfs (2.14) oneiric; urgency=low
 
   * Handle package/task list changes in live-build 3.0~a22-1.
