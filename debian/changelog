@@ -1,3 +1,14 @@
+livecd-rootfs (2.16) oneiric; urgency=low
+
+  * Add support for building new "ubuntu-core" rootfs tarballs:
+    - add project support to BuildLiveCD and auto/config
+    - make auto/config and auto/build deal with plain FS types
+    - add some logic to auto/build to not choke with no kernels
+  * Minor cleanups to BuildLiveCD (LANG=C, bump current suite)
+  * Fix one spot where I missed future-proofing ext4 support
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 15 Jul 2011 11:19:49 -0600
+
 livecd-rootfs (2.15) oneiric; urgency=low
 
   * Support generating different binary image types using

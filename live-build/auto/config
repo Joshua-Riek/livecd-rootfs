@@ -70,6 +70,10 @@ case $IMAGEFORMAT in
 		esac
 		;;
 
+	plain)
+		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
+		;;
+
 	*)
 		add_package live lupin-casper
 		;;
@@ -136,6 +140,13 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal standard
+		;;
+
+	ubuntu-core)
+		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+		OPTS="${OPTS:+$OPTS }--linux-packages=none"
+		KERNEL_FLAVOURS=none
+		BINARY_REMOVE_LINUX=false
 		;;
 
 	*)

@@ -1,6 +1,7 @@
 #!/bin/bash
 BUILD_LOG=~/public_html/BuildLive.out
 ALWAYS_SEND_LOG=yes
+LANG=C
 
 finish() {
     [ $? != "0" ] && STATUS="Failed" || STATUS="Successful"
@@ -27,7 +28,7 @@ fi
 ARCH=$(dpkg --print-architecture)
 SUBARCH=""
 SUBARCHARG=""
-NEWSUITE="natty"
+NEWSUITE="oneiric"
 SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
@@ -85,7 +86,7 @@ esac
 
 for arg in "$@"; do
     case "$arg" in
-	*ubuntu|*ubuntu-dvd|kubuntu-mobile|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook|ubuntu-moblin-remix|mythbuntu|base|tocd|ubuntu-headless|ubuntu-server)	;;
+	*ubuntu|*ubuntu-dvd|kubuntu-mobile|kubuntu-netbook|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook|ubuntu-moblin-remix|mythbuntu|base|tocd|ubuntu-headless|ubuntu-server|ubuntu-core)	;;
 	*)
 	    echo "bad project: $arg" >&2
 	    exit 2

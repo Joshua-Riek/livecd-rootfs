@@ -53,11 +53,17 @@ case $LB_INITRAMFS in
 		;;
 esac
 
-for OUTPUT in ext2 ext3 manifest manifest-remove size squashfs; do
+for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 	[ -e "binary/$INITFS/filesystem.$OUTPUT" ] || continue
 	ln "binary/$INITFS/filesystem.$OUTPUT" "$PREFIX.$OUTPUT"
 	chmod 644 "$PREFIX.$OUTPUT"
 done
+
+if [ -e "binary/$INITFS/filesystem.dir" ]; then
+	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
+		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
+	chmod 644 "$PREFIX.rootfs.tar.gz"
+fi
 
 # '--initramfs none' produces different manifest names.
 if [ -e "binary/$INITFS/filesystem.packages" ]; then
@@ -65,11 +71,17 @@ if [ -e "binary/$INITFS/filesystem.packages" ]; then
 	chmod 644 "$PREFIX.manifest"
 fi
 if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
-	ln "binary/$INITFS/filesystem.packages-remove" "$PREFIX.manifest-remove"
-	chmod 644 "$PREFIX.manifest-remove"
+	# Not a typo, empty manifest-remove has a single LF in it. :/
+	if [ $(cat binary/boot/filesystem.packages-remove | wc -c) -gt 1 ]; then
+		ln "binary/$INITFS/filesystem.packages-remove" "$PREFIX.manifest-remove"
+		chmod 644 "$PREFIX.manifest-remove"
+	fi
 fi
 
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
+	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
+		continue
+	fi
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		echo "No kernel output for $FLAVOUR!" >&2
@@ -89,7 +101,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 done
 
 NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
-if [ "$NUMFLAVOURS" = 1 ]; then
+if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	# only one kernel flavour
 	ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
 	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
