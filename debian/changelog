@@ -1,3 +1,9 @@
+livecd-rootfs (2.17) oneiric; urgency=low
+
+  * Only set KERNEL_FLAVOURS to SUBARCH if SUBARCH is already set.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 15 Jul 2011 14:55:13 -0600
+
 livecd-rootfs (2.16) oneiric; urgency=low
 
   * Add support for building new "ubuntu-core" rootfs tarballs:
