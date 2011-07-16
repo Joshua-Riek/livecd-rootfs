@@ -1,3 +1,11 @@
+livecd-rootfs (2.18) oneiric; urgency=low
+
+  * export LB_LINUX_FLAVOURS="none" in auto/clean, so the clean
+    routine doesn't bomb out with no kernels selected.  This almost
+    certainly needs fixing in live-build, but works here for now 
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 15 Jul 2011 18:21:28 -0600
+
 livecd-rootfs (2.17) oneiric; urgency=low
 
   * Only set KERNEL_FLAVOURS to SUBARCH if SUBARCH is already set.
