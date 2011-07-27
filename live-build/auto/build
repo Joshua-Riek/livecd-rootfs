@@ -12,8 +12,65 @@ Read_conffiles config/all config/common config/bootstrap config/chroot config/bi
 Set_defaults
 
 (
+	if [ -d gnupg ]; then
+		cat << @@EOF > gnupg/NEWKEY
+Key-Type: DSA
+Key-Length: 1024
+Name-Real: Ubuntu Local Archive One-Time Signing Key
+Name-Email: cdimage@ubuntu.com
+Expire-Date: 0
+@@EOF
+		gpg --home gnupg --gen-key --batch < gnupg/NEWKEY \
+			> gnupg/generate.log 2>&1 &
+		GPG_PROCESS=$!
+	fi
+
 	lb bootstrap "$@"
 	lb chroot "$@"
+
+	if [ -d chroot/var/lib/preinstalled-pool ]; then
+		(cd chroot/var/lib/preinstalled-pool/ && apt-ftparchive packages . > Packages)
+		bzip2 -9 -c chroot/var/lib/preinstalled-pool/Packages \
+			> chroot/var/lib/preinstalled-pool/Packages.bz2
+		cat << @@EOF > chroot/etc/apt/sources.list.preinstall
+# This is a sources.list entry for a small pool of packages
+# provided on your preinstalled filesystem for your convenience.
+#
+# It is perfectly safe to delete both this entry and the directory
+# it references, should you want to save disk space and fetch the
+# packages remotely instead.
+#
+deb file:/var/lib/preinstalled-pool/ ./
+#
+@@EOF
+
+		cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list \
+			> chroot/etc/apt/sources.list.new
+		mv chroot/etc/apt/sources.list.new chroot/etc/apt/sources.list
+		rm chroot/etc/apt/sources.list.preinstall
+
+		echo "Waiting on gnupg ("$GPG_PROCESS") to finish generating a key."
+		wait $GPG_PROCESS
+
+		R_ORIGIN=$(lsb_release -i -s)
+		R_CODENAME=$(lsb_release -c -s)
+		R_VERSION=$(lsb_release -r -s)
+		R_PRETTYNAME=$(echo $R_CODENAME | sed -e 's/^\(.\)/\U\1/')
+
+		apt-ftparchive -o APT::FTPArchive::Release::Origin=$R_ORIGIN \
+			-o APT::FTPArchive::Release::Label=$R_ORIGIN \
+			-o APT::FTPArchive::Release::Suite=$R_CODENAME-local \
+			-o APT::FTPArchive::Release::Version=$R_VERSION \
+			-o APT::FTPArchive::Release::Codename=$R_CODENAME \
+			-o APT::FTPArchive::Release::Description="$R_ORIGIN $R_PRETTYNAME Local" \
+			release chroot/var/lib/preinstalled-pool/ > gnupg/Release
+
+		gpg --home gnupg --detach-sign --armor gnupg/Release
+		mv gnupg/Release chroot/var/lib/preinstalled-pool/Release
+		mv gnupg/Release.asc chroot/var/lib/preinstalled-pool/Release.gpg
+		apt-key --keyring chroot/etc/apt/trusted.gpg add gnupg/pubring.gpg
+		rm chroot/var/lib/preinstalled-pool/Packages
+	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
 	echo BEGIN docdirs

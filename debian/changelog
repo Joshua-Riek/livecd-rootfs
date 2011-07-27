@@ -1,3 +1,20 @@
+livecd-rootfs (2.19) oneiric; urgency=low
+
+  * Add support for building a pool of packages into the live config:
+    - define SEEDMIRROR, PREINSTALL_POOL, PREINSTALL_POOL_SEEDS in config
+    - set PREINSTALL_POOL_SEEDS to "server-ship" for ubuntu-server
+    - crib seed inheritance logic from cdimage implementation of same
+    - run germinate against seeds from SEEDMIRROR if to populate
+      PREINSTALL_POOL with a list of packages from PREINSTALL_POOL_SEEDS
+    - create a local-hook to download PREINSTALL_POOL packages to rootfs
+  * And add support to deal with the above pool of packages during build:
+    - generate a GPG key in the background if we're going to need one
+    - create a sources.list.d entry pointing at the rootfs pool
+    - create a Packages file and create and sign a Release file
+    - add our previously-generated key to the apt keyring and toss it
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 26 Jul 2011 15:26:01 -0600
+
 livecd-rootfs (2.18) oneiric; urgency=low
 
   * export LB_LINUX_FLAVOURS="none" in auto/clean, so the clean

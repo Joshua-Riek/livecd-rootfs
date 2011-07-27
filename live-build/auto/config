@@ -3,6 +3,7 @@ set -e
 
 rm -rf config
 
+SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
 		bld-*.mmjgroup.com)	;;
@@ -18,9 +19,15 @@ if [ -z "$MIRROR" ]; then
 				*)		MIRROR=http://mirrors.0c3.net/ubuntu-ports/ ;;
 			esac
 			;;
-		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
-		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/ ;;
-		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/ ;;
+		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
+					SEEDMIRROR=http://archive-team.internal/seeds/
+					;;
+		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/
+					SEEDMIRROR=http://archive-team.internal/seeds/
+					;;
+		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
+					SEEDMIRROR=http://archive-team.internal/seeds/
+					;;
 	esac
 fi
 
@@ -56,10 +63,14 @@ MEMTEST=none
 SOURCE='--source false'
 BOOTLOADER=none
 LIVE_TASK=
+PREINSTALLED=false
+PREINSTALL_POOL=
+PREINSTALL_POOL_SEEDS=
 
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
+		PREINSTALLED=true
 		case $SUBPROJECT in
 			wubi)
 				add_package install lupin-support
@@ -72,6 +83,7 @@ case $IMAGEFORMAT in
 
 	plain)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
+		PREINSTALLED=true
 		;;
 
 	*)
@@ -140,6 +152,7 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal standard
+		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
 	ubuntu-core)
@@ -237,3 +250,82 @@ deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
 EOF
 		;;
 esac
+
+# cribbed from cdimage, perhaps this should be a small helper script in germinate?
+add_inheritance () {
+	case " $inherit " in
+		*" $1 "*)
+			;;
+		*)
+			inherit="${inherit:+$inherit }$1"
+			;;
+	esac
+}
+
+expand_inheritance () {
+	for seed in $(grep "^$1:" germinate-output/structure | cut -d: -f2); do
+		expand_inheritance "$seed"
+	done
+	add_inheritance "$1"
+}
+
+inheritance () {
+	inherit=
+	expand_inheritance "$1"
+	echo "$inherit"
+}
+
+if [ "$PREINSTALLED" = "true" ]; then
+	if [ -n "$PREINSTALL_POOL_SEEDS" ]; then
+		rm -rf germinate-output && mkdir germinate-output
+		case $PROJECT in
+			kubuntu-mobile*)
+				SEED=kubuntu-mobile.$SUITE
+				;;
+			kubuntu*)
+				SEED=kubuntu.$SUITE
+				;;
+			xubuntu*)
+				SEED=xubuntu.$SUITE
+				;;
+			*)
+				SEED=ubuntu.$SUITE
+				;;
+		esac
+		(cd germinate-output && germinate --no-rdepends --no-installer \
+			-S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
+			${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
+
+		UNWANTED_SEEDS="${LIVE_TASK:+$LIVE_TASK }boot installer required"
+		for i in $UNWANTED_SEEDS; do
+			UNWANTED_SEEDS="${UNWANTED_SEEDS:+$UNWANTED_SEEDS }$(inheritance $i)"
+		done
+
+		for i in $PREINSTALL_POOL_SEEDS; do
+			PREINSTALL_POOL_SEEDS="${PREINSTALL_POOL_SEEDS:+$PREINSTALL_POOL_SEEDS }$(inheritance $i)"
+		done
+
+		for i in $PREINSTALL_POOL_SEEDS; do
+			case " $UNWANTED_SEEDS " in
+				*" $i "*)
+					;;
+				*)
+					PPS_EXP="${PPS_EXP:+$PPS_EXP }$i"
+					;;
+			esac
+		done
+
+		for i in $PPS_EXP; do
+			PREINSTALL_POOL="$PREINSTALL_POOL $(awk '{print $1}' \
+			germinate-output/$i | egrep -v '^-|^Package|^\|' | tr '\n' ' ')"
+		done
+	fi
+	if [ -n "$PREINSTALL_POOL" ]; then
+		rm -rf gnupg && mkdir gnupg
+		PREINSTALL_POOL_HOOK=config/chroot_local-hooks/preinstall-pool.sh
+		echo "#! /bin/sh" > $PREINSTALL_POOL_HOOK
+		echo "mkdir -p /var/lib/preinstalled-pool/" >> $PREINSTALL_POOL_HOOK
+		echo "cd /var/lib/preinstalled-pool/" >> $PREINSTALL_POOL_HOOK
+		echo "apt-get -y download $PREINSTALL_POOL" >> $PREINSTALL_POOL_HOOK
+	fi
+fi
