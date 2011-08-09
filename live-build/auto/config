@@ -197,6 +197,10 @@ case $ARCH in
 				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda
 				BINARY_REMOVE_LINUX=false
 				;;
+			ac100)
+				add_package install abootimg linux-ac100 flash-kernel
+				BINARY_REMOVE_LINUX=false
+				;;
 		esac
 		;;
 esac
