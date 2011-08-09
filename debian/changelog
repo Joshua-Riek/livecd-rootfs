@@ -1,8 +1,8 @@
-livecd-rootfs (2.20) UNRELEASED; urgency=low
+livecd-rootfs (2.20) oneiric; urgency=low
 
   * make sure the right packages are installed on armel+ac100 subarch builds 
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 09 Aug 2011 16:17:11 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 09 Aug 2011 16:25:11 +0200
 
 livecd-rootfs (2.19) oneiric; urgency=low
 
