@@ -198,6 +198,7 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			ac100)
+				COMPONENTS='main restricted universe'
 				add_package install abootimg linux-ac100 flash-kernel
 				BINARY_REMOVE_LINUX=false
 				;;
