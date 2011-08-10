@@ -129,7 +129,7 @@ if [ -e "binary/$INITFS/filesystem.packages" ]; then
 fi
 if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
 	# Not a typo, empty manifest-remove has a single LF in it. :/
-	if [ $(cat binary/boot/filesystem.packages-remove | wc -c) -gt 1 ]; then
+	if [ $(cat binary/$INITFS/filesystem.packages-remove | wc -c) -gt 1 ]; then
 		ln "binary/$INITFS/filesystem.packages-remove" "$PREFIX.manifest-remove"
 		chmod 644 "$PREFIX.manifest-remove"
 	fi
