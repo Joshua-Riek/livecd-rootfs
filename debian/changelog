@@ -1,8 +1,8 @@
-livecd-rootfs (2.21) UNRELEASED; urgency=low
+livecd-rootfs (2.21) oneiric; urgency=low
 
   * make sure ac100 images have universe enabled since the kernel lives there.
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 10 Aug 2011 13:13:25 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 10 Aug 2011 13:14:25 +0200
 
 livecd-rootfs (2.20) oneiric; urgency=low
 
