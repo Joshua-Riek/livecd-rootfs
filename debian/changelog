@@ -3,6 +3,10 @@ livecd-rootfs (2.22) UNRELEASED; urgency=low
   [ Adam Conrad ]
   * Switch a hardcoded "boot" to "$INITFS" in auto/build.
 
+  [ Colin Watson ]
+  * BuildLiveCD: Make sure livecd-rootfs is still installed in the chroot
+    after the dist-upgrade.
+
  -- Colin Watson <cjwatson@ubuntu.com>  Thu, 11 Aug 2011 12:18:21 +0100
 
 livecd-rootfs (2.21) oneiric; urgency=low
