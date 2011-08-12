@@ -1,3 +1,9 @@
+livecd-rootfs (2.23) UNRELEASED; urgency=low
+
+  * Add mx5 subarch support for Freescale i.MX53
+
+ -- Jani Monoses <jani@ubuntu.com>  Fri, 12 Aug 2011 18:09:01 +0300
+
 livecd-rootfs (2.22) oneiric; urgency=low
 
   [ Adam Conrad ]
