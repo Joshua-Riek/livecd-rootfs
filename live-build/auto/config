@@ -203,8 +203,9 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 			ac100)
 				COMPONENTS='main restricted universe'
-				add_package install abootimg linux-ac100 flash-kernel
+				add_package install ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
+				PREINSTALL_POOL_SEEDS=""
 				;;
 		esac
 		;;

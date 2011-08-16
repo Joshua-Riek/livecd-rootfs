@@ -1,8 +1,15 @@
 livecd-rootfs (2.23) UNRELEASED; urgency=low
 
+  [ Jani Monoses ]
   * Add mx5 subarch support for Freescale i.MX53
 
- -- Jani Monoses <jani@ubuntu.com>  Fri, 12 Aug 2011 18:09:01 +0300
+  [ Oliver Grawert ]
+  * adjust the packagelist for ac100 a bit, according to adam it should not
+    need the kernel metapackage seeded if it matches the naming convention
+  * do not install preinstall-pool on ac100-server, it breaks for no apparent
+    reason atm, this makes server rootfses for ac100 buildable again.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Aug 2011 14:42:33 +0200
 
 livecd-rootfs (2.22) oneiric; urgency=low
 
