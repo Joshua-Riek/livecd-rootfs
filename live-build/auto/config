@@ -201,6 +201,7 @@ case $ARCH in
 				COMPONENTS='main restricted universe'
 				add_package install linux-meta-linaro-lt-mx5 flash-kernel u-boot-linaro-mx53loco
 				BINARY_REMOVE_LINUX=false
+				;;
 			ac100)
 				COMPONENTS='main restricted universe'
 				add_package install ac100-tarball-installer
