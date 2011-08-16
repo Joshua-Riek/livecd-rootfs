@@ -1,8 +1,8 @@
-livecd-rootfs (2.24) UNRELEASED; urgency=low
+livecd-rootfs (2.24) oneiric; urgency=low
 
   * add missing ;; to the mx5 case statement
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Aug 2011 15:38:51 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Aug 2011 15:40:51 +0200
 
 livecd-rootfs (2.23) oneiric; urgency=low
 
