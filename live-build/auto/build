@@ -164,6 +164,29 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
 fi
 
+if [ "$SUBARCH" = "ac100" ]; then
+	# create the md5sum file for which we are actually doing all this
+	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
+
+	# make sure update-initramfs feels cosy and warm in the environment
+	lb chroot_proc install "$@"
+	lb chroot_sysfs install "$@"
+	lb chroot_devpts install "$@"
+
+	# re-create initrd to contain the installer.md5 file
+	Chroot chroot "update-initramfs -k all -t -u -v"
+
+	# create boot.img
+	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg -r /boot/initrd.img-${KVERS} -k /boot/vmlinu?-${KVERS}"
+
+	# clean up
+	lb chroot_devpts remove "$@"
+	lb chroot_sysfs remove "$@"
+	lb chroot_proc remove "$@"
+
+	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.installer-$FLAVOUR.img"
+fi
+
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
 case $PROJECT in
 	edubuntu-dvd)
