@@ -177,7 +177,7 @@ if [ "$SUBARCH" = "ac100" ]; then
 	Chroot chroot "update-initramfs -k all -t -u -v"
 
 	# create boot.img
-	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg -r /boot/initrd.img-${KVERS} -k /boot/vmlinu?-${KVERS}"
+	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
 
 	# clean up
 	lb chroot_devpts remove "$@"
