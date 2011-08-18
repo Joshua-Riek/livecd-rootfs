@@ -1,3 +1,10 @@
+livecd-rootfs (2.26) UNRELEASED; urgency=low
+
+  * make sure flash-kernel is not executed during build, this setting wasn't
+    transitioned from livecd.sh yet
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Aug 2011 11:51:54 +0200
+
 livecd-rootfs (2.25) oneiric; urgency=low
 
   * include the md5 sum of the rootfs tarball in the initrd, so the installer

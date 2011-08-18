@@ -185,6 +185,7 @@ esac
 case $ARCH in
 	armel)
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
+		FLASH_KERNEL_SKIP=1
 		case $SUBARCH in
 			dove)
 				BINARY_REMOVE_LINUX=false
