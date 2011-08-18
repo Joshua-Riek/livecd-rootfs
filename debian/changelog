@@ -1,8 +1,8 @@
-livecd-rootfs (2.27) UNRELEASED; urgency=low
+livecd-rootfs (2.27) oneiric; urgency=low
 
   * fix typo in abootimg call
 
- -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Aug 2011 18:03:44 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Aug 2011 18:04:44 +0200
 
 livecd-rootfs (2.26) oneiric; urgency=low
 
