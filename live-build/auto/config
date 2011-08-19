@@ -177,6 +177,11 @@ case $SUBPROJECT in
 esac
 
 case $PROJECT in
+	ubuntu-dvd)
+		add_task install ubuntu-usb
+		add_task live ubuntu-usb-live
+		;;
+
 	*-dvd)
 		add_task live "$PROJECT-live"
 		;;
