@@ -1,3 +1,9 @@
+livecd-rootfs (2.29) UNRELEASED; urgency=low
+
+  *  rename ac100 bootimage to something the build system can parse easier.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 19 Aug 2011 14:21:10 +0200
+
 livecd-rootfs (2.28) oneiric; urgency=low
 
   * Switch ubuntu-dvd to ubuntu-usb and ubuntu-usb-live tasks.
