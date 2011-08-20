@@ -185,6 +185,7 @@ if [ "$SUBARCH" = "ac100" ]; then
 	lb chroot_proc remove "$@"
 
 	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
+	ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))

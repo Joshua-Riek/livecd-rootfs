@@ -1,3 +1,10 @@
+livecd-rootfs (2.30) UNRELEASED; urgency=low
+
+  * provide .bootimg as a link to .bootimg-$FLAVOUR similar to the 
+    naming scheme we use for initrd and kernel files.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 20 Aug 2011 10:55:30 +0200
+
 livecd-rootfs (2.29) oneiric; urgency=low
 
   *  rename ac100 bootimage to something the build system can parse easier.
