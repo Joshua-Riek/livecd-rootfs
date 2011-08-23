@@ -33,8 +33,9 @@ SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
 LIVE_BUILD=false
+UBUNTU_DEFAULTS_LOCALE=""
 
-while getopts :s:r:d:f:pa:l name; do case $name in
+while getopts :s:r:d:f:pa:lu: name; do case $name in
     s)	SUBARCH="$OPTARG";;
     r)	SUBPROJECT="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
@@ -42,6 +43,7 @@ while getopts :s:r:d:f:pa:l name; do case $name in
     p)	PROPOSED="-p";;
     a)	APT_SOURCE="-A $OPTARG";;
     l)	LIVE_BUILD=:;;
+    u)	UBUNTU_DEFAULTS_LOCALE="$OPTARG";;
 esac; done;
 shift $((OPTIND-1))
 
@@ -112,7 +114,7 @@ for STE in $SUITES; do
     if [ -d ~/build-${STE}-live/chroot-${STE} ]; then
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -qq update || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y dist-upgrade || true
-	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y install livecd-rootfs || true
+	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y install livecd-rootfs ubuntu-defaults-builder || true
     fi
 done
 for STE in $SUITES; do
@@ -145,6 +147,9 @@ for STE in $SUITES; do
 	    exit 1
 	fi
 	COMMAND="PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
+    elif [ "$UBUNTU_DEFAULTS_LOCALE" ]; then
+	# universe enabled until ubuntu-defaults-zh-cn is moved to main
+	COMMAND="ubuntu-defaults-image --locale ${UBUNTU_DEFAULTS_LOCALE} --arch ${ARCH} --release ${STE} --components main,restricted,universe"
     else
 	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT:+-f$IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
     fi

@@ -3,6 +3,7 @@ livecd-rootfs (2.31) UNRELEASED; urgency=low
   * Link binary.iso or binary-hybrid.iso, if found, into the output
     directory for use by BuildLiveCD.
   * Tolerate ubuntu-defaults-image's kernel renaming.
+  * Add a -u option to BuildLiveCD which calls ubuntu-defaults-image.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Aug 2011 18:28:02 +0100
 
