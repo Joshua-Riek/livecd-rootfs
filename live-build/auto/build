@@ -148,6 +148,10 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	fi
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
+		if [ -e "binary/$INITFS/vmlinuz" ]; then
+			# already renamed by ubuntu-defaults-image
+			break
+		fi
 		echo "No kernel output for $FLAVOUR!" >&2
 		exit 1
 	fi
@@ -167,8 +171,16 @@ done
 NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
 if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	# only one kernel flavour
-	ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
-	ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
+	if [ -e "binary/$INITFS/vmlinuz" ]; then
+		ln "binary/$INITFS/vmlinuz" "$PREFIX.kernel"
+	else
+		ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
+	fi
+	if [ -e "binary/$INITFS/initrd.lz" ]; then
+		ln "binary/$INITFS/initrd.lz" "$PREFIX.initrd"
+	else
+		ln -sf "$PREFIX.initrd-$LB_LINUX_FLAVOURS" "$PREFIX.initrd"
+	fi
 fi
 
 if [ "$SUBARCH" = "ac100" ]; then
