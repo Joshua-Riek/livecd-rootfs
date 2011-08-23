@@ -1,3 +1,10 @@
+livecd-rootfs (2.31) UNRELEASED; urgency=low
+
+  * Link binary.iso or binary-hybrid.iso, if found, into the output
+    directory for use by BuildLiveCD.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Aug 2011 18:28:02 +0100
+
 livecd-rootfs (2.30) oneiric; urgency=low
 
   * provide .bootimg as a link to .bootimg-$FLAVOUR similar to the 

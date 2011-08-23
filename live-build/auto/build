@@ -116,6 +116,13 @@ for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 	chmod 644 "$PREFIX.$OUTPUT"
 done
 
+for ISO in binary.iso binary-hybrid.iso; do
+	[ -e "$ISO" ] || continue
+	ln "$ISO" "$PREFIX.iso"
+	chmod 644 "$PREFIX.iso"
+	break
+done
+
 if [ -e "binary/$INITFS/filesystem.dir" ]; then
 	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
