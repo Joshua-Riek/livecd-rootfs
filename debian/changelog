@@ -1,4 +1,4 @@
-livecd-rootfs (2.35) UNRELEASED; urgency=low
+livecd-rootfs (2.35) oneiric; urgency=low
 
   * Set KERNEL_FLAVOURS for mx5.
 
