@@ -1,3 +1,9 @@
+livecd-rootfs (2.31ubuntu1) UNRELEASED; urgency=low
+
+  * Fix kernel package name for mx5.
+
+ -- Jani Monoses <jani@ubuntu.com>  Wed, 24 Aug 2011 14:14:10 +0300
+
 livecd-rootfs (2.31) oneiric; urgency=low
 
   * Link binary.iso or binary-hybrid.iso, if found, into the output
