@@ -125,7 +125,7 @@ for STE in $SUITES; do
 	DIR=~/build.live/chroot-${STE}/./build/
     fi
 
-    PUBDIR=~/public_html/LiveCD/${STE}/${FS}${SUBARCH:+-$SUBARCH}/
+    PUBDIR=~/public_html/LiveCD/${STE}/${FS}${SUBPROJECT:+-$SUBPROJECT}${SUBARCH:+-$SUBARCH}${UBUNTU_DEFAULTS_LOCALE:+-$UBUNTU_DEFAULTS_LOCALE}/
     mkdir -p ${PUBDIR}
 
     NOW=$(date +%Y%m%d)
