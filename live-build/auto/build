@@ -193,7 +193,7 @@ if [ "$SUBARCH" = "ac100" ]; then
 	lb chroot_devpts install "$@"
 
 	# re-create initrd to contain the installer.md5 file
-	Chroot chroot "update-initramfs -k all -t -u -v"
+	Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
 
 	# create boot.img
 	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
