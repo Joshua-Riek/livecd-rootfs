@@ -1,11 +1,11 @@
-livecd-rootfs (2.34) UNRELEASED; urgency=low
+livecd-rootfs (2.34) oneiric; urgency=low
 
   * drop FLASH_KERNEL_SKIP from live-build config, flash-kernel suppression is 
     handled through a diversion already.
   * add FLASH_KERNEL_SKIP explicitly to the post build ac100 update-initramfs 
     chroot call.
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 24 Aug 2011 14:13:55 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 24 Aug 2011 14:16:55 +0200
 
 livecd-rootfs (2.33) oneiric; urgency=low
 
