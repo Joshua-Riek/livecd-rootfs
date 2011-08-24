@@ -1,4 +1,4 @@
-livecd-rootfs (2.31ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (2.32) oneiric; urgency=low
 
   * Fix kernel package name for mx5.
 
