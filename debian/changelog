@@ -1,9 +1,9 @@
-livecd-rootfs (2.33) UNRELEASED; urgency=low
+livecd-rootfs (2.33) oneiric; urgency=low
 
   * BuildLiveCD: Add the subproject (if any) and the ubuntu-defaults-image
     locale (if any) to the output directory name.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 24 Aug 2011 12:21:08 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 24 Aug 2011 12:25:52 +0100
 
 livecd-rootfs (2.32) oneiric; urgency=low
 
