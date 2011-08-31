@@ -14,7 +14,7 @@ finish() {
     fi
     if [ "$SEND_LOG" = "yes" ]; then
         exec >/dev/null 2>&1
-        mailx -s "LiveCD: $STATUS $STE:$FS${SUBARCH:+-$SUBARCH} build on ${ARCH}" buildd+porters < "$BUILD_LOG"
+        mailx -s "LiveCD: $STATUS $STE:$FS${SUBPROJECT:+-$SUBPROJECT}${SUBARCH:+-$SUBARCH}${UBUNTU_DEFAULTS_LOCALE:+-$UBUNTU_DEFAULTS_LOCALE} build on ${ARCH}" buildd+porters < "$BUILD_LOG"
     fi
     rm -f ~/buildLiveCD.lock
     nohup ~/bin/pruneLiveCD >/dev/null 2>&1 &
