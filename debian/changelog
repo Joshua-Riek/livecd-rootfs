@@ -2,6 +2,7 @@ livecd-rootfs (2.36) UNRELEASED; urgency=low
 
   * BuildLiveCD: Add subproject and ubuntu-defaults-image locale to error
     mail subject.
+  * BuildLiveCD: Install recommendations of ubuntu-defaults-builder.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Wed, 31 Aug 2011 10:02:05 +0100
 
