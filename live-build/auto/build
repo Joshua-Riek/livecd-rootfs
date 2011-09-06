@@ -184,8 +184,9 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 fi
 
 if [ "$SUBARCH" = "ac100" ]; then
-	# create the md5sum file for which we are actually doing all this
+	# create the md5sum and size files for which we are actually doing all this
 	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
+	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
 
 	# make sure update-initramfs feels cosy and warm in the environment
 	lb chroot_proc install "$@"
