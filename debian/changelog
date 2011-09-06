@@ -1,4 +1,4 @@
-livecd-rootfs (2.36) UNRELEASED; urgency=low
+livecd-rootfs (2.36) oneiric; urgency=low
 
   [ Colin Watson ]
   * BuildLiveCD: Add subproject and ubuntu-defaults-image locale to error
@@ -10,7 +10,7 @@ livecd-rootfs (2.36) UNRELEASED; urgency=low
     changes its name several times during build we need a second criteria to not
     loop over all availiable tarballs with md5sum at install time.
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 06 Sep 2011 15:18:52 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 06 Sep 2011 15:25:52 +0200
 
 livecd-rootfs (2.35) oneiric; urgency=low
 
