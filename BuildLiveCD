@@ -115,7 +115,7 @@ for STE in $SUITES; do
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -qq update || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y dist-upgrade || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y install livecd-rootfs || true
-	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y --install-recommends ubuntu-defaults-builder || true
+	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y --install-recommends install ubuntu-defaults-builder || true
     fi
 done
 for STE in $SUITES; do
