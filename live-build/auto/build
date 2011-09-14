@@ -146,7 +146,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue
 	fi
-	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-*) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
+	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		if [ -e "binary/$INITFS/vmlinuz" ]; then
 			# already renamed by ubuntu-defaults-image

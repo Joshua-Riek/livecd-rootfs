@@ -2,6 +2,7 @@ livecd-rootfs (2.37) UNRELEASED; urgency=low
 
   * BuildLiveCD: Fix typo that broke installing ubuntu-defaults-builder and
     its recommendations.
+  * Squash errors from 'ls vmlinu?-*'.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Mon, 12 Sep 2011 17:51:44 +0100
 
