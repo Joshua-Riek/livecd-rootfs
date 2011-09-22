@@ -1,9 +1,9 @@
-livecd-rootfs (2.38) UNRELEASED; urgency=low
+livecd-rootfs (2.38) oneiric; urgency=low
 
   * Add main, restricted, universe, and multiverse to the sources.list
     for Wubi disk images (LP: #855301).
 
- -- Evan Dandrea <ev@ubuntu.com>  Wed, 21 Sep 2011 18:51:38 +0100
+ -- Evan Dandrea <ev@ubuntu.com>  Thu, 22 Sep 2011 10:31:11 +0100
 
 livecd-rootfs (2.37) oneiric; urgency=low
 
