@@ -74,6 +74,7 @@ case $IMAGEFORMAT in
 		case $SUBPROJECT in
 			wubi)
 				add_package install lupin-support
+				COMPONENTS='main restricted universe multiverse'
 				;;
 			*)
 				add_package live jasper
