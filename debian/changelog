@@ -1,3 +1,10 @@
+livecd-rootfs (2.39) oneiric; urgency=low
+
+  * Explicitely select the oem-config frontend to install on a
+    per-project basis, to match the ubiquity in use (LP: #820514)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 26 Sep 2011 19:14:56 -0600
+
 livecd-rootfs (2.38) oneiric; urgency=low
 
   * Add main, restricted, universe, and multiverse to the sources.list

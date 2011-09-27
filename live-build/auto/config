@@ -77,7 +77,17 @@ case $IMAGEFORMAT in
 				COMPONENTS='main restricted universe multiverse'
 				;;
 			*)
-				add_package live jasper
+				case $PROJECT in
+					kubuntu*)
+						add_package live jasper oem-config-kde
+						;;
+					ubuntu-server)
+						add_package live jasper oem-config-debconf
+						;;
+					*)
+						add_package live jasper oem-config-gtk
+						;;
+				esac
 				;;
 		esac
 		;;
