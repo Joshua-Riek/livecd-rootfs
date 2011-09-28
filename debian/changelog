@@ -1,3 +1,10 @@
+livecd-rootfs (2.40) oneiric; urgency=low
+
+  * Revert the previous change and apply it for all $PREINSTALLED
+    targets instead of just ext2|ext3|ext4, so ac100 gets the fix.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 28 Sep 2011 15:20:38 -0600
+
 livecd-rootfs (2.39) oneiric; urgency=low
 
   * Explicitely select the oem-config frontend to install on a
