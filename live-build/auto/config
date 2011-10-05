@@ -78,6 +78,8 @@ case $IMAGEFORMAT in
 				;;
 			*)
 				add_package live jasper
+				OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
+				OPTS="${OPTS:+$OPTS }--swap-file-size 512"
 				;;
 		esac
 		;;

@@ -1,3 +1,10 @@
+livecd-rootfs (2.41) oneiric; urgency=low
+
+  * Re-enable swap on jasper-using images, a regression from
+    the switch from livecd-rootfs to live-build (LP: #868662)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 05 Oct 2011 13:20:24 -0600
+
 livecd-rootfs (2.40) oneiric; urgency=low
 
   * Revert the previous change and apply it for all $PREINSTALLED
