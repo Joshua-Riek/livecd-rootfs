@@ -149,8 +149,7 @@ for STE in $SUITES; do
 	fi
 	COMMAND="PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
     elif [ "$UBUNTU_DEFAULTS_LOCALE" ]; then
-	# universe enabled until ubuntu-defaults-zh-cn is moved to main
-	COMMAND="ubuntu-defaults-image --locale ${UBUNTU_DEFAULTS_LOCALE} --arch ${ARCH} --release ${STE} --components main,restricted,universe"
+	COMMAND="ubuntu-defaults-image --locale ${UBUNTU_DEFAULTS_LOCALE} --arch ${ARCH} --release ${STE}"
     else
 	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT:+-f$IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
     fi
