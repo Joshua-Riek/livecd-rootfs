@@ -1,3 +1,10 @@
+livecd-rootfs (2.42) oneiric; urgency=low
+
+  * Explicitly select ubuquity frontend as well, to match the
+    oem-config frontend, and avoid pulling in unwanted deps.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 06 Oct 2011 19:30:51 -0600
+
 livecd-rootfs (2.41) oneiric; urgency=low
 
   * Re-enable swap on jasper-using images, a regression from

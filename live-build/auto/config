@@ -97,15 +97,15 @@ esac
 if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 	case $PROJECT in
 		kubuntu*)
-			add_package live oem-config-kde
+			add_package live oem-config-kde ubiquity-frontend-kde
 			;;
 		ubuntu-server)
-			add_package live oem-config-debconf
+			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
 		ubuntu-core|base)
 			;;
 		*)
-			add_package live oem-config-gtk
+			add_package live oem-config-gtk ubiquity-frontend-gtk
 			;;
 	esac
 fi
