@@ -207,7 +207,7 @@ case $PROJECT in
 esac
 
 case $ARCH in
-	armel)
+	armel|armhf)
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
 			dove)

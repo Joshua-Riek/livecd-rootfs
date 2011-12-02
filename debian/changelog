@@ -1,3 +1,11 @@
+livecd-rootfs (2.44) precise; urgency=low
+
+  * Mirror armel support as armhf, so we can build all the same images.
+  * Allow ARCH to be specified on the BuildLiveCD command line as -A,
+    so that it doesn't have to be hardcoded for non-native builders.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 02 Dec 2011 11:41:13 -0700
+
 livecd-rootfs (2.43) oneiric; urgency=low
 
   * BuildLiveCD: Stop building ubuntu-defaults-image images with universe.
