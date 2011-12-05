@@ -169,7 +169,7 @@ for STE in $SUITES; do
 	done
 
 	for f in ${PUBDIR}${NOW}/livecd.*.cloop-*; do 
-	    if [ -f $f ]; then
+	    if [ -f ${f} ]; then
 		target=${f%-*}
 		if [ ! -f ${target} ]; then
 		    for fsbs in 4096:4096 1024:65536; do
