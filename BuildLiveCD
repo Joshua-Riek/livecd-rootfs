@@ -169,17 +169,19 @@ for STE in $SUITES; do
 	done
 
 	for f in ${PUBDIR}${NOW}/livecd.*.cloop-*; do 
-	    target=${f%-*}
-	    if [ ! -f ${target} ]; then
-		for fsbs in 4096:4096 1024:65536; do
-		    if [ -f ${target}-${fsbs} ]; then
-			ln -sf ${target##*/}-${fsbs} ${target}
-			break
-		    fi
-		done
+	    if [ -f $f ]; then
+		target=${f%-*}
 		if [ ! -f ${target} ]; then
-		    best=$(ls -ld ${target}-* | sort -k5,5n| awk '{print $NF; quit}')
-		    ln -sf ${best##*/} ${target}
+		    for fsbs in 4096:4096 1024:65536; do
+			if [ -f ${target}-${fsbs} ]; then
+			    ln -sf ${target##*/}-${fsbs} ${target}
+			    break
+			fi
+		    done
+		    if [ ! -f ${target} ]; then
+			best=$(ls -ld ${target}-* | sort -k5,5n| awk '{print $NF; quit}')
+			ln -sf ${best##*/} ${target}
+		    fi
 		fi
 	    fi
 	done
