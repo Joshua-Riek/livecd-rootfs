@@ -1,3 +1,10 @@
+livecd-rootfs (2.45) precise; urgency=low
+
+  * Change default suite to precise (better late than never?)
+  * Add the -A option to the getopts argument list, so it works.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 05 Dec 2011 07:50:14 -0700
+
 livecd-rootfs (2.44) precise; urgency=low
 
   * Mirror armel support as armhf, so we can build all the same images.

@@ -28,14 +28,14 @@ fi
 ARCH=$(dpkg --print-architecture)
 SUBARCH=""
 SUBARCHARG=""
-NEWSUITE="oneiric"
+NEWSUITE="precise"
 SUITES=""
 PROPOSED=""
 IMAGEFORMAT=""
 LIVE_BUILD=false
 UBUNTU_DEFAULTS_LOCALE=""
 
-while getopts :s:r:d:f:pa:lu: name; do case $name in
+while getopts :A:s:r:d:f:pa:lu: name; do case $name in
     A)  ARCH="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     r)	SUBPROJECT="$OPTARG";;
