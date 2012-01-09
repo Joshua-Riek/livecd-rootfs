@@ -187,13 +187,9 @@ case $PROJECT in
 		;;
 esac
 
-case $SUBPROJECT in
-	wubi)
-		;;
-	*)
-		add_task live "$LIVE_TASK"
-		;;
-esac
+if [ "$PREINSTALLED" = "true" ]; then
+	add_task live "$LIVE_TASK"
+fi
 
 case $PROJECT in
 	ubuntu-dvd)

@@ -1,8 +1,9 @@
-livecd-rootfs (2.46) UNRELEASED; urgency=low
+livecd-rootfs (2.46) precise; urgency=low
 
   * Guard legacy cloop code in a [ -f ], so it stops failing.
+  * Don't add the LIVE_TASK for any PREINSTALLED images.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Mon, 05 Dec 2011 15:12:36 -0700
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 09 Jan 2012 03:23:26 -0700
 
 livecd-rootfs (2.45) precise; urgency=low
 
