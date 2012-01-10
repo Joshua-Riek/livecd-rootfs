@@ -214,7 +214,7 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda
+				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda ti-omap4-ppa
 				BINARY_REMOVE_LINUX=false
 				;;
 			mx5)
