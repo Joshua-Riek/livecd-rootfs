@@ -1,3 +1,10 @@
+livecd-rootfs (2.48) UNRELEASED; urgency=low
+
+  * Fix sense of live/preinstalled change in 2.46; add the live task for
+    non-preinstalled images, rather than only for preinstalled images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 10 Jan 2012 12:40:23 +0000
+
 livecd-rootfs (2.47) precise; urgency=low
 
   * put ti-omap4-ppa into omap4 images 

@@ -187,7 +187,7 @@ case $PROJECT in
 		;;
 esac
 
-if [ "$PREINSTALLED" = "true" ]; then
+if [ "$PREINSTALLED" != "true" ]; then
 	add_task live "$LIVE_TASK"
 fi
 
