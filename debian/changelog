@@ -1,3 +1,9 @@
+livecd-rootfs (2.49) UNRELEASE; urgency=low
+
+  * Update maintainer to Ubuntu Developers, LaMont doesn't upload much.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 12 Jan 2012 07:27:16 -0700
+
 livecd-rootfs (2.48) precise; urgency=low
 
   * Fix sense of live/preinstalled change in 2.46; add the live task for
