@@ -26,6 +26,27 @@ Expire-Date: 0
 	fi
 
 	lb bootstrap "$@"
+
+	Chroot chroot "dpkg-divert --quiet --add \
+		--divert /usr/sbin/update-initramfs.REAL --rename \
+		/usr/sbin/update-initramfs"
+	cat > chroot/usr/sbin/update-initramfs <<'EOF'
+#! /bin/sh
+if [ $# != 1 ] || [ "$1" != -u ]; then
+	exec update-initramfs.REAL "$@"
+fi
+echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
+exit 0
+EOF
+	chmod +x chroot/usr/sbin/update-initramfs
+
+	cat > config/chroot_local-hooks/zz-undivert-update-initramfs.sh <<'EOF'
+#! /bin/sh
+rm -f /usr/sbin/update-initramfs
+dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
+EOF
+	chmod +x config/chroot_local-hooks/zz-undivert-update-initramfs.sh
+
 	lb chroot "$@"
 
 	if [ -d chroot/var/lib/preinstalled-pool ]; then

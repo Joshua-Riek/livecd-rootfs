@@ -1,6 +1,12 @@
-livecd-rootfs (2.49) UNRELEASE; urgency=low
+livecd-rootfs (2.49) UNRELEASED; urgency=low
 
+  [ Adam Conrad ]
   * Update maintainer to Ubuntu Developers, LaMont doesn't upload much.
+
+  [ Colin Watson ]
+  * Get live-build to divert update-initramfs while building the chroot.
+    This should cut a few minutes off builds, particularly on slow
+    architectures.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Thu, 12 Jan 2012 07:27:16 -0700
 
