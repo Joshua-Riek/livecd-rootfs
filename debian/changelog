@@ -1,8 +1,8 @@
-livecd-rootfs (2.51) UNRELEASED; urgency=low
+livecd-rootfs (2.51) precise; urgency=low
 
   * BuildLiveCD: Accept ubuntustudio-dvd as a valid project.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 20 Jan 2012 23:23:01 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 20 Jan 2012 23:23:48 +0000
 
 livecd-rootfs (2.50) precise; urgency=low
 
