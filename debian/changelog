@@ -1,3 +1,9 @@
+livecd-rootfs (2.50) UNRELEASED; urgency=low
+
+  * Add Ubuntu Studio support.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 20 Jan 2012 20:50:36 +0000
+
 livecd-rootfs (2.49) precise; urgency=low
 
   [ Adam Conrad ]
