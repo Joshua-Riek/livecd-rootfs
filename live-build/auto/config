@@ -165,7 +165,7 @@ case $PROJECT in
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
-	ubuntustudio)
+	ubuntustudio-dvd)
 		add_task ubuntustudio-desktop ubuntustudio-generation ubuntustudio-recording ubuntustudio-font-meta ubuntustudio-graphics ubuntustudio-audio-plugins ubuntustudio-video
 		COMPONENTS='main restricted universe multiverse'
 		;;
