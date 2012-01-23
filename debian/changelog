@@ -1,3 +1,9 @@
+livecd-rootfs (2.53) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Fix ubuntustudio-dvd task selection.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 23 Jan 2012 19:45:43 +0000
+
 livecd-rootfs (2.52) precise; urgency=low
 
   * live-build/auto/config: Fix support for ubuntustudio-dvd project.
