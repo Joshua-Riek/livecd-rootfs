@@ -1,3 +1,11 @@
+livecd-rootfs (2.54) precise; urgency=low
+
+  * Remove the x-loader packages from omap and omap4 flavours, as they
+    are now using the MLO provided by their respective u-boot packages.
+  * Add zram-config to the ac100 subarch to replace the installer hack.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 25 Jan 2012 22:34:59 -0700
+
 livecd-rootfs (2.53) precise; urgency=low
 
   * live-build/auto/config: Fix ubuntustudio-dvd task selection.

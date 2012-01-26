@@ -215,11 +215,11 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap)
-				add_package install x-loader-omap3-beagle u-boot-linaro-omap3-beagle
+				add_package install u-boot-linaro-omap3-beagle
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				add_package install x-loader-omap4-panda u-boot-linaro-omap4-panda ti-omap4-ppa
+				add_package install u-boot-linaro-omap4-panda ti-omap4-ppa
 				BINARY_REMOVE_LINUX=false
 				;;
 			mx5)
@@ -230,7 +230,7 @@ case $ARCH in
 				;;
 			ac100)
 				COMPONENTS='main restricted universe'
-				add_package install ac100-tarball-installer
+				add_package install ac100-tarball-installer zram-config
 				BINARY_REMOVE_LINUX=false
 				PREINSTALL_POOL_SEEDS=""
 				;;
