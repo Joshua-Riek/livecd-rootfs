@@ -1,9 +1,9 @@
-livecd-rootfs (2.55) UNRELEASED; urgency=low
+livecd-rootfs (2.55) precise; urgency=low
 
   * Build Lubuntu with --no-install-recommends, to match its seed structure
     (LP: #918401).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 02 Feb 2012 14:14:18 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 02 Feb 2012 14:15:07 +0000
 
 livecd-rootfs (2.54) precise; urgency=low
 
