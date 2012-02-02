@@ -1,3 +1,10 @@
+livecd-rootfs (2.55) UNRELEASED; urgency=low
+
+  * Build Lubuntu with --no-install-recommends, to match its seed structure
+    (LP: #918401).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 02 Feb 2012 14:14:18 +0000
+
 livecd-rootfs (2.54) precise; urgency=low
 
   * Remove the x-loader packages from omap and omap4 flavours, as they

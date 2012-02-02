@@ -163,6 +163,10 @@ case $PROJECT in
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
+
+		# The Lubuntu STRUCTURE file has "feature
+		# no-follow-recommends".  Mirror this.
+		export APT_OPTIONS="--yes --no-install-recommends"
 		;;
 
 	ubuntustudio-dvd)
