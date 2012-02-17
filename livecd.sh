@@ -211,7 +211,7 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base ubuntu-headless
+    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base ubuntu-headless cloud-live
     if [ "$ARCH" = "i386" ]; then
         set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base ubuntu-headless
     fi
@@ -225,7 +225,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|ubuntu-headless|tocd)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|ubuntu-headless|tocd|cloud-live)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -329,6 +329,12 @@ Flags: seen
 	ubuntu-headless)
 	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="$LIVE_BOOT_SCRIPTS"
+	    ;;
+	cloud-live)
+            LIST="$LIST minimal^ standard^"
+	    LIVELIST="minimal^ standard^ cloud-live-config $LIVE_BOOT_SCRIPTS"
+	    COMP="main restricted universe"
+            PPA="cloud-live/ppa"
 	    ;;
 	tocd)
 	    LIST="$LIST minimal^ standard^"
@@ -526,6 +532,11 @@ Pin-Priority: 900
 	chroot $ROOT apt-get update
 	# workaround LP #442082
 	rm -f ${ROOT}var/cache/apt/{,src}pkgcache.bin
+    fi
+
+    if [ "$FS" = "cloud-live" ]; then
+        chroot $ROOT apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F3531FCE
+        chroot $ROOT apt-get update
     fi
 
     # In addition to the ones we got from apt, trust whatever the local system
