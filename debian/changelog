@@ -1,3 +1,10 @@
+livecd-rootfs (2.56) UNRELEASED; urgency=low
+
+  [ Ante Karamatić ]
+  * Add cloud-live project to livecd.sh and BuildLiveCD.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 17 Feb 2012 15:36:14 +0000
+
 livecd-rootfs (2.55) precise; urgency=low
 
   * Build Lubuntu with --no-install-recommends, to match its seed structure
