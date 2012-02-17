@@ -334,7 +334,7 @@ Flags: seen
             LIST="$LIST minimal^ standard^"
 	    LIVELIST="minimal^ standard^ cloud-live-config $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe"
-            PPA="cloud-live/ppa"
+            PPA="cloud-live/config"
 	    ;;
 	tocd)
 	    LIST="$LIST minimal^ standard^"
