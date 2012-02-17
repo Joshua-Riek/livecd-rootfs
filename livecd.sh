@@ -331,10 +331,10 @@ Flags: seen
 	    LIVELIST="$LIVE_BOOT_SCRIPTS"
 	    ;;
 	cloud-live)
-            LIST="$LIST minimal^ standard^"
+	    LIST="$LIST minimal^ standard^"
 	    LIVELIST="minimal^ standard^ cloud-live-config $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe"
-            PPA="cloud-live/config"
+	    PPA="cloud-live/config"
 	    ;;
 	tocd)
 	    LIST="$LIST minimal^ standard^"
@@ -535,8 +535,8 @@ Pin-Priority: 900
     fi
 
     if [ "$FS" = "cloud-live" ]; then
-        chroot $ROOT apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F3531FCE
-        chroot $ROOT apt-get update
+	chroot $ROOT apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F3531FCE
+	chroot $ROOT apt-get update
     fi
 
     # In addition to the ones we got from apt, trust whatever the local system
