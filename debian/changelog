@@ -3,7 +3,11 @@ livecd-rootfs (2.56) UNRELEASED; urgency=low
   [ Ante Karamatić ]
   * Add cloud-live project to livecd.sh and BuildLiveCD.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 17 Feb 2012 15:36:14 +0000
+  [ Jonathan Riddell ]
+  * Replace kubuntu-mobile with kubuntu-active
+  * Remove kubuntu-netbook, now just part of kubuntu-desktop
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 22 Feb 2012 11:58:20 +0000
 
 livecd-rootfs (2.55) precise; urgency=low
 

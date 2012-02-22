@@ -129,9 +129,9 @@ case $PROJECT in
 		LIVE_TASK='kubuntu-live'
 		;;
 
-	kubuntu-mobile)
-		add_task install minimal standard kubuntu-mobile
-		LIVE_TASK='kubuntu-mobile-live'
+	kubuntu-active)
+		add_task install minimal standard kubuntu-active
+		LIVE_TASK='kubuntu-active-live'
 		COMPONENTS='main restricted universe'
 		;;
 
@@ -269,7 +269,7 @@ fi
 ln -s /usr/share/live/build/examples/hooks/all_chroot_pyc-purge.sh config/chroot_local-hooks/
 
 case $PROJECT in
-	kubuntu|kubuntu-mobile)
+	kubuntu|kubuntu-active)
 		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
 		;;
 esac
@@ -320,8 +320,8 @@ if [ "$PREINSTALLED" = "true" ]; then
 	if [ -n "$PREINSTALL_POOL_SEEDS" ]; then
 		rm -rf germinate-output && mkdir germinate-output
 		case $PROJECT in
-			kubuntu-mobile*)
-				SEED=kubuntu-mobile.$SUITE
+			kubuntu-active*)
+				SEED=kubuntu-active.$SUITE
 				;;
 			kubuntu*)
 				SEED=kubuntu.$SUITE

@@ -211,9 +211,9 @@ esac; done;
 shift $((OPTIND-1))
 
 if (( $# == 0 )) || [ "X$1" = "Xall" ]; then
-    set -- ubuntu kubuntu kubuntu-mobile kubuntu-netbook edubuntu xubuntu mythbuntu gobuntu base ubuntu-headless cloud-live
+    set -- ubuntu kubuntu kubuntu-active edubuntu xubuntu mythbuntu gobuntu base ubuntu-headless cloud-live
     if [ "$ARCH" = "i386" ]; then
-        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-mobile kubuntu-netbook edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base ubuntu-headless
+        set -- ubuntu ubuntu-dvd kubuntu kubuntu-dvd kubuntu-active edubuntu edubuntu-dvd mythbuntu xubuntu gobuntu base ubuntu-headless
     fi
 fi
 
@@ -225,7 +225,7 @@ fi
 
 for arg in "$@"; do
     case "$arg" in
-       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-mobile|kubuntu-netbook|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|ubuntu-headless|tocd|cloud-live)
+       ubuntu|ubuntu-dvd|ubuntu-lpia|edubuntu|edubuntu-dvd|kubuntu|kubuntu-dvd|kubuntu-active|xubuntu|mythbuntu|gobuntu|ubuntu-mid|ubuntu-netbook|ubuntu-moblin-remix|base|ubuntu-headless|tocd|cloud-live)
 	    ;;
 	*)
 	    echo bad name >&2;
@@ -278,14 +278,10 @@ Flags: seen
 	    LIST="$LIST minimal^ standard^ kubuntu-desktop^"
 	    LIVELIST="kubuntu-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
-	kubuntu-mobile)
-	    LIST="$LIST minimal^ standard^ kubuntu-mobile^"
-	    LIVELIST="kubuntu-mobile-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
+	kubuntu-active)
+	    LIST="$LIST minimal^ standard^ kubuntu-active^"
+	    LIVELIST="kubuntu-active-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    COMP="main restricted universe"
-	    ;;
-	kubuntu-netbook)
-	    LIST="$LIST minimal^ standard^ kubuntu-netbook^"
-	    LIVELIST="kubuntu-netbook-live^ laptop-detect $LIVE_BOOT_SCRIPTS"
 	    ;;
 	edubuntu|edubuntu-dvd)
 	    LIST="$LIST minimal^ standard^ edubuntu-desktop-gnome^"
@@ -739,8 +735,7 @@ Pin-Priority: 550
 
     # No point keeping Gnome icon cache around for Kubuntu
     if [ "$FS" = "kubuntu" ] || \
-       [ "$FS" = "kubuntu-netbook" ] || \
-       [ "$FS" = "kubuntu-mobile" ]; then
+       [ "$FS" = "kubuntu-active" ]; then
         rm -f ${ROOT}/usr/share/icons/*/icon-theme.cache
     fi
 
