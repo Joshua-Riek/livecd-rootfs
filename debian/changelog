@@ -1,4 +1,4 @@
-livecd-rootfs (2.56) UNRELEASED; urgency=low
+livecd-rootfs (2.56) precise; urgency=low
 
   [ Ante Karamatić ]
   * Add cloud-live project to livecd.sh and BuildLiveCD.
