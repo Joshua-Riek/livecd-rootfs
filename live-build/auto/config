@@ -234,7 +234,8 @@ case $ARCH in
 				;;
 			ac100)
 				COMPONENTS='main restricted universe'
-				add_package install ac100-tarball-installer zram-config
+				add_package install zram-config
+				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				PREINSTALL_POOL_SEEDS=""
 				;;

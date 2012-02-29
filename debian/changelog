@@ -1,3 +1,11 @@
+livecd-rootfs (2.57) precise; urgency=low
+
+  * Move ac100-tarball-installer from install set to live set
+    to make sure it's not pulling in other bits in the install
+    pass (and because installers belong in the live set anyway)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 29 Feb 2012 09:23:48 -0700
+
 livecd-rootfs (2.56) precise; urgency=low
 
   [ Ante Karamatić ]
