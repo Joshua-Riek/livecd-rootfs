@@ -1,3 +1,9 @@
+livecd-rootfs (2.58) UNRELEASED; urgency=low
+
+  * Use lowlatency kernel for Ubuntu Studio (LP: #956250).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 15 Mar 2012 18:08:07 +0000
+
 livecd-rootfs (2.57) precise; urgency=low
 
   * Move ac100-tarball-installer from install set to live set

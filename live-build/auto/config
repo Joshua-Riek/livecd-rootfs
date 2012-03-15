@@ -172,6 +172,7 @@ case $PROJECT in
 	ubuntustudio-dvd)
 		add_task install ubuntustudio-desktop ubuntustudio-generation ubuntustudio-recording ubuntustudio-font-meta ubuntustudio-graphics ubuntustudio-audio-plugins ubuntustudio-video
 		COMPONENTS='main restricted universe multiverse'
+		KERNEL_FLAVOURS=lowlatency
 		;;
 
 	base)
