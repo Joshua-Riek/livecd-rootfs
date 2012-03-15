@@ -1,3 +1,10 @@
+livecd-rootfs (2.59) UNRELEASED; urgency=low
+
+  * Switch Ubuntu Studio to lowlatency-pae kernel rather than lowlatency
+    (LP: #956250).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 15 Mar 2012 18:34:36 +0000
+
 livecd-rootfs (2.58) precise; urgency=low
 
   * Use lowlatency kernel for Ubuntu Studio (LP: #956250).
