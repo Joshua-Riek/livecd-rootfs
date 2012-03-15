@@ -146,6 +146,7 @@ case $PROJECT in
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
+		KERNEL_FLAVOURS=generic
 		;;
 
 	ubuntu-netbook)

@@ -1,3 +1,9 @@
+livecd-rootfs (2.60) UNRELEASED; urgency=low
+
+  * Use generic (non-PAE) kernel for Xubuntu (LP: #955009).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 15 Mar 2012 18:54:16 +0000
+
 livecd-rootfs (2.59) precise; urgency=low
 
   * Switch Ubuntu Studio to lowlatency-pae kernel rather than lowlatency
