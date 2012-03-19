@@ -164,6 +164,7 @@ case $PROJECT in
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
+		KERNEL_FLAVOURS=generic
 
 		# The Lubuntu STRUCTURE file has "feature
 		# no-follow-recommends".  Mirror this.
