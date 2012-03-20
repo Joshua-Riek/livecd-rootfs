@@ -146,7 +146,9 @@ case $PROJECT in
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
-		KERNEL_FLAVOURS=generic
+		case $ARCH in
+			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+		esac
 		;;
 
 	ubuntu-netbook)
@@ -164,7 +166,9 @@ case $PROJECT in
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
-		KERNEL_FLAVOURS=generic
+		case $ARCH in
+			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+		esac
 
 		# The Lubuntu STRUCTURE file has "feature
 		# no-follow-recommends".  Mirror this.

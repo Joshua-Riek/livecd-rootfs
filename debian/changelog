@@ -1,3 +1,9 @@
+livecd-rootfs (2.62) UNRELEASED; urgency=low
+
+  * On Lubuntu and Xubuntu, only use the generic kernel on amd64 and i386.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 20 Mar 2012 17:52:09 +0000
+
 livecd-rootfs (2.61) precise; urgency=low
 
   [ Colin Watson ]
