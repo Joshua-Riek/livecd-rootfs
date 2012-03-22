@@ -1,3 +1,9 @@
+livecd-rootfs (2.63) precise; urgency=low
+
+  * Add the ubiquity slideshow back to PREINSTALLED images (LP: #960688)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 22 Mar 2012 12:46:18 -0600
+
 livecd-rootfs (2.62) precise; urgency=low
 
   * On Lubuntu and Xubuntu, only use the generic kernel on amd64 and i386.
