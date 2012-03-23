@@ -1,3 +1,9 @@
+livecd-rootfs (2.64) UNRELEASED; urgency=low
+
+  * Add minimal and standard tasks to Ubuntu Studio images (LP: #962585).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 23 Mar 2012 14:20:38 +0000
+
 livecd-rootfs (2.63) precise; urgency=low
 
   * Add the ubiquity slideshow back to PREINSTALLED images (LP: #960688)
