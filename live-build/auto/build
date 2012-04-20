@@ -12,16 +12,17 @@ Read_conffiles config/all config/common config/bootstrap config/chroot config/bi
 Set_defaults
 
 (
-	if [ -d gnupg ]; then
-		cat << @@EOF > gnupg/NEWKEY
+	if [ -d config/gnupg ]; then
+		cat << @@EOF > config/gnupg/NEWKEY
 Key-Type: DSA
 Key-Length: 1024
+Key-Usage: sign
 Name-Real: Ubuntu Local Archive One-Time Signing Key
 Name-Email: cdimage@ubuntu.com
 Expire-Date: 0
 @@EOF
-		gpg --home gnupg --gen-key --batch < gnupg/NEWKEY \
-			> gnupg/generate.log 2>&1 &
+		gpg --home config/gnupg --gen-key --batch < config/gnupg/NEWKEY \
+			> config/gnupg/generate.log 2>&1 &
 		GPG_PROCESS=$!
 	fi
 
@@ -49,10 +50,147 @@ EOF
 
 	lb chroot "$@"
 
+	if [ -f config/oem-config-preinstalled ]; then
+
+# This is cargo-culted almost verbatim (with some syntax changes for
+# preinstalled being slightly different in what it doesn't ask) from
+# debian-installer's apt-setup:
+
+codename=$LB_DISTRIBUTION
+file="chroot/etc/apt/sources.list"
+dists="main"
+alldists="main"
+if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q restricted; then
+	dists="$dists restricted"
+	alldists="$alldists restricted"
+fi
+if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q universe; then
+	UNIVERSE=true
+else
+	UNIVERSE=false
+fi
+if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q multiverse; then
+	MULTIVERSE=true
+else
+	MULTIVERSE=false
+fi
+
+cat > $file <<EOF
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+
+deb $LB_PARENT_MIRROR_BINARY $codename $dists
+deb-src $LB_PARENT_MIRROR_BINARY $codename $dists
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb $LB_PARENT_MIRROR_BINARY $codename-updates $dists
+deb-src $LB_PARENT_MIRROR_BINARY $codename-updates $dists
+EOF
+
+# Even if universe isn't enabled, we write example lines for it.
+echo >> $file
+if [ "$UNIVERSE" = true ]; then
+	alldists="$alldists universe"
+	COMMENT=
+else
+	cat >> $file <<EOF
+## Uncomment the following two lines to add software from the 'universe'
+## repository.
+EOF
+	COMMENT='# '
+fi
+cat >> $file <<EOF
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename universe
+${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename universe
+${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-updates universe
+${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-updates universe
+EOF
+
+# Multiverse is different, don't write anything unless enabled.
+if [ "$MULTIVERSE" = true ]; then
+	alldists="$alldists multiverse"
+	cat >> $file <<EOF
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu 
+## team, and may not be under a free licence. Please satisfy yourself as to 
+## your rights to use the software. Also, please note that software in 
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb $LB_PARENT_MIRROR_BINARY $codename multiverse
+deb-src $LB_PARENT_MIRROR_BINARY $codename multiverse
+deb $LB_PARENT_MIRROR_BINARY $codename-updates multiverse
+deb-src $LB_PARENT_MIRROR_BINARY $codename-updates multiverse
+EOF
+fi
+
+cat >> $file <<EOF
+
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+# deb $LB_PARENT_MIRROR_BINARY $codename-backports $alldists
+# deb-src $LB_PARENT_MIRROR_BINARY $codename-backports $alldists
+EOF
+
+cat >> $file <<EOF
+
+deb $LB_PARENT_MIRROR_BINARY $codename-security $dists
+deb-src $LB_PARENT_MIRROR_BINARY $codename-security $dists
+EOF
+
+# Security sources for Ubuntu universe; not used much, but e.g. unsupported
+# binary packages from a supported source package will end up here.
+if [ "$UNIVERSE" = true ]; then
+        COMMENT=
+else
+        COMMENT='# '
+fi
+cat >> $file <<EOF
+${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-security universe
+${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-security universe
+EOF
+
+# Security sources for Ubuntu multiverse, with the same caveats as for
+# universe.
+if [ "$MULTIVERSE" = true ]; then
+        COMMENT=
+else
+        COMMENT='# '
+fi
+cat >> $file <<EOF
+${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-security multiverse
+${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-security multiverse
+EOF
+
+	fi
 	if [ -d chroot/var/lib/preinstalled-pool ]; then
-		(cd chroot/var/lib/preinstalled-pool/ && apt-ftparchive packages . > Packages)
-		bzip2 -9 -c chroot/var/lib/preinstalled-pool/Packages \
-			> chroot/var/lib/preinstalled-pool/Packages.bz2
+		cat > config/indices/apt.conf <<-EOF
+Dir {
+ ArchiveDir "chroot/var/lib/preinstalled-pool";
+ OverrideDir "config/indices";
+ CacheDir "config/indices";
+}
+Default { Packages::Compress ". bzip2"; }
+TreeDefault { Directory "pool"; }
+Tree "dists/$LB_DISTRIBUTION"
+{
+ Sections "$LB_PARENT_ARCHIVE_AREAS";
+ Architectures "$LB_ARCHITECTURES";
+ BinOverride "override.$LB_DISTRIBUTION.\$(SECTION)";
+ ExtraOverride "override.$LB_DISTRIBUTION.extra.\$(SECTION)";
+ Contents " ";
+}
+EOF
+		for component in $LB_PARENT_ARCHIVE_AREAS; do
+			mkdir -p chroot/var/lib/preinstalled-pool/dists/$LB_DISTRIBUTION/$component/binary-$LB_ARCHITECTURES
+		done
+		apt-ftparchive generate config/indices/apt.conf
 		cat << @@EOF > chroot/etc/apt/sources.list.preinstall
 # This is a sources.list entry for a small pool of packages
 # provided on your preinstalled filesystem for your convenience.
@@ -61,14 +199,12 @@ EOF
 # it references, should you want to save disk space and fetch the
 # packages remotely instead.
 #
-deb file:/var/lib/preinstalled-pool/ ./
+deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 #
 @@EOF
 
-		cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list \
-			> chroot/etc/apt/sources.list.new
-		mv chroot/etc/apt/sources.list.new chroot/etc/apt/sources.list
-		rm chroot/etc/apt/sources.list.preinstall
+		cp chroot/etc/apt/sources.list chroot/etc/apt/sources.list.orig
+		cp chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list
 
 		echo "Waiting on gnupg ("$GPG_PROCESS") to finish generating a key."
 		wait $GPG_PROCESS
@@ -84,13 +220,21 @@ deb file:/var/lib/preinstalled-pool/ ./
 			-o APT::FTPArchive::Release::Version=$R_VERSION \
 			-o APT::FTPArchive::Release::Codename=$R_CODENAME \
 			-o APT::FTPArchive::Release::Description="$R_ORIGIN $R_PRETTYNAME Local" \
-			release chroot/var/lib/preinstalled-pool/ > gnupg/Release
+			release chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/ \
+				> config/gnupg/Release
 
-		gpg --home gnupg --detach-sign --armor gnupg/Release
-		mv gnupg/Release chroot/var/lib/preinstalled-pool/Release
-		mv gnupg/Release.asc chroot/var/lib/preinstalled-pool/Release.gpg
-		apt-key --keyring chroot/etc/apt/trusted.gpg add gnupg/pubring.gpg
-		rm chroot/var/lib/preinstalled-pool/Packages
+		gpg --home config/gnupg --detach-sign --armor config/gnupg/Release
+		mv config/gnupg/Release \
+			chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release
+		mv config/gnupg/Release.asc \
+			chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release.gpg
+		apt-key --keyring chroot/etc/apt/trusted.gpg add config/gnupg/pubring.gpg
+		find chroot/var/lib/preinstalled-pool/ -name Packages | xargs rm
+
+		Chroot chroot "apt-get update"
+		cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig \
+			> chroot/etc/apt/sources.list
+		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 	fi
 
 	echo "===== Checking size of /usr/share/doc ====="

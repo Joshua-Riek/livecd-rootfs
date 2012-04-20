@@ -95,6 +95,9 @@ case $IMAGEFORMAT in
 esac
 
 if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
+	# This is an oem-config preinstalled image, touch a random file that
+	# we can refer back to during build, cause that's wildly hackish
+	touch config/oem-config-preinstalled
 	case $PROJECT in
 		kubuntu*)
 			add_package live oem-config-kde ubiquity-frontend-kde
@@ -192,6 +195,7 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal standard
+		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
@@ -249,7 +253,6 @@ case $ARCH in
 				add_package install zram-config
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
-				PREINSTALL_POOL_SEEDS=""
 				;;
 		esac
 		;;
@@ -317,7 +320,7 @@ add_inheritance () {
 }
 
 expand_inheritance () {
-	for seed in $(grep "^$1:" germinate-output/structure | cut -d: -f2); do
+	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
 		expand_inheritance "$seed"
 	done
 	add_inheritance "$1"
@@ -331,7 +334,7 @@ inheritance () {
 
 if [ "$PREINSTALLED" = "true" ]; then
 	if [ -n "$PREINSTALL_POOL_SEEDS" ]; then
-		rm -rf germinate-output && mkdir germinate-output
+		mkdir -p config/germinate-output
 		case $PROJECT in
 			kubuntu-active*)
 				SEED=kubuntu-active.$SUITE
@@ -346,7 +349,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 				SEED=ubuntu.$SUITE
 				;;
 		esac
-		(cd germinate-output && germinate --no-rdepends --no-installer \
+		(cd config/germinate-output && germinate --no-rdepends --no-installer \
 			-S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
 			${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
 
@@ -371,15 +374,22 @@ if [ "$PREINSTALLED" = "true" ]; then
 
 		for i in $PPS_EXP; do
 			PREINSTALL_POOL="$PREINSTALL_POOL $(awk '{print $1}' \
-			germinate-output/$i | egrep -v '^-|^Package|^\|' | tr '\n' ' ')"
+			config/germinate-output/$i | egrep -v '^-|^Package|^\|' | tr '\n' ' ')"
 		done
 	fi
 	if [ -n "$PREINSTALL_POOL" ]; then
-		rm -rf gnupg && mkdir gnupg
+		mkdir -p config/gnupg
+		mkdir -p config/indices
+		for component in $COMPONENTS; do
+			(cd config/indices && \
+		 	 wget $MIRROR/indices/override.$SUITE.$component && \
+			 wget $MIRROR/indices/override.$SUITE.extra.$component \
+			)
+		done
 		PREINSTALL_POOL_HOOK=config/chroot_local-hooks/preinstall-pool.sh
 		echo "#! /bin/sh" > $PREINSTALL_POOL_HOOK
-		echo "mkdir -p /var/lib/preinstalled-pool/" >> $PREINSTALL_POOL_HOOK
-		echo "cd /var/lib/preinstalled-pool/" >> $PREINSTALL_POOL_HOOK
+		echo "mkdir -p /var/lib/preinstalled-pool/pool/" >> $PREINSTALL_POOL_HOOK
+		echo "cd /var/lib/preinstalled-pool/pool/" >> $PREINSTALL_POOL_HOOK
 		echo "apt-get -y download $PREINSTALL_POOL" >> $PREINSTALL_POOL_HOOK
 	fi
 fi
