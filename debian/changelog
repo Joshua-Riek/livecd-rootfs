@@ -1,3 +1,10 @@
+livecd-rootfs (2.66) UNRELEASED; urgency=low
+
+  [ Jonathan Riddell ]
+  * Build Kubuntu from universe.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 11 Jun 2012 12:49:27 +0100
+
 livecd-rootfs (2.65) precise; urgency=low
 
   * Add (extra-)override parsing to the preinstalled pool to make sure

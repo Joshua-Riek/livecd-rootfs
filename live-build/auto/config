@@ -132,6 +132,7 @@ case $PROJECT in
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
+		COMPONENTS='main restricted universe'
 		;;
 
 	kubuntu-active)
