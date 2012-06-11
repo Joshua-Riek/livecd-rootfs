@@ -1,9 +1,9 @@
-livecd-rootfs (2.66) UNRELEASED; urgency=low
+livecd-rootfs (2.66) quantal; urgency=low
 
   [ Jonathan Riddell ]
   * Build Kubuntu from universe.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 11 Jun 2012 12:49:27 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 11 Jun 2012 12:49:57 +0100
 
 livecd-rootfs (2.65) precise; urgency=low
 
