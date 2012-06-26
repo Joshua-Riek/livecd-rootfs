@@ -1,3 +1,9 @@
+livecd-rootfs (2.67) quantal; urgency=low
+
+  * Switch i386 ubuntustudio to linux-lowlatency flavor (LP: #1018075)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 26 Jun 2012 14:00:39 -0600
+
 livecd-rootfs (2.66) quantal; urgency=low
 
   [ Jonathan Riddell ]

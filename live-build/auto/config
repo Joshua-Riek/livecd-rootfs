@@ -185,8 +185,7 @@ case $PROJECT in
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-generation ubuntustudio-recording ubuntustudio-font-meta ubuntustudio-graphics ubuntustudio-audio-plugins ubuntustudio-video
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			i386)	KERNEL_FLAVOURS=lowlatency-pae ;;
-			amd64)	KERNEL_FLAVOURS=lowlatency ;;
+			amd64|i386)	KERNEL_FLAVOURS=lowlatency ;;
 		esac
 		;;
 
