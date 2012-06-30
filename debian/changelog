@@ -2,6 +2,7 @@ livecd-rootfs (2.68) UNRELEASED; urgency=low
 
   * live-build/auto/config: Emit sources.list entries for -proposed if the
     environment variable PROPOSED is set (LP: #1019514).
+  * BuildLiveCD: If the -p option was used, pass PROPOSED=1 to 'lb config'.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Sat, 30 Jun 2012 07:10:04 +0100
 
