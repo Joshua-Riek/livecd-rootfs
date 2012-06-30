@@ -1,3 +1,10 @@
+livecd-rootfs (2.68) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Emit sources.list entries for -proposed if the
+    environment variable PROPOSED is set (LP: #1019514).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 30 Jun 2012 07:10:04 +0100
+
 livecd-rootfs (2.67) quantal; urgency=low
 
   * Switch i386 ubuntustudio to linux-lowlatency flavor (LP: #1018075)

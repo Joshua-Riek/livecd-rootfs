@@ -296,6 +296,16 @@ case $SUBPROJECT in
 		;;
 esac
 
+if [ "$PROPOSED" ]; then
+	. config/bootstrap
+
+	cat > config/archives/proposed.chroot.list << EOF
+deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed $LB_PARENT_ARCHIVE_AREAS
+EOF
+	cp -a config/archives/proposed.chroot.list \
+	      config/archives/proposed.binary.list
+fi
+
 case $PROJECT in
 	*-dvd)
 		. config/bootstrap
@@ -305,6 +315,11 @@ deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
 EOF
+		if [ "$PROPOSED" ]; then
+			cat >> config/archives/dvd.binary.list << EOF
+deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed universe multiverse
+EOF
+		fi
 		;;
 esac
 
