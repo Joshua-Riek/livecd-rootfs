@@ -1,3 +1,9 @@
+livecd-rootfs (2.69) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Add server task to ubuntu-server images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 06 Jul 2012 12:39:12 +0100
+
 livecd-rootfs (2.68) quantal; urgency=low
 
   * live-build/auto/config: Emit sources.list entries for -proposed if the
