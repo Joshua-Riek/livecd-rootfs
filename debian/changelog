@@ -1,3 +1,10 @@
+livecd-rootfs (2.70) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Don't install lupin-casper on ubuntu-server
+    images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sun, 22 Jul 2012 23:44:49 +0100
+
 livecd-rootfs (2.69) quantal; urgency=low
 
   * live-build/auto/config: Add server task to ubuntu-server images.

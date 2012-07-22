@@ -90,7 +90,9 @@ case $IMAGEFORMAT in
 		;;
 
 	*)
-		add_package live lupin-casper
+		if [ "$PROJECT" != ubuntu-server ]; then
+			add_package live lupin-casper
+		fi
 		;;
 esac
 
