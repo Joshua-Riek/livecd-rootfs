@@ -199,7 +199,6 @@ case $PROJECT in
 		add_task install minimal standard server
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
-		OPTS="${OPTS:+$OPTS }--debian-installer=live"
 		;;
 
 	ubuntu-core)
@@ -292,6 +291,13 @@ fi
 case $PROJECT in
 	kubuntu|kubuntu-active)
 		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
+		;;
+
+	ubuntu-server)
+		cat > config/chroot_local-hooks/ubuntu-server_chroot_remove-fstab.sh <<EOF
+#! /bin/sh
+rm -f /etc/fstab
+EOF
 		;;
 esac
 
