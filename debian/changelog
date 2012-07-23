@@ -1,9 +1,9 @@
-livecd-rootfs (2.72) UNRELEASED; urgency=low
+livecd-rootfs (2.72) quantal; urgency=low
 
   * Install a hook to remove /etc/fstab rather than building ubuntu-server
     with --debian-installer=live; the latter has unwanted side-effects.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 23 Jul 2012 21:33:51 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 23 Jul 2012 21:34:28 +0100
 
 livecd-rootfs (2.71) quantal; urgency=low
 
