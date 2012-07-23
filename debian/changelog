@@ -1,4 +1,4 @@
-livecd-rootfs (2.70ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (2.71) UNRELEASED; urgency=low
 
   * live-build/auto/config: Don't purge .pyc files on ubuntu-server images.
 
