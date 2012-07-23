@@ -1,6 +1,8 @@
 livecd-rootfs (2.71) UNRELEASED; urgency=low
 
   * live-build/auto/config: Don't purge .pyc files on ubuntu-server images.
+  * live-build/auto/config: Build ubuntu-server with
+    --debian-installer=live.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Mon, 23 Jul 2012 17:33:44 +0100
 
