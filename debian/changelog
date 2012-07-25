@@ -1,3 +1,10 @@
+livecd-rootfs (2.73) quantal; urgency=low
+
+  * Add u-boot-tools to the installed set for all u-boot ARM images
+  * Remove ti-omap4-ppa from the omap4 images; it's no longer used
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 25 Jul 2012 06:37:02 -0600
+
 livecd-rootfs (2.72) quantal; urgency=low
 
   * Install a hook to remove /etc/fstab rather than building ubuntu-server

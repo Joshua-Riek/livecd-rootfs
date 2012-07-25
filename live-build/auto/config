@@ -237,17 +237,17 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap)
-				add_package install u-boot-linaro-omap3-beagle
+				add_package install u-boot-linaro-omap3-beagle u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				add_package install u-boot-linaro-omap4-panda ti-omap4-ppa
+				add_package install u-boot-linaro-omap4-panda u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
 			mx5)
 				COMPONENTS='main restricted universe'
 				KERNEL_FLAVOURS=linaro-lt-mx5
-				add_package install flash-kernel u-boot-linaro-mx53loco
+				add_package install flash-kernel u-boot-linaro-mx53loco u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
 			ac100)
