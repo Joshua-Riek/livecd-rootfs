@@ -1,3 +1,10 @@
+livecd-rootfs (2.74) quantal; urgency=low
+
+  * Change mksquashfs compression flags for LTSP images, turning
+    compression back on to match current ltsp-update-image behaviour.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 20 Aug 2012 19:37:01 -0400
+
 livecd-rootfs (2.73) quantal; urgency=low
 
   * Add u-boot-tools to the installed set for all u-boot ARM images
