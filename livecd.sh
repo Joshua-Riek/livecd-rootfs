@@ -813,7 +813,7 @@ Pin-Priority: 550
                 checkpoint "Building LTSP chroot"
                 ltsp-build-client --base $(pwd) --mirror $MIRROR --arch $TARGETARCH --dist $STE --chroot ltsp-live --late-packages ldm-edubuntu-theme,plymouth-theme-edubuntu --purge-chroot --skipimage
                 mkdir -p $(pwd)/images
-                mksquashfs $(pwd)/ltsp-live $(pwd)/images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
+                mksquashfs $(pwd)/ltsp-live $(pwd)/images/ltsp-live.img -e cdrom
                 rm -Rf $(pwd)/ltsp-live
                 if [ -f $(pwd)/images/ltsp-live.img ]; then
                     mv $(pwd)/images/ltsp-live.img livecd.$FS-ltsp.squashfs
