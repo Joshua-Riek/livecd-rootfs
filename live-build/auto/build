@@ -1,16 +1,16 @@
-#! /bin/bash
+#! /bin/sh
 set -e
-set -o pipefail
 
 export LC_ALL=C
 
-. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+( . "${LIVE_BUILD}/scripts/build.sh" > /dev/null 2>&1 || true ) || . /usr/lib/live/build.sh
 
 Arguments "${@}"
 
 Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
 Set_defaults
 
+rm -f binary.success
 (
 	if [ -d config/gnupg ]; then
 		cat << @@EOF > config/gnupg/NEWKEY
@@ -41,12 +41,11 @@ exit 0
 EOF
 	chmod +x chroot/usr/sbin/update-initramfs
 
-	cat > config/chroot_local-hooks/zz-undivert-update-initramfs.sh <<'EOF'
+	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
 #! /bin/sh
 rm -f /usr/sbin/update-initramfs
 dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
 EOF
-	chmod +x config/chroot_local-hooks/zz-undivert-update-initramfs.sh
 
 	lb chroot "$@"
 
@@ -256,7 +255,17 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 	fi
 
 	lb binary "$@"
+	touch binary.success
 ) 2>&1 | tee binary.log
+
+# bash has trouble with the build.sh sourcing arrangement at the top of this
+# file, so we use this cheap-and-cheerful approach rather than the more
+# correct 'set -o pipefail'.
+if [ -e binary.success ]; then
+	rm -f binary.success
+else
+	exit 1
+fi
 
 # Link output files somewhere BuildLiveCD will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"

@@ -31,7 +31,7 @@ if [ -z "$MIRROR" ]; then
 	esac
 fi
 
-mkdir -p config/task-lists config/package-lists
+mkdir -p config/package-lists
 
 add_task ()
 {
@@ -40,7 +40,7 @@ add_task ()
 	local task
 
 	for task; do
-		echo "$task" >> "config/task-lists/livecd-rootfs.chroot_$pass.list"
+		echo "!chroot chroot apt-cache dumpavail | grep-dctrl -nsPackage -wFTask $task" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
 	done
 }
 
@@ -51,7 +51,7 @@ add_package ()
 	local pkg
 
 	for pkg; do
-		echo "$pkg" >> "config/package-lists/livecd-rootfs.chroot_$pass.list"
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
 	done
 }
 
@@ -66,6 +66,19 @@ LIVE_TASK=
 PREINSTALLED=false
 PREINSTALL_POOL=
 PREINSTALL_POOL_SEEDS=
+
+CHROOT_HOOKS=
+BINARY_HOOKS=
+
+add_chroot_hook ()
+{
+	CHROOT_HOOKS="${CHROOT_HOOKS:+$CHROOT_HOOKS }$1"
+}
+
+add_binary_hook ()
+{
+	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
+}
 
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
@@ -135,12 +148,14 @@ case $PROJECT in
 		add_task install minimal standard kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
 		COMPONENTS='main restricted universe'
+		add_chroot_hook remove-gnome-icon-cache
 		;;
 
 	kubuntu-active)
 		add_task install minimal standard kubuntu-active
 		LIVE_TASK='kubuntu-active-live'
 		COMPONENTS='main restricted universe'
+		add_chroot_hook remove-gnome-icon-cache
 		;;
 
 	edubuntu|edubuntu-dvd)
@@ -260,6 +275,37 @@ case $ARCH in
 		;;
 esac
 
+add_chroot_hook update-apt-file-cache
+add_chroot_hook update-apt-xapian-index
+add_chroot_hook update-mlocate-database
+add_chroot_hook remove-dbus-machine-id
+add_chroot_hook remove-openssh-server-host-keys
+add_chroot_hook remove-udev-persistent-rules
+
+case $PROJECT in
+	ubuntu-server)
+		;;
+
+	*)
+		add_chroot_hook remove-python-py
+		;;
+esac
+
+case $PROJECT in
+	ubuntu-server)
+		cat > config/hooks/100-remove-fstab.chroot <<EOF
+#! /bin/sh
+rm -f /etc/fstab
+EOF
+		;;
+esac
+
+case $SUBPROJECT in
+	wubi)
+		add_binary_hook build-wubildr
+		;;
+esac
+
 lb config noauto \
 	--mode ubuntu \
 	--distribution "$SUITE" \
@@ -270,12 +316,15 @@ lb config noauto \
 	--build-with-chroot false \
 	${MIRROR:+--parent-mirror-bootstrap $MIRROR} \
 	${COMPONENTS:+--parent-archive-areas "$COMPONENTS"} \
-	--package-lists none \
+	--apt-source-archives false \
 	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
 	--initramfs-compression lzma \
 	$OPTS
+
+echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
+echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
@@ -284,50 +333,27 @@ boot/initrd.img-*
 EOF
 fi
 
-if [ "$PROJECT" != ubuntu-server ]; then
-	ln -s /usr/share/live/build/examples/hooks/all_chroot_pyc-purge.sh config/chroot_local-hooks/
-fi
-
-case $PROJECT in
-	kubuntu|kubuntu-active)
-		ln -s /usr/share/live/build/examples/hooks/kubuntu_chroot_icon-theme.sh config/chroot_local-hooks/
-		;;
-
-	ubuntu-server)
-		cat > config/chroot_local-hooks/ubuntu-server_chroot_remove-fstab.sh <<EOF
-#! /bin/sh
-rm -f /etc/fstab
-EOF
-		;;
-esac
-
-case $SUBPROJECT in
-	wubi)
-		ln -s /usr/share/live/build/examples/hooks/ubuntu_binary_build-wubildr.sh config/binary_local-hooks/
-		;;
-esac
-
 if [ "$PROPOSED" ]; then
 	. config/bootstrap
 
-	cat > config/archives/proposed.chroot.list << EOF
+	cat > config/archives/proposed.list.chroot << EOF
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed $LB_PARENT_ARCHIVE_AREAS
 EOF
-	cp -a config/archives/proposed.chroot.list \
-	      config/archives/proposed.binary.list
+	cp -a config/archives/proposed.list.chroot \
+	      config/archives/proposed.list.binary
 fi
 
 case $PROJECT in
 	*-dvd)
 		. config/bootstrap
 
-		cat > config/archives/dvd.binary.list << EOF
+		cat > config/archives/dvd.list.binary << EOF
 deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
 EOF
 		if [ "$PROPOSED" ]; then
-			cat >> config/archives/dvd.binary.list << EOF
+			cat >> config/archives/dvd.list.binary << EOF
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed universe multiverse
 EOF
 		fi
@@ -412,10 +438,11 @@ if [ "$PREINSTALLED" = "true" ]; then
 			 wget $MIRROR/indices/override.$SUITE.extra.$component \
 			)
 		done
-		PREINSTALL_POOL_HOOK=config/chroot_local-hooks/preinstall-pool.sh
-		echo "#! /bin/sh" > $PREINSTALL_POOL_HOOK
-		echo "mkdir -p /var/lib/preinstalled-pool/pool/" >> $PREINSTALL_POOL_HOOK
-		echo "cd /var/lib/preinstalled-pool/pool/" >> $PREINSTALL_POOL_HOOK
-		echo "apt-get -y download $PREINSTALL_POOL" >> $PREINSTALL_POOL_HOOK
+		cat > config/hooks/100-preinstall-pool.chroot <<EOF
+#! /bin/sh
+mkdir -p /var/lib/preinstalled-pool/pool/
+cd /var/lib/preinstalled-pool/pool/
+apt-get -y download $PREINSTALL_POOL
+EOF
 	fi
 fi
