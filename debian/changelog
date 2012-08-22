@@ -1,7 +1,7 @@
 livecd-rootfs (2.75) UNRELEASED; urgency=low
 
   * Adjust for live-build interface changes up to 3.0~a57-1ubuntu1.
-  * Break ubuntu-defaults-builder (<< 0.31) to account for these interface
+  * Break ubuntu-defaults-builder (<< 0.32) to account for these interface
     changes.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Wed, 22 Aug 2012 13:17:47 +0100
