@@ -6,6 +6,7 @@ livecd-rootfs (2.76) UNRELEASED; urgency=low
     - Fix installation of ubuntu-server fstab removal hook.
     - Pass --architectures to 'lb config', to make it easier to build images
       for a different architecture.
+    - Attempt to restrict task installation to the native architecture.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Thu, 23 Aug 2012 09:43:38 +0100
 
