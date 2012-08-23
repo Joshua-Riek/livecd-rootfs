@@ -4,6 +4,8 @@ livecd-rootfs (2.76) UNRELEASED; urgency=low
     - Don't try to install an empty task name when building an image without
       a live task.
     - Fix installation of ubuntu-server fstab removal hook.
+    - Pass --architectures to 'lb config', to make it easier to build images
+      for a different architecture.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Thu, 23 Aug 2012 09:43:38 +0100
 
