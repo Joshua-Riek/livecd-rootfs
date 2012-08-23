@@ -291,15 +291,6 @@ case $PROJECT in
 		;;
 esac
 
-case $PROJECT in
-	ubuntu-server)
-		cat > config/hooks/100-remove-fstab.chroot <<EOF
-#! /bin/sh
-rm -f /etc/fstab
-EOF
-		;;
-esac
-
 case $SUBPROJECT in
 	wubi)
 		add_binary_hook build-wubildr
@@ -325,6 +316,15 @@ lb config noauto \
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
+
+case $PROJECT in
+	ubuntu-server)
+		cat > config/hooks/100-remove-fstab.chroot <<EOF
+#! /bin/sh
+rm -f /etc/fstab
+EOF
+		;;
+esac
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
