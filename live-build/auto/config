@@ -285,7 +285,7 @@ case $ARCH in
 				;;
 			ac100)
 				COMPONENTS='main restricted universe'
-				add_package install zram-config
+				add_package install zram-config unity-2d
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				;;
