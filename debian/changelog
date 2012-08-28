@@ -1,4 +1,4 @@
-livecd-rootfs (2.77) UNRELEASED; urgency=low
+livecd-rootfs (2.77) quantal; urgency=low
 
   * add unity-2d to the list of extra packages on ac100
 
