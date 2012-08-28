@@ -1,4 +1,4 @@
-livecd-rootfs (2.78) UNRELEASED; urgency=low
+livecd-rootfs (2.78) quantal; urgency=low
 
   * revert the last change, i was not aware that unity-2d was also ripped out
     of the archive and not only removed from the seeds
