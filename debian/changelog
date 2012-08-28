@@ -1,3 +1,11 @@
+livecd-rootfs (2.79) UNRELEASED; urgency=low
+
+  * setting --architectures seems to have weird side effects on arm
+    (considering all but the buildd arch as foreign etc), disable it for a
+    testbuild...
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 27 Aug 2012 16:04:30 +0200
+
 livecd-rootfs (2.78) quantal; urgency=low
 
   * revert the last change, i was not aware that unity-2d was also ripped out
