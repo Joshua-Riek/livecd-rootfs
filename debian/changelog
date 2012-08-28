@@ -1,4 +1,4 @@
-livecd-rootfs (2.79) UNRELEASED; urgency=low
+livecd-rootfs (2.79) quantal; urgency=low
 
   * setting --architectures seems to have weird side effects on arm
     (considering all but the buildd arch as foreign etc), disable it for a
