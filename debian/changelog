@@ -1,3 +1,10 @@
+livecd-rootfs (2.78) UNRELEASED; urgency=low
+
+  * revert the last change, i was not aware that unity-2d was also ripped out
+    of the archive and not only removed from the seeds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 23 Aug 2012 19:02:35 +0200
+
 livecd-rootfs (2.77) quantal; urgency=low
 
   * add unity-2d to the list of extra packages on ac100
