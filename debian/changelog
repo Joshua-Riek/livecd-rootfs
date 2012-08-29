@@ -1,3 +1,11 @@
+livecd-rootfs (2.80) quantal; urgency=low
+
+  * add pvr-omap4 driver to omap4 image builds for everything but
+    ubuntu-server, ubuntu-core and base images so we have GLES working
+    out of the box on them
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 Aug 2012 12:53:11 +0200
+
 livecd-rootfs (2.79) quantal; urgency=low
 
   * setting --architectures seems to have weird side effects on arm

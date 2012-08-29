@@ -274,7 +274,14 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			omap4)
-				add_package install u-boot-linaro-omap4-panda u-boot-tools
+				case $PROJECT in
+					ubuntu-server|ubuntu-core|base)
+						add_package install u-boot-linaro-omap4-panda u-boot-tools
+						;;
+					*)
+						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4
+						;;
+				esac
 				BINARY_REMOVE_LINUX=false
 				;;
 			mx5)
