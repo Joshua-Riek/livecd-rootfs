@@ -1,3 +1,9 @@
+livecd-rootfs (2.80) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Disable zsync for BINARYFORMAT=iso*|usb* builds.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 30 Aug 2012 23:38:27 +0100
+
 livecd-rootfs (2.79) quantal; urgency=low
 
   * setting --architectures seems to have weird side effects on arm

@@ -153,6 +153,7 @@ case $BINARYFORMAT in
 		BINARY_IMAGES="$BINARYFORMAT"
 		MEMTEST=memtest86+
 		BOOTLOADER=syslinux
+		OPTS="${OPTS:+$OPTS }--zsync=false"
 		;;
 esac
 
