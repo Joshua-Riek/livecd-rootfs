@@ -1,9 +1,9 @@
-livecd-rootfs (2.82) UNRELEASED; urgency=low
+livecd-rootfs (2.82) quantal; urgency=low
 
   * live-build/auto/build: live-build now calls hybrid ISO9660 images
     binary.hybrid.iso rather than binary-hybrid.iso.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 03 Sep 2012 18:40:40 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 03 Sep 2012 18:41:24 +0100
 
 livecd-rootfs (2.81) quantal; urgency=low
 
