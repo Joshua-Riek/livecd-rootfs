@@ -1,10 +1,10 @@
-livecd-rootfs (2.83) UNRELEASED; urgency=low
+livecd-rootfs (2.83) quantal; urgency=low
 
   * live-build/auto/config: Remove standard and server tasks from
     ubuntu-server squashfs, and build it with no kernel packages so that
     they can be added more correctly later by the installer (LP: #1028453).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Sun, 09 Sep 2012 20:40:12 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Sun, 09 Sep 2012 20:41:19 +0100
 
 livecd-rootfs (2.82) quantal; urgency=low
 
