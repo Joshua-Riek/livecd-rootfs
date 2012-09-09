@@ -230,7 +230,8 @@ case $PROJECT in
 		;;
 
 	ubuntu-server)
-		add_task install minimal standard server
+		add_task install minimal
+		OPTS="${OPTS:+$OPTS }--linux-packages=none"
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
