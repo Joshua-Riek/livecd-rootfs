@@ -389,7 +389,7 @@ case $PROJECT in
 			echo "Building LTSP chroot"
 			ltsp-build-client --base $(pwd) --mirror $LB_PARENT_MIRROR_BOOTSTRAP --arch $ARCH --dist $LB_PARENT_DISTRIBUTION --chroot ltsp-live --late-packages ldm-edubuntu-theme,plymouth-theme-edubuntu --purge-chroot --skipimage
 			mkdir -p images
-			mksquashfs ltsp-live images/ltsp-live.img -noF -noD -noI -no-exports -e cdrom
+			mksquashfs ltsp-live images/ltsp-live.img -e cdrom
 			rm -Rf ltsp-live
 			if [ -f images/ltsp-live.img ]; then
 				mv images/ltsp-live.img livecd.$PROJECT-ltsp.squashfs

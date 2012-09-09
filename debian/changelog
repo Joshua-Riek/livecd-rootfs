@@ -1,3 +1,12 @@
+livecd-rootfs (2.84) quantal; urgency=low
+
+  * Actually apply the change done in 2.74 as it was only done to the
+    legacy code...
+    - Change mksquashfs compression flags for LTSP images, turning
+      compression back on to match current ltsp-update-image behaviour.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 09 Sep 2012 15:49:07 -0400
+
 livecd-rootfs (2.83) quantal; urgency=low
 
   * live-build/auto/config: Remove standard and server tasks from
