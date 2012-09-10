@@ -1,3 +1,11 @@
+livecd-rootfs (2.85) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Set KERNEL_FLAVOURS=none for ubuntu-server as
+    well, so that live-build/auto/build doesn't try to copy out kernel
+    images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 10 Sep 2012 09:34:16 +0100
+
 livecd-rootfs (2.84) quantal; urgency=low
 
   * Actually apply the change done in 2.74 as it was only done to the

@@ -232,6 +232,7 @@ case $PROJECT in
 	ubuntu-server)
 		add_task install minimal
 		OPTS="${OPTS:+$OPTS }--linux-packages=none"
+		KERNEL_FLAVOURS=none
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
