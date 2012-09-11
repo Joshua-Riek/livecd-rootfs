@@ -1,9 +1,9 @@
-livecd-rootfs (2.86) UNRELEASED; urgency=low
+livecd-rootfs (2.86) quantal; urgency=low
 
   * Reorganise code to avoid kernel installation on
     ubuntu-server/ubuntu-core so that it works for all architectures.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 11 Sep 2012 16:56:16 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 11 Sep 2012 16:56:43 +0100
 
 livecd-rootfs (2.85) quantal; urgency=low
 
