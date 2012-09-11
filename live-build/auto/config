@@ -231,17 +231,12 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal
-		OPTS="${OPTS:+$OPTS }--linux-packages=none"
-		KERNEL_FLAVOURS=none
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
 	ubuntu-core)
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
-		OPTS="${OPTS:+$OPTS }--linux-packages=none"
-		KERNEL_FLAVOURS=none
-		BINARY_REMOVE_LINUX=false
 		;;
 
 	*)
@@ -300,6 +295,14 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 		esac
+		;;
+esac
+
+case $PROJECT in
+	ubuntu-server|ubuntu-core)
+		OPTS="${OPTS:+$OPTS }--linux-packages=none"
+		KERNEL_FLAVOURS=none
+		BINARY_REMOVE_LINUX=false
 		;;
 esac
 
