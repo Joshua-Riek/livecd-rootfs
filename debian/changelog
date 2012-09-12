@@ -1,9 +1,9 @@
-livecd-rootfs (2.87) UNRELEASED; urgency=low
+livecd-rootfs (2.87) quantal; urgency=low
 
   * live-build/auto/config: Build ubuntu-server and ubuntu-core with
     --initramfs=none, since we don't need casper in those images.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 12 Sep 2012 14:01:13 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 12 Sep 2012 14:01:56 +0100
 
 livecd-rootfs (2.86) quantal; urgency=low
 
