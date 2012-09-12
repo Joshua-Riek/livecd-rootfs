@@ -300,7 +300,7 @@ esac
 
 case $PROJECT in
 	ubuntu-server|ubuntu-core)
-		OPTS="${OPTS:+$OPTS }--linux-packages=none"
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
 		;;
