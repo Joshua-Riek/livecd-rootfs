@@ -1,9 +1,9 @@
-livecd-rootfs (2.88) UNRELEASED; urgency=low
+livecd-rootfs (2.88) quantal; urgency=low
 
   * live-build/auto/config: Add photography and publishing metas for
     Ubuntu Studio (LP: #1057816)
 
- -- Micah Gersten <micahg@ubuntu.com>  Thu, 27 Sep 2012 23:14:11 -0500
+ -- Micah Gersten <micahg@ubuntu.com>  Thu, 27 Sep 2012 23:19:19 -0500
 
 livecd-rootfs (2.87) quantal; urgency=low
 
