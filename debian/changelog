@@ -1,3 +1,10 @@
+livecd-rootfs (2.89) quantal; urgency=low
+
+  * fix lubuntu and xubuntu preinstalled handling so we end up with the
+    right slideshows in oem-config
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 02 Oct 2012 23:56:33 +0200
+
 livecd-rootfs (2.88) quantal; urgency=low
 
   * live-build/auto/config: Add photography and publishing metas for
