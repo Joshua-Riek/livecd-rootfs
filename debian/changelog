@@ -1,3 +1,11 @@
+livecd-rootfs (2.89) UNRELEASED; urgency=low
+
+  * live-build/auto/build: If they exist, link *.efi.signed versions of the
+    kernel to binary/$INITFS/kernel-$FLAVOUR rather than the unsigned
+    versions.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 11 Oct 2012 02:16:26 +0100
+
 livecd-rootfs (2.88) quantal; urgency=low
 
   * live-build/auto/config: Add photography and publishing metas for

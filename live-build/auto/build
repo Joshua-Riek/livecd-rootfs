@@ -320,7 +320,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue
 	fi
-	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
+	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | fgrep -v .efi.signed | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		if [ -e "binary/$INITFS/vmlinuz" ]; then
 			# already renamed by ubuntu-defaults-image
@@ -334,7 +334,11 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		echo "Cannot handle more than one kernel for $FLAVOUR ($KVERS)!" >&2
 		exit 1
 	fi
-	ln "binary/$INITFS/"vmlinu?-"$KVERS" "$PREFIX.kernel-$FLAVOUR"
+	if [ -e "binary/$INITFS/"vmlinu?-"$KVERS.efi.signed" ]; then
+		ln "binary/$INITFS/"vmlinu?-"$KVERS.efi.signed" "$PREFIX.kernel-$FLAVOUR"
+	else
+		ln "binary/$INITFS/"vmlinu?-"$KVERS" "$PREFIX.kernel-$FLAVOUR"
+	fi
 	chmod 644 "$PREFIX.kernel-$FLAVOUR"
 	if [ -e "binary/$INITFS/initrd.img-$KVERS" ]; then
 		ln "binary/$INITFS/initrd.img-$KVERS" "$PREFIX.initrd-$FLAVOUR"
