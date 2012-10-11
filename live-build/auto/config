@@ -136,6 +136,14 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 			add_package live oem-config-kde ubiquity-frontend-kde
 			add_package live ubiquity-slideshow-kubuntu
 			;;
+		lubuntu*)
+			add_package live oem-config-gtk ubiquity-frontend-gtk
+			add_package live ubiquity-slideshow-lubuntu
+			;;
+		xubuntu*)
+			add_package live oem-config-gtk ubiquity-frontend-gtk
+			add_package live ubiquity-slideshow-xubuntu
+			;;
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
