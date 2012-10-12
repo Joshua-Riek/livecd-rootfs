@@ -1,4 +1,4 @@
-livecd-rootfs (2.91) UNRELEASED; urgency=low
+livecd-rootfs (2.91) quantal; urgency=low
 
   * make sure preinstalled ac100 images have multiverse enabled in their
     sources.list
