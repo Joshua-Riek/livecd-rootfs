@@ -1,3 +1,10 @@
+livecd-rootfs (2.91) UNRELEASED; urgency=low
+
+  * make sure preinstalled ac100 images have multiverse enabled in their
+    sources.list
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 12 Oct 2012 14:18:53 +0200
+
 livecd-rootfs (2.90) quantal; urgency=low
 
   * live-build/auto/build: If they exist, link *.efi.signed versions of the

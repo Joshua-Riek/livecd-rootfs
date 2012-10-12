@@ -297,7 +297,7 @@ case $ARCH in
 				BINARY_REMOVE_LINUX=false
 				;;
 			ac100)
-				COMPONENTS='main restricted universe'
+				COMPONENTS='main restricted universe multiverse'
 				add_package install zram-config
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
