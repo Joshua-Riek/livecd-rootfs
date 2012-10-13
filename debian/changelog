@@ -1,3 +1,10 @@
+livecd-rootfs (2.92) UNRELEASED; urgency=low
+
+  * disable all slideshows on al preinstalled images, due to (LP: #1066046)
+    the installer crashes when trying to start up webkit for teh slideshow
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 13 Oct 2012 11:44:52 +0200
+
 livecd-rootfs (2.91) quantal; urgency=low
 
   * make sure preinstalled ac100 images have multiverse enabled in their
