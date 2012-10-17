@@ -1,10 +1,10 @@
-livecd-rootfs (2.93) UNRELEASED; urgency=low
+livecd-rootfs (2.93) quantal; urgency=low
 
   * Revert binary/$INITFS/kernel-$FLAVOUR to the unsigned kernel, and link
     signed kernels to binary/$INITFS/kernel-$FLAVOUR.efi.signed instead
     (LP: #1067659).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 17 Oct 2012 11:47:35 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 17 Oct 2012 11:48:47 +0100
 
 livecd-rootfs (2.92) quantal; urgency=low
 
