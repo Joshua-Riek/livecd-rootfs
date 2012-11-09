@@ -1,4 +1,4 @@
-livecd-rootfs (2.94) UNRELEASED; urgency=low
+livecd-rootfs (2.94) raring; urgency=low
 
   * add a dependency on android-tools-fsutils for armhf builds
   * add nexus7 live-build configuration
