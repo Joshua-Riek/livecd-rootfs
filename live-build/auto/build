@@ -360,7 +360,7 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	fi
 fi
 
-if [ "$SUBARCH" = "ac100" ]; then
+if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 	# create the md5sum and size files for which we are actually doing all this
 	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
 	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
@@ -383,6 +383,14 @@ if [ "$SUBARCH" = "ac100" ]; then
 
 	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
 	ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
+
+	if [ "$SUBARCH" = "nexus7" ]; then
+		# roll the android rootfs images
+		mkdir userdata
+		cp $PREFIX.rootfs.tar.gz userdata/rootfs.tar.gz
+		make_ext4fs -l 6G -s $PREFIX.img-$FLAVOUR userdata/
+		ln -sf "$PREFIX.img-$FLAVOUR" "$PREFIX.img"
+	fi
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))

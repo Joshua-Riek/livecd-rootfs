@@ -306,6 +306,12 @@ case $ARCH in
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				;;
+			nexus7)
+				COMPONENTS='main restricted universe multiverse'
+				add_package install zram-config
+				add_package live ac100-tarball-installer
+				BINARY_REMOVE_LINUX=false
+				;;
 		esac
 		;;
 esac

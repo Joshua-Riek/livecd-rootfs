@@ -1,3 +1,12 @@
+livecd-rootfs (2.94) UNRELEASED; urgency=low
+
+  * add a dependency on android-tools-fsutils for armhf builds
+  * add nexus7 live-build configuration
+  * add nexus7 post processing with make_ext4fs for teh tarball to roll a
+    proper android img file
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 09 Nov 2012 13:00:36 +0100
+
 livecd-rootfs (2.93) quantal; urgency=low
 
   * Revert binary/$INITFS/kernel-$FLAVOUR to the unsigned kernel, and link
