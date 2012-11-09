@@ -1,4 +1,4 @@
-livecd-rootfs (2.95) UNRELEASED; urgency=low
+livecd-rootfs (2.95) raring; urgency=low
 
   * make the dependency on android-tools-fsutils not arch specific, seems
     dpkg doesnt like arch specific binary deps in arch all packages
