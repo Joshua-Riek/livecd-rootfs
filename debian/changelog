@@ -1,3 +1,11 @@
+livecd-rootfs (2.96) UNRELEASED; urgency=low
+
+  * add nexus7 specific kernel cmdline
+  * move the nexus7 processing up a bit in the code so we can modify the
+    bootimg cmdline before the file gets copied around
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 14 Nov 2012 13:28:50 +0100
+
 livecd-rootfs (2.95) raring; urgency=low
 
   * make the dependency on android-tools-fsutils not arch specific, seems
