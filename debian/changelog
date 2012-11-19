@@ -1,4 +1,4 @@
-livecd-rootfs (2.97) UNRELEASED; urgency=low
+livecd-rootfs (2.97) raring; urgency=low
 
   * add linux-firmware-nexus7 and nvidia-graphics-drivers-tegra3 to nexus7
     builds
