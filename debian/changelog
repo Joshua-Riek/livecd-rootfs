@@ -1,3 +1,9 @@
+livecd-rootfs (2.100) UNRELEASED; urgency=low
+
+  * clean up the userdata dir
+
+ -- Oliver Grawert <ogra@chromebook>  Mon, 19 Nov 2012 19:48:42 +0100
+
 livecd-rootfs (2.99) raring; urgency=low
 
   * fix quoting in abootimg call for nexus7
