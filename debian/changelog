@@ -2,6 +2,7 @@ livecd-rootfs (2.100) UNRELEASED; urgency=low
 
   * clean up the userdata dir
   * move the tarball around instead of copying it
+  * fix quoting of abootimg call harder
 
  -- Oliver Grawert <ogra@ubuntu.com>  Mon, 19 Nov 2012 19:48:42 +0100
 
