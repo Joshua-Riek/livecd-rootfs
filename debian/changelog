@@ -1,4 +1,4 @@
-livecd-rootfs (2.96) UNRELEASED; urgency=low
+livecd-rootfs (2.96) raring; urgency=low
 
   * add nexus7 specific kernel cmdline
   * move the nexus7 processing up a bit in the code so we can modify the
