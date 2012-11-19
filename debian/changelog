@@ -1,3 +1,10 @@
+livecd-rootfs (2.99) UNRELEASED; urgency=low
+
+  * fix quoting in abootimg call for nexus7
+  * dont fail if the userdata dir already exists
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 19 Nov 2012 18:04:13 +0100
+
 livecd-rootfs (2.98) raring; urgency=low
 
   * we want nvidia-tegra3 (the binary) not nvidia-graphics-drivers-tegra3

@@ -378,10 +378,10 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 
 	if [ "$SUBARCH" = "nexus7" ]; then
 		# adjust the bootimg cmdline parameters
-		Chroot chroot 'abootimg -u /boot/installer-${KVERS}.img -c "cmdline=root=/dev/mmcblk0p9 ro console=tty1 fbcon=rotate:1 quiet splash"'
+		Chroot chroot "abootimg -u /boot/installer-${KVERS}.img -c \"cmdline=root=/dev/mmcblk0p9 ro console=tty1 fbcon=rotate:1 quiet splash\""
 
 		# roll the android rootfs images
-		mkdir userdata
+		mkdir -p userdata
 		cp $PREFIX.rootfs.tar.gz userdata/rootfs.tar.gz
 		make_ext4fs -l 6G -s $PREFIX.img-$FLAVOUR userdata/
 		ln -sf "$PREFIX.img-$FLAVOUR" "$PREFIX.img"
