@@ -1,4 +1,4 @@
-livecd-rootfs (2.99) UNRELEASED; urgency=low
+livecd-rootfs (2.99) raring; urgency=low
 
   * fix quoting in abootimg call for nexus7
   * dont fail if the userdata dir already exists
