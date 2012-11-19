@@ -1,4 +1,4 @@
-livecd-rootfs (2.100) UNRELEASED; urgency=low
+livecd-rootfs (2.100) raring; urgency=low
 
   * clean up the userdata dir
   * move the tarball around instead of copying it
