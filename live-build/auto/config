@@ -308,9 +308,11 @@ case $ARCH in
 				;;
 			nexus7)
 				COMPONENTS='main restricted universe multiverse'
-				add_package install zram-config
+				add_package install zram-config linux-firmware-nexus7 nvidia-graphics-drivers-tegra3
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
+				mkdir -p config/preseed
+				echo "linux-firmware-nexus7 shared/nexus7_notice_accepted boolean true" >config/preseed/linux-firmware-nexus7.preseed.chroot
 				;;
 		esac
 		;;

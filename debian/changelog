@@ -1,3 +1,12 @@
+livecd-rootfs (2.97) UNRELEASED; urgency=low
+
+  * add linux-firmware-nexus7 and nvidia-graphics-drivers-tegra3 to nexus7
+    builds
+  * preseed the license popup of linux-firmware-nexus7, we will show
+    it in the installer for full image installs.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 19 Nov 2012 12:58:36 +0100
+
 livecd-rootfs (2.96) raring; urgency=low
 
   * add nexus7 specific kernel cmdline
