@@ -1,4 +1,4 @@
-livecd-rootfs (2.98) UNRELEASED; urgency=low
+livecd-rootfs (2.98) raring; urgency=low
 
   * we want nvidia-tegra3 (the binary) not nvidia-graphics-drivers-tegra3
 
