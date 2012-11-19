@@ -1,3 +1,9 @@
+livecd-rootfs (2.98) UNRELEASED; urgency=low
+
+  * we want nvidia-tegra3 (the binary) not nvidia-graphics-drivers-tegra3
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 19 Nov 2012 14:55:19 +0100
+
 livecd-rootfs (2.97) raring; urgency=low
 
   * add linux-firmware-nexus7 and nvidia-graphics-drivers-tegra3 to nexus7
