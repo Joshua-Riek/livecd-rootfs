@@ -1,3 +1,10 @@
+livecd-rootfs (2.102) UNRELEASED; urgency=low
+
+  * create the nexus7 rootfs image with .ext4 as suffix instead of using
+    .img, so debian-cd knows how to handle it
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 20 Nov 2012 16:45:06 +0100
+
 livecd-rootfs (2.101) raring; urgency=low
 
   * instead of mangling the ac100 bootimg for nexus7 support, ship a proper
