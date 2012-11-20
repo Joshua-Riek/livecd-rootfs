@@ -1,4 +1,4 @@
-livecd-rootfs (2.101) UNRELEASED; urgency=low
+livecd-rootfs (2.101) raring; urgency=low
 
   * instead of mangling the ac100 bootimg for nexus7 support, ship a proper
     config in ac100-tarball-installer and build the nexus7 one from scratch
