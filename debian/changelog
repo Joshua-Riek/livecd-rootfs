@@ -1,4 +1,4 @@
-livecd-rootfs (2.102) UNRELEASED; urgency=low
+livecd-rootfs (2.102) raring; urgency=low
 
   * create the nexus7 rootfs image with .ext4 as suffix instead of using
     .img, so debian-cd knows how to handle it
