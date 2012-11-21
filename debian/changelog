@@ -1,9 +1,9 @@
-livecd-rootfs (2.103) UNRELEASED; urgency=low
+livecd-rootfs (2.103) raring; urgency=low
 
   * live-build/auto/build: Exclude all *.efi* files from kernel version
     detection (i.e. including *.efi.signature), not just *.efi.signed.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Nov 2012 22:29:13 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Nov 2012 22:31:46 +0000
 
 livecd-rootfs (2.102) raring; urgency=low
 
