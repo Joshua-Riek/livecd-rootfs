@@ -1,4 +1,4 @@
-livecd-rootfs (2.104) UNRELEASED; urgency=low
+livecd-rootfs (2.104) raring; urgency=low
 
   * use a subarch based approach for the ac100 and nexus7 bootimg.cfg files
   * create a media-info file and place it inside the tarball installer
