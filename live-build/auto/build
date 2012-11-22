@@ -365,6 +365,11 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
 	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
 
+	INFO_DESC="$(lsb_release -d -s)"
+	INFO_STAMP=$(date +20%y%m%d-%H:%M)
+
+	echo "$INFO_DESC - $ARCH ($INFO_STAMP)" >chroot/media-info
+
 	# make sure update-initramfs feels cosy and warm in the environment
 	lb chroot_proc install "$@"
 	lb chroot_sysfs install "$@"
@@ -374,13 +379,9 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 	Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
 
 	# create boot.img
-	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
+	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
 
 	if [ "$SUBARCH" = "nexus7" ]; then
-		# adjust the bootimg cmdline parameters
-		rm -rf /boot/installer-${KVERS}.img
-		Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-nexus7 -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
-
 		# roll the android rootfs images
 		mkdir -p userdata
 		mv $PREFIX.rootfs.tar.gz userdata/rootfs.tar.gz
