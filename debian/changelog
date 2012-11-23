@@ -1,4 +1,4 @@
-livecd-rootfs (2.105) UNRELEASED; urgency=low
+livecd-rootfs (2.105) raring; urgency=low
 
   * preseed autologin in the nexus7 tarball
   * use ubuntu-defaults-nexus7 package in the nexus7 images
