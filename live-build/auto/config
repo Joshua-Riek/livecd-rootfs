@@ -308,11 +308,12 @@ case $ARCH in
 				;;
 			nexus7)
 				COMPONENTS='main restricted universe multiverse'
-				add_package install zram-config linux-firmware-nexus7 nvidia-tegra3
+				add_package install zram-config linux-firmware-nexus7 nvidia-tegra3 ubuntu-defaults-nexus7
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				mkdir -p config/preseed
 				echo "linux-firmware-nexus7 shared/nexus7_notice_accepted boolean true" >config/preseed/linux-firmware-nexus7.preseed.chroot
+				echo "d-i passwd/auto-login boolean true" >config/preseed/autologin.preseed.chroot
 				;;
 		esac
 		;;

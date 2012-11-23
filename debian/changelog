@@ -1,3 +1,10 @@
+livecd-rootfs (2.105) UNRELEASED; urgency=low
+
+  * preseed autologin in the nexus7 tarball
+  * use ubuntu-defaults-nexus7 package in the nexus7 images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Nov 2012 12:20:30 +0100
+
 livecd-rootfs (2.104) raring; urgency=low
 
   * use a subarch based approach for the ac100 and nexus7 bootimg.cfg files
