@@ -1,4 +1,4 @@
-livecd-rootfs (2.106) UNRELEASED; urgency=low
+livecd-rootfs (2.106) raring; urgency=low
 
   * re-enable all slideshows on all preinstalled images, webkit should work
     again
