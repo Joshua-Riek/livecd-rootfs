@@ -134,18 +134,15 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 	case $PROJECT in
 		kubuntu*)
 			add_package live oem-config-kde ubiquity-frontend-kde
-			# work around quantal bug 1066046 (webkit crashes teh slideshow)
-			#add_package live ubiquity-slideshow-kubuntu
+			add_package live ubiquity-slideshow-kubuntu
 			;;
 		lubuntu*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
-			# work around quantal bug 1066046 (webkit crashes teh slideshow)
-			# add_package live ubiquity-slideshow-lubuntu
+			add_package live ubiquity-slideshow-lubuntu
 			;;
 		xubuntu*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
-			# work around quantal bug 1066046 (webkit crashes teh slideshow)
-			#add_package live ubiquity-slideshow-xubuntu
+			add_package live ubiquity-slideshow-xubuntu
 			;;
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
@@ -154,8 +151,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
-			# work around quantal bug 1066046 (webkit crashes teh slideshow)
-			#add_package live ubiquity-slideshow-ubuntu
+			add_package live ubiquity-slideshow-ubuntu
 			;;
 	esac
 fi
