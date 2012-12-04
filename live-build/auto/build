@@ -337,6 +337,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	ln "binary/$INITFS/"vmlinu?-"$KVERS" "$PREFIX.kernel-$FLAVOUR"
 	if [ -e "binary/$INITFS/"vmlinu?-"$KVERS.efi.signed" ]; then
 		ln "binary/$INITFS/"vmlinu?-"$KVERS.efi.signed" "$PREFIX.kernel-$FLAVOUR.efi.signed"
+		chmod 644 "$PREFIX.kernel-$FLAVOUR.efi.signed"
 	fi
 	chmod 644 "$PREFIX.kernel-$FLAVOUR"
 	if [ -e "binary/$INITFS/initrd.img-$KVERS" ]; then
