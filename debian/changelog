@@ -1,3 +1,10 @@
+livecd-rootfs (2.108) UNRELEASED; urgency=low
+
+  * live-build/auto/build: Use slightly safer code for kernel handling just
+    in case 'set -o pipefail' is ever reinstated here.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 07 Jan 2013 21:24:13 +0000
+
 livecd-rootfs (2.107) raring; urgency=low
 
   * Make sure the $PREFIX.kernel-$FLAVOUR.efi.signed output is
