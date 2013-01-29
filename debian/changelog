@@ -1,9 +1,16 @@
-livecd-rootfs (2.108) UNRELEASED; urgency=low
+livecd-rootfs (2.108) raring; urgency=low
 
+  [ Colin Watson ]
   * live-build/auto/build: Use slightly safer code for kernel handling just
     in case 'set -o pipefail' is ever reinstated here.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 07 Jan 2013 21:24:13 +0000
+  [ Adam Conrad ]
+  * Add abootimg explicitly to ac100 and nexus7 images, so it's marked
+    as manually installed and apt doesn't autoremove it (LP: #1041290)
+  * Remove linux-firmware-nexus7 from the install list, it gets pulled
+    in automatically by linux-image-nexus7, so this is redundant.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Tue, 29 Jan 2013 12:34:37 -0700
 
 livecd-rootfs (2.107) raring; urgency=low
 
