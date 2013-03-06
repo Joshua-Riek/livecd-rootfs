@@ -1,3 +1,11 @@
+livecd-rootfs (2.109) UNRELEASED; urgency=low
+
+  * Drop ubuntustudio-generation and ubuntustudio-recording tasks and add
+    ubuntustudio-audio task to reflect Ubuntu Studio seed restructuring
+    - update live-build/auto/config
+
+ -- Micah Gersten <micahg@ubuntu.com>  Tue, 05 Mar 2013 22:44:01 -0600
+
 livecd-rootfs (2.108) raring; urgency=low
 
   [ Colin Watson ]
