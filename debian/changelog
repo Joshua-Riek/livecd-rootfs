@@ -1,3 +1,9 @@
+livecd-rootfs (2.110) UNRELEASED; urgency=low
+
+  * live-build/auto/config: Drop ubuntustudio-audio-plugins task.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 07 Mar 2013 13:26:35 +0000
+
 livecd-rootfs (2.109) raring; urgency=low
 
   * Drop ubuntustudio-generation and ubuntustudio-recording tasks and add
