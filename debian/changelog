@@ -1,7 +1,10 @@
 livecd-rootfs (2.111) UNRELEASED; urgency=low
 
-  * BuildLiveCD, live-build/auto/config: Add ubuntukylin as a valid project
+  * live-build/auto/config: Add ubuntukylin as a valid project
     (LP: #1152812).
+  * BuildLiveCD: Remove the explicit list of valid projects.  This is a
+    hassle to modify, and not very useful since an invalid project will fail
+    soon enough anyway.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Fri, 08 Mar 2013 23:34:18 +0000
 

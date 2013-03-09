@@ -87,15 +87,6 @@ case ${ARCH} in
     *) LINUX32="";;
 esac
 
-for arg in "$@"; do
-    case "$arg" in
-	*ubuntu|*ubuntu-dvd|kubuntu-active|ubuntu-lpia|ubuntu-mid|ubuntu-umpc|ubuntu-mobile|ubuntu-netbook|ubuntu-moblin-remix|mythbuntu|ubuntustudio-dvd|ubuntukylin|base|tocd|ubuntu-headless|ubuntu-server|ubuntu-core|cloud-live)	;;
-	*)
-	    echo "bad project: $arg" >&2
-	    exit 2
-	    ;;
-    esac
-done
 if [ "`echo $@ | wc -w`" -gt "1" ]; then
     for arg in "$@"; do
         $0 $arg
