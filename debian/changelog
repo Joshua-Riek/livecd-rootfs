@@ -1,4 +1,4 @@
-livecd-rootfs (2.111) UNRELEASED; urgency=low
+livecd-rootfs (2.111) raring; urgency=low
 
   * live-build/auto/config: Add ubuntukylin as a valid project
     (LP: #1152812).
@@ -6,7 +6,7 @@ livecd-rootfs (2.111) UNRELEASED; urgency=low
     hassle to modify, and not very useful since an invalid project will fail
     soon enough anyway.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 08 Mar 2013 23:34:18 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 09 Mar 2013 12:13:24 +0000
 
 livecd-rootfs (2.110) raring; urgency=low
 
