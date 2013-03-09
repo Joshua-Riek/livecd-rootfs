@@ -233,6 +233,13 @@ case $PROJECT in
 		esac
 		;;
 
+	ubuntukylin)
+		add_task install minimal standard ubuntu-desktop
+		add_package install ubuntukylin-default-settings
+		LIVE_TASK='ubuntu-live'
+		COMPONENTS='main restricted universe'
+		;;
+
 	base)
 		add_task install minimal standard
 		;;
