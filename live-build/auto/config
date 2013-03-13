@@ -225,6 +225,12 @@ case $PROJECT in
 		export APT_OPTIONS="--yes --no-install-recommends"
 		;;
 
+	ubuntu-gnome)
+		add_task install minimal standard ubuntu-gnome-desktop
+		LIVE_TASK='ubuntu-gnome-live'
+		COMPONENTS='main restricted universe'
+		;;
+
 	ubuntustudio-dvd)
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-font-meta ubuntustudio-graphics ubuntustudio-video ubuntustudio-publishing ubuntustudio-photography
 		COMPONENTS='main restricted universe multiverse'
