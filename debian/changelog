@@ -1,8 +1,8 @@
-livecd-rootfs (2.112) UNRELEASED; urgency=low
+livecd-rootfs (2.112) raring; urgency=low
 
   * live-build/auto/config: Add ubuntu-gnome project (LP: #1152818)
 
- -- Jeremy Bicha <jbicha@ubuntu.com>  Sat, 09 Mar 2013 15:33:40 -0500
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 13 Mar 2013 10:28:23 +0000
 
 livecd-rootfs (2.111) raring; urgency=low
 
