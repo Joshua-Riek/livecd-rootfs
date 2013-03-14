@@ -1,9 +1,9 @@
-livecd-rootfs (2.113) UNRELEASED; urgency=low
+livecd-rootfs (2.113) raring; urgency=low
 
   * live-build/auto/config: Set gfxboot default language to zh_CN for
     UbuntuKylin.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 14 Mar 2013 11:52:58 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 14 Mar 2013 11:53:38 +0000
 
 livecd-rootfs (2.112) raring; urgency=low
 
