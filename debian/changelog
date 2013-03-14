@@ -1,3 +1,10 @@
+livecd-rootfs (2.114) UNRELEASED; urgency=low
+
+  * Revert changes in 2.113.  This needs to be done in cdimage/debian-cd
+    instead.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 14 Mar 2013 16:54:23 +0000
+
 livecd-rootfs (2.113) raring; urgency=low
 
   * live-build/auto/config: Set gfxboot default language to zh_CN for

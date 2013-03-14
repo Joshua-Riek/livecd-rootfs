@@ -84,7 +84,6 @@ LIVE_TASK=
 PREINSTALLED=false
 PREINSTALL_POOL=
 PREINSTALL_POOL_SEEDS=
-ISOLINUX_LANG=
 
 CHROOT_HOOKS=
 BINARY_HOOKS=
@@ -245,7 +244,6 @@ case $PROJECT in
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntu-live'
 		COMPONENTS='main restricted universe'
-		ISOLINUX_LANG=zh_CN
 		;;
 
 	base)
@@ -389,14 +387,6 @@ rm -f /etc/fstab
 EOF
 		;;
 esac
-
-if [ "$ISOLINUX_LANG" ]; then
-	cat > config/hooks/100-default-language.binary <<EOF
-#! /bin/sh
-set -e
-echo "$ISOLINUX_LANG" > binary/isolinux/lang
-EOF
-fi
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
