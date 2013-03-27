@@ -1,9 +1,9 @@
-livecd-rootfs (2.115) UNRELEASED; urgency=low
+livecd-rootfs (2.115) raring; urgency=low
 
   * live-build/auto/config: Run the ubuntukylin-default-settings chroot
     hook.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Mar 2013 14:46:41 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 27 Mar 2013 14:47:51 +0000
 
 livecd-rootfs (2.114) raring; urgency=low
 
