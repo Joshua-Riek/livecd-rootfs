@@ -386,6 +386,18 @@ case $PROJECT in
 rm -f /etc/fstab
 EOF
 		;;
+
+	ubuntukylin)
+		cat > config/hooks/100-ubuntukylin.chroot <<EOF
+#! /bin/sh
+set -e
+HOOK=/usr/share/ubuntukylin-default-settings/hooks/chroot
+if [ -x \$HOOK ]; then
+	exec \$HOOK
+fi
+exit 0
+EOF
+		;;
 esac
 
 if $BINARY_REMOVE_LINUX; then
