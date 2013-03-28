@@ -35,7 +35,7 @@ IMAGEFORMAT=""
 LIVE_BUILD=false
 UBUNTU_DEFAULTS_LOCALE=""
 
-while getopts :A:s:r:d:f:pa:lu: name; do case $name in
+while getopts :A:s:r:d:f:pa:lu:t: name; do case $name in
     A)	ARCH="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     r)	SUBPROJECT="$OPTARG";;
@@ -45,6 +45,7 @@ while getopts :A:s:r:d:f:pa:lu: name; do case $name in
     a)	APT_SOURCE="-A $OPTARG";;
     l)	LIVE_BUILD=:;;
     u)	UBUNTU_DEFAULTS_LOCALE="$OPTARG";;
+    t)	UBUNTU_TOUCH_ANDROID="$OPTARG";;
 esac; done;
 shift $((OPTIND-1))
 
@@ -142,6 +143,8 @@ for STE in $SUITES; do
 	COMMAND="PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
     elif [ "$UBUNTU_DEFAULTS_LOCALE" ]; then
 	COMMAND="ubuntu-defaults-image --locale ${UBUNTU_DEFAULTS_LOCALE} --arch ${ARCH} --release ${STE}"
+    elif [ "$UBUNTU_TOUCH_ANDROID" ]; then
+	COMMAND="/usr/sbin/ubuntu-touch-android.sh ${SUBARCH}"
     else
 	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT:+-f$IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
     fi
