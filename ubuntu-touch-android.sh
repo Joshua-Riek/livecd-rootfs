@@ -30,4 +30,7 @@ brunch $codename
 
 cd -
 cp $builddir/out/target/product/$codename/*-$codename.zip .
+for image in system recovery boot; do
+	cp $builddir/out/target/product/$codename/$image.img ./$codename-$image.img
+done
 rm -rf $buildir

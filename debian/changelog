@@ -1,3 +1,10 @@
+livecd-rootfs (2.117) UNRELEASED; urgency=low
+
+  * make ubuntu-touch-android.sh also create $subarch-system.img
+  $subarch-recovery.img and $subarch-boot.img
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 28 Mar 2013 18:47:06 +0100
+
 livecd-rootfs (2.116) raring; urgency=low
 
   * add new arg (-t) to enable Ubuntu Touch android cross builds which calls a
