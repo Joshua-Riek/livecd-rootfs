@@ -29,8 +29,8 @@ repo sync
 brunch $codename
 
 cd -
-cp $builddir/out/target/product/$codename/*-$codename.zip .
+cp $builddir/out/target/product/$codename/*-$codename.zip ./livecd.ubuntu-touch-$codename.zip
 for image in system recovery boot; do
-	cp $builddir/out/target/product/$codename/$image.img ./$codename-$image.img
+	cp $builddir/out/target/product/$codename/$image.img ./livecd.ubuntu-touch-$codename.$image.img
 done
 rm -rf $buildir

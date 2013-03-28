@@ -1,3 +1,9 @@
+livecd-rootfs (2.118) UNRELEASED; urgency=low
+
+  * normalize the naming scheme for ubuntu-touch-android.sh output
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 28 Mar 2013 19:34:18 +0100
+
 livecd-rootfs (2.117) raring; urgency=low
 
   * make ubuntu-touch-android.sh also create $subarch-system.img
