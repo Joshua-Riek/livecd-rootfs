@@ -1,4 +1,4 @@
-livecd-rootfs (2.117) UNRELEASED; urgency=low
+livecd-rootfs (2.117) raring; urgency=low
 
   * make ubuntu-touch-android.sh also create $subarch-system.img
   $subarch-recovery.img and $subarch-boot.img
