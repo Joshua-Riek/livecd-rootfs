@@ -1,4 +1,4 @@
-livecd-rootfs (2.118) UNRELEASED; urgency=low
+livecd-rootfs (2.118) raring; urgency=low
 
   * normalize the naming scheme for ubuntu-touch-android.sh output
 
