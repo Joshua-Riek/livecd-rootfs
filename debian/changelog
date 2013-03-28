@@ -1,4 +1,4 @@
-livecd-rootfs (2.116) UNRELEASED; urgency=low
+livecd-rootfs (2.116) raring; urgency=low
 
   * add new arg (-t) to enable Ubuntu Touch android cross builds which calls a
     newly added script (ubuntu-touch-android.sh) to cross build android base
