@@ -134,6 +134,7 @@ for STE in $SUITES; do
     ln -sf ${PUBDIR}${NOW} ${PUBDIR}latest
     mkdir -p ${PUBDIR}${NOW}
     > ${LOG}
+    ln -sf livecd-${NOW}-${ARCH}.out ${PUBDIR}${NOW}/livecd-${ARCH}.out
     if $LIVE_BUILD; then
 	$LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && rm -rf auto && mkdir -p auto && for f in config build clean; do ln -s /usr/share/livecd-rootfs/live-build/auto/\$f auto/; done" >> ${LOG} 2>&1 || true
 	$LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && lb clean --purge" >> ${LOG} 2>&1 || true

@@ -1,3 +1,11 @@
+livecd-rootfs (2.119) UNRELEASED; urgency=low
+
+  * BuildLiveCD: Link livecd-${NOW}-${ARCH}.out to livecd-${ARCH}.out, to
+    make it easier for cdimage to fetch the latest build log for failure
+    notification mails.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 01 Apr 2013 23:34:56 +0100
+
 livecd-rootfs (2.118) raring; urgency=low
 
   * normalize the naming scheme for ubuntu-touch-android.sh output
