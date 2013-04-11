@@ -1,10 +1,16 @@
 livecd-rootfs (2.119) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * BuildLiveCD: Link livecd-${NOW}-${ARCH}.out to livecd-${ARCH}.out, to
     make it easier for cdimage to fetch the latest build log for failure
     notification mails.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 01 Apr 2013 23:34:56 +0100
+  [ Oliver Grawert ]
+  * the android build system is sadly full of bashisms (even though it has
+    generic .sh suffixes and no shebang line) until this is fixed use a
+    /bin/bash shebang
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 11 Apr 2013 11:28:08 +0200
 
 livecd-rootfs (2.118) raring; urgency=low
 
