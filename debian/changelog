@@ -1,4 +1,4 @@
-livecd-rootfs (2.119) UNRELEASED; urgency=low
+livecd-rootfs (2.119) raring; urgency=low
 
   [ Colin Watson ]
   * BuildLiveCD: Link livecd-${NOW}-${ARCH}.out to livecd-${ARCH}.out, to
