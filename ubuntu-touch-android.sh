@@ -4,8 +4,12 @@ set -e
 
 codename=$1
 builddir=$codename-build
+release=raring
 
 [ "$(dpkg --print-architecture)" = "amd64" ] || exit 1
+
+# enable universe in the build chroot
+grep -q universe /etc/apt/sources.list || echo "deb http://ftpmaster.internal/ubuntu $release universe" >>/etc/apt/sources.list
 
 # set up multiarch
 dpkg --print-foreign-architectures | grep -q i386 || dpkg --add-architecture i386
