@@ -1,3 +1,10 @@
+livecd-rootfs (2.122) UNRELEASED; urgency=low
+
+  * redo ubuntu-touch-android.sh to use its own build chroot since we can not
+    add universe support to the livefs builder chroot
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 15 Apr 2013 20:18:32 +0200
+
 livecd-rootfs (2.121) raring; urgency=low
 
   * ubuntu-touch-android.sh: enable universe in the build chroot
