@@ -1,3 +1,9 @@
+livecd-rootfs (2.120) UNRELEASED; urgency=low
+
+  * fix typo in shebang of ubuntu-touch-android.sh
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 15 Apr 2013 16:07:08 +0200
+
 livecd-rootfs (2.119) raring; urgency=low
 
   [ Colin Watson ]
