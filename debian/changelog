@@ -1,4 +1,4 @@
-livecd-rootfs (2.124) UNRELEASED; urgency=low
+livecd-rootfs (2.124) raring; urgency=low
 
   * drop the namespace in mount options of ubuntu-touch-android.sh,
     mount does not like that
