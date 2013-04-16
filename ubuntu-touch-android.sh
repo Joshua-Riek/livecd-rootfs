@@ -17,7 +17,7 @@ case $(hostname --fqdn) in
 		MIRROR=http://archive.ubuntu.com/ubuntu
 		;;
 esac
-debootstrap --omponents=ain,universe $release $builddir $MIRROR
+debootstrap --components=main,universe $release $builddir $MIRROR
 
 mount -t devpts devpts-$builddir $builddir/dev/pts
 chroot mount -t proc proc-$builddir /proc

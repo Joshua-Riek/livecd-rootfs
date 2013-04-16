@@ -1,3 +1,9 @@
+livecd-rootfs (2.123) UNRELEASED; urgency=low
+
+  * fix typos in debootstrap line of ubuntu-touch-android.sh
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Apr 2013 11:07:44 +0200
+
 livecd-rootfs (2.122) raring; urgency=low
 
   * redo ubuntu-touch-android.sh to use its own build chroot since we can not
