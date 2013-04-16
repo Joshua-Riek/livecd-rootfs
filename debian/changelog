@@ -1,3 +1,13 @@
+livecd-rootfs (2.124) UNRELEASED; urgency=low
+
+  * drop the namespace in mount options of ubuntu-touch-android.sh,
+    mount does not like that
+  * actually give chroot a rootdir when calling it
+  * make sure /dev/pts exists in the chroot before mounting something on it
+  * make umount lazy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Apr 2013 13:53:53 +0200
+
 livecd-rootfs (2.123) raring; urgency=low
 
   * fix typos in debootstrap line of ubuntu-touch-android.sh

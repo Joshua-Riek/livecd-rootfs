@@ -19,9 +19,10 @@ case $(hostname --fqdn) in
 esac
 debootstrap --components=main,universe $release $builddir $MIRROR
 
-mount -t devpts devpts-$builddir $builddir/dev/pts
-chroot mount -t proc proc-$builddir /proc
-chroot mount -t sysfs sys-$builddir /sys
+mkdir -p $builddir/dev/pts
+mount -t devpts devpts $builddir/dev/pts
+chroot $builddir mount -t proc proc /proc
+chroot $builddir mount -t sysfs sys /sys
 
 # set up multiarch inside the chroot
 chroot $builddir dpkg --add-architecture i386
@@ -55,8 +56,8 @@ for image in system recovery boot; do
 	cp $builddir/$builddir/out/target/product/$codename/$image.img ./livecd.ubuntu-touch-$codename.$image.img
 done
 
-umount $builddir/sys
-umount $builddir/proc
-umount $builddir/dev/pts
+umount -l $builddir/sys
+umount -l $builddir/proc
+umount -l $builddir/dev/pts
 
 rm -rf $builddir
