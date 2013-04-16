@@ -1,4 +1,4 @@
-livecd-rootfs (2.123) UNRELEASED; urgency=low
+livecd-rootfs (2.123) raring; urgency=low
 
   * fix typos in debootstrap line of ubuntu-touch-android.sh
 
