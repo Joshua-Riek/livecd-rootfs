@@ -1,4 +1,4 @@
-livecd-rootfs (2.124ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (2.125) UNRELEASED; urgency=low
 
   * live-build/auto/config: Add basic ubuntu-touch enablement (based on
     patch from Oliver Grawert, for which thanks).
