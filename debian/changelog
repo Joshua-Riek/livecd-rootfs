@@ -1,4 +1,4 @@
-livecd-rootfs (2.125) UNRELEASED; urgency=low
+livecd-rootfs (2.125) saucy; urgency=low
 
   * live-build/auto/config: Add basic ubuntu-touch enablement (based on
     patch from Oliver Grawert, for which thanks).
@@ -8,7 +8,7 @@ livecd-rootfs (2.125) UNRELEASED; urgency=low
     be close to enough for the architecture-independent parts of
     ubuntu-touch builds.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 01 May 2013 10:51:07 -0700
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 01 May 2013 12:05:41 -0700
 
 livecd-rootfs (2.124) raring; urgency=low
 
