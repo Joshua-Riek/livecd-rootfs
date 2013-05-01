@@ -2,6 +2,11 @@ livecd-rootfs (2.125) UNRELEASED; urgency=low
 
   * live-build/auto/config: Add basic ubuntu-touch enablement (based on
     patch from Oliver Grawert, for which thanks).
+  * live-build/auto/config, live-build/ubuntu-touch: Copy a huge pile of
+    customisation by Ricardo Salveti from
+    lp:~phablet-team/touch-preview-images/ubuntu-build-phablet, which should
+    be close to enough for the architecture-independent parts of
+    ubuntu-touch builds.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Wed, 01 May 2013 10:51:07 -0700
 

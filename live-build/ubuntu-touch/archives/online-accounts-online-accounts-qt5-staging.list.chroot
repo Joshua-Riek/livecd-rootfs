@@ -1,0 +1,2 @@
+deb http://ppa.launchpad.net/online-accounts/online-accounts-qt5-staging/ubuntu @DISTRIBUTION@ main
+# deb-src http://ppa.launchpad.net/online-accounts/online-accounts-qt5-staging/ubuntu @DISTRIBUTION@ main

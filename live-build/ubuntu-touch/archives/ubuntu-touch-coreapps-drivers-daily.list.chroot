@@ -1,0 +1,2 @@
+deb http://ppa.launchpad.net/ubuntu-touch-coreapps-drivers/daily/ubuntu @DISTRIBUTION@ main
+# deb-src http://ppa.launchpad.net/ubuntu-touch-coreapps-drivers/daily/ubuntu @DISTRIBUTION@ main

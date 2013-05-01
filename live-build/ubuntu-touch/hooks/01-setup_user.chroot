@@ -1,0 +1,19 @@
+#!/bin/sh -x
+
+USER=phablet
+UGID=32011
+
+echo "I: creating default user $USER"
+adduser --gecos $USER --disabled-login $USER --uid $UGID
+
+echo "I: set user $USER password to $USER"
+echo "$USER:$USER" | chpasswd
+
+adduser --gecos system --no-create-home --disabled-login --disabled-password system --uid 1000
+
+mkdir -p /home/$USER/Music
+mkdir -p /home/$USER/Pictures
+mkdir -p /home/$USER/Videos
+mkdir -p /home/$USER/Downloads
+mkdir -p /home/$USER/Documents
+chown -R $UGID:$UGID /home/$USER

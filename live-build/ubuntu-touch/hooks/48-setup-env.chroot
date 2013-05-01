@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echo "I: setting up initial environment for Touch..."
+
+echo "HOSTNAME=android
+SHELL=/system/bin/sh
+TERM=linux
+ANDROID_CACHE=/cache
+LOOP_MOUNTPOINT=/mnt/obb
+ASEC_MOUNTPOINT=/mnt/asec
+ANDROID_PROPERTY_WORKSPACE=8,49152
+ANDROID_ASSETS=/system/app
+ANDROID_BOOTLOGO=1
+LD_LIBRARY_PATH=/vendor/lib:/system/lib
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ANDROID_DATA=/data
+QT_QPA_PLATFORM=ubuntu
+QML2_IMPORT_PATH=/usr/lib/arm-linux-gnueabihf/qt5/imports
+SHLVL=1
+MKSH=/system/bin/sh
+ANDROID_ROOT=/system
+EXTERNAL_STORAGE=/mnt/sdcard
+LANG=en_US.UTF-8
+LANGUAGE=en_US:en
+QT_IM_MODULE=maliit
+HUD_NO_STORE_USAGE_DATA=1
+INDICATOR_ALLOW_NO_WATCHERS=1" > /etc/environment
+
+echo -e "\n# export the phablet shell dbus session on normal login shells
+source /home/phablet/.dbus-session
+export DBUS_SESSION_BUS_ADDRESS" >> /home/phablet/.bashrc

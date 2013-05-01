@@ -80,6 +80,7 @@ BINARY_IMAGES=none
 MEMTEST=none
 SOURCE='--source false'
 BOOTLOADER=none
+BOOTAPPEND_LIVE=
 LIVE_TASK=
 PREINSTALLED=false
 PREINSTALL_POOL=
@@ -263,6 +264,14 @@ case $PROJECT in
 	ubuntu-touch)
 		add_task install minimal ubuntu-touch
 		COMPONENTS='main restricted universe'
+		BINARY_IMAGES=tar
+		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
+		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
+		OPTS="${OPTS:+$OPTS }--apt-recommends false"
+		OPTS="${OPTS:+$OPTS }--binary-filesystem ext4"
+		OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
+		OPTS="${OPTS:+$OPTS }--swap-file-size 100"
+		OPTS="${OPTS:+$OPTS }--system normal"
 		;;
 
 	*)
@@ -335,7 +344,7 @@ case $ARCH in
 esac
 
 case $PROJECT in
-	ubuntu-server|ubuntu-core)
+	ubuntu-server|ubuntu-core|ubuntu-touch)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -379,6 +388,7 @@ lb config noauto \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
 	--initramfs-compression lzma \
+	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
@@ -436,6 +446,11 @@ EOF
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed universe multiverse
 EOF
 		fi
+		;;
+
+	ubuntu-touch)
+		cp -af /usr/share/livecd-rootfs/live-build/ubuntu-touch/* \
+			config/
 		;;
 esac
 

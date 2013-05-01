@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Adding admin group policy to NM system service"
+
+sed -i 's/<policy user="root">/<policy group="admin">\n\t\t\t\t<allow send_destination="org.freedesktop.NetworkManager"\/>\n\t\t\t\t<allow send_interface="org.freedesktop.NetworkManager"\/>\n\t\t\t\t<allow send_interface="org.freedesktop.NetworkManager.SecretAgent"\/>\n\t\t<\/policy>\n\t\t<policy user="root">/g' /etc/dbus-1/system.d/org.freedesktop.NetworkManager.conf
+

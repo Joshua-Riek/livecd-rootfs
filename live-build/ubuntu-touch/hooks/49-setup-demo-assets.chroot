@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Extract pictures to user
+tar -C /home/phablet/Pictures/ --strip-components=1 -xzf \
+    /usr/share/demo-assets/pictures.tgz
+chown -R phablet:phablet /home/phablet/Pictures
+
+# Copy videos to user
+cp -p /usr/share/demo-assets/videos/* /home/phablet/Videos/
+chown -R phablet:phablet /home/phablet/Videos
+
+# Set up fake telepathy-logger data
+mkdir -p /home/phablet/.local/share/TpLogger/logs
+cp -aRp /usr/share/demo-assets/telephony-app/* /home/phablet/.local/share/TpLogger/logs
+chown -R phablet.phablet /home/phablet/.local/

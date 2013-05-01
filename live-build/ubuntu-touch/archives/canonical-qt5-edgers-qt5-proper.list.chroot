@@ -1,0 +1,2 @@
+deb http://ppa.launchpad.net/canonical-qt5-edgers/qt5-proper/ubuntu @DISTRIBUTION@ main
+# deb-src http://ppa.launchpad.net/canonical-qt5-edgers/qt5-proper/ubuntu @DISTRIBUTION@ main
