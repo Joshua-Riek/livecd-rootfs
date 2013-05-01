@@ -260,6 +260,11 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
+	ubuntu-touch)
+		add_task install minimal ubuntu-touch
+		COMPONENTS='main restricted universe'
+		;;
+
 	*)
 		echo "unknown project $PROJECT" >&2
 		exit 2
