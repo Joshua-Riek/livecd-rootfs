@@ -1,4 +1,4 @@
-livecd-rootfs (2.126) UNRELEASED; urgency=low
+livecd-rootfs (2.126) saucy; urgency=low
 
   * drop the super-friends (sorry batman and robin ...) and ubuntu-sdk PPAs
   from live-build config for ubuntu-touch, their packages should be in the
