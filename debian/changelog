@@ -1,3 +1,11 @@
+livecd-rootfs (2.126) UNRELEASED; urgency=low
+
+  * drop the super-friends (sorry batman and robin ...) and ubuntu-sdk PPAs
+  from live-build config for ubuntu-touch, their packages should be in the
+  saucy archive already
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 02 May 2013 20:23:13 +0200
+
 livecd-rootfs (2.125) saucy; urgency=low
 
   * live-build/auto/config: Add basic ubuntu-touch enablement (based on
