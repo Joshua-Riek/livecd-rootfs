@@ -262,7 +262,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-touch)
-		add_task install minimal ubuntu-touch
+		add_package install ubuntu-minimal ubuntu-touch
 		COMPONENTS='main restricted universe'
 		BINARY_IMAGES=tar
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'

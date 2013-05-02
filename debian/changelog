@@ -1,3 +1,10 @@
+livecd-rootfs (2.127) UNRELEASED; urgency=low
+
+  * Install metapackages rather than tasks for ubuntu-touch, since it still
+    relies on PPAs and those don't have tasks.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 02 May 2013 13:50:03 -0700
+
 livecd-rootfs (2.126) saucy; urgency=low
 
   * drop the super-friends (sorry batman and robin ...) and ubuntu-sdk PPAs
