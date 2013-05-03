@@ -122,9 +122,13 @@ case $IMAGEFORMAT in
 		;;
 
 	*)
-		if [ "$PROJECT" != ubuntu-server ]; then
-			add_package live lupin-casper
-		fi
+		case $PROJECT in
+			ubuntu-server|ubuntu-touch)
+				;;
+			*)
+				add_package live lupin-casper
+				;;
+		esac
 		;;
 esac
 

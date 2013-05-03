@@ -1,3 +1,9 @@
+livecd-rootfs (2.128) UNRELEASED; urgency=low
+
+  * Don't include lupin-casper in ubuntu-touch images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 May 2013 08:45:11 -0700
+
 livecd-rootfs (2.127) saucy; urgency=low
 
   * Install metapackages rather than tasks for ubuntu-touch, since it still
