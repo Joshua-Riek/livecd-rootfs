@@ -1,9 +1,9 @@
-livecd-rootfs (2.129) UNRELEASED; urgency=low
+livecd-rootfs (2.129) saucy; urgency=low
 
   * Disable zsync for ubuntu-touch images.
   * Copy binary-tar.tar.gz to $PREFIX.rootfs.tar.gz if it exists.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 May 2013 10:35:43 -0700
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 May 2013 11:46:58 -0700
 
 livecd-rootfs (2.128) saucy; urgency=low
 
