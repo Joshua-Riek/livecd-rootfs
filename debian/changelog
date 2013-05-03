@@ -1,6 +1,7 @@
 livecd-rootfs (2.129) UNRELEASED; urgency=low
 
   * Don't build a squashfs for ubuntu-touch images.
+  * Disable zsync for ubuntu-touch images.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Fri, 03 May 2013 10:35:43 -0700
 

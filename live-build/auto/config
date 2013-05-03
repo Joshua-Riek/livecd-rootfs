@@ -278,6 +278,7 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
 		OPTS="${OPTS:+$OPTS }--swap-file-size 100"
 		OPTS="${OPTS:+$OPTS }--system normal"
+		OPTS="${OPTS:+$OPTS }--zsync false"
 		;;
 
 	*)
