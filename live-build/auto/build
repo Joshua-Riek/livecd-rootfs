@@ -301,6 +301,8 @@ if [ -e "binary/$INITFS/filesystem.dir" ]; then
 	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
 	chmod 644 "$PREFIX.rootfs.tar.gz"
+elif [ -e binary-tar.tar.gz ]; then
+	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
 fi
 
 # '--initramfs none' produces different manifest names.
