@@ -273,7 +273,6 @@ case $PROJECT in
 		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
 		OPTS="${OPTS:+$OPTS }--apt-recommends false"
 		OPTS="${OPTS:+$OPTS }--binary-filesystem ext4"
-		OPTS="${OPTS:+$OPTS }--chroot-filesystem none"
 		OPTS="${OPTS:+$OPTS }--compression gzip"
 		OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
 		OPTS="${OPTS:+$OPTS }--swap-file-size 100"
