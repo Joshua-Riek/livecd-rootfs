@@ -1,4 +1,4 @@
-livecd-rootfs (2.130) UNRELEASED; urgency=low
+livecd-rootfs (2.130) saucy; urgency=low
 
   * make sure we build a plain filesystem for ubuntu-touch (this should
     automatically produce a preinstalled tarball)
