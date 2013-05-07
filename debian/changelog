@@ -1,4 +1,4 @@
-livecd-rootfs (2.131) UNRELEASED; urgency=low
+livecd-rootfs (2.131) saucy; urgency=low
 
   * drop hardcoded packagelists for ubuntu-touch, this is dealt with by
     the ubuntu-touch seed/task/metapackage
