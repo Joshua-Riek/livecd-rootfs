@@ -1,3 +1,9 @@
+livecd-rootfs (2.133) UNRELEASED; urgency=low
+
+  * drop online-accounts-qt5-staging PPA from ubuntu-touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 07 May 2013 21:00:42 +0200
+
 livecd-rootfs (2.132) saucy; urgency=low
 
   * also remove ubuntu-touch-android.sh from debian/install
