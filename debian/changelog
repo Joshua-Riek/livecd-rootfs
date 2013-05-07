@@ -1,4 +1,4 @@
-livecd-rootfs (2.132) UNRELEASED; urgency=low
+livecd-rootfs (2.132) saucy; urgency=low
 
   * also remove ubuntu-touch-android.sh from debian/install
 
