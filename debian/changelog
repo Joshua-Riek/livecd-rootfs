@@ -1,3 +1,9 @@
+livecd-rootfs (2.134) UNRELEASED; urgency=low
+
+  * remove qt5-proper PPA from ubuntu touch builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 17 May 2013 14:33:35 +0200
+
 livecd-rootfs (2.133) saucy; urgency=low
 
   * drop online-accounts-qt5-staging PPA from ubuntu-touch images
