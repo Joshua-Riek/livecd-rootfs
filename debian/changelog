@@ -1,4 +1,4 @@
-livecd-rootfs (2.134) UNRELEASED; urgency=low
+livecd-rootfs (2.134) saucy; urgency=low
 
   * remove qt5-proper PPA from ubuntu touch builds
 
