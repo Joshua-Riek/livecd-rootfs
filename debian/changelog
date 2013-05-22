@@ -1,3 +1,10 @@
+livecd-rootfs (2.135) UNRELEASED; urgency=low
+
+  * BuildLiveCD: Time out lockfile after 12 hours, which should be enough
+    for even the longest build queue to clear.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 22 May 2013 17:32:23 +0100
+
 livecd-rootfs (2.134) saucy; urgency=low
 
   * remove qt5-proper PPA from ubuntu touch builds

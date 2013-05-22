@@ -97,7 +97,8 @@ fi
 FS="$1"
 shift
 
-lockfile ~/buildLiveCD.lock || exit 1
+# 12 hours should be enough for even the longest build queue to clear.
+lockfile -8 -r$((12 * 60 * 60 / 8)) ~/buildLiveCD.lock || exit 1
 trap "finish" 0
 trap "rm -f ~/buildLiveCD.lock; exit 1" 1 2 3 15
 exec > $BUILD_LOG 2>&1
