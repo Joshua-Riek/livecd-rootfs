@@ -1,3 +1,9 @@
+livecd-rootfs (2.137) UNRELEASED; urgency=low
+
+  * clear up /var/lib/initramfs-tools/ in teh chroot after building initrds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 27 May 2013 18:25:51 +0200
+
 livecd-rootfs (2.136) saucy; urgency=low
 
   * ubuntu-touch: determine the value for $kver inside the chroot, not

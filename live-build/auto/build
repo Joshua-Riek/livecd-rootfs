@@ -427,6 +427,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-${subarch}-boot.img"
 		rm "chroot/boot/bootimg-${subarch}.img" "/chroot/boot/initrd.img-"* "/chroot/boot/vmlinuz-"*
 	done
+	rm -rf chroot/var/lib/initramfs-tools/*
 	Chroot chroot "apt-get -y purge crda wireless-regdb"
 fi
 
