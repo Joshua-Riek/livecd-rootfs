@@ -1,3 +1,10 @@
+livecd-rootfs (2.136) UNRELEASED; urgency=low
+
+  * ubuntu-touch: determine the value for $kver inside the chroot, not
+    outside. Use -c and drop -t with update-initramfs
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 27 May 2013 18:13:05 +0200
+
 livecd-rootfs (2.135) saucy; urgency=low
 
   [ Colin Watson ]
