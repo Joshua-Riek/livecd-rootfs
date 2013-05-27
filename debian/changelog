@@ -1,4 +1,4 @@
-livecd-rootfs (2.135) UNRELEASED; urgency=low
+livecd-rootfs (2.135) saucy; urgency=low
 
   [ Colin Watson ]
   * BuildLiveCD: Time out lockfile after 12 hours, which should be enough
