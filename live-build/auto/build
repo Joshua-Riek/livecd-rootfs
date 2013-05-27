@@ -403,6 +403,33 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 
 fi
 
+if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
+	for subarch in maguro manta grouper mako; do
+
+		lb chroot_proc install "$@"
+		lb chroot_sysfs install "$@"
+		lb chroot_devpts install "$@"
+
+		kpkg="$(apt-cache depends linux-image-$subarch|grep Depends|sed -e 's/  Depends: //')"
+		kver=${kpkg#linux-image-}
+		Chroot chroot "apt-get -y install $kpkg"
+
+		bootimgcfg="/usr/share/initramfs-tools-ubuntu-touch/bootimg.cfg-${subarch}"
+		Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k $kver -t -u -v"
+		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f $bootimgcfg -r /boot/initrd.img-${kver} -k /boot/vmlinuz-${kver}"
+
+		Chroot chroot "apt-get -y purge $kpkg"
+
+		lb chroot_devpts remove "$@"
+		lb chroot_sysfs remove "$@"
+		lb chroot_proc remove "$@"
+
+		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-${subarch}-boot.img"
+		rm "chroot/boot/bootimg-${subarch}.img" "/chroot/boot/initrd.img-"* "/chroot/boot/vmlinuz-"*
+	done
+	Chroot chroot "apt-get -y purge crda wireless-regdb"
+fi
+
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
 case $PROJECT in
 	edubuntu-dvd)
