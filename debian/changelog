@@ -1,4 +1,4 @@
-livecd-rootfs (2.136) UNRELEASED; urgency=low
+livecd-rootfs (2.136) saucy; urgency=low
 
   * ubuntu-touch: determine the value for $kver inside the chroot, not
     outside. Use -c and drop -t with update-initramfs
