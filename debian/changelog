@@ -2,6 +2,7 @@ livecd-rootfs (2.137) UNRELEASED; urgency=low
 
   * clear up /var/lib/initramfs-tools/ in the chroot after building initrds
   * remove ubuntu-touch/hooks/49-setup-demo-assets.chroot
+  * handle sources.list in ubuntu-touch initrd creation
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 28 May 2013 11:13:57 +0200
 

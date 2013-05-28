@@ -404,12 +404,19 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
-	for subarch in maguro manta grouper mako; do
+	touchsubarches="maguro manta grouper mako"
 
-		lb chroot_proc install "$@"
-		lb chroot_sysfs install "$@"
-		lb chroot_devpts install "$@"
+	sourceslist="chroot/etc/apt/sources.list"
 
+	lb chroot_proc install "$@"
+	lb chroot_sysfs install "$@"
+	lb chroot_devpts install "$@"
+
+	mv "${sourceslist}" "${sourceslist}.orig"
+	echo "deb http://ftpmaster.internal/ubuntu/ $codename main universe" >$sourceslist
+	Chroot chroot "apt-get -y update"
+
+	for subarch in $touchsubarches; do
 		kpkg="$(Chroot chroot apt-cache depends linux-image-$subarch|grep Depends|sed -e 's/  Depends: //')"
 		kver=${kpkg#linux-image-}
 		Chroot chroot "apt-get -y install $kpkg"
@@ -420,15 +427,22 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 		Chroot chroot "apt-get -y purge $kpkg"
 
-		lb chroot_devpts remove "$@"
-		lb chroot_sysfs remove "$@"
-		lb chroot_proc remove "$@"
-
 		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-${subarch}-boot.img"
 		rm "chroot/boot/bootimg-${subarch}.img" "/chroot/boot/initrd.img-"* "/chroot/boot/vmlinuz-"*
 	done
+
+	lb chroot_devpts remove "$@"
+	lb chroot_sysfs remove "$@"
+	lb chroot_proc remove "$@"
+
 	rm -rf chroot/var/lib/initramfs-tools/*
 	Chroot chroot "apt-get -y purge crda wireless-regdb"
+	Chroot chroot "apt-get -y clean"
+
+	mv $sourceslist.orig $sourceslist
+	for file in $(find chroot/var/lib/apt/lists/ -name ftpmaster.internal*); do
+		rm $file
+	done
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
