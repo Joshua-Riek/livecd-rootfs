@@ -1,4 +1,4 @@
-livecd-rootfs (2.138) UNRELEASED; urgency=low
+livecd-rootfs (2.138) saucy; urgency=low
 
   * also move the sources.list.d dir out of the way on ubuntu-touch
 
