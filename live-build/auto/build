@@ -413,6 +413,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	lb chroot_devpts install "$@"
 
 	mv "${sourceslist}" "${sourceslist}.orig"
+	mv "${sourceslist}.d" "${sourceslist}.d.orig"
 	echo "deb http://ftpmaster.internal/ubuntu/ $codename main universe" >$sourceslist
 	Chroot chroot "apt-get -y update"
 
@@ -439,7 +440,8 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	Chroot chroot "apt-get -y purge crda wireless-regdb"
 	Chroot chroot "apt-get -y clean"
 
-	mv $sourceslist.orig $sourceslist
+	mv "${sourceslist}.orig" "${sourceslist}"
+	mv "${sourceslist}.d.orig" "${sourceslist}.d"
 	for file in $(find chroot/var/lib/apt/lists/ -name ftpmaster.internal*); do
 		rm $file
 	done

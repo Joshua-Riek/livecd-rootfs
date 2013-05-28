@@ -1,3 +1,9 @@
+livecd-rootfs (2.138) UNRELEASED; urgency=low
+
+  * also move the sources.list.d dir out of the way on ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 28 May 2013 15:17:46 +0200
+
 livecd-rootfs (2.137) saucy; urgency=low
 
   * clear up /var/lib/initramfs-tools/ in the chroot after building initrds
