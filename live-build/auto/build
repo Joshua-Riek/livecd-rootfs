@@ -421,7 +421,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 	mv "${sourceslist}" "${sourceslist}.orig"
 	mv "${sourceslist}.d" "${sourceslist}.d.orig"
-	echo "deb http://ftpmaster.internal/ubuntu/ $codename main universe" >$sourceslist
+	echo "deb http://ftpmaster.internal/ubuntu/ saucy main universe" >$sourceslist
 	Chroot chroot "apt-get -y update"
 
 	for subarch in $touchsubarches; do

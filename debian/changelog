@@ -1,3 +1,10 @@
+livecd-rootfs (2.140) UNRELEASED; urgency=low
+
+  *  hardcode dist in the temporary sources.list of the ubuntu-touch initrd
+     creation for a test
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 14:20:34 +0200
+
 livecd-rootfs (2.139) saucy; urgency=low
 
   * fix resolv.conf for ubuntu-touch initramfs creation
