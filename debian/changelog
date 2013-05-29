@@ -1,4 +1,4 @@
-livecd-rootfs (2.139) UNRELEASED; urgency=low
+livecd-rootfs (2.139) saucy; urgency=low
 
   * fix resolv.conf for ubuntu-touch initramfs creation
 
