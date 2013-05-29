@@ -1,4 +1,4 @@
-livecd-rootfs (2.140) UNRELEASED; urgency=low
+livecd-rootfs (2.140) saucy; urgency=low
 
   *  hardcode dist in the temporary sources.list of the ubuntu-touch initrd
      creation for a test
