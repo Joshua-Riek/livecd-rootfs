@@ -412,6 +412,13 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	lb chroot_sysfs install "$@"
 	lb chroot_devpts install "$@"
 
+	if [ -e chroot/etc/resolv.conf ]; then
+		mv chroot/etc/resolv.conf chroot/etc/resolv.conf.orig
+	fi
+	if [ -e /etc/resolv.conf ]; then
+		cp /etc/resolv.conf chroot/etc/resolv.conf
+	fi
+
 	mv "${sourceslist}" "${sourceslist}.orig"
 	mv "${sourceslist}.d" "${sourceslist}.d.orig"
 	echo "deb http://ftpmaster.internal/ubuntu/ $codename main universe" >$sourceslist
@@ -445,6 +452,11 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	for file in $(find chroot/var/lib/apt/lists/ -name ftpmaster.internal*); do
 		rm $file
 	done
+	if [ -e chroot/etc/resolv.conf.orig ]; then
+		mv chroot/etc/resolv.conf.orig chroot/etc/resolv.conf
+	else
+		rm chroot/etc/resolv.conf
+	fi
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))

@@ -1,3 +1,9 @@
+livecd-rootfs (2.139) UNRELEASED; urgency=low
+
+  * fix resolv.conf for ubuntu-touch initramfs creation
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 12:10:53 +0200
+
 livecd-rootfs (2.138) saucy; urgency=low
 
   * also move the sources.list.d dir out of the way on ubuntu-touch
