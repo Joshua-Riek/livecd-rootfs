@@ -1,4 +1,4 @@
-livecd-rootfs (2.143) UNRELEASED; urgency=low
+livecd-rootfs (2.143) saucy; urgency=low
 
   * drop all the cleanup code, we already have the tarball and don't need to
     clean the chroot.
