@@ -435,8 +435,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 		Chroot chroot "apt-get -y purge $kpkg"
 
-		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-${subarch}-boot.img"
-		rm "chroot/boot/bootimg-${subarch}.img" "/chroot/boot/initrd.img-"* "/chroot/boot/vmlinuz-"*
+		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-boot-${subarch}.img"
 	done
 
 	lb chroot_devpts remove "$@"
@@ -457,6 +456,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	else
 		rm chroot/etc/resolv.conf
 	fi
+	rm -rf chroot/boot/* || true
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
