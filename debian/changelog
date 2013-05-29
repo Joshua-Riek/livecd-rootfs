@@ -1,4 +1,4 @@
-livecd-rootfs (2.142) UNRELEASED; urgency=low
+livecd-rootfs (2.142) saucy; urgency=low
 
   * copy the initrd out of the chroot before we purge the kernel package on
     ubuntu-touch
