@@ -430,10 +430,10 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		Chroot chroot "apt-get -y install $kpkg"
 
 		bootimgcfg="/usr/share/initramfs-tools-ubuntu-touch/bootimg.cfg-${subarch}"
-		Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k $kver -c -v"
-		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f $bootimgcfg -r /boot/initrd.img-${kver} -k /boot/vmlinuz-${kver}"
+		Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k ${kver} -c -v"
+		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f ${bootimgcfg} -r /boot/initrd.img-${kver} -k /boot/vmlinuz-${kver}"
 
-		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-boot-${subarch}.img"
+		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX-${subarch}.bootimg"
 
 		Chroot chroot "apt-get -y purge $kpkg"
 	done
@@ -441,22 +441,6 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	lb chroot_devpts remove "$@"
 	lb chroot_sysfs remove "$@"
 	lb chroot_proc remove "$@"
-
-	rm -rf chroot/var/lib/initramfs-tools/*
-	Chroot chroot "apt-get -y purge crda wireless-regdb"
-	Chroot chroot "apt-get -y clean"
-
-	mv "${sourceslist}.orig" "${sourceslist}"
-	mv "${sourceslist}.d.orig" "${sourceslist}.d"
-	for file in $(find chroot/var/lib/apt/lists/ -name ftpmaster.internal*); do
-		rm $file
-	done
-	if [ -e chroot/etc/resolv.conf.orig ]; then
-		mv chroot/etc/resolv.conf.orig chroot/etc/resolv.conf
-	else
-		rm chroot/etc/resolv.conf
-	fi
-	rm -rf chroot/boot/* || true
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))
