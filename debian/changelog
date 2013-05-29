@@ -1,3 +1,9 @@
+livecd-rootfs (2.144) saucy; urgency=low
+
+  * Clean up subarch loop for touch subarches to skip unwanted deps.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 29 May 2013 16:41:24 -0600
+
 livecd-rootfs (2.143) saucy; urgency=low
 
   * drop all the cleanup code, we already have the tarball and don't need to

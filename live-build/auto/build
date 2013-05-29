@@ -425,7 +425,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	Chroot chroot "apt-get -y update"
 
 	for subarch in $touchsubarches; do
-		kpkg="$(Chroot chroot apt-cache depends linux-image-$subarch|grep Depends|sed -e 's/  Depends: //')"
+		kpkg="$(Chroot chroot apt-cache depends linux-image-$subarch|awk '/Depends: linux-image/ {print $2}')"
 		kver=${kpkg#linux-image-}
 		Chroot chroot "apt-get -y install $kpkg"
 
