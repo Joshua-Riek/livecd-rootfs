@@ -1,4 +1,4 @@
-livecd-rootfs (2.145ubuntu1) UNRELEASED; urgency=low
+livecd-rootfs (2.146) saucy; urgency=low
 
   * drop the generic .bootimg from ubuntu-touch, all boot images we need have
     to be subarch tagged
