@@ -1,4 +1,4 @@
-livecd-rootfs (2.145) UNRELEASED; urgency=low
+livecd-rootfs (2.145) saucy; urgency=low
 
   * adjust naming of the bootimg files so cdimage picks them up for publishing
 
