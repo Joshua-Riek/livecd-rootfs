@@ -1,3 +1,10 @@
+livecd-rootfs (2.145ubuntu1) UNRELEASED; urgency=low
+
+  * drop the generic .bootimg from ubuntu-touch, all boot images we need have
+    to be subarch tagged
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 30 May 2013 18:21:06 +0200
+
 livecd-rootfs (2.145) saucy; urgency=low
 
   * adjust naming of the bootimg files so cdimage picks them up for publishing

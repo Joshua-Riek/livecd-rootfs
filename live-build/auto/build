@@ -434,7 +434,6 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f ${bootimgcfg} -r /boot/initrd.img-${kver} -k /boot/vmlinuz-${kver}"
 
 		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX.bootimg-${subarch}"
-		ln -sf "$PREFIX.bootimg-${subarch}" "$PREFIX.bootimg"
 
 		Chroot chroot "apt-get -y purge $kpkg"
 	done
