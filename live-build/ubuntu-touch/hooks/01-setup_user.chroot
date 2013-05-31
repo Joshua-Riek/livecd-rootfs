@@ -11,6 +11,9 @@ echo "$USER:$USER" | chpasswd
 
 adduser --gecos system --no-create-home --disabled-login --disabled-password system --uid 1000
 
+# Prevent the system user from being presented in the greeter by bumping MIN_UID
+sed -i 's/^\(UID_MIN\s\+\).*/\11001/g' /etc/login.defs
+
 mkdir -p /home/$USER/Music
 mkdir -p /home/$USER/Pictures
 mkdir -p /home/$USER/Videos
