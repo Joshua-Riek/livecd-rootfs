@@ -1,3 +1,9 @@
+livecd-rootfs (2.147) UNRELEASED; urgency=low
+
+  * sync ubuntu-touch customzation scripts with phablet build tree 
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 03 Jun 2013 09:56:15 +0200
+
 livecd-rootfs (2.146) saucy; urgency=low
 
   * drop the generic .bootimg from ubuntu-touch, all boot images we need have

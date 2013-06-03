@@ -2,7 +2,7 @@
 
 USER=phablet
 
-DEFGROUPS="tty,admin,adm,dialout,cdrom,plugdev,audio,dip,video,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw"
+DEFGROUPS="tty,admin,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw"
 
 /bin/egrep  -i "^admin" /etc/group
 if [ $? -eq 0 ]; then
@@ -41,10 +41,12 @@ else
 fi
 /bin/egrep  -i "^audio" /etc/group
 if [ $? -eq 0 ]; then
-   echo "User audio exists in /etc/group"
+   # Needed to change group id as audio is already created by ubuntu
+   echo "User audio exists in /etc/group, changing gid to be android compatible"
+   groupmod -g 1005 audio
 else
    echo "User audio does not exists in /etc/group must create"
-   groupadd audio
+   groupadd -g 1005 audio
 fi
 /bin/egrep  -i "^dip" /etc/group
 if [ $? -eq 0 ]; then
@@ -66,6 +68,27 @@ if [ $? -eq 0 ]; then
 else
    echo "User adm does not exists in /etc/group must create"
    groupadd adm
+fi
+/bin/egrep  -i "^gps" /etc/group
+if [ $? -eq 0 ]; then
+   echo "User gps exists in /etc/group"
+else
+   echo "User gps does not exist in /etc/group -- must create"
+   groupadd -g 1021 gps
+fi
+/bin/egrep  -i "^radio" /etc/group
+if [ $? -eq 0 ]; then
+   echo "User radio exists in /etc/group"
+else
+   echo "User radio does not exist in /etc/group -- must create"
+   groupadd -g 1001 radio
+fi
+/bin/egrep  -i "^bluetooth" /etc/group
+if [ $? -eq 0 ]; then
+   echo "User bluetooth exists in /etc/group"
+else
+   echo "User bluetooth does not exist in /etc/group -- must create"
+   groupadd -g 1002 bluetooth
 fi
 /bin/egrep  -i "^android_net" /etc/group
 if [ $? -eq 0 ]; then
