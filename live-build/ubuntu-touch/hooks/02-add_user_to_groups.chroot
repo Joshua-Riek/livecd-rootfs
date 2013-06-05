@@ -4,14 +4,14 @@ USER=phablet
 
 DEFGROUPS="tty,admin,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw"
 
-/bin/egrep  -i "^admin" /etc/group
+/bin/egrep  -i "^admin:" /etc/group
 if [ $? -eq 0 ]; then
    echo "User admin exists in /etc/group"
 else
    echo "User admin does not exists in /etc/group must create"
    groupadd admin
 fi
-/bin/egrep  -i "^audio" /etc/group
+/bin/egrep  -i "^audio:" /etc/group
 if [ $? -eq 0 ]; then
    # Needed to change group id as audio is already created by ubuntu
    echo "User audio exists in /etc/group, changing gid to be android compatible"
@@ -20,63 +20,63 @@ else
    echo "User audio does not exists in /etc/group must create"
    groupadd -g 1005 audio
 fi
-/bin/egrep  -i "^gps" /etc/group
+/bin/egrep  -i "^gps:" /etc/group
 if [ $? -eq 0 ]; then
    echo "User gps exists in /etc/group"
 else
    echo "User gps does not exist in /etc/group -- must create"
    groupadd -g 1021 gps
 fi
-/bin/egrep  -i "^radio" /etc/group
+/bin/egrep  -i "^radio:" /etc/group
 if [ $? -eq 0 ]; then
    echo "User radio exists in /etc/group"
 else
    echo "User radio does not exist in /etc/group -- must create"
    groupadd -g 1001 radio
 fi
-/bin/egrep  -i "^bluetooth" /etc/group
+/bin/egrep  -i "^bluetooth:" /etc/group
 if [ $? -eq 0 ]; then
    echo "User bluetooth exists in /etc/group"
 else
    echo "User bluetooth does not exist in /etc/group -- must create"
    groupadd -g 1002 bluetooth
 fi
-/bin/egrep  -i "^android_net" /etc/group
+/bin/egrep  -i "^android_net:" /etc/group
 if [ $? -eq 0 ]; then
    echo "User android_net exists in /etc/group"
 else
    echo "User android_net does not exist in /etc/group -- must create"
    groupadd -g 3003 android_net
 fi
-/bin/egrep -i "^android_net2" /etc/group
+/bin/egrep -i "^android_net2:" /etc/group
 if [ $? -eq 0 ]; then
 	echo "User android_net2 exists in /etc/group"
 else
 	echo "User android_net2 does not exist in /etc group -- must create"
 	groupadd -g 3004 android_net2
 fi
-/bin/egrep -i "^android_net3" /etc/group
+/bin/egrep -i "^android_net3:" /etc/group
 if [ $? -eq 0 ]; then
 	echo "User android_net3 exists in /etc/group"
 else
 	echo "User android_net3 does not exist in /etc group -- must create"
 	groupadd -g 3002 android_net3
 fi
-/bin/egrep -i "^android_graphics" /etc/group
+/bin/egrep -i "^android_graphics:" /etc/group
 if [ $? -eq 0 ]; then
 	echo "User android_graphics exists in /etc/group"
 else
 	echo "User android_graphics does not exist in /etc group -- must create"
 	groupadd -g 1003 android_graphics
 fi
-/bin/egrep -i "^android_input" /etc/group
+/bin/egrep -i "^android_input:" /etc/group
 if [ $? -eq 0 ]; then
 	echo "User android_input exists in /etc/group"
 else
 	echo "User android_input does not exist in /etc group -- must create"
 	groupadd -g 1004 android_input
 fi
-/bin/egrep -i "^sdcard_rw" /etc/group
+/bin/egrep -i "^sdcard_rw:" /etc/group
 if [ $? -eq 0 ]; then
 	echo "User sdcard_rw exists in /etc/group"
 else
