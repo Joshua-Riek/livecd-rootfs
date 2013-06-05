@@ -1,3 +1,11 @@
+livecd-rootfs (2.148) UNRELEASED; urgency=low
+
+  * live-build/ubuntu-touch/hooks/02-add_user_to_groups.chroot: Delete
+    redundant code to create global static groups, which are already created
+    more correctly by base-passwd on every Ubuntu system.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 05 Jun 2013 13:11:34 +0100
+
 livecd-rootfs (2.147) saucy; urgency=low
 
   * sync ubuntu-touch customzation scripts with phablet build tree 

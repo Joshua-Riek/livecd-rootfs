@@ -11,34 +11,6 @@ else
    echo "User admin does not exists in /etc/group must create"
    groupadd admin
 fi
-/bin/egrep  -i "^tty" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User tty exists in /etc/group"
-else
-   echo "User tty does not exists in /etc/group must create"
-   groupadd tty
-fi
-/bin/egrep  -i "^dialout" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User dialout exists in /etc/group"
-else
-   echo "User dialout does not exists in /etc/group must create"
-   groupadd dialout
-fi
-/bin/egrep  -i "^cdrom" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User cdrom exists in /etc/group"
-else
-   echo "User cdrom does not exists in /etc/group must create"
-   groupadd cdrom 
-fi
-/bin/egrep  -i "^plugdev" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User plugdev exists in /etc/group"
-else
-   echo "User plugdev does not exists in /etc/group must create"
-   groupadd plugdev
-fi
 /bin/egrep  -i "^audio" /etc/group
 if [ $? -eq 0 ]; then
    # Needed to change group id as audio is already created by ubuntu
@@ -47,27 +19,6 @@ if [ $? -eq 0 ]; then
 else
    echo "User audio does not exists in /etc/group must create"
    groupadd -g 1005 audio
-fi
-/bin/egrep  -i "^dip" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User dip exists in /etc/group"
-else
-   echo "User dip does not exists in /etc/group must create"
-   groupadd dip
-fi
-/bin/egrep  -i "^video" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User video exists in /etc/group"
-else
-   echo "User video does not exists in /etc/group must create"
-   groupadd video
-fi
-/bin/egrep  -i "^adm" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User adm exists in /etc/group"
-else
-   echo "User adm does not exists in /etc/group must create"
-   groupadd adm
 fi
 /bin/egrep  -i "^gps" /etc/group
 if [ $? -eq 0 ]; then
