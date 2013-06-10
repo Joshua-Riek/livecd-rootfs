@@ -1,4 +1,4 @@
-livecd-rootfs (2.148) UNRELEASED; urgency=low
+livecd-rootfs (2.148) saucy; urgency=low
 
   [ Colin Watson ]
   * live-build/ubuntu-touch/hooks/02-add_user_to_groups.chroot: Delete
