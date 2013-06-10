@@ -1,5 +1,6 @@
 livecd-rootfs (2.148) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * live-build/ubuntu-touch/hooks/02-add_user_to_groups.chroot: Delete
     redundant code to create global static groups, which are already created
     more correctly by base-passwd on every Ubuntu system.
@@ -7,7 +8,11 @@ livecd-rootfs (2.148) UNRELEASED; urgency=low
     detection of existing groups not to misfire if there is an existing
     group with the desired group name as a prefix.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 05 Jun 2013 13:11:34 +0100
+  [ Oliver Grawert ]
+  * drop daily-build-next PPA, according to didrocks everything from there
+    should be in the saucy archive now, yay.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 10 Jun 2013 12:33:32 +0200
 
 livecd-rootfs (2.147) saucy; urgency=low
 
