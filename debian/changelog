@@ -1,3 +1,9 @@
+livecd-rootfs (2.149) UNRELEASED; urgency=low
+
+  * set QT_SELECT=qt5 in touch image environment
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 14 Jun 2013 16:11:33 +0200
+
 livecd-rootfs (2.148) saucy; urgency=low
 
   [ Colin Watson ]

@@ -16,6 +16,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ANDROID_DATA=/data
 QT_QPA_PLATFORM=ubuntu
 QML2_IMPORT_PATH=/usr/lib/arm-linux-gnueabihf/qt5/imports
+QT_SELECT=qt5
 SHLVL=1
 MKSH=/system/bin/sh
 ANDROID_ROOT=/system
