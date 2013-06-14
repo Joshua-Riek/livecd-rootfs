@@ -1,4 +1,4 @@
-livecd-rootfs (2.149) UNRELEASED; urgency=low
+livecd-rootfs (2.149) saucy; urgency=low
 
   * set QT_SELECT=qt5 in touch image environment
 
