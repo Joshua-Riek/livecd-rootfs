@@ -1,4 +1,4 @@
-livecd-rootfs (2.150) UNRELEASED; urgency=low
+livecd-rootfs (2.150) saucy; urgency=low
 
   * export $NOW in BuildLiveCD so we have it available in live-build
   * create a build stamp in /var/log/installer/media-info on Ubuntu Touch images
