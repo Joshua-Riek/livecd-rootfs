@@ -129,6 +129,7 @@ for STE in $SUITES; do
 	NOW=${NOW}.$n
     fi
     NOW=${NOW}
+    export NOW
     LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
 
     rm -f ${PUBDIR}latest
