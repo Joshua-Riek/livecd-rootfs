@@ -1,4 +1,4 @@
-livecd-rootfs (2.151) UNRELEASED; urgency=low
+livecd-rootfs (2.151) saucy; urgency=low
 
   * use ubuntu-touch-generic-initrd for touch images instead of rolling an
     arch specific initrd at build time for each arch (this should save quite
