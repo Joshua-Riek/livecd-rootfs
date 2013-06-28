@@ -1,3 +1,13 @@
+livecd-rootfs (2.151) UNRELEASED; urgency=low
+
+  * use ubuntu-touch-generic-initrd for touch images instead of rolling an
+    arch specific initrd at build time for each arch (this should save quite
+    some build time)
+  * directly create the output file with abootimg, no need to cp it separately
+  * do not remove kernel packages from a chroot we throw away anyway
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 28 Jun 2013 15:06:59 +0200
+
 livecd-rootfs (2.150) saucy; urgency=low
 
   * export $NOW in BuildLiveCD so we have it available in live-build
