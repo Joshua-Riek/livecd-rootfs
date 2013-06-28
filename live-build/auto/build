@@ -440,7 +440,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		initrdimg="/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch"
 
 		Chroot chroot "abootimg --create "$PREFIX.bootimg-${subarch}" -f ${bootimgcfg} -r ${initrdimg} -k /boot/vmlinuz-${kver}"
-	done`
+	done
 
 	lb chroot_devpts remove "$@"
 	lb chroot_sysfs remove "$@"

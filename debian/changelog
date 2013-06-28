@@ -1,3 +1,9 @@
+livecd-rootfs (2.152) UNRELEASED; urgency=low
+
+  * live-build/auto/build: Fix syntax error.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 28 Jun 2013 17:13:29 +0100
+
 livecd-rootfs (2.151) saucy; urgency=low
 
   * use ubuntu-touch-generic-initrd for touch images instead of rolling an
