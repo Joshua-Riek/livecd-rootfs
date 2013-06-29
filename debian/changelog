@@ -1,3 +1,11 @@
+livecd-rootfs (2.153) UNRELEASED; urgency=low
+
+  * we do better not try to create something outside of a chroot while we are
+    in it :P (make sure bootimg's are created in /boot of the chroot and only
+    copied afterwards).
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 29 Jun 2013 16:59:28 +0200
+
 livecd-rootfs (2.152) saucy; urgency=low
 
   * live-build/auto/build: Fix syntax error.
