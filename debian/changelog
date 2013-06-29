@@ -1,4 +1,4 @@
-livecd-rootfs (2.153) UNRELEASED; urgency=low
+livecd-rootfs (2.153) saucy; urgency=low
 
   * we do better not try to create something outside of a chroot while we are
     in it :P (make sure bootimg's are created in /boot of the chroot and only
