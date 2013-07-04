@@ -1,3 +1,9 @@
+livecd-rootfs (2.154) UNRELEASED; urgency=low
+
+  * Adding ppa:ubuntu-unity/next for Touch to obtain unity8 and Mir. 
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Thu, 04 Jul 2013 13:23:29 -0300
+
 livecd-rootfs (2.153) saucy; urgency=low
 
   * we do better not try to create something outside of a chroot while we are
