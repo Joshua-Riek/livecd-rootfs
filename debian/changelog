@@ -1,6 +1,7 @@
 livecd-rootfs (2.154) UNRELEASED; urgency=low
 
   * Adding ppa:ubuntu-unity/next for Touch to obtain unity8 and Mir. 
+  * Switching to using the maliit plugin provided by maliit-framework. 
 
  -- Sergio Schvezov <sergio.schvezov@canonical.com>  Thu, 04 Jul 2013 13:23:29 -0300
 
