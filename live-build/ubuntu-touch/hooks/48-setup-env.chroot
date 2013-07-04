@@ -23,7 +23,7 @@ ANDROID_ROOT=/system
 EXTERNAL_STORAGE=/mnt/sdcard
 LANG=en_US.UTF-8
 LANGUAGE=en_US:en
-QT_IM_MODULE=maliit
+QT_IM_MODULE=maliitphablet
 HUD_NO_STORE_USAGE_DATA=1
 INDICATOR_ALLOW_NO_WATCHERS=1" > /etc/environment
 
