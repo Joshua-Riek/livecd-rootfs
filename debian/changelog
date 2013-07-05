@@ -1,3 +1,10 @@
+livecd-rootfs (2.155) UNRELEASED; urgency=low
+
+  * try to hand the exported $NOW over from live-build/auto/config as
+    $BUILDSTAMP so live-build/auto/build can use it to write a stamp file
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 05 Jul 2013 12:29:50 +0200
+
 livecd-rootfs (2.154) saucy; urgency=low
 
   [ Sergio Schvezov ]
