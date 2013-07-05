@@ -1,4 +1,4 @@
-livecd-rootfs (2.155) UNRELEASED; urgency=low
+livecd-rootfs (2.155) saucy; urgency=low
 
   * try to hand the exported $NOW over from live-build/auto/config as
     $BUILDSTAMP so live-build/auto/build can use it to write a stamp file
