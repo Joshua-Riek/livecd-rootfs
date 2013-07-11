@@ -1,4 +1,4 @@
-livecd-rootfs (2.156) UNRELEASED; urgency=low
+livecd-rootfs (2.156) saucy; urgency=low
 
   * fix build stamp handling for ubuntu-touch (requires an RT to have IS
     update BuildLiveCD on the builders)
