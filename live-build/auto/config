@@ -89,8 +89,6 @@ PREINSTALL_POOL_SEEDS=
 CHROOT_HOOKS=
 BINARY_HOOKS=
 
-BUILDSTAMP="${NOW}"
-
 add_chroot_hook ()
 {
 	CHROOT_HOOKS="${CHROOT_HOOKS:+$CHROOT_HOOKS }$1"
@@ -399,6 +397,7 @@ lb config noauto \
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
+echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 
 case $PROJECT in
 	ubuntu-server)

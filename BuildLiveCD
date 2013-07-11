@@ -128,8 +128,6 @@ for STE in $SUITES; do
 	typeset -i n=1; while [ -d ${PUBDIR}${NOW}.$n ]; do n=n+1; done
 	NOW=${NOW}.$n
     fi
-    NOW=${NOW}
-    export NOW
     LOG=${PUBDIR}${NOW}/livecd-${NOW}-${ARCH}.out
 
     rm -f ${PUBDIR}latest
@@ -140,7 +138,7 @@ for STE in $SUITES; do
     if $LIVE_BUILD; then
 	$LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && rm -rf auto && mkdir -p auto && for f in config build clean; do ln -s /usr/share/livecd-rootfs/live-build/auto/\$f auto/; done" >> ${LOG} 2>&1 || true
 	$LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && lb clean --purge" >> ${LOG} 2>&1 || true
-	if ! $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && SUITE=${STE} PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} IMAGEFORMAT=${IMAGEFORMAT} PROPOSED=${PROPOSED:+1} lb config" >> ${LOG} 2>&1; then
+	if ! $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && NOW=${NOW} SUITE=${STE} PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} IMAGEFORMAT=${IMAGEFORMAT} PROPOSED=${PROPOSED:+1} lb config" >> ${LOG} 2>&1; then
 	    exit 1
 	fi
 	COMMAND="PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"

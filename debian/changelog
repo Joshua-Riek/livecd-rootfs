@@ -1,3 +1,10 @@
+livecd-rootfs (2.156) UNRELEASED; urgency=low
+
+  * fix build stamp handling for ubuntu-touch (requires an RT to have IS
+    update BuildLiveCD on the builders)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 11 Jul 2013 16:34:34 +0200
+
 livecd-rootfs (2.155) saucy; urgency=low
 
   * try to hand the exported $NOW over from live-build/auto/config as
