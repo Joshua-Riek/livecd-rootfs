@@ -1,4 +1,4 @@
-livecd-rootfs (2.157) UNRELEASED; urgency=low
+livecd-rootfs (2.157) saucy; urgency=low
 
   * add xserver-xorg-input-evdev-omap-revert and
     xserver-xorg-video-omap-revert to panda builds
