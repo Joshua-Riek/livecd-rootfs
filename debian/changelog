@@ -1,3 +1,10 @@
+livecd-rootfs (2.157) UNRELEASED; urgency=low
+
+  * add xserver-xorg-input-evdev-omap-revert and
+    xserver-xorg-video-omap-revert to panda builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 12 Jul 2013 11:03:34 +0200
+
 livecd-rootfs (2.156) saucy; urgency=low
 
   * fix build stamp handling for ubuntu-touch (requires an RT to have IS
