@@ -172,7 +172,28 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_task install minimal standard ubuntu-desktop
+		add_task install minimal standard
+		case $ARCH in
+			armhf)
+				case $SUBARCH in
+					omap4)
+						# Don't use the task as this drags in the regular X
+						# stack (the metapackage doesn't). We want the
+						# "reverted" one.
+						add_package install ubuntu-desktop \
+							xserver-xorg-core-omap-revert \
+							xserver-xorg-video-omap-revert \
+							xserver-xorg-input-evdev-omap-revert 
+						;;
+					*)
+						add_task ubuntu-desktop
+						;;
+				esac
+				;;
+			*)
+				add_task ubuntu-desktop
+				;;
+		esac
 		LIVE_TASK='ubuntu-live'
 		;;
 
@@ -316,7 +337,7 @@ case $ARCH in
 						add_package install u-boot-linaro-omap4-panda u-boot-tools
 						;;
 					*)
-						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4 xserver-xorg-video-omap-revert xserver-xorg-input-evdev-omap-revert
+						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4
 						;;
 				esac
 				BINARY_REMOVE_LINUX=false
