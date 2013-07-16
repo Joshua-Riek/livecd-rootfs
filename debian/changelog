@@ -1,3 +1,10 @@
+livecd-rootfs (2.159) UNRELEASED; urgency=low
+
+  * make touch images source the dbus session address from
+    ~/.cache/upstart/dbus-session instead of ~/.dbus-session
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Jul 2013 20:12:31 +0200
+
 livecd-rootfs (2.158) saucy; urgency=low
 
   * Under armhf+omap4, don't use the ubuntu-desktop Task, but use the
