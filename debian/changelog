@@ -1,3 +1,12 @@
+livecd-rootfs (2.158) UNRELEASED; urgency=low
+
+  * Under armhf+omap4, don't use the ubuntu-desktop Task, but use the
+    metapackage instead. The metapackage doesn't pull in the X stack which
+    allows us to additionally install the special "revert" X stack that we
+    require here.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 16 Jul 2013 17:17:09 +0100
+
 livecd-rootfs (2.157) saucy; urgency=low
 
   * add xserver-xorg-input-evdev-omap-revert and
