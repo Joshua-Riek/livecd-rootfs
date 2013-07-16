@@ -173,22 +173,15 @@ esac
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard
-		case $ARCH in
-			armhf)
-				case $SUBARCH in
-					omap4)
-						# Don't use the task as this drags in the regular X
-						# stack (the metapackage doesn't). We want the
-						# "reverted" one.
-						add_package install ubuntu-desktop \
-							xserver-xorg-core-omap-revert \
-							xserver-xorg-video-omap-revert \
-							xserver-xorg-input-evdev-omap-revert 
-						;;
-					*)
-						add_task install ubuntu-desktop
-						;;
-				esac
+		case "$ARCH+$SUBARCH" in
+			armhf+omap4)
+				# Don't use the task as this drags in the regular X
+				# stack (the metapackage doesn't). We want the
+				# "reverted" one.
+				add_package install ubuntu-desktop \
+					xserver-xorg-core-omap-revert \
+					xserver-xorg-video-omap-revert \
+					xserver-xorg-input-evdev-omap-revert 
 				;;
 			*)
 				add_task install ubuntu-desktop
