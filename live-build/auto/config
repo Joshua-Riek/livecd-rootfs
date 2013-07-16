@@ -186,12 +186,12 @@ case $PROJECT in
 							xserver-xorg-input-evdev-omap-revert 
 						;;
 					*)
-						add_task ubuntu-desktop
+						add_task install ubuntu-desktop
 						;;
 				esac
 				;;
 			*)
-				add_task ubuntu-desktop
+				add_task install ubuntu-desktop
 				;;
 		esac
 		LIVE_TASK='ubuntu-live'
