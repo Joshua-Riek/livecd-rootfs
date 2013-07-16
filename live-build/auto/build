@@ -235,6 +235,12 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 			> chroot/etc/apt/sources.list
 		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 	fi
+	if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
+		INFO_DESC="$(lsb_release -d -s)"
+
+		mkdir -p chroot/var/log/installer
+		echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/var/log/installer/media-info
+	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
 	echo BEGIN docdirs
@@ -401,6 +407,45 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
 	ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
 
+fi
+
+if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
+	touchsubarches="maguro manta grouper mako"
+
+	sourceslist="chroot/etc/apt/sources.list"
+
+	lb chroot_proc install "$@"
+	lb chroot_sysfs install "$@"
+	lb chroot_devpts install "$@"
+
+	if [ -e chroot/etc/resolv.conf ]; then
+		mv chroot/etc/resolv.conf chroot/etc/resolv.conf.orig
+	fi
+	if [ -e /etc/resolv.conf ]; then
+		cp /etc/resolv.conf chroot/etc/resolv.conf
+	fi
+
+	mv "${sourceslist}" "${sourceslist}.orig"
+	mv "${sourceslist}.d" "${sourceslist}.d.orig"
+	echo "deb http://ftpmaster.internal/ubuntu/ saucy main universe" >$sourceslist
+	Chroot chroot "apt-get -y update"
+	Chroot chroot "apt-get -y install ubuntu-touch-generic-initrd"
+
+	for subarch in $touchsubarches; do
+		kpkg="$(Chroot chroot apt-cache depends linux-image-$subarch|awk '/Depends: linux-image/ {print $2}')"
+		kver=${kpkg#linux-image-}
+		Chroot chroot "apt-get -y install $kpkg"
+
+		bootimgcfg="/usr/share/initramfs-tools-ubuntu-touch/bootimg.cfg-${subarch}"
+		initrdimg="/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch"
+
+		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f ${bootimgcfg} -r ${initrdimg} -k /boot/vmlinuz-${kver}"
+		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX.bootimg-${subarch}"
+	done
+
+	lb chroot_devpts remove "$@"
+	lb chroot_sysfs remove "$@"
+	lb chroot_proc remove "$@"
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))

@@ -1,3 +1,184 @@
+livecd-rootfs (2.157) saucy; urgency=low
+
+  * add xserver-xorg-input-evdev-omap-revert and
+    xserver-xorg-video-omap-revert to panda builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 12 Jul 2013 11:03:34 +0200
+
+livecd-rootfs (2.156) saucy; urgency=low
+
+  * fix build stamp handling for ubuntu-touch (requires an RT to have IS
+    update BuildLiveCD on the builders)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 11 Jul 2013 16:34:34 +0200
+
+livecd-rootfs (2.155) saucy; urgency=low
+
+  * try to hand the exported $NOW over from live-build/auto/config as
+    $BUILDSTAMP so live-build/auto/build can use it to write a stamp file
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 05 Jul 2013 12:29:50 +0200
+
+livecd-rootfs (2.154) saucy; urgency=low
+
+  [ Sergio Schvezov ]
+  * Adding ppa:ubuntu-unity/next for Touch to obtain unity8 and Mir.
+  * Switching to using the maliit plugin provided by maliit-framework.
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Thu, 04 Jul 2013 13:44:08 -0300
+
+livecd-rootfs (2.153) saucy; urgency=low
+
+  * we do better not try to create something outside of a chroot while we are
+    in it :P (make sure bootimg's are created in /boot of the chroot and only
+    copied afterwards).
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 29 Jun 2013 16:59:28 +0200
+
+livecd-rootfs (2.152) saucy; urgency=low
+
+  * live-build/auto/build: Fix syntax error.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 28 Jun 2013 17:13:54 +0100
+
+livecd-rootfs (2.151) saucy; urgency=low
+
+  * use ubuntu-touch-generic-initrd for touch images instead of rolling an
+    arch specific initrd at build time for each arch (this should save quite
+    some build time)
+  * directly create the output file with abootimg, no need to cp it separately
+  * do not remove kernel packages from a chroot we throw away anyway
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 28 Jun 2013 15:06:59 +0200
+
+livecd-rootfs (2.150) saucy; urgency=low
+
+  * export $NOW in BuildLiveCD so we have it available in live-build
+  * create a build stamp in /var/log/installer/media-info on Ubuntu Touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 26 Jun 2013 11:32:31 +0200
+
+livecd-rootfs (2.149) saucy; urgency=low
+
+  * set QT_SELECT=qt5 in touch image environment
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 14 Jun 2013 16:11:33 +0200
+
+livecd-rootfs (2.148) saucy; urgency=low
+
+  [ Colin Watson ]
+  * live-build/ubuntu-touch/hooks/02-add_user_to_groups.chroot: Delete
+    redundant code to create global static groups, which are already created
+    more correctly by base-passwd on every Ubuntu system.
+  * live-build/ubuntu-touch/hooks/02-add_user_to_groups.chroot: Fix
+    detection of existing groups not to misfire if there is an existing
+    group with the desired group name as a prefix.
+
+  [ Oliver Grawert ]
+  * drop daily-build-next PPA, according to didrocks everything from there
+    should be in the saucy archive now, yay.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 10 Jun 2013 12:33:32 +0200
+
+livecd-rootfs (2.147) saucy; urgency=low
+
+  * sync ubuntu-touch customzation scripts with phablet build tree 
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 03 Jun 2013 09:56:15 +0200
+
+livecd-rootfs (2.146) saucy; urgency=low
+
+  * drop the generic .bootimg from ubuntu-touch, all boot images we need have
+    to be subarch tagged
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 30 May 2013 18:21:06 +0200
+
+livecd-rootfs (2.145) saucy; urgency=low
+
+  * adjust naming of the bootimg files so cdimage picks them up for publishing
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 30 May 2013 12:14:38 +0200
+
+livecd-rootfs (2.144) saucy; urgency=low
+
+  * Clean up subarch loop for touch subarches to skip unwanted deps.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 29 May 2013 16:41:24 -0600
+
+livecd-rootfs (2.143) saucy; urgency=low
+
+  * drop all the cleanup code, we already have the tarball and don't need to
+    clean the chroot.
+  * add better quoting for update-initramfs and abootimg calls for
+    ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 21:47:03 +0200
+
+livecd-rootfs (2.142) saucy; urgency=low
+
+  * copy the initrd out of the chroot before we purge the kernel package on
+    ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 16:53:56 +0200
+
+livecd-rootfs (2.141) saucy; urgency=low
+
+  * make removal of non existing old initrds non fatal in ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 16:25:18 +0200
+
+livecd-rootfs (2.140) saucy; urgency=low
+
+  *  hardcode dist in the temporary sources.list of the ubuntu-touch initrd
+     creation for a test
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 14:20:34 +0200
+
+livecd-rootfs (2.139) saucy; urgency=low
+
+  * fix resolv.conf for ubuntu-touch initramfs creation
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 May 2013 12:10:53 +0200
+
+livecd-rootfs (2.138) saucy; urgency=low
+
+  * also move the sources.list.d dir out of the way on ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 28 May 2013 15:17:46 +0200
+
+livecd-rootfs (2.137) saucy; urgency=low
+
+  * clear up /var/lib/initramfs-tools/ in the chroot after building initrds
+  * remove ubuntu-touch/hooks/49-setup-demo-assets.chroot
+  * handle sources.list in ubuntu-touch initrd creation
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 28 May 2013 11:13:57 +0200
+
+livecd-rootfs (2.136) saucy; urgency=low
+
+  * ubuntu-touch: determine the value for $kver inside the chroot, not
+    outside. Use -c and drop -t with update-initramfs
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 27 May 2013 18:13:05 +0200
+
+livecd-rootfs (2.135) saucy; urgency=low
+
+  [ Colin Watson ]
+  * BuildLiveCD: Time out lockfile after 12 hours, which should be enough
+    for even the longest build queue to clear.
+
+  [ Oliver Grawert ]
+  * add live-build script for subarch specific Ubuntu Touch initrd
+    and boot image creation
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 27 May 2013 14:34:17 +0200
+
+livecd-rootfs (2.134) saucy; urgency=low
+
+  * remove qt5-proper PPA from ubuntu touch builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 17 May 2013 14:33:35 +0200
+
 livecd-rootfs (2.133) saucy; urgency=low
 
   * drop online-accounts-qt5-staging PPA from ubuntu-touch images

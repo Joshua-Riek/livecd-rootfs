@@ -16,13 +16,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ANDROID_DATA=/data
 QT_QPA_PLATFORM=ubuntu
 QML2_IMPORT_PATH=/usr/lib/arm-linux-gnueabihf/qt5/imports
+QT_SELECT=qt5
 SHLVL=1
 MKSH=/system/bin/sh
 ANDROID_ROOT=/system
 EXTERNAL_STORAGE=/mnt/sdcard
 LANG=en_US.UTF-8
 LANGUAGE=en_US:en
-QT_IM_MODULE=maliit
+QT_IM_MODULE=maliitphablet
 HUD_NO_STORE_USAGE_DATA=1
 INDICATOR_ALLOW_NO_WATCHERS=1" > /etc/environment
 
