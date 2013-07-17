@@ -1,4 +1,4 @@
-livecd-rootfs (2.162) UNRELEASED; urgency=low
+livecd-rootfs (2.162) saucy; urgency=low
 
   * Ubuntu Touch click package install hook.
 
