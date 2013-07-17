@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+echo "Setting up click packages"
+
+click_uri=http://people.canonical.com/~sergiusens/click_packages
+click_list=$click_uri/click_list
+
+for package in $(wget -qO- "$click_list")
+do
+    echo "Setting up $package"
+    wget --no-verbose -O "$package" "$click_uri"/"$package"
+    click install --user=phablet --force-missing-framework "$package"
+    rm "$package"
+done

@@ -1,3 +1,9 @@
+livecd-rootfs (2.162) UNRELEASED; urgency=low
+
+  * Ubuntu Touch click package install hook.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Wed, 17 Jul 2013 00:05:49 -0300
+
 livecd-rootfs (2.161) saucy; urgency=low
 
   * drop bashrc mangling from ubuntu-touch builds \o/
