@@ -1,3 +1,9 @@
+livecd-rootfs (2.161) UNRELEASED; urgency=low
+
+  * drop bashrc mangling from ubuntu-touch builds \o/
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 17 Jul 2013 16:30:12 +0200
+
 livecd-rootfs (2.160) saucy; urgency=low
 
   * Do the same trick as in 2.158 for kubuntu armhf+omap4 too.
