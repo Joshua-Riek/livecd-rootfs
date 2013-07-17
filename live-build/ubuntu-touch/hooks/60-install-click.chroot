@@ -10,10 +10,10 @@ apt-get install -y -qq curl
 click_uri=http://people.canonical.com/~sergiusens/click_packages
 click_list=$click_uri/click_list
 
-for package in $(curl $click_list)
+for package in $(curl "$click_list")
 do
     echo "Setting up $package"
-    curl --silent --show-error --output $package $click_uri/$package
-    click install --force-missing-framework $package
-    rm $package
+    curl --silent --show-error --output "$package" "$click_uri"/"$package"
+    click install --force-missing-framework "$package"
+    rm "$package"
 done
