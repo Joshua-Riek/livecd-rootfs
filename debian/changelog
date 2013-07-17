@@ -1,3 +1,9 @@
+livecd-rootfs (2.160) UNRELEASED; urgency=low
+
+  * Ubuntu Touch click package install hook.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Wed, 17 Jul 2013 00:05:49 -0300
+
 livecd-rootfs (2.159) saucy; urgency=low
 
   * make touch images source the dbus session address from
