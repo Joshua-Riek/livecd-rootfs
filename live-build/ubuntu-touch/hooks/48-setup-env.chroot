@@ -26,7 +26,3 @@ LANGUAGE=en_US:en
 QT_IM_MODULE=maliitphablet
 HUD_NO_STORE_USAGE_DATA=1
 INDICATOR_ALLOW_NO_WATCHERS=1" > /etc/environment
-
-echo -e "\n# export the phablet shell dbus session on normal login shells
-source /home/phablet/.cache/upstart/dbus-session
-export DBUS_SESSION_BUS_ADDRESS" >> /home/phablet/.bashrc
