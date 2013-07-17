@@ -1,8 +1,8 @@
-livecd-rootfs (2.160) UNRELEASED; urgency=low
+livecd-rootfs (2.160) saucy; urgency=low
 
   * Do the same trick as in 2.158 for kubuntu armhf+omap4 too.
 
- -- Iain Lane <iain.lane@canonical.com>  Wed, 17 Jul 2013 10:13:06 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 17 Jul 2013 11:52:23 +0100
 
 livecd-rootfs (2.159) saucy; urgency=low
 
