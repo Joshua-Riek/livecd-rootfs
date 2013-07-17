@@ -9,10 +9,7 @@ apt-get install -y -qq curl
 
 click_uri=http://people.canonical.com/~sergiusens/click_packages
 click_list=$click_uri/click_list
-tmp_dir=$(mktemp -d)
 
-/bin/chmod 755 $tmp_dir
-cd $tmp_dir
 for package in $(curl $click_list)
 do
     echo "Setting up $package"
@@ -20,5 +17,3 @@ do
     click install --force-missing-framework $package
     rm $package
 done
-
-rmdir $tmp_dir
