@@ -1,4 +1,4 @@
-livecd-rootfs (2.161) UNRELEASED; urgency=low
+livecd-rootfs (2.161) saucy; urgency=low
 
   * drop bashrc mangling from ubuntu-touch builds \o/
 
