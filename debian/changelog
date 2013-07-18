@@ -1,3 +1,9 @@
+livecd-rootfs (2.163) UNRELEASED; urgency=low
+
+  * point click package install to http://archive-team.internal/click_packages
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Jul 2013 16:31:54 +0200
+
 livecd-rootfs (2.162) saucy; urgency=low
 
   * Ubuntu Touch click package install hook.

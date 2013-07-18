@@ -4,7 +4,7 @@ set -e
 
 echo "Setting up click packages"
 
-click_uri=http://people.canonical.com/~sergiusens/click_packages
+click_uri=http://archive-team.internal/click_packages
 click_list=$click_uri/click_list
 
 for package in $(wget -qO- "$click_list")
