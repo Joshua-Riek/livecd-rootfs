@@ -1,4 +1,4 @@
-livecd-rootfs (2.163) UNRELEASED; urgency=low
+livecd-rootfs (2.163) saucy; urgency=low
 
   * point click package install to http://archive-team.internal/click_packages
 
