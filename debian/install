@@ -1,2 +1,2 @@
-livecd.sh e2fs-zero.py usr/sbin
+e2fs-zero.py usr/sbin
 live-build usr/share/livecd-rootfs
