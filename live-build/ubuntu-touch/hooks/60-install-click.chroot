@@ -1,5 +1,11 @@
 #!/bin/sh
 
+cat <<EOF
+Click package installation temporarily disabled until desktop/AppArmor
+integration is all working properly.
+EOF
+exit 0
+
 set -e
 
 echo "Setting up click packages"

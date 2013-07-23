@@ -6,6 +6,8 @@ livecd-rootfs (2.164) UNRELEASED; urgency=low
   * Remove livecd.py, which was never finished.
   * Remove all vestiges of livecd.sh and ubuntu-touch-android.sh.
     Requiescant in pace.
+  * Temporarily disable Click package installation, until desktop/AppArmor
+    integration has landed properly.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Mon, 22 Jul 2013 11:35:23 +0100
 
