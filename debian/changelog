@@ -3,6 +3,7 @@ livecd-rootfs (2.164) UNRELEASED; urgency=low
   * Run builds under eatmydata.  (This doesn't actually seem to help very
     much - it shaves a minute off a 48-minute test build on my laptop - but
     it will stop people being distracted by it.)
+  * Remove livecd.py, which was never finished.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Mon, 22 Jul 2013 11:35:23 +0100
 
