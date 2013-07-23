@@ -1,4 +1,4 @@
-livecd-rootfs (2.164) UNRELEASED; urgency=low
+livecd-rootfs (2.164) saucy; urgency=low
 
   * Run builds under eatmydata.  (This doesn't actually seem to help very
     much - it shaves a minute off a 48-minute test build on my laptop - but
@@ -9,7 +9,7 @@ livecd-rootfs (2.164) UNRELEASED; urgency=low
   * Temporarily disable Click package installation, until desktop/AppArmor
     integration has landed properly.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 22 Jul 2013 11:35:23 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Jul 2013 23:21:56 +0100
 
 livecd-rootfs (2.163) saucy; urgency=low
 
