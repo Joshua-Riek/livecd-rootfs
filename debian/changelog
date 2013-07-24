@@ -1,3 +1,9 @@
+livecd-rootfs (2.165) saucy; urgency=low
+
+  * Remove e2fs-zero.py and references to it, it's no longer used.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 24 Jul 2013 11:42:23 +0100
+
 livecd-rootfs (2.164) saucy; urgency=low
 
   * Run builds under eatmydata.  (This doesn't actually seem to help very
