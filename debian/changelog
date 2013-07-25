@@ -1,3 +1,10 @@
+livecd-rootfs (2.166) UNRELEASED; urgency=low
+
+  * add radio user (with UID 1001 (required by android)) to the default user
+    creation for ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 25 Jul 2013 11:14:34 +0200
+
 livecd-rootfs (2.165) saucy; urgency=low
 
   * Remove e2fs-zero.py and references to it, it's no longer used.

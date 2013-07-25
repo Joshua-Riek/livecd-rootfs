@@ -10,6 +10,7 @@ echo "I: set user $USER password to $USER"
 echo "$USER:$USER" | chpasswd
 
 adduser --gecos system --no-create-home --disabled-login --disabled-password system --uid 1000
+adduser --gecos radio --no-create-home --disabled-login --disabled-password radio --uid 1001
 
 mkdir -p /home/$USER/Music
 mkdir -p /home/$USER/Pictures
