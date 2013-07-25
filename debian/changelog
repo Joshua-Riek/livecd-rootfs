@@ -1,4 +1,4 @@
-livecd-rootfs (2.166) UNRELEASED; urgency=low
+livecd-rootfs (2.166) saucy; urgency=low
 
   * add radio user (with UID 1001 (required by android)) to the default user
     creation for ubuntu-touch
