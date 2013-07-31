@@ -414,6 +414,8 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 	sourceslist="chroot/etc/apt/sources.list"
 
+	export FLASH_KERNEL_SKIP=True
+
 	lb chroot_proc install "$@"
 	lb chroot_sysfs install "$@"
 	lb chroot_devpts install "$@"

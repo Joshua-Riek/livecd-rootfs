@@ -172,12 +172,40 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_task install minimal standard ubuntu-desktop
+		add_task install minimal standard
+		case "$ARCH+$SUBARCH" in
+			armhf+omap4)
+				# Don't use the task as this drags in the regular X
+				# stack (the metapackage doesn't). We want the
+				# "reverted" one.
+				add_package install ubuntu-desktop \
+					xserver-xorg-core-omap-revert \
+					xserver-xorg-video-omap-revert \
+					xserver-xorg-input-evdev-omap-revert 
+				;;
+			*)
+				add_task install ubuntu-desktop
+				;;
+		esac
 		LIVE_TASK='ubuntu-live'
 		;;
 
 	kubuntu|kubuntu-dvd)
-		add_task install minimal standard kubuntu-desktop
+		add_task install minimal standard
+		case "$ARCH+$SUBARCH" in
+			armhf+omap4)
+				# Don't use the task as this drags in the regular X
+				# stack (the metapackage doesn't). We want the
+				# "reverted" one.
+				add_package install kubuntu-desktop \
+					xserver-xorg-core-omap-revert \
+					xserver-xorg-video-omap-revert \
+					xserver-xorg-input-evdev-omap-revert 
+				;;
+			*)
+				add_task install kubuntu-desktop
+				;;
+		esac
 		LIVE_TASK='kubuntu-live'
 		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
@@ -316,7 +344,7 @@ case $ARCH in
 						add_package install u-boot-linaro-omap4-panda u-boot-tools
 						;;
 					*)
-						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4 xserver-xorg-video-omap-revert xserver-xorg-input-evdev-omap-revert
+						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4
 						;;
 				esac
 				BINARY_REMOVE_LINUX=false

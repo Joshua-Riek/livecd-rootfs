@@ -1,3 +1,75 @@
+livecd-rootfs (2.167) saucy; urgency=low
+
+  * make sure FLASH_KERNEL_SKIP is set when we post-process touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 31 Jul 2013 13:33:53 +0200
+
+livecd-rootfs (2.166) saucy; urgency=low
+
+  * add radio user (with UID 1001 (required by android)) to the default user
+    creation for ubuntu-touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 25 Jul 2013 11:14:34 +0200
+
+livecd-rootfs (2.165) saucy; urgency=low
+
+  * Remove e2fs-zero.py and references to it, it's no longer used.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 24 Jul 2013 11:42:23 +0100
+
+livecd-rootfs (2.164) saucy; urgency=low
+
+  * Run builds under eatmydata.  (This doesn't actually seem to help very
+    much - it shaves a minute off a 48-minute test build on my laptop - but
+    it will stop people being distracted by it.)
+  * Remove livecd.py, which was never finished.
+  * Remove all vestiges of livecd.sh and ubuntu-touch-android.sh.
+    Requiescant in pace.
+  * Temporarily disable Click package installation, until desktop/AppArmor
+    integration has landed properly.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Jul 2013 23:21:56 +0100
+
+livecd-rootfs (2.163) saucy; urgency=low
+
+  * point click package install to http://archive-team.internal/click_packages
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Jul 2013 16:31:54 +0200
+
+livecd-rootfs (2.162) saucy; urgency=low
+
+  * Ubuntu Touch click package install hook.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Wed, 17 Jul 2013 00:05:49 -0300
+
+livecd-rootfs (2.161) saucy; urgency=low
+
+  * drop bashrc mangling from ubuntu-touch builds \o/
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 17 Jul 2013 16:30:12 +0200
+
+livecd-rootfs (2.160) saucy; urgency=low
+
+  * Do the same trick as in 2.158 for kubuntu armhf+omap4 too.
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 17 Jul 2013 11:52:23 +0100
+
+livecd-rootfs (2.159) saucy; urgency=low
+
+  * make touch images source the dbus session address from
+    ~/.cache/upstart/dbus-session instead of ~/.dbus-session
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 16 Jul 2013 20:12:31 +0200
+
+livecd-rootfs (2.158) saucy; urgency=low
+
+  * Under armhf+omap4, don't use the ubuntu-desktop Task, but use the
+    metapackage instead. The metapackage doesn't pull in the X stack which
+    allows us to additionally install the special "revert" X stack that we
+    require here.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 16 Jul 2013 17:19:22 +0100
+
 livecd-rootfs (2.157) saucy; urgency=low
 
   * add xserver-xorg-input-evdev-omap-revert and

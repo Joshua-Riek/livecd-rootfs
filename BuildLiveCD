@@ -27,7 +27,6 @@ if [ -n "$SSH_ORIGINAL_COMMAND" ]; then
 fi
 ARCH=$(dpkg --print-architecture)
 SUBARCH=""
-SUBARCHARG=""
 NEWSUITE="precise"
 SUITES=""
 PROPOSED=""
@@ -35,23 +34,18 @@ IMAGEFORMAT=""
 LIVE_BUILD=false
 UBUNTU_DEFAULTS_LOCALE=""
 
-while getopts :A:s:r:d:f:pa:lu:t: name; do case $name in
+while getopts :A:s:r:d:f:plu:t: name; do case $name in
     A)	ARCH="$OPTARG";;
     s)	SUBARCH="$OPTARG";;
     r)	SUBPROJECT="$OPTARG";;
     d)	NEWSUITE="$OPTARG";;
     f)	IMAGEFORMAT="$OPTARG";;
     p)	PROPOSED="-p";;
-    a)	APT_SOURCE="-A $OPTARG";;
     l)	LIVE_BUILD=:;;
     u)	UBUNTU_DEFAULTS_LOCALE="$OPTARG";;
     t)	UBUNTU_TOUCH_ANDROID="$OPTARG";;
 esac; done;
 shift $((OPTIND-1))
-
-if [ -n "$SUBARCH" ]; then
-    SUBARCHARG="-s$SUBARCH"
-fi
 
 for s in $NEWSUITE; do
     if [ -d build-${s}-live/chroot-${s} ]; then SUITES="$SUITES $s"; fi
@@ -62,11 +56,9 @@ fi
 for s in $SUITES; do
     case $s in
         dapper|edgy|feisty|gutsy|hardy)
-            ARCHARG=""
             old_suite="yes"
             ;;
         *)
-            ARCHARG="-a$ARCH"
             new_suite="yes"
             ;;
     esac
@@ -108,7 +100,7 @@ for STE in $SUITES; do
     if [ -d ~/build-${STE}-live/chroot-${STE} ]; then
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -qq update || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y dist-upgrade || true
-	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y install livecd-rootfs || true
+	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y install livecd-rootfs eatmydata || true
 	sudo chroot ~/build-${STE}-live/chroot-${STE} apt-get -y --install-recommends install ubuntu-defaults-builder || true
     fi
 done
@@ -144,12 +136,11 @@ for STE in $SUITES; do
 	COMMAND="PROJECT=${FS} SUBPROJECT=${SUBPROJECT} ARCH=${ARCH} SUBARCH=${SUBARCH} lb build"
     elif [ "$UBUNTU_DEFAULTS_LOCALE" ]; then
 	COMMAND="ubuntu-defaults-image --locale ${UBUNTU_DEFAULTS_LOCALE} --arch ${ARCH} --release ${STE}"
-    elif [ "$UBUNTU_TOUCH_ANDROID" ]; then
-	COMMAND="/usr/sbin/ubuntu-touch-android.sh ${SUBARCH}"
     else
-	COMMAND="/usr/sbin/livecd.sh ${SUBARCHARG} ${APT_SOURCE} ${PROPOSED} -d${STE} ${IMAGEFORMAT:+-f$IMAGEFORMAT} ${ARCHARG} ${IMAGEARG} ${FS}"
+	echo "Must pass either -l or -u."
+	exit 1
     fi
-    if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && $COMMAND" >> ${LOG} 2>&1; then
+    if $LINUX32 sudo chroot ${DIR%/./*} sh -c "cd /${DIR#*/./} && eatmydata -- $COMMAND" >> ${LOG} 2>&1; then
 	rm -f ${PUBDIR}current
 	ln -sf ${NOW} ${PUBDIR}current
 
