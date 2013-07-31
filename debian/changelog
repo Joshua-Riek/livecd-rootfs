@@ -1,3 +1,9 @@
+livecd-rootfs (2.167) UNRELEASED; urgency=low
+
+  * make sure FLASH_KERNEL_SKIP is set when we post-process touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 31 Jul 2013 13:33:53 +0200
+
 livecd-rootfs (2.166) saucy; urgency=low
 
   * add radio user (with UID 1001 (required by android)) to the default user
