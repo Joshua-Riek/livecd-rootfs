@@ -1,4 +1,4 @@
-livecd-rootfs (2.168) UNRELEASED; urgency=low
+livecd-rootfs (2.168) saucy; urgency=low
 
   * drop unity-next PPA from ubuntu-touch builds, unity8 is in the archive now
 
