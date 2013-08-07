@@ -440,7 +440,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		cp "chroot/usr/share/android/product/${REL}-preinstalled-boot-armhf+${subarch}.img"\
 			 "${PREFIX}.boot-armhf+${subarch}.img"
 		# drop this following line once cdimage can handle -boot-*.img
-		ln -s "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}" 
+		cp "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
 		cp "chroot/usr/share/android/product/${REL}-preinstalled-touch-armel+${subarch}.zip"\
 			 "${PREFIX}.armel+${subarch}.zip"
 	done

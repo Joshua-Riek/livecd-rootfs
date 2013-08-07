@@ -1,3 +1,10 @@
+livecd-rootfs (2.171) UNRELEASED; urgency=low
+
+  * seems unlike my local build the buildd doesnt get along with links, use
+    copy instead
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 21:56:07 +0200
+
 livecd-rootfs (2.170) saucy; urgency=low
 
   * fix package mirror in android package install routine
