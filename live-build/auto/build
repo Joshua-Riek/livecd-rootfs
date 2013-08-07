@@ -414,8 +414,6 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 	sourceslist="chroot/etc/apt/sources.list"
 
-	export FLASH_KERNEL_SKIP=True
-
 	lb chroot_proc install "$@"
 	lb chroot_sysfs install "$@"
 	lb chroot_devpts install "$@"
@@ -429,20 +427,22 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 	mv "${sourceslist}" "${sourceslist}.orig"
 	mv "${sourceslist}.d" "${sourceslist}.d.orig"
-	echo "deb http://ftpmaster.internal/ubuntu/ saucy main universe" >$sourceslist
+	echo "deb ${MIRROR} saucy main universe multiverse restricted" >$sourceslist
 	Chroot chroot "apt-get -y update"
-	Chroot chroot "apt-get -y install ubuntu-touch-generic-initrd"
+	Chroot chroot "apt-get -y install android"
 
+	REL="$LB_DISTRIBUTION"
 	for subarch in $touchsubarches; do
-		kpkg="$(Chroot chroot apt-cache depends linux-image-$subarch|awk '/Depends: linux-image/ {print $2}')"
-		kver=${kpkg#linux-image-}
-		Chroot chroot "apt-get -y install $kpkg"
-
-		bootimgcfg="/usr/share/initramfs-tools-ubuntu-touch/bootimg.cfg-${subarch}"
-		initrdimg="/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch"
-
-		Chroot chroot "abootimg --create /boot/bootimg-${subarch}.img -f ${bootimgcfg} -r ${initrdimg} -k /boot/vmlinuz-${kver}"
-		cp "chroot/boot/bootimg-${subarch}.img" "$PREFIX.bootimg-${subarch}"
+		cp "chroot/usr/share/android/product/${REL}-preinstalled-system-armel+${subarch}.img"\
+			 "${PREFIX}.system-armel+${subarch}.img"
+		cp "chroot/usr/share/android/product/${REL}-preinstalled-recovery-armel+${subarch}.img"\
+			 "${PREFIX}.recovery-armel+${subarch}.img"
+		cp "chroot/usr/share/android/product/${REL}-preinstalled-boot-armhf+${subarch}.img"\
+			 "${PREFIX}.boot-armhf+${subarch}.img"
+		# drop this following line once cdimage can handle -boot-*.img
+		ln -s "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}" 
+		cp "chroot/usr/share/android/product/${REL}-preinstalled-touch-armel+${subarch}.zip"\
+			 "${PREFIX}.armel+${subarch}.zip"
 	done
 
 	lb chroot_devpts remove "$@"

@@ -1,3 +1,10 @@
+livecd-rootfs (2.169) UNRELEASED; urgency=low
+
+  * switch touch builds to use the packaged android img files (pending cdimage
+    changes to publish these from the livefs builder)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 16:05:45 +0200
+
 livecd-rootfs (2.168) saucy; urgency=low
 
   * drop unity-next PPA from ubuntu-touch builds, unity8 is in the archive now
