@@ -1,4 +1,4 @@
-livecd-rootfs (2.171) UNRELEASED; urgency=low
+livecd-rootfs (2.171) saucy; urgency=low
 
   * seems unlike my local build the buildd doesnt get along with links, use
     copy instead
