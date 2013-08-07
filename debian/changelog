@@ -1,4 +1,4 @@
-livecd-rootfs (2.169) UNRELEASED; urgency=low
+livecd-rootfs (2.169) saucy; urgency=low
 
   * switch touch builds to use the packaged android img files (pending cdimage
     changes to publish these from the livefs builder)
