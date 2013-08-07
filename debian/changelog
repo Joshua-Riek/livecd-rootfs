@@ -1,3 +1,9 @@
+livecd-rootfs (2.169ubuntu1) UNRELEASED; urgency=low
+
+  * fix package mirror in android package install routine
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 19:17:43 +0200
+
 livecd-rootfs (2.169) saucy; urgency=low
 
   * switch touch builds to use the packaged android img files (pending cdimage

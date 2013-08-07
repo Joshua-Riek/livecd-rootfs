@@ -427,7 +427,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 
 	mv "${sourceslist}" "${sourceslist}.orig"
 	mv "${sourceslist}.d" "${sourceslist}.d.orig"
-	echo "deb ${MIRROR} saucy main universe multiverse restricted" >$sourceslist
+	echo "deb $LB_PARENT_MIRROR_CHROOT saucy main universe multiverse restricted" >$sourceslist
 	Chroot chroot "apt-get -y update"
 	Chroot chroot "apt-get -y install android"
 
