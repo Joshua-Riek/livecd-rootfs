@@ -1,3 +1,29 @@
+livecd-rootfs (2.171) saucy; urgency=low
+
+  * seems unlike my local build the buildd doesnt get along with links, use
+    copy instead
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 21:56:07 +0200
+
+livecd-rootfs (2.170) saucy; urgency=low
+
+  * fix package mirror in android package install routine
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 19:17:43 +0200
+
+livecd-rootfs (2.169) saucy; urgency=low
+
+  * switch touch builds to use the packaged android img files (pending cdimage
+    changes to publish these from the livefs builder)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 07 Aug 2013 16:05:45 +0200
+
+livecd-rootfs (2.168) saucy; urgency=low
+
+  * drop unity-next PPA from ubuntu-touch builds, unity8 is in the archive now
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 01 Aug 2013 19:11:55 +0200
+
 livecd-rootfs (2.167) saucy; urgency=low
 
   * make sure FLASH_KERNEL_SKIP is set when we post-process touch images
