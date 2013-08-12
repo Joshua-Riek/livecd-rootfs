@@ -13,7 +13,7 @@ adduser --gecos system --no-create-home --disabled-login --disabled-password sys
 adduser --gecos radio --no-create-home --disabled-login --disabled-password radio --uid 1001
 
 # Prevent the system user from being presented in the greeter by bumping MIN_UID
-sed -i 's/^\(UID_MIN\s\+\).*/\11001/g' /etc/login.defs
+sed -i 's/^\(UID_MIN\s\+\).*/\11002/g' /etc/login.defs
 
 mkdir -p /home/$USER/Music
 mkdir -p /home/$USER/Pictures
