@@ -1,4 +1,4 @@
-livecd-rootfs (2.172) UNRELEASED; urgency=low
+livecd-rootfs (2.172) saucy; urgency=low
 
   * Reenabling click package installation hook. 
 
