@@ -1,3 +1,9 @@
+livecd-rootfs (2.172) UNRELEASED; urgency=low
+
+  * Reenabling click package installation hook. 
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Sun, 11 Aug 2013 19:03:53 -0300
+
 livecd-rootfs (2.171) saucy; urgency=low
 
   * seems unlike my local build the buildd doesnt get along with links, use
