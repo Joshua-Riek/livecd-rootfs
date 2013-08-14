@@ -1,4 +1,4 @@
-livecd-rootfs (2.173) UNRELEASED; urgency=low
+livecd-rootfs (2.173) saucy; urgency=low
 
   [Michael Terry]
   * Add phablet user to nopasswdlogin group on Touch images
