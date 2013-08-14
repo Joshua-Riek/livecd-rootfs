@@ -1,3 +1,12 @@
+livecd-rootfs (2.173) UNRELEASED; urgency=low
+
+  [Michael Terry]
+  * Add phablet user to nopasswdlogin group on Touch images
+  * Switch min uid to 1002 to prevent system users from showing in
+    the greeter on Touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 14 Aug 2013 11:01:47 +0200
+
 livecd-rootfs (2.172) saucy; urgency=low
 
   * Reenabling click package installation hook. 
