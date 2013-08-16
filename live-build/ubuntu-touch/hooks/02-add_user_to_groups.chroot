@@ -36,7 +36,8 @@ else
 fi
 /bin/egrep  -i "^bluetooth:" /etc/group
 if [ $? -eq 0 ]; then
-   echo "User bluetooth exists in /etc/group"
+   echo "User bluetooth exists in /etc/group changing ID to 1002"
+   groupmod -g 1002 bluetooth
 else
    echo "User bluetooth does not exist in /etc/group -- must create"
    groupadd -g 1002 bluetooth
