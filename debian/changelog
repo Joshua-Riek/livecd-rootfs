@@ -1,3 +1,9 @@
+livecd-rootfs (2.176) UNRELEASED; urgency=low
+
+  * preserve a symlink of media-info for backwards compatibility
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Aug 2013 16:39:31 +0200
+
 livecd-rootfs (2.175) saucy; urgency=low
 
   * move media-info file from /var/log/installer to /etc on touch images.
