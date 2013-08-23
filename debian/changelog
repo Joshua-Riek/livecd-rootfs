@@ -1,4 +1,4 @@
-livecd-rootfs (2.176) UNRELEASED; urgency=low
+livecd-rootfs (2.176) saucy; urgency=low
 
   * preserve a symlink of media-info for backwards compatibility
 
