@@ -237,9 +237,7 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 	fi
 	if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 		INFO_DESC="$(lsb_release -d -s)"
-
-		mkdir -p chroot/var/log/installer
-		echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/var/log/installer/media-info
+		echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/etc/media-info
 	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
