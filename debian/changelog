@@ -1,4 +1,4 @@
-livecd-rootfs (2.175) UNRELEASED; urgency=low
+livecd-rootfs (2.175) saucy; urgency=low
 
   * move media-info file from /var/log/installer to /etc on touch images.
 
