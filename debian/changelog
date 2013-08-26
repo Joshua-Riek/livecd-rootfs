@@ -1,4 +1,4 @@
-livecd-rootfs (2.177) UNRELEASED; urgency=low
+livecd-rootfs (2.177) saucy; urgency=low
 
   * do not forcefully use the admin group on touch images. this group was
     dropped in favour of the sudo group several releases ago
