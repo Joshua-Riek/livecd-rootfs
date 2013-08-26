@@ -1,3 +1,10 @@
+livecd-rootfs (2.178) UNRELEASED; urgency=low
+
+  * Copying click packages to install search location instead of installing
+    for a hardcoded user.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Mon, 26 Aug 2013 17:22:14 -0300
+
 livecd-rootfs (2.177) saucy; urgency=low
 
   * do not forcefully use the admin group on touch images. this group was

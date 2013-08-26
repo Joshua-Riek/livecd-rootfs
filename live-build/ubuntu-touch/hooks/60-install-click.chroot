@@ -6,11 +6,12 @@ echo "Setting up click packages"
 
 click_uri=http://archive-team.internal/click_packages
 click_list=$click_uri/click_list
+click_dir=/usr/share/preinstalled/click
+
+mkdir -p "$click_dir"
 
 for package in $(wget -qO- "$click_list")
 do
     echo "Setting up $package"
-    wget --no-verbose -O "$package" "$click_uri"/"$package"
-    click install --user=phablet --force-missing-framework "$package"
-    rm "$package"
+    wget --no-verbose -O "$click_dir"/"$package" "$click_uri"/"$package"
 done
