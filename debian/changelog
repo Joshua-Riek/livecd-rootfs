@@ -1,4 +1,4 @@
-livecd-rootfs (2.178) UNRELEASED; urgency=low
+livecd-rootfs (2.178) saucy; urgency=low
 
   * Copying click packages to install search location instead of installing
     for a hardcoded user.
