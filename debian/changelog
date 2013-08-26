@@ -1,3 +1,10 @@
+livecd-rootfs (2.177) UNRELEASED; urgency=low
+
+  * do not forcefully use the admin group on touch images. this group was
+    dropped in favour of the sudo group several releases ago
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 26 Aug 2013 16:51:13 +0200
+
 livecd-rootfs (2.176) saucy; urgency=low
 
   * preserve a symlink of media-info for backwards compatibility

@@ -2,15 +2,8 @@
 
 USER=phablet
 
-DEFGROUPS="tty,admin,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw"
+DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw"
 
-/bin/egrep  -i "^admin:" /etc/group
-if [ $? -eq 0 ]; then
-   echo "User admin exists in /etc/group"
-else
-   echo "User admin does not exists in /etc/group must create"
-   groupadd admin
-fi
 /bin/egrep  -i "^audio:" /etc/group
 if [ $? -eq 0 ]; then
    # Needed to change group id as audio is already created by ubuntu
