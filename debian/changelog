@@ -1,4 +1,4 @@
-livecd-rootfs (2.179) UNRELEASED; urgency=low
+livecd-rootfs (2.179) saucy; urgency=low
 
   * add 70-reconfigure-autopilot.chroot to ubuntu-touch builds, to make sure
     the phablet user actually ends up in the autopilot group
