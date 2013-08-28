@@ -1,4 +1,4 @@
-livecd-rootfs (2.180) UNRELEASED; urgency=low
+livecd-rootfs (2.180) saucy; urgency=low
 
   * make sure the NM configuration mangling of touch images uses the sudo and
     not the admin group, "admin" is dead since years ... (LP: #1217596)
