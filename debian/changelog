@@ -1,3 +1,9 @@
+livecd-rootfs (2.182) UNRELEASED; urgency=low
+
+  * Log the hostname at the start of the build.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 05 Sep 2013 16:02:13 +0100
+
 livecd-rootfs (2.181) saucy; urgency=low
 
   * Use new multiple-database scheme in click 0.4.3 to preinstall click
