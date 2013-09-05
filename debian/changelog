@@ -1,3 +1,10 @@
+livecd-rootfs (2.181) UNRELEASED; urgency=low
+
+  * Use new multiple-database scheme in click 0.4.3 to preinstall click
+    packages.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 05 Sep 2013 11:28:15 +0100
+
 livecd-rootfs (2.180) saucy; urgency=low
 
   * make sure the NM configuration mangling of touch images uses the sudo and
