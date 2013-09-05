@@ -1,6 +1,8 @@
 livecd-rootfs (2.182) UNRELEASED; urgency=low
 
   * Log the hostname at the start of the build.
+  * Fix test for whether we're running in the Canonical datacentre when
+    installing click packages.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Thu, 05 Sep 2013 16:02:13 +0100
 
