@@ -4,7 +4,14 @@ set -e
 
 echo "Setting up click packages"
 
-click_uri=http://archive-team.internal/click_packages
+case $(hostname --fqdn) in
+	*.ubuntu.com)
+		click_uri=http://archive-team.internal/click_packages
+		;;
+	*)
+		click_uri=http://people.canonical.com/~ubuntu-archive/click_packages
+		;;
+esac
 click_list=$click_uri/click_list
 click_db=/usr/share/click/preinstalled
 
