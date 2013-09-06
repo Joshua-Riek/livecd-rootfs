@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 echo "Setting up click packages"
 
@@ -22,7 +22,8 @@ tmpdir="$(mktemp -d)"
 cleanup () { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 
-for package in $(wget -qO- "$click_list")
+wget --no-verbose -O "$tmpdir/click_list" "$click_list"
+for package in $(cat "$tmpdir/click_list")
 do
     echo "Setting up $package"
     wget --no-verbose -O "$tmpdir/$package" "$click_uri/$package"
