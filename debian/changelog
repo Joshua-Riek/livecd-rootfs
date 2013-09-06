@@ -1,9 +1,9 @@
-livecd-rootfs (2.183) UNRELEASED; urgency=low
+livecd-rootfs (2.183) saucy; urgency=low
 
   * Make 60-install-click.chroot more verbose, in an attempt to figure out
     why this doesn't work in the datacentre.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 06 Sep 2013 11:47:49 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 06 Sep 2013 11:48:25 +0100
 
 livecd-rootfs (2.182) saucy; urgency=low
 
