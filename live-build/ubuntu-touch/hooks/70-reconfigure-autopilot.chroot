@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# make sure the phablet user is in the autopilot group
+# (the user is not available when the package postinst
+# adds all users of the sudo group to the autopilot one
+# so we re-run the package configuration now
+
+echo "making sure phablet user is in the autopilot group"
+
+dpkg -l python-autopilot >/dev/null 2>&1 && dpkg-reconfigure python-autopilot

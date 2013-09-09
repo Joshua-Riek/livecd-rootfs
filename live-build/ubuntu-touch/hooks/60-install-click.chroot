@@ -6,11 +6,20 @@ echo "Setting up click packages"
 
 click_uri=http://archive-team.internal/click_packages
 click_list=$click_uri/click_list
+click_db=/usr/share/click/preinstalled
 
-for package in $(wget -qO- "$click_list")
+mkdir -p -m 755 "$click_db"
+chown clickpkg:clickpkg "$click_db"
+
+tmpdir="$(mktemp -d)"
+cleanup () { rm -rf "$tmpdir"; }
+trap cleanup EXIT
+
+wget --no-verbose -O "$tmpdir/click_list" "$click_list"
+for package in $(cat "$tmpdir/click_list")
 do
     echo "Setting up $package"
-    wget --no-verbose -O "$package" "$click_uri"/"$package"
-    click install --user=phablet --force-missing-framework "$package"
-    rm "$package"
+    wget --no-verbose -O "$tmpdir/$package" "$click_uri/$package"
+    click install --force-missing-framework --root="$click_db" --all-users \
+        "$tmpdir/$package"
 done

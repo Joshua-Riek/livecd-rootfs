@@ -1,3 +1,82 @@
+livecd-rootfs (2.184) saucy; urgency=low
+
+  * Revert to always using archive-team.internal in 60-install-click.chroot
+    for now.  This is unfortunate, but "hostname --fqdn" doesn't work at
+    this stage.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 06 Sep 2013 13:21:42 +0100
+
+livecd-rootfs (2.183) saucy; urgency=low
+
+  * Make 60-install-click.chroot more verbose, in an attempt to figure out
+    why this doesn't work in the datacentre.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 06 Sep 2013 11:48:25 +0100
+
+livecd-rootfs (2.182) saucy; urgency=low
+
+  * Log the hostname at the start of the build.
+  * Fix test for whether we're running in the Canonical datacentre when
+    installing click packages.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 05 Sep 2013 16:03:15 +0100
+
+livecd-rootfs (2.181) saucy; urgency=low
+
+  * Use new multiple-database scheme in click 0.4.3 to preinstall click
+    packages.
+  * Download core click packages from the right place when building images
+    outside the Canonical datacentre.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 05 Sep 2013 11:29:17 +0100
+
+livecd-rootfs (2.180) saucy; urgency=low
+
+  * make sure the NM configuration mangling of touch images uses the sudo and
+    not the admin group, "admin" is dead since years ... (LP: #1217596)
+  * drop a few superfluous env vars on request of Ted Gould
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 28 Aug 2013 16:27:12 +0200
+
+livecd-rootfs (2.179) saucy; urgency=low
+
+  * add 70-reconfigure-autopilot.chroot to ubuntu-touch builds, to make sure
+    the phablet user actually ends up in the autopilot group
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 27 Aug 2013 11:23:56 +0200
+
+livecd-rootfs (2.178) saucy; urgency=low
+
+  * Copying click packages to install search location instead of installing
+    for a hardcoded user.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Mon, 26 Aug 2013 17:22:14 -0300
+
+livecd-rootfs (2.177) saucy; urgency=low
+
+  * do not forcefully use the admin group on touch images. this group was
+    dropped in favour of the sudo group several releases ago
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 26 Aug 2013 16:51:13 +0200
+
+livecd-rootfs (2.176) saucy; urgency=low
+
+  * preserve a symlink of media-info for backwards compatibility
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Aug 2013 16:39:31 +0200
+
+livecd-rootfs (2.175) saucy; urgency=low
+
+  * move media-info file from /var/log/installer to /etc on touch images.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 23 Aug 2013 16:25:08 +0200
+
+livecd-rootfs (2.174) saucy; urgency=low
+
+  * make sure the bluetooth group has the right android GID on touch builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 16 Aug 2013 13:25:52 +0200
+
 livecd-rootfs (2.173) saucy; urgency=low
 
   [Michael Terry]
