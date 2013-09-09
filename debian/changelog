@@ -1,3 +1,9 @@
+livecd-rootfs (2.185) saucy; urgency=low
+
+  * Configure LightDM, if installed, to autologin the phablet user
+
+ -- Michael Terry <mterry@ubuntu.com>  Mon, 09 Sep 2013 12:21:13 -0400
+
 livecd-rootfs (2.184) saucy; urgency=low
 
   * Revert to always using archive-team.internal in 60-install-click.chroot
