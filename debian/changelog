@@ -1,3 +1,10 @@
+livecd-rootfs (2.186) UNRELEASED; urgency=low
+
+  * drop phablet-team PPA sources.list entries from ubuntu-touch, since we do
+    not use the PPA anymore
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 12 Sep 2013 20:47:11 +0200
+
 livecd-rootfs (2.185) saucy; urgency=low
 
   * Configure LightDM, if installed, to autologin the phablet user
