@@ -1,4 +1,4 @@
-livecd-rootfs (2.187) UNRELEASED; urgency=low
+livecd-rootfs (2.187) saucy; urgency=low
 
   * Removing QPA_PLATFORM_PLUGIN as it is now handled in their proper
     packages.
