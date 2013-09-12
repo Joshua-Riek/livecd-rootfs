@@ -1,3 +1,10 @@
+livecd-rootfs (2.187) UNRELEASED; urgency=low
+
+  * Removing QPA_PLATFORM_PLUGIN as it is now handled in their proper
+    packages.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Thu, 12 Sep 2013 23:25:42 +0200
+
 livecd-rootfs (2.186) saucy; urgency=low
 
   * drop phablet-team PPA sources.list entries from ubuntu-touch, since we do
