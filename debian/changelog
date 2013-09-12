@@ -1,4 +1,4 @@
-livecd-rootfs (2.186) UNRELEASED; urgency=low
+livecd-rootfs (2.186) saucy; urgency=low
 
   * drop phablet-team PPA sources.list entries from ubuntu-touch, since we do
     not use the PPA anymore
