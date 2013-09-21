@@ -1,4 +1,4 @@
-livecd-rootfs (2.188) UNRELEASED; urgency=low
+livecd-rootfs (2.188) saucy; urgency=low
 
   * ship policykit rules for networkmanager, now that we use it on touch
 
