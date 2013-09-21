@@ -1,3 +1,9 @@
+livecd-rootfs (2.188) UNRELEASED; urgency=low
+
+  * ship policykit rules for networkmanager, now that we use it on touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 21 Sep 2013 12:54:02 +0200
+
 livecd-rootfs (2.187) saucy; urgency=low
 
   * Removing QPA_PLATFORM_PLUGIN as it is now handled in their proper
