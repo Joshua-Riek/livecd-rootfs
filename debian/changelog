@@ -1,10 +1,10 @@
-livecd-rootfs (2.189) UNRELEASED; urgency=low
+livecd-rootfs (2.189) saucy; urgency=low
 
   * Explicitly add the ubuntu-desktop task to Edubuntu builds, so that any
     ambiguous dependencies resolved by the contents of the ubuntu-desktop
     task are actually resolved reliably.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Sep 2013 16:57:39 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Sep 2013 16:58:20 +0100
 
 livecd-rootfs (2.188) saucy; urgency=low
 
