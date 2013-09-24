@@ -1,3 +1,11 @@
+livecd-rootfs (2.189) UNRELEASED; urgency=low
+
+  * Explicitly add the ubuntu-desktop task to Edubuntu builds, so that any
+    ambiguous dependencies resolved by the contents of the ubuntu-desktop
+    task are actually resolved reliably.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Sep 2013 16:57:39 +0100
+
 livecd-rootfs (2.188) saucy; urgency=low
 
   * ship policykit rules for networkmanager, now that we use it on touch
