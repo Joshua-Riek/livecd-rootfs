@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+set -x
+
+mkdir -p /etc/writable
+
+for f in adjtime timezone localtime; do
+    if [ -e /etc/$f ]; then
+        echo "I: Moving /etc/$f to /etc/writable/"
+        mv /etc/$f /etc/writable/$f
+    fi
+    echo "I: Linking /etc/$f to /etc/writable/"
+    ln -s /etc/writable/$f /etc/$f
+done
