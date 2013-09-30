@@ -1,3 +1,9 @@
+livecd-rootfs (2.191) UNRELEASED; urgency=low
+
+  * ubuntu-touch: Make writable symlinks relative.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Mon, 30 Sep 2013 13:58:45 +0200
+
 livecd-rootfs (2.190) saucy; urgency=low
 
   * ubuntu-touch: Add 03-etc-writable.chroot hook to move/symlink files in
