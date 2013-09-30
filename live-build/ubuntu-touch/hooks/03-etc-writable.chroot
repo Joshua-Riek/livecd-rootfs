@@ -4,7 +4,7 @@ set -x
 
 mkdir -p /etc/writable
 
-for f in adjtime timezone localtime; do
+for f in timezone localtime; do
     if [ -e /etc/$f ]; then
         echo "I: Moving /etc/$f to /etc/writable/"
         mv /etc/$f /etc/writable/$f
