@@ -1,10 +1,10 @@
-livecd-rootfs (2.190) UNRELEASED; urgency=low
+livecd-rootfs (2.190) saucy; urgency=low
 
   * ubuntu-touch: Add 03-etc-writable.chroot hook to move/symlink files in
     /etc to /etc/writable/ that we need to update atomically. At the moment
     these are timezone and localtime. (LP: #1227520)
 
- -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 25 Sep 2013 11:06:03 +0200
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Mon, 30 Sep 2013 13:32:32 +0200
 
 livecd-rootfs (2.189) saucy; urgency=low
 
