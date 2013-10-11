@@ -1,4 +1,4 @@
-livecd-rootfs (2.192) UNRELEASED; urgency=low
+livecd-rootfs (2.192) saucy; urgency=low
 
   * add click packages to the manifest output on ubuntu touch
 
