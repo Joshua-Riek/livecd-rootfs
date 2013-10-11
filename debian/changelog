@@ -1,4 +1,4 @@
-livecd-rootfs (2.193) UNRELEASED; urgency=low
+livecd-rootfs (2.193) saucy; urgency=low
 
   * drop SHELL=/system/bin/sh from /etc/environment on touch images (urgh)
 
