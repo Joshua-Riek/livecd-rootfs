@@ -1,3 +1,9 @@
+livecd-rootfs (2.193) UNRELEASED; urgency=low
+
+  * drop SHELL=/system/bin/sh from /etc/environment on touch images (urgh)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 11 Oct 2013 17:30:21 +0200
+
 livecd-rootfs (2.192) saucy; urgency=low
 
   * add click packages to the manifest output on ubuntu touch

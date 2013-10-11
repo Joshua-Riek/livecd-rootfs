@@ -3,7 +3,6 @@
 echo "I: setting up initial environment for Touch..."
 
 echo "HOSTNAME=android
-SHELL=/system/bin/sh
 TERM=linux
 ANDROID_CACHE=/cache
 LOOP_MOUNTPOINT=/mnt/obb
