@@ -419,7 +419,9 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	lb chroot_devpts install "$@"
 
 	if [ -e "$PREFIX.manifest" ]; then
-		Chroot chroot "click list" >>"$PREFIX.manifest"
+		 for line in read; do
+			 echo "click:$line" >>"$PREFIX.manifest"
+		 done <"$(Chroot chroot "click list")"
 	fi
 
 	if [ -e chroot/etc/resolv.conf ]; then

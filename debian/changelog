@@ -1,3 +1,9 @@
+livecd-rootfs (2.194) UNRELEASED; urgency=low
+
+  * prefix click packages in the manifest file with "click:"
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 11 Oct 2013 18:14:02 +0200
+
 livecd-rootfs (2.193) saucy; urgency=low
 
   * drop SHELL=/system/bin/sh from /etc/environment on touch images (urgh)
