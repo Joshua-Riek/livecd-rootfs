@@ -1,4 +1,4 @@
-livecd-rootfs (2.195) UNRELEASED; urgency=low
+livecd-rootfs (2.195) saucy; urgency=low
 
   * fix the prefixing of click packages in manifest files
 
