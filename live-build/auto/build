@@ -418,6 +418,10 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 	lb chroot_sysfs install "$@"
 	lb chroot_devpts install "$@"
 
+	if [ -e "$PREFIX.manifest" ]; then
+		Chroot chroot "click list" >>"$PREFIX.manifest"
+	fi
+
 	if [ -e chroot/etc/resolv.conf ]; then
 		mv chroot/etc/resolv.conf chroot/etc/resolv.conf.orig
 	fi
