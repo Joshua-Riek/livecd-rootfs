@@ -1,6 +1,6 @@
-livecd-rootfs (2.196) UNRELEASED; urgency=low
+livecd-rootfs (2.196) saucy; urgency=low
 
-  * Removing the PPAs for Ubuntu Touch builds. 
+  * Removing the PPAs for Ubuntu Touch builds.
 
  -- Sergio Schvezov <sergio.schvezov@canonical.com>  Mon, 14 Oct 2013 19:20:15 -0300
 
