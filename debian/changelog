@@ -1,3 +1,9 @@
+livecd-rootfs (2.196) UNRELEASED; urgency=low
+
+  * Removing the PPAs for Ubuntu Touch builds. 
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Mon, 14 Oct 2013 19:20:15 -0300
+
 livecd-rootfs (2.195) saucy; urgency=low
 
   * fix the prefixing of click packages in manifest files
