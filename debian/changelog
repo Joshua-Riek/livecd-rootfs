@@ -1,3 +1,17 @@
+livecd-rootfs (2.198) trusty; urgency=low
+
+  * Double-quotes prevented the previous change from working, so drop those.
+    Additionally remove an hardcoded occurence of "saucy", instead using
+    LB_DISTRIBUTION to avoid having to change that in the future.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 20 Oct 2013 23:17:57 -0400
+
+livecd-rootfs (2.197) trusty; urgency=low
+
+  * Workaround to make ubuntu-touch build with older android package.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 20 Oct 2013 16:52:29 -0400
+
 livecd-rootfs (2.196) saucy; urgency=low
 
   * Removing the PPAs for Ubuntu Touch builds.

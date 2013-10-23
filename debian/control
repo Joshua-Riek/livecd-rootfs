@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Build-Depends: debhelper (>= 7)
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Standards-Version: 3.6.1.0
+Standards-Version: 3.9.4
 Vcs-Bzr: http://bazaar.launchpad.net/~ubuntu-core-dev/livecd-rootfs/trunk
 
 Package: livecd-rootfs
