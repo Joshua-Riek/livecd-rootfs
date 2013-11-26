@@ -1,4 +1,4 @@
-livecd-rootfs (2.200) UNRELEASED; urgency=low
+livecd-rootfs (2.200) trusty; urgency=low
 
   * use proper quoting for egrep call in click installer
 
