@@ -1,4 +1,4 @@
-livecd-rootfs (2.199) UNRELEASED; urgency=low
+livecd-rootfs (2.199) trusty; urgency=low
 
   * make the click package installation check for proper architecture before
     trying to install packages from the list, so that i386 touch builds do not 
