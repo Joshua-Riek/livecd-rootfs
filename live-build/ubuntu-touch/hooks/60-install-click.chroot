@@ -20,7 +20,7 @@ CLICKARCH=$(dpkg --print-architecture)
 wget --no-verbose -O "$tmpdir/click_list" "$click_list"
 for package in $(cat "$tmpdir/click_list")
 do
-    if echo $package | egrep -q _$CLICKARCH.click|_all.click|_unknown.click; then
+    if echo $package | egrep -q "_$CLICKARCH.click|_all.click|_unknown.click"; then
         echo "Setting up $package"
         wget --no-verbose -O "$tmpdir/$package" "$click_uri/$package"
         click install --force-missing-framework --root="$click_db" --all-users \
