@@ -1,3 +1,11 @@
+livecd-rootfs (2.199) UNRELEASED; urgency=low
+
+  * make the click package installation check for proper architecture before
+    trying to install packages from the list, so that i386 touch builds do not 
+    fall over with "wrong architecture" failures at the click install step.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 26 Nov 2013 15:14:18 +0100
+
 livecd-rootfs (2.198) trusty; urgency=low
 
   * Double-quotes prevented the previous change from working, so drop those.
