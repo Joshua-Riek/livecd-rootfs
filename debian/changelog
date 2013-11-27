@@ -1,4 +1,4 @@
-livecd-rootfs (2.201) UNRELEASED; urgency=low
+livecd-rootfs (2.201) trusty; urgency=low
 
   * add support for copying goldfish android images out of the android package
 
