@@ -410,7 +410,7 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
-	touchsubarches="maguro manta grouper mako"
+	touchsubarches="maguro manta grouper mako goldfish"
 
 	sourceslist="chroot/etc/apt/sources.list"
 
@@ -446,8 +446,10 @@ if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
 			 "${PREFIX}.boot-armhf+${subarch}.img"
 		# drop this following line once cdimage can handle -boot-*.img
 		cp "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
+
+		# goldfish does not ship a .zip file, do not fail if it does not exist
 		cp chroot/usr/share/android/product/*-preinstalled-touch-armel+${subarch}.zip\
-			 "${PREFIX}.armel+${subarch}.zip"
+			 "${PREFIX}.armel+${subarch}.zip" || true
 	done
 
 	lb chroot_devpts remove "$@"

@@ -1,3 +1,9 @@
+livecd-rootfs (2.201) UNRELEASED; urgency=low
+
+  * add support for copying goldfish android images out of the android package
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 27 Nov 2013 12:22:07 +0100
+
 livecd-rootfs (2.200) trusty; urgency=low
 
   * use proper quoting for egrep call in click installer
