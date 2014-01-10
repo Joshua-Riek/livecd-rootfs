@@ -292,6 +292,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-core)
+		add_task install minimal
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
