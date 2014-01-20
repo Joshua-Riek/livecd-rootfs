@@ -1,3 +1,10 @@
+livecd-rootfs (2.203) UNRELEASED; urgency=medium
+
+  * Add hostname and machine-info to the writable paths, so that hostnamectl
+    can change them to create a sane default bluetooth device name.
+
+ -- Chris Wayne <chris.wayne@canonical.com>  Mon, 20 Jan 2014 15:25:29 +0100
+
 livecd-rootfs (2.202) trusty; urgency=medium
 
   * Add the minimal task to ubuntu-core to preserve brand consistency.
