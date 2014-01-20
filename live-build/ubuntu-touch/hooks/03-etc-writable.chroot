@@ -3,14 +3,12 @@ set -e
 set -x
 
 mkdir -p /etc/writable
+touch /etc/writable/machine-info
 
 for f in timezone localtime machine-info hostname; do
     if [ -e /etc/$f ]; then
         echo "I: Moving /etc/$f to /etc/writable/"
         mv /etc/$f /etc/writable/$f
-    else
-    	echo "I: Creating /etc/writable/$f"
-    	touch /etc/writable/$f
     fi
     echo "I: Linking /etc/$f to /etc/writable/"
     ln -s writable/$f /etc/$f
