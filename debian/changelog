@@ -1,16 +1,18 @@
-livecd-rootfs (2.203) UNRELEASED; urgency=medium
+livecd-rootfs (2.204) UNRELEASED; urgency=medium
 
-  [ Chris Wayne ]
-  * Add hostname and machine-info to the writable paths, so that hostnamectl
-    can change them to create a sane default bluetooth device name.
-
-  [ Colin Watson ]
   * Make livecd-rootfs be Architecture: any so that we can go back to the
     android-tools-fsutils dependency being architecture-specific, which
     relieves us of having to port it to new architectures which don't care
     about Android.
 
- -- Chris Wayne <chris.wayne@canonical.com>  Mon, 20 Jan 2014 15:25:29 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 31 Jan 2014 11:03:15 +0000
+
+livecd-rootfs (2.203) trusty; urgency=medium
+
+  * Add hostname and machine-info to the writable paths, so that hostnamectl
+    can change them to create a sane default bluetooth device name.
+
+ -- Chris Wayne <chris.wayne@canonical.com>  Mon, 20 Jan 2014 15:34:59 +0100
 
 livecd-rootfs (2.202) trusty; urgency=medium
 
