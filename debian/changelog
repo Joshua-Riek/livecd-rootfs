@@ -1,7 +1,14 @@
 livecd-rootfs (2.203) UNRELEASED; urgency=medium
 
+  [ Chris Wayne ]
   * Add hostname and machine-info to the writable paths, so that hostnamectl
     can change them to create a sane default bluetooth device name.
+
+  [ Colin Watson ]
+  * Make livecd-rootfs be Architecture: any so that we can go back to the
+    android-tools-fsutils dependency being architecture-specific, which
+    relieves us of having to port it to new architectures which don't care
+    about Android.
 
  -- Chris Wayne <chris.wayne@canonical.com>  Mon, 20 Jan 2014 15:25:29 +0100
 
