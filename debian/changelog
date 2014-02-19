@@ -1,3 +1,10 @@
+livecd-rootfs (2.205) UNRELEASED; urgency=medium
+
+  * touch/48-setup-env.chroot: QML2_IMPORT_PATH should respect
+    DEB_HOST_MULTIARCH (as we now have i386 builds as well)
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Tue, 18 Feb 2014 23:51:24 -0300
+
 livecd-rootfs (2.204) trusty; urgency=medium
 
   * Make livecd-rootfs be Architecture: any so that we can go back to the

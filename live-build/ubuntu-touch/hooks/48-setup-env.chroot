@@ -2,6 +2,8 @@
 
 echo "I: setting up initial environment for Touch..."
 
+DEB_HOST_MULTIARCH=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
+
 echo "HOSTNAME=android
 TERM=linux
 ANDROID_CACHE=/cache
@@ -13,7 +15,7 @@ ANDROID_BOOTLOGO=1
 LD_LIBRARY_PATH=/vendor/lib:/system/lib
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ANDROID_DATA=/data
-QML2_IMPORT_PATH=/usr/lib/arm-linux-gnueabihf/qt5/imports
+QML2_IMPORT_PATH=/usr/lib/$DEB_HOST_MULTIARCH/qt5/imports
 QT_SELECT=qt5
 SHLVL=1
 MKSH=/system/bin/sh
