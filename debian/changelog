@@ -1,4 +1,4 @@
-livecd-rootfs (2.205) UNRELEASED; urgency=medium
+livecd-rootfs (2.205) trusty; urgency=medium
 
   * touch/48-setup-env.chroot: QML2_IMPORT_PATH should respect
     DEB_HOST_MULTIARCH (as we now have i386 builds as well)
