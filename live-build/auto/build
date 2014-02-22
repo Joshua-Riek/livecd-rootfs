@@ -410,7 +410,7 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
-	touchsubarches="maguro manta grouper mako goldfish"
+	touchsubarches="flo manta grouper mako generic"
 
 	sourceslist="chroot/etc/apt/sources.list"
 

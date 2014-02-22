@@ -1,3 +1,9 @@
+livecd-rootfs (2.206) UNRELEASED; urgency=medium
+
+  * dropping maguro and adding flo, changing golfish to generic in touchsubarches
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 22 Feb 2014 23:35:07 +0100
+
 livecd-rootfs (2.205) trusty; urgency=medium
 
   * touch/48-setup-env.chroot: QML2_IMPORT_PATH should respect
