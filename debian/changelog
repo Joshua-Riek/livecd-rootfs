@@ -1,4 +1,4 @@
-livecd-rootfs (2.206) UNRELEASED; urgency=medium
+livecd-rootfs (2.206) trusty; urgency=medium
 
   * dropping maguro and adding flo, changing golfish to generic in touchsubarches
 
