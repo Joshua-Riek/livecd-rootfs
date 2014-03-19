@@ -1,4 +1,4 @@
-livecd-rootfs (2.207) UNRELEASED; urgency=medium
+livecd-rootfs (2.207) trusty; urgency=medium
 
   * touch/80-enable-libhybris.chroot: making libhybris the default alternatives
     for EGL/GLESv2 on touch
