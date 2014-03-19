@@ -1,3 +1,10 @@
+livecd-rootfs (2.207) UNRELEASED; urgency=medium
+
+  * touch/80-enable-libhybris.chroot: making libhybris the default alternatives
+    for EGL/GLESv2 on touch
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Tue, 18 Mar 2014 21:03:48 -0300
+
 livecd-rootfs (2.206) trusty; urgency=medium
 
   * dropping maguro and adding flo, changing golfish to generic in touchsubarches
