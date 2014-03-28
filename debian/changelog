@@ -1,3 +1,9 @@
+livecd-rootfs (2.208) UNRELEASED; urgency=medium
+
+  * Adding support for ubuntu-touch i386 based images
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Fri, 28 Mar 2014 19:00:25 -0300
+
 livecd-rootfs (2.207) trusty; urgency=medium
 
   * touch/80-enable-libhybris.chroot: making libhybris the default alternatives
