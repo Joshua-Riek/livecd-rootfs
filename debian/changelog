@@ -1,4 +1,4 @@
-livecd-rootfs (2.208) UNRELEASED; urgency=medium
+livecd-rootfs (2.208) trusty; urgency=medium
 
   * Adding support for ubuntu-touch i386 based images
 
