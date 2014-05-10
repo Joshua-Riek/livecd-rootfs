@@ -1,3 +1,10 @@
+livecd-rootfs (2.209) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: Pass any additional command-line arguments on to
+    "lb config".
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 10 May 2014 13:53:24 +0100
+
 livecd-rootfs (2.208) trusty; urgency=medium
 
   * Adding support for ubuntu-touch i386 based images

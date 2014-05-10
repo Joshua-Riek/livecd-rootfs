@@ -424,7 +424,8 @@ lb config noauto \
 	--bootloader "$BOOTLOADER" \
 	--initramfs-compression lzma \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
-	$OPTS
+	$OPTS \
+	"$@"
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
