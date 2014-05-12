@@ -192,6 +192,13 @@ case $PROJECT in
 		LIVE_TASK='ubuntu-live'
 		;;
 
+	ubuntu-unity8)
+		add_task install minimal standard
+		add_package install unity8-desktop-session-x11
+		COMPONENTS='main restricted universe'
+		LIVE_TASK='ubuntu-live'
+	;;
+
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard
 		case "$ARCH+$SUBARCH" in

@@ -1,9 +1,30 @@
+livecd-rootfs (2.209+unity8.1) utopic; urgency=medium
+
+  * Merge with Utopic. Remaining changes:
+    + Add a very prelimenary unity8 desktop session
+      - Doesn't install ubuntu-desktop
+      - Installs unity8-desktop-session-x11 for now. In future will switch to a
+        seed and Mir
+      - Builds from universe
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Mon, 12 May 2014 13:01:36 +0100
+
 livecd-rootfs (2.209) utopic; urgency=medium
 
   * live-build/auto/config: Pass any additional command-line arguments on to
     "lb config".
 
  -- Colin Watson <cjwatson@ubuntu.com>  Sat, 10 May 2014 13:54:42 +0100
+
+livecd-rootfs (2.208+unity8.1) utopic; urgency=medium
+
+  * Add a very prelimenary unity8 desktop session
+    - Doesn't install ubuntu-desktop
+    - Installs unity8-desktop-session-x11 for now. In future will switch to a
+      seed and Mir
+    - Builds from universe
+
+ -- Iain Lane <iain.lane@canonical.com>  Fri, 09 May 2014 16:18:14 +0100
 
 livecd-rootfs (2.208) trusty; urgency=medium
 
