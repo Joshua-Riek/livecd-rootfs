@@ -7,4 +7,10 @@
 
 echo "making sure phablet user is in the autopilot group"
 
-dpkg -l python-autopilot >/dev/null 2>&1 && dpkg-reconfigure python-autopilot
+for pkg in python-autopilot python3-autopilot; do
+	if dpkg-query -W -f '${Status}\n' "$pkg" 2>/dev/null | \
+	   grep -q ' installed$'; then
+		dpkg-reconfigure "$pkg"
+		break
+	fi
+done
