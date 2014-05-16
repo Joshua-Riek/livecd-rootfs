@@ -1,10 +1,10 @@
-livecd-rootfs (2.210) UNRELEASED; urgency=medium
+livecd-rootfs (2.210) utopic; urgency=medium
 
   * live-build/ubuntu-touch/hooks/70-reconfigure-autopilot.chroot: Fix test
     for whether a package is installed, and check for both python-autopilot
     and python3-autopilot.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Fri, 16 May 2014 13:03:31 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 16 May 2014 13:05:07 +0100
 
 livecd-rootfs (2.209) utopic; urgency=medium
 
