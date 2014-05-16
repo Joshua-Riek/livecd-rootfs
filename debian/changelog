@@ -1,3 +1,10 @@
+livecd-rootfs (2.211) UNRELEASED; urgency=medium
+
+  * Add an ubuntu-desktop-next project for building a desktop flavour
+    including Unity 8 and the applications developed for Ubuntu Touch.
+
+ -- Iain Lane <iain.lane@canonical.com>  Fri, 16 May 2014 17:46:14 +0100
+
 livecd-rootfs (2.210) utopic; urgency=medium
 
   * live-build/ubuntu-touch/hooks/70-reconfigure-autopilot.chroot: Fix test
