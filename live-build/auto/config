@@ -498,6 +498,13 @@ EOF
 		;;
 esac
 
+if [ "$EXTRA_ARCHIVES" ]; then
+	printf '%s\n' "$EXTRA_ARCHIVES" \
+		> config/archives/extra-archives.list.chroot
+	cp -a config/archives/extra-archives.list.chroot \
+	      config/archives/extra-archives.list.binary
+fi
+
 # cribbed from cdimage, perhaps this should be a small helper script in germinate?
 add_inheritance () {
 	case " $inherit " in
