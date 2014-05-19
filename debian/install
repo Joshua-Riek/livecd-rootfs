@@ -1,1 +1,2 @@
 live-build usr/share/livecd-rootfs
+get-ppa-fingerprint usr/share/livecd-rootfs

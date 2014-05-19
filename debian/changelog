@@ -1,3 +1,13 @@
+livecd-rootfs (2.213) UNRELEASED; urgency=medium
+
+  * The EXTRA_ARCHIVES environment variable defined in 2.212 doesn't quite
+    work properly because it doesn't allow for signing key configuration.
+    Rename it to the more domain-specific EXTRA_PPAS (which is now a
+    space-separated sequence of <ppa-owner>/<ppa-name> pairs), and fetch
+    signing keys for those from Launchpad using python3-software-properties.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 19 May 2014 15:24:43 +0100
+
 livecd-rootfs (2.212) utopic; urgency=medium
 
   * live-build/auto/config: If EXTRA_ARCHIVES is set in the environment,

@@ -498,11 +498,43 @@ EOF
 		;;
 esac
 
-if [ "$EXTRA_ARCHIVES" ]; then
-	printf '%s\n' "$EXTRA_ARCHIVES" \
-		> config/archives/extra-archives.list.chroot
-	cp -a config/archives/extra-archives.list.chroot \
-	      config/archives/extra-archives.list.binary
+if [ "$EXTRA_PPAS" ]; then
+	rm -f config/archives/extra-ppas.list.chroot \
+	      config/archives/extra-ppas.key.chroot
+	gpg_tmpdir="$(mktemp -d)"
+	run_gpg () {
+		gpg --no-default-keyring --no-options --homedir "$gpg_tmpdir" \
+			--secret-keyring "$gpg_tmpdir/secring.gpg" \
+			--keyserver hkp://keyserver.ubuntu.com:80/ \
+			"$@"
+	}
+	for extra_ppa in $EXTRA_PPAS; do
+		extra_ppa_fingerprint="$(/usr/share/livecd-rootfs/get-ppa-fingerprint "$extra_ppa")"
+		echo "deb http://ppa.launchpad.net/$extra_ppa/ubuntu @DISTRIBUTION@ main" >> config/archives/extra-ppas.list.chroot
+		run_gpg --keyring "$gpg_tmpdir/pubring.gpg" \
+			--recv "$extra_ppa_fingerprint"
+		run_gpg --keyring "$gpg_tmpdir/pubring.gpg" \
+			--output "$gpg_tmpdir/export.gpg" \
+			--export "$extra_ppa_fingerprint"
+		got_fingerprint="$(
+			run_gpg --keyring "$gpg_tmpdir/export.gpg" \
+				--fingerprint --batch --with-colons |
+			grep '^fpr:' | cut -d: -f10)"
+		if [ "$got_fingerprint" != "$extra_ppa_fingerprint" ]; then
+			echo "Fingerprints do not match.  Got:" >&2
+			echo "$got_fingerprint" | sed 's/^/  /' >&2
+			echo "Expected:" >&2
+			echo "  $extra_ppa_fingerprint" >&2
+			exit 1
+		fi
+		cat "$gpg_tmpdir/export.gpg" >> config/archives/extra-ppas.key.chroot
+		rm -f "$gpg_tmpdir/export.gpg"
+	done
+	rm -rf "$gpg_tmpdir"
+	cp -a config/archives/extra-ppas.list.chroot \
+	      config/archives/extra-ppas.list.binary
+	cp -a config/archives/extra-ppas.key.chroot \
+	      config/archives/extra-ppas.key.binary
 fi
 
 # cribbed from cdimage, perhaps this should be a small helper script in germinate?

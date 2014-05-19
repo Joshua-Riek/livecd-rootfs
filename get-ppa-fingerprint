@@ -1,0 +1,16 @@
+#! /usr/bin/python3
+
+from __future__ import print_function
+
+from optparse import OptionParser
+
+from softwareproperties import ppa
+
+
+parser = OptionParser(usage="%prog OWNER/NAME")
+_, args = parser.parse_args()
+if not args:
+    parser.error("must provide a PPA owner/name")
+owner_name, ppa_name = args[0].split("/")
+ppa_info = ppa.get_ppa_info_from_lp(owner_name, ppa_name)
+print(ppa_info["signing_key_fingerprint"])
