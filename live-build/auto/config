@@ -197,7 +197,7 @@ case $PROJECT in
 		add_package install ubuntu-desktop-next
 		COMPONENTS='main restricted universe'
 		LIVE_TASK='ubuntu-live'
-	;;
+		;;
 
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard
