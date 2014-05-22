@@ -193,7 +193,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-desktop-next)
-		add_task install minimal standard ubuntu-desktop-next
+		add_task install minimal standard ubuntu-desktop-next ubuntu-sdk-libs
 		COMPONENTS='main restricted universe'
 		LIVE_TASK='ubuntu-touch-live'
 		;;
