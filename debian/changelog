@@ -1,3 +1,10 @@
+livecd-rootfs (2.214) UNRELEASED; urgency=medium
+
+  * ubuntu-desktop-next: Use the Task fiels that the archive now has for this
+    project.
+
+ -- Iain Lane <iain.lane@canonical.com>  Thu, 22 May 2014 15:45:03 +0100
+
 livecd-rootfs (2.213) utopic; urgency=medium
 
   * The EXTRA_ARCHIVES environment variable defined in 2.212 doesn't quite
