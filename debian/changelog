@@ -1,9 +1,9 @@
-livecd-rootfs (2.214) UNRELEASED; urgency=medium
+livecd-rootfs (2.214) utopic; urgency=medium
 
   * ubuntu-desktop-next: Use the Task fields that the archive now has for this
     project.
 
- -- Iain Lane <iain.lane@canonical.com>  Thu, 22 May 2014 15:45:03 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 28 May 2014 10:37:36 +0100
 
 livecd-rootfs (2.213) utopic; urgency=medium
 
