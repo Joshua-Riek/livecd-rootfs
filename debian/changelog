@@ -1,3 +1,9 @@
+livecd-rootfs (2.216) UNRELEASED; urgency=medium
+
+  * ubuntu-touch: remove the previous ugly hack again ... issue is fixed
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 30 May 2014 13:25:57 +0200
+
 livecd-rootfs (2.215) utopic; urgency=medium
 
   * ubuntu-touch; DON'T DO THAT AT HOME ! (and keep the kids away) ...

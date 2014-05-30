@@ -1,5 +1,0 @@
-#! /bin/sh
-
-for f in checkroot.sh checkroot-bootclean.sh checkfs.sh mountkernfs.sh mountdevsubfs.sh mountall.sh mountnfs.sh mountnfs-bootclean.sh mountall-bootclean.sh; do
-	echo '#!/bin/true' >/etc/init.d/$f
-done
