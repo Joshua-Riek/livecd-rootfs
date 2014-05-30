@@ -1,3 +1,11 @@
+livecd-rootfs (2.215) UNRELEASED; urgency=medium
+
+  * ubuntu-touch; DON'T DO THAT AT HOME ! (and keep the kids away) ...
+    hack to remove a bunch of initscripts that currently break writable mode.
+    this needs to be dropped again ASAP (once a proper fix landed) !!
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 30 May 2014 10:09:58 +0200
+
 livecd-rootfs (2.214) utopic; urgency=medium
 
   * ubuntu-desktop-next: Use the Task fields that the archive now has for this
