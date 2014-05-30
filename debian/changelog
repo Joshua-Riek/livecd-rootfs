@@ -1,4 +1,4 @@
-livecd-rootfs (2.215) UNRELEASED; urgency=medium
+livecd-rootfs (2.215) utopic; urgency=medium
 
   * ubuntu-touch; DON'T DO THAT AT HOME ! (and keep the kids away) ...
     hack to remove a bunch of initscripts that currently break writable mode.
