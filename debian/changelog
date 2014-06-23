@@ -1,4 +1,4 @@
-livecd-rootfs (2.217) UNRELEASED; urgency=medium
+livecd-rootfs (2.217) utopic; urgency=medium
 
   * drop swapfile creation for preinstalled images
 
