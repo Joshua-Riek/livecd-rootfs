@@ -112,8 +112,6 @@ case $IMAGEFORMAT in
 				;;
 			*)
 				add_package live jasper
-				OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
-				OPTS="${OPTS:+$OPTS }--swap-file-size 512"
 				;;
 		esac
 		;;
@@ -309,8 +307,6 @@ case $PROJECT in
 		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
 		OPTS="${OPTS:+$OPTS }--apt-recommends false"
 		OPTS="${OPTS:+$OPTS }--compression gzip"
-		OPTS="${OPTS:+$OPTS }--swap-file-path SWAP.swap"
-		OPTS="${OPTS:+$OPTS }--swap-file-size 100"
 		OPTS="${OPTS:+$OPTS }--system normal"
 		OPTS="${OPTS:+$OPTS }--zsync false"
 		;;

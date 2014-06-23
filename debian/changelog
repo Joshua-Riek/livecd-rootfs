@@ -1,3 +1,9 @@
+livecd-rootfs (2.217) UNRELEASED; urgency=medium
+
+  * drop swapfile creation for preinstalled images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 23 Jun 2014 18:35:57 +0200
+
 livecd-rootfs (2.216) utopic; urgency=medium
 
   * ubuntu-touch: remove the previous ugly hack again ... issue is fixed
