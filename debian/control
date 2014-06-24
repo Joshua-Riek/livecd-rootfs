@@ -8,7 +8,7 @@ Vcs-Bzr: http://bazaar.launchpad.net/~ubuntu-core-dev/livecd-rootfs/trunk
 
 Package: livecd-rootfs
 Architecture: any
-Depends: ${misc:Depends}, debootstrap, rsync, python-minimal | python, procps, squashfs-tools (>= 1:3.3-1), grep-dctrl, fdupes, lsb-release, lzma, e2fsprogs, germinate (>= 1.25.1), apt-utils, gnupg, live-build (>= 3.0~a55-1), android-tools-fsutils [armhf], python3-software-properties
+Depends: ${misc:Depends}, debootstrap, rsync, python-minimal | python, procps, squashfs-tools (>= 1:3.3-1), grep-dctrl, lsb-release, lzma, e2fsprogs, germinate (>= 1.25.1), apt-utils, gnupg, live-build (>= 3.0~a55-1), android-tools-fsutils [armhf], python3-software-properties
 Suggests: partimage
 Breaks: ubuntu-defaults-builder (<< 0.32)
 Description: construction script for the livecd rootfs

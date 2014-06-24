@@ -1,3 +1,10 @@
+livecd-rootfs (2.219) UNRELEASED; urgency=medium
+
+  * Drop fdupes analysis: not widely used any more, can be done separately
+    if needed, and very noisy in build logs.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Jun 2014 17:00:33 +0100
+
 livecd-rootfs (2.218) utopic; urgency=medium
 
   * Install linux-signed-generic directly in live passes rather than relying
