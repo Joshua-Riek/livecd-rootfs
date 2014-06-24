@@ -1,3 +1,12 @@
+livecd-rootfs (2.218) UNRELEASED; urgency=medium
+
+  * Install linux-signed-generic directly in live passes rather than relying
+    on it being in the corresponding tasks.  linux-signed-generic shouldn't
+    be in a task because that expands to ABI-versioned packages, and tasks
+    can't be updated post-release.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Jun 2014 02:16:51 +0100
+
 livecd-rootfs (2.217) utopic; urgency=medium
 
   * drop swapfile creation for preinstalled images
