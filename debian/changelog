@@ -2,6 +2,8 @@ livecd-rootfs (2.219) UNRELEASED; urgency=medium
 
   * Drop fdupes analysis: not widely used any more, can be done separately
     if needed, and very noisy in build logs.
+  * Make the output kernel/initrd world-readable in a couple more cases,
+    particularly relevant to ubuntu-defaults-image (LP: #1334616).
 
  -- Colin Watson <cjwatson@ubuntu.com>  Tue, 24 Jun 2014 17:00:33 +0100
 
