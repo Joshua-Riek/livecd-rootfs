@@ -1,3 +1,10 @@
+livecd-rootfs (2.220) UNRELEASED; urgency=medium
+
+  [ Alfonso Sanchez-Beato (email Canonical) ]
+  * Add media group to touch image
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 27 Jun 2014 16:31:02 +0200
+
 livecd-rootfs (2.219) utopic; urgency=medium
 
   * Drop fdupes analysis: not widely used any more, can be done separately
