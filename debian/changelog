@@ -1,4 +1,4 @@
-livecd-rootfs (2.220) UNRELEASED; urgency=medium
+livecd-rootfs (2.220) utopic; urgency=medium
 
   [ Alfonso Sanchez-Beato (email Canonical) ]
   * Add media group to touch image
