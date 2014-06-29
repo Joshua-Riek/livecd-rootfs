@@ -1,3 +1,9 @@
+livecd-rootfs (2.221) UNRELEASED; urgency=medium
+
+  * Adding android_nvram group to the touch image
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 30 Jun 2014 00:12:43 +0400
+
 livecd-rootfs (2.220) utopic; urgency=medium
 
   [ Alfonso Sanchez-Beato (email Canonical) ]
