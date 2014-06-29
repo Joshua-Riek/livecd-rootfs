@@ -1,4 +1,4 @@
-livecd-rootfs (2.221) UNRELEASED; urgency=medium
+livecd-rootfs (2.221) utopic; urgency=medium
 
   * Adding android_nvram group to the touch image
 
