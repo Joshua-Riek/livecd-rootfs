@@ -6,8 +6,8 @@ UGID=32011
 echo "I: creating default user $USER"
 adduser --gecos $USER --disabled-login $USER --uid $UGID
 
-echo "I: set user $USER password to $USER"
-echo "$USER:$USER" | chpasswd
+echo "I: set user $USER password to blank"
+passwd -d $USER
 
 echo "I: allowing user to log in without password"
 gpasswd -a $USER nopasswdlogin
