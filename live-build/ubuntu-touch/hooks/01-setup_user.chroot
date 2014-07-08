@@ -13,7 +13,7 @@ echo "I: allowing user to log in without password"
 gpasswd -a $USER nopasswdlogin
 
 # Allow user to have weak passwords, like a PIN generally is
-sed -i 's/pam_unix.so obscure/pam_unix.so/' /etc/pam.d/common-password
+sed -i 's/pam_unix.so obscure/pam_unix.so minlen=4/' /etc/pam.d/common-password
 
 adduser --gecos system --no-create-home --disabled-login --disabled-password system --uid 1000
 adduser --gecos radio --no-create-home --disabled-login --disabled-password radio --uid 1001
