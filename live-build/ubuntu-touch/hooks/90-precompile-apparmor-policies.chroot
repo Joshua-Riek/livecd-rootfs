@@ -1,0 +1,9 @@
+#!/bin/sh
+
+FEATURES=/var/cache/apparmor/.features
+
+echo "I: precompiling click apparmor policies"
+/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/var/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
+
+echo "I: precompiling deb apparmor policies"
+/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ `find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*'`
