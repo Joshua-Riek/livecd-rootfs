@@ -1,4 +1,4 @@
-livecd-rootfs (2.223) UNRELEASED; urgency=medium
+livecd-rootfs (2.223) utopic; urgency=medium
 
   * add android_cache group (GID 2001) so that after we switch developer mode
     to default to the phablet user it is still possible to adb push image
