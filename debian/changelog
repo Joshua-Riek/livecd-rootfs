@@ -1,4 +1,4 @@
-livecd-rootfs (2.224) UNRELEASED; urgency=medium
+livecd-rootfs (2.224) utopic; urgency=medium
 
   * drop extra space in DEFGROUPS variable
 
