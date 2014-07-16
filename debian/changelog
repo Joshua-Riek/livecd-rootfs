@@ -1,3 +1,9 @@
+livecd-rootfs (2.224) UNRELEASED; urgency=medium
+
+  * drop extra space in DEFGROUPS variable
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 16 Jul 2014 20:32:58 +0200
+
 livecd-rootfs (2.223) utopic; urgency=medium
 
   * add android_cache group (GID 2001) so that after we switch developer mode

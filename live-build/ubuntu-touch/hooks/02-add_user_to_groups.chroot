@@ -2,7 +2,7 @@
 
 USER=phablet
 
-DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw,android_media,android_nvram, android_cache"
+DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw,android_media,android_nvram,android_cache"
 
 /bin/egrep  -i "^audio:" /etc/group
 if [ $? -eq 0 ]; then
