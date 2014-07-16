@@ -1,3 +1,11 @@
+livecd-rootfs (2.223) UNRELEASED; urgency=medium
+
+  * add android_cache group (GID 2001) so that after we switch developer mode
+    to default to the phablet user it is still possible to adb push image
+    tarballs to the /cache partition
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 16 Jul 2014 14:15:21 +0200
+
 livecd-rootfs (2.222) utopic; urgency=medium
 
   * Precompiling apparmor policies on touch

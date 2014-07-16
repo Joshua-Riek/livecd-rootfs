@@ -2,7 +2,7 @@
 
 USER=phablet
 
-DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw,android_media,android_nvram"
+DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,gps,radio,bluetooth,android_net,android_net2,android_net3,android_graphics,android_input,sdcard_rw,android_media,android_nvram, android_cache"
 
 /bin/egrep  -i "^audio:" /etc/group
 if [ $? -eq 0 ]; then
@@ -90,6 +90,13 @@ if [ $? -eq 0 ]; then
 else
 	echo "User android_nvram does not exist in /etc group -- must create"
 	groupadd -g 9997 android_nvram
+fi
+/bin/egrep -i "^android_cache:" /etc/group
+if [ $? -eq 0 ]; then
+	echo "User android_cache exists in /etc/group"
+else
+	echo "User android_cache does not exist in /etc group -- must create"
+	groupadd -g 2001 android_cache
 fi
 
 echo "I: add $USER to ($DEFGROUPS) groups"
