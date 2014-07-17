@@ -1,10 +1,10 @@
-livecd-rootfs (2.225) UNRELEASED; urgency=medium
+livecd-rootfs (2.225) utopic; urgency=medium
 
   * Use the soon-to-exist ubuntu-rtm archive for ubuntu-touch builds if
     SUBPROJECT is ubuntu-rtm (or ubuntu-rtm/dogfood for the dogfood
     version).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 17 Jul 2014 12:48:17 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 17 Jul 2014 12:50:09 +0100
 
 livecd-rootfs (2.224) utopic; urgency=medium
 
