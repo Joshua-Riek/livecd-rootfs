@@ -336,6 +336,19 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--compression gzip"
 		OPTS="${OPTS:+$OPTS }--system normal"
 		OPTS="${OPTS:+$OPTS }--zsync false"
+
+		# TODO cjwatson 2014-07-17: This is a bit of an abuse of
+		# SUBPROJECT, but it's a handy thing that launchpad-buildd
+		# already passes through to us that we weren't otherwise
+		# using here.
+		case $SUBPROJECT in
+		    ubuntu-rtm/dogfood)
+			MIRROR=http://derived-archive.dogfood.content.paddev.net/ubuntu-rtm/
+			;;
+		    ubuntu-rtm)
+			MIRROR=http://derived.archive.canonical.com/ubuntu-rtm/
+			;;
+		esac
 		;;
 
 	*)
