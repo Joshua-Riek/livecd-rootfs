@@ -1,10 +1,10 @@
-livecd-rootfs (2.227) UNRELEASED; urgency=medium
+livecd-rootfs (2.227) utopic; urgency=medium
 
   * Pass --mirror-chroot-security and --mirror-binary-security in the
     ubuntu-rtm case, as the default of http://security.ubuntu.com/ubuntu/
     isn't going to have ubuntu-rtm suites.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 23 Jul 2014 10:59:21 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 23 Jul 2014 11:00:23 +0100
 
 livecd-rootfs (2.226) utopic; urgency=medium
 
