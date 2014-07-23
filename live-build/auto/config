@@ -573,6 +573,22 @@ if [ "$EXTRA_PPAS" ]; then
 	      config/archives/extra-ppas.key.binary
 fi
 
+case $SUBPROJECT in
+    ubuntu-rtm|ubuntu-rtm/*)
+	# debootstrap doesn't know about ubuntu-rtm series directly.  Rather
+	# than having to teach it, we employ a few hacks to make it use the
+	# Ubuntu script instead.
+	mkdir -p config/fake_debootstrap_dir/scripts
+	ln -s /usr/share/debootstrap/devices.tar.gz \
+		config/fake_debootstrap_dir/
+	ln -s /usr/share/debootstrap/functions config/fake_debootstrap_dir/
+	ln -s /usr/share/debootstrap/scripts/gutsy \
+		"config/fake_debootstrap_dir/scripts/$SUITE"
+	echo 'export DEBOOTSTRAP_DIR="$PWD/config/fake_debootstrap_dir"' \
+		>> config/bootstrap
+	;;
+esac
+
 # cribbed from cdimage, perhaps this should be a small helper script in germinate?
 add_inheritance () {
 	case " $inherit " in
