@@ -345,9 +345,13 @@ case $PROJECT in
 		    ubuntu-rtm/dogfood)
 			MIRROR=http://derived-archive.dogfood.content.paddev.net/ubuntu-rtm/
 			OPTS="${OPTS:+$OPTS }--apt-secure false"
+			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
+			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
 			;;
 		    ubuntu-rtm)
 			MIRROR=http://derived.archive.canonical.com/ubuntu-rtm/
+			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
+			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
 			;;
 		esac
 		;;
