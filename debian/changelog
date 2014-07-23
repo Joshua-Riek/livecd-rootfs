@@ -1,3 +1,10 @@
+livecd-rootfs (2.228) UNRELEASED; urgency=medium
+
+  * Pass --mirror-binary in the ubuntu-rtm case too; this isn't inherited
+    from the bootstrap mirror.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 23 Jul 2014 11:48:21 +0100
+
 livecd-rootfs (2.227) utopic; urgency=medium
 
   * Pass --mirror-chroot-security and --mirror-binary-security in the

@@ -347,11 +347,13 @@ case $PROJECT in
 			OPTS="${OPTS:+$OPTS }--apt-secure false"
 			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
 			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
+			OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
 			;;
 		    ubuntu-rtm)
 			MIRROR=http://derived.archive.canonical.com/ubuntu-rtm/
 			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
 			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
+			OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
 			;;
 		esac
 		;;
