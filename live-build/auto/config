@@ -344,6 +344,7 @@ case $PROJECT in
 		case $SUBPROJECT in
 		    ubuntu-rtm/dogfood)
 			MIRROR=http://derived-archive.dogfood.content.paddev.net/ubuntu-rtm/
+			OPTS="${OPTS:+$OPTS }--apt-secure false"
 			;;
 		    ubuntu-rtm)
 			MIRROR=http://derived.archive.canonical.com/ubuntu-rtm/
