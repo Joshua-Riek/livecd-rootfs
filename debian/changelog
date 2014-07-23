@@ -1,4 +1,4 @@
-livecd-rootfs (2.226) UNRELEASED; urgency=medium
+livecd-rootfs (2.226) utopic; urgency=medium
 
   * Disable apt authentication checks when building ubuntu-rtm images
     against dogfood (that test archive is signed, but not with a very useful
@@ -6,7 +6,7 @@ livecd-rootfs (2.226) UNRELEASED; urgency=medium
   * Apply a grievous hack to get debootstrap working against ubuntu-rtm
     series.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 23 Jul 2014 01:48:35 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 23 Jul 2014 01:50:21 +0100
 
 livecd-rootfs (2.225) utopic; urgency=medium
 
