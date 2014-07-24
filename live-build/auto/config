@@ -324,6 +324,13 @@ case $PROJECT in
 
 	ubuntu-core)
 		add_task install minimal
+                # mvo: This is for cron.daily-preinstalled
+                #      CDIMAGE_PREINSTALLED is not passed from build.py
+                #      and PREINSTALLED means something different. So
+                #      we use SUBPROJECT to pass on the information
+                if [ "$SUBPROJECT" = "system-image" ]; then
+                    add_task install ubuntu-core
+                fi
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
