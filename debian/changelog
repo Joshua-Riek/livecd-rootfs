@@ -1,3 +1,14 @@
+livecd-rootfs (2.228ubuntu1) UNRELEASED; urgency=medium
+
+  [ Michael Terry ]
+  * Don't set an arbitrary password for the phablet user. As we transition
+    to using PAM as the storage medium for the user's password, we can't
+    expect the user to know about the 'phablet' password.
+  * And configure libnss-extrausers to store user password information
+    instead of /etc/shadow.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 24 Jul 2014 15:48:31 -0700
+
 livecd-rootfs (2.228) utopic; urgency=medium
 
   * Pass --mirror-binary in the ubuntu-rtm case too; this isn't inherited

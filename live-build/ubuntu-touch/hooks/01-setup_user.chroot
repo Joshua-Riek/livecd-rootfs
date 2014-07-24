@@ -6,14 +6,32 @@ UGID=32011
 echo "I: creating default user $USER"
 adduser --gecos $USER --disabled-login $USER --uid $UGID
 
-echo "I: set user $USER password to $USER"
-echo "$USER:$USER" | chpasswd
-
-echo "I: allowing user to log in without password"
-gpasswd -a $USER nopasswdlogin
+echo "I: set user $USER password to blank"
+passwd -d $USER
 
 adduser --gecos system --no-create-home --disabled-login --disabled-password system --uid 1000
 adduser --gecos radio --no-create-home --disabled-login --disabled-password radio --uid 1001
+
+# Enable libnss-extrusers
+sed -i 's/^group:.*compat/\0 extrausers/' /etc/nsswitch.conf
+sed -i 's/^passwd:.*compat/\0 extrausers/' /etc/nsswitch.conf
+sed -i 's/^shadow:.*compat/\0 extrausers/' /etc/nsswitch.conf
+
+# Allow using pam_extrausers, with relatively weak passwords (no obscure keyword, and with minlen=4)
+sed -i '/Primary/a password        [success=2 default=ignore]      pam_extrausers.so minlen=4 sha512' /etc/pam.d/common-password
+sed -i '/Primary/a auth    [success=2 authinfo_unavail=ignore default=1] pam_extrausers.so nullok' /etc/pam.d/common-auth
+
+# Move user from /etc to extrausers location
+grep "^$USER" /etc/group >> /var/lib/extrausers/group
+grep "^$USER" /etc/passwd >> /var/lib/extrausers/passwd
+grep "^$USER" /etc/shadow >> /var/lib/extrausers/shadow
+chmod 0644 /var/lib/extrausers/group
+chmod 0644 /var/lib/extrausers/passwd
+chmod 0640 /var/lib/extrausers/shadow
+chown root:shadow /var/lib/extrausers/shadow
+sed -i "/^$USER/d" /etc/group
+sed -i "/^$USER/d" /etc/passwd
+sed -i "/^$USER/d" /etc/shadow
 
 # Prevent the system user from being presented in the greeter by bumping MIN_UID
 sed -i 's/^\(UID_MIN\s\+\).*/\11002/g' /etc/login.defs
