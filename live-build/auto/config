@@ -324,6 +324,13 @@ case $PROJECT in
 
 	ubuntu-core)
 		add_task install minimal
+                # mvo: This is for cron.daily-preinstalled
+                #      CDIMAGE_PREINSTALLED is not passed from build.py
+                #      and PREINSTALLED means something different. So
+                #      we use SUBPROJECT to pass on the information
+                if [ "$SUBPROJECT" = "system-image" ]; then
+                    add_task install ubuntu-core
+                fi
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
@@ -429,10 +436,16 @@ esac
 
 case $PROJECT in
 	ubuntu-server|ubuntu-core|ubuntu-touch)
-		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-		KERNEL_FLAVOURS=none
-		BINARY_REMOVE_LINUX=false
-		;;
+	        case $SUBPROJECT in
+			system-image)
+                                # keep the kernel for the system-image build
+				;;
+			*)
+		                OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		                KERNEL_FLAVOURS=none
+		                BINARY_REMOVE_LINUX=false
+				;;
+		esac
 esac
 
 add_chroot_hook update-apt-file-cache

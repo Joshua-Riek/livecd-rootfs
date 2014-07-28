@@ -1,3 +1,11 @@
+livecd-rootfs (2.230) utopic; urgency=low
+
+  * lp:~mvo/livecd-rootfs/ubuntu-core-system-image:
+    - install the "ubuntu-core" task and a kernel when building 
+      ubuntu-core with SUBPROJECT=system-image
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 28 Jul 2014 20:10:56 +0200
+
 livecd-rootfs (2.229) utopic; urgency=medium
 
   [ Michael Terry ]
