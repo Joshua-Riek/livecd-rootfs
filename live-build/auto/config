@@ -547,8 +547,8 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch)
-		cp -af /usr/share/livecd-rootfs/live-build/ubuntu-touch/* \
+	ubuntu-touch|ubuntu-core)
+		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;
 esac
