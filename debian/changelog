@@ -1,3 +1,12 @@
+livecd-rootfs (2.231) UNRELEASED; urgency=medium
+
+  * Hard-code installation of libmirclientplatform-android and
+    libmirplatformgraphics-android to avoid accidentally pulling in the
+    -mesa variants that are preferred as dependencies of libmirclient and
+    libmirserver.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 28 Jul 2014 20:15:43 -0700
+
 livecd-rootfs (2.230) utopic; urgency=low
 
   * lp:~mvo/livecd-rootfs/ubuntu-core-system-image:
