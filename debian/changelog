@@ -1,3 +1,11 @@
+livecd-rootfs (2.232) UNRELEASED; urgency=medium
+
+  [ James Hunt ]
+  * live-build/auto/config: Enable universe for system-image ubuntu-core
+    sub-project which requires 'system-image-cli'.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 30 Jul 2014 17:53:15 +0100
+
 livecd-rootfs (2.231) utopic; urgency=medium
 
   * Hard-code installation of libmirclientplatform-android and
