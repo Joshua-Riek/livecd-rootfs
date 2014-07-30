@@ -330,6 +330,8 @@ case $PROJECT in
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
 			add_task install ubuntu-core
+			# universe needed for 'system-image-cli'
+			COMPONENTS='main restricted universe'
 		fi
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
