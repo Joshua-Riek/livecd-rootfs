@@ -1,0 +1,12 @@
+#!/bin/sh -x
+
+USER=ubuntu
+UGID=1000
+
+echo "I: creating default user $USER"
+adduser --gecos $USER --disabled-login $USER --uid $UGID
+
+echo "I: set user $USER password to $USER"
+echo "$USER:$USER" | chpasswd
+
+chown -R $UGID:$UGID /home/$USER

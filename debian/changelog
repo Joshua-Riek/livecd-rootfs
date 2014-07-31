@@ -1,7 +1,11 @@
 livecd-rootfs (2.233) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * live-build/auto/config: Add configuration for new kubuntu-plasma5
     flavour.
+
+  [ James Hunt ]
+  * ubuntu-core: Run setup hooks as done for ubuntu-touch.
 
  -- Colin Watson <cjwatson@ubuntu.com>  Thu, 31 Jul 2014 10:27:42 +0100
 
