@@ -233,6 +233,18 @@ case $PROJECT in
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
+	kubuntu-plasma5)
+		add_task install minimal standard
+		add_package install kubuntu-plasma5-desktop
+		# Technically cheating, but PPAs don't have tasks and the
+		# live seed doesn't have a corresponding metapackage.  We'll
+		# get away with this as long as kubuntu-desktop and
+		# kubuntu-plasma5-desktop don't grow too far apart.
+		LIVE_TASK='kubuntu-live'
+		COMPONENTS='main restricted universe'
+		add_chroot_hook remove-gnome-icon-cache
+		;;
+
 	edubuntu|edubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'

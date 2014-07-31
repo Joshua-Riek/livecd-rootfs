@@ -1,3 +1,10 @@
+livecd-rootfs (2.233) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: Add configuration for new kubuntu-plasma5
+    flavour.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 31 Jul 2014 10:27:42 +0100
+
 livecd-rootfs (2.232) utopic; urgency=medium
 
   [ James Hunt ]
