@@ -1,4 +1,4 @@
-livecd-rootfs (2.234) UNRELEASED; urgency=medium
+livecd-rootfs (2.234) utopic; urgency=medium
 
   [ James Hunt ]
   * ubuntu-core:
@@ -6,7 +6,7 @@ livecd-rootfs (2.234) UNRELEASED; urgency=medium
     - Boot with systemd (temporary method until we have systemd-sysv).
     - Configure first network interface.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Mon, 04 Aug 2014 15:58:27 +0200
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 04 Aug 2014 16:12:43 +0200
 
 livecd-rootfs (2.233) utopic; urgency=medium
 
