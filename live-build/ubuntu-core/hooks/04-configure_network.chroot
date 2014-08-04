@@ -3,7 +3,7 @@
 if=eth0
 
 # Manually configure the first ethernet device
-cat <<EOT |tee -a /etc/network/interfaces
+cat >/etc/network/interfaces.d/"$if"<<EOT
 auto $if
 iface $if inet dhcp
 EOT
