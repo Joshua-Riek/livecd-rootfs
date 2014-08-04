@@ -1,3 +1,13 @@
+livecd-rootfs (2.234) UNRELEASED; urgency=medium
+
+  [ James Hunt ]
+  * ubuntu-core:
+    - Don't remove doc to be kind to devs.
+    - Boot with systemd (temporary method until we have systemd-sysv).
+    - Configure first network interface.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 04 Aug 2014 15:58:27 +0200
+
 livecd-rootfs (2.233) utopic; urgency=medium
 
   [ Colin Watson ]
