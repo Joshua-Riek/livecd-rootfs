@@ -1,3 +1,12 @@
+livecd-rootfs (2.236) UNRELEASED; urgency=medium
+
+  [ James Hunt ]
+  * ubuntu-core:
+    - Perform in-place edit.
+    - Allow variable expansion.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 05 Aug 2014 10:41:04 +0200
+
 livecd-rootfs (2.235) utopic; urgency=medium
 
   * Only add the ubuntu-core hooks for the system-image subproject.
