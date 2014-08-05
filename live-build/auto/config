@@ -342,6 +342,10 @@ case $PROJECT in
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
 			add_task install ubuntu-core
+			# Only in
+			# ppa:ubuntu-foundations-team/ubuntu/ubuntu-core-system-image
+			# at the moment, and PPAs don't have tasks.
+			add_package install click-systemd
 			# universe needed for 'system-image-cli'
 			COMPONENTS='main restricted universe'
 		fi
