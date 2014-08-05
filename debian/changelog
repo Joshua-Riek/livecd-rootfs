@@ -1,3 +1,11 @@
+livecd-rootfs (2.239) utopic; urgency=medium
+
+  * Revert part of the last change to ship the systemd hook as .chroot
+    and not .binary since it doesn't appear to be running properly as a
+    binary hook.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 05 Aug 2014 13:37:57 -0400
+
 livecd-rootfs (2.238) utopic; urgency=medium
 
   * ubuntu-core: Fix build failure due to missing /etc/default/grub and
