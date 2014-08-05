@@ -1,3 +1,9 @@
+livecd-rootfs (2.235) UNRELEASED; urgency=medium
+
+  * Only add the ubuntu-core hooks for the system-image subproject.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 05 Aug 2014 08:34:10 +0200
+
 livecd-rootfs (2.234) utopic; urgency=medium
 
   [ James Hunt ]

@@ -545,8 +545,8 @@ EOF
 	      config/archives/proposed.list.binary
 fi
 
-case $PROJECT in
-	*-dvd)
+case $PROJECT:$SUBPROJECT in
+	*-dvd:*)
 		. config/bootstrap
 
 		cat > config/archives/dvd.list.binary << EOF
@@ -561,7 +561,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch|ubuntu-core)
+	ubuntu-touch:*|ubuntu-core:system-image)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;
