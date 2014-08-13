@@ -17,10 +17,6 @@ sed -i 's/^group:.*compat/\0 extrausers/' /etc/nsswitch.conf
 sed -i 's/^passwd:.*compat/\0 extrausers/' /etc/nsswitch.conf
 sed -i 's/^shadow:.*compat/\0 extrausers/' /etc/nsswitch.conf
 
-# Allow using pam_extrausers, with relatively weak passwords (no obscure keyword, and with minlen=4)
-sed -i '/Primary/a password        [success=2 default=ignore]      pam_extrausers.so minlen=4 sha512' /etc/pam.d/common-password
-sed -i '/Primary/a auth    [success=2 authinfo_unavail=ignore default=1] pam_extrausers.so nullok' /etc/pam.d/common-auth
-
 # Move user from /etc to extrausers location
 grep "^$USER" /etc/group >> /var/lib/extrausers/group
 grep "^$USER" /etc/passwd >> /var/lib/extrausers/passwd
