@@ -1,9 +1,9 @@
-livecd-rootfs (2.241) UNRELEASED; urgency=medium
+livecd-rootfs (2.241) utopic; urgency=medium
 
   * live-build/auto/config: Use ubuntukylin-desktop task for ubuntukylin,
     not ubuntu-desktop.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 10 Sep 2014 10:53:01 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 10 Sep 2014 10:54:17 +0100
 
 livecd-rootfs (2.240) utopic; urgency=medium
 
