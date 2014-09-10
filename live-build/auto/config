@@ -315,7 +315,7 @@ case $PROJECT in
 		;;
 
 	ubuntukylin)
-		add_task install minimal standard ubuntu-desktop
+		add_task install minimal standard ubuntukylin-desktop
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntu-live'
 		case $ARCH in

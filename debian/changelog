@@ -1,3 +1,10 @@
+livecd-rootfs (2.241) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: Use ubuntukylin-desktop task for ubuntukylin,
+    not ubuntu-desktop.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 10 Sep 2014 10:53:01 +0100
+
 livecd-rootfs (2.240) utopic; urgency=medium
 
   * live-build/ubuntu-touch/hooks/01-setup_user.chroot:
