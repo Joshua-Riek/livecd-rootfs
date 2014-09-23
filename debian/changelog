@@ -1,4 +1,4 @@
-livecd-rootfs (2.243) UNRELEASED; urgency=medium
+livecd-rootfs (2.243) utopic; urgency=medium
 
   * Updating apparmor features file for Ubuntu Touch
 
