@@ -1,10 +1,10 @@
-livecd-rootfs (2.244) UNRELEASED; urgency=medium
+livecd-rootfs (2.244) utopic; urgency=medium
 
   * Substitute DEB_HOST_MULTIARCH into hook scripts at build time, rather
     than relying on dpkg-architecture (which is in dpkg-dev) to be present
     in the image.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Sep 2014 15:58:23 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 23 Sep 2014 16:07:41 +0100
 
 livecd-rootfs (2.243) utopic; urgency=medium
 
