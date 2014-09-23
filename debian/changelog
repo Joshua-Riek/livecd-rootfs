@@ -1,3 +1,9 @@
+livecd-rootfs (2.243) UNRELEASED; urgency=medium
+
+  * Updating apparmor features file for Ubuntu Touch
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 22 Sep 2014 23:59:25 -0300
+
 livecd-rootfs (2.242) utopic; urgency=medium
 
   * get-ppa-fingerprint: Adjust use of

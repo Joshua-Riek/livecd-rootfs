@@ -23,7 +23,9 @@ profile {yes
 mount {mask {mount umount
 }
 }
-network {af_mask {unspec unix local inet ax25 ipx appletalk netrom bridge atmpvc x25 inet6 rose netbeui security key netlink packet ash econet atmsvc rds sna irda pppox wanpipe llc can tipc bluetooth iucv rxrpc isdn phonet ieee802154 caif alg nfc max
+network {af_unix {yes
+}
+af_mask {unspec unix inet ax25 ipx appletalk netrom bridge atmpvc x25 inet6 rose netbeui security key netlink packet ash econet atmsvc rds sna irda pppox wanpipe llc can tipc bluetooth iucv rxrpc isdn phonet ieee802154 caif alg nfc
 }
 }
 file {mask {create read write exec append mmap_exec link lock
@@ -40,7 +42,9 @@ change_hat {yes
 }
 policy {set_load {yes
 }
-versions {v6 {yes
+versions {v7 {yes
+}
+v6 {yes
 }
 v5 {yes
 }
