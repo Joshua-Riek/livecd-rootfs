@@ -317,7 +317,7 @@ case $PROJECT in
 	ubuntukylin)
 		add_task install minimal standard ubuntukylin-desktop
 		add_package install ubuntukylin-default-settings
-		LIVE_TASK='ubuntu-live'
+		LIVE_TASK='ubuntukylin-live'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
