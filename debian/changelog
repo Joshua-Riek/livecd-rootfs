@@ -1,3 +1,19 @@
+livecd-rootfs (2.245) utopic; urgency=medium
+
+  * Add two new hooks for Ubuntu Touch to setup sensible /etc/passwd,
+    /etc/shadow, /etc/group and /etc/gshadow PRIOR to package installation
+    to guarantee user/group ordering on the image and then to check for any
+    unexpected change to those files. (LP: #1332538)
+
+    Any change to either the initial set of users and groups or to the
+    post-package-install set will now be fatal to the image and will require
+    a manual update of the hardcoded user/group list contained in this new
+    chroot_early hook.
+  * Bump dependency on live-build accordingly.
+  * Update the setup_user hook to also take care of gshadow.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 22 Sep 2014 16:02:58 -0400
+
 livecd-rootfs (2.244) utopic; urgency=medium
 
   * Substitute DEB_HOST_MULTIARCH into hook scripts at build time, rather

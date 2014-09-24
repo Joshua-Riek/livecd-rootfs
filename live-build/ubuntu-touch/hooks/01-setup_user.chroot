@@ -21,13 +21,17 @@ sed -i 's/^shadow:.*compat/\0 extrausers/' /etc/nsswitch.conf
 grep "^$USER" /etc/group >> /var/lib/extrausers/group
 grep "^$USER" /etc/passwd >> /var/lib/extrausers/passwd
 grep "^$USER" /etc/shadow >> /var/lib/extrausers/shadow
+grep "^$USER" /etc/gshadow >> /var/lib/extrausers/gshadow
 chmod 0644 /var/lib/extrausers/group
 chmod 0644 /var/lib/extrausers/passwd
 chmod 0640 /var/lib/extrausers/shadow
+chmod 0640 /var/lib/extrausers/gshadow
 chown root:shadow /var/lib/extrausers/shadow
+chown root:shadow /var/lib/extrausers/gshadow
 sed -i "/^$USER/d" /etc/group
 sed -i "/^$USER/d" /etc/passwd
 sed -i "/^$USER/d" /etc/shadow
+sed -i "/^$USER/d" /etc/gshadow
 
 # Prevent the system user from being presented in the greeter by bumping MIN_UID
 sed -i 's/^\(UID_MIN\s\+\).*/\11002/g' /etc/login.defs
