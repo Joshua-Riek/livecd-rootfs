@@ -1,10 +1,10 @@
-livecd-rootfs (2.247) UNRELEASED; urgency=medium
+livecd-rootfs (2.247) utopic; urgency=medium
 
   * live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early:
     Create some directories which would otherwise go missing due to our
     pre-created users. (LP: #1374553)
 
- -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 26 Sep 2014 14:39:49 -0400
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 26 Sep 2014 14:41:19 -0400
 
 livecd-rootfs (2.246) utopic; urgency=medium
 
