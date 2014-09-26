@@ -1,3 +1,11 @@
+livecd-rootfs (2.247) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/07-configure-system-image-client.chroot:
+    Configure system-image-cli's client.ini for Ubuntu Core. This can be
+    dropped once bug 1373467 is fixed.
+
+ -- James Hunt <james.hunt@ubuntu.com>  Fri, 26 Sep 2014 15:49:12 +0100
+
 livecd-rootfs (2.246) utopic; urgency=medium
 
   * live-build/auto/config: Use ubuntukylin-live task for ubuntukylin, not
