@@ -1,3 +1,10 @@
+livecd-rootfs (2.247) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Configure
+    resolv.donf for Ubuntu Core. 
+
+ -- James Hunt <james.hunt@ubuntu.com>  Fri, 26 Sep 2014 15:33:45 +0100
+
 livecd-rootfs (2.246) utopic; urgency=medium
 
   * live-build/auto/config: Use ubuntukylin-live task for ubuntukylin, not
