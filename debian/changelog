@@ -1,4 +1,4 @@
-livecd-rootfs (2.248) UNRELEASED; urgency=medium
+livecd-rootfs (2.248) utopic; urgency=medium
 
   * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Configure
     resolv.conf for Ubuntu Core. 
@@ -6,7 +6,7 @@ livecd-rootfs (2.248) UNRELEASED; urgency=medium
     Configure system-image-cli's client.ini for Ubuntu Core. This can be
     dropped once bug 1373467 is fixed.
 
- -- James Hunt <james.hunt@ubuntu.com>  Fri, 26 Sep 2014 15:33:45 +0100
+ -- James Hunt <james.hunt@ubuntu.com>  Fri, 03 Oct 2014 15:23:47 +0100
 
 livecd-rootfs (2.247) utopic; urgency=medium
 
