@@ -1,3 +1,10 @@
+livecd-rootfs (2.248) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Configure
+    resolv.conf for Ubuntu Core. 
+
+ -- James Hunt <james.hunt@ubuntu.com>  Fri, 26 Sep 2014 15:33:45 +0100
+
 livecd-rootfs (2.247) utopic; urgency=medium
 
   * live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early:
