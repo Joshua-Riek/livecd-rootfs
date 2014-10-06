@@ -1,4 +1,4 @@
-livecd-rootfs (2.249) UNRELEASED; urgency=medium
+livecd-rootfs (2.249) utopic; urgency=medium
 
   * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Remove
     pre-existing /etc/resolv.conf.
