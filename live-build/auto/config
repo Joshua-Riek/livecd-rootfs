@@ -341,6 +341,7 @@ case $PROJECT in
 		#      and PREINSTALLED means something different. So
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
+		        OPTS="${OPTS:+$OPTS }--apt-recommends false"
 			add_task install ubuntu-core
 			# Only in
 			# ppa:ubuntu-foundations-team/ubuntu/ubuntu-core-system-image

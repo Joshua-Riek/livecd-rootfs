@@ -1,3 +1,9 @@
+livecd-rootfs (2.250) UNRELEASED; urgency=low
+
+  * build system-image without recommends
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 07 Oct 2014 11:44:09 +0200
+
 livecd-rootfs (2.249) utopic; urgency=medium
 
   * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Remove
