@@ -1,8 +1,13 @@
 livecd-rootfs (2.250) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * build system-image without recommends
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 07 Oct 2014 11:44:09 +0200
+  [ James Hunt ]
+  * Convert resolvconf hook from a chroot hook to a binary hook since lb
+    overwrites /etc/resolv.conf after the chroot hooks have run.
+
+ -- James Hunt <james.hunt@ubuntu.com>  Thu, 09 Oct 2014 11:41:55 +0100
 
 livecd-rootfs (2.249) utopic; urgency=medium
 
