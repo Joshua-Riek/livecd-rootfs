@@ -1,0 +1,7 @@
+#!/bin/sh -x
+#---------------------------------------------------------------------
+# this must be run as a binary hook (outside the chroot) since lb
+# massages resolv.conf on finishing the chroot operations.
+#---------------------------------------------------------------------
+
+ln -fs /run/resolvconf/resolv.conf chroot/etc/resolv.conf
