@@ -1,4 +1,4 @@
-livecd-rootfs (2.250) UNRELEASED; urgency=low
+livecd-rootfs (2.250) utopic; urgency=low
 
   * build system-image without recommends
 
