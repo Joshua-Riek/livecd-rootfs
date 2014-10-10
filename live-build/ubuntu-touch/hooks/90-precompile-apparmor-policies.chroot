@@ -20,7 +20,7 @@ mkdir -p /custom/lib/apparmor/profiles
 for manifest in /var/lib/apparmor/clicks/*; do
 	case $(readlink -f $manifest) in
 		/custom/*)
-			mv $manifest /custom/lib/apparmor/clicks/$manifest
+			mv $manifest /custom/lib/apparmor/clicks/$(basename $manifest)
 			profile=$(basename $manifest .json)
 			mv /var/lib/apparmor/profiles/click_$profile /custom/lib/apparmor/profiles
 			;;
