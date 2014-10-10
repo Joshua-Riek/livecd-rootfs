@@ -1,3 +1,10 @@
+livecd-rootfs (2.253) UNRELEASED; urgency=medium
+
+  * Add support to the ubuntu-touch target to generate a separate custom
+    tarball as part of the build, moving most click packages into it.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Oct 2014 20:46:46 -0700
+
 livecd-rootfs (2.252) utopic; urgency=low
 
   [ James Hunt ]
