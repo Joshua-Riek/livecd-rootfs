@@ -301,7 +301,7 @@ fi
 if [ "$PROJECT" = "ubuntu-touch" ]; then
 	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
-	chmod 644 "$PREFIX.custom.tar.gZ"
+	chmod 644 "$PREFIX.custom.tar.gz"
 fi
 
 # '--initramfs none' produces different manifest names.
