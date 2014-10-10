@@ -11,3 +11,18 @@ echo "I: precompiling deb apparmor policies"
 echo "I: precompiling custom click apparmor policies"
 mkdir -p /custom/cache/apparmor
 /sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/custom/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
+
+
+#get the apparmor manifests and profiles
+mkdir -p /custom/lib/apparmor/clicks
+mkdir -p /custom/lib/apparmor/profiles
+
+for manifest in /var/lib/apparmor/clicks/*; do
+	case $(readlink -f $manifest) in
+		/custom/*)
+			mv $manifest /custom/lib/apparmor/clicks/$manifest
+			profile=$(basename $manifest .json)
+			mv /var/lib/apparmor/profiles/click_$profile /custom/lib/apparmor/profiles
+			;;
+	esac
+done
