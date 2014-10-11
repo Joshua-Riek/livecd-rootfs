@@ -1,3 +1,11 @@
+livecd-rootfs (2.254) UNRELEASED; urgency=medium
+
+  * force the right alternative when the libmir*-android packages are
+    installed, so that accidentially pulled in -mesa versions will not provide
+    the default alternatives for them in ubuntu-touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 11 Oct 2014 13:09:49 +0200
+
 livecd-rootfs (2.253) utopic; urgency=medium
 
   * Update hardcoded libmir*-android installations for Mir 0.8.0.

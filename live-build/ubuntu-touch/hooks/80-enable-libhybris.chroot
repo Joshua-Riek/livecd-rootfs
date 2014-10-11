@@ -3,5 +3,16 @@
 echo "I: making libhybris the default alternatives for @DEB_HOST_MULTIARCH@_egl_conf"
 update-alternatives --set @DEB_HOST_MULTIARCH@_egl_conf /usr/lib/@DEB_HOST_MULTIARCH@/libhybris-egl/ld.so.conf
 
+if dpkg -l libmirclient8driver-android 2>/dev/null|grep -q ^ii; then
+    echo "I: making android the default alternatives for @DEB_HOST_MULTIARCH@_mirclient8driver_conf"
+    update-alternatives --set @DEB_HOST_MULTIARCH@_mirclient8driver_conf /usr/lib/@DEB_HOST_MULTIARCH@/client8driver/android/ld.so.conf
+fi
+
+
+if dpkg -l libmirplatform3driver-android 2>/dev/null|grep -q ^ii; then
+    echo "I: making android the default alternatives for @DEB_HOST_MULTIARCH@_mirplatform3driver_conf"
+    update-alternatives --set @DEB_HOST_MULTIARCH@_mirplatform3driver_conf /usr/lib/@DEB_HOST_MULTIARCH@/platform3driver/android/ld.so.conf
+fi
+
 # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
 LDCONFIG_NOTRIGGER=y ldconfig
