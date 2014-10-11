@@ -1,4 +1,4 @@
-livecd-rootfs (2.254) UNRELEASED; urgency=medium
+livecd-rootfs (2.254) utopic; urgency=medium
 
   * force the right alternative when the libmir*-android packages are
     installed, so that accidentially pulled in -mesa versions will not provide
