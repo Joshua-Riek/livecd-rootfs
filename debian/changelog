@@ -1,3 +1,9 @@
+livecd-rootfs (2.253) UNRELEASED; urgency=medium
+
+  * Update hardcoded libmir*-android installations for Mir 0.8.0.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 11 Oct 2014 08:54:13 +0100
+
 livecd-rootfs (2.252) utopic; urgency=low
 
   [ James Hunt ]
