@@ -29,10 +29,10 @@ for manifest in /var/lib/apparmor/clicks/*; do
 	version="${pkgdir##*/}"
 	pkgdir_noversion="${pkgdir%/*}"
 	name="${pkgdir_noversion##*/}"
+	profile="$(basename "$manifest" .json)"
 	if [ -d "/custom/click/$name/$version" ]; then
 		# Clone into custom.
 		ln -nsf "/custom/click/$name/$version$manifest_tail" "/custom/lib/apparmor/clicks/${manifest##*/}"
-		profile="$(basename "$manifest" .json)"
 		cp -a "/var/lib/apparmor/profiles/click_$profile" /custom/lib/apparmor/profiles/
 		if [ -d "/usr/share/click/preinstalled/$name/$version" ]; then
 			# Ensure that the version in the rootfs points to
@@ -42,6 +42,10 @@ for manifest in /var/lib/apparmor/clicks/*; do
 			# Remove from the rootfs.
 			rm -f "$manifest"
 			rm -f "/var/lib/apparmor/profiles/click_$profile"
+			rm -f "/var/cache/apparmor/click_$profile"
 		fi
+	else
+		# Remove from custom.
+		rm -f "/custom/cache/apparmor/click_$profile"
 	fi
 done
