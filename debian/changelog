@@ -1,9 +1,23 @@
-livecd-rootfs (2.253) UNRELEASED; urgency=medium
+livecd-rootfs (2.255) UNRELEASED; urgency=medium
 
   * Add support to the ubuntu-touch target to generate a separate custom
     tarball as part of the build, moving most click packages into it.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Oct 2014 20:46:46 -0700
+
+livecd-rootfs (2.254) utopic; urgency=medium
+
+  * force the right alternative when the libmir*-android packages are
+    installed, so that accidentially pulled in -mesa versions will not provide
+    the default alternatives for them in ubuntu-touch images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sat, 11 Oct 2014 13:09:49 +0200
+
+livecd-rootfs (2.253) utopic; urgency=medium
+
+  * Update hardcoded libmir*-android installations for Mir 0.8.0.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sat, 11 Oct 2014 08:54:47 +0100
 
 livecd-rootfs (2.252) utopic; urgency=low
 
