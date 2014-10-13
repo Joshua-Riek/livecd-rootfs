@@ -1,4 +1,4 @@
-livecd-rootfs (2.255) UNRELEASED; urgency=medium
+livecd-rootfs (2.255) utopic; urgency=medium
 
   [ Steve Langasek ]
   * Add support to the ubuntu-touch target to generate a separate custom
@@ -8,7 +8,7 @@ livecd-rootfs (2.255) UNRELEASED; urgency=medium
   * Temporarily install the to-be-moved click packages in both core and
     custom databases, to simplify the landing process.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Oct 2014 20:46:46 -0700
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 14 Oct 2014 00:12:08 +0100
 
 livecd-rootfs (2.254) utopic; urgency=medium
 
