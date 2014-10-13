@@ -18,11 +18,29 @@ mkdir -p /custom/lib/apparmor/clicks
 mkdir -p /custom/lib/apparmor/profiles
 
 for manifest in /var/lib/apparmor/clicks/*; do
-	case $(readlink -f $manifest) in
-		/custom/*)
-			mv $manifest /custom/lib/apparmor/clicks/$(basename $manifest)
-			profile=$(basename $manifest .json)
-			mv /var/lib/apparmor/profiles/click_$profile /custom/lib/apparmor/profiles
-			;;
-	esac
+	# FIXME: if this code survives for very long, it should probably be
+	# rewritten using click's Python bindings
+	pkgdir="$(click pkgdir "$manifest")"
+	manifest_tail="${manifest#$pkgdir}"
+	# Does this package exist in the custom tarball?  If so, move its
+	# profiles there (if it only exists in custom) or copy them (if it
+	# also exists in core).
+	version="${pkgdir##*/}"
+	pkgdir_noversion="${pkgdir%/*}"
+	name="${pkgdir_noversion##*/}"
+	if [ -d "/custom/click/$name/$version" ]; then
+		# Clone into custom.
+		ln -nsf "/custom/click/$name/$version$manifest_tail" "/custom/lib/apparmor/clicks$manifest_tail"
+		profile="$(basename "$manifest" .json)"
+		cp -a "/var/lib/apparmor/profiles/click_$profile" /custom/lib/apparmor/profiles/
+		if [ -d "/usr/share/click/preinstalled/$name/$version" ]; then
+			# Ensure that the version in the rootfs points to
+			# the core database.
+			ln -nsf "/usr/share/click/preinstalled/$name/$version$manifest_tail" "$manifest"
+		else
+			# Remove from the rootfs.
+			rm -f "$manifest"
+			rm -f "/var/lib/apparmor/profiles/click_$profile"
+		fi
+	fi
 done
