@@ -21,7 +21,8 @@ for manifest in /var/lib/apparmor/clicks/*; do
 	# FIXME: if this code survives for very long, it should probably be
 	# rewritten using click's Python bindings
 	pkgdir="$(click pkgdir "$manifest")"
-	manifest_tail="${manifest#$pkgdir}"
+	manifest_real="$(readlink -f "$manifest")"
+	manifest_tail="${manifest_real#$pkgdir}"
 	# Does this package exist in the custom tarball?  If so, move its
 	# profiles there (if it only exists in custom) or copy them (if it
 	# also exists in core).
