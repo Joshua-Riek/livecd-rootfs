@@ -32,15 +32,15 @@ do
         # the custom tarball
         case $package in
             com.ubuntu.developer.webapps.webapp-amazon_*|\
-            com.ubuntu.dropping-letters_*|\
             com.ubuntu.developer.webapps.webapp-ebay_*|\
-            com.ubuntu.filemanager_*|\
+            com.ubuntu.developer.webapps.webapp-facebook_*|\
             com.ubuntu.developer.webapps.webapp-gmail_*|\
+            com.ubuntu.developer.webapps.webapp-twitter_*|\
+            com.ubuntu.dropping-letters_*|\
+            com.ubuntu.filemanager_*|\
             com.ubuntu.reminders_*|\
             com.ubuntu.sudoku_*|\
-            com.ubuntu.terminal_*|\
-            com.ubuntu.developer.webapps.webapp-facebook_*|\
-            com.ubuntu.developer.webapps.webapp-twitter_*)
+            com.ubuntu.terminal_*)
                 root="$click_db_custom"
                 ;;
             *)
