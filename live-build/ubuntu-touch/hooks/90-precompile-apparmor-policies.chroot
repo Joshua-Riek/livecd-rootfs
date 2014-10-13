@@ -31,7 +31,7 @@ for manifest in /var/lib/apparmor/clicks/*; do
 	name="${pkgdir_noversion##*/}"
 	if [ -d "/custom/click/$name/$version" ]; then
 		# Clone into custom.
-		ln -nsf "/custom/click/$name/$version$manifest_tail" "/custom/lib/apparmor/clicks$manifest_tail"
+		ln -nsf "/custom/click/$name/$version$manifest_tail" "/custom/lib/apparmor/clicks/${manifest##*/}"
 		profile="$(basename "$manifest" .json)"
 		cp -a "/var/lib/apparmor/profiles/click_$profile" /custom/lib/apparmor/profiles/
 		if [ -d "/usr/share/click/preinstalled/$name/$version" ]; then
