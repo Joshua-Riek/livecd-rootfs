@@ -41,13 +41,15 @@ do
             com.ubuntu.reminders_*|\
             com.ubuntu.sudoku_*|\
             com.ubuntu.terminal_*)
-                root="$click_db_custom"
+                roots="$click_db $click_db_custom"
                 ;;
             *)
-                root="$click_db"
+                roots="$click_db"
                 ;;
         esac
-        click install --force-missing-framework --root="$root" --all-users \
-            "$tmpdir/$package"
+        for root in $roots; do
+            click install --force-missing-framework --root="$root" --all-users \
+                "$tmpdir/$package"
+        done
     fi
 done
