@@ -16,8 +16,15 @@ chown clickpkg:clickpkg "$click_db"
 mkdir -p -m 755 "$click_db_custom"
 chown clickpkg:clickpkg "$click_db_custom"
 
+# move default configuration aside to stop click being clever about symlink
+# layering
+mv /etc/click/databases /etc/click/databases.tmp
+
 tmpdir="$(mktemp -d)"
-cleanup () { rm -rf "$tmpdir"; }
+cleanup () {
+    rm -rf "$tmpdir"
+    mv /etc/click/databases.tmp /etc/click/databases
+}
 trap cleanup EXIT
 
 CLICKARCH=$(dpkg --print-architecture)
