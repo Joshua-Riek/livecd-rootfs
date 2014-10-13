@@ -298,6 +298,12 @@ elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
 fi
 
+if [ "$PROJECT" = "ubuntu-touch" ]; then
+	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
+		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
+	chmod 644 "$PREFIX.custom.tar.gz"
+fi
+
 # '--initramfs none' produces different manifest names.
 if [ -e "binary/$INITFS/filesystem.packages" ]; then
 	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"

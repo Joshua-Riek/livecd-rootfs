@@ -7,9 +7,14 @@ echo "Setting up click packages"
 click_uri=http://archive-team.internal/click_packages
 click_list=$click_uri/click_list
 click_db=/usr/share/click/preinstalled
+click_db_custom=/custom/click
 
 mkdir -p -m 755 "$click_db"
 chown clickpkg:clickpkg "$click_db"
+
+# some of these get installed to /custom/click
+mkdir -p -m 755 "$click_db_custom"
+chown clickpkg:clickpkg "$click_db_custom"
 
 tmpdir="$(mktemp -d)"
 cleanup () { rm -rf "$tmpdir"; }
@@ -23,7 +28,40 @@ do
     if echo $package | egrep -q "_$CLICKARCH.click|_all.click|_unknown.click"; then
         echo "Setting up $package"
         wget --no-verbose -O "$tmpdir/$package" "$click_uri/$package"
-        click install --force-missing-framework --root="$click_db" --all-users \
-            "$tmpdir/$package"
+	# FIXME: first attempt, a hard-coded list of the packages that go to
+        # the custom tarball
+        case $package in
+            com.ubuntu.developer.webapps.webapp-amazon_*|\
+            com.ubuntu.developer.webapps.webapp-ebay_*|\
+            com.ubuntu.developer.webapps.webapp-facebook_*|\
+            com.ubuntu.developer.webapps.webapp-gmail_*|\
+            com.ubuntu.developer.webapps.webapp-twitter_*|\
+            com.ubuntu.dropping-letters_*|\
+            com.ubuntu.filemanager_*|\
+            com.ubuntu.reminders_*|\
+            com.ubuntu.sudoku_*|\
+            com.ubuntu.terminal_*)
+                roots="$click_db $click_db_custom"
+                ;;
+            *)
+                roots="$click_db"
+                ;;
+        esac
+        for root in $roots; do
+            if [ "$root" = "$click_db_custom" ]; then
+                # FIXME: there is no good way to stop click from
+                # deduplicating things when installing the same package in
+                # multiple databases; the best we can do is to temporarily
+                # pretend that the core database does not exist
+                mv /etc/click/databases/10_core.conf \
+                   /etc/click/databases/10_core.conf.tmp
+            fi
+            click install --force-missing-framework --root="$root" --all-users \
+                "$tmpdir/$package"
+            if [ "$root" = "$click_db_custom" ]; then
+                mv /etc/click/databases/10_core.conf.tmp \
+                   /etc/click/databases/10_core.conf
+            fi
+        done
     fi
 done
