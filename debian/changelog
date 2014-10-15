@@ -1,8 +1,8 @@
-livecd-rootfs (2.256) UNRELEASED; urgency=medium
+livecd-rootfs (2.256) utopic; urgency=medium
 
   * Fix directory layout of custom tarball.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 15 Oct 2014 17:11:58 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 15 Oct 2014 17:12:23 +0100
 
 livecd-rootfs (2.255) utopic; urgency=medium
 
