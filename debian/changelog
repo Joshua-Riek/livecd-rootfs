@@ -1,3 +1,10 @@
+livecd-rootfs (2.257) UNRELEASED; urgency=medium
+
+  * Drop the click packages moved in 2.255 from the rootfs, leaving them
+    only in the custom tarball.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 15 Oct 2014 21:05:00 +0100
+
 livecd-rootfs (2.256) utopic; urgency=medium
 
   * Fix directory layout of custom tarball.

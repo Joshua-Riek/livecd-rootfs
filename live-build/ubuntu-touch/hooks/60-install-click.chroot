@@ -41,7 +41,7 @@ do
             com.ubuntu.reminders_*|\
             com.ubuntu.sudoku_*|\
             com.ubuntu.terminal_*)
-                roots="$click_db $click_db_custom"
+                roots="$click_db_custom"
                 ;;
             *)
                 roots="$click_db"
