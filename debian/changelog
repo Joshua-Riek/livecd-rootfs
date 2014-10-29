@@ -1,4 +1,4 @@
-livecd-rootfs (2.259) UNRELEASED; urgency=medium
+livecd-rootfs (2.259) vivid; urgency=medium
 
   * merge ubuntu-core system-image fixes from the PPA:
     - add ubuntu-core-libs
