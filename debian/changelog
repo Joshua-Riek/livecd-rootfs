@@ -1,4 +1,4 @@
-livecd-rootfs (2.262) UNRELEASED; urgency=medium
+livecd-rootfs (2.262) vivid; urgency=medium
 
   * fix typo in 99zz-check-uid-gid.chroot
   * add systemd users to group and passwd files on touch
