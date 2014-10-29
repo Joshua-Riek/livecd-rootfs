@@ -39,13 +39,13 @@ if [ "$gshadow_length" != "$gshadow_orig_length" ]; then
 fi
 
 if [ -n "$ERRCNT" ]; then
-	echo "There were changes to the password database,"
-	echo "please adjust the values in the livecd-rootfs source in the file:"
-	echo "live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early"
-	echo
-	echo "Please check also if a maintainer script of the package"
-	echo "that added these entries perhaps crated a home directory and,"
-	echo "if needed, add code for creation of it to the above hook"
+	echo "There were changes to the password database," >&2
+	echo "please adjust the values in the livecd-rootfs source in the file:" >&2
+	echo "live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early" >&2
+	echo >&2
+	echo "Please check also if a maintainer script of the package" >&2
+	echo "that added these entries perhaps crated a home directory and," >&2
+	echo "if needed, add code for creation of it to the above hook" >&2
 	exit 1
 fi
 
