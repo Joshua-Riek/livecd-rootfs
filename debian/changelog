@@ -1,4 +1,4 @@
-livecd-rootfs (2.261) UNRELEASED; urgency=medium
+livecd-rootfs (2.261) vivid; urgency=medium
 
   * make diff not exit 1 if we show the diff for passwd, shadow, group etc
 
