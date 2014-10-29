@@ -1,4 +1,4 @@
-livecd-rootfs (2.260) UNRELEASED; urgency=medium
+livecd-rootfs (2.260) vivid; urgency=medium
 
   * properly redirect error output in 99zz-check-uid-gid.chroot so it ends up
     in the log files.
