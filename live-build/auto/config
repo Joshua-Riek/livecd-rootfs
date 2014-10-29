@@ -343,10 +343,19 @@ case $PROJECT in
 		if [ "$SUBPROJECT" = "system-image" ]; then
 		        OPTS="${OPTS:+$OPTS }--apt-recommends false"
 			add_task install ubuntu-core
-			# Only in
-			# ppa:ubuntu-foundations-team/ubuntu/ubuntu-core-system-image
-			# at the moment, and PPAs don't have tasks.
-			add_package install click-systemd
+
+                        # some workarounds because the seeds are not quite
+                        # corrent at the moment
+		        add_package install dbus
+		        add_package install libpam-systemd
+                        case $ARCH in
+				i386|amd64)	
+			        add_package install grub-pc ;;
+                        esac
+
+                        # contains the framework definition
+                        add_package install ubuntu-core-libs
+
 			# universe needed for 'system-image-cli'
 			COMPONENTS='main restricted universe'
 		fi

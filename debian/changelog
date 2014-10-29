@@ -1,3 +1,13 @@
+livecd-rootfs (2.259) UNRELEASED; urgency=medium
+
+  * merge ubuntu-core system-image fixes from the PPA:
+    - add ubuntu-core-libs
+    - add packages not (yet) in the ubuntu-core seed
+    - fix resolv.conf
+    - make timezone, localtime and hostname writable for cloud-init
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 29 Oct 2014 11:05:29 +0100
+
 livecd-rootfs (2.258) vivid; urgency=medium
 
   * collect changes to /etc/{passwd|shadow|group|gshadow} in the error output
