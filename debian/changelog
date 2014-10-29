@@ -1,3 +1,9 @@
+livecd-rootfs (2.261) UNRELEASED; urgency=medium
+
+  * make diff not exit 1 if we show the diff for passwd, shadow, group etc
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 Oct 2014 16:44:25 +0100
+
 livecd-rootfs (2.260) vivid; urgency=medium
 
   * properly redirect error output in 99zz-check-uid-gid.chroot so it ends up
