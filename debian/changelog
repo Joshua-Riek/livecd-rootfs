@@ -1,4 +1,4 @@
-livecd-rootfs (2.258) UNRELEASED; urgency=medium
+livecd-rootfs (2.258) vivid; urgency=medium
 
   * collect changes to /etc/{passwd|shadow|group|gshadow} in the error output
     in case they got updated on ubuntu-touch. Give a proper hint what to
