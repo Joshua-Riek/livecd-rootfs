@@ -1,3 +1,11 @@
+livecd-rootfs (2.258) UNRELEASED; urgency=medium
+
+  * collect changes to /etc/{passwd|shadow|group|gshadow} in the error output
+    in case they got updated on ubuntu-touch. Give a proper hint what to
+    change to make the error go away on the next run.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 Oct 2014 09:49:56 +0100
+
 livecd-rootfs (2.257) utopic; urgency=medium
 
   * Drop the click packages moved in 2.255 from the rootfs, leaving them
