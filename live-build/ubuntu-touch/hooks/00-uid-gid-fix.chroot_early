@@ -46,6 +46,10 @@ lxc-dnsmasq:x:109:114:LXC dnsmasq,,,:/var/lib/lxc:/bin/false
 pulse:x:110:115:PulseAudio daemon,,,:/var/run/pulse:/bin/false
 system:x:1000:1000:system,,,:/nonexistent:/bin/false
 radio:x:1001:1001:radio,,,:/nonexistent:/bin/false
+systemd-timesync:x:111:113:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:112:117:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:113:118:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:114:119:systemd Bus Proxy,,,:/run/systemd:/bin/false
 EOF
 else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
@@ -86,6 +90,10 @@ lxc-dnsmasq:!:16329:0:99999:7:::
 pulse:*:16329:0:99999:7:::
 system:!:16329:0:99999:7:::
 radio:!:16329:0:99999:7:::
+systemd-timesync:*:16372:0:99999:7:::
+systemd-network:*:16372:0:99999:7:::
+systemd-resolve:*:16372:0:99999:7:::
+systemd-bus-proxy:*:16372:0:99999:7:::
 EOF
 else
     echo "/etc/shadow post-debootstrap hash doesn't match record" >&2
@@ -162,6 +170,10 @@ sdcard_rw:x:1015:
 android_media:x:1013:
 android_nvram:x:9997:
 android_cache:x:2001:
+systemd-timesync:x:113:
+systemd-network:x:117:
+systemd-resolve:x:118:
+systemd-bus-proxy:x:119:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -238,6 +250,10 @@ sdcard_rw:!::
 android_media:!::
 android_nvram:!::
 android_cache:!::
+systemd-timesync:!::
+systemd-network:!::
+systemd-resolve:!::
+systemd-bus-proxy:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2

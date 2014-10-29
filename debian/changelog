@@ -1,3 +1,10 @@
+livecd-rootfs (2.262) UNRELEASED; urgency=medium
+
+  * fix typo in 99zz-check-uid-gid.chroot
+  * add systemd users to group and passwd files on touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 29 Oct 2014 19:54:28 +0100
+
 livecd-rootfs (2.261) vivid; urgency=medium
 
   * make diff not exit 1 if we show the diff for passwd, shadow, group etc

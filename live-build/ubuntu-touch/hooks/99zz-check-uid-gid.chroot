@@ -44,7 +44,7 @@ if [ -n "$ERRCNT" ]; then
 	echo "live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early" >&2
 	echo >&2
 	echo "Please check also if a maintainer script of the package" >&2
-	echo "that added these entries perhaps crated a home directory and," >&2
+	echo "that added these entries perhaps created a home directory and," >&2
 	echo "if needed, add code for creation of it to the above hook" >&2
 	exit 1
 fi
