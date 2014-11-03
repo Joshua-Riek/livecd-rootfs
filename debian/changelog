@@ -1,4 +1,4 @@
-livecd-rootfs (2.263) UNRELEASED; urgency=medium
+livecd-rootfs (2.263) vivid; urgency=medium
 
   * live-build/auto/config:
     - explicitly set KERNEL_FLAVOURS=generic to get the right kernel
