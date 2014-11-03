@@ -1,4 +1,4 @@
-livecd-rootfs (2.265) UNRELEASED; urgency=low
+livecd-rootfs (2.265) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/03-boot_with_systemd.chroot:
     - only modify /etc/default/grub if the file exists
