@@ -1,4 +1,4 @@
-livecd-rootfs (2.264) UNRELEASED; urgency=low
+livecd-rootfs (2.264) vivid; urgency=low
 
   * live-build/auto/config:
     - also install flash-kernel/u-boot-tools in the armhf system-image,
