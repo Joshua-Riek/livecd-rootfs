@@ -353,6 +353,9 @@ case $PROJECT in
 			        add_package install grub-pc ;;
                         esac
 
+                        # generic kernel on amd64/arm for now
+                        KERNEL_FLAVOURS=generic
+
                         # contains the framework definition
                         add_package install ubuntu-core-libs
 

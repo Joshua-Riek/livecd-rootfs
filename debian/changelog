@@ -1,3 +1,11 @@
+livecd-rootfs (2.263) UNRELEASED; urgency=medium
+
+  * live-build/auto/config:
+    - explicitly set KERNEL_FLAVOURS=generic to get the right kernel
+      on armhf
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 03 Nov 2014 11:30:02 +0100
+
 livecd-rootfs (2.262) vivid; urgency=medium
 
   * fix typo in 99zz-check-uid-gid.chroot
