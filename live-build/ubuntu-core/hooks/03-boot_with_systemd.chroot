@@ -3,7 +3,9 @@
 # Boot using systemd and disable quiet boot
 # to see what is happening.
 systemd=/lib/systemd/systemd
-[ -f /etc/default/grub ] && sed -i \
-    -e "s,^\\([ 	]*GRUB_CMDLINE_LINUX\\)=\"\"$,\\1=\"init=$systemd\",g" \
-    -e 's,^\([ 	]*GRUB_CMDLINE_LINUX_DEFAULT\)="quiet splash",\1="",g' \
+if [ -f /etc/default/grub ]; then
+    sed -i \
+        -e "s,^\\([ 	]*GRUB_CMDLINE_LINUX\\)=\"\"$,\\1=\"init=$systemd\",g" \
+        -e 's,^\([ 	]*GRUB_CMDLINE_LINUX_DEFAULT\)="quiet splash",\1="",g' \
     /etc/default/grub
+fi
