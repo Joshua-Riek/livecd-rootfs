@@ -349,8 +349,12 @@ case $PROJECT in
 		        add_package install dbus
 		        add_package install libpam-systemd
                         case $ARCH in
-				i386|amd64)	
-			        add_package install grub-pc ;;
+			    i386|amd64)	
+			        add_package install grub-pc
+                                ;;
+                            armhf)
+                                add_package install flash-kernel u-boot-tools
+                                ;;
                         esac
 
                         # generic kernel on amd64/arm for now
