@@ -39,6 +39,7 @@ do
             com.ubuntu.dropping-letters_*|\
             com.ubuntu.filemanager_*|\
             com.ubuntu.reminders_*|\
+            com.ubuntu.shorts_*|\
             com.ubuntu.sudoku_*|\
             com.ubuntu.terminal_*)
                 roots="$click_db_custom"

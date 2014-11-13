@@ -1,3 +1,9 @@
+livecd-rootfs (2.266) vivid; urgency=medium
+
+  * Move the shorts click package to the custom tarball.  LP: #1386177.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Nov 2014 23:15:15 -0800
+
 livecd-rootfs (2.265) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/03-boot_with_systemd.chroot:
