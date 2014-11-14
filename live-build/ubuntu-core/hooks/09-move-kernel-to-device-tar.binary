@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+echo "Moving kernel into device tarball"
+
+# remove the kernel, its part of the bootimg
+HERE=$(pwd)
+(cd binary/boot/filesystem.dir && \
+    tar czf $HERE/device.tar.gz \
+    boot/vmlinu?-* \
+    boot/initrd.img-* \
+    vmlinu? \
+    initrd.img \
+    lib/modules/ )
+
+rm -f binary/boot/filesystem.dir/boot/vmlinu?-*
+rm -f binary/boot/filesystem.dir/boot/initrd.img-*
+rm -f binary/boot/filesystem.dir/initrd.img
+rm -f binary/boot/filesystem.dir/vmlinu?
+rm -rf binary/boot/filesystem.dir/lib/modules

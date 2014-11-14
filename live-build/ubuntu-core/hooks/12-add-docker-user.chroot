@@ -1,0 +1,16 @@
+#!/bin/sh -x
+
+# FIXME: add click hook for user creation
+
+USER=docker
+
+echo "I: creating docker user"
+
+addgroup --system --quiet $USER
+adduser --system \
+        --ingroup $USER \
+        --disabled-login \
+        --shell /bin/false \
+        --no-create-home \
+        $USER
+

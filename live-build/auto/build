@@ -317,6 +317,16 @@ if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
 	fi
 fi
 
+# ubuntu-core splits kernel stuff into a "device" tarball so at this point
+# we reset it to "none" as all the work to extract it was done already
+# in a binary hook
+if [ "$PROJECT" = "ubuntu-core" ] && [ "$SUBPROJECT" = "system-image" ]; then
+    LB_LINUX_FLAVOURS=none
+
+    # rename to have the right prefix etc
+    mv device.tar.gz "$PREFIX.device.tar.gz"
+fi
+
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+# we want a really minimal image
+apt-get remove -y locales
+
+# this will also get rid of libqt
+apt-get remove -y libicu52
