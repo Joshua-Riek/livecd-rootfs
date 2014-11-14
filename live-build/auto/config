@@ -335,30 +335,35 @@ case $PROJECT in
 		;;
 
 	ubuntu-core)
-		add_task install minimal
 		# mvo: This is for cron.daily-preinstalled
 		#      CDIMAGE_PREINSTALLED is not passed from build.py
 		#      and PREINSTALLED means something different. So
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
 		        OPTS="${OPTS:+$OPTS }--apt-recommends false"
+
+                        # no minimal as we want to be really minimal
+		        #add_task install minimal
 			add_task install ubuntu-core
 
                         # some workarounds because the seeds are not quite
                         # corrent at the moment
 		        add_package install dbus
 		        add_package install libpam-systemd
+                        add_package install isc-dhcp-client
+                        add_package install resolvconf
+
                         case $ARCH in
 			    i386|amd64)	
 			        add_package install grub-pc
+                                KERNEL_FLAVOURS=virtual
                                 ;;
                             armhf)
                                 add_package install flash-kernel u-boot-tools
+                                KERNEL_FLAVOURS=generic
                                 ;;
                         esac
-
-                        # generic kernel on amd64/arm for now
-                        KERNEL_FLAVOURS=generic
+		        OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
 
                         # contains the framework definition
                         add_package install ubuntu-core-libs

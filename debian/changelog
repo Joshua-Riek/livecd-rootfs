@@ -1,3 +1,12 @@
+livecd-rootfs (2.267) UNRELEASED; urgency=low
+
+  * live-build/auto/config:
+    - system-image: do not install ubuntu-minimal
+    - system-image: install KERNEL_FLAVOURS=virtual on i386/amd64
+    - system-image: use "--linux-packages=linux-image"
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 14 Nov 2014 08:25:14 +0100
+
 livecd-rootfs (2.266) vivid; urgency=medium
 
   * Move the shorts click package to the custom tarball.  LP: #1386177.
