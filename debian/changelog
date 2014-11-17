@@ -1,11 +1,11 @@
-livecd-rootfs (2.268) UNRELEASED; urgency=low
+livecd-rootfs (2.268) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/09-move-kernel-to-device-tar.binary:
     - build device tarball with system/ prefix
     - include /vmlinz, /initrd.img into device tarball
     - include /boot/abi-* /boot/System.map-*
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 14 Nov 2014 17:41:55 +0100
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 17 Nov 2014 11:27:31 +0100
 
 livecd-rootfs (2.267) vivid; urgency=low
 
