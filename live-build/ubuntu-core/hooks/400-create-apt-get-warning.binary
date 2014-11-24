@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -ex
+
+echo "I: Creating warning to use snappy when apt-get is used"
+
+PREFIX=binary/boot/filesystem.dir
+
+mkdir -p $PREFIX/usr/local/bin
+cat >$PREFIX/usr/local/bin/apt-get <<EOF
+#!/bin/sh
+echo "apt is not available on snappy Ubuntu! Try our snappy command to install"
+echo "and update your system"
+EOF
+chmod 755 $PREFIX/usr/local/bin/apt-get

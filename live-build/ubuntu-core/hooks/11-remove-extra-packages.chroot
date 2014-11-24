@@ -5,5 +5,7 @@ set -e
 # we want a really minimal image
 apt-get remove -y locales
 
-# this will also get rid of libqt
+# this will also get rid of libqt5 - this can be removed once
+# system-image-cli in vivid does no longer depend on 
+# ubuntu-download-manager
 apt-get remove -y libicu52

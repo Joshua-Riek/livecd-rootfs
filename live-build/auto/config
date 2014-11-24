@@ -356,6 +356,16 @@ case $PROJECT in
                         add_package install isc-dhcp-client
                         add_package install resolvconf
 
+                        # add special azure package
+                        case $ARCH in
+                            amd64)
+                                # will be removed later when the azure
+                                # specific device tarfile is created
+                                add_package install walinuxagent
+                                ;;
+                        esac
+
+                        # generic kernel etc
                         case $ARCH in
 			    i386|amd64)	
 			        add_package install grub-pc

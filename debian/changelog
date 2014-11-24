@@ -1,3 +1,18 @@
+livecd-rootfs (2.269) UNRELEASED; urgency=low
+
+  * live-build/auto/{build,config}:
+    - create device-azure.tar.gz during the build that includes the
+      packages for the azure cloud
+  * live-build/ubuntu-core/hooks/400-create-apt-get-warning.binary:
+    - display helpful message to use snappy when a user tries to use
+      apt-get on a snappy system
+  * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
+    - do the device-azure.tar.gz extraction here
+  * live-build/ubuntu-core/hooks/12-add-docker-user.chroot:
+    - ensure docker group is used
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 24 Nov 2014 08:38:15 +0100
+
 livecd-rootfs (2.268) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/09-move-kernel-to-device-tar.binary:

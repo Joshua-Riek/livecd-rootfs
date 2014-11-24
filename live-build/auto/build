@@ -325,6 +325,11 @@ if [ "$PROJECT" = "ubuntu-core" ] && [ "$SUBPROJECT" = "system-image" ]; then
 
     # rename to have the right prefix etc
     mv device.tar.gz "$PREFIX.device.tar.gz"
+    
+    # azure specific tarball
+    if [ -e device-azure.tar.gz ]; then
+        mv device-azure.tar.gz "$PREFIX.azure.device.tar.gz"
+    fi
 fi
 
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
