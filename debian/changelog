@@ -1,4 +1,4 @@
-livecd-rootfs (2.269) UNRELEASED; urgency=low
+livecd-rootfs (2.269) vivid; urgency=low
 
   * live-build/auto/{build,config}:
     - create device-azure.tar.gz during the build that includes the
