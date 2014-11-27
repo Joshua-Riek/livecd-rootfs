@@ -9,9 +9,9 @@ if dpkg -l libmirclient8driver-android 2>/dev/null|grep -q ^ii; then
 fi
 
 
-if dpkg -l libmirplatform3driver-android 2>/dev/null|grep -q ^ii; then
+if dpkg -l libmirplatform4driver-android 2>/dev/null|grep -q ^ii; then
     echo "I: making android the default alternatives for @DEB_HOST_MULTIARCH@_mirplatform3driver_conf"
-    update-alternatives --set @DEB_HOST_MULTIARCH@_mirplatform3driver_conf /usr/lib/@DEB_HOST_MULTIARCH@/platform3driver/android/ld.so.conf
+    update-alternatives --set @DEB_HOST_MULTIARCH@_mirplatform4driver_conf /usr/lib/@DEB_HOST_MULTIARCH@/platform4driver/android/ld.so.conf
 fi
 
 # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
