@@ -1,4 +1,4 @@
-livecd-rootfs (2.270) UNRELEASED; urgency=medium
+livecd-rootfs (2.270) vivid; urgency=medium
 
   * bump version of mir alternative in ubuntu-touch
 
