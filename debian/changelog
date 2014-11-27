@@ -1,4 +1,4 @@
-livecd-rootfs (2.271) UNRELEASED; urgency=medium
+livecd-rootfs (2.271) vivid; urgency=medium
 
   *  bump the hardcoded libmirplatform driver version for ubuntu-touch
 
