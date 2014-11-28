@@ -1,3 +1,12 @@
+livecd-rootfs (2.272) UNRELEASED; urgency=low
+
+  * live-build/ubuntu-core/hooks/14-set-motd.chroot:
+    - set snappy specific motd
+  * live-build/ubuntu-core/hooks/13-set-locale.chroot:
+    - set default locale to C.UTF-8
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 28 Nov 2014 21:34:18 +0100
+
 livecd-rootfs (2.271) vivid; urgency=medium
 
   *  bump the hardcoded libmirplatform driver version for ubuntu-touch
