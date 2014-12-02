@@ -9,7 +9,7 @@ PREFIX=binary/boot/filesystem.dir
 mkdir -p $PREFIX/usr/local/bin
 cat >$PREFIX/usr/local/bin/apt-get <<EOF
 #!/bin/sh
-echo "apt is not available on snappy Ubuntu! Try our snappy command to install"
-echo "and update your system"
+cat <<EOF
+echo "Ubuntu Core does not use APT, see 'snappy --help'!"
 EOF
 chmod 755 $PREFIX/usr/local/bin/apt-get
