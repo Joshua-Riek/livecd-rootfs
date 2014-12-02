@@ -1,3 +1,10 @@
+livecd-rootfs (2.274) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/10-remove-documentation.binary:
+    - compress remaining documentation to save further space.
+
+ -- James Hunt <james.hunt@ubuntu.com>  Tue, 02 Dec 2014 13:51:34 +0000
+
 livecd-rootfs (2.273) vivid; urgency=low
 
   [ Michael Vogt ]

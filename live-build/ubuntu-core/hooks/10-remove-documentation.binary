@@ -3,6 +3,7 @@
 echo "I: Remove unneeded files from /usr/share/doc "
 find binary/boot/filesystem.dir/usr/share/doc -depth -type f ! -name copyright|xargs rm -f || true
 find binary/boot/filesystem.dir/usr/share/doc -empty|xargs rmdir || true
+find binary/boot/filesystem.dir/usr/share/doc -type f -exec gzip -9 {} \;
 
 echo "I: Remove man/info pages"
 rm -rf binary/boot/filesystem.dir/usr/share/man \
