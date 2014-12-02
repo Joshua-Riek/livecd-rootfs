@@ -1,7 +1,12 @@
-livecd-rootfs (2.274) UNRELEASED; urgency=low
+livecd-rootfs (2.274) UNRELEASED; urgency=medium
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/400-create-apt-get-warning.binary:
     - improve apt-get output
+
+  [ James Hunt ]
+  * live-build/ubuntu-core/hooks/10-remove-documentation.binary:
+    - compress remaining documentation to save further space.
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 02 Dec 2014 14:57:39 +0100
 
