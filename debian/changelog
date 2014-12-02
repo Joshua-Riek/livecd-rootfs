@@ -1,11 +1,15 @@
-livecd-rootfs (2.272) UNRELEASED; urgency=low
+livecd-rootfs (2.273) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/14-set-motd.chroot:
     - set snappy specific motd
   * live-build/ubuntu-core/hooks/13-set-locale.chroot:
     - set default locale to C.UTF-8
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 28 Nov 2014 21:34:18 +0100
+  [ Oliver Grawert ]
+  * add systemd-journal-remote group to touch builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 02 Dec 2014 10:20:28 +0100
 
 livecd-rootfs (2.271) vivid; urgency=medium
 
