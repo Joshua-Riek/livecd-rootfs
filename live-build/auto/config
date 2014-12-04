@@ -355,6 +355,7 @@ case $PROJECT in
 		        add_package install libpam-systemd
                         add_package install isc-dhcp-client
                         add_package install resolvconf
+                        add_package install click-apparmor
 
                         # add special azure package
                         case $ARCH in
