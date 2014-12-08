@@ -7,9 +7,13 @@ echo "I: Creating warning to use snappy when apt-get is used"
 PREFIX=binary/boot/filesystem.dir
 
 mkdir -p $PREFIX/usr/local/bin
-cat >$PREFIX/usr/local/bin/apt-get <<EOF
+cat >$PREFIX/usr/local/bin/no-apt <<EOF
 #!/bin/sh
 cat <<EOF
-echo "Ubuntu Core does not use APT, see 'snappy --help'!"
+Ubuntu Core does not use APT, see 'snappy --help'!
 EOF
-chmod 755 $PREFIX/usr/local/bin/apt-get
+chmod 755 $PREFIX/usr/local/bin/no-apt
+
+for cmd in apt apt-cache apt-get; do
+    ln -s no-apt $PREFIX/usr/local/bin/$cmd
+done

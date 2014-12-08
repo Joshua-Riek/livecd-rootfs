@@ -5,12 +5,15 @@ livecd-rootfs (2.274) UNRELEASED; urgency=medium
     - improve apt-get output
   * live-build/auto/config:
     - add click-apparmor for system-image
+  * live-build/ubuntu-core/hooks/400-create-apt-get-warning.binary:
+    - fix incorrect "echo"
+    - add missing wrappers for apt, apt-cache
 
   [ James Hunt ]
   * live-build/ubuntu-core/hooks/10-remove-documentation.binary:
     - compress remaining documentation to save further space.
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 02 Dec 2014 14:57:39 +0100
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 08 Dec 2014 08:20:06 +0100
 
 livecd-rootfs (2.273) vivid; urgency=low
 
