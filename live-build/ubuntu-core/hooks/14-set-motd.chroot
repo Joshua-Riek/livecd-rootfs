@@ -1,11 +1,12 @@
 #!/bin/sh
 
 cat >/etc/motd<<EOF
-Welcome to Ubuntu Core (development branch)
+Welcome to the Ubuntu Core rolling development release.
 
  * See https://ubuntu.com/snappy
 
-Surprise! It's a brave new Ubuntu world here in the snappy development
-channel. Ubuntu Core does not use APT, see 'snappy --help' for ideas
-on how to make the most of this transactional system.
+It's a brave new world here in snappy Ubuntu Core! This machine
+does not use apt-get or deb packages. Please see 'snappy --help'
+for app installation and transactional updates.
+
 EOF
