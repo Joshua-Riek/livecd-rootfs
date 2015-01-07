@@ -1,3 +1,10 @@
+livecd-rootfs (2.274) UNRELEASED; urgency=low
+
+  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
+    - port static uid/gid setup from ubuntu-touch
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 07 Jan 2015 09:36:11 +0100
+
 livecd-rootfs (2.274) vivid; urgency=medium
 
   [ Michael Vogt ]
