@@ -1,9 +1,13 @@
-livecd-rootfs (2.274) UNRELEASED; urgency=low
+livecd-rootfs (2.275) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
     - port static uid/gid setup from ubuntu-touch
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 07 Jan 2015 09:36:11 +0100
+  [ Ricardo Salveti de Araujo ]
+  * Bump the hardcoded libmirplatform driver version for ubuntu-touch
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Wed, 14 Jan 2015 13:31:43 -0200
 
 livecd-rootfs (2.274) vivid; urgency=medium
 
