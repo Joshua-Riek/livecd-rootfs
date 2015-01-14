@@ -1,4 +1,4 @@
-livecd-rootfs (2.275) UNRELEASED; urgency=low
+livecd-rootfs (2.275) vivid; urgency=low
 
   [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
