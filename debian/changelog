@@ -1,3 +1,12 @@
+livecd-rootfs (2.275+ppa2) vivid; urgency=medium
+
+  * live-build/ubuntu-core/hooks/04-configure_network.chroot: use
+    'allow-hotplug' for the network config, not 'auto', to work around
+    systemd behavior that causes 'auto' to delay the rest of the boot when
+    DHCP is not available on the network.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 14 Jan 2015 22:49:43 -0800
+
 livecd-rootfs (2.275+ppa1) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:

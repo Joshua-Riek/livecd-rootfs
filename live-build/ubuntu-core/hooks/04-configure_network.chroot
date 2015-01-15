@@ -4,6 +4,6 @@ if=eth0
 
 # Manually configure the first ethernet device
 cat >/etc/network/interfaces.d/"$if"<<EOT
-auto $if
+allow-hotplug $if
 iface $if inet dhcp
 EOT
