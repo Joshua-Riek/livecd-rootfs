@@ -1,3 +1,10 @@
+livecd-rootfs (2.275+ppa3) vivid; urgency=low
+
+  * live-build/ubuntu-core/hooks/01-setup_user.chroot:
+    - run with -e
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 16 Jan 2015 18:28:10 +0100
+
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
 
   * live-build/ubuntu-core/hooks/04-configure_network.chroot: use

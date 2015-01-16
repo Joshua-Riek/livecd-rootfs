@@ -1,15 +1,18 @@
 #!/bin/sh -x
 
+set -e
+
 USER=ubuntu
 UGID=1000
 
 echo "I: creating default user $USER"
-adduser --gecos $USER --disabled-login $USER --uid $UGID
-
-echo "I: set user $USER password to $USER"
-echo "$USER:$USER" | chpasswd
+adduser --gecos $USER --disabled-password $USER --uid $UGID
 
 chown -R $UGID:$UGID /home/$USER
+
+passwd -d $USER
+echo "I: set user $USER password to $USER"
+echo "$USER:$USER" | chpasswd
 
 # Enable libnss-extrusers
 sed -i 's/^group:.*compat/\0 extrausers/' /etc/nsswitch.conf
