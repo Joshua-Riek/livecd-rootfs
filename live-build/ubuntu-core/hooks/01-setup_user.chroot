@@ -6,13 +6,9 @@ USER=ubuntu
 UGID=1000
 
 echo "I: creating default user $USER"
-adduser --gecos $USER --disabled-password $USER --uid $UGID
+adduser --gecos $USER --disabled-login $USER --uid $UGID
 
 chown -R $UGID:$UGID /home/$USER
-
-passwd -d $USER
-echo "I: set user $USER password to $USER"
-echo "$USER:$USER" | chpasswd
 
 # Enable libnss-extrusers
 sed -i 's/^group:.*compat/\0 extrausers/' /etc/nsswitch.conf
@@ -34,3 +30,8 @@ sed -i "/^$USER/d" /etc/group
 sed -i "/^$USER/d" /etc/passwd
 sed -i "/^$USER/d" /etc/shadow
 sed -i "/^$USER/d" /etc/gshadow
+
+# needs to run *after* the user was moved out to /var/lib/extrausers
+echo "I: set user $USER password to $USER"
+echo "$USER:$USER" | chpasswd
+

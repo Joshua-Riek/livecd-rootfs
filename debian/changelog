@@ -1,3 +1,10 @@
+livecd-rootfs (2.275+ppa4) vivid; urgency=low
+
+  * live-build/ubuntu-core/hooks/01-setup_user.chroot:
+    - run chpasswd after user moved into /var/lib/extrausers
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 16 Jan 2015 19:56:49 +0100
+
 livecd-rootfs (2.275+ppa3) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
