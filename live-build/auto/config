@@ -367,14 +367,13 @@ case $PROJECT in
                         esac
 
                         # generic kernel etc
+                        KERNEL_FLAVOURS=generic
                         case $ARCH in
 			    i386|amd64)	
 			        add_package install grub-pc
-                                KERNEL_FLAVOURS=virtual
                                 ;;
                             armhf)
                                 add_package install flash-kernel u-boot-tools
-                                KERNEL_FLAVOURS=generic
                                 ;;
                         esac
 		        OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"

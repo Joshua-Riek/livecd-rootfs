@@ -1,3 +1,9 @@
+livecd-rootfs (2.275+ppa5) vivid; urgency=low
+
+  * use generic kernel for all ubuntu-core system-image
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 21 Jan 2015 14:39:31 +0100
+
 livecd-rootfs (2.275+ppa4) vivid; urgency=low
 
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
