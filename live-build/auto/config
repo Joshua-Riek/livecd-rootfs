@@ -311,9 +311,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-mate)
-		add_task install minimal standard
-		add_package install ubuntu-mate-core ubuntu-mate-desktop
-		add_package live ubuntu-mate-live
+		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
