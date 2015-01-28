@@ -1,22 +1,16 @@
-livecd-rootfs (2.275+ppa5) vivid; urgency=low
+livecd-rootfs (2.276) UNRELEASED; urgency=medium
 
+  [ Mathieu Trudel-Lapierre ]
+  * live-build/auto/config: add config for Ubuntu MATE.
+
+  [ Michael Vogt ]
   * use generic kernel for all ubuntu-core system-image
-
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 21 Jan 2015 14:39:31 +0100
-
-livecd-rootfs (2.275+ppa4) vivid; urgency=low
-
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - run chpasswd after user moved into /var/lib/extrausers
-
- -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 16 Jan 2015 19:56:49 +0100
-
-livecd-rootfs (2.275+ppa3) vivid; urgency=low
-
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - run with -e
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 16 Jan 2015 18:28:10 +0100
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:00:23 -0500
 
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
 

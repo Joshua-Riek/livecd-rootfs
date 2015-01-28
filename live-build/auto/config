@@ -149,6 +149,10 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 			add_package live oem-config-gtk ubiquity-frontend-gtk
 			add_package live ubiquity-slideshow-xubuntu
 			;;
+		ubuntu-mate)
+			add_package live oem-config-gtk ubiquity-frontend-gtk
+			add_package live ubiquity-slideshow-ubuntu-mate
+			;;
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
@@ -304,6 +308,18 @@ case $PROJECT in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
 		COMPONENTS='main restricted universe'
+		;;
+
+	ubuntu-mate)
+		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
+		LIVE_TASK='ubuntu-mate-live'
+		case $ARCH in
+			amd64)	add_package live linux-signed-generic ;;
+		esac
+		COMPONENTS='main restricted universe multiverse'
+		# The Ubuntu MATE STRUCTURE file has "feature
+		# no-follow-recommends".  Mirror this.
+		export APT_OPTIONS="--yes --no-install-recommends"
 		;;
 
 	ubuntustudio-dvd)
