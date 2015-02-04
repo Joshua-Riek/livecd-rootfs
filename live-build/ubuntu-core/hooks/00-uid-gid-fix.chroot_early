@@ -1,10 +1,10 @@
 #!/bin/sh -eu
 
 # Known good post-debootstrap values
-passwd_bootstrap="9ebb1c3da5b0ad8f1d366528b32c97cb"
-shadow_bootstrap="1c562aa2ed2f443b9151953e800eca16"
-group_bootstrap="60cd81599d39db5d624e63c8c18d4a5e"
-gshadow_bootstrap="3819432fb99fe6b8f38410c58d503de1"
+passwd_bootstrap="9738946debbc125bd6cf3f197582a8a5"
+shadow_bootstrap="4d299751999cae6de045390dd568812c"
+group_bootstrap="dd4a0ebdd3f5d170d5a46e6bade5c6c3"
+gshadow_bootstrap="42025e85925432105b429b7c801a50a4"
 
 # Current post-debootstrap values
 passwd_hash=$(set -- $(md5sum /etc/passwd) && echo $1)
