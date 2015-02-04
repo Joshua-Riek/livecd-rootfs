@@ -1,3 +1,11 @@
+livecd-rootfs (2.278) UNRELEASED; urgency=medium
+
+  * Add live-build/ubuntu-core/hooks/99zz-check-uid-gid.chroot, copy of
+    live-build/ubuntu-touch/hooks/99zz-check-uid-gid.chroot with just the
+    error message changed. Currently, the passwd/group checks weren't run.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:39:26 +0100
+
 livecd-rootfs (2.277) vivid; urgency=medium
 
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early: add new "input"
