@@ -133,6 +133,7 @@ systemd-timesync:x:108:
 systemd-network:x:109:
 systemd-resolve:x:110:
 systemd-bus-proxy:x:111:
+input:x:112:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -192,6 +193,7 @@ systemd-timesync:!::
 systemd-network:!::
 systemd-resolve:!::
 systemd-bus-proxy:!::
+input:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2

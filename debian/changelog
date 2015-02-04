@@ -10,6 +10,10 @@ livecd-rootfs (2.276) UNRELEASED; urgency=medium
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - run with -e
 
+  [ Loïc Minier ]
+  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early: add new "input"
+    group to etc/group and etc/gshadow static maps.
+
  -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:00:23 -0500
 
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
