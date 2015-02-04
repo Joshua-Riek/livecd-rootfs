@@ -1,4 +1,4 @@
-livecd-rootfs (2.277) UNRELEASED; urgency=medium
+livecd-rootfs (2.277) vivid; urgency=medium
 
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early: add new "input"
     group to etc/group and etc/gshadow static maps.
@@ -6,7 +6,7 @@ livecd-rootfs (2.277) UNRELEASED; urgency=medium
     symlink as suggested by lintian.
   * Bump Standards-Version to 3.9.6.
 
- -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:21:07 +0100
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:32:58 +0100
 
 livecd-rootfs (2.276) vivid; urgency=medium
 
