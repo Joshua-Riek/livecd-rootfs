@@ -1,4 +1,4 @@
-livecd-rootfs (2.276) UNRELEASED; urgency=medium
+livecd-rootfs (2.276) vivid; urgency=medium
 
   [ Mathieu Trudel-Lapierre ]
   * live-build/auto/config: add config for Ubuntu MATE.
@@ -14,7 +14,7 @@ livecd-rootfs (2.276) UNRELEASED; urgency=medium
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early: add new "input"
     group to etc/group and etc/gshadow static maps.
 
- -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:00:23 -0500
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:16:52 +0100
 
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
 
