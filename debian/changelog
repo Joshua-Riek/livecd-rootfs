@@ -1,3 +1,10 @@
+livecd-rootfs (2.280) vivid; urgency=medium
+
+  * live-build/ubuntu-core/hooks/02-add_user_to_groups.chroot: use commas
+    instead of spaces.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 18:03:08 +0100
+
 livecd-rootfs (2.279) vivid; urgency=medium
 
   * Revert changes to post-debootstrap hashes for core.
