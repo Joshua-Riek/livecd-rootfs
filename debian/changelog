@@ -1,12 +1,4 @@
-livecd-rootfs (2.277) UNRELEASED; urgency=medium
-
-  * live-build/ubuntu-core/includes.chroot/etc/resolv.conf: use relative
-    symlink as suggested by lintian.
-  * Bump Standards-Version to 3.9.6.
-
- -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:21:07 +0100
-
-livecd-rootfs (2.276) vivid; urgency=medium
+livecd-rootfs (2.276) UNRELEASED; urgency=medium
 
   [ Mathieu Trudel-Lapierre ]
   * live-build/auto/config: add config for Ubuntu MATE.
@@ -18,11 +10,7 @@ livecd-rootfs (2.276) vivid; urgency=medium
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - run with -e
 
-  [ Loïc Minier ]
-  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early: add new "input"
-    group to etc/group and etc/gshadow static maps.
-
- -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 04 Feb 2015 13:16:52 +0100
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:00:23 -0500
 
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
 
