@@ -175,6 +175,7 @@ systemd-network:x:117:
 systemd-resolve:x:118:
 systemd-bus-proxy:x:119:
 systemd-journal-remote:x:120:
+input:x:121:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -256,6 +257,7 @@ systemd-network:!::
 systemd-resolve:!::
 systemd-bus-proxy:!::
 systemd-journal-remote:!::
+input:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2
