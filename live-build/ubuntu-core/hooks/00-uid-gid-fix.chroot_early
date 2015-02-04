@@ -14,7 +14,7 @@ gshadow_hash=$(set -- $(md5sum /etc/gshadow) && echo $1)
 
 # /etc/passwd
 if [ "$passwd_bootstrap" = "$passwd_hash" ]; then
-    cat > /etc/passwd <<'EOF'
+    cat > /etc/passwd <<EOF
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -48,7 +48,7 @@ fi
 
 # /etc/shadow
 if [ "$shadow_bootstrap" = "$shadow_hash" ]; then
-    cat > /etc/shadow <<'EOF'
+    cat > /etc/shadow <<EOF
 root:*:16329:0:99999:7:::
 daemon:*:16329:0:99999:7:::
 bin:*:16329:0:99999:7:::
@@ -82,7 +82,7 @@ fi
 
 # /etc/group
 if [ "$group_bootstrap" = "$group_hash" ]; then
-    cat > /etc/group <<'EOF'
+    cat > /etc/group <<EOF
 root:x:0:
 daemon:x:1:
 bin:x:2:
@@ -133,6 +133,7 @@ systemd-timesync:x:108:
 systemd-network:x:109:
 systemd-resolve:x:110:
 systemd-bus-proxy:x:111:
+input:x:112:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -141,7 +142,7 @@ fi
 
 # /etc/gshadow
 if [ "$gshadow_bootstrap" = "$gshadow_hash" ]; then
-    cat > /etc/gshadow <<'EOF'
+    cat > /etc/gshadow <<EOF
 root:*::
 daemon:*::
 bin:*::
@@ -192,6 +193,7 @@ systemd-timesync:!::
 systemd-network:!::
 systemd-resolve:!::
 systemd-bus-proxy:!::
+input:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2
