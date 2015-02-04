@@ -1,4 +1,4 @@
-livecd-rootfs (2.276) UNRELEASED; urgency=medium
+livecd-rootfs (2.276) vivid; urgency=medium
 
   [ Mathieu Trudel-Lapierre ]
   * live-build/auto/config: add config for Ubuntu MATE.
@@ -10,7 +10,7 @@ livecd-rootfs (2.276) UNRELEASED; urgency=medium
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - run with -e
 
- -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:00:23 -0500
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 28 Jan 2015 11:03:08 -0500
 
 livecd-rootfs (2.275+ppa2) vivid; urgency=medium
 
