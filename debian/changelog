@@ -1,4 +1,4 @@
-livecd-rootfs (2.284) UNRELEASED; urgency=medium
+livecd-rootfs (2.284) vivid; urgency=medium
 
   * bump the gshadow hash in 00-uid-gid-fix.chroot_early too
 
