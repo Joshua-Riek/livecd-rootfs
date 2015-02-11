@@ -44,6 +44,9 @@ docker:x:107:113::/nonexistent:/bin/false
 EOF
 else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/passwd
+    echo "passwd md5sum: $passwd_hash" >&2
     exit 1
 fi
 
@@ -79,6 +82,9 @@ docker:*:16413:0:99999:7:::
 EOF
 else
     echo "/etc/shadow post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/shadow
+    echo "shadow md5sum: $shadow_hash" >&2
     exit 1
 fi
 
@@ -140,6 +146,9 @@ docker:x:113:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/group
+    echo "group md5sum: $group_hash" >&2
     exit 1
 fi
 
@@ -201,6 +210,9 @@ docker:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/gshadow
+    echo "gshadow md5sum: $gshadow_hash" >&2
     exit 1
 fi
 

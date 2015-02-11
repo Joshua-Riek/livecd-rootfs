@@ -1,3 +1,11 @@
+livecd-rootfs (2.283) UNRELEASED; urgency=low
+
+  * add more verbose output to
+    live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
+    (thanks Oliver!)
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 11 Feb 2015 17:43:43 +0100
+
 livecd-rootfs (2.282) vivid; urgency=medium
 
   * update the passwd hash for changed GID of syslog ... also add output of
