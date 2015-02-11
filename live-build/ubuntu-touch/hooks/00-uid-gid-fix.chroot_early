@@ -53,6 +53,8 @@ systemd-bus-proxy:x:114:119:systemd Bus Proxy,,,:/run/systemd:/bin/false
 EOF
 else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/passwd
     exit 1
 fi
 
@@ -97,6 +99,8 @@ systemd-bus-proxy:*:16372:0:99999:7:::
 EOF
 else
     echo "/etc/shadow post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/shadow
     exit 1
 fi
 
@@ -179,6 +183,8 @@ input:x:121:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/group
     exit 1
 fi
 
@@ -261,6 +267,8 @@ input:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2
+    echo "The output below might help to resolve the issue" >&2
+    cat /etc/gshadow
     exit 1
 fi
 
