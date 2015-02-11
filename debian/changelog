@@ -1,4 +1,4 @@
-livecd-rootfs (2.283) UNRELEASED; urgency=low
+livecd-rootfs (2.283) vivid; urgency=low
 
   [ Michael Vogt ]
   * add more verbose output to
