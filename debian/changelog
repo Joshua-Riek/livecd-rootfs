@@ -1,4 +1,4 @@
-livecd-rootfs (2.282) UNRELEASED; urgency=medium
+livecd-rootfs (2.282) vivid; urgency=medium
 
   * update the passwd hash for changed GID of syslog ... also add output of
     the respective md5sums to the error message for easier debugging
