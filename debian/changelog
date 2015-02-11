@@ -1,3 +1,10 @@
+livecd-rootfs (2.281) vivid; urgency=medium
+
+  * add more verbose output to
+    live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 11 Feb 2015 15:11:51 +0100
+
 livecd-rootfs (2.280) vivid; urgency=medium
 
   * live-build/ubuntu-core/hooks/02-add_user_to_groups.chroot: use commas
