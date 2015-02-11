@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
 # Known good post-debootstrap values
-passwd_bootstrap="9ebb1c3da5b0ad8f1d366528b32c97cb"
+passwd_bootstrap="5e8366ef9c178b62079468966f38ce5f"
 shadow_bootstrap="1c562aa2ed2f443b9151953e800eca16"
 group_bootstrap="60cd81599d39db5d624e63c8c18d4a5e"
 gshadow_bootstrap="3819432fb99fe6b8f38410c58d503de1"
@@ -55,6 +55,7 @@ else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
     echo "The output below might help to resolve the issue" >&2
     cat /etc/passwd
+    echo "passwd md5sum: $passwd_hash" >&2
     exit 1
 fi
 
@@ -101,6 +102,7 @@ else
     echo "/etc/shadow post-debootstrap hash doesn't match record" >&2
     echo "The output below might help to resolve the issue" >&2
     cat /etc/shadow
+    echo "shadow md5sum: $shadow_hash" >&2
     exit 1
 fi
 
@@ -185,6 +187,7 @@ else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
     echo "The output below might help to resolve the issue" >&2
     cat /etc/group
+    echo "group md5sum: $group_hash" >&2
     exit 1
 fi
 
@@ -269,6 +272,7 @@ else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2
     echo "The output below might help to resolve the issue" >&2
     cat /etc/gshadow
+    echo "gshadow md5sum: $gshadow_hash" >&2
     exit 1
 fi
 

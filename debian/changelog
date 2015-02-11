@@ -1,3 +1,10 @@
+livecd-rootfs (2.282) UNRELEASED; urgency=medium
+
+  * update the passwd hash for changed GID of syslog ... also add output of
+    the respective md5sums to the error message for easier debugging
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 11 Feb 2015 16:46:18 +0100
+
 livecd-rootfs (2.281) vivid; urgency=medium
 
   * add more verbose output to
