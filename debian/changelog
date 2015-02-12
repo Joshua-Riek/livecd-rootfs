@@ -1,3 +1,10 @@
+livecd-rootfs (2.285) UNRELEASED; urgency=medium
+
+  * touch: removing dependencies on a specific mir platform driver as mir can
+    now identify and load the correct driver during runtime
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Wed, 11 Feb 2015 23:35:42 -0200
+
 livecd-rootfs (2.284) vivid; urgency=medium
 
   * bump the gshadow hash in 00-uid-gid-fix.chroot_early too

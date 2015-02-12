@@ -404,7 +404,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-touch)
-		add_package install ubuntu-minimal mir-client-platform-android libmirplatform5driver-android ubuntu-touch
+		add_package install ubuntu-minimal ubuntu-touch
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
 		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
