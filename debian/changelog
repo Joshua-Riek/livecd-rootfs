@@ -1,4 +1,4 @@
-livecd-rootfs (2.285) UNRELEASED; urgency=medium
+livecd-rootfs (2.285) vivid; urgency=medium
 
   * touch: removing dependencies on a specific mir platform driver as mir can
     now identify and load the correct driver during runtime
