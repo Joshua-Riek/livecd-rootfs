@@ -1,5 +1,7 @@
 #!/bin/sh -eu
 
+ERRCNT=""
+
 # Known good post-debootstrap values
 passwd_bootstrap="9738946debbc125bd6cf3f197582a8a5"
 shadow_bootstrap="4d299751999cae6de045390dd568812c"
@@ -47,7 +49,7 @@ else
     echo "The output below might help to resolve the issue" >&2
     cat /etc/passwd
     echo "passwd md5sum: $passwd_hash" >&2
-    exit 1
+    ERRCNT=1
 fi
 
 # /etc/shadow
@@ -85,7 +87,7 @@ else
     echo "The output below might help to resolve the issue" >&2
     cat /etc/shadow
     echo "shadow md5sum: $shadow_hash" >&2
-    exit 1
+    ERRCNT=1
 fi
 
 # /etc/group
@@ -149,7 +151,7 @@ else
     echo "The output below might help to resolve the issue" >&2
     cat /etc/group
     echo "group md5sum: $group_hash" >&2
-    exit 1
+    ERRCNT=1
 fi
 
 # /etc/gshadow
@@ -213,7 +215,18 @@ else
     echo "The output below might help to resolve the issue" >&2
     cat /etc/gshadow
     echo "gshadow md5sum: $gshadow_hash" >&2
-    exit 1
+    ERRCNT=1
+fi
+
+if [ -n "$ERRCNT" ]; then
+        echo "There were changes to the password database," >&2
+        echo "please adjust the values in the livecd-rootfs source in the file:" >&2
+        echo "live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early" >&2
+        echo >&2
+        echo "Please check also if a maintainer script of the package" >&2
+        echo "that added these entries perhaps created a home directory and," >&2
+        echo "if needed, add code for creation of it to the above hook" >&2
+        exit 1
 fi
 
 

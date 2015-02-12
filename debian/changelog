@@ -1,3 +1,11 @@
+livecd-rootfs (2.287) UNRELEASED; urgency=low
+
+  * add even more verbose output to
+    live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
+    (thanks Oliver!)
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 12 Feb 2015 11:33:00 +0100
+
 livecd-rootfs (2.286) vivid; urgency=medium
 
   * touch: forcing package mir-platform-graphics-android to see if we're able
