@@ -1,3 +1,10 @@
+livecd-rootfs (2.286) UNRELEASED; urgency=medium
+
+  * touch: forcing package mir-platform-graphics-android to see if we're able
+    to remove the dependency on the mesa one (until mir is properly fixed)
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Thu, 12 Feb 2015 03:05:31 -0200
+
 livecd-rootfs (2.285) vivid; urgency=medium
 
   * touch: removing dependencies on a specific mir platform driver as mir can
