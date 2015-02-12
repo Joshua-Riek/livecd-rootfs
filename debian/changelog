@@ -1,4 +1,4 @@
-livecd-rootfs (2.286) UNRELEASED; urgency=medium
+livecd-rootfs (2.286) vivid; urgency=medium
 
   * touch: forcing package mir-platform-graphics-android to see if we're able
     to remove the dependency on the mesa one (until mir is properly fixed)
