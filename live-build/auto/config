@@ -372,6 +372,8 @@ case $PROJECT in
                         add_package install isc-dhcp-client
                         add_package install resolvconf
                         add_package install click-apparmor
+                        # no Task: header yet
+                        add_package install ubuntu-snappy
 
                         # add special azure package
                         case $ARCH in

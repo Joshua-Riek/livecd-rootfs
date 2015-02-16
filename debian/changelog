@@ -6,6 +6,8 @@ livecd-rootfs (2.287) UNRELEASED; urgency=low
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
     - adjust the {group,gshadow}_bootstrap values. The audio group
       used to be gid 1005 after the bootstrap and is now 29.
+  * live-build/auto/config:
+    - add snappy-ubuntu
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 12 Feb 2015 11:33:00 +0100
 
