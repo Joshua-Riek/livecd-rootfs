@@ -1,5 +1,6 @@
 livecd-rootfs (2.287) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * add even more verbose output to
     live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
     (thanks Oliver!)
@@ -9,7 +10,10 @@ livecd-rootfs (2.287) UNRELEASED; urgency=low
   * live-build/auto/config:
     - add snappy-ubuntu
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 12 Feb 2015 11:33:00 +0100
+  [ Oliver Grawert ]
+  * make sure /var/log is always owned by the syslog group on touch
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 18 Feb 2015 15:03:54 +0100
 
 livecd-rootfs (2.286) vivid; urgency=medium
 
