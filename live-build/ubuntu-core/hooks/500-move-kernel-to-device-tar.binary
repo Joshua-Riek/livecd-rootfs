@@ -8,17 +8,51 @@ echo "I: Moving kernel into device tarball"
 
 HERE="$(pwd)"
 TMPDIR="$(mktemp -d)"
+ARCH=$(dpkg --print-architecture)
 mkdir -p $TMPDIR/system/
+mkdir -p $TMPDIR/assets/
 
 # cp files, we can't simply use tar --transform as it changes the symlink target
 (
  cd binary/boot/filesystem.dir 
- cp -ar --parent boot/vmlinu?-* boot/initrd.img-* boot/abi-* boot/System.map-* $TMPDIR/system/
+ cp -ar --parent boot/vmlinu?-* $TMPDIR/assets/vmlinuz
+ cp -ar --parent boot/initrd.img-* $TMPDIR/assets/initrd.img
+ cp -ar --parent boot/vmlinu?-* boot/initrd.img-* boot/abi-* boot/System.map-* $TMPDIR/assets/
  cp -ar --parent lib/modules/ $TMPDIR/system/
+
+ dtbs=$(find /lib/firmware -type d -name 'device-tree' -print0)
+ [ -n "$dtbs" ] && mv "$dtbs" $TMPDIR/assets/dtbs
+
+ cp -ar --parent lib/firmware/ $TMPDIR/system/
+
  if [ -e vmlinu? ] && [ -e initrd.img ]; then
-     cp -ar --parent vmlinu? initrd.img $TMPDIR/system
+     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
+     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
  fi
 )
+# create hardware.yaml for u-boot
+# this assumes armh == u-boot
+# and all others grub
+(
+# common bits
+ cat > $TMPDIR/hardware.yaml << EOF
+kernel: assets/vmlinuz
+initrd: assets/initrd.img
+partiton-layout: system-AB
+EOF
+
+# arch specific ones
+if [ "$ARCH" = "armhf" ]; then
+ cat >> $TMPDIR/hardware.yaml << EOF
+dtbs: assets/dtbs
+bootloader: u-boot
+EOF
+else
+ cat >> $TMPDIR/hardware.yaml << EOF
+bootloader: grub
+EOF
+)
+
 # and tar it up
 (
  cd $TMPDIR
@@ -58,6 +92,7 @@ rm -rf $TMPDIR
  rm -f initrd.img
  rm -f vmlinu?
  rm -rf lib/modules
+ rm -rf lib/firmware
  # remove walinuxagent
  if [ -e var/lib/dpkg/info/walinuxagent.list ]; then
      chroot . dpkg --purge walinuxagent || true
