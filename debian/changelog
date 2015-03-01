@@ -1,9 +1,15 @@
 livecd-rootfs (2.288) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * add dosfstools on snappy to ensure systemd can fsck the /boot
     partition
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 19 Feb 2015 13:20:43 +0100
+  [ Ricardo Salveti de Araujo ]
+  * touch: don't depend on mir-platform-graphics-android and let that to be
+    handled by the seeds (they can't stop bumping the package name and the
+    graphics-mesa package doesn't cause any harm)
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Sun, 01 Mar 2015 01:27:11 -0300
 
 livecd-rootfs (2.287) vivid; urgency=low
 
