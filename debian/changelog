@@ -1,4 +1,4 @@
-livecd-rootfs (2.288) UNRELEASED; urgency=low
+livecd-rootfs (2.288) vivid; urgency=low
 
   [ Michael Vogt ]
   * add dosfstools on snappy to ensure systemd can fsck the /boot
