@@ -1,4 +1,4 @@
-livecd-rootfs (2.289) UNRELEASED; urgency=medium
+livecd-rootfs (2.289) vivid; urgency=medium
 
   * add info about /var/log ownership so it ends up in the ubuntu-touch build
     logs
