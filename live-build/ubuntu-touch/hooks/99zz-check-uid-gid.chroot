@@ -49,4 +49,7 @@ if [ -n "$ERRCNT" ]; then
 	exit 1
 fi
 
+echo "ownership of /var/log after build:" >&2
+ls -ln /var| grep log >&2
+
 rm /etc/passwd.orig /etc/shadow.orig /etc/group.orig /etc/gshadow.orig

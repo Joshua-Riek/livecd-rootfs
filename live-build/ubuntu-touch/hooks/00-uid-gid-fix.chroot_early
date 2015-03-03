@@ -298,7 +298,9 @@ mkdir -p /var/lib/usermetrics
 chown usermetrics:usermetrics /var/lib/usermetrics
 chmod 750 /var/lib/usermetrics
 
-chgrp syslog /var/log
+echo "adjusting ownership of /var/log" >&2
+chown root:syslog /var/log
+ls -ln /var | grep log >&2
 
 # Record the current state for later comparison
 for file in /etc/passwd /etc/shadow /etc/group /etc/gshadow; do
