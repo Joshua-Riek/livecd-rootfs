@@ -1,3 +1,12 @@
+livecd-rootfs (2.290) UNRELEASED; urgency=medium
+
+  * touch: Explicitly uninstall systemd-sysv, to help apt to install upstart
+    when the preferred "init" alternative is systemd-sysv. Also explicitly
+    install packagekit to help the problem resolver. Thanks Colin Watson!
+    (LP: #1428026)
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 04 Mar 2015 12:02:48 +0100
+
 livecd-rootfs (2.289) vivid; urgency=medium
 
   * add info about /var/log ownership so it ends up in the ubuntu-touch build
