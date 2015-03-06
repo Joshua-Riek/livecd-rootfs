@@ -1,9 +1,17 @@
 livecd-rootfs (2.291) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * do not leave some packages in ^rc state on snappy/ubuntu-core
     (LP: #1428115). Thanks to Daniel Holbach
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 04 Mar 2015 16:24:28 +0100
+  [ Oliver Grawert ]
+  * put FLASH_KERNEL_SKIP=true into /etc/environment on phones, this will
+    prevent the systems from trying to flash an updated initrd automatically
+    in case you call update-initramfs or install your own kernel package on a
+    nexus device where this is supported, please call flash-kernel manually
+    after unsetting the variable in your work environment.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 06 Mar 2015 21:14:11 +0100
 
 livecd-rootfs (2.290) vivid; urgency=medium
 
