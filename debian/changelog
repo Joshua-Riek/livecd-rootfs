@@ -1,4 +1,4 @@
-livecd-rootfs (2.291) UNRELEASED; urgency=low
+livecd-rootfs (2.291) vivid; urgency=low
 
   [ Michael Vogt ]
   * do not leave some packages in ^rc state on snappy/ubuntu-core
