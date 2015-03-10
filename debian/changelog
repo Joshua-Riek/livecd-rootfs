@@ -1,4 +1,4 @@
-livecd-rootfs (2.292) UNRELEASED; urgency=low
+livecd-rootfs (2.292) vivid; urgency=low
 
   [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
