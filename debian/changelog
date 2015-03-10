@@ -1,3 +1,10 @@
+livecd-rootfs (2.293) UNRELEASED; urgency=low
+
+  * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
+    - remove libpython2.7 and friends as welll
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 Mar 2015 12:22:37 +0100
+
 livecd-rootfs (2.292) vivid; urgency=low
 
   [ Michael Vogt ]

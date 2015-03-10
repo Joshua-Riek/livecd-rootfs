@@ -11,4 +11,4 @@ apt-get purge -y locales
 apt-get purge -y libicu52
 
 # no more py2, yay
-apt-get purge -y python python-minimal libpython-stdlib python2.7
+apt-get purge -y python python-minimal libpython-stdlib python2.* libpython2.*
