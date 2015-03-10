@@ -2,6 +2,9 @@ livecd-rootfs (2.292) UNRELEASED; urgency=low
 
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
     - python2 is no longer required on a snappy system
+  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
+    - updated md5sums as the ordering of users/groups has changed with
+      the new systemd-sysv
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 Mar 2015 11:29:16 +0100
 
