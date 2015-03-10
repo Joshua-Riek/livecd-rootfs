@@ -1,12 +1,18 @@
 livecd-rootfs (2.292) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
     - python2 is no longer required on a snappy system
   * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
     - updated md5sums as the ordering of users/groups has changed with
       the new systemd-sysv
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 Mar 2015 11:29:16 +0100
+  [ Oliver Grawert ]
+  * live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early:
+    bump all md5sums to new values, now that debootstrap installs systemd-sysv
+    instead of upstart the ordering and thus the group numbering has changed
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 10 Mar 2015 12:07:16 +0100
 
 livecd-rootfs (2.291) vivid; urgency=low
 
