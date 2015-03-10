@@ -9,3 +9,6 @@ apt-get purge -y locales
 # system-image-cli in vivid does no longer depend on 
 # ubuntu-download-manager
 apt-get purge -y libicu52
+
+# no more py2, yay
+apt-get purge -y python python-minimal libpython-stdlib python2.7
