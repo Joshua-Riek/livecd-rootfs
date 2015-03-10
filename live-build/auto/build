@@ -479,6 +479,8 @@ if [ "$PROJECT" = "ubuntu-touch" ]; then
 	lb chroot_devpts remove "$@"
 	lb chroot_sysfs remove "$@"
 	lb chroot_proc remove "$@"
+
+	rm -rf chroot/etc/init/*.override
 fi
 
 # LTSP chroot building (only in 32bit and for Edubuntu (DVD))

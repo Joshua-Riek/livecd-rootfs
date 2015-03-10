@@ -1,9 +1,14 @@
 livecd-rootfs (2.293) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
     - remove libpython2.7 and friends as welll
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 Mar 2015 12:22:37 +0100
+  [ Oliver Grawert ]
+  * remove all .override files in teh build chroot, else teh buildd machines
+    fall over.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 10 Mar 2015 16:21:36 +0100
 
 livecd-rootfs (2.292) vivid; urgency=low
 
