@@ -1,4 +1,4 @@
-livecd-rootfs (2.294) UNRELEASED; urgency=medium
+livecd-rootfs (2.294) vivid; urgency=medium
 
   * add more verbosity to the copy command for android fragments in
     ubuntu-touch
