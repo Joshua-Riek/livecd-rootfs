@@ -448,31 +448,31 @@ if [ "$PROJECT" = "ubuntu-touch" ]; then
 	if [ "$ARCH" = "armhf" ]; then
 		touchsubarches="flo manta grouper mako generic"
 		for subarch in $touchsubarches; do
-			cp chroot/usr/share/android/product/*-preinstalled-system-armel+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-system-armel+${subarch}.img\
 				"${PREFIX}.system-armel+${subarch}.img"
-			cp chroot/usr/share/android/product/*-preinstalled-recovery-armel+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-recovery-armel+${subarch}.img\
 				"${PREFIX}.recovery-armel+${subarch}.img"
-			cp chroot/usr/share/android/product/*-preinstalled-boot-armhf+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-boot-armhf+${subarch}.img\
 				"${PREFIX}.boot-armhf+${subarch}.img"
 			# drop this following line once cdimage can handle -boot-*.img
-			cp "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
+			cp -v "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
 
-			# Android 4.4.2 based images don't ship a .zip file, do not fail if it does not exist
-			cp chroot/usr/share/android/product/*-preinstalled-touch-armel+${subarch}.zip\
+			# Android 4.4.2 based images do not ship a .zip file, do not fail if it does not exist
+			cp -v chroot/usr/share/android/product/*-preinstalled-touch-armel+${subarch}.zip\
 				"${PREFIX}.armel+${subarch}.zip" || true
 		done
 	fi
 	if [ "$ARCH" = "i386" ]; then
 		touchsubarches="generic_x86"
 		for subarch in $touchsubarches; do
-			cp chroot/usr/share/android/product/*-preinstalled-system-i386+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-system-i386+${subarch}.img\
 				"${PREFIX}.system-i386+${subarch}.img"
-			cp chroot/usr/share/android/product/*-preinstalled-recovery-i386+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-recovery-i386+${subarch}.img\
 				"${PREFIX}.recovery-i386+${subarch}.img"
-			cp chroot/usr/share/android/product/*-preinstalled-boot-i386+${subarch}.img\
+			cp -v chroot/usr/share/android/product/*-preinstalled-boot-i386+${subarch}.img\
 				"${PREFIX}.boot-i386+${subarch}.img"
 			# drop this following line once cdimage can handle -boot-*.img
-			cp "${PREFIX}.boot-i386+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
+			cp -v "${PREFIX}.boot-i386+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
 		done
 	fi
 
