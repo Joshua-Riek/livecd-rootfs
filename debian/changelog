@@ -1,4 +1,4 @@
-livecd-rootfs (2.295) UNRELEASED; urgency=medium
+livecd-rootfs (2.295) vivid; urgency=medium
 
   * forcefully add ubuntu-system-settings-online-accounts to ubuntu-touch
     builds to make sure the dependency is fulfilled in advance
