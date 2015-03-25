@@ -410,7 +410,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-touch)
-		add_package install ubuntu-minimal ubuntu-touch systemd-sysv- packagekit
+		add_package install ubuntu-minimal ubuntu-touch systemd-sysv- packagekit ubuntu-system-settings-online-accounts
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
 		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'

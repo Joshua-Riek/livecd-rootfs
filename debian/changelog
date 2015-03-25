@@ -1,3 +1,10 @@
+livecd-rootfs (2.295) UNRELEASED; urgency=medium
+
+  * forcefully add ubuntu-system-settings-online-accounts to ubuntu-touch
+    builds to make sure the dependency is fulfilled in advance
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 25 Mar 2015 10:26:40 +0100
+
 livecd-rootfs (2.294) vivid; urgency=medium
 
   * add more verbosity to the copy command for android fragments in
