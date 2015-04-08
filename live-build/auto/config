@@ -641,7 +641,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-core:system-image)
+	ubuntu-touch:*|ubuntu-core:system-image|ubuntu-cpc:*)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;
