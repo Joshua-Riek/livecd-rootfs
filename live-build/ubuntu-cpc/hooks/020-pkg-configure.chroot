@@ -1,0 +1,28 @@
+#!/bin/bash
+# Configure certain packages
+
+## console-setup
+
+# Select the fontface
+printf "%s\t%s\t%s\t%s\n" \
+    console-setup console-setup/console-setup/fontface47 string "Fixed" debconf-set-selections ||
+    { echo "FAILED to setup console fontface"; exit 1; }
+
+# Select the code page for font
+printf "%s\t%s\t%s\t%s\n" \
+    console-setup console-setup/codesetcode string "Uni2" | debconf-set-selections ||
+    { echo "FAILED to setup console code page to Uni2"; exit 1; }
+
+# Set Language string for codepage 47
+printf "%s\t%s\t%s\t%s\n" \
+    console-setup console-setup/codeset47 string ". Combined - Latin; Slavic Cyrillic; Greek" | debconf-set-selections ||
+    { echo "FAILED to setup codeset47 to proper string"; exti 1; }
+
+# Replace the console font and typ ein /etc/default/console-setup
+sed -i -e 's,^CODESET.*,CODESET="Uni2",g' \
+       -e 's,^FONTFACE.*,FONTFACE="Fixed",g' \
+          /etc/default/console-setup
+
+# Configure the console-setup
+dpkg-reconfigure --frontend=noninteractive console-setup ||
+    { echo "FAILED to recofigure console-setup"; exit 1; }

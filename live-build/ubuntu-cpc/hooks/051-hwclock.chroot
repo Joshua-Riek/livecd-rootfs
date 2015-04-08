@@ -1,0 +1,3 @@
+#!/bin/bash
+
+printf "HWCLOCKACCESS=no" >> /etc/default/rcS
