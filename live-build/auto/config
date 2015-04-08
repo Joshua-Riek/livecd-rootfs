@@ -555,6 +555,8 @@ if [ "$PROJECT" = "ubuntu-cpc" ]; then
 	esac
 	OPTS="${OPTS:+$OPTS }--system=normal"
 	OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+	OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+	OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 	add_task install minimal standard cloud-image
 	add_package install landscape-client ubuntu-minimal
 fi
