@@ -536,8 +536,10 @@ if [ "$PROJECT" = "ubuntu-cpc" ]; then
 	BINARY_REMOVE_LINUX=false
 	OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 	KERNEL_FLAVOURS=none
-	add_package install linux-virtual
-	OPTS="${OPTS:+$OPTS }--package-list=ubuntu-cloud-t --system=normal"
+	OPTS="${OPTS:+$OPTS }--system=normal"
+	OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+	add_task install minimal standard cloud-image
+	add_package install linux-virtual landscape-client ubuntu-minimal
 fi
 
 add_chroot_hook update-apt-file-cache
@@ -548,7 +550,7 @@ add_chroot_hook remove-openssh-server-host-keys
 add_chroot_hook remove-udev-persistent-rules
 
 case $PROJECT in
-	ubuntu-server)
+	ubuntu-server|ubuntu-cpc)
 		;;
 
 	*)
