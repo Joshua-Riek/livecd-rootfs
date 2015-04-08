@@ -91,6 +91,9 @@ if [ -n "${root_fs_label}" ]; then
    lstr="LABEL=${root_fs_label}"
    sed -i "s,^[^#${bl}]*\([${bl}]*/[${bl}].*\),${lstr}\1," "${rootd}/etc/fstab"
 fi
+cat > /etc/fstab << EOM
+LABEL=cloudimg-rootfs	/	 ext4	defaults	0 0
+EOM
 
 ## Make sure that the update-motd.d directory exists
 [ ! -e "${rootd}/etc/update-motd.d" ] &&
