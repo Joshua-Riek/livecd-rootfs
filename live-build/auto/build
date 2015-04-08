@@ -247,6 +247,11 @@ deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION} main restricted universe multi
 deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION}-updates main restricted universe multiverse
 deb ${LB_PARENT_MIRROR_BINARY_SECURITY} ${LB_DISTRIBUTION}-security main restricted universe multiverse
 EOF
+		lb chroot_hosts install
+		lb chroot_resolv install
+		Chroot chroot "apt-get update"
+		lb chroot_resolv remove
+		lb chroot_hosts remove
 	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
