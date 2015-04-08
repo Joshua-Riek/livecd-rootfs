@@ -1,5 +1,6 @@
 #!/bin/bash
 rootd="${1:-/}"
+root_fs_label=cloudimg-rootfs
 set -ex
 
 CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
