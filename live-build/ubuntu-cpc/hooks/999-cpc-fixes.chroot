@@ -203,12 +203,6 @@ esac
 PSUEDO_GRUB_PROBE
 }
 
-## --------------
-# add 'acpiphp' to modules so it is loaded on boot (LP: #450463)
-_xchroot "${rootd}" sh -c 'f=/etc/modules;
-   grep "^acpiphp$" "${f}" ||
-   printf "# %s\n%s\n" "LP: #450463" "acpiphp" >> "${f}"'
-
 ## install / setup grub2
 gprobe="${rootd}/usr/sbin/grub-probe"
 moved=0
