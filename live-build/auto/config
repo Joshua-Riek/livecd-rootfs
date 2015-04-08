@@ -536,10 +536,21 @@ if [ "$PROJECT" = "ubuntu-cpc" ]; then
 	BINARY_REMOVE_LINUX=false
 	OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 	KERNEL_FLAVOURS=none
+	case $ARCH in
+		armhf)
+			add_package install flash-kernel u-boot-tools linux-generic-lpae
+			;;
+		arm64)
+			add_package install flash-kernel linux-generic
+			;;
+		*)
+			add_package install linux-virtual
+			;;
+	esac
 	OPTS="${OPTS:+$OPTS }--system=normal"
 	OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
 	add_task install minimal standard cloud-image
-	add_package install linux-virtual landscape-client ubuntu-minimal
+	add_package install landscape-client ubuntu-minimal
 fi
 
 add_chroot_hook update-apt-file-cache
