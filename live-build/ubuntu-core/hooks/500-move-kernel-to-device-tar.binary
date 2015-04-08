@@ -64,7 +64,7 @@ fi
 # and tar it up
 (
  cd $TMPDIR
- tar -c -z -f $HERE/device.tar.gz system
+ tar -c -z -f $HERE/device.tar.gz system assets hardware.yaml
 )
 
 # now build the azure device tarball by adding walinuxagent
@@ -86,7 +86,7 @@ then
 # and tar it up
 (
  cd $TMPDIR
- tar -c -z -f $HERE/device-azure.tar.gz system
+ tar -c -z -f $HERE/device-azure.tar.gz system assets hardware.yaml
 )
 fi
 rm -rf $TMPDIR
