@@ -538,10 +538,16 @@ if [ "$PROJECT" = "ubuntu-cpc" ]; then
 	KERNEL_FLAVOURS=none
 	case $ARCH in
 		armhf)
-			add_package install flash-kernel u-boot-tools linux-generic-lpae
+			add_package install flash-kernel linux-generic-lpae
+			add_task install server
 			;;
 		arm64)
 			add_package install flash-kernel linux-generic
+			add_task install server
+			;;
+		ppc64el)
+			add_package install linux-virtual
+			add_task install server
 			;;
 		*)
 			add_package install linux-virtual
