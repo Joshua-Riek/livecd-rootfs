@@ -111,7 +111,13 @@ case $IMAGEFORMAT in
 				COMPONENTS='main restricted universe multiverse'
 				;;
 			*)
-				add_package live jasper
+				case $PROJECT in
+					ubuntu-cpc)
+						;;
+					*)
+						add_package live jasper
+						;;
+				esac
 				;;
 		esac
 		;;
@@ -156,7 +162,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|base|ubuntu-touch)
+		ubuntu-core|base|ubuntu-touch|ubuntu-cpc)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -440,6 +446,9 @@ case $PROJECT in
 		esac
 		;;
 
+	ubuntu-cpc)
+		;;
+
 	*)
 		echo "unknown project $PROJECT" >&2
 		exit 2
@@ -523,6 +532,35 @@ case $PROJECT in
 		esac
 esac
 
+if [ "$PROJECT" = "ubuntu-cpc" ]; then
+	BINARY_REMOVE_LINUX=false
+	OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+	KERNEL_FLAVOURS=none
+	case $ARCH in
+		armhf)
+			add_package install flash-kernel linux-generic-lpae
+			add_task install server
+			;;
+		arm64)
+			add_package install flash-kernel linux-generic
+			add_task install server
+			;;
+		ppc64el)
+			add_package install linux-virtual
+			add_task install server
+			;;
+		*)
+			add_package install linux-virtual
+			;;
+	esac
+	OPTS="${OPTS:+$OPTS }--system=normal"
+	OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+	OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+	OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+	add_task install minimal standard cloud-image
+	add_package install landscape-client ubuntu-minimal
+fi
+
 add_chroot_hook update-apt-file-cache
 add_chroot_hook update-apt-xapian-index
 add_chroot_hook update-mlocate-database
@@ -531,7 +569,7 @@ add_chroot_hook remove-openssh-server-host-keys
 add_chroot_hook remove-udev-persistent-rules
 
 case $PROJECT in
-	ubuntu-server)
+	ubuntu-server|ubuntu-cpc)
 		;;
 
 	*)
@@ -622,7 +660,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-core:system-image)
+	ubuntu-touch:*|ubuntu-core:system-image|ubuntu-cpc:*)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;

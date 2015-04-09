@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#	Create the necessary users and set their passwords.  If needed,
+#	make sure they belong to the proper groups
+#
+# Author: Ben Howard <ben.howard@canonical.com>
+# Date:   29 Jun 2011
+#
+
+echo "Adding admin group..."
+addgroup --system --quiet admin
+
+echo "Adding netdev group..."
+addgroup --system --quiet netdev

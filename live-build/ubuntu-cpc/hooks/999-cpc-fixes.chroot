@@ -1,0 +1,281 @@
+#!/bin/bash
+rootd="${1:-/}"
+root_fs_label=cloudimg-rootfs
+set -ex
+
+CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+
+LANG=C
+
+_xchroot() {
+   # Prevent multiple chroots
+   if [ "$1" = "/" ]; then
+      shift;
+      "$@"
+   else
+      chroot "$@"
+   fi
+}
+
+#### COMMON architecture independent functions
+arch=$(_xchroot "${rootd}" dpkg --print-architecture)
+
+add_serial_console() {
+   condev=$1
+   idir="$rootd/etc/init"
+   cat << EOF > "${idir}/${condev}.conf"
+# CONDEV - getty
+#
+# This service maintains a getty on CONDEV from the point the system is
+# started until it is shut down again.
+
+start on stopped rc RUNLEVEL=[2345] and (
+            not-container or
+            container CONTAINER=lxc or
+            container CONTAINER=lxc-libvirt)
+
+stop on runlevel [!2345]
+
+pre-start script
+    # getty will not be started if the serial console is not present
+    stty -F /dev/CONDEV -a 2> /dev/null > /dev/null || { stop ; exit 0; }
+end script
+
+respawn
+script
+    exec /sbin/getty -L CONDEV 115200 vt102
+end script
+${CLOUD_IMG_STR}
+EOF
+   sed -i "s/CONDEV/${condev}/g" "$idir/${condev}.conf"
+}
+
+## --------------
+# remove 127.0.1.1 entry (LP: #440757)
+_xchroot "${rootd}" sh -c 'sed -i "/^127.0.1.1/d" /etc/hosts'
+
+## --------------
+# remove ssh pregenerated keys (LP: #512377)
+
+_xchroot "${rootd}" sh -c 'rm -f /etc/ssh/ssh_host_[rd]sa_key*'
+
+## --------------
+_xchroot "${rootd}" locale-gen en_US.utf8
+
+## --------------
+# set cloud-init to be on
+values="NoCloud, ConfigDrive, AltCloud, OVF, MAAS, Ec2, None"
+printf "%s\t%s\t%s\t%s\n" \
+   cloud-init cloud-init/datasources multiselect  "$values" |
+      _xchroot "${rootd}" debconf-set-selections
+_xchroot "${rootd}" dpkg-reconfigure --frontend=noninteractive cloud-init
+
+## --------------
+# write some build information to the guest
+# the idea is that given runtime info and this info, the instance
+# can at least determine if there is a newer build available
+# these variables are passed in in environment from cloudimg-build-launcher
+if [ -n "${build_name}" -o -n "${serial}" ]; then
+   d="${rootd}/etc/cloud"
+   [ -d "$d" ] || mkdir -p "${d}"
+   {
+      [ -n "${build_name}" ] && echo "build_name: ${build_name}"
+      [ -n "${serial}" ] && echo "serial: ${serial}"
+   } > "$d/build.info"
+fi
+
+## --------------
+# for maverick and newer, use LABEL= for the '/' entry in fstab
+if [ -n "${root_fs_label}" ]; then
+   bl="[:blank:]"
+   lstr="LABEL=${root_fs_label}"
+   sed -i "s,^[^#${bl}]*\([${bl}]*/[${bl}].*\),${lstr}\1," "${rootd}/etc/fstab"
+fi
+cat > /etc/fstab << EOM
+LABEL=cloudimg-rootfs	/	 ext4	defaults	0 0
+EOM
+
+## Make sure that the update-motd.d directory exists
+[ ! -e "${rootd}/etc/update-motd.d" ] &&
+   mkdir -p "${rootd}/etc/update-motd.d"
+
+## write a MOTD file advertising support for images
+cat > "${rootd}/etc/update-motd.d/51-cloudguest" << EOF
+#!/bin/sh
+#
+${CLOUD_IMG_STR}
+# This file is not managed by a package.  If you no longer want to
+# see this message you can safely remove the file.
+echo ""
+echo "  Get cloud support with Ubuntu Advantage Cloud Guest:"
+echo "    http://www.ubuntu.com/business/services/cloud"
+EOF
+
+chmod +x "${rootd}/etc/update-motd.d/51-cloudguest"
+
+# for quantal and newer, add /etc/overlayroot.local.conf
+# but do not overwrite anything that somehow got there
+if [ -f "${rootd}/etc/overlayroot.conf" ] &&
+   [ ! -f "${rootd}/etc/overlayroot.local.conf" ]; then
+   {
+      echo "${CLOUD_IMG_STR}"
+      echo "overlayroot_cfgdisk=LABEL=OROOTCFG"
+   } > "${rootd}/etc/overlayroot.local.conf"
+fi
+
+
+#### END COMMON ARCH FUNCTIONS
+
+if [ "$arch" = "ppc64el" ]; then
+   add_serial_console hvc0
+   exit 0
+fi
+
+# ARM images are special
+if [[ "$arch" =~ (arm|arm64|aarch64) ]]; then
+
+   echo "Configuring ARM Serial Port"
+   add_serial_console ttyAMA0
+
+   echo "Image architecture is ARM. Existing vmbuilder-fixups"
+
+   exit 0
+fi
+
+## Add ttyS0 for i386/amd64 for Trusty and newer
+if [ "$arch" = "i386" -o "$arch" = "amd64" ]; then
+   add_serial_console ttyS0
+fi
+
+
+psuedo_grub_probe() {
+   cat <<"PSUEDO_GRUB_PROBE"
+#!/bin/sh
+Usage() {
+   cat <<EOF
+Usage: euca-psuedo-grub-probe
+   this is a wrapper around grub-probe to provide the answers for an ec2 guest
+EOF
+}
+bad_Usage() { Usage 1>&2; fail "$@"; }
+
+short_opts=""
+long_opts="device-map:,target:,device"
+getopt_out=$(getopt --name "${0##*/}" \
+   --options "${short_opts}" --long "${long_opts}" -- "$@") &&
+   eval set -- "${getopt_out}" ||
+   bad_Usage
+
+device_map=""
+target=""
+device=0
+arg=""
+
+while [ $# -ne 0 ]; do
+   cur=${1}; next=${2};
+   case "$cur" in
+      --device-map) device_map=${next}; shift;;
+      --device) device=1;;
+      --target) target=${next}; shift;;
+      --) shift; break;;
+   esac
+   shift;
+done
+arg=${1}
+
+case "${target}:${device}:${arg}" in
+   device:*:/*) echo "/dev/sda1"; exit 0;;
+   fs:*:*) echo "ext2"; exit 0;;
+   partmap:*:*)
+      # older versions of grub (lucid) want 'part_msdos' written
+      # rather than 'msdos'
+      legacy_pre=""
+      grubver=$(dpkg-query --show --showformat '${Version}\n' grub-pc 2>/dev/null) &&
+         dpkg --compare-versions "${grubver}" lt 1.98+20100804-5ubuntu3 &&
+         legacy_pre="part_"
+      echo "${legacy_pre}msdos";
+      exit 0;;
+   abstraction:*:*) echo ""; exit 0;;
+   drive:*:/dev/sda) echo "(hd0)";;
+   drive:*:/dev/sda*) echo "(hd0,1)";;
+   fs_uuid:*:*) exit 1;;
+esac
+PSUEDO_GRUB_PROBE
+}
+
+## install / setup grub2
+gprobe="${rootd}/usr/sbin/grub-probe"
+moved=0
+if [ -f "${gprobe}" ]; then
+   mv "${gprobe}" "${gprobe}.dist"
+   moved=1
+fi
+psuedo_grub_probe > "${gprobe}"
+chmod 755 "${gprobe}"
+
+# for Quantal and later, use /etc/default/grub.d functionality
+# rather than modifying the grub configuration itself.
+# This avoids the mess of having to do dpkg stuff
+# LP: 1179940
+mkdir -p "${rootd}/etc/default/grub.d"
+cat << EOF > "${rootd}/etc/default/grub.d/50-cloudimg-settings.cfg"
+# Cloud Image specific Grub settings for Generic Cloud Images
+${CLOUD_IMG_STR}
+
+# Set the recordfail timeout
+GRUB_RECORDFAIL_TIMEOUT=0
+
+# Do not wait on grub prompt
+GRUB_TIMEOUT=0
+
+# Set the default commandline
+GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"
+
+# Set the grub console type
+GRUB_TERMINAL=console
+EOF
+_xchroot "${rootd}" update-grub2
+
+# since this is a disk image, we technically don't need to install all the
+# grub modules, as the image itself is not bootable. This makes for a small
+# disk image
+_xchroot "${rootd}" update-grub
+
+# reconfigure grub so that upgrades to grub-pc do not force a debconf config
+# changed prompt (LP: #1009294).  This re-runs update-grub
+_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
+    dpkg-reconfigure grub-pc
+
+grub2cfg="${rootd}/boot/grub/grub.cfg"
+[ ! -f "${grub2cfg}" ] ||
+   sed -i -e "s,root=/dev/sda1,root=LABEL=${root_fs_label}," "${grub2cfg}"
+
+[ ${moved} -eq 0 ] || mv "${gprobe}.dist" "${gprobe}"
+
+## modify /boot/grub/menu.lst if it exists
+## this is generated at install time by grub-legacy-ec2, but will have
+## devices as found from the _xchroot.  Here we write what it will be on ec2
+if [ -f "${rootd}/boot/grub/menu.lst" ]; then
+   grub_root="(hd0)"
+   linux_root=/dev/sda1
+   [ -n "${root_fs_label}" ] && linux_root="LABEL=${root_fs_label}"
+   # the sed code below basically fixes/sets the following lines in a
+   # /boot/grub/menu.lst file:
+   #   # kopt=root=xxxxxxx ro
+   #   kernel  /boot/vmlinuz-... root=xxxxxx ....
+   #   # groot=xxxxx
+   #   root    xxxxx
+   #   uuuid   xxxxx
+   sed -i "${rootd}/boot/grub/menu.lst" \
+      -e "s|^\(# kopt=root=\)[^ ]*|\1${linux_root}|" \
+      -e "s|^\(kernel.*root=\)[^ ]*|\1${linux_root}|" \
+      -e "s|^\(# groot=\)[^ ]*|\1${grub_root}|" \
+      -e "s|^\(root\|uuid\)\([[:space:]]*\).*|root\2${grub_root}|"
+
+   # grub-legacy-ec2 writes this ucf entry. since we've modified
+   # /boot/grub/menu.lst, we have to remove it, or the user will
+   # get prompted for a 3 way merge of the changes the first time this runs
+   _xchroot "${rootd}" /usr/bin/ucfr --purge grub /var/run/grub/menu.lst
+fi
+
+# vi: ts=3 expandtab

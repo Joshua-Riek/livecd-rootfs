@@ -241,6 +241,18 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 		mkdir -p chroot/var/log/installer
 		Chroot chroot "ln -s /etc/media-info /var/log/installer/media-info"
 	fi
+	if [ "$PROJECT" = "ubuntu-cpc" ]; then
+		cat > chroot/etc/apt/sources.list << EOF
+deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION} main restricted universe multiverse
+deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION}-updates main restricted universe multiverse
+deb ${LB_PARENT_MIRROR_BINARY_SECURITY} ${LB_DISTRIBUTION}-security main restricted universe multiverse
+EOF
+		lb chroot_hosts install
+		lb chroot_resolv install
+		Chroot chroot "apt-get update"
+		lb chroot_resolv remove
+		lb chroot_hosts remove
+	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
 	echo BEGIN docdirs
