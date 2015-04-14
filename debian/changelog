@@ -1,6 +1,8 @@
 livecd-rootfs (2.298) UNRELEASED; urgency=low
 
-  * remove click-hook-framework
+  * snappy:
+    + remove click-hook-framework
+    + remove /etc/init.d/grub-common 
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 13 Apr 2015 13:02:11 -0400
 
