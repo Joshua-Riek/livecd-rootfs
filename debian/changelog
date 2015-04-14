@@ -1,3 +1,9 @@
+livecd-rootfs (2.298) UNRELEASED; urgency=low
+
+  * remove click-hook-framework
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 13 Apr 2015 13:02:11 -0400
+
 livecd-rootfs (2.297) vivid; urgency=low
 
   * fix device.tar.gz generation for snappy

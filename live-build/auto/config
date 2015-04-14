@@ -368,9 +368,6 @@ case $PROJECT in
 		        #add_task install minimal
 			add_task install ubuntu-core
 
-                        # only available in the PPA right now
-                        add_package install click-hook-framework
-
                         # some workarounds because the seeds are not quite
                         # corrent at the moment
 		        add_package install dbus
