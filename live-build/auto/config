@@ -371,17 +371,11 @@ case $PROJECT in
                         # some workarounds because the seeds are not quite
                         # corrent at the moment
 		        add_package install dbus
-		        add_package install libpam-systemd
                         add_package install isc-dhcp-client
-                        add_package install resolvconf
-                        add_package install click-apparmor
+		        add_package install libpam-systemd
                         # no Task: header yet
                         add_package install ubuntu-snappy
-
-                        # this is required for systemd to fsck the /boot
-                        # partition
-                        add_package install dosfstools
-                        
+ 
                         # add special azure package
                         case $ARCH in
                             amd64)
