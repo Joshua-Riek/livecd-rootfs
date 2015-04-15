@@ -2,6 +2,7 @@ livecd-rootfs (2.298) UNRELEASED; urgency=low
 
   * live-build/auto/config:
     - remove resolvconf, click-apparmor, dosfstools
+    - shuffle install order around
   * snappy:
     + remove click-hook-framework
     + remove /etc/init.d/grub-common 

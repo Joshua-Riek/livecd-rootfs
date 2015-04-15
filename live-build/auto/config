@@ -364,10 +364,6 @@ case $PROJECT in
 		if [ "$SUBPROJECT" = "system-image" ]; then
 		        OPTS="${OPTS:+$OPTS }--apt-recommends false"
 
-                        # no minimal as we want to be really minimal
-		        #add_task install minimal
-			add_task install ubuntu-core
-
                         # some workarounds because the seeds are not quite
                         # corrent at the moment
 		        add_package install dbus
@@ -376,6 +372,10 @@ case $PROJECT in
                         # no Task: header yet
                         add_package install ubuntu-snappy
  
+                        # no minimal as we want to be really minimal
+		        #add_task install minimal
+			add_task install ubuntu-core
+
                         # add special azure package
                         case $ARCH in
                             amd64)
