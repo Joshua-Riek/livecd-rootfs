@@ -1,4 +1,4 @@
-livecd-rootfs (2.298) UNRELEASED; urgency=low
+livecd-rootfs (2.298) vivid; urgency=low
 
   * live-build/auto/config:
     - remove resolvconf, click-apparmor, dosfstools
@@ -7,7 +7,7 @@ livecd-rootfs (2.298) UNRELEASED; urgency=low
     + remove click-hook-framework
     + remove /etc/init.d/grub-common 
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 15 Apr 2015 14:05:13 -0500
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 16 Apr 2015 09:37:34 -0500
 
 livecd-rootfs (2.297) vivid; urgency=low
 
