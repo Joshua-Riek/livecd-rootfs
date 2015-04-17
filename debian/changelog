@@ -1,3 +1,9 @@
+livecd-rootfs (2.299) vivid; urgency=medium
+
+  * Fix snappy motd to not reference 'development', which isn't always true.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Fri, 17 Apr 2015 13:29:03 -0600
+
 livecd-rootfs (2.298) vivid; urgency=low
 
   * live-build/auto/config:
