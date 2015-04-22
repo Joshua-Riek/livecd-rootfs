@@ -1,4 +1,4 @@
-livecd-rootfs (2.299+desktopnext2) vivid; urgency=medium
+livecd-rootfs (2.299+desktopnext3) vivid; urgency=medium
 
   * Create hooks and image build config for the ubuntu-desktop-next
     new based on snappy image.
