@@ -210,6 +210,23 @@ case $PROJECT in
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
+
+		# system image snappy desktop next image
+		# mvo: This is for cron.daily-preinstalled
+		#      CDIMAGE_PREINSTALLED is not passed from build.py
+		#      and PREINSTALLED means something different. So
+		#      we use SUBPROJECT to pass on the information
+		if [ "$SUBPROJECT" = "system-image" ]; then
+			add_task install ubuntu-core
+
+			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
+
+			# contains the framework definition
+			add_package install ubuntu-core-libs
+
+			# universe needed for 'system-image-cli'
+			COMPONENTS='main restricted universe'
+		fi
 		;;
 
 	kubuntu|kubuntu-dvd)
