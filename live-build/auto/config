@@ -162,7 +162,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|base|ubuntu-touch|ubuntu-cpc)
+		ubuntu-core|base|ubuntu-touch|ubuntu-cpc|ubuntu-deskop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -217,12 +217,7 @@ case $PROJECT in
 		#      and PREINSTALLED means something different. So
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
-			add_task install ubuntu-core
-
 			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
-
-			# contains the framework definition
-			add_package install ubuntu-core-libs
 
 			# universe needed for 'system-image-cli'
 			COMPONENTS='main restricted universe'
