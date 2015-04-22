@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# see bug https://bugs.launchpad.net/snappy-ubuntu/+bug/1442231
+rm -f /etc/init.d/grub-common

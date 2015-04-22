@@ -1,0 +1,8 @@
+#!/bin/sh -x
+
+USER=ubuntu
+
+DEFGROUPS="docker,sudo"
+
+echo "I: add $USER to ($DEFGROUPS) group(s)"
+usermod -a -G ${DEFGROUPS} ${USER}
