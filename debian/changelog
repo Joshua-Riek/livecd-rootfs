@@ -1,3 +1,12 @@
+livecd-rootfs (2.300) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot: revert
+    removal of python from the rootfs temporarily, since we've manually
+    re-added it to the seed in order to make walinuxagent work again on the
+    azure image.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 22 Apr 2015 23:01:02 +0000
+
 livecd-rootfs (2.299) vivid; urgency=medium
 
   * Fix snappy motd to not reference 'development', which isn't always true.
