@@ -162,7 +162,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|base|ubuntu-touch|ubuntu-cpc|ubuntu-deskop-next)
+		ubuntu-core|base|ubuntu-touch|ubuntu-cpc|ubuntu-desktop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -218,9 +218,6 @@ case $PROJECT in
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
 			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
-
-			# universe needed for 'system-image-cli'
-			COMPONENTS='main restricted universe'
 		fi
 		;;
 
