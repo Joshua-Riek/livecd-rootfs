@@ -1,3 +1,11 @@
+livecd-rootfs (2.301) UNRELEASED; urgency=low
+
+  * create /boot/uboot on armhf to ensure that its in the system
+    tarball and still on the system if ubuntu-core-upgrader
+    performs a "format" (LP: #1447652)
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 28 Apr 2015 08:27:44 +0200
+
 livecd-rootfs (2.300) vivid; urgency=medium
 
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot: revert
