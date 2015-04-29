@@ -45,7 +45,7 @@ mkdir -p $TMPDIR/assets/
  cat > $TMPDIR/hardware.yaml << EOF
 kernel: assets/vmlinuz
 initrd: assets/initrd.img
-partiton-layout: system-AB
+partition-layout: system-AB
 EOF
 
 # arch specific ones
