@@ -659,6 +659,7 @@ esac
 
 if [ "$EXTRA_PPAS" ]; then
 	rm -f config/archives/extra-ppas.list.chroot \
+	      config/archives/extra-ppas.pref.chroot \
 	      config/archives/extra-ppas.key.chroot
 	gpg_tmpdir="$(mktemp -d)"
 	run_gpg () {
@@ -668,8 +669,23 @@ if [ "$EXTRA_PPAS" ]; then
 			"$@"
 	}
 	for extra_ppa in $EXTRA_PPAS; do
+		extra_ppa_pin=''
+		extra_ppa_origin=''
+		case $extra_ppa in
+		    *:*)
+			extra_ppa_pin=${extra_ppa#*:}
+			extra_ppa=${extra_ppa%:*}
+			;;
+		esac
 		extra_ppa_fingerprint="$(/usr/share/livecd-rootfs/get-ppa-fingerprint "$extra_ppa")"
 		echo "deb http://ppa.launchpad.net/$extra_ppa/ubuntu @DISTRIBUTION@ main" >> config/archives/extra-ppas.list.chroot
+		if [ -n "$extra_ppa_pin" ]; then
+		    extra_ppa_origin="LP-PPA-$(echo $extra_ppa | sed -e 's,/ppa$,,' -e 's,/,-,')"
+		    echo "Package: *" >> config/archives/extra-ppas.pref.chroot
+		    echo "Pin: release o=$extra_ppa_origin" >> config/archives/extra-ppas.pref.chroot
+		    echo "Pin-Priority: $extra_ppa_pin" >> config/archives/extra-ppas.pref.chroot
+		    echo "" >> config/archives/extra-ppas.pref.chroot
+		fi
 		run_gpg --keyring "$gpg_tmpdir/pubring.gpg" \
 			--recv "$extra_ppa_fingerprint"
 		run_gpg --keyring "$gpg_tmpdir/pubring.gpg" \
@@ -692,6 +708,8 @@ if [ "$EXTRA_PPAS" ]; then
 	rm -rf "$gpg_tmpdir"
 	cp -a config/archives/extra-ppas.list.chroot \
 	      config/archives/extra-ppas.list.binary
+	cp -a config/archives/extra-ppas.pref.chroot \
+	      config/archives/extra-ppas.pref.binary
 	cp -a config/archives/extra-ppas.key.chroot \
 	      config/archives/extra-ppas.key.binary
 fi

@@ -1,10 +1,15 @@
 livecd-rootfs (2.301) UNRELEASED; urgency=low
 
+  [ Michael Vogt ]
   * create /boot/uboot on armhf to ensure that its in the system
     tarball and still on the system if ubuntu-core-upgrader
     performs a "format" (LP: #1447652)
   * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
     - fix typo in hardware.yaml
+
+  [ Adam Conrad ]
+  * live-build/auto/config: Handle applying priorities to EXTRA_PPAS
+    via the extra_ppa="user/ppaname:priority" syntax (LP: #1450257)
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 28 Apr 2015 08:27:44 +0200
 
