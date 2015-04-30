@@ -713,10 +713,12 @@ if [ "$EXTRA_PPAS" ]; then
 	rm -rf "$gpg_tmpdir"
 	cp -a config/archives/extra-ppas.list.chroot \
 	      config/archives/extra-ppas.list.binary
-	cp -a config/archives/extra-ppas.pref.chroot \
-	      config/archives/extra-ppas.pref.binary
 	cp -a config/archives/extra-ppas.key.chroot \
 	      config/archives/extra-ppas.key.binary
+	if [ -f config/archives/extra-ppas.pref.chroot ]; then
+		cp -a config/archives/extra-ppas.pref.chroot \
+		      config/archives/extra-ppas.pref.binary
+	fi
 fi
 
 case $SUBPROJECT in
