@@ -6,6 +6,8 @@ livecd-rootfs (2.301) UNRELEASED; urgency=low
     performs a "format" (LP: #1447652)
   * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
     - fix typo in hardware.yaml
+  * live-build/auto/config:
+    - add grub-efi-ia32-bin for i386 for efi support
 
   [ Adam Conrad ]
   * live-build/auto/config: Handle applying priorities to EXTRA_PPAS
