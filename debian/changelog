@@ -1,4 +1,4 @@
-livecd-rootfs (2.301) UNRELEASED; urgency=low
+livecd-rootfs (2.301) wily; urgency=low
 
   [ Michael Vogt ]
   * create /boot/uboot on armhf to ensure that its in the system
@@ -13,7 +13,7 @@ livecd-rootfs (2.301) UNRELEASED; urgency=low
   * live-build/auto/config: Handle applying priorities to EXTRA_PPAS
     via the extra_ppa="user/ppaname:priority" syntax (LP: #1450257)
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 28 Apr 2015 08:27:44 +0200
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 06 May 2015 18:23:17 -0600
 
 livecd-rootfs (2.300) vivid; urgency=medium
 
