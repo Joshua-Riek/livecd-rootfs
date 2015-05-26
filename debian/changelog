@@ -1,3 +1,10 @@
+livecd-rootfs (2.303) UNRELEASED; urgency=medium
+
+  * drop grouper from touchsubarches variable. the android package does not
+    provide any grouper images anymore which makes touch image builds fail.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 26 May 2015 14:12:09 +0200
+
 livecd-rootfs (2.302) wily; urgency=medium
 
   * Call Setup_cleanup in live-build/auto/build to set exit handler.
