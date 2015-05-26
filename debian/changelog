@@ -1,4 +1,4 @@
-livecd-rootfs (2.303) UNRELEASED; urgency=medium
+livecd-rootfs (2.303) wily; urgency=medium
 
   * drop grouper from touchsubarches variable. the android package does not
     provide any grouper images anymore which makes touch image builds fail.
