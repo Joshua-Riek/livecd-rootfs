@@ -10,6 +10,9 @@ Arguments "${@}"
 Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
 Set_defaults
 
+# Setup cleanup function
+Setup_cleanup
+
 rm -f binary.success
 (
 	if [ -d config/gnupg ]; then

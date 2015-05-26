@@ -1,3 +1,9 @@
+livecd-rootfs (2.302) wily; urgency=medium
+
+  * Call Setup_cleanup in live-build/auto/build to set exit handler.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 25 May 2015 23:09:42 -0600
+
 livecd-rootfs (2.301) wily; urgency=low
 
   [ Michael Vogt ]
