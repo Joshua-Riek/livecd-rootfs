@@ -1,3 +1,9 @@
+livecd-rootfs (2.305) UNRELEASED; urgency=medium
+
+  * also add /lib/firmware to the dirs we pre-create on touch and core.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 28 May 2015 13:18:43 +0200
+
 livecd-rootfs (2.304) wily; urgency=medium
 
   * -touch/-core create /etc/mtab link, /lib/modules dir and the respective
