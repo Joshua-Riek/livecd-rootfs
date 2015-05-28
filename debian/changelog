@@ -1,3 +1,11 @@
+livecd-rootfs (2.304) UNRELEASED; urgency=medium
+
+  * -touch/-core create /etc/mtab link, /lib/modules dir and the respective
+    writable mountpoints (/userdata for touch, /writable for core) so we do
+    not need to re-pack the rootfs on the system-image server to add them.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 28 May 2015 12:17:32 +0200
+
 livecd-rootfs (2.303) wily; urgency=medium
 
   * drop grouper from touchsubarches variable. the android package does not
