@@ -1,4 +1,4 @@
-livecd-rootfs (2.305) UNRELEASED; urgency=medium
+livecd-rootfs (2.305) wily; urgency=medium
 
   * also add /lib/firmware to the dirs we pre-create on touch and core.
 
