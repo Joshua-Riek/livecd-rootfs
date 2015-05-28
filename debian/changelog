@@ -1,4 +1,4 @@
-livecd-rootfs (2.304) UNRELEASED; urgency=medium
+livecd-rootfs (2.304) wily; urgency=medium
 
   * -touch/-core create /etc/mtab link, /lib/modules dir and the respective
     writable mountpoints (/userdata for touch, /writable for core) so we do
