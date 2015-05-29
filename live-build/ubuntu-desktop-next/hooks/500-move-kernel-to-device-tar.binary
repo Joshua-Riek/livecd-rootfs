@@ -1,0 +1,108 @@
+#!/bin/sh
+#
+# move the kernel out into a new device tarfile with system/boot 
+
+set -ex
+
+echo "I: Moving kernel into device tarball"
+
+HERE="$(pwd)"
+TMPDIR="$(mktemp -d)"
+ARCH=$(dpkg --print-architecture)
+mkdir -p $TMPDIR/system/
+mkdir -p $TMPDIR/assets/
+
+# cp files, we can't simply use tar --transform as it changes the symlink target
+(
+ cd binary/boot/filesystem.dir 
+
+ # for compatibility with current grub/u-d-f
+ cp -ar --parent boot/vmlinu?-* boot/initrd.img-* boot/abi-* boot/System.map-* $TMPDIR/system/
+ if [ -e vmlinu? ] && [ -e initrd.img ]; then
+     cp -ar --parent vmlinu? initrd.img $TMPDIR/system
+ fi
+ cp -ar --parent lib/modules/ $TMPDIR/system/
+ cp -ar --parent lib/firmware/ $TMPDIR/system/
+
+ # new assets handling
+ cp -ar boot/vmlinu?-* $TMPDIR/assets/vmlinuz
+ cp -ar boot/initrd.img-* $TMPDIR/assets/initrd.img
+ cp -ar boot/vmlinu?-* boot/initrd.img-* boot/abi-* boot/System.map-* $TMPDIR/assets/
+
+ dtbs=$(find lib/firmware -type d -name 'device-tree' -print0)
+ [ -n "$dtbs" ] && mv "$dtbs" $TMPDIR/assets/dtbs
+
+ if [ -e vmlinu? ] && [ -e initrd.img ]; then
+     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
+     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
+ fi
+)
+# create hardware.yaml for u-boot
+# this assumes armh == u-boot
+# and all others grub
+(
+# common bits
+ cat > $TMPDIR/hardware.yaml << EOF
+kernel: assets/vmlinuz
+initrd: assets/initrd.img
+partiton-layout: system-AB
+EOF
+
+# arch specific ones
+if [ "$ARCH" = "armhf" ]; then
+ cat >> $TMPDIR/hardware.yaml << EOF
+dtbs: assets/dtbs
+bootloader: u-boot
+EOF
+else
+ cat >> $TMPDIR/hardware.yaml << EOF
+bootloader: grub
+EOF
+fi
+)
+
+# and tar it up
+(
+ cd $TMPDIR
+ tar -c -z -f $HERE/device.tar.gz system assets hardware.yaml
+)
+
+# now build the azure device tarball by adding walinuxagent
+if [ -e binary/boot/filesystem.dir/var/lib/dpkg/info/walinuxagent.list ];
+then
+(
+ cd binary/boot/filesystem.dir 
+ while read line; do
+     line=$(echo $line |cut -d/ -f2-)
+     if [ -e "$line" ] && [ ! -d "$line" ]; then
+         cp -ar --parent $line $TMPDIR/system
+     fi
+ done < var/lib/dpkg/info/walinuxagent.list
+ # created by walinuxagent postinst/dh-systemd
+ cp -ar --parent var/lib/systemd/deb-systemd-helper-enabled/walinuxagent* $TMPDIR/system
+ cp -ar --parent etc/systemd/system/multi-user.target.wants/walinuxagent* $TMPDIR/system
+ mkdir -p $TMPDIR/system/var/lib/waagent
+)
+# and tar it up
+(
+ cd $TMPDIR
+ tar -c -z -f $HERE/device-azure.tar.gz system assets hardware.yaml
+)
+fi
+rm -rf $TMPDIR
+
+# remove files from the root filesystem
+(cd binary/boot/filesystem.dir
+ rm -f boot/vmlinu?-*
+ rm -f boot/initrd.img-*
+ rm -f boot/abi-*
+ rm -f boot/System.map-*
+ rm -f initrd.img
+ rm -f vmlinu?
+ rm -rf lib/modules
+ rm -rf lib/firmware
+ # remove walinuxagent
+ if [ -e var/lib/dpkg/info/walinuxagent.list ]; then
+     chroot . dpkg --purge walinuxagent || true
+ fi
+)

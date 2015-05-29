@@ -1,3 +1,10 @@
+livecd-rootfs (2.306) wily; urgency=medium
+
+  * Create hooks and image build config for the ubuntu-desktop-next
+    new based on snappy image.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Fri, 29 May 2015 11:51:22 +0200
+
 livecd-rootfs (2.305) wily; urgency=medium
 
   * also add /lib/firmware to the dirs we pre-create on touch and core.

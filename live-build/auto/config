@@ -162,7 +162,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|base|ubuntu-touch|ubuntu-cpc)
+		ubuntu-core|base|ubuntu-touch|ubuntu-cpc|ubuntu-desktop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -210,6 +210,15 @@ case $PROJECT in
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
+
+		# system image snappy desktop next image
+		# mvo: This is for cron.daily-preinstalled
+		#      CDIMAGE_PREINSTALLED is not passed from build.py
+		#      and PREINSTALLED means something different. So
+		#      we use SUBPROJECT to pass on the information
+		if [ "$SUBPROJECT" = "system-image" ]; then
+			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
+		fi
 		;;
 
 	kubuntu|kubuntu-dvd)
