@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# similar to
+#   live-build/ubuntu-touch/hooks/90-precompile-apparmor-policies.chroot 
+# but we only care about the system apparmor (see LP: #1460152)
+
+set -e
+
+FEATURES=/var/cache/apparmor/.features
+
+echo "I: precompiling deb apparmor policies"
+/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ $(find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*')
+
