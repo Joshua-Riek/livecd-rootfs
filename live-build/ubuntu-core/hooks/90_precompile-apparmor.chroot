@@ -6,8 +6,6 @@
 
 set -e
 
-FEATURES=/var/cache/apparmor/.features
-
 echo "I: precompiling deb apparmor policies"
-/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ $(find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*')
+/sbin/apparmor_parser -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ $(find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*')
 
