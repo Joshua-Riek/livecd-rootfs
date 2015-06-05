@@ -1,8 +1,8 @@
-livecd-rootfs (2.309) UNRELEASED; urgency=medium
+livecd-rootfs (2.309) wily; urgency=medium
 
   * Updated user/groups config for the desktop-next
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 05 Jun 2015 17:38:37 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 05 Jun 2015 18:31:52 +0200
 
 livecd-rootfs (2.308) wily; urgency=medium
 
