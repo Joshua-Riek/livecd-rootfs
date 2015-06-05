@@ -3,10 +3,10 @@
 ERRCNT=""
 
 # Known good post-debootstrap values
-passwd_bootstrap="af34a24499223f08ab713138bec7ff54"
-shadow_bootstrap="1fd73103260cbe5a13a4a38320de4129"
-group_bootstrap="9edf30f181a6fd1d860cc7f4a71aa640"
-gshadow_bootstrap="b9db51ef767ab98db963db69844635dd"
+passwd_bootstrap="1050cdb2fcde4d10c86399616f64dfdb"
+shadow_bootstrap="7fa48d7fb0e3a1ede9c98ff7b1b33622"
+group_bootstrap="63c26ba30ffcd19be36f02a88621ab91"
+gshadow_bootstrap="e42acfd7c494c6085b5f3d2b1e353995"
 
 # Current post-debootstrap values
 passwd_hash=$(set -- $(md5sum /etc/passwd) && echo $1)
@@ -35,15 +35,11 @@ list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
 irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
 gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
 nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-messagebus:x:100:103::/var/run/dbus:/bin/false
-clickpkg:x:101:104::/nonexistent:/bin/false
-sshd:x:102:65534::/var/run/sshd:/usr/sbin/nologin
-systemd-timesync:x:103:108:systemd Time Synchronization,,,:/run/systemd:/bin/false
-systemd-network:x:104:109:systemd Network Management,,,:/run/systemd/netif:/bin/false
-systemd-resolve:x:105:110:systemd Resolver,,,:/run/systemd/resolve:/bin/false
-systemd-bus-proxy:x:106:111:systemd Bus Proxy,,,:/run/systemd:/bin/false
-docker:x:107:113::/nonexistent:/bin/false
-syslog:x:108:114::/home/syslog:/bin/false
+systemd-timesync:x:100:104:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:105:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:106:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:107:systemd Bus Proxy,,,:/run/systemd:/bin/false
+syslog:x:104:110::/home/syslog:/bin/false
 EOF
 else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
@@ -56,33 +52,29 @@ fi
 # /etc/shadow
 if [ "$shadow_bootstrap" = "$shadow_hash" ]; then
     cat > /etc/shadow <<EOF
-root:*:16329:0:99999:7:::
-daemon:*:16329:0:99999:7:::
-bin:*:16329:0:99999:7:::
-sys:*:16329:0:99999:7:::
-sync:*:16329:0:99999:7:::
-games:*:16329:0:99999:7:::
-man:*:16329:0:99999:7:::
-lp:*:16329:0:99999:7:::
-mail:*:16329:0:99999:7:::
-news:*:16329:0:99999:7:::
-uucp:*:16329:0:99999:7:::
-proxy:*:16329:0:99999:7:::
-www-data:*:16329:0:99999:7:::
-backup:*:16329:0:99999:7:::
-list:*:16329:0:99999:7:::
-irc:*:16329:0:99999:7:::
-gnats:*:16329:0:99999:7:::
-nobody:*:16329:0:99999:7:::
-messagebus:*:16413:0:99999:7:::
-clickpkg:*:16413:0:99999:7:::
-sshd:*:16413:0:99999:7:::
-systemd-timesync:*:16413:0:99999:7:::
-systemd-network:*:16413:0:99999:7:::
-systemd-resolve:*:16413:0:99999:7:::
-systemd-bus-proxy:*:16413:0:99999:7:::
-docker:*:16413:0:99999:7:::
-syslog:*:16521:0:99999:7:::
+root:*:16591:0:99999:7:::
+daemon:*:16591:0:99999:7:::
+bin:*:16591:0:99999:7:::
+sys:*:16591:0:99999:7:::
+sync:*:16591:0:99999:7:::
+games:*:16591:0:99999:7:::
+man:*:16591:0:99999:7:::
+lp:*:16591:0:99999:7:::
+mail:*:16591:0:99999:7:::
+news:*:16591:0:99999:7:::
+uucp:*:16591:0:99999:7:::
+proxy:*:16591:0:99999:7:::
+www-data:*:16591:0:99999:7:::
+backup:*:16591:0:99999:7:::
+list:*:16591:0:99999:7:::
+irc:*:16591:0:99999:7:::
+gnats:*:16591:0:99999:7:::
+nobody:*:16591:0:99999:7:::
+systemd-timesync:*:16591:0:99999:7:::
+systemd-network:*:16591:0:99999:7:::
+systemd-resolve:*:16591:0:99999:7:::
+systemd-bus-proxy:*:16591:0:99999:7:::
+syslog:*:16591:0:99999:7:::
 EOF
 else
     echo "/etc/shadow post-debootstrap hash doesn't match record" >&2
@@ -115,8 +107,8 @@ voice:x:22:
 cdrom:x:24:
 floppy:x:25:
 tape:x:26:
-sudo:x:27:ubuntu
-audio:x:1005:
+sudo:x:27:
+audio:x:29:
 dip:x:30:
 www-data:x:33:
 backup:x:34:
@@ -134,20 +126,16 @@ staff:x:50:
 games:x:60:
 users:x:100:
 nogroup:x:65534:
-netdev:x:101:
-crontab:x:102:
-messagebus:x:103:
-clickpkg:x:104:
-ssh:x:105:
-systemd-journal:x:106:
-systemd-journal-remote:x:107:
-systemd-timesync:x:108:
-systemd-network:x:109:
-systemd-resolve:x:110:
-systemd-bus-proxy:x:111:
-input:x:112:
-docker:x:113:ubuntu
-syslog:x:114:
+input:x:101:
+systemd-journal:x:102:
+systemd-journal-remote:x:103:
+systemd-timesync:x:104:
+systemd-network:x:105:
+systemd-resolve:x:106:
+systemd-bus-proxy:x:107:
+netdev:x:108:
+crontab:x:109:
+syslog:x:110:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -180,8 +168,8 @@ voice:*::
 cdrom:*::
 floppy:*::
 tape:*::
-sudo:*::ubuntu
-audio:*::pulse
+sudo:*::
+audio:*::
 dip:*::
 www-data:*::
 backup:*::
@@ -199,19 +187,15 @@ staff:*::
 games:*::
 users:*::
 nogroup:*::
-netdev:!::
-crontab:!::
-messagebus:!::
-clickpkg:!::
-ssh:!::
+input:!::
 systemd-journal:!::
 systemd-journal-remote:!::
 systemd-timesync:!::
 systemd-network:!::
 systemd-resolve:!::
 systemd-bus-proxy:!::
-input:!::
-docker:!::ubuntu
+netdev:!::
+crontab:!::
 syslog:!::
 EOF
 else
@@ -225,7 +209,7 @@ fi
 if [ -n "$ERRCNT" ]; then
         echo "There were changes to the password database," >&2
         echo "please adjust the values in the livecd-rootfs source in the file:" >&2
-        echo "live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early" >&2
+        echo "live-build/ubuntu-desktop-next/hooks/00-uid-gid-fix.chroot_early" >&2
         echo >&2
         echo "Please check also if a maintainer script of the package" >&2
         echo "that added these entries perhaps created a home directory and," >&2
