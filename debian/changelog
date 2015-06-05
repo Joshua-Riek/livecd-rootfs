@@ -1,3 +1,9 @@
+livecd-rootfs (2.307) wily; urgency=medium
+
+  * Remove duplicated code leftover in the previous desktop-next changeset
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 05 Jun 2015 10:55:39 +0200
+
 livecd-rootfs (2.306) wily; urgency=medium
 
   * Create hooks and image build config for the ubuntu-desktop-next
