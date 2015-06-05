@@ -1,8 +1,8 @@
-livecd-rootfs (2.308) UNRELEASED; urgency=medium
+livecd-rootfs (2.308) wily; urgency=medium
 
   * Copy desktop-next hooks in the configuration
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 05 Jun 2015 10:53:39 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 05 Jun 2015 15:06:07 +0200
 
 livecd-rootfs (2.307) wily; urgency=medium
 
