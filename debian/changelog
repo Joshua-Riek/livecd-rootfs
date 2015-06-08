@@ -1,3 +1,9 @@
+livecd-rootfs (2.310) UNRELEASED; urgency=medium
+
+  * Don't add a docker group to desktop next
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 08 Jun 2015 09:48:43 +0200
+
 livecd-rootfs (2.309) wily; urgency=medium
 
   * Updated user/groups config for the desktop-next
