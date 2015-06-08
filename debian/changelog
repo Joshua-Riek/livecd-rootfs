@@ -1,8 +1,8 @@
-livecd-rootfs (2.311) UNRELEASED; urgency=medium
+livecd-rootfs (2.311) wily; urgency=medium
 
   * Updates users and groups for desktop next
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 08 Jun 2015 15:31:03 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 08 Jun 2015 15:32:17 +0200
 
 livecd-rootfs (2.310) wily; urgency=medium
 
