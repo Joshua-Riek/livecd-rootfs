@@ -1,9 +1,1 @@
-#!/bin/sh -x
-
-if=eth0
-
-# Manually configure the first ethernet device
-cat >/etc/network/interfaces.d/"$if"<<EOT
-allow-hotplug $if
-iface $if inet dhcp
-EOT
+../../ubuntu-core/hooks/04-configure_network.chroot
