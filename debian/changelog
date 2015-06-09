@@ -1,4 +1,4 @@
-livecd-rootfs (2.312) UNRELEASED; urgency=low
+livecd-rootfs (2.312) wily; urgency=low
 
   [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
@@ -7,7 +7,7 @@ livecd-rootfs (2.312) UNRELEASED; urgency=low
   [ Sebastien Bacher ]
   * Symlink some desktop-next hooks to ubuntu-core to avoid duplication
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 09 Jun 2015 17:50:11 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 09 Jun 2015 17:56:23 +0200
 
 livecd-rootfs (2.311) wily; urgency=medium
 
