@@ -25,18 +25,18 @@ mkdir -p $TMPDIR/assets/
  cp -ar --parent lib/firmware/ $TMPDIR/system/
 
  # new assets handling
+ # FIXME:
+ # - how to keep version information (and do we care)
  cp -ar boot/vmlinu?-* $TMPDIR/assets/vmlinuz
  cp -ar boot/initrd.img-* $TMPDIR/assets/initrd.img
- cp -ar boot/vmlinu?-* boot/initrd.img-* boot/abi-* boot/System.map-* $TMPDIR/assets/
+ cp -ar boot/abi-* boot/System.map-* $TMPDIR/assets/
 
  dtbs=$(find lib/firmware -type d -name 'device-tree' -print0)
- [ -n "$dtbs" ] && mv "$dtbs" $TMPDIR/assets/dtbs
-
- if [ -e vmlinu? ] && [ -e initrd.img ]; then
-     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
-     cp -ar --parent vmlinu? initrd.img $TMPDIR/assets
+ if [ -n "$dtbs" ]; then
+    mv "$dtbs" $TMPDIR/assets/dtbs
  fi
 )
+
 # create hardware.yaml for u-boot
 # this assumes armh == u-boot
 # and all others grub

@@ -1,3 +1,10 @@
+livecd-rootfs (2.311) UNRELEASED; urgency=low
+
+  * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
+    - ignore /vmlinu?, /initrd.img symlinks when building the boot assets
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 09 Jun 2015 09:46:41 +0200
+
 livecd-rootfs (2.311) wily; urgency=medium
 
   * Updates users and groups for desktop next
