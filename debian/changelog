@@ -1,4 +1,4 @@
-livecd-rootfs (2.314) UNRELEASED; urgency=medium
+livecd-rootfs (2.314) wily; urgency=medium
 
   [ Iain Lane ]
   * Small whitespace cleanup in live-build/auto/config
@@ -6,7 +6,7 @@ livecd-rootfs (2.314) UNRELEASED; urgency=medium
   [ Sebastien Bacher ]
   * Set kernel flavours variable to try to fix amd64 build
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 10 Jun 2015 15:09:02 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 10 Jun 2015 15:10:03 +0200
 
 livecd-rootfs (2.313) wily; urgency=medium
 
