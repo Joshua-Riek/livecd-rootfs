@@ -371,48 +371,48 @@ case $PROJECT in
 		#      and PREINSTALLED means something different. So
 		#      we use SUBPROJECT to pass on the information
 		if [ "$SUBPROJECT" = "system-image" ]; then
-		        OPTS="${OPTS:+$OPTS }--apt-recommends false"
+			OPTS="${OPTS:+$OPTS }--apt-recommends false"
 
-                        # some workarounds because the seeds are not quite
-                        # corrent at the moment
-		        add_package install dbus
-                        add_package install isc-dhcp-client
-		        add_package install libpam-systemd
-                        # no Task: header yet
-                        add_package install ubuntu-snappy
- 
-                        # no minimal as we want to be really minimal
-		        #add_task install minimal
+			# some workarounds because the seeds are not quite
+			# corrent at the moment
+			add_package install dbus
+			add_package install isc-dhcp-client
+			add_package install libpam-systemd
+			# no Task: header yet
+			add_package install ubuntu-snappy
+
+			# no minimal as we want to be really minimal
+			#add_task install minimal
 			add_task install ubuntu-core
 
-                        # add special azure package
-                        case $ARCH in
-                            amd64)
-                                # will be removed later when the azure
-                                # specific device tarfile is created
-                                add_package install walinuxagent
-                                ;;
-                            i386)
-                                # efi support can go once the task
-                                # header is available for grub-efi-ia32-bin
-                                add_package install grub-efi-ia32-bin
-                                ;;
-                        esac
+			# add special azure package
+			case $ARCH in
+				amd64)
+					# will be removed later when the azure
+					# specific device tarfile is created
+					add_package install walinuxagent
+					;;
+				i386)
+					# efi support can go once the task
+					# header is available for grub-efi-ia32-bin
+					add_package install grub-efi-ia32-bin
+					;;
+			esac
 
-                        # generic kernel etc
-                        KERNEL_FLAVOURS=generic
-                        case $ARCH in
-			    i386|amd64)	
-			        add_package install grub-pc
-                                ;;
-                            armhf)
-                                add_package install flash-kernel u-boot-tools
-                                ;;
-                        esac
-		        OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
+			# generic kernel etc
+			KERNEL_FLAVOURS=generic
+			case $ARCH in
+				i386|amd64)	
+					add_package install grub-pc
+					;;
+				armhf)
+					add_package install flash-kernel u-boot-tools
+					;;
+			esac
+			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
 
-                        # contains the framework definition
-                        add_package install ubuntu-core-libs
+			# contains the framework definition
+			add_package install ubuntu-core-libs
 
 			# universe needed for 'system-image-cli'
 			COMPONENTS='main restricted universe'
