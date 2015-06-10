@@ -402,7 +402,7 @@ case $PROJECT in
 			# generic kernel etc
 			KERNEL_FLAVOURS=generic
 			case $ARCH in
-				i386|amd64)	
+				i386|amd64)
 					add_package install grub-pc
 					;;
 				armhf)
