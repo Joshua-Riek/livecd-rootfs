@@ -1,3 +1,10 @@
+livecd-rootfs (2.313) UNRELEASED; urgency=medium
+
+  * Revert symlink changes, that creates build issues, copy updated hook
+    to the desktop-next directory instead
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 10 Jun 2015 11:25:19 +0200
+
 livecd-rootfs (2.312) wily; urgency=low
 
   [ Michael Vogt ]
