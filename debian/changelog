@@ -1,3 +1,9 @@
+livecd-rootfs (2.314) UNRELEASED; urgency=medium
+
+  * Small whitespace cleanup in live-build/auto/config
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Wed, 10 Jun 2015 13:33:59 +0100
+
 livecd-rootfs (2.313) wily; urgency=medium
 
   * Revert symlink changes, that creates build issues, copy updated hook
