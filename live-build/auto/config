@@ -207,6 +207,7 @@ case $PROJECT in
 		add_task install minimal standard ubuntu-desktop-next ubuntu-sdk-libs
 		COMPONENTS='main restricted universe'
 		LIVE_TASK='ubuntu-touch-live'
+		KERNEL_FLAVOURS=generic
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
