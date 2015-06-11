@@ -1,3 +1,11 @@
+livecd-rootfs (2.315) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary,
+    live-build/ubuntu-desktop-next/hooks/500-move-kernel-to-device-tar.binary,:
+    - deal with vmlinuz .signed when copying kernels
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 11 Jun 2015 17:41:06 +0200
+
 livecd-rootfs (2.314) wily; urgency=medium
 
   [ Iain Lane ]

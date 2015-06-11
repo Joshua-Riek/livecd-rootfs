@@ -27,7 +27,11 @@ mkdir -p $TMPDIR/assets/
  # new assets handling
  # FIXME:
  # - how to keep version information (and do we care)
- cp -ar boot/vmlinu?-* $TMPDIR/assets/vmlinuz
+ if [ -f boot/vmlinu?-*.signed ]; then
+    cp -ar boot/vmlinu?-*.signed $TMPDIR/assets/vmlinuz
+ else
+    cp -ar boot/vmlinu?-* $TMPDIR/assets/vmlinuz
+ fi
  cp -ar boot/initrd.img-* $TMPDIR/assets/initrd.img
  cp -ar boot/abi-* boot/System.map-* $TMPDIR/assets/
 
