@@ -2,5 +2,7 @@
 
 set -e
 
-echo "writable mounts directory" >&2
+echo "create needed directories" >&2
+mkdir -p /lib/modules
+mkdir -p /lib/firmware
 mkdir -p /writable
