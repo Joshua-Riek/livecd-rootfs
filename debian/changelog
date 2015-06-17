@@ -1,4 +1,4 @@
-livecd-rootfs (2.316) UNRELEASED; urgency=medium
+livecd-rootfs (2.316) wily; urgency=medium
 
   * live-build/ubuntu-desktop-next/hooks/20-extra-files.chroot:
     - create /writable otherwise the mounts job fail and block the boot
