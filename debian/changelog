@@ -1,3 +1,10 @@
+livecd-rootfs (2.316) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-desktop-next/hooks/20-extra-files.chroot:
+    - create /writable otherwise the mounts job fail and block the boot
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 17 Jun 2015 17:10:18 +0200
+
 livecd-rootfs (2.315) wily; urgency=medium
 
   * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary,
