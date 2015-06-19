@@ -5,10 +5,12 @@ livecd-rootfs (2.317) UNRELEASED; urgency=medium
     - create other needed directories
   * live-build/ubuntu-desktop-next/includes.chroot:
     - copy ubuntu-core's include for /etc/hosts and resolv.conf config
-  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
+  * live-build/ubuntu-desktop-next/hooks/00-uid-gid-fix.chroot_early:
     - copy touch hacks to create needed userdirs (lightdm & usermetrics),
       the users are added by the script and not the usual postinst so their
       uderdirs are not created as they should
+  * live-build/ubuntu-desktop-next/hooks/10-remove-documentation.binary:
+    - don't remove the copyright and manpages on desktop
 
   [ Oliver Grawert ]
   * allow install of "multi" click packages in 60-install-click.chroot on
