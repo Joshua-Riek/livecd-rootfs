@@ -1,4 +1,4 @@
-livecd-rootfs (2.317) UNRELEASED; urgency=medium
+livecd-rootfs (2.317) wily; urgency=medium
 
   [ Sebastien Bacher ]
   * live-build/ubuntu-desktop-next/hooks/20-extra-files.chroot:
@@ -16,7 +16,7 @@ livecd-rootfs (2.317) UNRELEASED; urgency=medium
   * allow install of "multi" click packages in 60-install-click.chroot on
     ubuntu-touch
 
- -- Oliver Grawert <ogra@ubuntu.com>  Fri, 19 Jun 2015 10:42:53 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 19 Jun 2015 10:52:07 +0200
 
 livecd-rootfs (2.316) wily; urgency=medium
 
