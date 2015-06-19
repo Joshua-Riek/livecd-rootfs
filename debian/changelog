@@ -4,6 +4,10 @@ livecd-rootfs (2.317) UNRELEASED; urgency=medium
     - create other needed directories
   * live-build/ubuntu-desktop-next/includes.chroot:
     - copy ubuntu-core's include for /etc/hosts and resolv.conf config
+  * live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early:
+    - copy touch hacks to create needed userdirs (lightdm & usermetrics),
+      the users are added by the script and not the usual postinst so their
+      uderdirs are not created as they should
 
  -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 19 Jun 2015 10:26:41 +0200
 
