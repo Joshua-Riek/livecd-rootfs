@@ -2,8 +2,10 @@ livecd-rootfs (2.317) UNRELEASED; urgency=medium
 
   * live-build/ubuntu-desktop-next/hooks/20-extra-files.chroot:
     - create other needed directories
+  * live-build/ubuntu-desktop-next/includes.chroot:
+    - copy ubuntu-core's include for /etc/hosts and resolv.conf config
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 17 Jun 2015 20:24:56 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 19 Jun 2015 10:26:41 +0200
 
 livecd-rootfs (2.316) wily; urgency=medium
 
