@@ -71,28 +71,6 @@ fi
  tar -c -z -f $HERE/device.tar.gz system assets hardware.yaml
 )
 
-# now build the azure device tarball by adding walinuxagent
-if [ -e binary/boot/filesystem.dir/var/lib/dpkg/info/walinuxagent.list ];
-then
-(
- cd binary/boot/filesystem.dir 
- while read line; do
-     line=$(echo $line |cut -d/ -f2-)
-     if [ -e "$line" ] && [ ! -d "$line" ]; then
-         cp -ar --parent $line $TMPDIR/system
-     fi
- done < var/lib/dpkg/info/walinuxagent.list
- # created by walinuxagent postinst/dh-systemd
- cp -ar --parent var/lib/systemd/deb-systemd-helper-enabled/walinuxagent* $TMPDIR/system
- cp -ar --parent etc/systemd/system/multi-user.target.wants/walinuxagent* $TMPDIR/system
- mkdir -p $TMPDIR/system/var/lib/waagent
-)
-# and tar it up
-(
- cd $TMPDIR
- tar -c -z -f $HERE/device-azure.tar.gz system assets hardware.yaml
-)
-fi
 rm -rf $TMPDIR
 
 # remove files from the root filesystem
@@ -105,8 +83,4 @@ rm -rf $TMPDIR
  rm -f vmlinu?
  rm -rf lib/modules
  rm -rf lib/firmware
- # remove walinuxagent
- if [ -e var/lib/dpkg/info/walinuxagent.list ]; then
-     chroot . dpkg --purge walinuxagent || true
- fi
 )
