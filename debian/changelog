@@ -1,4 +1,4 @@
-livecd-rootfs (2.318) UNRELEASED; urgency=medium
+livecd-rootfs (2.318) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/no-walinuxagent to remove all the
     hackery that was initially needed for azure snappy images, this got
