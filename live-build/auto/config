@@ -386,13 +386,7 @@ case $PROJECT in
 			#add_task install minimal
 			add_task install ubuntu-core
 
-			# add special azure package
 			case $ARCH in
-				amd64)
-					# will be removed later when the azure
-					# specific device tarfile is created
-					add_package install walinuxagent
-					;;
 				i386)
 					# efi support can go once the task
 					# header is available for grub-efi-ia32-bin
