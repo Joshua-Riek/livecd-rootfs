@@ -1,3 +1,9 @@
+livecd-rootfs (2.319) UNRELEASED; urgency=medium
+
+  * copy set locale hook from core to desktop-next
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 26 Jun 2015 10:40:25 +0200
+
 livecd-rootfs (2.318) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/no-walinuxagent to remove all the
