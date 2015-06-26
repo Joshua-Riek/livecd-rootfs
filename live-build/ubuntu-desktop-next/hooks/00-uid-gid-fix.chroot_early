@@ -43,7 +43,7 @@ syslog:x:104:110::/home/syslog:/bin/false
 usermetrics:x:105:111:User Metrics:/var/lib/usermetrics:/bin/false
 messagebus:x:106:112::/var/run/dbus:/bin/false
 uuidd:x:107:113::/run/uuidd:/bin/false
-clickpkg:x:108:114::/nonexistent:/bin/false
+snappypkg:x:108:114::/nonexistent:/bin/false
 avahi:x:109:115:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
 dnsmasq:x:110:65534:dnsmasq,,,:/var/lib/misc:/bin/false
 pulse:x:111:116:PulseAudio daemon,,,:/var/run/pulse:/bin/false
@@ -91,7 +91,7 @@ syslog:*:16591:0:99999:7:::
 usermetrics:*:16594:0:99999:7:::
 messagebus:*:16594:0:99999:7:::
 uuidd:*:16594:0:99999:7:::
-clickpkg:*:16594:0:99999:7:::
+snappypkg:*:16594:0:99999:7:::
 avahi:*:16594:0:99999:7:::
 dnsmasq:*:16594:0:99999:7:::
 pulse:*:16594:0:99999:7:::
@@ -165,7 +165,7 @@ syslog:x:110:
 usermetrics:x:111:
 messagebus:x:112:
 uuidd:x:113:
-clickpkg:x:114:
+snappypkg:x:114:
 avahi:x:115:
 pulse:x:116:
 pulse-access:x:117:
@@ -243,7 +243,7 @@ syslog:!::
 usermetrics:!::
 messagebus:!::
 uuidd:!::
-clickpkg:!::
+snappypkg:!::
 avahi:!::
 pulse:!::
 pulse-access:!::
