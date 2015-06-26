@@ -1,6 +1,9 @@
 livecd-rootfs (2.319) UNRELEASED; urgency=medium
 
   * copy set locale hook from core to desktop-next
+  
+  [ Sergio Schvezov ]
+  * removing debian packaging artifacts from the image
 
  -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 26 Jun 2015 10:40:25 +0200
 

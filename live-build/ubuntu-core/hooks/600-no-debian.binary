@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# removing debian packaging artifacts
+
+set -ex
+
+echo "I: Removing the debian legacy"
+
+PREFIX=binary/boot/filesystem.dir
+
+# dpkg-deb and dpkg purposefully left behind
+(cd $PREFIX
+    chroot . dpkg --purge apt
+    rm -r \
+        var/lib/dpkg \
+        var/log/apt
+    rm \
+        usr/bin/dpkg-query \
+        usr/bin/dpkg-split \
+        usr/bin/dpkg-divert \
+        usr/bin/dpkg-trigger \
+        usr/bin/dpkg-statoverride \
+        usr/bin/dpkg-maintscript-helper
+)
