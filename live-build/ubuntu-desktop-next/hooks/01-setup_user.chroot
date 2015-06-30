@@ -8,6 +8,11 @@ UGID=1000
 echo "I: creating default user $USER"
 adduser --gecos $USER --disabled-login $USER --uid $UGID
 
+mkdir -p /home/$USER/Music
+mkdir -p /home/$USER/Pictures
+mkdir -p /home/$USER/Videos
+mkdir -p /home/$USER/Downloads
+mkdir -p /home/$USER/Documents
 chown -R $UGID:$UGID /home/$USER
 
 # Enable libnss-extrusers
