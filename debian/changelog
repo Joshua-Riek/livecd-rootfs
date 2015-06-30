@@ -1,4 +1,4 @@
-livecd-rootfs (2.320) UNRELEASED; urgency=medium
+livecd-rootfs (2.320) wily; urgency=medium
 
   * Copied some touch tweaks (n-m config and user groups) to desktop-next
 
