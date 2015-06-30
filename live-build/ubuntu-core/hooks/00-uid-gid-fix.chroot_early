@@ -36,7 +36,7 @@ irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
 gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
 nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
 messagebus:x:100:103::/var/run/dbus:/bin/false
-clickpkg:x:101:104::/nonexistent:/bin/false
+snappypkg:x:101:104::/nonexistent:/bin/false
 sshd:x:102:65534::/var/run/sshd:/usr/sbin/nologin
 systemd-timesync:x:103:108:systemd Time Synchronization,,,:/run/systemd:/bin/false
 systemd-network:x:104:109:systemd Network Management,,,:/run/systemd/netif:/bin/false
@@ -75,7 +75,7 @@ irc:*:16329:0:99999:7:::
 gnats:*:16329:0:99999:7:::
 nobody:*:16329:0:99999:7:::
 messagebus:*:16413:0:99999:7:::
-clickpkg:*:16413:0:99999:7:::
+snappypkg:*:16413:0:99999:7:::
 sshd:*:16413:0:99999:7:::
 systemd-timesync:*:16413:0:99999:7:::
 systemd-network:*:16413:0:99999:7:::
@@ -137,7 +137,7 @@ nogroup:x:65534:
 netdev:x:101:
 crontab:x:102:
 messagebus:x:103:
-clickpkg:x:104:
+snappypkg:x:104:
 ssh:x:105:
 systemd-journal:x:106:
 systemd-journal-remote:x:107:
@@ -202,7 +202,7 @@ nogroup:*::
 netdev:!::
 crontab:!::
 messagebus:!::
-clickpkg:!::
+snappypkg:!::
 ssh:!::
 systemd-journal:!::
 systemd-journal-remote:!::

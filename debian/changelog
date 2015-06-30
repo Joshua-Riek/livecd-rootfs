@@ -1,3 +1,10 @@
+livecd-rootfs (2.320) wily; urgency=medium
+
+  * snappy/desktop-next:
+    - add snappypkg user and remove clickpkg user
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 30 Jun 2015 14:09:52 +0200
+
 livecd-rootfs (2.319) wily; urgency=medium
 
   * copy set locale hook from core to desktop-next
