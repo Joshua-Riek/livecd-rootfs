@@ -1,3 +1,10 @@
+livecd-rootfs (2.322) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-desktop-next/hooks/00-uid-gid-fix.chroot_early:
+    - updated for the previous group changes
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 01 Jul 2015 10:05:50 +0200
+
 livecd-rootfs (2.320) wily; urgency=medium
 
   * Copied some touch tweaks (n-m config and user groups) to desktop-next
