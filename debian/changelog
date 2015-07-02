@@ -1,3 +1,9 @@
+livecd-rootfs (2.324) UNRELEASED; urgency=medium
+
+  * Revert unwanted change included in the previous upload
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 02 Jul 2015 16:03:29 +0200
+
 livecd-rootfs (2.323) wily; urgency=medium
 
   * live-build/ubuntu-desktop-next/hooks/11-remove-extra-packages.chroot:
