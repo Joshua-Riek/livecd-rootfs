@@ -53,6 +53,7 @@ rtkit:x:114:123:RealtimeKit,,,:/proc:/bin/false
 usbmux:x:115:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
 colord:x:116:124:colord colour management daemon,,,:/var/lib/colord:/bin/false
 lightdm:x:117:126:Light Display Manager:/var/lib/lightdm:/bin/false
+clickpkg:x:118:128::/nonexistent:/bin/false
 EOF
 else
     echo "/etc/passwd post-debootstrap hash doesn't match record" >&2
