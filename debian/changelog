@@ -1,4 +1,4 @@
-livecd-rootfs (2.325) UNRELEASED; urgency=medium
+livecd-rootfs (2.325) wily; urgency=medium
 
   * live-build/ubuntu-touch/includes.chroot/etc/lightdm/lightdm.conf.d/
     90-phablet.conf:
@@ -7,7 +7,7 @@ livecd-rootfs (2.325) UNRELEASED; urgency=medium
     lightdm.conf.d/90-desktop-next-autologin.conf:
     - let desktop-next autolog to the ubuntu user session
 
- -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 03 Jul 2015 11:31:10 +0200
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 03 Jul 2015 11:39:41 +0200
 
 livecd-rootfs (2.324) wily; urgency=medium
 
