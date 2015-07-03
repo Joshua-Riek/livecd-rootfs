@@ -1,3 +1,14 @@
+livecd-rootfs (2.325) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-touch/includes.chroot/etc/lightdm/lightdm.conf.d/
+    90-phablet.conf:
+    - don't use deprecated "[SeatDefault]" syntax
+  * live-build/ubuntu-desktop-next/includes.chroot/usr/share/lightdm/
+    lightdm.conf.d/90-desktop-next-autologin.conf:
+    - let desktop-next autolog to the ubuntu user session
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 03 Jul 2015 11:31:10 +0200
+
 livecd-rootfs (2.324) wily; urgency=medium
 
   * Revert unwanted change included in the previous upload
