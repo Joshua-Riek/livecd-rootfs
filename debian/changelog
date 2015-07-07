@@ -1,4 +1,4 @@
-livecd-rootfs (2.326) UNRELEASED; urgency=medium
+livecd-rootfs (2.326) wily; urgency=medium
 
   * snappy: install libc6:i386 on amd64 images for multiarch support out of
     the box. (LP: #1444049)
