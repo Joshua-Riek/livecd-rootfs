@@ -1,3 +1,10 @@
+livecd-rootfs (2.326) UNRELEASED; urgency=medium
+
+  * snappy: install libc6:i386 on amd64 images for multiarch support out of
+    the box. (LP: #1444049)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 07 Jul 2015 11:49:46 +0200
+
 livecd-rootfs (2.325) wily; urgency=medium
 
   * live-build/ubuntu-touch/includes.chroot/etc/lightdm/lightdm.conf.d/
