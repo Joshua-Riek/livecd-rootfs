@@ -1,3 +1,10 @@
+livecd-rootfs (2.327) UNRELEASED; urgency=medium
+
+  * merge lp:~sergiusens/livecd-rootfs/snappyDevicePart for using versioned
+    kernel and initrd binaries in snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 08 Jul 2015 17:46:36 +0200
+
 livecd-rootfs (2.326) wily; urgency=medium
 
   * snappy: install libc6:i386 on amd64 images for multiarch support out of
