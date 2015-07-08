@@ -1,10 +1,10 @@
-livecd-rootfs (2.329) UNRELEASED; urgency=medium
+livecd-rootfs (2.329) wily; urgency=medium
 
   [ Łukasz Zemczak ]
   * Split out the youtube scope to the custom tarball since some images
     can't have it pre-installed (e.g. arale China images).
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 08 Jul 2015 14:56:04 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 08 Jul 2015 15:08:15 -0700
 
 livecd-rootfs (2.328) wily; urgency=medium
 
