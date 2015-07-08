@@ -36,6 +36,7 @@ do
             com.ubuntu.developer.webapps.webapp-facebook_*|\
             com.ubuntu.developer.webapps.webapp-gmail_*|\
             com.ubuntu.developer.webapps.webapp-twitter_*|\
+            com.ubuntu.scopes.youtube_*|\
             com.ubuntu.dropping-letters_*|\
             com.ubuntu.filemanager_*|\
             com.ubuntu.reminders_*|\
