@@ -1,4 +1,4 @@
-livecd-rootfs (2.327) UNRELEASED; urgency=medium
+livecd-rootfs (2.327) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/snappyDevicePart for using versioned
     kernel and initrd binaries in snappy
