@@ -28,8 +28,8 @@ mkdir -p $TMPDIR/assets/
 
  initrd=boot/initrd.img-*
 
- cp -ar "$initrd" $TMPDIR/assets/
- cp -ar "$kernel" $TMPDIR/assets/
+ cp -ar $initrd $TMPDIR/assets/
+ cp -ar $kernel $TMPDIR/assets/
  cp -ar boot/abi-* boot/System.map-* $TMPDIR/assets/
 
  dtbs=$(find lib/firmware -type d -name 'device-tree' -print0)

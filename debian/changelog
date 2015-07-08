@@ -1,3 +1,9 @@
+livecd-rootfs (2.328) UNRELEASED; urgency=medium
+
+  * fix quoting issue with the last change ...
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 08 Jul 2015 22:51:04 +0200
+
 livecd-rootfs (2.327) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/snappyDevicePart for using versioned
