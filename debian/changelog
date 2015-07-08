@@ -1,4 +1,4 @@
-livecd-rootfs (2.328) UNRELEASED; urgency=medium
+livecd-rootfs (2.328) wily; urgency=medium
 
   * fix quoting issue with the last change ...
 
