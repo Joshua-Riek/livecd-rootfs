@@ -1,4 +1,4 @@
-livecd-rootfs (2.330) UNRELEASED; urgency=medium
+livecd-rootfs (2.330) wily; urgency=medium
 
   * fix another quoting issue in snappy
 
