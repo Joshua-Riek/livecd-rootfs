@@ -1,3 +1,9 @@
+livecd-rootfs (2.330) UNRELEASED; urgency=medium
+
+  * fix another quoting issue in snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 09 Jul 2015 12:11:55 +0200
+
 livecd-rootfs (2.329) wily; urgency=medium
 
   [ Łukasz Zemczak ]

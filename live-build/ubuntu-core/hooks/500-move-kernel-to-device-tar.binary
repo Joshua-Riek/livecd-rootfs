@@ -42,8 +42,8 @@ mkdir -p $TMPDIR/assets/
  # and all others grub
  # common bits
  cat > $TMPDIR/hardware.yaml << EOF
-kernel: assets/$(basename "$kernel")
-initrd: assets/$(basename "$initrd")
+kernel: assets/$(basename $kernel)
+initrd: assets/$(basename $initrd)
 partition-layout: system-AB
 EOF
 
