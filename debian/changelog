@@ -1,3 +1,10 @@
+livecd-rootfs (2.331) UNRELEASED; urgency=medium
+
+  * merge lp:~sergiusens/livecd-rootfs/eth0Not to not hardcode eth0 anymore on
+    snappy.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 09 Jul 2015 16:41:53 +0200
+
 livecd-rootfs (2.330) wily; urgency=medium
 
   * fix another quoting issue in snappy
