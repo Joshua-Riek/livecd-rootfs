@@ -1,3 +1,9 @@
+livecd-rootfs (2.332) UNRELEASED; urgency=medium
+
+  * Get previous ubuntu-core changes on desktop-next
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 09 Jul 2015 18:18:43 +0200
+
 livecd-rootfs (2.331) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/eth0Not to not hardcode eth0 anymore on
