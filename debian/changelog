@@ -1,4 +1,4 @@
-livecd-rootfs (2.331) UNRELEASED; urgency=medium
+livecd-rootfs (2.331) wily; urgency=medium
 
   * merge lp:~sergiusens/livecd-rootfs/eth0Not to not hardcode eth0 anymore on
     snappy.
