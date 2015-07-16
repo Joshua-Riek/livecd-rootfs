@@ -4,7 +4,7 @@ set -e
 
 if [ "$(dpkg --print-architecture)" = "armhf" ]; then
     mkdir -p /boot/uboot
-    cat > /etc/fw_env.conf <<EOF
+    cat > /etc/fw_env.config <<EOF
 # snappy u-boot env config
 /boot/uboot/uboot.env 0x0000 0x4000
 EOF
