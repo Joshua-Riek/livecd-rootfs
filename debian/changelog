@@ -1,3 +1,11 @@
+livecd-rootfs (2.333) wily; urgency=medium
+
+  * lp:~mvo/livecd-rootfs/snappy-add-fw_env.config:
+    - add /etc/fw_env.config that points to
+      /boot/uboot/fw_env.config to make fw_{set,print}env work
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 17 Jul 2015 17:46:09 +0200
+
 livecd-rootfs (2.332) wily; urgency=medium
 
   * Get previous ubuntu-core changes on desktop-next
