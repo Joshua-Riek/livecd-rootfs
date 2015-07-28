@@ -1,3 +1,9 @@
+livecd-rootfs (2.334) UNRELEASED; urgency=medium
+
+  * add dnsmasq user to snappy builds, needed by ubuntu-fan
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 28 Jul 2015 10:48:13 +0200
+
 livecd-rootfs (2.333) wily; urgency=medium
 
   * lp:~mvo/livecd-rootfs/snappy-add-fw_env.config:
