@@ -1,4 +1,4 @@
-livecd-rootfs (2.334) UNRELEASED; urgency=medium
+livecd-rootfs (2.334) wily; urgency=medium
 
   * add dnsmasq user to snappy builds, needed by ubuntu-fan
 
