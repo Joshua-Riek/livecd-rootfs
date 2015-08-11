@@ -3,14 +3,14 @@
 FEATURES=/var/cache/apparmor/.features
 
 echo "I: precompiling click apparmor policies"
-/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/var/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
+/sbin/apparmor_parser -v -M ${FEATURES} -Q --write-cache --cache-loc=/var/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
 
 echo "I: precompiling deb apparmor policies"
-/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ `find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*'`
+/sbin/apparmor_parser -v -M ${FEATURES} -Q --write-cache --cache-loc=/etc/apparmor.d/cache/ `find /etc/apparmor.d/ -maxdepth 1 -type f -not -path '*/\.*'`
 
 echo "I: precompiling custom click apparmor policies"
 mkdir -p /custom/cache/apparmor
-/sbin/apparmor_parser -M ${FEATURES} -Q --write-cache --cache-loc=/custom/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
+/sbin/apparmor_parser -v -M ${FEATURES} -Q --write-cache --cache-loc=/custom/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
 
 
 #get the apparmor manifests and profiles
@@ -49,3 +49,5 @@ for manifest in /var/lib/apparmor/clicks/*; do
 		rm -f "/custom/cache/apparmor/click_$profile"
 	fi
 done
+
+ls -l /custom/cache/apparmor/

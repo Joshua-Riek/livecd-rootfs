@@ -1,3 +1,10 @@
+livecd-rootfs (2.336) UNRELEASED; urgency=medium
+
+  * make apparmor precompilation more verbose, list the dir contents of
+    /custom/cache/apparmor to see in the build log what has been created.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 11 Aug 2015 11:29:01 +0200
+
 livecd-rootfs (2.335) wily; urgency=medium
 
   * Attempt to build Ubuntu image using metapackages instead of tasks; this
