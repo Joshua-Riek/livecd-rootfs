@@ -690,7 +690,12 @@ if [ "$EXTRA_PPAS" ]; then
 			;;
 		esac
 		extra_ppa_fingerprint="$(/usr/share/livecd-rootfs/get-ppa-fingerprint "$extra_ppa")"
-		echo "deb http://ppa.launchpad.net/$extra_ppa/ubuntu @DISTRIBUTION@ main" >> config/archives/extra-ppas.list.chroot
+
+		cat >> config/archives/extra-ppas.list.chroot <<EOF
+deb http://ppa.launchpad.net/$extra_ppa/ubuntu @DISTRIBUTION@ main
+deb-src http://ppa.launchpad.net/$extra_ppa/ubuntu @DISTRIBUTION@ main
+EOF
+
 		if [ -n "$extra_ppa_pin" ]; then
 		    extra_ppa_origin="LP-PPA-$(echo $extra_ppa | sed -e 's,/ppa$,,' -e 's,/,-,')"
 		    echo "Package: *" >> config/archives/extra-ppas.pref.chroot
