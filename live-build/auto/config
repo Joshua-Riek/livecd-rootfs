@@ -180,9 +180,12 @@ case $BINARYFORMAT in
 		;;
 esac
 
+SIGNED_KERNEL_PACKAGE="linux-signed-generic"
+UNITY_HWE_HINTS="unity-settings-daemon notify-osd libqt4-sql-sqlite unity gnome-terminal"
+
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_task install minimal standard
+		add_package install ubuntu-minimal ubuntu-standard
 		case "$ARCH+$SUBARCH" in
 			armhf+omap4)
 				# Don't use the task as this drags in the regular X
@@ -194,12 +197,12 @@ case $PROJECT in
 					xserver-xorg-input-evdev-omap-revert 
 				;;
 			*)
-				add_task install ubuntu-desktop
+				add_package install ubuntu-desktop $UNITY_HWE_HINTS
 				;;
 		esac
 		LIVE_TASK='ubuntu-live'
 		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
+			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
 		esac
 		;;
 

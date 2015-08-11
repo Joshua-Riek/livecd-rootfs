@@ -1,3 +1,13 @@
+livecd-rootfs (2.335) UNRELEASED; urgency=medium
+
+  * Attempt to build Ubuntu image using metapackages instead of tasks; this
+    is necessary in order to build a test image out of wily-proposed for the
+    g++5 transition, but may be reverted later if this doesn't turn out to
+    be maintainable.  (Code taken from the trusty HWE LTS branch of
+    livecd-rootfs.)
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 09 Aug 2015 22:54:24 -0700
+
 livecd-rootfs (2.334) wily; urgency=medium
 
   * add dnsmasq user to snappy builds, needed by ubuntu-fan
