@@ -1,4 +1,4 @@
-livecd-rootfs (2.338) UNRELEASED; urgency=medium
+livecd-rootfs (2.338) wily; urgency=medium
 
   [ Łukasz Zemczak ]
   * merge lp:~sil2100/livecd-rootfs/deb-src_for_extra_ppas,
