@@ -1,4 +1,4 @@
-livecd-rootfs (2.336) UNRELEASED; urgency=medium
+livecd-rootfs (2.336) wily; urgency=medium
 
   * make apparmor precompilation more verbose, list the dir contents of
     /custom/cache/apparmor to see in the build log what has been created.
