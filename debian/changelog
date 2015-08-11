@@ -1,10 +1,14 @@
-livecd-rootfs (2.337) UNRELEASED; urgency=medium
+livecd-rootfs (2.338) UNRELEASED; urgency=medium
 
+  [ Łukasz Zemczak ]
   * merge lp:~sil2100/livecd-rootfs/deb-src_for_extra_ppas,
   In case of extra PPAs also include the deb-src entry in the sources list.
   (LP: #1482703)
+  [ Oliver Grawert ]
+  * add the apparmor-super-noise change to get extra detailed info about all
+  apparmor operations in the ubuntu-touch build logs
 
- -- Oliver Grawert <ogra@ubuntu.com>  Tue, 11 Aug 2015 11:48:54 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 11 Aug 2015 18:18:58 +0200
 
 livecd-rootfs (2.336) wily; urgency=medium
 
