@@ -1,4 +1,4 @@
-livecd-rootfs (2.335) UNRELEASED; urgency=medium
+livecd-rootfs (2.335) wily; urgency=medium
 
   * Attempt to build Ubuntu image using metapackages instead of tasks; this
     is necessary in order to build a test image out of wily-proposed for the
