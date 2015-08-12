@@ -1,4 +1,4 @@
-livecd-rootfs (2.339) UNRELEASED; urgency=medium
+livecd-rootfs (2.339) wily; urgency=medium
 
   * revert the apparmor-super-noise change, issue is found
   * touch the cache files during build to prevent timestamp issues in the future
