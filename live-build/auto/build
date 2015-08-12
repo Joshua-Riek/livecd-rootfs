@@ -473,10 +473,6 @@ if [ "$PROJECT" = "ubuntu-touch" ]; then
 				"${PREFIX}.boot-armhf+${subarch}.img"
 			# drop this following line once cdimage can handle -boot-*.img
 			cp -v "${PREFIX}.boot-armhf+${subarch}.img" "${PREFIX}.bootimg-${subarch}"
-
-			# Android 4.4.2 based images do not ship a .zip file, do not fail if it does not exist
-			cp -v chroot/usr/share/android/product/*-preinstalled-touch-armel+${subarch}.zip\
-				"${PREFIX}.armel+${subarch}.zip" || true
 		done
 	fi
 	if [ "$ARCH" = "i386" ]; then
