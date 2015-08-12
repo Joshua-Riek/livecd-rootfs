@@ -2,16 +2,6 @@
 
 FEATURES=/var/cache/apparmor/.features
 
-echo "date is: `date`"
-
-touch /custom/cache/apparmor/test-timestamp.before
-echo "I: Content of the /custom dir before apparmor runs:"
-ls -lR /custom
-
-echo "I: Content of the apparmor caches before:"
-ls -lR /var/lib/apparmor
-ls -lR /var/cache/apparmor
-
 echo "I: precompiling click apparmor policies"
 /sbin/apparmor_parser -v -M ${FEATURES} -Q --write-cache --cache-loc=/var/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
 
@@ -21,15 +11,6 @@ echo "I: precompiling deb apparmor policies"
 echo "I: precompiling custom click apparmor policies"
 mkdir -p /custom/cache/apparmor
 /sbin/apparmor_parser -v -M ${FEATURES} -Q --write-cache --cache-loc=/custom/cache/apparmor/ `find /var/lib/apparmor/profiles/ -maxdepth 1 -type f -not -path '*/\.*'`
-
-touch /custom/cache/apparmor/test-timestamp.after
-echo "I: Content of the /custom dir after apparmor ran:"
-ls -lR /custom
-
-echo "I: Content of the apparmor caches after:"
-ls -lR /var/lib/apparmor
-ls -lR /var/cache/apparmor
-
 
 #get the apparmor manifests and profiles
 mkdir -p /custom/lib/apparmor/clicks
@@ -68,7 +49,7 @@ for manifest in /var/lib/apparmor/clicks/*; do
 	fi
 done
 
-echo "I: Content of the final apparmor files:"
-ls -lR /custom
-ls -lR /var/lib/apparmor
-ls -lR /var/cache/apparmor
+ls -l /custom/cache/apparmor/
+echo "I: touching cache files to sanitize possible timestamp issues"
+touch /custom/cache/apparmor/*
+ls -l /custom/cache/apparmor/

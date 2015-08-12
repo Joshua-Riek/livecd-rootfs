@@ -1,3 +1,10 @@
+livecd-rootfs (2.339) UNRELEASED; urgency=medium
+
+  * revert the apparmor-super-noise change, issue is found
+  * touch the cache files during build to prevent timestamp issues in the future
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 12 Aug 2015 12:14:47 +0200
+
 livecd-rootfs (2.338) wily; urgency=medium
 
   [ Łukasz Zemczak ]
