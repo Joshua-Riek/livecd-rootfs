@@ -82,4 +82,9 @@ rm -rf $TMPDIR
  rm -f vmlinu?
  rm -rf lib/modules
  rm -rf lib/firmware
+ # lp: #1468469
+ rm -rf boot/config-*
+ rm -rf usr/share/doc/linux-image*
+ rm -rf var/lib/initramfs-tools/*
+ rm -rf lib/modprobe.d/blacklist_linux_*.conf
 )
