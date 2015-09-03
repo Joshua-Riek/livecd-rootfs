@@ -1,10 +1,15 @@
-livecd-rootfs (2.340) UNRELEASED; urgency=medium
+livecd-rootfs (2.340) wily; urgency=medium
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary:
     - cleanup further after moving the kernel out of the rootfs
       (LP: #1468469)
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 26 Aug 2015 13:11:48 +0200
+  [ Oliver Grawert ]
+  * systemd-journal-remote was dropped from /etc/group and /etc/gshadow,
+    update the files and md5sums in the passwd checks of ubuntu-core
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 03 Sep 2015 14:20:39 +0200
 
 livecd-rootfs (2.339) wily; urgency=medium
 

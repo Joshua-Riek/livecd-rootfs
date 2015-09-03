@@ -3,10 +3,10 @@
 ERRCNT=""
 
 # Known good post-debootstrap values
-passwd_bootstrap="af34a24499223f08ab713138bec7ff54"
+passwd_bootstrap="c0d388ca626db569e13fdee7ad41c9bf"
 shadow_bootstrap="1fd73103260cbe5a13a4a38320de4129"
-group_bootstrap="9edf30f181a6fd1d860cc7f4a71aa640"
-gshadow_bootstrap="b9db51ef767ab98db963db69844635dd"
+group_bootstrap="d48601572a61e8db69854381392cd2f9"
+gshadow_bootstrap="1dbb70f91959296a5a4c9841e21961ed"
 
 # Current post-debootstrap values
 passwd_hash=$(set -- $(md5sum /etc/passwd) && echo $1)
@@ -142,7 +142,6 @@ messagebus:x:103:
 snappypkg:x:104:
 ssh:x:105:
 systemd-journal:x:106:
-systemd-journal-remote:x:107:
 systemd-timesync:x:108:
 systemd-network:x:109:
 systemd-resolve:x:110:
@@ -207,7 +206,6 @@ messagebus:!::
 snappypkg:!::
 ssh:!::
 systemd-journal:!::
-systemd-journal-remote:!::
 systemd-timesync:!::
 systemd-network:!::
 systemd-resolve:!::
