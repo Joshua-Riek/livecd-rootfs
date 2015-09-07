@@ -1,3 +1,9 @@
+livecd-rootfs (2.341) UNRELEASED; urgency=medium
+
+  * add ppp and watchdog packages to snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 07 Sep 2015 18:32:15 +0200
+
 livecd-rootfs (2.340) wily; urgency=medium
 
   [ Michael Vogt ]

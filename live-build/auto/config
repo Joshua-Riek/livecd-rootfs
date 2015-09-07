@@ -382,6 +382,8 @@ case $PROJECT in
 			add_package install dbus
 			add_package install isc-dhcp-client
 			add_package install libpam-systemd
+			add_package install ppp
+			add_package install watchdog
 			# no Task: header yet
 			add_package install ubuntu-snappy
 
