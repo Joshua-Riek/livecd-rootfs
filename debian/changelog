@@ -1,4 +1,4 @@
-livecd-rootfs (2.341) UNRELEASED; urgency=medium
+livecd-rootfs (2.341) wily; urgency=medium
 
   * add ppp and watchdog packages to snappy
 
