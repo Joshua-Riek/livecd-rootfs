@@ -1,4 +1,4 @@
-livecd-rootfs (2.342) UNRELEASED; urgency=medium
+livecd-rootfs (2.342) wily; urgency=medium
 
   * ubuntu-touch, ubuntu-desktop-next: drop systemd-journal-remote from group
     files, update md5sums in 00-uid-gid-fix.chroot_early
