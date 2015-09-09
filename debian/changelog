@@ -1,3 +1,10 @@
+livecd-rootfs (2.342) UNRELEASED; urgency=medium
+
+  * ubuntu-touch, ubuntu-desktop-next: drop systemd-journal-remote from group
+    files, update md5sums in 00-uid-gid-fix.chroot_early
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Sep 2015 13:20:10 +0200
+
 livecd-rootfs (2.341) wily; urgency=medium
 
   * add ppp and watchdog packages to snappy
