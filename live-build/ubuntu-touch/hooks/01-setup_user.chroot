@@ -32,6 +32,8 @@ sed -i "/^$USER/d" /etc/group
 sed -i "/^$USER/d" /etc/passwd
 sed -i "/^$USER/d" /etc/shadow
 sed -i "/^$USER/d" /etc/gshadow
+touch /var/lib/extrausers/subuid
+touch /var/lib/extrausers/subgid
 
 # Prevent the system user from being presented in the greeter by bumping MIN_UID
 sed -i 's/^\(UID_MIN\s\+\).*/\11002/g' /etc/login.defs

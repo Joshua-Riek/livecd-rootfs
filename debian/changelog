@@ -1,3 +1,10 @@
+livecd-rootfs (2.343) UNRELEASED; urgency=medium
+
+  * add empty "extrausers" equivalents for subuid and subgid files, else
+    adduser falls over in interactive mode when trying to write to them.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Sep 2015 13:28:10 +0200
+
 livecd-rootfs (2.342) wily; urgency=medium
 
   * ubuntu-touch, ubuntu-desktop-next: drop systemd-journal-remote from group

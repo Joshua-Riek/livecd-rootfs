@@ -30,6 +30,8 @@ sed -i "/^$USER/d" /etc/group
 sed -i "/^$USER/d" /etc/passwd
 sed -i "/^$USER/d" /etc/shadow
 sed -i "/^$USER/d" /etc/gshadow
+touch /var/lib/extrausers/subuid
+touch /var/lib/extrausers/subgid
 
 # needs to run *after* the user was moved out to /var/lib/extrausers
 echo "I: set user $USER password to $USER"
