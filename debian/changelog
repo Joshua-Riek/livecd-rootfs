@@ -1,4 +1,4 @@
-livecd-rootfs (2.343) UNRELEASED; urgency=medium
+livecd-rootfs (2.343) wily; urgency=medium
 
   [ Oliver Grawert ]
   * add empty "extrausers" equivalents for subuid and subgid files, else
@@ -8,7 +8,7 @@ livecd-rootfs (2.343) UNRELEASED; urgency=medium
   * live-build/ubuntu-touch/hooks/03-etc-writable.chroot: Set up /etc/whoopsie
     too. (LP: #1437633)
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Sep 2015 13:28:10 +0200
+ -- Iain Lane <iain@orangesquash.org.uk>  Thu, 10 Sep 2015 12:22:57 +0100
 
 livecd-rootfs (2.342) wily; urgency=medium
 
