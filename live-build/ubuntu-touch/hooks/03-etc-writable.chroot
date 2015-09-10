@@ -5,7 +5,7 @@ set -x
 mkdir -p /etc/writable
 touch /etc/writable/machine-info
 
-for f in timezone localtime machine-info hostname; do
+for f in timezone localtime machine-info hostname whoopsie; do
     if [ -e /etc/$f ]; then
         echo "I: Moving /etc/$f to /etc/writable/"
         mv /etc/$f /etc/writable/$f
