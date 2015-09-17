@@ -563,7 +563,7 @@ if [ "$PROJECT" = "ubuntu-cpc" ]; then
 	OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
 	OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 	add_task install minimal standard cloud-image
-	add_package install landscape-client ubuntu-minimal
+	add_package install ubuntu-minimal
 fi
 
 add_chroot_hook update-apt-file-cache
