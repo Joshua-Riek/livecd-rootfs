@@ -448,6 +448,9 @@ case $PROJECT in
 			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
 			OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
 			;;
+			ubuntu-pd)
+			add_package install ubuntu-pocket-desktop
+			;;
 		esac
 		;;
 
