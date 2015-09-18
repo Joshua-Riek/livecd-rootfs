@@ -1,3 +1,9 @@
+livecd-rootfs (2.344) wily; urgency=medium
+
+  * Drop 'landscape-client' from Cloud Images (LP: #1497030).
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 17 Sep 2015 15:56:24 -0600
+
 livecd-rootfs (2.343) wily; urgency=medium
 
   [ Oliver Grawert ]
