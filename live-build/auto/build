@@ -238,11 +238,13 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 			> chroot/etc/apt/sources.list
 		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 	fi
-	if [ "$PROJECT" = "ubuntu-touch" ] && [ "$ARCH" = "armhf" ]; then
-		INFO_DESC="$(lsb_release -d -s)"
-		echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/etc/media-info
-		mkdir -p chroot/var/log/installer
-		Chroot chroot "ln -s /etc/media-info /var/log/installer/media-info"
+	if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-pd" ]; then
+		if [ "$ARCH" = "armhf" ]; then
+			INFO_DESC="$(lsb_release -d -s)"
+			echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/etc/media-info
+			mkdir -p chroot/var/log/installer
+			Chroot chroot "ln -s /etc/media-info /var/log/installer/media-info"
+		fi
 	fi
 	if [ "$PROJECT" = "ubuntu-cpc" ]; then
 		cat > chroot/etc/apt/sources.list << EOF
@@ -313,7 +315,7 @@ elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
 fi
 
-if [ "$PROJECT" = "ubuntu-touch" ]; then
+if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-pd" ]; then
 	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
 	chmod 644 "$PREFIX.custom.tar.gz"
@@ -436,7 +438,7 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 
 fi
 
-if [ "$PROJECT" = "ubuntu-touch" ]; then
+if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-pd" ]; then
 	sourceslist="chroot/etc/apt/sources.list"
 
 	lb chroot_proc install "$@"
