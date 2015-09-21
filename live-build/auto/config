@@ -421,12 +421,13 @@ case $PROJECT in
 		;;
 
 	ubuntu-touch|ubuntu-pd)
-		add_package install ubuntu-minimal systemd-sysv- packagekit ubuntu-system-settings-online-accounts
 		if [ "$PROJECT" = "ubuntu-touch" ]; then
 			add_package install ubuntu-touch
 		else
 			add_package install ubuntu-pocket-desktop
 		fi
+		add_package install ubuntu-minimal systemd-sysv- packagekit ubuntu-system-settings-online-accounts
+
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
 		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
