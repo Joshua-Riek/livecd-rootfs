@@ -1,4 +1,4 @@
-livecd-rootfs (2.346) UNRELEASED; urgency=medium
+livecd-rootfs (2.346) wily; urgency=medium
 
   * merge lp:~sil2100/livecd-rootfs/remove_apt_lists to drop cruft from
     /var/lib/apt/lists on phone images
