@@ -1,4 +1,4 @@
-livecd-rootfs (2.345) UNRELEASED; urgency=medium
+livecd-rootfs (2.345) wily; urgency=medium
 
   [ Łukasz Zemczak ]
   * lp:~sil2100/livecd-rootfs/pocket-desktop:
