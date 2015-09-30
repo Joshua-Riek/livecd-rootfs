@@ -1,3 +1,10 @@
+livecd-rootfs (2.346) UNRELEASED; urgency=medium
+
+  * merge lp:~sil2100/livecd-rootfs/remove_apt_lists to drop cruft from
+    /var/lib/apt/lists on phone images
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 30 Sep 2015 15:23:02 +0200
+
 livecd-rootfs (2.345) wily; urgency=medium
 
   [ Łukasz Zemczak ]
