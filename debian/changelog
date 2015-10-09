@@ -1,3 +1,9 @@
+livecd-rootfs (2.347) UNRELEASED; urgency=medium
+
+  * divert grub-install on snappy images during rootfs build
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 09 Oct 2015 12:44:04 +0200
+
 livecd-rootfs (2.346) wily; urgency=medium
 
   * merge lp:~sil2100/livecd-rootfs/remove_apt_lists to drop cruft from

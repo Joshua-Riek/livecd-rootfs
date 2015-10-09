@@ -1,0 +1,4 @@
+#! /bin/sh -ex
+
+rm -f /usr/sbin/grub-install
+dpkg-divert --quiet --remove --rename /usr/sbin/grub-install
