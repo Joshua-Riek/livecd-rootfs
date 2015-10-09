@@ -1,4 +1,4 @@
-livecd-rootfs (2.347) UNRELEASED; urgency=medium
+livecd-rootfs (2.347) wily; urgency=medium
 
   * divert grub-install on snappy images during rootfs build
 
