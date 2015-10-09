@@ -1,3 +1,9 @@
+livecd-rootfs (2.348) UNRELEASED; urgency=medium
+
+  * limit grub-install diversion on snappy images to x86 architectures
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 09 Oct 2015 12:52:57 +0200
+
 livecd-rootfs (2.347) wily; urgency=medium
 
   * divert grub-install on snappy images during rootfs build
