@@ -1,3 +1,10 @@
+livecd-rootfs (2.349) UNRELEASED; urgency=medium
+
+  * do not hardcode installation of grub-pc for amd64 in snappy images,
+    instead install the right grub set for secureboot there
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 09 Oct 2015 17:47:03 +0200
+
 livecd-rootfs (2.348) wily; urgency=medium
 
   * limit grub-install diversion on snappy images to x86 architectures
