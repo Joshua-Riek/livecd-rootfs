@@ -1,4 +1,4 @@
-livecd-rootfs (2.349) UNRELEASED; urgency=medium
+livecd-rootfs (2.349) wily; urgency=medium
 
   * do not hardcode installation of grub-pc for amd64 in snappy images,
     instead install the right grub set for secureboot there
