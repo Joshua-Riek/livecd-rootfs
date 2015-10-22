@@ -1,3 +1,10 @@
+livecd-rootfs (2.350) UNRELEASED; urgency=medium
+
+  * bump UID for tss user in snappy, else it matches dnsmasq and bad things
+    happen
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 22 Oct 2015 11:34:34 +0200
+
 livecd-rootfs (2.349) wily; urgency=medium
 
   * do not hardcode installation of grub-pc for amd64 in snappy images,
