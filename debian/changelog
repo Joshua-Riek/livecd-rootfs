@@ -1,10 +1,14 @@
 livecd-rootfs (2.350) UNRELEASED; urgency=medium
 
+  [ Oliver Grawert ]
   * bump UID for tss user in snappy, else it matches dnsmasq and bad things
     happen
   * fix handling of writable files in /etc/default for snappy 
 
- -- Oliver Grawert <ogra@ubuntu.com>  Thu, 22 Oct 2015 11:34:34 +0200
+  [ Ben Howard ]
+  * Cloud Images: disable new NIC naming convention (LP: #1510345).
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 29 Oct 2015 07:50:56 -0600
 
 livecd-rootfs (2.349) wily; urgency=medium
 
