@@ -1,4 +1,4 @@
-livecd-rootfs (2.350) UNRELEASED; urgency=medium
+livecd-rootfs (2.350) xenial; urgency=medium
 
   [ Oliver Grawert ]
   * bump UID for tss user in snappy, else it matches dnsmasq and bad things
@@ -8,7 +8,7 @@ livecd-rootfs (2.350) UNRELEASED; urgency=medium
   [ Ben Howard ]
   * Cloud Images: disable new NIC naming convention (LP: #1510345).
 
- -- Ben Howard <ben.howard@ubuntu.com>  Thu, 29 Oct 2015 07:50:56 -0600
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 29 Oct 2015 14:25:28 +0000
 
 livecd-rootfs (2.349) wily; urgency=medium
 
