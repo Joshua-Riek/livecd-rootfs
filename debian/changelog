@@ -1,3 +1,12 @@
+livecd-rootfs (2.351) xenial; urgency=medium
+
+  * live-build/ubuntu-core/hooks/21-snappy-security-policy-stamp.chroot:
+    - create a /usr/share/snappy/security-policy-version so that
+      snappy can re-generate the security profiles if any of the versions
+      of apparmor or ubuntu-core-security-* changes
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 04 Nov 2015 08:45:49 +0100
+
 livecd-rootfs (2.350) xenial; urgency=medium
 
   [ Oliver Grawert ]
