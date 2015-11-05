@@ -391,6 +391,10 @@ case $PROJECT in
 			#add_task install minimal
 			add_task install ubuntu-core
 
+                        # more packages are pulled in via the seed.
+                        # (important to remember when comparing to the
+                        #  livecd-rootfs from ppa:snappy-dev/image)
+
 			case $ARCH in
 				i386)
 					# efi support can go once the task
