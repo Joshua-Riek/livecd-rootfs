@@ -1,9 +1,9 @@
-livecd-rootfs (2.352) UNRELEASED; urgency=medium
+livecd-rootfs (2.352) xenial; urgency=medium
 
   * Move building of all architecture-specific CPC artifacts into Launchpad
     (LP: #1513754).
 
- -- Daniel Watkins <daniel.watkins@canonical.com>  Wed, 04 Nov 2015 11:18:19 +0000
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Fri, 06 Nov 2015 09:55:33 +0000
 
 livecd-rootfs (2.351) xenial; urgency=medium
 
