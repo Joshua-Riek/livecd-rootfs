@@ -1,0 +1,3 @@
+#!/bin/bash -ex
+(cd "binary/boot/filesystem.dir/" && tar -c *) | \
+    xz > "livecd.ubuntu-cpc.rootfs.tar.xz"

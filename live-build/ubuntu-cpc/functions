@@ -1,0 +1,61 @@
+CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
+
+rootfs_dev_mapper=
+loop_device=
+loop_raw=
+
+clean_loops() {
+    [ -z "${rootfs_dev_mapper}" ] || {
+        udevadm settle
+        find /dev/mapper -iname "${loop_device///dev\//}*" | \
+            xargs -n1 -I DEVICE dmsetup remove DEVICE ||
+                kpartx -d "${rootfs_dev_mapper}"
+        losetup -d "${loop_device}" || echo "Failed to detach disk"
+        unset loop_raw
+    }
+}
+
+create_empty_disk_image() {
+    # Prepare an empty disk image
+    dd if=/dev/zero of="$1" bs=1 count=0 seek="${IMAGE_SIZE}"
+}
+
+make_ext4_partition() {
+    device="$1"
+
+    mkfs.ext4 -F -b 4096 -i 8192 -m 0 -L cloudimg-rootfs -E resize=536870912 "$device"
+}
+
+mount_image() {
+    apt-get install -qqy kpartx
+    trap clean_loops EXIT
+    loop_raw="$(kpartx -s -v -a "$1" )"
+    loop_device="$(echo -e "${loop_raw}" | head -n1 | awk '{print($(NF-1))}')"
+    rootfs_dev_mapper="/dev/mapper${loop_device///dev/}p1"
+    [ ! -b "${rootfs_dev_mapper}" ] &&
+        echo "${rootfs_dev_mapper} is not a block device" && exit 1
+    return 0
+}
+
+mount_partition() {
+    partition="$1"
+    mountpoint="$2"
+
+    mount "$partition" "$mountpoint"
+    mount --bind /dev "$mountpoint/dev"
+    mount proc-live -t proc "$mountpoint/proc"
+    mount sysfs-live -t sysfs "$mountpoint/sys"
+    mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
+    cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
+}
+
+umount_partition() {
+    mountpoint="$1"
+
+    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
+    umount "$mountpoint/proc"
+    umount "$mountpoint/sys"
+    umount "$mountpoint/dev"
+    umount "$mountpoint"
+}

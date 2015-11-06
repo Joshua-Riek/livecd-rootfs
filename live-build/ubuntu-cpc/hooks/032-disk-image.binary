@@ -1,0 +1,60 @@
+#!/bin/bash -eux
+architecture=$(chroot chroot dpkg --print-architecture)
+if [ "$architecture" = "ppc64el" ]; then
+    echo "ppc64el disk images are handled separately"
+    exit 0
+fi
+
+. /build/config/functions
+
+create_empty_partition() {
+    apt-get install -qqy parted
+    parted_prefix="parted $1 --script --"
+
+    ${parted_prefix} mklabel msdos
+    ${parted_prefix} mkpart primary 1 -1
+    ${parted_prefix} set 1 B
+    ${parted_prefix} print
+    ${parted_prefix} align-check opt 1
+}
+
+disk_image=binary/boot/disk.ext4
+
+create_empty_disk_image "${disk_image}"
+create_empty_partition "${disk_image}"
+mount_image "${disk_image}"
+
+# Copy the chroot in to the disk
+make_ext4_partition "${rootfs_dev_mapper}"
+mkdir mountpoint
+mount "${rootfs_dev_mapper}" mountpoint
+cp -a chroot/* mountpoint/
+umount mountpoint
+rmdir mountpoint
+
+should_install_grub() {
+    case $architecture in
+        armhf|arm64)
+            return 1
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+}
+
+if should_install_grub; then
+    mkdir mountpoint
+    mount_partition "${rootfs_dev_mapper}" mountpoint
+
+    echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
+    chroot mountpoint grub-install ${loop_device}
+    chroot mountpoint grub-bios-setup --boot-image=i386-pc/boot.img --core-image=i386-pc/core.img --skip-fs-probe --device-map=/tmp/device.map ${loop_device}
+
+    rm mountpoint/tmp/device.map
+    umount_partition mountpoint
+    rmdir mountpoint
+fi
+
+clean_loops
+trap - EXIT

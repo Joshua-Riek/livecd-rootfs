@@ -1,3 +1,10 @@
+livecd-rootfs (2.352) UNRELEASED; urgency=medium
+
+  * Move building of all architecture-specific CPC artifacts in to
+    Launchpad.
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Wed, 04 Nov 2015 11:18:19 +0000
+
 livecd-rootfs (2.351) xenial; urgency=medium
 
   * live-build/ubuntu-core/hooks/21-snappy-security-policy-stamp.chroot:

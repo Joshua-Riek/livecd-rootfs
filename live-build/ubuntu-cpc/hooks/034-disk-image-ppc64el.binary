@@ -1,0 +1,64 @@
+#!/bin/bash -eux
+architecture=$(chroot chroot dpkg --print-architecture)
+if [ "$architecture" != "ppc64el" ]; then
+    exit 0
+fi
+
+. /build/config/functions
+
+create_partitions() {
+    disk_image="$1"
+    apt-get install -qqy gdisk
+    sgdisk "${disk_image}" \
+        --zap-all
+    sgdisk "${disk_image}" \
+        --new=2::+8M \
+        --new=1:
+    sgdisk "${disk_image}" -t 2:4100
+    sgdisk "${disk_image}" \
+        --print
+}
+
+install_grub() {
+    mkdir mountpoint
+    mount_partition "${rootfs_dev_mapper}" mountpoint
+
+    chroot mountpoint apt-get -qqy install grub2
+    chroot mountpoint apt-get -qqy remove --purge grub-legacy-ec2
+
+    # set the kernel commandline to use hvc0
+    mkdir -p mountpoint/etc/default/grub.d
+    cat << EOF > mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
+${CLOUD_IMG_STR}
+#
+# Set the default commandline
+GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk"
+EOF
+    prep_partition="/dev/mapper${loop_device///dev/}p2"
+    chroot mountpoint grub-install "${prep_partition}" \
+        --no-nvram \
+        --boot-directory=/boot \
+        --target=powerpc-ieee1275
+
+    umount_partition mountpoint
+    rmdir mountpoint
+}
+
+disk_image=binary/boot/disk.ext4
+
+create_empty_disk_image "${disk_image}"
+create_partitions "${disk_image}"
+mount_image "${disk_image}"
+
+# Copy the chroot in to the disk
+make_ext4_partition "${rootfs_dev_mapper}"
+mkdir mountpoint
+mount "${rootfs_dev_mapper}" mountpoint
+cp -a chroot/* mountpoint/
+umount mountpoint
+rmdir mountpoint
+
+install_grub
+
+clean_loops
+trap - EXIT

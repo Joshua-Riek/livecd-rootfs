@@ -247,6 +247,10 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 		fi
 	fi
 	if [ "$PROJECT" = "ubuntu-cpc" ]; then
+		cat > chroot/etc/cloud/build.info << EOF
+build_name: server
+serial: $BUILDSTAMP
+EOF
 		cat > chroot/etc/apt/sources.list << EOF
 deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION} main restricted universe multiverse
 deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION}-updates main restricted universe multiverse
@@ -354,6 +358,10 @@ esac
 for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue
+	fi
+	if [ "$FLAVOUR" = "virtual" ]; then
+		# The virtual kernel is named generic in /boot
+		FLAVOUR="generic"
 	fi
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then

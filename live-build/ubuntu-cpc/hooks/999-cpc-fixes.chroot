@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 rootd="${1:-/}"
 root_fs_label=cloudimg-rootfs
 set -ex
@@ -147,7 +147,6 @@ if [ "$arch" = "i386" -o "$arch" = "amd64" ]; then
    add_serial_console ttyS0
 fi
 
-
 psuedo_grub_probe() {
    cat <<"PSUEDO_GRUB_PROBE"
 #!/bin/sh
@@ -248,7 +247,7 @@ _xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
 
 grub2cfg="${rootd}/boot/grub/grub.cfg"
 [ ! -f "${grub2cfg}" ] ||
-   sed -i -e "s,root=/dev/sda1,root=LABEL=${root_fs_label}," "${grub2cfg}"
+   sed -i -e "s,root=/dev/[hs]da1,root=LABEL=${root_fs_label}," "${grub2cfg}"
 
 [ ${moved} -eq 0 ] || mv "${gprobe}.dist" "${gprobe}"
 
