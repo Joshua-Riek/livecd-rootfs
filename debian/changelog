@@ -1,3 +1,10 @@
+livecd-rootfs (2.353) UNRELEASED; urgency=medium
+
+  * drop input group from snappy images, adjust md5 sums in
+    live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 09 Nov 2015 12:53:24 +0100
+
 livecd-rootfs (2.352) xenial; urgency=medium
 
   * Move building of all architecture-specific CPC artifacts into Launchpad

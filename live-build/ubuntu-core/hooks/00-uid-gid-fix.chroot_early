@@ -3,10 +3,10 @@
 ERRCNT=""
 
 # Known good post-debootstrap values
-passwd_bootstrap="c0d388ca626db569e13fdee7ad41c9bf"
+passwd_bootstrap="bb040fdb457871cfd58cd46f5d805863"
 shadow_bootstrap="1fd73103260cbe5a13a4a38320de4129"
-group_bootstrap="d48601572a61e8db69854381392cd2f9"
-gshadow_bootstrap="1dbb70f91959296a5a4c9841e21961ed"
+group_bootstrap="ffbe05611b49480cb289f343a67d7e7b"
+gshadow_bootstrap="46121fc1a7d95f37e7a3fb21db8061e8"
 
 # Current post-debootstrap values
 passwd_hash=$(set -- $(md5sum /etc/passwd) && echo $1)
@@ -148,7 +148,6 @@ systemd-timesync:x:108:
 systemd-network:x:109:
 systemd-resolve:x:110:
 systemd-bus-proxy:x:111:
-input:x:112:
 docker:x:113:ubuntu
 syslog:x:114:
 pkcs11:x:115:root
@@ -214,7 +213,6 @@ systemd-timesync:!::
 systemd-network:!::
 systemd-resolve:!::
 systemd-bus-proxy:!::
-input:!::
 docker:!::ubuntu
 syslog:!::
 pkcs11:!::root
