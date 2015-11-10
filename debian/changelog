@@ -2,6 +2,12 @@ livecd-rootfs (2.353) UNRELEASED; urgency=medium
 
   * drop input group from snappy images, adjust md5 sums in
     live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
+  * completely separate the snappy device tarball creation from the snappy
+    rootfs so one doesnt taint the other (which allows dropping a lot more from
+    the rootfs we do not need in a snappy system, like initramfs creation
+    tools and all its dependencies).
+  * drop live-build/ubuntu-core/hooks/500-move-kernel-to-device-tar.binary
+  * enable automated build of raspi2 device tarballs for snappy
 
  -- Oliver Grawert <ogra@ubuntu.com>  Mon, 09 Nov 2015 12:53:24 +0100
 

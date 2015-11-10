@@ -404,7 +404,7 @@ case $PROJECT in
 			esac
 
 			# generic kernel etc
-			KERNEL_FLAVOURS=generic
+			KERNEL_FLAVOURS=none
 			case $ARCH in
 				i386)
 					add_package install grub-pc
@@ -418,7 +418,7 @@ case $PROJECT in
 					add_package install flash-kernel u-boot-tools
 					;;
 			esac
-			OPTS="${OPTS:+$OPTS }--linux-packages=linux-image"
+			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 
 			# contains the framework definition
 			add_package install ubuntu-core-libs

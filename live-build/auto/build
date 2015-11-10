@@ -343,15 +343,137 @@ fi
 # in a binary hook
 case $PROJECT:$SUBPROJECT in
         ubuntu-core:system-image|ubuntu-desktop-next:system-image)
-    LB_LINUX_FLAVOURS=none
 
-    # rename to have the right prefix etc
-    mv device.tar.gz "$PREFIX.device.tar.gz"
-    
-    # azure specific tarball
-    if [ -e device-azure.tar.gz ]; then
-        mv device-azure.tar.gz "$PREFIX.azure.device.tar.gz"
+    # create device tarball (for snappy only atm)
+    if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
+      case $ARCH in
+          armhf)
+            subarches="generic raspi2"
+            ;;
+          i386|amd64|arm64|powerpc|ppc64el)
+            subarches="generic"
+            ;;
+      esac
+
+      # create a clean chroot
+      debootstrap --variant=minbase $LB_DISTRIBUTION chroot-device $LB_PARENT_MIRROR_BOOTSTRAP
+
+      # ... but keep the PPA setup
+      cp -a chroot/etc/apt/* chroot-device/etc/apt/
+
+      # ... and move it in place
+      rm -rf chroot
+      mv chroot-device chroot
+
+      for devarch in $subarches; do
+        (echo "I: creating $devarch device tarball for $ARCH"
+        HERE="$(pwd)"
+        set -x
+
+        linux_package="linux-$devarch"
+        case $ARCH in
+            amd64)
+              linux_package="linux-signed-generic"
+              ;;
+        esac
+
+        # make sure all virtual filesystems are available
+        lb chroot_proc install "$@"
+        lb chroot_sysfs install "$@"
+        lb chroot_devpts install "$@"
+
+        # prepare the env
+        Chroot chroot "apt-get -y update"
+        Chroot chroot "apt-get -y purge linux-image-*"
+        Chroot chroot "apt-get -y autoremove"
+        rm -rf chroot/boot/initrd.img* chroot/boot/vmlinu?-* chroot/lib/modules/* \
+            chroot/boot/abi-* chroot/boot/System.map-* chroot/boot/config-*
+        mkdir -p chroot/etc/initramfs-tools/conf.d
+        echo "COMPRESS=lzma" >chroot/etc/initramfs-tools/conf.d/snappy-device-tarball.conf
+
+        # install needed packages and the kernel itself
+        Chroot chroot "apt-get -y install initramfs-tools-ubuntu-core linux-firmware xz-utils"
+        Chroot chroot "apt-get -y install $linux_package"
+
+        # clean up
+        lb chroot_devpts remove "$@"
+        lb chroot_sysfs remove "$@"
+        lb chroot_proc remove "$@"
+
+        # now build the actual device tarball
+        TMPDIR="$(mktemp -d)"
+        mkdir -p $TMPDIR/system/
+        mkdir -p $TMPDIR/assets/
+
+        cd chroot
+        cp -ar --parent lib/modules/ $TMPDIR/system/
+        cp -ar --parent lib/firmware/ $TMPDIR/system/
+
+        # new assets handling
+        if [ -f boot/vmlinu?-*.signed ]; then
+            kernel=boot/vmlinu?-*.signed
+        else
+            kernel=boot/vmlinu?-*
+        fi
+
+        initrd=boot/initrd.img-*
+
+        cp -ar $initrd $TMPDIR/assets/
+        cp -ar $kernel $TMPDIR/assets/
+        cp -ar boot/abi-* boot/System.map-* boot/config-* $TMPDIR/assets/
+
+        dtbs=$(find lib/firmware -type d -name 'device-tree' -print0)
+        if [ -n "$dtbs" ]; then
+           mv "$dtbs" $TMPDIR/assets/dtbs
+        fi
+
+        # create hardware.yaml
+        # this assumes armhf == u-boot
+        # and all others grub
+        # common bits
+        cat > $TMPDIR/hardware.yaml << EOF
+kernel: assets/$(basename $kernel)
+initrd: assets/$(basename $initrd)
+partition-layout: system-AB
+EOF
+        # arch specific ones
+        if [ "$ARCH" = "armhf" ]; then
+          cat >> $TMPDIR/hardware.yaml << EOF
+dtbs: assets/dtbs
+bootloader: u-boot
+EOF
+        else
+          cat >> $TMPDIR/hardware.yaml << EOF
+bootloader: grub
+EOF
+        fi
+
+        # compress everything
+        cd $TMPDIR
+        tarname="device.tar.gz"
+        if [ "$devarch" = "raspi2" ];then
+            tarname="raspi2.$tarname"
+        fi
+        tar -c -z -f $HERE/$PREFIX.$tarname system assets hardware.yaml
+
+        # show size of initrd and kernel in the log
+        ls -lh assets/
+
+        # dump the content list into the log
+        echo "I: device tarball contents for $PREFIX.$tarname:"
+        find . -type f
+
+        # azure wants its own device tarball
+        if [ "$ARCH" = "amd64" ]; then
+            cp $HERE/$PREFIX.$tarname $HERE/$PREFIX.azure.$tarname
+        fi
+        cd $HERE)
+      done
     fi
+
+    ls -l *device.tar.gz
+
+    LB_LINUX_FLAVOURS=none
     ;;
 esac
 
