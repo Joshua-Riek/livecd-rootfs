@@ -1,4 +1,4 @@
-livecd-rootfs (2.353) UNRELEASED; urgency=medium
+livecd-rootfs (2.353) xenial; urgency=medium
 
   * drop input group from snappy images, adjust md5 sums in
     live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early
