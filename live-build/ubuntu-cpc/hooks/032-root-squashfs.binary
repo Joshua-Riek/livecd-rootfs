@@ -1,0 +1,15 @@
+#!/bin/bash -eux
+# vi: ts=4 noexpandtab
+#
+# Generate a squashfs root and manifest
+
+apt-get -qqy install squashfs-tools
+
+squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
+squashfs_f_manifest="${squashfs_f}.manifest"
+
+dpkg-query --admindir=binary/boot/filesystem.dir/var/lib/dpkg -W > ${squashfs_f_manifest}
+
+(cd "binary/boot/filesystem.dir/" &&
+      mksquashfs . ${squashfs_f} \
+        -no-progress -xattrs -comp xz )
