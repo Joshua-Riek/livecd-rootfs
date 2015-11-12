@@ -1,3 +1,9 @@
 #!/bin/bash -ex
+# vi: ts=4 noexpandtab
+#
+# Generate the rootfs.tar.gz and manifest
+
+dpkg-query --admindir=binary/boot/filesystem.dir/var/lib/dpkg -W > livecd.ubuntu-cpc.rootfs.manifest
+
 (cd "binary/boot/filesystem.dir/" && tar -c *) | \
     xz > "livecd.ubuntu-cpc.rootfs.tar.xz"
