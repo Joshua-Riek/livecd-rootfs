@@ -1,3 +1,10 @@
+livecd-rootfs (2.354) xenial; urgency=medium
+
+  * ubuntu-cpc: extended hooks to build additional cloud image targets
+    including VMDKs, OVA, and Vagrant images.
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 12 Nov 2015 15:00:36 -0700
+
 livecd-rootfs (2.353) xenial; urgency=medium
 
   * drop input group from snappy images, adjust md5 sums in
