@@ -12,9 +12,10 @@ esac
 
 . /build/config/functions
 
+apt-get -qqy install dosfstools gdisk
+
 create_partitions() {
     disk_image="$1"
-    apt-get install -qqy gdisk
     sgdisk "${disk_image}" --zap-all
     case $architecture in
         arm64)
@@ -39,7 +40,6 @@ create_partitions() {
 
 create_and_mount_uefi_partition() {
     uefi_dev="/dev/mapper${loop_device///dev/}p15"
-    apt-get -qqy install dosfstools
     mountpoint="$1"
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
 
