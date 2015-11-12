@@ -1,0 +1,83 @@
+#!/bin/bash -eux
+# vi: ts=4 noexpandtab
+#
+# Generate VMDK files
+#
+# There is no real good way to create a _compressed_ VMDK using open source
+# tooling that works across multiple VMDK-capable platforms. This hook uses
+# vmdk-stream-converter and then modifies the header manually to produce a
+# compatiable VMDK.
+
+architecture=$(chroot chroot dpkg --print-architecture)
+
+extension="disk1.vmdk"
+case ${architecture} in
+         i386) image_target="binary/boot/disk.ext4";;
+        amd64) image_target="binary/boot/disk-uefi.ext4"; extension="uefi1.vmdk";;
+            *) echo "VMDK images are not supported for ${architecture} yet.";
+               exit 0;;
+esac
+
+apt-get install -qqy qemu-utils vmdk-stream-converter
+
+streamconverter="/usr/share/pyshared/VMDKstream.py"
+
+# Lets be safe about this
+scratch_d=$(mktemp -d)
+trap "rm -rf ${scratch_d}" EXIT
+
+modify_vmdk_header() {
+	# Modify the VMDK headers so that both VirtualBox _and_ VMware can
+	# read the vmdk and import them. The vodoo here is _not_ documented
+	# anywhere....so this will have to do.
+
+	vmdk_name="${1}"
+
+	# Extract the vmdk header for manipulation
+	dd if="${vmdk_name}" of=descriptor.txt bs=1 skip=512 count=1024
+
+	# The sed lines below is where the magic is. Specifically:
+	#	ddb.toolsVersion: sets the open-vm-tools so that VMware shows
+	#		the tooling as current
+	#	ddb.virtualHWVersion: set the version to 7, which covers most
+	#		current versions of VMware
+	#	createType: make sure its set to stream Optimized
+	#	remove the vmdk-stream-converter comment and replace with
+	#		# Disk DescriptorFile. This is needed for Virtualbox
+	#	remove the comments from vmdk-stream-converter which causes
+	#		VirtualBox and others to fail VMDK validation
+
+	sed -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
+		-e 's|ddb.virtualHWVersion.*|ddb.virtualHWVersion = "7"|' \
+		-e 's|createType.*|createType="streamOptimized"|' \
+		-e 's|# Description file.*|# Disk DescriptorFile|' \
+		-e '/# Believe.*/d' \
+		-e '/# Indicates no parent/d' \
+			descriptor.txt > new_descriptor.txt
+
+	# The header is cannot be bigger than 1024
+	expr $(stat --format=%s new_descriptor.txt) \< 1024 || {
+		echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
+
+	# Overwrite the vmdk header with our new, modified one
+	dd conv=notrunc,nocreat \
+		if=new_descriptor.txt of="${vmdk_name}" \
+		bs=1 seek=512 count=1024
+}
+
+convert_image() {
+    src="$1"
+    destination="$2"
+
+    cp ${src} ${scratch_d}/resize.img
+    qemu-img resize ${scratch_d}/resize.img 10G
+    python ${streamconverter} ${scratch_d}/resize.img "${destination}"
+	modify_vmdk_header "${destination}"
+    qemu-img info "${destination}"
+}
+
+convert_image binary/boot/disk.ext4 livecd.ubuntu-cpc.disk1.vmdk
+
+if [ -e binary/boot/disk-uefi.ext4 ]; then
+    convert_image binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.uefi.vmdk
+fi
