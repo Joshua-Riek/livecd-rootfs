@@ -1,0 +1,15 @@
+#!/bin/bash
+# Execute extra binary hooks.
+
+my_dir=$(dirname $(readlink -f ${0}))
+extra_d=${my_dir}/extra
+
+if [ ! -d ${my_dir}/extra ]; then
+    exit 0
+fi
+
+# Execute extra binary hooks
+for recipe in $(find ${extra_d} -type f -executable);
+do
+    bash ${recipe}
+done
