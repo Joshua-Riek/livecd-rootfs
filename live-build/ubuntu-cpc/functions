@@ -59,3 +59,66 @@ umount_partition() {
     umount "$mountpoint/dev"
     umount "$mountpoint"
 }
+
+modify_vmdk_header() {
+    # Modify the VMDK headers so that both VirtualBox _and_ VMware can
+    # read the vmdk and import them. The vodoo here is _not_ documented
+    # anywhere....so this will have to do.
+
+    vmdk_name="${1}"
+    descriptor=$(mktemp)
+    newdescriptor=$(mktemp)
+
+    # Extract the vmdk header for manipulation
+    dd if="${vmdk_name}" of="${descriptor}" bs=1 skip=512 count=1024
+
+    # The sed lines below is where the magic is. Specifically:
+    #   ddb.toolsVersion: sets the open-vm-tools so that VMware shows
+    #       the tooling as current
+    #   ddb.virtualHWVersion: set the version to 7, which covers most
+    #       current versions of VMware
+    #   createType: make sure its set to stream Optimized
+    #   remove the vmdk-stream-converter comment and replace with
+    #       # Disk DescriptorFile. This is needed for Virtualbox
+    #   remove the comments from vmdk-stream-converter which causes
+    #       VirtualBox and others to fail VMDK validation
+
+    sed -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
+        -e 's|ddb.virtualHWVersion.*|ddb.virtualHWVersion = "7"|' \
+        -e 's|createType.*|createType="streamOptimized"|' \
+        -e 's|# Description file.*|# Disk DescriptorFile|' \
+        -e '/# Believe.*/d' \
+        -e '/# Indicates no parent/d' \
+            "${descriptor}" > "${new_descriptor}"
+
+    # The header is cannot be bigger than 1024
+    expr $(stat --format=%s ${new_descriptor}) \< 1024 || {
+        echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
+
+    # Overwrite the vmdk header with our new, modified one
+    dd conv=notrunc,nocreat \
+        if="${new_descriptor}" of="${vmdk_name}" \
+        bs=1 seek=512 count=1024
+
+    rm ${descriptor} ${new_descriptor}
+}
+
+create_vmdk() {
+    src="$1"
+    destination="$2"
+    size="${3:-102400}"
+
+    apt-get install -qqy qemu-utils vmdk-stream-converter
+    streamconverter="/usr/share/pyshared/VMDKstream.py"
+    scratch_d=$(mktemp -d)
+
+    cp ${src} ${scratch_d}/resize.img
+    qemu-img resize ${scratch_d}/resize.img ${size}M
+    python ${streamconverter} ${scratch_d}/resize.img "${destination}"
+    modify_vmdk_header "${destination}"
+    qemu-img info "${destination}"
+
+    rm -rf ${scratch_d}
+}
+
+
