@@ -112,16 +112,17 @@ create_vmdk() {
 
     src="$1"
     destination="$2"
-    size="${3:-102400}"
+    size="${3:-10240}"
 
     apt-get install -qqy qemu-utils vmdk-stream-converter
     streamconverter="/usr/share/pyshared/VMDKstream.py"
     scratch_d=$(mktemp -d)
-
     cp ${src} ${scratch_d}/resize.img
-    qemu-img resize ${scratch_d}/resize.img ${size}M
+
+    truncate --size=${size}M ${scratch_d}/resize.img
     python ${streamconverter} ${scratch_d}/resize.img "${destination}"
     modify_vmdk_header "${destination}"
+
     qemu-img info "${destination}"
 
     rm -rf ${scratch_d}
