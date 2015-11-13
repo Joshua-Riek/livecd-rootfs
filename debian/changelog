@@ -1,4 +1,4 @@
-livecd-rootfs (2.355) UNRELEASED; urgency=medium
+livecd-rootfs (2.355) xenial; urgency=medium
 
   * fix input group in snappy
 
