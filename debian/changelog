@@ -1,3 +1,10 @@
+livecd-rootfs (2.354) UNRELEASED; urgency=medium
+
+  * do not ship assets/dtbs/overlays in raspi2 tarball, it breaks
+    ubuntu-device-flash
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 Nov 2015 10:53:13 +0100
+
 livecd-rootfs (2.353) xenial; urgency=medium
 
   * drop input group from snappy images, adjust md5 sums in

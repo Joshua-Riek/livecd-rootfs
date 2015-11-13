@@ -425,6 +425,15 @@ case $PROJECT:$SUBPROJECT in
         dtbs=$(find lib/firmware -type d -name 'device-tree' -print0)
         if [ -n "$dtbs" ]; then
            mv "$dtbs" $TMPDIR/assets/dtbs
+           case $devarch in
+               raspi2)
+                   # ubuntu-device-flash does not like subdirs here, we need to tar it up
+                   if [ -e $TMPDIR/assets/dtbs/overlays ]; then
+                       tar -C $TMPDIR/assets/dtbs -f $TMPDIR/assets/dtbs/overlays.tgz -czv overlays
+                       rm -rf $TMPDIR/assets/dtbs/overlays
+                   fi
+                   ;;
+           esac
         fi
 
         # create hardware.yaml
