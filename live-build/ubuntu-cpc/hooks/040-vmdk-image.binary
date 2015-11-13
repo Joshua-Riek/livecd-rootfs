@@ -2,11 +2,6 @@
 # vi: ts=4 noexpandtab
 #
 # Generate VMDK files
-#
-# There is no real good way to create a _compressed_ VMDK using open source
-# tooling that works across multiple VMDK-capable platforms. This hook uses
-# vmdk-stream-converter and then modifies the header manually to produce a
-# compatiable VMDK.
 
 architecture=$(chroot chroot dpkg --print-architecture)
 

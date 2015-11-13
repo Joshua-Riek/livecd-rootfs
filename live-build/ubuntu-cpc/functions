@@ -63,7 +63,8 @@ umount_partition() {
 modify_vmdk_header() {
     # Modify the VMDK headers so that both VirtualBox _and_ VMware can
     # read the vmdk and import them. The vodoo here is _not_ documented
-    # anywhere....so this will have to do.
+    # anywhere....so this will have to do. This is undocumented vodoo
+    # that has been learned by the Cloud Image team.
 
     vmdk_name="${1}"
     descriptor=$(mktemp)
@@ -104,6 +105,11 @@ modify_vmdk_header() {
 }
 
 create_vmdk() {
+    # There is no real good way to create a _compressed_ VMDK using open source
+    # tooling that works across multiple VMDK-capable platforms. Thie functions
+    # uses vmdk-stream-converter and then call modify_vmdk_header to produce a
+    # compatiable VMDK.
+
     src="$1"
     destination="$2"
     size="${3:-102400}"
