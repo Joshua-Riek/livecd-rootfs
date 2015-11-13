@@ -152,6 +152,7 @@ docker:x:113:ubuntu
 syslog:x:114:
 pkcs11:x:115:root
 tss:x:116:
+input:x:107:
 EOF
 else
     echo "/etc/group post-debootstrap hash doesn't match record" >&2
@@ -217,6 +218,7 @@ docker:!::ubuntu
 syslog:!::
 pkcs11:!::root
 tss:!::
+input:!::
 EOF
 else
     echo "/etc/gshadow post-debootstrap hash doesn't match record" >&2

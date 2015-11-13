@@ -1,3 +1,9 @@
+livecd-rootfs (2.355) UNRELEASED; urgency=medium
+
+  * fix input group in snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 Nov 2015 12:52:34 +0100
+
 livecd-rootfs (2.354) xenial; urgency=medium
 
   * do not ship assets/dtbs/overlays in raspi2 tarball, it breaks
