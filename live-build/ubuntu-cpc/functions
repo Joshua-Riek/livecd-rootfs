@@ -90,18 +90,18 @@ modify_vmdk_header() {
         -e 's|# Description file.*|# Disk DescriptorFile|' \
         -e '/# Believe.*/d' \
         -e '/# Indicates no parent/d' \
-            "${descriptor}" > "${new_descriptor}"
+            "${descriptor}" > "${newdescriptor}"
 
     # The header is cannot be bigger than 1024
-    expr $(stat --format=%s ${new_descriptor}) \< 1024 || {
+    expr $(stat --format=%s ${newdescriptor}) \< 1024 || {
         echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
 
     # Overwrite the vmdk header with our new, modified one
     dd conv=notrunc,nocreat \
-        if="${new_descriptor}" of="${vmdk_name}" \
+        if="${newdescriptor}" of="${vmdk_name}" \
         bs=1 seek=512 count=1024
 
-    rm ${descriptor} ${new_descriptor}
+    rm ${descriptor} ${newdescriptor}
 }
 
 create_vmdk() {
