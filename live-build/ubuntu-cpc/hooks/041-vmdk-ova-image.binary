@@ -1,5 +1,5 @@
 #!/bin/bash -eux
-# vi: ts=4 noexpandtab
+# vi: ts=4 expandtab
 #
 # Generate OVA images
 #

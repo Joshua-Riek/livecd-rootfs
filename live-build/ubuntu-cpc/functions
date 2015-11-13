@@ -1,3 +1,5 @@
+# vi: ts=4 expandtab syntax=sh
+
 CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
 
@@ -84,16 +86,15 @@ modify_vmdk_header() {
     #   remove the comments from vmdk-stream-converter which causes
     #       VirtualBox and others to fail VMDK validation
 
-    sed -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
-        -e 's|ddb.virtualHWVersion.*|ddb.virtualHWVersion = "7"|' \
-        -e 's|createType.*|createType="streamOptimized"|' \
-        -e 's|# Description file.*|# Disk DescriptorFile|' \
-        -e '/# Believe.*/d' \
+    sed -e 's|# Description file.*|# Disk DescriptorFile|' \
+        -e '/# Believe this is random*/d' \
         -e '/# Indicates no parent/d' \
+        -e '/# The Disk Data Base/d' \
+        -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
             "${descriptor}" > "${newdescriptor}"
 
     # The header is cannot be bigger than 1024
-    expr $(stat --format=%s ${newdescriptor}) \< 1024 || {
+    expr $(stat --format=%s ${newdescriptor}) \< 1024 > /dev/null 2>&1 || {
         echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
 
     # Overwrite the vmdk header with our new, modified one
@@ -106,9 +107,9 @@ modify_vmdk_header() {
 
 create_vmdk() {
     # There is no real good way to create a _compressed_ VMDK using open source
-    # tooling that works across multiple VMDK-capable platforms. Thie functions
-    # uses vmdk-stream-converter and then call modify_vmdk_header to produce a
-    # compatiable VMDK.
+    # tooling that works across multiple VMDK-capable platforms. This functions
+    # uses vmdk-stream-converter and then calls modify_vmdk_header to produce a
+    # compatible VMDK.
 
     src="$1"
     destination="$2"
@@ -120,12 +121,9 @@ create_vmdk() {
     cp ${src} ${scratch_d}/resize.img
 
     truncate --size=${size}M ${scratch_d}/resize.img
-    python ${streamconverter} ${scratch_d}/resize.img "${destination}"
-    modify_vmdk_header "${destination}"
+    python ${streamconverter} ${scratch_d}/resize.img ${destination}
+    modify_vmdk_header ${destination}
 
-    qemu-img info "${destination}"
-
+    qemu-img info ${destination}
     rm -rf ${scratch_d}
 }
-
-
