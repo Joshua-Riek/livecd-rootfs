@@ -87,11 +87,10 @@ genisoimage \
     -joliet -rock \
     -input-charset utf-8 \
     ${seed_d}/user-data \
-    ${seed_d}/meta-data \
-    ${seed_d}/bloat_file
+    ${seed_d}/meta-data
 
 # Make a VMDK out of the seed file.
-create_vmdk ${seed_d}/seed.iso ${cdrom_vmdk_f}
+create_vmdk ${seed_d}/seed.iso ${cdrom_vmdk_f} 10
 
 ### END Create ConfigDrive
 ##########################
