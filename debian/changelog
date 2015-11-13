@@ -1,4 +1,4 @@
-livecd-rootfs (2.354) UNRELEASED; urgency=medium
+livecd-rootfs (2.354) xenial; urgency=medium
 
   * do not ship assets/dtbs/overlays in raspi2 tarball, it breaks
     ubuntu-device-flash
