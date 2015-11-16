@@ -3,10 +3,10 @@
 ERRCNT=""
 
 # Known good post-debootstrap values
-passwd_bootstrap="e6075a0d2a38e214ae5e9a5545f7eda3"
+passwd_bootstrap="677bdb95956f6214a0007543fe15a1bf"
 shadow_bootstrap="7fa48d7fb0e3a1ede9c98ff7b1b33622"
-group_bootstrap="5fd842058cd526ddaf51c2a61870c12a"
-gshadow_bootstrap="3145b72315c7306edb13bf546bb350b9"
+group_bootstrap="eb863998da1d7cad986cea2466ef23a1"
+gshadow_bootstrap="5da14ec60af7c53eacadc05859bfd5f4"
 
 # Current post-debootstrap values
 passwd_hash=$(set -- $(md5sum /etc/passwd) && echo $1)

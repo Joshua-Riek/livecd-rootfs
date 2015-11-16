@@ -1,3 +1,10 @@
+livecd-rootfs (2.356) UNRELEASED; urgency=medium
+
+  * merge lp:~sil2100/livecd-rootfs/update_hashes to update the passwd db
+    hashes on ubuntu-touch builds (LP: #1516526)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 16 Nov 2015 15:44:48 +0100
+
 livecd-rootfs (2.355) xenial; urgency=medium
 
   * fix input group in snappy
