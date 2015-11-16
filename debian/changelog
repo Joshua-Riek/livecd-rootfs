@@ -1,4 +1,4 @@
-livecd-rootfs (2.357) UNRELEASED; urgency=medium
+livecd-rootfs (2.357) xenial; urgency=medium
 
   * merge lp:~utlemming/livecd-rootfs/additional-cloud-targets:
   * added additional CPC build targets:
