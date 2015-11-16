@@ -1,4 +1,4 @@
-livecd-rootfs (2.356) UNRELEASED; urgency=medium
+livecd-rootfs (2.356) xenial; urgency=medium
 
   * merge lp:~sil2100/livecd-rootfs/update_hashes to update the passwd db
     hashes on ubuntu-touch builds (LP: #1516526)
