@@ -1,3 +1,5 @@
+# vi: ts=4 expandtab syntax=sh
+
 CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
 
@@ -58,4 +60,70 @@ umount_partition() {
     umount "$mountpoint/sys"
     umount "$mountpoint/dev"
     umount "$mountpoint"
+}
+
+modify_vmdk_header() {
+    # Modify the VMDK headers so that both VirtualBox _and_ VMware can
+    # read the vmdk and import them. The vodoo here is _not_ documented
+    # anywhere....so this will have to do. This is undocumented vodoo
+    # that has been learned by the Cloud Image team.
+
+    vmdk_name="${1}"
+    descriptor=$(mktemp)
+    newdescriptor=$(mktemp)
+
+    # Extract the vmdk header for manipulation
+    dd if="${vmdk_name}" of="${descriptor}" bs=1 skip=512 count=1024
+
+    # The sed lines below is where the magic is. Specifically:
+    #   ddb.toolsVersion: sets the open-vm-tools so that VMware shows
+    #       the tooling as current
+    #   ddb.virtualHWVersion: set the version to 7, which covers most
+    #       current versions of VMware
+    #   createType: make sure its set to stream Optimized
+    #   remove the vmdk-stream-converter comment and replace with
+    #       # Disk DescriptorFile. This is needed for Virtualbox
+    #   remove the comments from vmdk-stream-converter which causes
+    #       VirtualBox and others to fail VMDK validation
+
+    sed -e 's|# Description file.*|# Disk DescriptorFile|' \
+        -e '/# Believe this is random*/d' \
+        -e '/# Indicates no parent/d' \
+        -e '/# The Disk Data Base/d' \
+        -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
+            "${descriptor}" > "${newdescriptor}"
+
+    # The header is cannot be bigger than 1024
+    expr $(stat --format=%s ${newdescriptor}) \< 1024 > /dev/null 2>&1 || {
+        echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
+
+    # Overwrite the vmdk header with our new, modified one
+    dd conv=notrunc,nocreat \
+        if="${newdescriptor}" of="${vmdk_name}" \
+        bs=1 seek=512 count=1024
+
+    rm ${descriptor} ${newdescriptor}
+}
+
+create_vmdk() {
+    # There is no real good way to create a _compressed_ VMDK using open source
+    # tooling that works across multiple VMDK-capable platforms. This functions
+    # uses vmdk-stream-converter and then calls modify_vmdk_header to produce a
+    # compatible VMDK.
+
+    src="$1"
+    destination="$2"
+    size="${3:-10240}"
+
+    apt-get install -qqy qemu-utils vmdk-stream-converter
+    streamconverter="/usr/share/pyshared/VMDKstream.py"
+    scratch_d=$(mktemp -d)
+    cp ${src} ${scratch_d}/resize.img
+
+    truncate --size=${size}M ${scratch_d}/resize.img
+    python ${streamconverter} ${scratch_d}/resize.img ${destination}
+    modify_vmdk_header ${destination}
+
+    qemu-img info ${destination}
+    rm -rf ${scratch_d}
 }

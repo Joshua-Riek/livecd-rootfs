@@ -1,0 +1,22 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate VMDK files
+
+architecture=$(chroot chroot dpkg --print-architecture)
+
+extension="disk1.vmdk"
+case ${architecture} in
+         i386) image_target="binary/boot/disk.ext4";;
+        amd64) image_target="binary/boot/disk-uefi.ext4"; extension="uefi1.vmdk";;
+            *) echo "VMDK images are not supported for ${architecture} yet.";
+               exit 0;;
+esac
+
+. /build/config/functions
+
+create_vmdk binary/boot/disk.ext4 livecd.ubuntu-cpc.disk1.vmdk
+
+if [ -e binary/boot/disk-uefi.ext4 ]; then
+    create_vmdk binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.uefi.vmdk
+fi

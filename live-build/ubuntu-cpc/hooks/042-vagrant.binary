@@ -1,0 +1,185 @@
+#!/bin/bash -eux
+# vi: ts=4 noexpandtab
+#
+# Generate a generic Vagrant Box.
+#
+# Vagrant images are essentially nothing more than OVA's with extra-metadata.
+#
+# We can't use the OVA's for Vagrant since Vagrant uses SSH to modify the instance.
+# This build step creates a cloud-config ISO so that Cloud-Init will configure
+# the initial user, creates meta-data that tells Vagrant how to interact with
+# the cloud-init created users, and finally create the OVA.
+#
+# For this step, we re-use the VMDK's made in 040-vmdk-image.binary
+
+cur_d=${PWD}
+my_d=$(dirname $(readlink -f ${0}))
+
+architecture=$(chroot chroot dpkg --print-architecture)
+base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
+
+if [[ ! "${architecture}" =~ (amd64|i386) ]]; then
+	echo "Vagrant images are not supported for ${architecutre}"
+	exit 0
+elif [ ! -e ${base_vmdk} ]; then
+	echo "Did not find VMDK to produce Vagrant images."
+    exit 0
+fi
+
+. /build/config/functions
+
+# Virtualbox is needed for making a small VMDK
+apt-get -qqy install genisoimage qemu-utils
+
+# Lets be safe about this
+box_d=$(mktemp -d)
+seed_d=$(mktemp -d)
+trap "rm -rf ${box_d} ${seed_d}" EXIT
+
+# Used to identify bits
+suite=$(chroot chroot lsb_release -c -s)
+version=$(chroot chroot lsb_release --release --short)
+distro=$(chroot chroot lsb_release --id --short | tr [:upper:] [:lower:])
+
+# Get the VMDK in place
+prefix="${distro}-${suite}-${version}-cloudimg"
+vmdk_f="${box_d}/${prefix}.vmdk"
+cp ${base_vmdk} ${vmdk_f}
+
+# Vagrant needs a base user. We either inject the well-known SSH key
+# or use password authentication. Both are ugly. So we'll use a password
+# and make it random. This obviously is insecure...but at least its
+# better than the alternatives.
+ubuntu_user_pass=$(openssl rand -hex 12)
+
+####################################
+# Create the ConfigDrive
+# This is a cloud-init piece that instructs cloud-init to configure
+# a default user at first boot.
+
+cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
+
+# Create the user-data. This is totally insecure, but so is Vagrant. To
+# mitigate this insecurity, the vagrant instance is not accessible
+# except via local host.
+cat > ${seed_d}/user-data <<END
+#cloud-config
+password: ${ubuntu_user_pass}
+chpasswd: { expire: False }
+ssh_pwauth: True
+END
+
+# Create the fake meta-data
+cat > ${seed_d}/meta-data <<END
+instance-id: iid-$(openssl rand -hex 8)
+local-hostname: ubuntu-${suite}
+END
+
+# Pad the cdrom, otherwise the VMDK will be invalid
+dd if=/dev/zero of=${seed_d}/bloat_file bs=1M count=10
+
+# Create the ISO
+genisoimage \
+    -output ${seed_d}/seed.iso \
+    -volid cidata \
+    -joliet -rock \
+    -input-charset utf-8 \
+    ${seed_d}/user-data \
+    ${seed_d}/meta-data
+
+# Make a VMDK out of the seed file.
+create_vmdk ${seed_d}/seed.iso ${cdrom_vmdk_f} 10
+
+### END Create ConfigDrive
+##########################
+
+##########################
+# VAGRANT meta-data
+
+# Create the Vagrant file. This file is used by Vagrant to define how
+# Vagrant uses Virtualbox and how Vagrant interacts with the host.
+macaddr="02$(openssl rand -hex 5 | tr [:lower:] [:upper:])"
+cat > ${box_d}/Vagrantfile <<EOF
+# Front load the includes
+include_vagrantfile = File.expand_path("../include/_Vagrantfile", __FILE__)
+load include_vagrantfile if File.exist?(include_vagrantfile)
+
+Vagrant.configure("2") do |config|
+  config.vm.base_mac = "${macaddr}"
+  config.ssh.username = "ubuntu"
+  config.ssh.password = "${ubuntu_user_pass}"
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+end
+EOF
+
+# Tag it as a Virtualbox Vagrant
+cat > ${box_d}/metadata.json <<EOF
+{
+  "provider": "virtualbox"
+}
+EOF
+
+# END
+##########################
+
+##########################
+# Create the actual box
+
+# Get information about the disks for the OVF
+vmdk_size=$(du -b "${vmdk_f}" | cut -f1)
+vmdk_capacity=$(qemu-img info "${vmdk_f}" | awk '-F[\( ]' '$1 ~ /virtual/ && $NF ~ /bytes.*/ {print$(NF-1)}')
+vmdk_sha256=$(sha256sum ${vmdk_f} | cut -d' ' -f1)
+
+cdrom_size=$(du -b "${cdrom_vmdk_f}" | cut -f1)
+cdrom_capacity=$(qemu-img info "${cdrom_vmdk_f}" | awk '-F[\( ]' '$1 ~ /virtual/ && $NF ~ /bytes.*/ {print$(NF-1)}')
+cdrom_sha256=$(sha256sum ${cdrom_vmdk_f} | cut -d' ' -f1)
+
+# Populate the OVF template
+ovf="${box_d}/box.ovf"
+cp ${my_d}/ovf/ubuntu-ova-v1-cloudcfg-vmdk.tmpl ${ovf}
+serial_stamp=$(date +%Y%m%d)
+sed -i "${ovf}" \
+    -e "s/@@NAME@@/${prefix}-${serial_stamp}/g" \
+	-e "s/@@FILENAME1@@/${vmdk_f##*/}/g" \
+    -e "s/@@VMDK_FILE_SIZE@@/${vmdk_size}/g" \
+    -e "s/@@VMDK_CAPACITY@@/${vmdk_capacity}/g" \
+	-e "s/@@FILENAME2@@/${cdrom_vmdk_f##*/}/g" \
+    -e "s/@@VMDK_FILE_SIZE2@@/${cdrom_size}/g" \
+    -e "s/@@VMDK_CAPACITY2@@/${cdrom_capacity}/g" \
+    -e "s/@@NUM_CPUS@@/2/g" \
+    -e "s/@@VERSION@@/${version}/g" \
+    -e "s/@@DATE@@/${serial_stamp}/g" \
+    -e "s/@@MEM_SIZE@@/1024/g"
+
+ovf_sha256=$(sha256sum ${ovf} | cut -d' ' -f1)
+
+# Generate the manifest
+manifest="${box_d}/${prefix}.mf"
+cat > "${manifest}" <<EOF
+SHA256(${vmdk_f##*/})= ${vmdk_sha256}
+SHA256(${cdrom_vmdk_f##*/})= ${cdrom_sha256}
+SHA256(${ovf##*/}.ovf)= ${ovf_sha256}
+EOF
+
+# Now create the box
+echo "Creating OVA with the following attributes:"
+cat <<EOM
+OVA information:
+    Name:           ${prefix}
+    Size:           ${vmdk_size}
+    VMDK Name:      ${vmdk_f##*/}
+    VMDK Capacity:  ${vmdk_capacity}
+    VMDK SHA256:    ${vmdk_sha256}
+	CDROM Name:     ${cdrom_vmdk_f##*/}
+    CDROM Capacity: ${cdrom_capacity}
+	CDROM SHA256:   ${cdrom_sha256}
+EOM
+
+tar -C ${box_d} \
+    -cf ${cur_d}/livecd.ubuntu-cpc.vagrant.box \
+    box.ovf \
+	Vagrantfile \
+	metadata.json \
+    ${prefix}.mf \
+    ${vmdk_f##*/} \
+	${cdrom_vmdk_f##*/}

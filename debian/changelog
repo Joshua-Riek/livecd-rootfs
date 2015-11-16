@@ -1,3 +1,14 @@
+livecd-rootfs (2.357) UNRELEASED; urgency=medium
+
+  * merge lp:~utlemming/livecd-rootfs/additional-cloud-targets:
+  * added additional CPC build targets:
+    - added manifest generation for squashfs and root.tar.gz
+    - added VMDK generation
+    - added OVA generation from VMDK's
+    - added generic Vagrant image generation
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 16 Nov 2015 15:50:17 +0100
+
 livecd-rootfs (2.356) xenial; urgency=medium
 
   * merge lp:~sil2100/livecd-rootfs/update_hashes to update the passwd db

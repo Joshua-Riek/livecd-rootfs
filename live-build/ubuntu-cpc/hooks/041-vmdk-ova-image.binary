@@ -1,0 +1,88 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate OVA images
+#
+# OVA images are, by defintiion a tarball consisting of a disk image, OVF file
+# and checksums. This step produces an OVA that is suitable for use with
+# Cloud's that support the OVF specification.
+#
+# For this step, we re-use the VMDK's made in 040-vmdk-image.binary
+
+cur_d=${PWD}
+my_d=$(dirname $(readlink -f ${0}))
+
+architecture=$(chroot chroot dpkg --print-architecture)
+
+base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
+case ${architecture} in
+        amd64) base_vmdk="livecd.ubuntu-cpc.uefi.vmdk";;
+            *) echo "OVA images are not supported for ${architecture} yet.";
+               exit 0;;
+esac
+
+if [ ! -e ${base_vmdk} ]; then
+	find . | grep vmdk
+    exit 0
+fi
+
+# Lets be safe about this
+scratch_d=$(mktemp -d)
+trap "rm -rf ${scratch_d}" EXIT
+
+# Used to identify bits
+suite=$(chroot chroot lsb_release -c -s)
+version=$(chroot chroot lsb_release --release --short)
+distro=$(chroot chroot lsb_release --id --short | tr [:upper:] [:lower:])
+
+# Put our vmdk in place for OVA conversion
+prefix="${distro}-${suite}-${version}-cloudimg"
+vmdk_f="${scratch_d}/${prefix}.vmdk"
+cp ${base_vmdk} ${vmdk_f}
+
+# Get information about the VMDK
+vmdk_size=$(du -b "${vmdk_f}" | cut -f1)
+vmdk_capacity=$(qemu-img info "${vmdk_f}" | awk '-F[\( ]' '$1 ~ /virtual/ && $NF ~ /bytes.*/ {print$(NF-1)}')
+
+# Populate the OVF template
+ovf="${scratch_d}/${prefix}.ovf"
+cp ${my_d}/ovf/ubuntu-ova-v1-vmdk.tmpl ${ovf}
+serial_stamp=$(date +%Y%m%d)
+sed -i "${ovf}" \
+    -e "s/@@NAME@@/${prefix}-${serial_stamp}/g" \
+	-e "s/@@FILENAME@@/${vmdk_f##*/}/g" \
+    -e "s/@@VMDK_FILE_SIZE@@/${vmdk_size}/g" \
+    -e "s/@@VMDK_CAPACITY@@/${vmdk_capacity}/g" \
+    -e "s/@@NUM_CPUS@@/2/g" \
+    -e "s/@@VERSION@@/${version}/g" \
+    -e "s/@@DATE@@/${serial_stamp}/g" \
+    -e "s/@@MEM_SIZE@@/1024/g"
+
+# Get the checksums
+vmdk_sha256=$(sha256sum ${vmdk_f} | cut -d' ' -f1)
+ovf_sha256=$(sha256sum ${ovf} | cut -d' ' -f1)
+
+# Generate the manifest
+manifest="${scratch_d}/${prefix}.mf"
+cat > "${manifest}" <<EOF
+SHA256(${vmdk_f##*/})= ${vmdk_sha256}
+SHA256(${ovf##*/}.ovf)= ${ovf_sha256}
+EOF
+
+# Now create the OVA
+echo "Creating OVA with the following attributes:"
+cat <<EOM
+OVA information:
+    Name:        ${prefix}
+    Size:        ${vmdk_size}
+    Capacity:    ${vmdk_capacity}
+    VMDK Name:   ${vmdk_f##*/}
+    VMDK SHA256: ${vmdk_sha256}
+    OVF SHA256:  ${ovf_sha256}
+EOM
+
+tar -C ${scratch_d} \
+    -cf ${cur_d}/livecd.ubuntu-cpc.ova \
+    ${prefix}.ovf \
+    ${prefix}.mf \
+    ${vmdk_f##*/}
