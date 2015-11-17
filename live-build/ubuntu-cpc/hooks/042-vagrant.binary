@@ -19,7 +19,7 @@ architecture=$(chroot chroot dpkg --print-architecture)
 base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
 
 if [[ ! "${architecture}" =~ (amd64|i386) ]]; then
-	echo "Vagrant images are not supported for ${architecutre}"
+	echo "Vagrant images are not supported for ${architecture}"
 	exit 0
 elif [ ! -e ${base_vmdk} ]; then
 	echo "Did not find VMDK to produce Vagrant images."
