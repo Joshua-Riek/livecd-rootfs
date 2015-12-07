@@ -46,6 +46,7 @@ mount_partition() {
 
     mount "$partition" "$mountpoint"
     mount --bind /dev "$mountpoint/dev"
+    mount devpts-live -t devpts "$mountpoint/dev/pts"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
@@ -58,6 +59,7 @@ umount_partition() {
     mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
     umount "$mountpoint/proc"
     umount "$mountpoint/sys"
+    umount "$mountpoint/dev/pts"
     umount "$mountpoint/dev"
     umount "$mountpoint"
 }

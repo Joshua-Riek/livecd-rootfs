@@ -116,7 +116,11 @@ EOF
     chroot mountpoint apt-get -y update
 
     rm mountpoint/tmp/device.map
+    sync
     umount mountpoint/boot/efi
+    sleep 5
+    udevadm settle
+    mount
     umount_partition mountpoint
     rmdir mountpoint
 }
