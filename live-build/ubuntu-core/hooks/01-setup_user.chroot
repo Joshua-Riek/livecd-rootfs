@@ -6,7 +6,7 @@ USER=ubuntu
 UGID=1000
 
 echo "I: creating default user $USER"
-adduser --gecos $USER --disabled-login $USER --uid $UGID
+adduser --ingroup adm --ingroup sudo --gecos $USER --disabled-login $USER --uid $UGID
 
 chown -R $UGID:$UGID /home/$USER
 
