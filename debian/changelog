@@ -1,7 +1,13 @@
-livecd-rootfs (2.360) UNRELEASED; urgency=medium
+livecd-rootfs (2.360) xenial; urgency=medium
 
+  [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     - add default ubuntu user to "adm" and "sudo" groups
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Fix the previous apt list removal hook. This hook needs to
+    be .binary as otherwise we're still left with apt lists when
+    the image is published.
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 07 Dec 2015 11:03:35 +0100
 
