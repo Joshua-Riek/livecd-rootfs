@@ -1,4 +1,4 @@
-livecd-rootfs (2.362) UNRELEASED; urgency=medium
+livecd-rootfs (2.362) xenial; urgency=medium
 
   * make sure u-boot-tools is installed on snappy arm64
 
