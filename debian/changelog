@@ -1,3 +1,11 @@
+livecd-rootfs (2.361) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-core/hooks/01-setup_user.chroot:
+    make sure the default group is still created when adding the default user
+    to adm and sudo groups.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 08 Dec 2015 16:36:34 +0100
+
 livecd-rootfs (2.360) xenial; urgency=medium
 
   [ Michael Vogt ]
