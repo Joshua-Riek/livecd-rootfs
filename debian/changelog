@@ -1,4 +1,4 @@
-livecd-rootfs (2.361) UNRELEASED; urgency=medium
+livecd-rootfs (2.361) xenial; urgency=medium
 
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
     make sure the default group is still created when adding the default user
