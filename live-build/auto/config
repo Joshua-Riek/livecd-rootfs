@@ -417,6 +417,9 @@ case $PROJECT in
 				armhf)
 					add_package install flash-kernel u-boot-tools
 					;;
+				arm64)
+					add_package install u-boot-tools
+                                        ;;
 			esac
 			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 
