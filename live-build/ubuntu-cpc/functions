@@ -6,16 +6,23 @@ IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
 rootfs_dev_mapper=
 loop_device=
 loop_raw=
+backing_img=
+
+apt-get -qqy install dosfstools gdisk
 
 clean_loops() {
-    [ -z "${rootfs_dev_mapper}" ] || {
-        udevadm settle
-        find /dev/mapper -iname "${loop_device///dev\//}*" | \
-            xargs -n1 -I DEVICE dmsetup remove DEVICE ||
-                kpartx -d "${rootfs_dev_mapper}"
-        losetup -d "${loop_device}" || echo "Failed to detach disk"
-        unset loop_raw
-    }
+    if [ -z "${rootfs_dev_mapper}" ]; then
+        return 0
+    fi
+
+    if [ -n "${backing_img}" ]; then
+        kpartx -v -d "${backing_img}"
+    fi
+
+    unset backing_img
+    unset loop_device
+    unset loop_raw
+    unset rootfs_dev_mapper
 }
 
 create_empty_disk_image() {
@@ -32,6 +39,7 @@ make_ext4_partition() {
 mount_image() {
     apt-get install -qqy kpartx
     trap clean_loops EXIT
+    backing_img="$1"
     loop_raw="$(kpartx -s -v -a "$1" )"
     loop_device="$(echo -e "${loop_raw}" | head -n1 | awk '{print($(NF-1))}')"
     rootfs_dev_mapper="/dev/mapper${loop_device///dev/}p1"
@@ -46,22 +54,80 @@ mount_partition() {
 
     mount "$partition" "$mountpoint"
     mount --bind /dev "$mountpoint/dev"
-    mount devpts-live -t devpts "$mountpoint/dev/pts"
+    mount devpts-live -t proc "$mountpoint/dev/pts"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
+    mount -t tmpfs none "$mountpoint/tmp"
     mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
     cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
 }
 
+
+mount_disk_image() {
+    local disk_image=${1}
+    local mountpoint=${2}
+    mount_image ${disk_image}
+    mount_partition "${rootfs_dev_mapper}" $mountpoint
+
+    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
+        mount "${uefi_dev}" $mountpoint/boot/efi
+    fi
+
+    # This is needed to allow for certain operations
+    # such as updating grub and installing software
+    cat > $mountpoint/usr/sbin/policy-rc.d << EOF
+#!/bin/sh
+# ${CLOUD_IMG_STR}
+echo "All runlevel operations denied by policy" >&2
+exit 101
+EOF
+    chmod 0755 $mountpoint/usr/sbin/policy-rc.d
+
+}
+
+umount_settle() {
+    # Unmount device, and let it settle
+    umount $1
+    udevadm settle
+    sleep 3
+}
+
 umount_partition() {
+    local mountpoint=${1}
+    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
+    for submnt in proc sys dev/pts dev tmp;
+    do
+        umount_settle $mountpoint/$submnt
+    done
+    umount_settle $mountpoint
+
+    if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
+        # buildd's don't have /etc/mtab symlinked
+        # /etc/mtab is needed in order zerofree space for ext4 filesystems
+        [ -e /etc/mtab ] || ln -s /proc/mounts /etc/mtab
+
+        # both of these are likely overkill, but it does result in slightly
+        # smaller ext4 filesystem
+        apt-get -qqy install zerofree
+        e2fsck -y -E discard ${rootfs_dev_mapper}
+        zerofree ${rootfs_dev_mapper}
+    fi
+}
+
+umount_disk_image() {
     mountpoint="$1"
 
-    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
-    umount "$mountpoint/proc"
-    umount "$mountpoint/sys"
-    umount "$mountpoint/dev/pts"
-    umount "$mountpoint/dev"
-    umount "$mountpoint"
+    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    if [ -e "$mountpoint/boot/efi" -a -b "$uefi_dev" ]; then
+        umount --detach-loop "$mountpoint/boot/efi"
+    fi
+
+    if [ -e $mountpoint/usr/sbin/policy-rc.d ]; then
+        rm $mountpoint/usr/sbin/policy-rc.d
+    fi
+    umount_partition $mountpoint
+    clean_loops
 }
 
 modify_vmdk_header() {
@@ -129,3 +195,33 @@ create_vmdk() {
     qemu-img info ${destination}
     rm -rf ${scratch_d}
 }
+
+create_derivative() {
+    # arg1 is the disk type
+    # arg2 is the new name
+    unset derivative_img
+    case ${1} in
+           uefi) disk_image="binary/boot/disk-uefi.ext4";
+                 dname="${disk_image//-uefi/-$2-uefi}";;
+              *) disk_image="binary/boot/disk.ext4";
+                 dname="${disk_image//.ext4/-$2.ext4}";;
+    esac
+
+    if [ ! -e ${disk_image} ]; then
+        echo "Did not find ${disk_image}!"; exit 1;
+    fi
+
+    cp ${disk_image} ${dname}
+    export derivative_img=${dname}
+}
+
+convert_to_qcow2() {
+    apt-get install -qqy qemu-utils
+
+    src="$1"
+    destination="$2"
+    qemu-img convert -c -O qcow2 -o compat=0.10 "$src" "$destination"
+    qemu-img info "$destination"
+}
+
+

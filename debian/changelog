@@ -1,3 +1,15 @@
+livecd-rootfs (2.364) UNRELEASED; urgency=medium
+
+  * ubunut-cpc:
+    - extendend hooks/functions to support creation of derivative images
+      including mounting images.
+    - added the ability to create qcow2 images in hooks/functions
+    - simplified loop clean-up in hooks/functions
+    - removed assumption that disk1.img would be built
+    - switched qcow2 generation to use hooks/functions function
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 10 Dec 2015 09:10:35 -0700
+
 livecd-rootfs (2.363) xenial; urgency=medium
 
   * configure /etc/fw_env.config for all arm arches on snappy
