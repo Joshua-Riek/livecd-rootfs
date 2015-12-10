@@ -1,3 +1,9 @@
+livecd-rootfs (2.363) UNRELEASED; urgency=medium
+
+  * configure /etc/fw_env.config for all arm arches on snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 10 Dec 2015 15:04:41 +0100
+
 livecd-rootfs (2.362) xenial; urgency=medium
 
   * make sure u-boot-tools is installed on snappy arm64
