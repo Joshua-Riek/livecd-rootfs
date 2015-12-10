@@ -1,4 +1,4 @@
-livecd-rootfs (2.364) UNRELEASED; urgency=medium
+livecd-rootfs (2.364) xenial; urgency=medium
 
   * ubunut-cpc:
     - extendend hooks/functions to support creation of derivative images
