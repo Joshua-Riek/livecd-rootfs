@@ -8,8 +8,11 @@ if [ ! -d ${my_dir}/extra ]; then
     exit 0
 fi
 
+# Export the common functions to the extras
+. /build/config/functions
+
 # Execute extra binary hooks
-for recipe in $(find ${extra_d} -type f -executable);
+for recipe in $(find ${extra_d} -type f -executable -maxdepth 1);
 do
-    bash ${recipe}
+    bash -xue ${recipe}
 done

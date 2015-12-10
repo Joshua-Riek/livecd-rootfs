@@ -2,15 +2,12 @@
 
 apt-get install -qqy qemu-utils
 
-convert_image() {
-    src="$1"
-    destination="$2"
-    qemu-img convert -c -O qcow2 -o compat=0.10 "$src" "$destination"
-    qemu-img info "$destination"
-}
+. /build/config/functions
 
-convert_image binary/boot/disk.ext4 livecd.ubuntu-cpc.disk1.img
+if [ -f binary/boot/disk.ext4 ]; then
+    convert_to_qcow2 binary/boot/disk.ext4 livecd.ubuntu-cpc.disk1.img
+fi
 
 if [ -f binary/boot/disk-uefi.ext4 ]; then
-    convert_image binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.uefi1.img
+    convert_to_qcow2 binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.uefi1.img
 fi
