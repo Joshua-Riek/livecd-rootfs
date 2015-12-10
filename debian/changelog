@@ -1,4 +1,4 @@
-livecd-rootfs (2.363) UNRELEASED; urgency=medium
+livecd-rootfs (2.363) xenial; urgency=medium
 
   * configure /etc/fw_env.config for all arm arches on snappy
 
