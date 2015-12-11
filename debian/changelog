@@ -1,4 +1,4 @@
-livecd-rootfs (2.366) UNRELEASED; urgency=medium
+livecd-rootfs (2.366) xenial; urgency=medium
 
   * also add the new apt user to /etc/passwd in snappy
 
