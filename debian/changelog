@@ -1,3 +1,9 @@
+livecd-rootfs (2.366) UNRELEASED; urgency=medium
+
+  * also add the new apt user to /etc/passwd in snappy
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 11 Dec 2015 17:34:44 +0100
+
 livecd-rootfs (2.365) xenial; urgency=medium
 
   * update /etc/shadow on snappy for new apt user
