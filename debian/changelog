@@ -1,4 +1,4 @@
-livecd-rootfs (2.365) UNRELEASED; urgency=medium
+livecd-rootfs (2.365) xenial; urgency=medium
 
   * update /etc/shadow on snappy for new apt user
 
