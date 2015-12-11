@@ -1,3 +1,9 @@
+livecd-rootfs (2.365) UNRELEASED; urgency=medium
+
+  * update /etc/shadow on snappy for new apt user
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 11 Dec 2015 12:05:39 +0100
+
 livecd-rootfs (2.364) xenial; urgency=medium
 
   * ubunut-cpc:
