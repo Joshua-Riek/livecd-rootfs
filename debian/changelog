@@ -1,3 +1,9 @@
+livecd-rootfs (2.367) xenial; urgency=medium
+
+  * Update the passwd/shadow db hashes on ubuntu-touch builds
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@canonical.com>  Mon, 14 Dec 2015 09:47:01 +0100
+
 livecd-rootfs (2.366) xenial; urgency=medium
 
   * also add the new apt user to /etc/passwd in snappy
