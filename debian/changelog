@@ -1,3 +1,9 @@
+livecd-rootfs (2.368) UNRELEASED; urgency=medium
+
+  * Fix earlier mistake of changing the wrong hashes.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@canonical.com>  Mon, 14 Dec 2015 10:01:58 +0100
+
 livecd-rootfs (2.367) xenial; urgency=medium
 
   * Update the passwd/shadow db hashes on ubuntu-touch builds
