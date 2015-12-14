@@ -279,7 +279,7 @@ fi
 if [ -n "$ERRCNT" ]; then
         echo "There were changes to the password database," >&2
         echo "please adjust the values in the livecd-rootfs source in the file:" >&2
-        echo "live-build/ubuntu-core/hooks/00-uid-gid-fix.chroot_early" >&2
+        echo "live-build/ubuntu-touch/hooks/00-uid-gid-fix.chroot_early" >&2
         echo >&2
         echo "Please check also if a maintainer script of the package" >&2
         echo "that added these entries perhaps created a home directory and," >&2
