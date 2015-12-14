@@ -1,4 +1,4 @@
-livecd-rootfs (2.368) UNRELEASED; urgency=medium
+livecd-rootfs (2.368) xenial; urgency=medium
 
   * Fix earlier mistake of changing the wrong hashes.
 
