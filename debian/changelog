@@ -1,7 +1,12 @@
 livecd-rootfs (2.369) UNRELEASED; urgency=medium
 
+  [ Łukasz 'sil2100' Zemczak ]
   * Fix the invalid path for the error message in 00-uid-gid-fix.chroot_early
     for ubuntu-touch.
+
+  [ Michael Vogt ]
+  * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
+    - remove libicu52 hook
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@canonical.com>  Mon, 14 Dec 2015 10:13:31 +0100
 
