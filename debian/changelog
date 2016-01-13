@@ -1,3 +1,9 @@
+livecd-rootfs (2.370) UNRELEASED; urgency=medium
+
+  * Produce OVA files for i386 cloud builds.
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Wed, 13 Jan 2016 11:43:54 +0000
+
 livecd-rootfs (2.369) xenial; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
