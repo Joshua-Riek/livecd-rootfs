@@ -8,6 +8,9 @@ livecd-rootfs (2.369) UNRELEASED; urgency=medium
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
     - remove libicu52 hook
 
+  [ Daniel Watkins ]
+  * Enable building of s390x cloud images.
+
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@canonical.com>  Mon, 14 Dec 2015 10:13:31 +0100
 
 livecd-rootfs (2.368) xenial; urgency=medium

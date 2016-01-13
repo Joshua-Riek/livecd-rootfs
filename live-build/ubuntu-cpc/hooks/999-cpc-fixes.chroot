@@ -142,6 +142,10 @@ if [[ "$arch" =~ (arm|arm64|aarch64) ]]; then
    exit 0
 fi
 
+if [ "$arch" = "s390x" ]; then
+    exit 0
+fi
+
 ## Add ttyS0 for i386/amd64 for Trusty and newer
 if [ "$arch" = "i386" -o "$arch" = "amd64" ]; then
    add_serial_console ttyS0
