@@ -1,3 +1,10 @@
+livecd-rootfs (2.371) xenial; urgency=medium
+
+  * Remove unneeded packages from the root.tar.{gz,xz} cloud image targets
+    (LP: #1534765).
+
+ -- utlemming Howard <utlemming.howard@ubuntu.com>  Sun, 17 Jan 2016 01:04:09 +0100
+
 livecd-rootfs (2.370) xenial; urgency=medium
 
   * Produce OVA files for i386 cloud builds.
