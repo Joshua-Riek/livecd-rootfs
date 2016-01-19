@@ -11,8 +11,5 @@ fi
 # Export the common functions to the extras
 . /build/config/functions
 
-# Execute extra binary hooks
-for recipe in $(find ${extra_d} -type f -executable -maxdepth 1);
-do
-    bash -xue ${recipe}
-done
+# Cleaner execution
+/bin/run-parts ${extra_d}

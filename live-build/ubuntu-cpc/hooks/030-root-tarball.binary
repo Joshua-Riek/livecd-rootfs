@@ -15,6 +15,7 @@ chroot binary/boot/filesystem.dir chmod +x /usr/sbin/grub-probe
 
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/filesystem.dir apt-get --purge remove --assume-yes '^linux-.*'
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/filesystem.dir apt-get --purge remove --assume-yes '^grub-.*'
+env DEBIAN_FRONTEND=noninteractive chroot binary/boot/filesystem.dir apt-get autoremove --purge --assume-yes
 
 chroot binary/boot/filesystem.dir rm /usr/sbin/grub-probe
 chroot binary/boot/filesystem.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
