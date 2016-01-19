@@ -3,7 +3,7 @@ livecd-rootfs (2.371) xenial; urgency=medium
   * Remove unneeded packages from the root.tar.{gz,xz} cloud image targets
     (LP: #1534764).
 
- -- utlemming Howard <utlemming.howard@ubuntu.com>  Sun, 17 Jan 2016 01:04:09 +0100
+ -- utlemming Howard <utlemming.howard@ubuntu.com>  Tue, 19 Jan 2016 12:48:32 +0000
 
 livecd-rootfs (2.370) xenial; urgency=medium
 
