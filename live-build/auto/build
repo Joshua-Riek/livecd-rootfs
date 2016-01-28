@@ -439,7 +439,7 @@ case $PROJECT:$SUBPROJECT in
         fi
 
         # copy dpkg manifest
-        cp -ar dpkg.list $TMPDIR/
+        cp -ar dpkg.list $TMPDIR/assets
 
         # create hardware.yaml
         # this assumes armhf == u-boot
