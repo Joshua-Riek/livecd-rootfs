@@ -30,7 +30,13 @@ install_grub() {
     mkdir -p mountpoint/etc/default/grub.d
     cat << EOF > mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
 ${CLOUD_IMG_STR}
-#
+
+# Set the recordfail timeout
+GRUB_RECORDFAIL_TIMEOUT=0
+
+# Do not wait on grub prompt
+GRUB_TIMEOUT=0
+
 # Set the default commandline
 GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk"
 EOF
