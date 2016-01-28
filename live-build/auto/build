@@ -395,6 +395,8 @@ case $PROJECT:$SUBPROJECT in
         Chroot chroot "apt-get -y install initramfs-tools-ubuntu-core linux-firmware xz-utils"
         Chroot chroot "apt-get -y install $linux_package"
 
+        Chroot chroot "dpkg -l" > chroot/dpkg.list
+        
         # clean up
         lb chroot_devpts remove "$@"
         lb chroot_sysfs remove "$@"
@@ -435,6 +437,9 @@ case $PROJECT:$SUBPROJECT in
                    ;;
            esac
         fi
+
+        # copy dpkg manifest
+        cp -ar dpkg.list $TMPDIR/
 
         # create hardware.yaml
         # this assumes armhf == u-boot
