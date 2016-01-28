@@ -12,4 +12,4 @@ fi
 . /build/config/functions
 
 # Cleaner execution
-/bin/run-parts ${extra_d}
+/bin/run-parts --regex ".*\.binary" "${extra_d}"
