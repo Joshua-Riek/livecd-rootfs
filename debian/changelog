@@ -1,8 +1,13 @@
 livecd-rootfs (2.374) UNRELEASED; urgency=medium
 
+  [ Michael Vogt ]
   * ubuntu-core:
     - include the dpkg.list in the device tarball
     - store /usr/share/snappy/dpkg.list manifest on the OS tarball
+
+  [ Dimitri John Ledkov ]
+  * ubuntu-cpc:
+    - exclude s390x from should_install_grub
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 28 Jan 2016 18:27:23 +0100
 

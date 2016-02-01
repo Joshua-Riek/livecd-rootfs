@@ -34,7 +34,7 @@ rmdir mountpoint
 
 should_install_grub() {
     case $architecture in
-        armhf|arm64|s390x)
+        armhf|arm64)
             return 1
             ;;
         *)
