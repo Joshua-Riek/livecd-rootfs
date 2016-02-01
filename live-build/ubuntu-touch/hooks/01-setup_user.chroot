@@ -4,7 +4,7 @@ USER=phablet
 UGID=32011
 
 echo "I: creating default user $USER"
-adduser --gecos $USER --disabled-login $USER --uid $UGID
+adduser --gecos Ubuntu --disabled-login $USER --uid $UGID
 
 echo "I: set user $USER password to blank"
 passwd -d $USER
