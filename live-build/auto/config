@@ -470,6 +470,31 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
+		add_task install minimal standard cloud-image
+		add_package install ubuntu-minimal
+
+		BINARY_REMOVE_LINUX=false
+		OPTS="${OPTS:+$OPTS }--initramfs=none"
+		KERNEL_FLAVOURS=virtual
+		case $ARCH in
+			armhf)
+				KERNEL_FLAVOURS=generic-lpae
+				add_package install flash-kernel
+				add_task install server
+				;;
+			arm64)
+				KERNEL_FLAVOURS=generic
+				add_package install flash-kernel
+				add_task install server
+				;;
+			ppc64el)
+				add_task install server
+				;;
+		esac
+		OPTS="${OPTS:+$OPTS }--system=normal"
+		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+		OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+		OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 		;;
 
 	*)
@@ -554,33 +579,6 @@ case $PROJECT in
 				;;
 		esac
 esac
-
-if [ "$PROJECT" = "ubuntu-cpc" ]; then
-	BINARY_REMOVE_LINUX=false
-	OPTS="${OPTS:+$OPTS }--initramfs=none"
-	KERNEL_FLAVOURS=virtual
-	case $ARCH in
-		armhf)
-			KERNEL_FLAVOURS=generic-lpae
-			add_package install flash-kernel
-			add_task install server
-			;;
-		arm64)
-			KERNEL_FLAVOURS=generic
-			add_package install flash-kernel
-			add_task install server
-			;;
-		ppc64el)
-			add_task install server
-			;;
-	esac
-	OPTS="${OPTS:+$OPTS }--system=normal"
-	OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
-	OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
-	OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
-	add_task install minimal standard cloud-image
-	add_package install ubuntu-minimal
-fi
 
 add_chroot_hook update-apt-file-cache
 add_chroot_hook update-apt-xapian-index

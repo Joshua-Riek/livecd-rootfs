@@ -9,6 +9,10 @@ livecd-rootfs (2.374) UNRELEASED; urgency=medium
   * ubuntu-cpc:
     - exclude s390x from should_install_grub
 
+  [ Steve Langasek ]
+  * Refactor/reorder ubuntu-cpc support for consistency with other flavors,
+    so that subarch overrides can be applied correctly.
+
  -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 28 Jan 2016 18:27:23 +0100
 
 livecd-rootfs (2.373) xenial; urgency=medium
