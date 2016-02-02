@@ -11,15 +11,16 @@ backing_img=
 apt-get -qqy install dosfstools gdisk
 
 clean_loops() {
+
+    if [ -n "${backing_img}" ]; then
+        kpartx -v -d "${backing_img}"
+        unset backing_img
+    fi
+
     if [ -z "${rootfs_dev_mapper}" ]; then
         return 0
     fi
 
-    if [ -n "${backing_img}" ]; then
-        kpartx -v -d "${backing_img}"
-    fi
-
-    unset backing_img
     unset loop_device
     unset loop_raw
     unset rootfs_dev_mapper
@@ -40,11 +41,27 @@ mount_image() {
     apt-get install -qqy kpartx
     trap clean_loops EXIT
     backing_img="$1"
-    loop_raw="$(kpartx -s -v -a "$1" )"
-    loop_device="$(echo -e "${loop_raw}" | head -n1 | awk '{print($(NF-1))}')"
-    rootfs_dev_mapper="/dev/mapper${loop_device///dev/}p1"
-    [ ! -b "${rootfs_dev_mapper}" ] &&
-        echo "${rootfs_dev_mapper} is not a block device" && exit 1
+    kpartx_mapping="$(kpartx -s -v -a ${backing_img})"
+
+    # Find the loop device
+    loop_p1="$(echo -e ${kpartx_mapping} | head -n1 | awk '{print$3}')"
+    loop_device="/dev/loop$(echo ${loop_p1} | cut -b5)"
+    if [ ! -b ${loop_device} ]; then
+        echo "unable to find loop device for ${backing_img}"
+        exit 1
+    fi
+
+    # Find the rootfs location
+    rootfs_dev_mapper="/dev/mapper/${loop_p1}"
+    if [ ! -b "${rootfs_dev_mapper}" ]; then
+        echo "${rootfs_dev_mapper} is not a block device";
+        exit 1
+    fi
+
+    # Add some information to the debug logs
+    echo "Mounted disk image ${backing_img} to ${rootfs_dev_mapper}"
+    blkid ${rootfs_dev_mapper}
+
     return 0
 }
 

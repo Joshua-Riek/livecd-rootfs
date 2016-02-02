@@ -1,4 +1,4 @@
-livecd-rootfs (2.374) UNRELEASED; urgency=medium
+livecd-rootfs (2.374) xenial; urgency=medium
 
   [ Michael Vogt ]
   * ubuntu-core:
@@ -13,7 +13,12 @@ livecd-rootfs (2.374) UNRELEASED; urgency=medium
   * Refactor/reorder ubuntu-cpc support for consistency with other flavors,
     so that subarch overrides can be applied correctly.
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 28 Jan 2016 18:27:23 +0100
+  [ Ben Howard ]
+  * ubuntu-cpc:
+    - fixed loop setup due to change of kpartx output
+    - only use grub-install logic for Intel architectures
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Tue, 02 Feb 2016 10:18:14 -0700
 
 livecd-rootfs (2.373) xenial; urgency=medium
 
