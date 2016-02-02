@@ -32,24 +32,23 @@ cp -a chroot/* mountpoint/
 umount mountpoint
 rmdir mountpoint
 
-should_install_grub() {
-    case $architecture in
-        armhf|arm64)
-            return 1
-            ;;
-        *)
-            return 0
-            ;;
-    esac
-}
+case $architecture in
+    amd64|i386) should_install_grub=1;;
+             *) should_install_grub=0;;
+esac
 
-if should_install_grub; then
+if [ "${should_install_grub}" -eq 1 ]; then
     mkdir mountpoint
     mount_partition "${rootfs_dev_mapper}" mountpoint
 
     echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
     chroot mountpoint grub-install ${loop_device}
-    chroot mountpoint grub-bios-setup --boot-image=i386-pc/boot.img --core-image=i386-pc/core.img --skip-fs-probe --device-map=/tmp/device.map ${loop_device}
+    chroot mountpoint grub-bios-setup \
+        --boot-image=i386-pc/boot.img \
+        --core-image=i386-pc/core.img \
+        --skip-fs-probe \
+        --device-map=/tmp/device.map \
+        ${loop_device}
 
     rm mountpoint/tmp/device.map
     umount_partition mountpoint
@@ -75,7 +74,15 @@ parameters = root=LABEL=cloudimg-rootfs
 EOF
 
     # Create bootmap file
-    mountpoint/sbin/zipl -V --image=mountpoint/boot/vmlinuz --ramdisk=mountpoint/boot/initrd.img --parameters='root=LABEL=cloudimg-rootfs' --target=mountpoint/boot/ --targetbase=/dev/loop0 --targettype=SCSI --targetblocksize=512 --targetoffset=2048
+    mountpoint/sbin/zipl -V \
+        --image=mountpoint/boot/vmlinuz \
+        --ramdisk=mountpoint/boot/initrd.img \
+        --parameters='root=LABEL=cloudimg-rootfs' \
+        --target=mountpoint/boot/ \
+        --targetbase=/dev/loop0 \
+        --targettype=SCSI \
+        --targetblocksize=512 \
+        --targetoffset=2048
 
     umount_partition mountpoint
     rmdir mountpoint
