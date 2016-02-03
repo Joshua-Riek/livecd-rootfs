@@ -1,3 +1,10 @@
+livecd-rootfs (2.375) UNRELEASED; urgency=medium
+
+  * Refactor some non-idiomatic architecture handling in
+    live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 02 Feb 2016 20:33:23 -0800
+
 livecd-rootfs (2.374) xenial; urgency=medium
 
   [ Michael Vogt ]

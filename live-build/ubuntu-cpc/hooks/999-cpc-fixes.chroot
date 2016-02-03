@@ -126,30 +126,29 @@ fi
 
 #### END COMMON ARCH FUNCTIONS
 
-if [ "$arch" = "ppc64el" ]; then
-   add_serial_console hvc0
-   exit 0
-fi
 
-# ARM images are special
-if [[ "$arch" =~ (arm|arm64|aarch64) ]]; then
+case $arch in
+	# ARM images are special
+	armhf|arm64)
+		echo "Configuring ARM Serial Port"
+		add_serial_console ttyAMA0
 
-   echo "Configuring ARM Serial Port"
-   add_serial_console ttyAMA0
+		echo "Image architecture is ARM. Existing vmbuilder-fixups"
 
-   echo "Image architecture is ARM. Existing vmbuilder-fixups"
-
-   exit 0
-fi
-
-if [ "$arch" = "s390x" ]; then
-    exit 0
-fi
-
-## Add ttyS0 for i386/amd64 for Trusty and newer
-if [ "$arch" = "i386" -o "$arch" = "amd64" ]; then
-   add_serial_console ttyS0
-fi
+		exit 0
+		;;
+	## Add ttyS0 for i386/amd64 for Trusty and newer
+	i386|amd64)
+		add_serial_console ttyS0
+		;;
+	ppc64el)
+		add_serial_console hvc0
+		exit 0
+		;;
+	s390x)
+		exit 0
+		;;
+esac
 
 psuedo_grub_probe() {
    cat <<"PSUEDO_GRUB_PROBE"
