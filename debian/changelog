@@ -1,7 +1,8 @@
 livecd-rootfs (2.375) UNRELEASED; urgency=medium
 
   * Refactor some non-idiomatic architecture handling in
-    live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot
+    live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot that also misidentifies
+    the architecture name for armhf.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 02 Feb 2016 20:33:23 -0800
 
