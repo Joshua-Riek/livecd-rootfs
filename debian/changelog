@@ -1,4 +1,4 @@
-livecd-rootfs (2.375) UNRELEASED; urgency=medium
+livecd-rootfs (2.375) xenial; urgency=medium
 
   [ Steve Langasek ]
   * Refactor some non-idiomatic architecture handling in
@@ -8,7 +8,7 @@ livecd-rootfs (2.375) UNRELEASED; urgency=medium
   [ Ben Howard ]
   * ubuntu-cpc: add missing net.ifnames=0 for ppc64el disk images.
 
- -- Ben Howard <ben.howard@ubuntu.com>  Thu, 04 Feb 2016 09:06:16 -0700
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 04 Feb 2016 17:15:58 +0100
 
 livecd-rootfs (2.374) xenial; urgency=medium
 
