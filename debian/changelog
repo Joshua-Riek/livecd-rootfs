@@ -1,10 +1,14 @@
 livecd-rootfs (2.375) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Refactor some non-idiomatic architecture handling in
     live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot that also misidentifies
     the architecture name for armhf.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 02 Feb 2016 20:33:23 -0800
+  [ Ben Howard ]
+  * ubuntu-cpc: add missing net.ifnames=0 for ppc64el disk images.
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Thu, 04 Feb 2016 09:06:16 -0700
 
 livecd-rootfs (2.374) xenial; urgency=medium
 

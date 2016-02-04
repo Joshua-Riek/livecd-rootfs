@@ -38,7 +38,7 @@ GRUB_RECORDFAIL_TIMEOUT=0
 GRUB_TIMEOUT=0
 
 # Set the default commandline
-GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk"
+GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk net.ifnames=0"
 EOF
     prep_partition="/dev/mapper${loop_device///dev/}p2"
     chroot mountpoint grub-install "${prep_partition}" \
