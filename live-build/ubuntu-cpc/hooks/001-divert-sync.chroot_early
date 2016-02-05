@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+ARCH=$(dpkg --print-architecture)
+
+dpkg-divert --quiet --add --divert /bin/sync.REAL --rename /bin/sync
+cat > /bin/sync <<'EOF'
+#! /bin/sh
+echo "$0: diverted by livecd-rootfs" >&2
+exit 0
+EOF
+
+chmod +x /bin/sync
