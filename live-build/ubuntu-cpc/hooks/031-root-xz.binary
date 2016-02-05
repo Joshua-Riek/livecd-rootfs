@@ -3,6 +3,10 @@
 #
 # Generate the rootfs.tar.gz and manifest
 
+if [ -n "$SUBARCH" ]; then
+	exit 0
+fi
+
 dpkg-query --admindir=binary/boot/filesystem.dir/var/lib/dpkg -W > livecd.ubuntu-cpc.rootfs.manifest
 
 (cd "binary/boot/filesystem.dir/" && tar -c *) | \

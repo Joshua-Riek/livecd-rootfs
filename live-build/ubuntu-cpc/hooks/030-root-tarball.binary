@@ -1,4 +1,10 @@
 #!/bin/bash -ex
+
+if [ -n "$SUBARCH" ]; then
+	echo "Skipping rootfs build for subarch flavor build"
+	exit 0
+fi
+
 mkdir binary/boot/filesystem.dir
 
 cp -a chroot/* binary/boot/filesystem.dir

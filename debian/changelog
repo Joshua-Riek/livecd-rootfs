@@ -11,6 +11,8 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
     all flavors and archs, but at the moment it's only needed on armhf+raspi2
     to work around the raspberrypi2-firmware postinst calling sync, which is
     actually warranted in the normal case.
+  * If a subarch is specified for a cloud image build, don't build rootfs
+    artifacts; these should come from the 'generic' build.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 04 Feb 2016 17:31:18 +0100
 

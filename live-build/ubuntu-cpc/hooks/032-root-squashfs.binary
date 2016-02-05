@@ -3,6 +3,10 @@
 #
 # Generate a squashfs root and manifest
 
+if [ -n "$SUBARCH" ]; then
+	exit 0
+fi
+
 apt-get -qqy install squashfs-tools
 
 squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
