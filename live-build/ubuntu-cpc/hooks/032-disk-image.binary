@@ -8,8 +8,6 @@ case $ARCH in
 		exit 0
 		;;
 	*)
-		ROOTPART=1
-		ROOTPART_START=1
 		;;
 esac
 
@@ -39,7 +37,11 @@ disk_image=binary/boot/disk.ext4
 
 create_empty_disk_image "${disk_image}"
 create_empty_partition_table "${disk_image}"
+
+ROOTPART=1
 if [ -n "$BOOTPART_START" ]; then
+	ROOTPART=2
+	ROOTPART_START="$BOOTPART_END"
 	create_empty_partition "$disk_image" 1 "$BOOTPART_START" "$BOOTPART_END" 1
 fi
 create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1
@@ -50,6 +52,15 @@ mount_image "${disk_image}" "$ROOTPART"
 make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
 mount "${rootfs_dev_mapper}" mountpoint
+
+if [ -n "$BOOT_MOUNTPOINT" ]; then
+	boot_dev_mapper="${rootfs_dev_mapper%[0-9]*}1"
+	# assume fat32 for now
+	mkfs.vfat -n system-boot "$boot_dev_mapper"
+	mkdir -p "mountpoint/$BOOT_MOUNTPOINT"
+	mount "$boot_dev_mapper" "mountpoint/$BOOT_MOUNTPOINT"
+fi
+
 cp -a chroot/* mountpoint/
 
 case $ARCH in
@@ -97,6 +108,10 @@ EOF
         --targetblocksize=512 \
         --targetoffset=2048
 
+fi
+
+if [ -n "$BOOT_MOUNTPOINT" ]; then
+	umount "mountpoint/$BOOT_MOUNTPOINT"
 fi
 
 umount_partition mountpoint
