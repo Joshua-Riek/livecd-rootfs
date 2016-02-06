@@ -41,6 +41,7 @@ mount_image() {
     apt-get install -qqy kpartx
     trap clean_loops EXIT
     backing_img="$1"
+    local rootpart="$2"
     kpartx_mapping="$(kpartx -s -v -a ${backing_img})"
 
     # Find the loop device
@@ -51,8 +52,12 @@ mount_image() {
         exit 1
     fi
 
+    # don't assume we know the separator between device number and partition
+    # number in the partition name, as this has changed over time.
+    partsep=$(echo "$loop_p1" | sed -e's/^loop[0-9]\+\(.*\)[0-9]\+/\1/')
+
     # Find the rootfs location
-    rootfs_dev_mapper="/dev/mapper/${loop_p1}"
+    rootfs_dev_mapper="/dev/mapper/${loop_device}${partsep}${rootpart}"
     if [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
         exit 1
@@ -83,7 +88,7 @@ mount_partition() {
 mount_disk_image() {
     local disk_image=${1}
     local mountpoint=${2}
-    mount_image ${disk_image}
+    mount_image ${disk_image} 1
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
     local uefi_dev="/dev/mapper${loop_device///dev/}p15"

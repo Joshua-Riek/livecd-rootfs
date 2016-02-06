@@ -18,6 +18,8 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
     environment, because auto/config and auto/build both rely on this.  So
     don't scatter dpkg --print-architecture calls throughout, especially
     when many of these are not cross-build-aware.
+  * Refactor ubuntu-cpc hooks to allow us to handle images where the root
+    partition should not be partition 1.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 04 Feb 2016 17:31:18 +0100
 

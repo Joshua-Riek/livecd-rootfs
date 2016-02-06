@@ -58,7 +58,7 @@ disk_image=binary/boot/disk.ext4
 
 create_empty_disk_image "${disk_image}"
 create_partitions "${disk_image}"
-mount_image "${disk_image}"
+mount_image "${disk_image}" 1
 
 # Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"

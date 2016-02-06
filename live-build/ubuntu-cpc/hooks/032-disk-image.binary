@@ -1,12 +1,16 @@
 #!/bin/bash -eux
+
+. /build/config/functions
+
 case $ARCH in
 	ppc64el)
 		echo "ppc64el disk images are handled separately"
 		exit 0
 		;;
+	*)
+		ROOTPART=1
+		;;
 esac
-
-. /build/config/functions
 
 create_empty_partition() {
     apt-get install -qqy parted
@@ -16,14 +20,14 @@ create_empty_partition() {
     ${parted_prefix} mkpart primary 1 -1
     ${parted_prefix} set 1 B
     ${parted_prefix} print
-    ${parted_prefix} align-check opt 1
+    ${parted_prefix} align-check opt "$2"
 }
 
 disk_image=binary/boot/disk.ext4
 
 create_empty_disk_image "${disk_image}"
-create_empty_partition "${disk_image}"
-mount_image "${disk_image}"
+create_empty_partition "${disk_image}" "$ROOTPART"
+mount_image "${disk_image}" "$ROOTPART"
 
 # Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"
