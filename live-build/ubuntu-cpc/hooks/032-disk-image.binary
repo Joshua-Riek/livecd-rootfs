@@ -37,7 +37,7 @@ cp -a chroot/* mountpoint/
 umount mountpoint
 rmdir mountpoint
 
-case $architecture in
+case $ARCH in
     amd64|i386) should_install_grub=1;;
              *) should_install_grub=0;;
 esac
@@ -60,7 +60,7 @@ if [ "${should_install_grub}" -eq 1 ]; then
     rmdir mountpoint
 fi
 
-if [ "$architecture" = "s390x" ]; then
+if [ "$ARCH" = "s390x" ]; then
     # Do ZIPL install bits
     mkdir mountpoint
     mount_partition "${rootfs_dev_mapper}" mountpoint
