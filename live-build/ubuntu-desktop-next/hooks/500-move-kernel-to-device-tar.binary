@@ -8,7 +8,6 @@ echo "I: Moving kernel into device tarball"
 
 HERE="$(pwd)"
 TMPDIR="$(mktemp -d)"
-ARCH=$(dpkg --print-architecture)
 mkdir -p $TMPDIR/system/
 mkdir -p $TMPDIR/assets/
 

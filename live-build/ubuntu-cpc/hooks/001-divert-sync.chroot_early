@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-ARCH=$(dpkg --print-architecture)
-
 dpkg-divert --quiet --add --divert /bin/sync.REAL --rename /bin/sync
 cat > /bin/sync <<'EOF'
 #! /bin/sh

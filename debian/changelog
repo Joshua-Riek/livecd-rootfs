@@ -13,6 +13,11 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
     actually warranted in the normal case.
   * If a subarch is specified for a cloud image build, don't build rootfs
     artifacts; these should come from the 'generic' build.
+  * Fix architecture handling in hooks.  We know we're always being invoked
+    from a launchpad-buildd-like setup, which passes ARCH and SUBARCH in the
+    environment, because auto/config and auto/build both rely on this.  So
+    don't scatter dpkg --print-architecture calls throughout, especially
+    when many of these are not cross-build-aware.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 04 Feb 2016 17:31:18 +0100
 

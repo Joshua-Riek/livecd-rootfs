@@ -3,13 +3,11 @@
 #
 # Generate VMDK files
 
-architecture=$(chroot chroot dpkg --print-architecture)
-
 extension="disk1.vmdk"
 
-case ${architecture} in
+case $ARCH in
          i386|amd64) ;;
-                  *) echo "VMDK images are not supported for ${architecture} yet.";
+                  *) echo "VMDK images are not supported for $ARCH yet.";
                      exit 0;;
 esac
 

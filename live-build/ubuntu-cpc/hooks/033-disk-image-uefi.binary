@@ -1,11 +1,10 @@
 #!/bin/bash -eux
 
-architecture=$(chroot chroot dpkg --print-architecture)
-case $architecture in
+case $ARCH in
     amd64|arm64)
         ;;
     *)
-        echo "We don't create EFI images for $architecture."
+        echo "We don't create EFI images for $ARCH."
         exit 0
         ;;
 esac
@@ -17,7 +16,7 @@ apt-get -qqy install dosfstools gdisk
 create_partitions() {
     disk_image="$1"
     sgdisk "${disk_image}" --zap-all
-    case $architecture in
+    case $ARCH in
         arm64)
             sgdisk "${disk_image}" \
                 --new=15:0:204800 \
@@ -62,7 +61,7 @@ install_grub() {
     efi_boot_dir="/boot/efi/EFI/BOOT"
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
-    case $architecture in
+    case $ARCH in
         arm64)
             chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm64 grub-efi-arm64-bin
             grub_modules="part_gpt fat gzio ext2 normal chain boot configfile linux search_fs_uuid search_label terminal serial video video_fb efi_gop"
@@ -101,7 +100,7 @@ EOF
         chroot mountpoint cp /boot/efi/EFI/BOOT/grub.cfg /boot/efi/boot/grub
     fi
 
-    if [ $architecture = "amd64" ]; then
+    if [ "$ARCH" = "amd64" ]; then
         # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
         # it means that we just run this simple command and we're done
         chroot mountpoint grub-install --target=i386-pc "${loop_device}"

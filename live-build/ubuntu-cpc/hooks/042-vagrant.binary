@@ -15,13 +15,16 @@
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
-architecture=$(chroot chroot dpkg --print-architecture)
 base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
 
-if [[ ! "${architecture}" =~ (amd64|i386) ]]; then
-	echo "Vagrant images are not supported for ${architecture}"
-	exit 0
-elif [ ! -e ${base_vmdk} ]; then
+case $ARCH in
+	amd64|i386) ;;
+	*)
+		echo "Vagrant images are not supported for $ARCH"
+		exit 0
+esac
+
+if [ ! -e ${base_vmdk} ]; then
 	echo "Did not find VMDK to produce Vagrant images."
     exit 0
 fi

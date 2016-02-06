@@ -1,9 +1,10 @@
 #!/bin/bash -eux
-architecture=$(chroot chroot dpkg --print-architecture)
-if [ "$architecture" = "ppc64el" ]; then
-    echo "ppc64el disk images are handled separately"
-    exit 0
-fi
+case $ARCH in
+	ppc64el)
+		echo "ppc64el disk images are handled separately"
+		exit 0
+		;;
+esac
 
 . /build/config/functions
 

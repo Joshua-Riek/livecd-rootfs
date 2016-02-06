@@ -9,18 +9,16 @@
 #
 # For this step, we re-use the VMDK's made in 040-vmdk-image.binary
 
-architecture=$(chroot chroot dpkg --print-architecture)
-
-case ${architecture} in
+case $ARCH in
         amd64|i386) ;;
-                 *) echo "OVA images are not supported for ${architecture} yet.";
+                 *) echo "OVA images are not supported for $ARCH yet.";
                      exit 0;;
 esac
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
 base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
-if [ $architecture = "amd64" ]; then
+if [ "$ARCH" = "amd64" ]; then
     base_vmdk="livecd.ubuntu-cpc.uefi.vmdk"
 fi
 

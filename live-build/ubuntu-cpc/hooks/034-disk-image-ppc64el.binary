@@ -1,6 +1,5 @@
 #!/bin/bash -eux
-architecture=$(chroot chroot dpkg --print-architecture)
-if [ "$architecture" != "ppc64el" ]; then
+if [ "$ARCH" != "ppc64el" ]; then
     exit 0
 fi
 

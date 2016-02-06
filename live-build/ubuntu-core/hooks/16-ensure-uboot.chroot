@@ -2,7 +2,7 @@
 
 set -e
 
-case "$(dpkg --print-architecture)" in
+case $ARCH in
     arm*)
         mkdir -p /boot/uboot
         cat > /etc/fw_env.config <<EOF
