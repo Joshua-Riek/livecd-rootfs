@@ -2,6 +2,10 @@
 
 . /build/config/functions
 
+BOOTPART_START=
+BOOTPART_END=
+BOOT_MOUNTPOINT=
+
 case $ARCH in
 	ppc64el)
 		echo "ppc64el disk images are handled separately"
