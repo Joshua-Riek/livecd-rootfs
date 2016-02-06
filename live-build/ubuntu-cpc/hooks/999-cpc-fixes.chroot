@@ -18,6 +18,8 @@ _xchroot() {
 }
 
 #### COMMON architecture independent functions
+arch=$(_xchroot "${rootd}" dpkg --print-architecture)
+
 add_serial_console() {
    condev=$1
    idir="$rootd/etc/init"
@@ -125,7 +127,7 @@ fi
 #### END COMMON ARCH FUNCTIONS
 
 
-case $ARCH in
+case $arch in
 	# ARM images are special
 	armhf|arm64)
 		echo "Configuring ARM Serial Port"
