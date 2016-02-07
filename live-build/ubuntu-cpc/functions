@@ -52,12 +52,8 @@ mount_image() {
         exit 1
     fi
 
-    # don't assume we know the separator between device number and partition
-    # number in the partition name, as this has changed over time.
-    partsep=$(echo "$loop_p1" | sed -e's/^loop[0-9]\+\(.*\)[0-9]\+/\1/')
-
     # Find the rootfs location
-    rootfs_dev_mapper="/dev/mapper/${loop_device}${partsep}${rootpart}"
+    rootfs_dev_mapper="/dev/mapper/${loop_p1%%[0-9]}${rootpart}"
     if [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
         exit 1

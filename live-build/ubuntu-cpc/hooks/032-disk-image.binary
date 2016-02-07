@@ -59,7 +59,7 @@ mkdir mountpoint
 mount "${rootfs_dev_mapper}" mountpoint
 
 if [ -n "$BOOT_MOUNTPOINT" ]; then
-	boot_dev_mapper="${rootfs_dev_mapper%[0-9]*}1"
+	boot_dev_mapper="${rootfs_dev_mapper%%[0-9]}1"
 	# assume fat32 for now
 	mkfs.vfat -n system-boot "$boot_dev_mapper"
 	mkdir -p "mountpoint/$BOOT_MOUNTPOINT"
