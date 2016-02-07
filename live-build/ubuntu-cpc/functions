@@ -66,11 +66,9 @@ mount_image() {
     return 0
 }
 
-mount_partition() {
-    partition="$1"
-    mountpoint="$2"
+setup_mountpoint() {
+    local mountpoint="$1"
 
-    mount "$partition" "$mountpoint"
     mount --bind /dev "$mountpoint/dev"
     mount devpts-live -t proc "$mountpoint/dev/pts"
     mount proc-live -t proc "$mountpoint/proc"
@@ -78,6 +76,15 @@ mount_partition() {
     mount -t tmpfs none "$mountpoint/tmp"
     mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
     cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
+
+}
+
+mount_partition() {
+    partition="$1"
+    mountpoint="$2"
+
+    mount "$partition" "$mountpoint"
+    setup_mountpoint "$mountpoint"
 }
 
 

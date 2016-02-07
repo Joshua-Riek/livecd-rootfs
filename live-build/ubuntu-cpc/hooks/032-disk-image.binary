@@ -70,6 +70,8 @@ fi
 
 cp -a chroot/* mountpoint/
 
+setup_mountpoint mountpoint
+
 case $ARCH in
     amd64|i386) should_install_grub=1;;
              *) should_install_grub=0;;
