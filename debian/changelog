@@ -1,4 +1,4 @@
-livecd-rootfs (2.376) UNRELEASED; urgency=medium
+livecd-rootfs (2.376ubuntu1) UNRELEASED; urgency=medium
 
   [ Michael Terry ]
   * Change real name for phablet user to "Ubuntu" in ubuntu-touch.
@@ -21,7 +21,11 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
   * Refactor ubuntu-cpc hooks to allow us to handle images where the root
     partition should not be partition 1.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 04 Feb 2016 17:31:18 +0100
+  [ Ben Howard ]
+  * ubuntu-cpc: fix hooks/032-disk-image.binary call to
+    create_empty_partition, which requires five args due to "-u"
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
 
 livecd-rootfs (2.375) xenial; urgency=medium
 
