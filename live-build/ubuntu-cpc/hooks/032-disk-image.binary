@@ -106,12 +106,18 @@ ramdisk = /boot/initrd.img
 parameters = root=LABEL=cloudimg-rootfs
 EOF
 
+    # Kernel initramfs hooks end up creating a copy
+    # rather than a symlink FIXME
+    pushd mountpoint/boot
+    ln -sf initrd.img-* initrd.img
+    popd
+    
     # Create bootmap file
-    mountpoint/sbin/zipl -V \
-        --image=mountpoint/boot/vmlinuz \
-        --ramdisk=mountpoint/boot/initrd.img \
+    chroot mountpoint /sbin/zipl -V \
+        --image=/boot/vmlinuz \
+        --ramdisk=/boot/initrd.img \
         --parameters='root=LABEL=cloudimg-rootfs' \
-        --target=mountpoint/boot/ \
+        --target=/boot/ \
         --targetbase=/dev/loop0 \
         --targettype=SCSI \
         --targetblocksize=512 \

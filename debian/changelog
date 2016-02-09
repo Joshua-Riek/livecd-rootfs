@@ -30,6 +30,9 @@ livecd-rootfs (2.376ubuntu1) UNRELEASED; urgency=medium
   [ Dimitri John Ledkov ]
   * Do not remove linux-base, when purging all the linux-*, in the tarball
     build. Otherwise ubuntu-minimal is removed, and things get crazy.
+  * Correct initrd.img symlink, kernel/hooks should actually produce the
+    right thing here, but meh.
+  * Chroot to execute zipl, fails to boot otherwise.
 
  -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
 
