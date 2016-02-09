@@ -118,7 +118,7 @@ EOF
         --ramdisk=/boot/initrd.img \
         --parameters='root=LABEL=cloudimg-rootfs' \
         --target=/boot/ \
-        --targetbase=/dev/loop0 \
+        --targetbase=$loop_device \
         --targettype=SCSI \
         --targetblocksize=512 \
         --targetoffset=2048
