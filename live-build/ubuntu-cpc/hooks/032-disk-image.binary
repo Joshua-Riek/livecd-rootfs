@@ -49,9 +49,9 @@ if [ -n "$BOOTPART_START" ]; then
 	ROOTPART=2
 	ROOTPART_START="$BOOTPART_END"
 	ROOT_BOOTABLE=
-	create_empty_partition "$disk_image" 1 "$BOOTPART_START" "$BOOTPART_END" 1 "$ROOT_BOOTABLE"
+	create_empty_partition "$disk_image" 1 "$BOOTPART_START" "$BOOTPART_END" 1
 fi
-create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 $ROOT_BOOTABLE
+create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 "$ROOT_BOOTABLE"
 
 mount_image "${disk_image}" "$ROOTPART"
 
