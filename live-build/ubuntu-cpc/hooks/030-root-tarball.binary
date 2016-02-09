@@ -5,11 +5,7 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
-mount --bind /dev "binary/boot/filesystem.dir/dev"
-mount proc-live -t proc "binary/boot/filesystem.dir/proc"
-mount sysfs-live -t sysfs "binary/boot/filesystem.dir/sys"
-mv "binary/boot/filesystem.dir/etc/resolv.conf" resolv.conf.tmp
-cp /etc/resolv.conf "binary/boot/filesystem.dir/etc/resolv.conf"
+setup_mountpoint binary/boot/filesystem.dir
 
 chroot binary/boot/filesystem.dir dpkg-divert --local --rename /usr/sbin/grub-probe
 chroot binary/boot/filesystem.dir touch /usr/sbin/grub-probe
@@ -23,7 +19,4 @@ chroot binary/boot/filesystem.dir mkdir /lib/modules
 chroot binary/boot/filesystem.dir rm /usr/sbin/grub-probe
 chroot binary/boot/filesystem.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
 
-mv resolv.conf.tmp "binary/boot/filesystem.dir/etc/resolv.conf"
-umount "binary/boot/filesystem.dir/proc"
-umount "binary/boot/filesystem.dir/sys"
-umount "binary/boot/filesystem.dir/dev"
+umount_partition binary/boot/filesystem.dir
