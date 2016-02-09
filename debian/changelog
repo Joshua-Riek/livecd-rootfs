@@ -35,6 +35,11 @@ livecd-rootfs (2.376ubuntu1) UNRELEASED; urgency=medium
   * Chroot to execute zipl, because it's nice.
   * Use the right loop device to install zipl onto.
 
+  [ Steve Langasek ]
+  * Refactor ubuntu-cpc hooks to always produce a 'plain' rootfs via
+    live-build and reuse this for the tarball, instead of lb_binary_rootfs
+    creating some artifact that we ignore / throw away.
+
  -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
 
 livecd-rootfs (2.375) xenial; urgency=medium

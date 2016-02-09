@@ -101,6 +101,12 @@ add_binary_hook ()
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
 }
 
+case $PROJECT in
+	ubuntu-cpc)
+		IMAGEFORMAT=plain
+		;;
+esac
+
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
@@ -111,13 +117,7 @@ case $IMAGEFORMAT in
 				COMPONENTS='main restricted universe multiverse'
 				;;
 			*)
-				case $PROJECT in
-					ubuntu-cpc)
-						;;
-					*)
-						add_package live jasper
-						;;
-				esac
+				add_package live jasper
 				;;
 		esac
 		;;
