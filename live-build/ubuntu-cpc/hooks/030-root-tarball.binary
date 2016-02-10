@@ -21,4 +21,7 @@ chroot binary/boot/filesystem.dir mkdir /lib/modules
 chroot binary/boot/filesystem.dir rm /usr/sbin/grub-probe
 chroot binary/boot/filesystem.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
 
-umount_partition binary/boot/filesystem.dir
+mv resolv.conf.tmp "binary/boot/filesystem.dir/etc/resolv.conf"
+umount "binary/boot/filesystem.dir/proc"
+umount "binary/boot/filesystem.dir/sys"
+umount "binary/boot/filesystem.dir/dev"
