@@ -5,6 +5,8 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
+. /build/config/functions
+
 setup_mountpoint binary/boot/filesystem.dir
 
 chroot binary/boot/filesystem.dir dpkg-divert --local --rename /usr/sbin/grub-probe
