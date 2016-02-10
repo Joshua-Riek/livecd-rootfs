@@ -24,4 +24,5 @@ chroot binary/boot/filesystem.dir dpkg-divert --remove --local --rename /usr/sbi
 mv resolv.conf.tmp "binary/boot/filesystem.dir/etc/resolv.conf"
 umount "binary/boot/filesystem.dir/proc"
 umount "binary/boot/filesystem.dir/sys"
+umount "binary/boot/filesystem.dir/dev/pts"
 umount "binary/boot/filesystem.dir/dev"
