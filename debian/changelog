@@ -1,4 +1,4 @@
-livecd-rootfs (2.376ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.376) UNRELEASED; urgency=medium
 
   [ Michael Terry ]
   * Change real name for phablet user to "Ubuntu" in ubuntu-touch.
@@ -39,6 +39,7 @@ livecd-rootfs (2.376ubuntu1) UNRELEASED; urgency=medium
   * Refactor ubuntu-cpc hooks to always produce a 'plain' rootfs via
     live-build and reuse this for the tarball, instead of lb_binary_rootfs
     creating some artifact that we ignore / throw away.
+  * Initial support for raspi2 subarch.
 
  -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
 

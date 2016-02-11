@@ -1,5 +1,15 @@
 #!/bin/bash -ex
 
+case $ARCH:$SUBARCH in
+	# Not sure if any other cloud images use subarch for something that
+	# should take qcow2 format, so only skipping this on raspi2 for now.
+	armhf:raspi2)
+		apt-get install -qqy pxz
+		pxz -T4 -c binary/boot/disk.ext4 > livecd.ubuntu-cpc.disk1.img.xz
+	        exit 0
+		;;
+esac
+
 apt-get install -qqy qemu-utils
 
 . /build/config/functions

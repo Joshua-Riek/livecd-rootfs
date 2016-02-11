@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash -ex
 
 . /build/config/functions
 
@@ -7,10 +7,18 @@ BOOTPART_END=
 BOOT_MOUNTPOINT=
 ROOTPART_START=1
 
-case $ARCH in
-	ppc64el)
+case $ARCH:$SUBARCH in
+	ppc64el:*)
 		echo "ppc64el disk images are handled separately"
 		exit 0
+		;;
+	armhf:raspi2)
+		# matches the size of the snappy image
+		IMAGE_SIZE=$((4*1000*1000*1000))
+
+		BOOTPART_START=8192s
+		BOOTPART_END=138M
+		BOOT_MOUNTPOINT=/boot/firmware
 		;;
 	*)
 		;;
@@ -71,6 +79,14 @@ fi
 cp -a chroot/* mountpoint/
 
 setup_mountpoint mountpoint
+
+case $ARCH:$SUBARCH in
+	armhf:raspi2)
+		chroot mountpoint flash-kernel \
+			--machine "Raspberry Pi 2 Model B"
+		;;
+	*)	;;
+esac
 
 case $ARCH in
     amd64|i386) should_install_grub=1;;
