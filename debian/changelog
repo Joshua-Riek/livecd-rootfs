@@ -1,4 +1,4 @@
-livecd-rootfs (2.376) UNRELEASED; urgency=medium
+livecd-rootfs (2.376) xenial; urgency=medium
 
   [ Michael Terry ]
   * Change real name for phablet user to "Ubuntu" in ubuntu-touch.
@@ -44,7 +44,7 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
     https://github.com/raspberrypi/linux/blob/rpi-4.1.y/scripts/mkknlimg
     and use it to install a bootable uboot.bin.
 
- -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 12 Feb 2016 21:14:49 +0000
 
 livecd-rootfs (2.375) xenial; urgency=medium
 
