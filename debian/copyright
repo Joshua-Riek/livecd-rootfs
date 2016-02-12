@@ -1,4 +1,4 @@
-live-build/* is copyright (c) 2004-2013 by Canonical Ltd.
+live-build/* is copyright (c) 2004-2016 by Canonical Ltd.
 
 These programs are free software; you can redistribute and/or modify
 them under the terms of the GNU General Public License as published by
@@ -16,3 +16,7 @@ livecd-rootfs source package as the file COPYING.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA.
 
+Files: live-build/ubuntu-cpc/hooks/raspi2/mkknlimg
+Copyright: 2009,2010 Dick Streefland <dick@streefland.net>
+           2014,2015 Raspberry Pi (Trading) Limited <info@raspberrypi.org>
+License: GPL-2+

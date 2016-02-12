@@ -40,6 +40,9 @@ livecd-rootfs (2.376) UNRELEASED; urgency=medium
     live-build and reuse this for the tarball, instead of lb_binary_rootfs
     creating some artifact that we ignore / throw away.
   * Initial support for raspi2 subarch.
+  * Import live-build/ubuntu-cpc/hooks/raspi2/mkknlimg from
+    https://github.com/raspberrypi/linux/blob/rpi-4.1.y/scripts/mkknlimg
+    and use it to install a bootable uboot.bin.
 
  -- Ben Howard <ben.howard@ubuntu.com>  Sun, 07 Feb 2016 16:59:41 -0700
 
