@@ -35,10 +35,11 @@ create_empty_partition() {
     local part="$2"
     local start="$3"
     local end="$4"
-    local bootable="$5"
+    local type="$5"
+    local bootable="$6"
 
     parted_prefix="parted $disk --script --"
-    ${parted_prefix} mkpart primary "$start" "$end"
+    ${parted_prefix} mkpart primary "$type" "$start" "$end"
     if [ -n "$bootable" ]; then
         ${parted_prefix} set "$part" B
     fi
@@ -57,9 +58,9 @@ if [ -n "$BOOTPART_START" ]; then
 	ROOTPART=2
 	ROOTPART_START="$BOOTPART_END"
 	ROOT_BOOTABLE=
-	create_empty_partition "$disk_image" 1 "$BOOTPART_START" "$BOOTPART_END" 1
+	create_empty_partition "$disk_image" 1 "$BOOTPART_START" "$BOOTPART_END" fat32 1
 fi
-create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 "$ROOT_BOOTABLE"
+create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 ext2 "$ROOT_BOOTABLE"
 
 mount_image "${disk_image}" "$ROOTPART"
 
