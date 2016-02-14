@@ -1,3 +1,11 @@
+livecd-rootfs (2.377) xenial; urgency=medium
+
+  * live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot: Add fake_cloud_init
+    function to create a nocloud data source for cloud images that aren't
+    meant to be used on real clouds and use it by default on armhf+raspi2
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sun, 14 Feb 2016 03:12:37 -0700
+
 livecd-rootfs (2.376) xenial; urgency=medium
 
   [ Michael Terry ]

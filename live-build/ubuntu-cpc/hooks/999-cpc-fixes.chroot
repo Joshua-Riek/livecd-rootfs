@@ -50,6 +50,33 @@ EOF
    sed -i "s/CONDEV/${condev}/g" "$idir/${condev}.conf"
 }
 
+fake_cloud_init() {
+    # If the cloud does not provide a meta-data service this should be run
+    # This will setup a nocloud datasource.
+
+    seed_d="${rootd}/var/lib/cloud/seed/nocloud-net"
+    mkdir -p "${seed_d}"
+
+    # fake instance-id
+    cat << EOF > "${seed_d}/meta-data"
+instance_id: cloud-image
+EOF
+
+    # fake user-data to create the default user/password
+    cat << EOF > "${seed_d}/user-data"
+#cloud-config
+password: ubuntu
+chpasswd: ubuntu
+ssh_pwauth: True
+EOF
+
+   # tell cloud-init not to look for meta-data sources
+   cat << EOF > ${rootd}/etc/cloud/cloud.cfg.d/99-fake_cloud.cfg
+# configure cloud-init for NoCloud
+datasource_list: [ NoCloud, None ]
+EOF
+}
+
 ## --------------
 # remove 127.0.1.1 entry (LP: #440757)
 _xchroot "${rootd}" sh -c 'sed -i "/^127.0.1.1/d" /etc/hosts'
@@ -132,6 +159,11 @@ case $arch in
 	armhf|arm64)
 		echo "Configuring ARM Serial Port"
 		add_serial_console ttyAMA0
+		# Dirty hack because SUBARCH doesn't exist when running chroot hooks,
+		# and we don't want raspi2 images to depend on a cloud data source:
+		if _xchroot "${rootd}" dpkg -l linux-image-raspi2 2>/dev/null | grep -q '^.i'; then
+			fake_cloud_init
+		fi
 
 		echo "Image architecture is ARM. Existing vmbuilder-fixups"
 
