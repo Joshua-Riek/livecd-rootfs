@@ -7,3 +7,4 @@ ln -sf /proc/mounts /etc/mtab
 mkdir -p /lib/modules
 mkdir -p /lib/firmware
 mkdir -p /writable
+mkdir -p /var/lib/systemd/rfkill

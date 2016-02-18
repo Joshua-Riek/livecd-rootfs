@@ -1,3 +1,10 @@
+livecd-rootfs (2.379) UNRELEASED; urgency=medium
+
+  * add /var/lib/systemd/rfkill to pre-created dirs to use as writable
+    mountpoint for bind-mounts in snappy.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 18 Feb 2016 14:42:29 +0100
+
 livecd-rootfs (2.378) xenial; urgency=medium
 
   * Add net.ifnames=0 to the raspi2 cmdline injected into raspi2 builds.
