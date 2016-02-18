@@ -643,7 +643,7 @@ LABEL=system-boot       /boot/firmware  vfat    defaults        0       1
 EOM
 
 cat > /boot/firmware/cmdline.txt << EOM
-dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
+net.ifnames=0 dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
 EOM
 
 cat > /boot/firmware/config.txt << EOM

@@ -1,3 +1,9 @@
+livecd-rootfs (2.378) xenial; urgency=medium
+
+  * Add net.ifnames=0 to the raspi2 cmdline injected into raspi2 builds.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 17 Feb 2016 17:47:26 -0700
+
 livecd-rootfs (2.377) xenial; urgency=medium
 
   * live-build/ubuntu-cpc/hooks/999-cpc-fixes.chroot: Add fake_cloud_init
