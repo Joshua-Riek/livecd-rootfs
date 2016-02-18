@@ -1,4 +1,4 @@
-livecd-rootfs (2.379) UNRELEASED; urgency=medium
+livecd-rootfs (2.379) xenial; urgency=medium
 
   * add /var/lib/systemd/rfkill to pre-created dirs to use as writable
     mountpoint for bind-mounts in snappy.
