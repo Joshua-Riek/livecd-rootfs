@@ -1,9 +1,15 @@
 livecd-rootfs (2.380) UNRELEASED; urgency=medium
 
+  [ Ben Howard ]
   * live-build/ubuntu-cpc/hooks/042-vagrant.binary: add serial device for
     Vagrant images (LP: #1546108).
 
- -- Ben Howard <ben.howard@ubuntu.com>  Mon, 22 Feb 2016 07:25:55 -0700
+  [ Daniel Watkins ]
+  * Refactor ubuntu-cpc hooks to hard-code producing an 'ext4' rootfs, which
+    is used outside of the livecd-rootfs build process (specifically for EC2
+    publication).
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Mon, 22 Feb 2016 11:29:26 +0000
 
 livecd-rootfs (2.379) xenial; urgency=medium
 
