@@ -1,3 +1,10 @@
+livecd-rootfs (2.380) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-cpc/hooks/042-vagrant.binary: add serial device for
+    Vagrant images (LP: #1546108).
+
+ -- Ben Howard <ben.howard@ubuntu.com>  Mon, 22 Feb 2016 07:25:55 -0700
+
 livecd-rootfs (2.379) xenial; urgency=medium
 
   * add /var/lib/systemd/rfkill to pre-created dirs to use as writable
