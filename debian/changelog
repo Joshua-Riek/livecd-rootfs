@@ -1,4 +1,4 @@
-livecd-rootfs (2.380) UNRELEASED; urgency=medium
+livecd-rootfs (2.380) xenial; urgency=medium
 
   [ Ben Howard ]
   * live-build/ubuntu-cpc/hooks/042-vagrant.binary: add serial device for
@@ -9,7 +9,7 @@ livecd-rootfs (2.380) UNRELEASED; urgency=medium
     is used outside of the livecd-rootfs build process (specifically for EC2
     publication).
 
- -- Daniel Watkins <daniel.watkins@canonical.com>  Mon, 22 Feb 2016 11:29:26 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 22 Feb 2016 19:17:15 +0000
 
 livecd-rootfs (2.379) xenial; urgency=medium
 
