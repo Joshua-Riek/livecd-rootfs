@@ -7,6 +7,9 @@ fi
 
 . /build/config/functions
 
+mkdir binary/boot/filesystem.dir
+cp -a chroot/* binary/boot/filesystem.dir
+
 setup_mountpoint binary/boot/filesystem.dir
 
 chroot binary/boot/filesystem.dir dpkg-divert --local --rename /usr/sbin/grub-probe

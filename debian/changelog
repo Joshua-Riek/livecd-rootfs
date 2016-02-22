@@ -1,3 +1,11 @@
+livecd-rootfs (2.380) UNRELEASED; urgency=medium
+
+  * Refactor ubuntu-cpc hooks to hard-code producing an 'ext4' rootfs, which
+    is used outside of the livecd-rootfs build process (specifically for EC2
+    publication).
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Mon, 22 Feb 2016 11:29:26 +0000
+
 livecd-rootfs (2.379) xenial; urgency=medium
 
   * add /var/lib/systemd/rfkill to pre-created dirs to use as writable
