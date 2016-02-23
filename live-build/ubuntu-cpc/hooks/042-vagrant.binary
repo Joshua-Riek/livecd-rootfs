@@ -113,9 +113,12 @@ Vagrant.configure("2") do |config|
   config.ssh.password = "${ubuntu_user_pass}"
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  # Needed due to the default commandline, which expects a console.
-  config.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
-  config.customize [ "modifyvm", :id, "--uartmode1", "file", "console.log" ]
+  config.vm.provider "virtualbox" do |vb|
+     vb.name = "${prefix}"
+     vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
+     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File.join(Dir.pwd, "%s-console.log" % vb.name) ]
+  end
+
 
 end
 EOF
