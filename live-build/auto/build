@@ -609,7 +609,7 @@ if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-pd" ]; then
 	Chroot chroot "apt-get -y install android"
 
 	if [ "$ARCH" = "armhf" ]; then
-		touchsubarches="flo manta mako generic"
+		touchsubarches="flo mako generic"
 		for subarch in $touchsubarches; do
 			cp -v chroot/usr/share/android/product/*-preinstalled-system-armel+${subarch}.img\
 				"${PREFIX}.system-armel+${subarch}.img"
