@@ -1,4 +1,4 @@
-livecd-rootfs (2.382) UNRELEASED; urgency=medium
+livecd-rootfs (2.382) xenial; urgency=medium
 
   * Remove the manta device from the list of touchsubarches as we're not
     building its kernel anymore.
