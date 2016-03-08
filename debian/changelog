@@ -1,4 +1,4 @@
-livecd-rootfs (2.384) UNRELEASED; urgency=medium
+livecd-rootfs (2.384) xenial; urgency=medium
 
   * slightly adjust the naming of the OS snap for snappy builds so it becomes
     easier for cdimage to grab and publish it.
