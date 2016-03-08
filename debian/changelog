@@ -1,4 +1,4 @@
-livecd-rootfs (2.383) UNRELEASED; urgency=medium
+livecd-rootfs (2.383) xenial; urgency=medium
 
   * add snap cration for ubuntu-core snappy rootfs builds
 
