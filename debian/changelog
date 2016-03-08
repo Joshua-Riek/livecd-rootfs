@@ -1,3 +1,9 @@
+livecd-rootfs (2.383) UNRELEASED; urgency=medium
+
+  * add snap cration for ubuntu-core snappy rootfs builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 08 Mar 2016 16:43:45 +0100
+
 livecd-rootfs (2.382) xenial; urgency=medium
 
   * Remove the manta device from the list of touchsubarches as we're not

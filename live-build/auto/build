@@ -319,6 +319,32 @@ elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
 fi
 
+if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
+    if [ -e "binary/$INITFS/filesystem.dir" ]; then
+        rootfs="binary/$INITFS/filesystem.dir"
+
+        for dir in lib/modules lib/firmware writable meta; do
+            mkdir -p $rootfs/$dir
+        done
+
+        VERSION="$(lsb_release -r -s)-$(date +20%y%m%d-%H-%M)"
+
+        cat > $rootfs/meta/snap.yaml <<EOF
+name: ubuntu-core
+version: $VERSION
+summary: The ubuntu-core OS snap
+architectures: [$ARCH]
+type: os
+EOF
+
+        apt-get -y install ubuntu-snappy-cli
+        snappy build --squashfs $rootfs
+
+        snapfile="$(ls ubuntu-core*.snap)"
+        cp -a $snapfile $PREFIX.$snapfile
+    fi
+fi
+
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-pd" ]; then
 	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
