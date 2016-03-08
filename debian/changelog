@@ -1,3 +1,10 @@
+livecd-rootfs (2.384) UNRELEASED; urgency=medium
+
+  * slightly adjust the naming of the OS snap for snappy builds so it becomes
+    easier for cdimage to grab and publish it.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 08 Mar 2016 19:43:19 +0100
+
 livecd-rootfs (2.383) xenial; urgency=medium
 
   * add snap cration for ubuntu-core snappy rootfs builds

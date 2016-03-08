@@ -341,7 +341,7 @@ EOF
         snappy build --squashfs $rootfs
 
         snapfile="$(ls ubuntu-core*.snap)"
-        cp -a $snapfile $PREFIX.$snapfile
+        cp -a $snapfile $PREFIX.os.snap
     fi
 fi
 
