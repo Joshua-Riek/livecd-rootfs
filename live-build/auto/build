@@ -491,10 +491,16 @@ EOF
         # compress everything
         cd $TMPDIR
         tarname="device.tar.gz"
+        manifestname="device.manifest"
         if [ "$devarch" = "raspi2" ];then
             tarname="raspi2.$tarname"
+            manifestname="$devarch.$manifestname"
         fi
+        # create tarfile
         tar -c -z -f $HERE/$PREFIX.$tarname system assets hardware.yaml
+
+        # create device specific manifest to track kernel dpkg version
+        cp assets/dpkg.list $HERE/$PREFIX.$manifestname
 
         # show size of initrd and kernel in the log
         ls -lh assets/

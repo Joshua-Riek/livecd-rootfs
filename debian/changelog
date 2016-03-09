@@ -1,3 +1,9 @@
+livecd-rootfs (2.386) UNRELEASED; urgency=medium
+
+  * add dpkg.list to assets of the kernel snap
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 09 Mar 2016 23:16:55 +0100
+
 livecd-rootfs (2.385) xenial; urgency=medium
 
   * add snap building for kernel snaps
