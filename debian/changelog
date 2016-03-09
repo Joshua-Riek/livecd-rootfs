@@ -1,4 +1,4 @@
-livecd-rootfs (2.385) UNRELEASED; urgency=medium
+livecd-rootfs (2.385) xenial; urgency=medium
 
   * add snap building for kernel snaps
 
