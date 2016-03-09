@@ -1,3 +1,9 @@
+livecd-rootfs (2.385) UNRELEASED; urgency=medium
+
+  * add snap building for kernel snaps
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 09 Mar 2016 15:58:35 +0100
+
 livecd-rootfs (2.384) xenial; urgency=medium
 
   * slightly adjust the naming of the OS snap for snappy builds so it becomes

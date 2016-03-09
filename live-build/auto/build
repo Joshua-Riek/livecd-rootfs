@@ -507,7 +507,52 @@ EOF
         if [ "$ARCH" = "amd64" ]; then
             cp $HERE/$PREFIX.$tarname $HERE/$PREFIX.azure.$tarname
         fi
-        cd $HERE)
+
+        # create snap
+        snapname="kernel.snap"
+        metaname=canonical-pc-linux
+
+        if [ "$devarch" = "raspi2" ];then
+            metaname=canonical-pi2-linux
+            snapname="$devarch.kernel.snap"
+        elif [ "$devarch" = "generic" ] && [ "$ARCH" = "armhf" ];then
+            metaname=canonical-bbb-linux
+        fi
+
+        rm -rf $HERE/snap || true
+        mkdir -p $HERE/snap/meta
+        cp -a $TMPDIR/assets/* $HERE/snap
+        cp -a $TMPDIR/system/* $HERE/snap
+
+        cd $HERE/snap
+        kernel="$(ls vmlinuz-*)"
+        initrd="$(ls initrd.img-*)"
+        ln -s $kernel vmlinuz
+        ln -s $initrd initrd.img
+        kvers="$(ls vmlinuz-*|sed 's/^.*vmlinuz-//;s/-[a-z.]*$//')"
+
+        VERSION=$kvers-$(date +20%y%m%d-%H-%M)
+
+        cat > meta/snap.yaml <<EOF
+name: $metaname
+version: $VERSION
+architectures: [$ARCH]
+summary: The canonical $devarch $ARCH kernel
+type: kernel
+
+kernel: $(ls vmlinuz-*)
+initrd: $(ls initrd.img-*)
+modules: $(ls -d lib/modules/*)
+firmware: lib/firmware
+EOF
+        cd $HERE
+
+        apt-get -y install ubuntu-snappy-cli
+        snappy build --squashfs snap
+
+        snapfile="$(ls $metaname*.snap)"
+        cp -a $snapfile $PREFIX.$snapname
+        )
       done
     fi
 
