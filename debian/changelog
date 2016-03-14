@@ -1,9 +1,13 @@
-livecd-rootfs (2.386) UNRELEASED; urgency=medium
+livecd-rootfs (2.386) xenial; urgency=medium
 
+  [ Michael Vogt ]
   * add dpkg.list to assets of the kernel snap
   * add grub-efi-arm64 to the arm64 OS snap
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 09 Mar 2016 23:16:55 +0100
+  [ Adam Conrad ]
+  * Build raspi2 images with multiverse for firmware.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 14 Mar 2016 10:31:55 -0600
 
 livecd-rootfs (2.385) xenial; urgency=medium
 

@@ -569,7 +569,7 @@ case $ARCH in
 				echo "d-i passwd/auto-login boolean true" >config/preseed/autologin.preseed.chroot
 				;;
 			raspi2)
-				COMPONENTS='main restricted universe'
+				COMPONENTS='main restricted universe multiverse'
 				add_package install raspberrypi2-firmware u-boot-rpi flash-kernel u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
