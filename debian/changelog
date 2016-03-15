@@ -1,6 +1,7 @@
 livecd-rootfs (2.388) UNRELEASED; urgency=medium
 
   * add support for dragonboard kernel snap
+  * remove  grub-efi-arm64 to the arm64 OS snap as it breaks uboot
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 15 Mar 2016 13:21:25 +0100
 

@@ -424,7 +424,7 @@ case $PROJECT in
 					add_package install flash-kernel u-boot-tools
 					;;
 				arm64)
-					add_package install u-boot-tools grub-efi-arm64
+					add_package install u-boot-tools
                                         ;;
 			esac
 			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
