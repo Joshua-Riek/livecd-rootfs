@@ -1,4 +1,4 @@
-livecd-rootfs (2.387) UNRELEASED; urgency=medium
+livecd-rootfs (2.387) xenial; urgency=medium
 
   * Move the new touch click apps (unav, dekko, calendar) to the custom
     tarball.
