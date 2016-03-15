@@ -376,7 +376,10 @@ case $PROJECT:$SUBPROJECT in
           armhf)
             subarches="generic raspi2"
             ;;
-          i386|amd64|arm64|powerpc|ppc64el)
+          arm64)
+            subarches="generic dragonboard"
+            ;;
+          i386|amd64|powerpc|ppc64el)
             subarches="generic"
             ;;
       esac
@@ -400,6 +403,12 @@ case $PROJECT:$SUBPROJECT in
         case $ARCH in
             amd64)
               linux_package="linux-signed-generic"
+              ;;
+            arm64)
+              if [ "$devarch" = "dragonboard" ]; then
+                  # ugly hack til we have a metapackage
+                  linux_package="$(apt-cache search generic-dragon410c|grep linux-image|tail -1|sed 's/ .*$//g') dragon410c-firmware"
+              fi
               ;;
         esac
 
@@ -461,6 +470,9 @@ case $PROJECT:$SUBPROJECT in
                        rm -rf $TMPDIR/assets/dtbs/overlays
                    fi
                    ;;
+               dragonboard)
+                   cp $TMPDIR/assets/dtbs/qcom/apq8016-sbc-snappy.dtb $TMPDIR/assets/dtbs/apq8016-sbc.dtb
+                   ;;
            esac
         fi
 
@@ -495,6 +507,9 @@ EOF
         if [ "$devarch" = "raspi2" ];then
             tarname="raspi2.$tarname"
             manifestname="$devarch.$manifestname"
+        elif [ "$devarch" = "dragonboard" ];then
+            tarname="$devarch.$tarname"
+            manifestname="$devarch.$manifestname"
         fi
         # create tarfile
         tar -c -z -f $HERE/$PREFIX.$tarname system assets hardware.yaml
@@ -523,6 +538,9 @@ EOF
             snapname="$devarch.kernel.snap"
         elif [ "$devarch" = "generic" ] && [ "$ARCH" = "armhf" ];then
             metaname=canonical-bbb-linux
+        elif [ "$devarch" = "dragonboard" ] && [ "$ARCH" = "arm64" ];then
+            metaname=canonical-dragon-linux
+            snapname="$devarch.kernel.snap"
         fi
 
         rm -rf $HERE/snap || true
@@ -551,6 +569,9 @@ initrd: $(ls initrd.img-*)
 modules: $(ls -d lib/modules/*)
 firmware: lib/firmware
 EOF
+        if [ -d dtbs ]; then
+            printf "dtbs: dtbs/ \n" >> meta/snap.yaml
+        fi
         cd $HERE
 
         apt-get -y install ubuntu-snappy-cli
