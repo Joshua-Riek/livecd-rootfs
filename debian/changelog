@@ -1,4 +1,4 @@
-livecd-rootfs (2.388) UNRELEASED; urgency=medium
+livecd-rootfs (2.388) xenial; urgency=medium
 
   * add support for dragonboard kernel snap
   * remove  grub-efi-arm64 to the arm64 OS snap as it breaks uboot
