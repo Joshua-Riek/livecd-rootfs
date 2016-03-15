@@ -1,3 +1,10 @@
+livecd-rootfs (2.387) UNRELEASED; urgency=medium
+
+  * Move the new touch click apps (unav, dekko, calendar) to the custom
+    tarball.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 15 Mar 2016 12:56:32 +0100
+
 livecd-rootfs (2.386) xenial; urgency=medium
 
   [ Michael Vogt ]

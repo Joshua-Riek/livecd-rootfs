@@ -42,7 +42,10 @@ do
             com.ubuntu.reminders_*|\
             com.ubuntu.shorts_*|\
             com.ubuntu.sudoku_*|\
-            com.ubuntu.terminal_*)
+            com.ubuntu.terminal_*|\
+            com.ubuntu.calendar_*|\
+            navigator.costales_*|\
+            dekko.dekkoproject_*)
                 roots="$click_db_custom"
                 ;;
             *)
