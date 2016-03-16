@@ -1,3 +1,9 @@
+livecd-rootfs (2.389) UNRELEASED; urgency=medium
+
+  * Follow rename of ubuntustudio-font-meta to ubuntustudio-fonts.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 16 Mar 2016 10:44:35 +0000
+
 livecd-rootfs (2.388) xenial; urgency=medium
 
   * add support for dragonboard kernel snap
