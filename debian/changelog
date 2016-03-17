@@ -1,3 +1,12 @@
+livecd-rootfs (2.390) UNRELEASED; urgency=medium
+
+  * add link for wlan mac address in dragonboard kernel snaps
+  * move dragonboard kernel snap to linux-snapdragon (with a currently hardcoded
+    version due to missing -meta package for this kernel, don't do that at
+    home !)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 16 Mar 2016 14:28:22 +0100
+
 livecd-rootfs (2.389) xenial; urgency=medium
 
   * Follow rename of ubuntustudio-font-meta to ubuntustudio-fonts.

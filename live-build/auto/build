@@ -407,7 +407,7 @@ case $PROJECT:$SUBPROJECT in
             arm64)
               if [ "$devarch" = "dragonboard" ]; then
                   # ugly hack til we have a metapackage
-                  linux_package="$(apt-cache search generic-dragon410c|grep linux-image|tail -1|sed 's/ .*$//g') dragon410c-firmware"
+                  linux_package="linux-image-4.4.0-1009-snapdragon dragon410c-firmware"
               fi
               ;;
         esac
@@ -472,6 +472,9 @@ case $PROJECT:$SUBPROJECT in
                    ;;
                dragonboard)
                    cp $TMPDIR/assets/dtbs/qcom/apq8016-sbc-snappy.dtb $TMPDIR/assets/dtbs/apq8016-sbc.dtb
+                   # add special link needed by the dragonboard wifi driver
+                   mkdir -p $TMPDIR/system/lib/firmware/wlan/
+                   ln -s /run/macaddr0 $TMPDIR/system/lib/firmware/wlan/
                    ;;
            esac
         fi
@@ -539,7 +542,7 @@ EOF
         elif [ "$devarch" = "generic" ] && [ "$ARCH" = "armhf" ];then
             metaname=canonical-bbb-linux
         elif [ "$devarch" = "dragonboard" ] && [ "$ARCH" = "arm64" ];then
-            metaname=canonical-dragon-linux
+            metaname=canonical-snapdragon-linux
             snapname="$devarch.kernel.snap"
         fi
 
