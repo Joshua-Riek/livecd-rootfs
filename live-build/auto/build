@@ -327,7 +327,7 @@ if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
             mkdir -p $rootfs/$dir
         done
 
-        VERSION="$(lsb_release -r -s)-$(date +20%y%m%d-%H-%M)"
+        VERSION="$(lsb_release -r -s)+$(date +20%y%m%d.%H-%M)"
 
         cat > $rootfs/meta/snap.yaml <<EOF
 name: ubuntu-core
@@ -558,7 +558,7 @@ EOF
         ln -s $initrd initrd.img
         kvers="$(ls vmlinuz-*|sed 's/^.*vmlinuz-//;s/-[a-z.]*$//')"
 
-        VERSION=$kvers-$(date +20%y%m%d-%H-%M)
+        VERSION=$kvers+$(date +20%y%m%d.%H-%M)
 
         cat > meta/snap.yaml <<EOF
 name: $metaname

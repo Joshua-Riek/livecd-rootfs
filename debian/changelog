@@ -1,3 +1,9 @@
+livecd-rootfs (2.391) UNRELEASED; urgency=medium
+
+  * adjust snap versions to only have one dash and use plus chars instead
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 21 Mar 2016 17:36:47 +0100
+
 livecd-rootfs (2.390) xenial; urgency=medium
 
   * add link for wlan mac address in dragonboard kernel snaps
