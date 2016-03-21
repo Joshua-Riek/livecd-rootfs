@@ -1,4 +1,4 @@
-livecd-rootfs (2.391) UNRELEASED; urgency=medium
+livecd-rootfs (2.391) xenial; urgency=medium
 
   * adjust snap versions to only have one dash and use plus chars instead
 
