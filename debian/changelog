@@ -1,3 +1,10 @@
+livecd-rootfs (2.392) UNRELEASED; urgency=medium
+
+  * move mtab link to point to /proc/self/mounts instead of /proc/mounts
+    (LP: #1547033) in snappy builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Tue, 22 Mar 2016 13:16:59 +0100
+
 livecd-rootfs (2.391) xenial; urgency=medium
 
   * adjust snap versions to only have one dash and use plus chars instead
