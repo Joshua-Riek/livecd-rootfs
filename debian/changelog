@@ -1,4 +1,4 @@
-livecd-rootfs (2.392) UNRELEASED; urgency=medium
+livecd-rootfs (2.392) xenial; urgency=medium
 
   * move mtab link to point to /proc/self/mounts instead of /proc/mounts
     (LP: #1547033) in snappy builds
