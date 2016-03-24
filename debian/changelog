@@ -1,3 +1,9 @@
+livecd-rootfs (2.393) UNRELEASED; urgency=medium
+
+  * actually make the /etc/mtab link relative (LP: #1547033)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 24 Mar 2016 13:27:01 +0100
+
 livecd-rootfs (2.392) xenial; urgency=medium
 
   * move mtab link to point to /proc/self/mounts instead of /proc/mounts
