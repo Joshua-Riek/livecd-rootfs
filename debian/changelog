@@ -1,4 +1,4 @@
-livecd-rootfs (2.393) UNRELEASED; urgency=medium
+livecd-rootfs (2.393) xenial; urgency=medium
 
   * actually make the /etc/mtab link relative (LP: #1547033)
 
