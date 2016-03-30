@@ -1,4 +1,4 @@
-livecd-rootfs (2.394) UNRELEASED; urgency=medium
+livecd-rootfs (2.394) xenial; urgency=medium
 
   [ Xavi Garcia ]
   * Adding a new hook to change the configuration file for upower.
