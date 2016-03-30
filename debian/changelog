@@ -1,3 +1,10 @@
+livecd-rootfs (2.394) UNRELEASED; urgency=medium
+
+  [ Xavi Garcia ]
+  * Adding a new hook to change the configuration file for upower.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 30 Mar 2016 16:20:20 +0200
+
 livecd-rootfs (2.393) xenial; urgency=medium
 
   * actually make the /etc/mtab link relative (LP: #1547033)
