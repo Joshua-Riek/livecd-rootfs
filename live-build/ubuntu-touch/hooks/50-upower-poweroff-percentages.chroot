@@ -1,0 +1,10 @@
+#! /bin/sh
+
+set -e
+
+echo "Updating upower configuration..."
+
+sed -i 's/^UsePercentageForPolicy=.*/UsePercentageForPolicy=true/' /etc/UPower/UPower.conf
+sed -i 's/^CriticalPowerAction=.*/CriticalPowerAction=PowerOff/' /etc/UPower/UPower.conf
+
+
