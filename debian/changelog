@@ -1,3 +1,11 @@
+livecd-rootfs (2.395) UNRELEASED; urgency=medium
+
+  * create /etc/cloud/cloud.cfg.d/99-snappy-disable-network-config.cfg on
+    snappy so we do not end up with broken network config after cloud-init
+    ran (LP: #1563296).
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 01 Apr 2016 16:31:50 +0200
+
 livecd-rootfs (2.394) xenial; urgency=medium
 
   [ Xavi Garcia ]
