@@ -192,20 +192,7 @@ UNITY_HWE_HINTS="unity-settings-daemon notify-osd libqt4-sql-sqlite unity gnome-
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_package install ubuntu-minimal ubuntu-standard
-		case "$ARCH+$SUBARCH" in
-			armhf+omap4)
-				# Don't use the task as this drags in the regular X
-				# stack (the metapackage doesn't). We want the
-				# "reverted" one.
-				add_package install ubuntu-desktop \
-					xserver-xorg-core-omap-revert \
-					xserver-xorg-video-omap-revert \
-					xserver-xorg-input-evdev-omap-revert 
-				;;
-			*)
-				add_package install ubuntu-desktop $UNITY_HWE_HINTS
-				;;
-		esac
+		add_package install ubuntu-desktop $UNITY_HWE_HINTS
 		LIVE_TASK='ubuntu-live'
 		case $ARCH in
 			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
@@ -233,20 +220,7 @@ case $PROJECT in
 
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard
-		case "$ARCH+$SUBARCH" in
-			armhf+omap4)
-				# Don't use the task as this drags in the regular X
-				# stack (the metapackage doesn't). We want the
-				# "reverted" one.
-				add_package install kubuntu-desktop \
-					xserver-xorg-core-omap-revert \
-					xserver-xorg-video-omap-revert \
-					xserver-xorg-input-evdev-omap-revert 
-				;;
-			*)
-				add_task install kubuntu-desktop
-				;;
-		esac
+		add_task install kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;

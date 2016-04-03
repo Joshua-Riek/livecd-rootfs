@@ -1,3 +1,9 @@
+livecd-rootfs (2.396) UNRELEASED; urgency=medium
+
+  * Remove obsolete pvr-omap4 special-casing to simplify configs.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sun, 03 Apr 2016 02:39:50 -0600
+
 livecd-rootfs (2.395) xenial; urgency=medium
 
   * create /etc/cloud/cloud.cfg.d/99-snappy-disable-network-config.cfg on
