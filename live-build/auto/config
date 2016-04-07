@@ -401,7 +401,7 @@ case $PROJECT in
 					add_package install u-boot-tools
                                         ;;
 			esac
-			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
 
 			# contains the framework definition
 			add_package install ubuntu-core-libs
