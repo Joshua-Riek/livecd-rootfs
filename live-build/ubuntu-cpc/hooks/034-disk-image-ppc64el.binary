@@ -1,7 +1,11 @@
 #!/bin/bash -eux
-if [ "$ARCH" != "ppc64el" ]; then
-    exit 0
-fi
+case $ARCH in
+    ppc64el|powerpc)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
 
 . /build/config/functions
 

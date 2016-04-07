@@ -1,6 +1,10 @@
 livecd-rootfs (2.396) UNRELEASED; urgency=medium
 
+  [ Adam Conrad ]
   * Remove obsolete pvr-omap4 special-casing to simplify configs.
+
+  [ Daniel Watkins ]
+  * Enable building of powerpc cloud images.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Sun, 03 Apr 2016 02:39:50 -0600
 

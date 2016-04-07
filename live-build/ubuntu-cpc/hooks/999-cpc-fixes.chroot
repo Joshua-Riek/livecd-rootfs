@@ -173,7 +173,7 @@ case $arch in
 	i386|amd64)
 		add_serial_console ttyS0
 		;;
-	ppc64el)
+	powerpc|ppc64el)
 		add_serial_console hvc0
 		exit 0
 		;;

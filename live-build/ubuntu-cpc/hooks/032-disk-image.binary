@@ -8,8 +8,8 @@ BOOT_MOUNTPOINT=
 ROOTPART_START=1
 
 case $ARCH:$SUBARCH in
-	ppc64el:*)
-		echo "ppc64el disk images are handled separately"
+	ppc64el:*|powerpc:*)
+		echo "POWER disk images are handled separately"
 		exit 0
 		;;
 	armhf:raspi2)
