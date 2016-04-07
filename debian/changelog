@@ -1,4 +1,4 @@
-livecd-rootfs (2.397) UNRELEASED; urgency=medium
+livecd-rootfs (2.397) xenial; urgency=medium
 
   * live-build/ubuntu-core/hooks/25-create-generic-initrd.chroot:
     create a generic initrd inside the snappy os-snap so we do not need the
