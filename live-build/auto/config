@@ -470,6 +470,10 @@ case $PROJECT in
 			ppc64el)
 				add_task install server
 				;;
+			powerpc)
+				KERNEL_FLAVOURS=powerpc64-smp
+				add_task install server
+				;;
 		esac
 		OPTS="${OPTS:+$OPTS }--system=normal"
 		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"

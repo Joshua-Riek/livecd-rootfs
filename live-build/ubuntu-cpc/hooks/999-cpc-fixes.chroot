@@ -177,7 +177,7 @@ case $arch in
 		add_serial_console hvc0
 		exit 0
 		;;
-	s390x)
+	powerpc|s390x)
 		exit 0
 		;;
 esac
