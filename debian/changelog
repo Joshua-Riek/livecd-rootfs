@@ -1,4 +1,4 @@
-livecd-rootfs (2.396) UNRELEASED; urgency=medium
+livecd-rootfs (2.396) xenial; urgency=medium
 
   [ Adam Conrad ]
   * Remove obsolete pvr-omap4 special-casing to simplify configs.
