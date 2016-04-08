@@ -337,8 +337,8 @@ architectures: [$ARCH]
 type: os
 EOF
 
-        apt-get -y install ubuntu-snappy-cli
-        snappy build --squashfs $rootfs
+        apt-get -y install snapcraft
+        snapcraft snap $rootfs
 
         snapfile="$(ls ubuntu-core*.snap)"
         cp -a $snapfile $PREFIX.os.snap
@@ -577,8 +577,8 @@ EOF
         fi
         cd $HERE
 
-        apt-get -y install ubuntu-snappy-cli
-        snappy build --squashfs snap
+        apt-get -y install snapcraft
+        snapcraft snap snap
 
         snapfile="$(ls $metaname*.snap)"
         cp -a $snapfile $PREFIX.$snapname

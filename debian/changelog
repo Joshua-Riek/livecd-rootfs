@@ -1,3 +1,10 @@
+livecd-rootfs (2.398) UNRELEASED; urgency=medium
+
+  * switch snappy package builds from "snappy build" to "snapcraft snap"
+  (LP: #1557515)
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 08 Apr 2016 16:45:48 +0200
+
 livecd-rootfs (2.397) xenial; urgency=medium
 
   * live-build/ubuntu-core/hooks/25-create-generic-initrd.chroot:
