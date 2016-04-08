@@ -1,4 +1,4 @@
-livecd-rootfs (2.398) UNRELEASED; urgency=medium
+livecd-rootfs (2.398) xenial; urgency=medium
 
   * switch snappy package builds from "snappy build" to "snapcraft snap"
   (LP: #1557515)
