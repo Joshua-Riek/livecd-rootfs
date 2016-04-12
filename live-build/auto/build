@@ -379,7 +379,7 @@ case $PROJECT:$SUBPROJECT in
           arm64)
             subarches="generic dragonboard"
             ;;
-          i386|amd64|powerpc|ppc64el)
+          i386|amd64|powerpc|ppc64el|s390x)
             subarches="generic"
             ;;
       esac
@@ -409,6 +409,10 @@ case $PROJECT:$SUBPROJECT in
                   # ugly hack til we have a metapackage
                   linux_package="linux-image-4.4.0-1009-snapdragon dragon410c-firmware"
               fi
+              ;;
+            ppc64el|s390x)
+              echo "I: skipping kernel and device tarball for $ARCH"
+              return
               ;;
         esac
 
@@ -585,8 +589,6 @@ EOF
         )
       done
     fi
-
-    ls -l *device.tar.gz
 
     LB_LINUX_FLAVOURS=none
     ;;

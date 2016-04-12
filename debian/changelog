@@ -3,6 +3,9 @@ livecd-rootfs (2.399) UNRELEASED; urgency=medium
   * live-build/ubuntu-core/hooks/25-create-generic-initrd.chroot:
     kill the snappy os build if the initramfs-tools-ubuntu-core package
     is not found
+  * make s390x known to the snappy builds
+  * skip kernel snap an device tarball builds for s390x and ppc64el
+  * drop listing of the device tarballs, this was only for debugging
 
  -- Oliver Grawert <ogra@ubuntu.com>  Sun, 10 Apr 2016 17:23:05 +0200
 
