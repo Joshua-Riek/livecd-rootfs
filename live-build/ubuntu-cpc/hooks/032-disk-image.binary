@@ -115,6 +115,7 @@ fi
 
 if [ "$ARCH" = "s390x" ]; then
     # Do ZIPL install bits
+    chroot mountpoint apt-get -qqy install s390-tools sysconfig-hardware
 
     # Write out cloudy zipl.conf for future kernel updates
     cat << EOF > mountpoint/etc/zipl.conf
