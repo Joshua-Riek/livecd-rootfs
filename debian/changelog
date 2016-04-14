@@ -1,3 +1,9 @@
+livecd-rootfs (2.400) xenial; urgency=medium
+
+  * Transition from ubuntu-snappy to ubuntu-core-snapd-units and snapd.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 13 Apr 2016 22:57:39 -0600
+
 livecd-rootfs (2.399) xenial; urgency=medium
 
   [ Oliver Grawert ]

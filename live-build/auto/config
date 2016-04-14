@@ -365,7 +365,8 @@ case $PROJECT in
 			add_package install ppp
 			add_package install watchdog
 			# no Task: header yet
-			add_package install ubuntu-snappy
+			add_package install snapd
+			add_package install ubuntu-core-snapd-units
 
 			# no minimal as we want to be really minimal
 			#add_task install minimal
