@@ -8,8 +8,5 @@ iface lo inet loopback
 # Source interfaces
 # Please check /etc/network/interfaces.d before changing this file
 # as interfaces may have been defined in /etc/network/interfaces.d
-# NOTE: the primary ethernet device is defined in
-# /etc/network/interfaces.d/eth0
 # See LP: #1262951
 source /etc/network/interfaces.d/*.cfg
-
