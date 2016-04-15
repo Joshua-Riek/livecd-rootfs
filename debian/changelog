@@ -1,4 +1,4 @@
-livecd-rootfs (2.402) UNRELEASED; urgency=medium
+livecd-rootfs (2.402) xenial; urgency=medium
 
   * Update the passwd, shadow, group and gshadow bootstrap hashes for touch.
 
