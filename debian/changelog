@@ -1,4 +1,4 @@
-livecd-rootfs (2.403) UNRELEASED; urgency=medium
+livecd-rootfs (2.403) xenial; urgency=medium
 
   * Follow up on recent changes from the new network-manager packages and add
     the nm-openvpn user to touch. This should essentially fix the image build
