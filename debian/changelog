@@ -1,3 +1,11 @@
+livecd-rootfs (2.403) UNRELEASED; urgency=medium
+
+  * Follow up on recent changes from the new network-manager packages and add
+    the nm-openvpn user to touch. This should essentially fix the image build
+    failures.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 18 Apr 2016 12:27:04 +0200
+
 livecd-rootfs (2.402) xenial; urgency=medium
 
   * Update the passwd, shadow, group and gshadow bootstrap hashes for touch.
