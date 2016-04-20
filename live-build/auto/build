@@ -412,6 +412,7 @@ case $PROJECT:$SUBPROJECT in
             armhf)
               if [ "$devarch" = "raspi2" ]; then
                   linux_package="linux-image-raspi2 linux-firmware-raspi2"
+              fi
               ;;
             ppc64el|s390x)
               echo "I: skipping kernel and device tarball for $ARCH"
