@@ -1,3 +1,9 @@
+livecd-rootfs (2.404) xenial; urgency=medium
+
+  * Follow linux-firmware-raspi2 renaming in the archive for raspi2 images.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 20 Apr 2016 10:49:02 -0600
+
 livecd-rootfs (2.403) xenial; urgency=medium
 
   * Follow up on recent changes from the new network-manager packages and add

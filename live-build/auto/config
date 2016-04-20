@@ -549,7 +549,7 @@ case $ARCH in
 				;;
 			raspi2)
 				COMPONENTS='main restricted universe multiverse'
-				add_package install raspberrypi2-firmware u-boot-rpi flash-kernel u-boot-tools
+				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
 		esac
