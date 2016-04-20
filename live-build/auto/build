@@ -399,16 +399,19 @@ case $PROJECT:$SUBPROJECT in
         HERE="$(pwd)"
         set -x
 
-        linux_package="linux-$devarch"
+        linux_package="linux-image-$devarch"
         case $ARCH in
             amd64)
-              linux_package="linux-signed-generic"
+              linux_package="linux-signed-image-generic"
               ;;
             arm64)
               if [ "$devarch" = "dragonboard" ]; then
-                  # ugly hack til we have a metapackage
-                  linux_package="linux-image-4.4.0-1009-snapdragon dragon410c-firmware"
+                  linux_package="linux-image-snapdragon linux-firmware-snapdragon"
               fi
+              ;;
+            armhf)
+              if [ "$devarch" = "raspi2" ]; then
+                  linux_package="linux-image-raspi2 linux-firmware-raspi2"
               ;;
             ppc64el|s390x)
               echo "I: skipping kernel and device tarball for $ARCH"

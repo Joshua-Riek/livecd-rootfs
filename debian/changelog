@@ -1,3 +1,10 @@
+livecd-rootfs (2.405) UNRELEASED; urgency=medium
+
+  * move the snappy kernel builds to the correct linux-image-$arch and
+    linux-firmware-$arch metapackages
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 20 Apr 2016 19:34:11 +0200
+
 livecd-rootfs (2.404) xenial; urgency=medium
 
   * Follow linux-firmware-raspi2 renaming in the archive for raspi2 images.
