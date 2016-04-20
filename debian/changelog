@@ -1,4 +1,4 @@
-livecd-rootfs (2.405) UNRELEASED; urgency=medium
+livecd-rootfs (2.405) xenial; urgency=medium
 
   * move the snappy kernel builds to the correct linux-image-$arch and
     linux-firmware-$arch metapackages
