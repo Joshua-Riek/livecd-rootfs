@@ -1,8 +1,12 @@
-livecd-rootfs (2.407) UNRELEASED; urgency=medium
+livecd-rootfs (2.408) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Add a basic build-time syntax check for live-build/auto/*.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 20 Apr 2016 21:22:50 +0100
+  [ Oliver Grawert ]
+  * add multiverse to sources.list for snappy kernel builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 21 Apr 2016 10:53:12 +0200
 
 livecd-rootfs (2.406) xenial; urgency=medium
 

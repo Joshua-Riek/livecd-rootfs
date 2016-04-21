@@ -407,8 +407,8 @@ case $PROJECT in
 			# contains the framework definition
 			add_package install ubuntu-core-libs
 
-			# universe needed for 'system-image-cli'
-			COMPONENTS='main restricted universe'
+			# universe needed for 'system-image-cli' and multiverse for firmware
+			COMPONENTS='main restricted universe multiverse'
 		fi
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
