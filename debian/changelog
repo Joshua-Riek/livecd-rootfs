@@ -1,4 +1,4 @@
-livecd-rootfs (2.407) UNRELEASED; urgency=medium
+livecd-rootfs (2.407) xenial; urgency=medium
 
   [ Colin Watson ]
   * Add a basic build-time syntax check for live-build/auto/*.
