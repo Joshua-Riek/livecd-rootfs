@@ -1,4 +1,4 @@
-livecd-rootfs (2.408) UNRELEASED; urgency=medium
+livecd-rootfs (2.408) xenial; urgency=medium
 
   * drop linux-firmware-raspi2, it does not actually contain driver
     firmware but bootloaders (and fails to install if its target dir
