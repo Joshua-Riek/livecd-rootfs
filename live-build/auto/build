@@ -411,7 +411,7 @@ case $PROJECT:$SUBPROJECT in
               ;;
             armhf)
               if [ "$devarch" = "raspi2" ]; then
-                  linux_package="linux-image-raspi2 linux-firmware-raspi2"
+                  linux_package="linux-image-raspi2"
               fi
               ;;
             ppc64el|s390x)

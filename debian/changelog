@@ -1,3 +1,11 @@
+livecd-rootfs (2.408) UNRELEASED; urgency=medium
+
+  * drop linux-firmware-raspi2, it does not actually contain driver
+    firmware but bootloaders (and fails to install if its target dir
+    is missing).
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Thu, 21 Apr 2016 14:15:21 +0200
+
 livecd-rootfs (2.407) xenial; urgency=medium
 
   [ Colin Watson ]
