@@ -1,8 +1,12 @@
 livecd-rootfs (2.409) UNRELEASED; urgency=medium
 
+  [ Michael Vogt ]
   * add meta/kernel.yaml to the kernel snaps
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 04 May 2016 11:44:33 +0200
+  [ Łukasz 'sil2100' Zemczak ]
+  * Add the new dhcpd user introduced by latest archive changes.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 04 May 2016 12:49:23 +0200
 
 livecd-rootfs (2.408) xenial; urgency=medium
 
