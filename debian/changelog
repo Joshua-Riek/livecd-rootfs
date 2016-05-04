@@ -1,3 +1,9 @@
+livecd-rootfs (2.409) UNRELEASED; urgency=medium
+
+  * add meta/kernel.yaml to the kernel snaps
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed, 04 May 2016 11:44:33 +0200
+
 livecd-rootfs (2.408) xenial; urgency=medium
 
   * drop linux-firmware-raspi2, it does not actually contain driver
