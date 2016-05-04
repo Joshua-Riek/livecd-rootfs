@@ -1,4 +1,4 @@
-livecd-rootfs (2.409) UNRELEASED; urgency=medium
+livecd-rootfs (2.409) yakkety; urgency=medium
 
   [ Michael Vogt ]
   * add meta/kernel.yaml to the kernel snaps
