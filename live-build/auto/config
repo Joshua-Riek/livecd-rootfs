@@ -350,66 +350,60 @@ case $PROJECT in
 		;;
 
 	ubuntu-core)
-		# mvo: This is for cron.daily-preinstalled
-		#      CDIMAGE_PREINSTALLED is not passed from build.py
-		#      and PREINSTALLED means something different. So
-		#      we use SUBPROJECT to pass on the information
-		if [ "$SUBPROJECT" = "system-image" ]; then
-			OPTS="${OPTS:+$OPTS }--apt-recommends false"
+		OPTS="${OPTS:+$OPTS }--apt-recommends false"
 
-			# some workarounds because the seeds are not quite
-			# corrent at the moment
-			add_package install dbus
-			add_package install isc-dhcp-client
-			add_package install libpam-systemd
-			add_package install ppp
-			add_package install watchdog
-			# no Task: header yet
-			add_package install snapd
-			add_package install ubuntu-core-snapd-units
+		# some workarounds because the seeds are not quite
+		# corrent at the moment
+		add_package install dbus
+		add_package install isc-dhcp-client
+		add_package install libpam-systemd
+		add_package install ppp
+		add_package install watchdog
+		# no Task: header yet
+		add_package install snapd
+		add_package install ubuntu-core-snapd-units
 
-			# no minimal as we want to be really minimal
-			#add_task install minimal
-			add_task install ubuntu-core
+		# no minimal as we want to be really minimal
+		#add_task install minimal
+		add_task install ubuntu-core
 
-                        # more packages are pulled in via the seed.
-                        # (important to remember when comparing to the
-                        #  livecd-rootfs from ppa:snappy-dev/image)
+                # more packages are pulled in via the seed.
+                # (important to remember when comparing to the
+                #  livecd-rootfs from ppa:snappy-dev/image)
 
-			case $ARCH in
-				i386)
-					# efi support can go once the task
-					# header is available for grub-efi-ia32-bin
-					add_package install grub-efi-ia32-bin
-					;;
-			esac
+		case $ARCH in
+			i386)
+				# efi support can go once the task
+				# header is available for grub-efi-ia32-bin
+				add_package install grub-efi-ia32-bin
+				;;
+		esac
 
-			# generic kernel etc
-			KERNEL_FLAVOURS=none
-			case $ARCH in
-				i386)
-					add_package install grub-pc
-					;;
-				amd64)
-					add_package install grub-pc-bin
-					add_package install grub-efi-amd64-signed
-					add_package install shim-signed
-					;;
-				armhf)
-					add_package install flash-kernel u-boot-tools
-					;;
-				arm64)
-					add_package install u-boot-tools
-                                        ;;
-			esac
-			OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
+		# generic kernel etc
+		KERNEL_FLAVOURS=none
+		case $ARCH in
+			i386)
+				add_package install grub-pc
+				;;
+			amd64)
+				add_package install grub-pc-bin
+				add_package install grub-efi-amd64-signed
+				add_package install shim-signed
+				;;
+			armhf)
+				add_package install flash-kernel u-boot-tools
+				;;
+			arm64)
+				add_package install u-boot-tools
+                                ;;
+		esac
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
 
-			# contains the framework definition
-			add_package install ubuntu-core-libs
+		# contains the framework definition
+		add_package install ubuntu-core-libs
 
-			# universe needed for 'system-image-cli' and multiverse for firmware
-			COMPONENTS='main restricted universe multiverse'
-		fi
+		# universe needed for 'system-image-cli' and multiverse for firmware
+		COMPONENTS='main restricted universe multiverse'
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
@@ -561,17 +555,11 @@ case $ARCH in
 esac
 
 case $PROJECT in
-	ubuntu-server|ubuntu-core|ubuntu-base|ubuntu-touch|ubuntu-pd)
-		case $SUBPROJECT in
-			system-image)
-				# keep the kernel for the system-image build
-				;;
-			*)
-				OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-				KERNEL_FLAVOURS=none
-				BINARY_REMOVE_LINUX=false
-				;;
-		esac
+	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-pd)
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		KERNEL_FLAVOURS=none
+		BINARY_REMOVE_LINUX=false
+		;;
 esac
 
 add_chroot_hook update-apt-file-cache
