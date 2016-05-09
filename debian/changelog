@@ -1,10 +1,10 @@
-livecd-rootfs (2.410) UNRELEASED; urgency=medium
+livecd-rootfs (2.410) yakkety; urgency=medium
 
   * Rename old ubuntu-core tarballs to ubuntu-base to avoid confusion.
   * Drop special-casing of ubuntu-core:system-image in places, now that
     ubuntu-core unambiguously refers to the snappy Ubuntu Core image.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 09 May 2016 15:02:22 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 09 May 2016 16:32:58 -0700
 
 livecd-rootfs (2.409) yakkety; urgency=medium
 
