@@ -168,7 +168,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|base|ubuntu-touch|ubuntu-pd|ubuntu-cpc|ubuntu-desktop-next)
+		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-pd|ubuntu-cpc|ubuntu-desktop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -413,6 +413,10 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
+	ubuntu-base)
+		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+		;;
+
 	ubuntu-touch|ubuntu-pd)
 		if [ "$PROJECT" = "ubuntu-touch" ]; then
 			meta_package=ubuntu-touch
@@ -557,7 +561,7 @@ case $ARCH in
 esac
 
 case $PROJECT in
-	ubuntu-server|ubuntu-core|ubuntu-touch|ubuntu-pd)
+	ubuntu-server|ubuntu-core|ubuntu-base|ubuntu-touch|ubuntu-pd)
 		case $SUBPROJECT in
 			system-image)
 				# keep the kernel for the system-image build
