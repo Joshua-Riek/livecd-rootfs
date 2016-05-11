@@ -1,3 +1,9 @@
+livecd-rootfs (2.411) UNRELEASED; urgency=medium
+
+  * update kernel snap building to match the new kernel policy
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 May 2016 18:16:56 -0700
+
 livecd-rootfs (2.410) yakkety; urgency=medium
 
   * Rename old ubuntu-core tarballs to ubuntu-base to avoid confusion.

@@ -451,8 +451,16 @@ case $PROJECT:$SUBPROJECT in
         mkdir -p $TMPDIR/assets/
 
         cd chroot
-        cp -ar --parent lib/modules/ $TMPDIR/system/
-        cp -ar --parent lib/firmware/ $TMPDIR/system/
+        cp -ar lib/modules/ $TMPDIR/system/
+        cp -ar lib/firmware/ $TMPDIR/system/
+        # FIXME: compat with the old kernel spec/old initramfs that
+        #        expects lib/{modules,firmware}
+        # 
+        # FIXME2: update the initramfs-tools-ubuntu-core scripts/ubuntu-core
+        #         to look at the new location        
+        mkdir $TMPDIR/system/lib
+        ln -s $TMPDIR/system/modules $TMPDIR/system/lib
+        ln -s $TMPDIR/system/firmware $TMPDIR/system/lib
 
         # new assets handling
         if [ -f boot/vmlinu?-*.signed ]; then
@@ -562,8 +570,11 @@ EOF
         cd $HERE/snap
         kernel="$(ls vmlinuz-*)"
         initrd="$(ls initrd.img-*)"
+        # old kernel spec
         ln -s $kernel vmlinuz
         ln -s $initrd initrd.img
+        # new kernel spec
+        ln -s $kernel kernel.img
         kvers="$(ls vmlinuz-*|sed 's/^.*vmlinuz-//;s/-[a-z.]*$//')"
 
         VERSION=$kvers+$(date +20%y%m%d.%H-%M)
