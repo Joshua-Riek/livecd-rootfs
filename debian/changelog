@@ -1,6 +1,7 @@
 livecd-rootfs (2.411) UNRELEASED; urgency=medium
 
   * update kernel snap building to match the new kernel policy
+  * system-image: add /usr/local/bin/xdg-open dbus helper
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 May 2016 18:16:56 -0700
 

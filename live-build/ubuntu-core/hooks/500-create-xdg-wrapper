@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -ex
+
+echo "I: Creating xdg helper"
+
+PREFIX=binary/boot/filesystem.dir
+
+mkdir -p $PREFIX/usr/local/bin
+cat >$PREFIX/usr/local/bin/xdg-open <<EOF
+#!/bin/sh
+cat <<'EOF'
+dbus-send --print-reply --session --dest=com.canonical.SnappyUrlHelper / com.canonical.SnappyUrlHelper.XdgOpen string:"$1"
+EOF
+chmod 755 $PREFIX/usr/local/bin/xdg-open
+
