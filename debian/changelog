@@ -1,9 +1,16 @@
 livecd-rootfs (2.411) UNRELEASED; urgency=medium
 
+  [ Michael Vogt ]
   * update kernel snap building to match the new kernel policy
   * system-image: add /usr/local/bin/xdg-open dbus helper
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 10 May 2016 18:16:56 -0700
+  [ Oliver Grawert ]
+  * add u-boot-tools to all snappy arches
+  * drop flash-kernel from snappy, it is useless there
+  * create /boot/uboot dir on all arches and configure /etc/fw_env.config
+    everywhere
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 May 2016 21:01:34 +0200
 
 livecd-rootfs (2.410) yakkety; urgency=medium
 

@@ -2,10 +2,8 @@
 
 set -e
 
-case "$(dpkg --print-architecture)" in
-    arm*)
-        mkdir -p /boot/uboot
-        cat > /etc/fw_env.config <<EOF
+mkdir -p /boot/uboot
+cat > /etc/fw_env.config <<EOF
 # snappy u-boot env config
 # its crucial that we have the two entries here
 #   u-boot/tools/env/fw_env.c 
@@ -16,5 +14,3 @@ case "$(dpkg --print-architecture)" in
 /boot/uboot/uboot.env 0x0000 0x20000
 /boot/uboot/uboot.env 0x0000 0x20000
 EOF
-        ;;
-esac

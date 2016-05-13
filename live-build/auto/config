@@ -362,6 +362,8 @@ case $PROJECT in
 		# no Task: header yet
 		add_package install snapd
 		add_package install ubuntu-core-snapd-units
+                # we want all arches to have u-boot-tools
+                add_package install u-boot-tools
 
 		# no minimal as we want to be really minimal
 		#add_task install minimal
@@ -390,12 +392,6 @@ case $PROJECT in
 				add_package install grub-efi-amd64-signed
 				add_package install shim-signed
 				;;
-			armhf)
-				add_package install flash-kernel u-boot-tools
-				;;
-			arm64)
-				add_package install u-boot-tools
-                                ;;
 		esac
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
 
