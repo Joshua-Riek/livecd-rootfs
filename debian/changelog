@@ -10,6 +10,9 @@ livecd-rootfs (2.411) UNRELEASED; urgency=medium
   * create /boot/uboot dir on all arches and configure /etc/fw_env.config
     everywhere
 
+  [ Daniel Watkins ]
+  * Don't overwrite the default sources.list in cloud images.
+
  -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 May 2016 21:01:34 +0200
 
 livecd-rootfs (2.410) yakkety; urgency=medium
