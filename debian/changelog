@@ -9,8 +9,10 @@ livecd-rootfs (2.411) UNRELEASED; urgency=medium
   * drop flash-kernel from snappy, it is useless there
   * create /boot/uboot dir on all arches and configure /etc/fw_env.config
     everywhere
+  * adjust motd message on snappy (capitalize "Snappy Ubuntu Core" and replace
+    the "snappy --help" with "snap --help"
 
- -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 May 2016 21:01:34 +0200
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 25 May 2016 14:26:07 +0200
 
 livecd-rootfs (2.410) yakkety; urgency=medium
 
