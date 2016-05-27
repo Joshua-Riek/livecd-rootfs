@@ -1,4 +1,4 @@
-livecd-rootfs (2.411) UNRELEASED; urgency=medium
+livecd-rootfs (2.411) yakkety; urgency=medium
 
   [ Michael Vogt ]
   * update kernel snap building to match the new kernel policy
@@ -17,7 +17,7 @@ livecd-rootfs (2.411) UNRELEASED; urgency=medium
   * Move touch resolution hints to a HINTS variable, and adjust for use
     on dual-stack gl/gles arches where things don't quite work right.
 
- -- Oliver Grawert <ogra@ubuntu.com>  Wed, 25 May 2016 14:26:07 +0200
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 26 May 2016 21:05:28 -0600
 
 livecd-rootfs (2.410) yakkety; urgency=medium
 
