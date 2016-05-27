@@ -12,6 +12,9 @@ livecd-rootfs (2.411) UNRELEASED; urgency=medium
   * adjust motd message on snappy (capitalize "Snappy Ubuntu Core" and replace
     the "snappy --help" with "snap --help"
 
+  [ Adam Conrad ]
+  * Stop explicitly removing systemd-sysv for touch.
+
  -- Oliver Grawert <ogra@ubuntu.com>  Wed, 25 May 2016 14:26:07 +0200
 
 livecd-rootfs (2.410) yakkety; urgency=medium

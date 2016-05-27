@@ -413,7 +413,7 @@ case $PROJECT in
 		else
 			meta_package=ubuntu-pocket-desktop
 		fi
-		add_package install ubuntu-minimal $meta_package systemd-sysv- packagekit ubuntu-system-settings-online-accounts
+		add_package install ubuntu-minimal $meta_package packagekit ubuntu-system-settings-online-accounts
 
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
