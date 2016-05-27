@@ -1,4 +1,4 @@
-livecd-rootfs (2.412) UNRELEASED; urgency=medium
+livecd-rootfs (2.412) yakkety; urgency=medium
 
   * rename the ubuntu-core snap to simply be "core", update the package
     summary too
