@@ -332,7 +332,7 @@ if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
         cat > $rootfs/meta/snap.yaml <<EOF
 name: core
 version: $VERSION
-summary: The core runtime execution environment for snapd
+summary: The core runtime environment for snapd
 architectures: [$ARCH]
 type: os
 EOF
