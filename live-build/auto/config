@@ -413,7 +413,13 @@ case $PROJECT in
 		else
 			meta_package=ubuntu-pocket-desktop
 		fi
-		add_package install ubuntu-minimal $meta_package packagekit ubuntu-system-settings-online-accounts
+		HINTS="packagekit ubuntu-system-settings-online-accounts"
+		case $ARCH in
+		    amd64|i386)
+			HINTS="$HINTS qml-module-ubuntu-components-gles unity8"
+			;;
+		esac
+		add_package install ubuntu-minimal $meta_package $HINTS
 
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
