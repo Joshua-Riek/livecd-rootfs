@@ -330,9 +330,9 @@ if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
         VERSION="$(lsb_release -r -s)+$(date +20%y%m%d.%H-%M)"
 
         cat > $rootfs/meta/snap.yaml <<EOF
-name: ubuntu-core
+name: core
 version: $VERSION
-summary: The ubuntu-core OS snap
+summary: The core runtime execution environment for snapd
 architectures: [$ARCH]
 type: os
 EOF
@@ -340,7 +340,7 @@ EOF
         apt-get -y install snapcraft
         snapcraft snap $rootfs
 
-        snapfile="$(ls ubuntu-core*.snap)"
+        snapfile="$(ls core*.snap)"
         cp -a $snapfile $PREFIX.os.snap
     fi
 fi

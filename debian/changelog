@@ -1,3 +1,10 @@
+livecd-rootfs (2.412) UNRELEASED; urgency=medium
+
+  * rename the ubuntu-core snap to simply be "core", update the package
+    summary too
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Fri, 27 May 2016 10:45:38 +0200
+
 livecd-rootfs (2.411) yakkety; urgency=medium
 
   [ Michael Vogt ]
