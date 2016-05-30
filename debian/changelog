@@ -1,4 +1,4 @@
-livecd-rootfs (2.413) UNRELEASED; urgency=medium
+livecd-rootfs (2.413) yakkety; urgency=medium
 
   * name switch from ubuntu-core to just core was postponed ... temporarily
     revert this bit til we have the necessary snapd bits in place.
