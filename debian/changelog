@@ -1,3 +1,10 @@
+livecd-rootfs (2.413) UNRELEASED; urgency=medium
+
+  * name switch from ubuntu-core to just core was postponed ... temporarily
+    revert this bit til we have the necessary snapd bits in place.
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Mon, 30 May 2016 17:43:40 +0200
+
 livecd-rootfs (2.412) yakkety; urgency=medium
 
   * rename the ubuntu-core snap to simply be "core", update the package

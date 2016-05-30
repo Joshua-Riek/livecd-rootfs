@@ -330,7 +330,7 @@ if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
         VERSION="$(lsb_release -r -s)+$(date +20%y%m%d.%H-%M)"
 
         cat > $rootfs/meta/snap.yaml <<EOF
-name: core
+name: ubuntu-core
 version: $VERSION
 summary: The core runtime environment for snapd
 architectures: [$ARCH]
