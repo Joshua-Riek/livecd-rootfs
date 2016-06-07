@@ -1,4 +1,4 @@
-livecd-rootfs (2.414) UNRELEASED; urgency=medium
+livecd-rootfs (2.414) yakkety; urgency=medium
 
   * Update post-debootstrap hashes for ubuntu-touch.
 
