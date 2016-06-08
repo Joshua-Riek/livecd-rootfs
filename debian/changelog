@@ -12,6 +12,9 @@ livecd-rootfs (2.411) UNRELEASED; urgency=medium
 
   [ Daniel Watkins ]
   * Don't overwrite the default sources.list in cloud images.
+  * Replace sources.list generated using COMPONENTS with the sources.list from
+    an Ubuntu Server installation (i.e. with all components enabled, and all
+    deb-src lines commented).
 
  -- Oliver Grawert <ogra@ubuntu.com>  Fri, 13 May 2016 21:01:34 +0200
 
