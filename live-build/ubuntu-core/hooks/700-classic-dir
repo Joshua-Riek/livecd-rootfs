@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# removing debian packaging artifacts
+
+set -ex
+
+echo "I: Adding var/lib/snapd/classic"
+
+PREFIX=binary/boot/filesystem.dir
+
+(cd $PREFIX
+ install -m755 -d var/lib/snapd/classic
+)
