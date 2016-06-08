@@ -58,116 +58,56 @@ EOF
 # preinstalled being slightly different in what it doesn't ask) from
 # debian-installer's apt-setup:
 
-codename=$LB_DISTRIBUTION
-file="chroot/etc/apt/sources.list"
-dists="main"
-alldists="main"
-if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q restricted; then
-	dists="$dists restricted"
-	alldists="$alldists restricted"
-fi
-if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q universe; then
-	UNIVERSE=true
-else
-	UNIVERSE=false
-fi
-if echo "$LB_PARENT_ARCHIVE_AREAS" | grep -q multiverse; then
-	MULTIVERSE=true
-else
-	MULTIVERSE=false
-fi
-
-cat > $file <<EOF
+cat > chroot/etc/apt/sources.list << EOF
 # See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
 # newer versions of the distribution.
-
-deb $LB_PARENT_MIRROR_BINARY $codename $dists
-deb-src $LB_PARENT_MIRROR_BINARY $codename $dists
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
 
 ## Major bug fix updates produced after the final release of the
 ## distribution.
-deb $LB_PARENT_MIRROR_BINARY $codename-updates $dists
-deb-src $LB_PARENT_MIRROR_BINARY $codename-updates $dists
-EOF
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
 
-# Even if universe isn't enabled, we write example lines for it.
-echo >> $file
-if [ "$UNIVERSE" = true ]; then
-	alldists="$alldists universe"
-	COMMENT=
-else
-	cat >> $file <<EOF
-## Uncomment the following two lines to add software from the 'universe'
-## repository.
-EOF
-	COMMENT='# '
-fi
-cat >> $file <<EOF
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team. Also, please note that software in universe WILL NOT receive any
 ## review or updates from the Ubuntu security team.
-${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename universe
-${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename universe
-${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-updates universe
-${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-updates universe
-EOF
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
 
-# Multiverse is different, don't write anything unless enabled.
-if [ "$MULTIVERSE" = true ]; then
-	alldists="$alldists multiverse"
-	cat >> $file <<EOF
-
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu 
-## team, and may not be under a free licence. Please satisfy yourself as to 
-## your rights to use the software. Also, please note that software in 
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
 ## multiverse WILL NOT receive any review or updates from the Ubuntu
 ## security team.
-deb $LB_PARENT_MIRROR_BINARY $codename multiverse
-deb-src $LB_PARENT_MIRROR_BINARY $codename multiverse
-deb $LB_PARENT_MIRROR_BINARY $codename-updates multiverse
-deb-src $LB_PARENT_MIRROR_BINARY $codename-updates multiverse
-EOF
-fi
-
-cat >> $file <<EOF
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
 
 ## N.B. software from this repository may not have been tested as
 ## extensively as that contained in the main release, although it includes
 ## newer versions of some applications which may provide useful features.
 ## Also, please note that software in backports WILL NOT receive any review
 ## or updates from the Ubuntu security team.
-# deb $LB_PARENT_MIRROR_BINARY $codename-backports $alldists
-# deb-src $LB_PARENT_MIRROR_BINARY $codename-backports $alldists
-EOF
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
 
-cat >> $file <<EOF
+## Uncomment the following two lines to add software from Canonical's
+## 'partner' repository.
+## This software is not part of Ubuntu, but is offered by Canonical and the
+## respective vendors as a service to Ubuntu users.
+# deb http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
+# deb-src http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
 
-deb $LB_PARENT_MIRROR_BINARY $codename-security $dists
-deb-src $LB_PARENT_MIRROR_BINARY $codename-security $dists
-EOF
-
-# Security sources for Ubuntu universe; not used much, but e.g. unsupported
-# binary packages from a supported source package will end up here.
-if [ "$UNIVERSE" = true ]; then
-        COMMENT=
-else
-        COMMENT='# '
-fi
-cat >> $file <<EOF
-${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-security universe
-${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-security universe
-EOF
-
-# Security sources for Ubuntu multiverse, with the same caveats as for
-# universe.
-if [ "$MULTIVERSE" = true ]; then
-        COMMENT=
-else
-        COMMENT='# '
-fi
-cat >> $file <<EOF
-${COMMENT}deb $LB_PARENT_MIRROR_BINARY $codename-security multiverse
-${COMMENT}deb-src $LB_PARENT_MIRROR_BINARY $codename-security multiverse
+deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security main restricted
+deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security universe
+# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security universe
+deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security multiverse
 EOF
 
 	fi
@@ -251,16 +191,6 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 build_name: server
 serial: $BUILDSTAMP
 EOF
-		cat > chroot/etc/apt/sources.list << EOF
-deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION} main restricted universe multiverse
-deb ${LB_PARENT_MIRROR_BINARY} ${LB_DISTRIBUTION}-updates main restricted universe multiverse
-deb ${LB_PARENT_MIRROR_BINARY_SECURITY} ${LB_DISTRIBUTION}-security main restricted universe multiverse
-EOF
-		lb chroot_hosts install
-		lb chroot_resolv install
-		Chroot chroot "apt-get update"
-		lb chroot_resolv remove
-		lb chroot_hosts remove
 	fi
 
 	echo "===== Checking size of /usr/share/doc ====="
