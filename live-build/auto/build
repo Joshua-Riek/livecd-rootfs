@@ -70,10 +70,8 @@ deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
 # deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team, and may not be under a free licence. Please satisfy yourself as to
-## your rights to use the software. Also, please note that software in
-## universe WILL NOT receive any review or updates from the Ubuntu security
-## team.
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
 deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
 # deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
 deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
