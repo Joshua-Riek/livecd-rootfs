@@ -24,7 +24,7 @@ fi
 
 if [ ! -e ${base_vmdk} ]; then
     find . | grep vmdk
-    exit 0
+    exit 1
 fi
 
 # Lets be safe about this
