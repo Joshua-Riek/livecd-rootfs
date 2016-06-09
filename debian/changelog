@@ -6,6 +6,9 @@ livecd-rootfs (2.416) UNRELEASED; urgency=medium
       image.
     - Remove '-disk1' from bootable image names.
 
+  [ Phil Roche ]
+  * Removed HWCLOCKACCESS=no from /etc/default/rcS (LP: #1581044)
+
  -- Daniel Watkins <daniel.watkins@canonical.com>  Thu, 09 Jun 2016 10:34:13 +0100
 
 livecd-rootfs (2.415) yakkety; urgency=medium
