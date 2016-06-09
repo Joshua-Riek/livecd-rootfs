@@ -4,6 +4,7 @@ livecd-rootfs (2.416) UNRELEASED; urgency=medium
     - Remove .tar.gz and .tar.xz (removed in favour of the squashfs).
     - Remove the MBR-only disk image in favour of the shared GPT/MBR UEFI
       image.
+    - Remove '-disk1' from bootable image names.
 
  -- Daniel Watkins <daniel.watkins@canonical.com>  Thu, 09 Jun 2016 10:34:13 +0100
 
