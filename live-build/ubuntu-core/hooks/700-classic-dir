@@ -4,10 +4,10 @@
 
 set -ex
 
-echo "I: Adding var/lib/snapd/classic"
+echo "I: Adding var/lib/snapd/hostfs"
 
 PREFIX=binary/boot/filesystem.dir
 
 (cd $PREFIX
- install -m755 -d var/lib/snapd/classic
+ install -m755 -d var/lib/snapd/hostfs
 )
