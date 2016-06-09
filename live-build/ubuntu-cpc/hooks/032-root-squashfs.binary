@@ -4,16 +4,43 @@
 # Generate a squashfs root and manifest
 
 if [ -n "$SUBARCH" ]; then
+	echo "Skipping rootfs build for subarch flavor build"
 	exit 0
 fi
+
+. /build/config/functions
+
+mkdir binary/boot/squashfs.dir
+cp -a chroot/* binary/boot/squashfs.dir
+
+setup_mountpoint binary/boot/squashfs.dir
+
+chroot binary/boot/squashfs.dir dpkg-divert --local --rename /usr/sbin/grub-probe
+chroot binary/boot/squashfs.dir touch /usr/sbin/grub-probe
+chroot binary/boot/squashfs.dir chmod +x /usr/sbin/grub-probe
+
+env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
+env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --purge remove --assume-yes '^grub-.*'
+env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get autoremove --purge --assume-yes
+chroot binary/boot/squashfs.dir mkdir /lib/modules
+
+chroot binary/boot/squashfs.dir rm /usr/sbin/grub-probe
+chroot binary/boot/squashfs.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
+
+mv resolv.conf.tmp "binary/boot/squashfs.dir/etc/resolv.conf"
+umount "binary/boot/squashfs.dir/proc"
+umount "binary/boot/squashfs.dir/sys"
+umount "binary/boot/squashfs.dir/dev/pts"
+umount "binary/boot/squashfs.dir/dev"
+umount "binary/boot/squashfs.dir/tmp"
 
 apt-get -qqy install squashfs-tools
 
 squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
 squashfs_f_manifest="${squashfs_f}.manifest"
 
-dpkg-query --admindir=binary/boot/filesystem.dir/var/lib/dpkg -W > ${squashfs_f_manifest}
+dpkg-query --admindir=binary/boot/squashfs.dir/var/lib/dpkg -W > ${squashfs_f_manifest}
 
-(cd "binary/boot/filesystem.dir/" &&
+(cd "binary/boot/squashfs.dir/" &&
       mksquashfs . ${squashfs_f} \
         -no-progress -xattrs -comp xz )

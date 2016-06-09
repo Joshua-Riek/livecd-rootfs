@@ -1,3 +1,12 @@
+livecd-rootfs (2.416) UNRELEASED; urgency=medium
+
+  * Consolidate cloud images
+    - Remove .tar.gz and .tar.xz (removed in favour of the squashfs).
+    - Remove the MBR-only disk image in favour of the shared GPT/MBR UEFI
+      image.
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Thu, 09 Jun 2016 10:34:13 +0100
+
 livecd-rootfs (2.415) yakkety; urgency=medium
 
   [ Michael Vogt ]
