@@ -727,8 +727,8 @@ case $PROJECT:$SUBPROJECT in
 
 		cat > config/archives/dvd.list.binary << EOF
 deb $LB_PARENT_MIRROR_BINARY $SUITE universe multiverse
-deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-updates universe multiverse
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $SUITE-security universe multiverse
 EOF
 		if [ "$PROPOSED" ]; then
 			cat >> config/archives/dvd.list.binary << EOF

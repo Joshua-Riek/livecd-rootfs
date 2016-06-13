@@ -1,3 +1,9 @@
+livecd-rootfs (2.417) yakkety; urgency=medium
+
+  * Swap order of security and updates in dvd sources.list.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 13 Jun 2016 05:11:00 -0600
+
 livecd-rootfs (2.416) yakkety; urgency=medium
 
   * Fix security mirror sources.list entries for non-x86 architectures.
