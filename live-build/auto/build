@@ -102,12 +102,12 @@ deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe
 # deb http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
 # deb-src http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
 
-deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security main restricted
-# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security main restricted
-deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security universe
-# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security universe
-deb http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security multiverse
-# deb-src http://security.ubuntu.com/ubuntu $LB_DISTRIBUTION-security multiverse
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
 EOF
 
 	fi

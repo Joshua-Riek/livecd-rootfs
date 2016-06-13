@@ -1,3 +1,9 @@
+livecd-rootfs (2.416) yakkety; urgency=medium
+
+  * Fix security mirror sources.list entries for non-x86 architectures.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 13 Jun 2016 02:20:02 -0600
+
 livecd-rootfs (2.415) yakkety; urgency=medium
 
   [ Michael Vogt ]
