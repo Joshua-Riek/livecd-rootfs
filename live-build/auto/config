@@ -316,9 +316,6 @@ case $PROJECT in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
 		COMPONENTS='main restricted universe multiverse'
-		# The Ubuntu MATE STRUCTURE file has "feature
-		# no-follow-recommends".  Mirror this.
-		export APT_OPTIONS="--yes --no-install-recommends"
 		;;
 
 	ubuntustudio-dvd)
