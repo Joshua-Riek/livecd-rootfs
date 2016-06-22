@@ -1,9 +1,9 @@
-livecd-rootfs (2.418) UNRELEASED; urgency=medium
+livecd-rootfs (2.418) yakkety; urgency=medium
 
   * Ubuntu-MATE now does follow Recommends; adjust the configuration for it
     to not pass --no-install-recommends.
 
- -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Wed, 22 Jun 2016 13:41:15 -0400
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Wed, 22 Jun 2016 13:42:37 -0400
 
 livecd-rootfs (2.417) yakkety; urgency=medium
 
