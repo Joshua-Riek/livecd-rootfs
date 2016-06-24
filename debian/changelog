@@ -1,3 +1,13 @@
+livecd-rootfs (2.418ubuntu1) UNRELEASED; urgency=medium
+
+  [ Louis Zuckerman ]
+  * Fixes for vagrant box builder in ubuntu-cpc LP: #1565985
+  * Install vagrant base box packages
+  * Don't disable default synced folder
+  * Don't set vm name
+
+ -- Louis Zuckerman <me@louiszuckerman.com>  Fri, 24 Jun 2016 09:01:45 -0400
+
 livecd-rootfs (2.418) yakkety; urgency=medium
 
   * Ubuntu-MATE now does follow Recommends; adjust the configuration for it
