@@ -3,8 +3,6 @@
 #
 # Generate VMDK files
 
-extension="disk1.vmdk"
-
 case $ARCH in
          i386|amd64) ;;
                   *) echo "VMDK images are not supported for $ARCH yet.";
@@ -13,10 +11,8 @@ esac
 
 . /build/config/functions
 
-if [ -e binary/boot/disk.ext4 ]; then
-    create_vmdk binary/boot/disk.ext4 livecd.ubuntu-cpc.disk1.vmdk
-fi
-
 if [ -e binary/boot/disk-uefi.ext4 ]; then
-    create_vmdk binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.uefi.vmdk
+    create_vmdk binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.vmdk
+elif [ -f binary/boot/disk.ext4 ]; then
+    create_vmdk binary/boot/disk.ext4 livecd.ubuntu-cpc.vmdk
 fi

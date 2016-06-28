@@ -17,14 +17,14 @@ esac
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
-base_vmdk="livecd.ubuntu-cpc.disk1.vmdk"
+base_vmdk="livecd.ubuntu-cpc.vmdk"
 if [ "$ARCH" = "amd64" ]; then
-    base_vmdk="livecd.ubuntu-cpc.uefi.vmdk"
+    base_vmdk="livecd.ubuntu-cpc.vmdk"
 fi
 
 if [ ! -e ${base_vmdk} ]; then
     find . | grep vmdk
-    exit 0
+    exit 1
 fi
 
 # Lets be safe about this

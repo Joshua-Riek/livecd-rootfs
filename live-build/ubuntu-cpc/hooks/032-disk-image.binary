@@ -12,6 +12,10 @@ case $ARCH:$SUBARCH in
 		echo "POWER disk images are handled separately"
 		exit 0
 		;;
+	amd64|arm64)
+		echo "We only create EFI images for $ARCH."
+		exit 0
+		;;
 	armhf:raspi2)
 		# matches the size of the snappy image
 		IMAGE_SIZE=$((4*1000*1000*1000))
