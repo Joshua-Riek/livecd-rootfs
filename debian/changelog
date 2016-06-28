@@ -1,4 +1,4 @@
-livecd-rootfs (2.419) UNRELEASED; urgency=medium
+livecd-rootfs (2.419) yakkety; urgency=medium
 
   [ Daniel Watkins ]
   * Consolidate cloud images
@@ -10,7 +10,7 @@ livecd-rootfs (2.419) UNRELEASED; urgency=medium
   [ Phil Roche ]
   * Removed HWCLOCKACCESS=no from /etc/default/rcS (LP: #1581044)
 
- -- Daniel Watkins <daniel.watkins@canonical.com>  Thu, 09 Jun 2016 10:34:13 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 28 Jun 2016 16:21:08 -0700
 
 livecd-rootfs (2.418) yakkety; urgency=medium
 
