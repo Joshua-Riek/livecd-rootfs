@@ -135,7 +135,7 @@ case $IMAGEFORMAT in
 
 	*)
 		case $PROJECT in
-			ubuntu-server|ubuntu-touch|ubuntu-pd)
+			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
 				;;
 			*)
 				add_package live lupin-casper
@@ -168,7 +168,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-pd|ubuntu-cpc|ubuntu-desktop-next)
+		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc|ubuntu-desktop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -404,19 +404,14 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
-	ubuntu-touch|ubuntu-pd)
-		if [ "$PROJECT" = "ubuntu-touch" ]; then
-			meta_package=ubuntu-touch
-		else
-			meta_package=ubuntu-pocket-desktop
-		fi
+	ubuntu-touch|ubuntu-touch-custom)
 		HINTS="packagekit ubuntu-system-settings-online-accounts"
 		case $ARCH in
 		    amd64|i386)
 			HINTS="$HINTS qml-module-ubuntu-components-gles unity8"
 			;;
 		esac
-		add_package install ubuntu-minimal $meta_package $HINTS
+		add_package install ubuntu-minimal ubuntu-touch $HINTS
 
 		COMPONENTS='main restricted universe'
 		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
@@ -554,7 +549,7 @@ case $ARCH in
 esac
 
 case $PROJECT in
-	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-pd)
+	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-touch-custom)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -734,7 +729,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-pd:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*)
+	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;

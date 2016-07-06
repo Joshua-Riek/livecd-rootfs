@@ -1,3 +1,25 @@
+livecd-rootfs (2.420) UNRELEASED; urgency=medium
+
+  * Remove the ubuntu-pd project from the scripts
+  * Add instead an ubuntu-touch-custom project for custom re-builds of
+    ubuntu-touch 
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 06 Jul 2016 12:57:44 +0200
+
+livecd-rootfs (2.419) yakkety; urgency=medium
+
+  [ Daniel Watkins ]
+  * Consolidate cloud images
+    - Remove .tar.gz and .tar.xz (removed in favour of the squashfs).
+    - Remove the MBR-only disk image in favour of the shared GPT/MBR UEFI
+      image.
+    - Remove '-disk1' from bootable image names.
+
+  [ Phil Roche ]
+  * Removed HWCLOCKACCESS=no from /etc/default/rcS (LP: #1581044)
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 28 Jun 2016 16:21:08 -0700
+
 livecd-rootfs (2.418ubuntu1) UNRELEASED; urgency=medium
 
   [ Louis Zuckerman ]
