@@ -13,7 +13,7 @@ livecd-rootfs (2.420) UNRELEASED; urgency=medium
   * Add instead an ubuntu-touch-custom project for custom re-builds of
     ubuntu-touch 
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com> Wed, 06 Jul 2016 12:57:44 +0200
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 06 Jul 2016 12:57:44 +0200
 
 livecd-rootfs (2.419) yakkety; urgency=medium
 
