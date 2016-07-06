@@ -1,16 +1,19 @@
 livecd-rootfs (2.420ubuntu1) UNRELEASED; urgency=medium
 
-  [ Łukasz 'sil2100' Zemczak ]
-  * Remove the ubuntu-pd project from the scripts
-  * Add instead an ubuntu-touch-custom project for custom re-builds of
-    ubuntu-touch 
-
   [ Louis Zuckerman ]
   * Fixes for vagrant box builder in ubuntu-cpc LP: #1565985
   * Remove extra packages added on 24 Jun 2016 except virtualbox-guest stuff
   * Add cloud-init config to manage /etc/hosts for localhost
 
- -- Louis Zuckerman <me@louiszuckerman.com>  Wed, 06 Jul 2016 13:51:20 +0000
+ -- Louis Zuckerman <me@louiszuckerman.com>  Wed, 06 Jul 2016 09:51:20 -0400
+
+livecd-rootfs (2.420) UNRELEASED; urgency=medium
+
+  * Remove the ubuntu-pd project from the scripts
+  * Add instead an ubuntu-touch-custom project for custom re-builds of
+    ubuntu-touch 
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com> Wed, 06 Jul 2016 12:57:44 +0200
 
 livecd-rootfs (2.419) yakkety; urgency=medium
 
