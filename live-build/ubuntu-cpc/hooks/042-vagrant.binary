@@ -37,21 +37,14 @@ trap "rm -rf ${box_d} ${seed_d} ${mount_d}" EXIT
 
 pkgs=(virtualbox-guest-dkms
       virtualbox-guest-utils
-      linux-headers-generic
-      nfs-common
-      python-apport
-      puppet
-      chef
-      byobu
-      juju
-      ruby
-      libnss-myhostname
 )
 # Package list from: http://bazaar.launchpad.net/~ubuntu-on-ec2/vmbuilder/jenkins_kvm/view/head:/templates/img-vagrant.tmpl#L249
 
 create_derivative "disk" "vagrant" #sets ${derivative_img}
 mount_disk_image ${derivative_img} ${mount_d}
+env DEBIAN_FRONTEND=noninteractive chroot ${mount_d} apt-get update
 env DEBIAN_FRONTEND=noninteractive chroot ${mount_d} apt-get install --no-install-recommends -y ${pkgs[@]}
+env DEBIAN_FRONTEND=noninteractive chroot ${mount_d} apt-get clean
 umount_disk_image ${mount_d}
 
 # Used to identify bits
@@ -86,6 +79,7 @@ cat > ${seed_d}/user-data <<END
 password: ${ubuntu_user_pass}
 chpasswd: { expire: False }
 ssh_pwauth: True
+manage_etc_hosts: localhost
 END
 
 # Create the fake meta-data
