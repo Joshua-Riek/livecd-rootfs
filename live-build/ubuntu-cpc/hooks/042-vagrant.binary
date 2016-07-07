@@ -38,7 +38,6 @@ trap "rm -rf ${box_d} ${seed_d} ${mount_d}" EXIT
 pkgs=(virtualbox-guest-dkms
       virtualbox-guest-utils
 )
-# Package list from: http://bazaar.launchpad.net/~ubuntu-on-ec2/vmbuilder/jenkins_kvm/view/head:/templates/img-vagrant.tmpl#L249
 
 create_derivative "disk" "vagrant" #sets ${derivative_img}
 mount_disk_image ${derivative_img} ${mount_d}
