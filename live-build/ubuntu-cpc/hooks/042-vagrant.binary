@@ -44,12 +44,8 @@ cleanup_vagrant() {
 }
 trap cleanup_vagrant EXIT
 
-pkgs=(virtualbox-guest-dkms
-      virtualbox-guest-utils
-)
-
 chroot ${mount_d} apt-get update
-chroot ${mount_d} apt-get install --no-install-recommends -y ${pkgs[@]}
+chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-utils
 chroot ${mount_d} apt-get clean
 
 # Used to identify bits
