@@ -1,4 +1,4 @@
-livecd-rootfs (2.420) UNRELEASED; urgency=medium
+livecd-rootfs (2.420) yakkety; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Remove the ubuntu-pd project from the scripts
