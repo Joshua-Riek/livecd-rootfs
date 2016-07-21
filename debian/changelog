@@ -1,4 +1,4 @@
-livecd-rootfs (2.421) UNRELEASED; urgency=medium
+livecd-rootfs (2.421) yakkety; urgency=medium
 
   [ Louis Zuckerman ]
   * Fixes for vagrant box builder in ubuntu-cpc LP: #1565985
@@ -7,7 +7,7 @@ livecd-rootfs (2.421) UNRELEASED; urgency=medium
     - Don't set vm name
     - Add cloud-init config to manage /etc/hosts LP: #1561250
 
- -- Louis Zuckerman <me@louiszuckerman.com>  Wed, 06 Jul 2016 09:51:20 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 21 Jul 2016 09:14:50 -0700
 
 livecd-rootfs (2.420) yakkety; urgency=medium
 
