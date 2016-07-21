@@ -1,3 +1,14 @@
+livecd-rootfs (2.421) UNRELEASED; urgency=medium
+
+  [ Louis Zuckerman ]
+  * Fixes for vagrant box builder in ubuntu-cpc LP: #1565985
+    - Install virtualbox-guest-utils
+    - Don't disable default synced folder
+    - Don't set vm name
+    - Add cloud-init config to manage /etc/hosts LP: #1561250
+
+ -- Louis Zuckerman <me@louiszuckerman.com>  Wed, 06 Jul 2016 09:51:20 -0400
+
 livecd-rootfs (2.420) yakkety; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]

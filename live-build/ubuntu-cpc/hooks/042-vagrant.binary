@@ -1,21 +1,22 @@
-#!/bin/bash -eux
+#!/bin/bash -ex
 # vi: ts=4 noexpandtab
 #
 # Generate a generic Vagrant Box.
 #
-# Vagrant images are essentially nothing more than OVA's with extra-metadata.
+# Vagrant images are essentially nothing more than OVA's with extra-metadata
+# and some preinstalled packages.
 #
-# We can't use the OVA's for Vagrant since Vagrant uses SSH to modify the instance.
-# This build step creates a cloud-config ISO so that Cloud-Init will configure
-# the initial user, creates meta-data that tells Vagrant how to interact with
-# the cloud-init created users, and finally create the OVA.
+# We can't use the OVA's for Vagrant since Vagrant uses SSH to modify the
+# instance. This build step creates a cloud-config ISO so that Cloud-Init
+# will configure the initial user, creates meta-data that tells Vagrant how
+# to interact with the cloud-init created users, and finally create the OVA.
 #
-# For this step, we re-use the VMDK's made in 040-vmdk-image.binary
+# For this step, we make a deriviative of binary/boot/disk.ext4 and install
+# some packages in it, convert it to a vmdk, and then assemble the vagrant
+# box.
 
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
-
-base_vmdk="livecd.ubuntu-cpc.vmdk"
 
 case $ARCH in
 	amd64|i386) ;;
@@ -23,11 +24,6 @@ case $ARCH in
 		echo "Vagrant images are not supported for $ARCH"
 		exit 0
 esac
-
-if [ ! -e ${base_vmdk} ]; then
-	echo "Did not find VMDK to produce Vagrant images."
-    exit 0
-fi
 
 . /build/config/functions
 
@@ -37,7 +33,22 @@ apt-get -qqy install genisoimage qemu-utils
 # Lets be safe about this
 box_d=$(mktemp -d)
 seed_d=$(mktemp -d)
-trap "rm -rf ${box_d} ${seed_d}" EXIT
+mount_d=$(mktemp -d)
+
+create_derivative "disk" "vagrant" #sets ${derivative_img}
+mount_disk_image ${derivative_img} ${mount_d}
+
+cleanup_vagrant() {
+    umount_disk_image ${mount_d}
+    rm -rf ${box_d} ${seed_d} ${mount_d} ${derivative_img}
+}
+trap cleanup_vagrant EXIT
+
+chroot ${mount_d} apt-get update
+# virtualbox-guest-utils Recommends: virtualbox-guest-x11, which we want to
+# avoid pulling into a cloud image.
+chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-utils
+chroot ${mount_d} apt-get clean
 
 # Used to identify bits
 suite=$(chroot chroot lsb_release -c -s)
@@ -47,7 +58,7 @@ distro=$(chroot chroot lsb_release --id --short | tr [:upper:] [:lower:])
 # Get the VMDK in place
 prefix="${distro}-${suite}-${version}-cloudimg"
 vmdk_f="${box_d}/${prefix}.vmdk"
-cp ${base_vmdk} ${vmdk_f}
+create_vmdk ${derivative_img} ${vmdk_f}
 
 # Vagrant needs a base user. We either inject the well-known SSH key
 # or use password authentication. Both are ugly. So we'll use a password
@@ -70,6 +81,7 @@ cat > ${seed_d}/user-data <<END
 password: ${ubuntu_user_pass}
 chpasswd: { expire: False }
 ssh_pwauth: True
+manage_etc_hosts: localhost
 END
 
 # Create the fake meta-data
@@ -111,15 +123,11 @@ Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
   config.ssh.username = "ubuntu"
   config.ssh.password = "${ubuntu_user_pass}"
-  config.vm.synced_folder '.', '/vagrant', disabled: true
 
   config.vm.provider "virtualbox" do |vb|
-     vb.name = "${prefix}"
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
-     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File.join(Dir.pwd, "%s-console.log" % vb.name) ]
+     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File.join(Dir.pwd, "${prefix}-console.log") ]
   end
-
-
 end
 EOF
 
@@ -151,10 +159,10 @@ cp ${my_d}/ovf/ubuntu-ova-v1-cloudcfg-vmdk.tmpl ${ovf}
 serial_stamp=$(date +%Y%m%d)
 sed -i "${ovf}" \
     -e "s/@@NAME@@/${prefix}-${serial_stamp}/g" \
-	-e "s/@@FILENAME1@@/${vmdk_f##*/}/g" \
+    -e "s/@@FILENAME1@@/${vmdk_f##*/}/g" \
     -e "s/@@VMDK_FILE_SIZE@@/${vmdk_size}/g" \
     -e "s/@@VMDK_CAPACITY@@/${vmdk_capacity}/g" \
-	-e "s/@@FILENAME2@@/${cdrom_vmdk_f##*/}/g" \
+    -e "s/@@FILENAME2@@/${cdrom_vmdk_f##*/}/g" \
     -e "s/@@VMDK_FILE_SIZE2@@/${cdrom_size}/g" \
     -e "s/@@VMDK_CAPACITY2@@/${cdrom_capacity}/g" \
     -e "s/@@NUM_CPUS@@/2/g" \
@@ -181,16 +189,16 @@ OVA information:
     VMDK Name:      ${vmdk_f##*/}
     VMDK Capacity:  ${vmdk_capacity}
     VMDK SHA256:    ${vmdk_sha256}
-	CDROM Name:     ${cdrom_vmdk_f##*/}
+    CDROM Name:     ${cdrom_vmdk_f##*/}
     CDROM Capacity: ${cdrom_capacity}
-	CDROM SHA256:   ${cdrom_sha256}
+    CDROM SHA256:   ${cdrom_sha256}
 EOM
 
 tar -C ${box_d} \
     -cf ${cur_d}/livecd.ubuntu-cpc.vagrant.box \
     box.ovf \
-	Vagrantfile \
-	metadata.json \
+    Vagrantfile \
+    metadata.json \
     ${prefix}.mf \
     ${vmdk_f##*/} \
-	${cdrom_vmdk_f##*/}
+    ${cdrom_vmdk_f##*/}
