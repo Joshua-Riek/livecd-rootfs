@@ -1,4 +1,4 @@
-livecd-rootfs (2.420ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.420) UNRELEASED; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Remove the ubuntu-pd project from the scripts
@@ -7,6 +7,7 @@ livecd-rootfs (2.420ubuntu1) UNRELEASED; urgency=medium
 
   [ Oliver Grawert ]
   * sanitize the version number of the ubuntu-core snap
+  * sanitize the version number of the kernel snap
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 19 Jul 2016 13:59:16 +0200
 

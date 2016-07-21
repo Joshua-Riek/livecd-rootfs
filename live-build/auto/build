@@ -257,7 +257,9 @@ if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
             mkdir -p $rootfs/$dir
         done
 
-        VERSION="$(lsb_release -r -s)"
+        # get a proper version from the chroot
+        . $rootfs/etc/os-release
+        VERSION="$(echo $PRETTY_NAME | sed 's/[^0-9.]*//g')"
 
         CORENAME="ubuntu-core"
         cat > $rootfs/meta/snap.yaml <<EOF
@@ -508,7 +510,7 @@ EOF
         ln -s $kernel kernel.img
         kvers="$(ls vmlinuz-*|sed 's/^.*vmlinuz-//;s/-[a-z.]*$//')"
 
-        VERSION=$kvers+$(date +20%y%m%d.%H-%M)
+        VERSION=$kvers
 
         cat > meta/kernel.yaml <<EOF
 version: $kvers
