@@ -9,7 +9,7 @@ PREFIX=binary/boot/filesystem.dir
 mkdir -p $PREFIX/usr/local/bin
 cat >$PREFIX/usr/local/bin/xdg-open <<EOF
 #!/bin/sh
-dbus-send --print-reply --session --dest=com.canonical.SafeLauncher / com.canonical.SafeLauncher.OpenURL string:"$1"
+dbus-send --print-reply --session --dest=com.canonical.SafeLauncher / com.canonical.SafeLauncher.OpenURL string:"\$1"
 EOF
 chmod 755 $PREFIX/usr/local/bin/xdg-open
 
