@@ -1,3 +1,12 @@
+livecd-rootfs (2.422) yakkety; urgency=medium
+
+  * live-build/ubuntu-touch/includes.chroot/etc/lightdm/
+    lightdm.conf.d/90-phablet.conf:
+    - Don't have Touch greeters show a guest session. Touch isn't ready
+      for non-phablet users yet nor a multi-user greeter.
+
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 10 Aug 2016 11:06:32 -0400
+
 livecd-rootfs (2.421) yakkety; urgency=medium
 
   [ Louis Zuckerman ]
