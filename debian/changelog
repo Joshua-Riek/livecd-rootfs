@@ -1,8 +1,9 @@
-livecd-rootfs (2.423) UNRELEASED; urgency=medium
+livecd-rootfs (2.423) yakkety; urgency=medium
 
+  [ Simon Quigley ]
   * Add an image for Lubuntu Next (LXQt)
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 26 Jul 2016 12:14:25 -0500
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 12 Aug 2016 13:02:01 -0700
 
 livecd-rootfs (2.422) yakkety; urgency=medium
 
