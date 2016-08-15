@@ -371,6 +371,7 @@ case $PROJECT in
 		# no Task: header yet
 		add_package install snapd
 		add_package install ubuntu-core-snapd-units
+		add_package install nplan
                 # we want all arches to have u-boot-tools
                 add_package install u-boot-tools
 
