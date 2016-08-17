@@ -9,7 +9,6 @@ PREFIX=binary/boot/filesystem.dir
 mkdir -p $PREFIX/usr/local/bin
 cat >$PREFIX/usr/local/bin/no-apt <<EOF
 #!/bin/sh
-cat <<EOF
 Ubuntu Core does not use apt-get, see 'snappy --help'!
 EOF
 chmod 755 $PREFIX/usr/local/bin/no-apt

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# removing debian packaging artifacts
+# create hostfs entry
 
 set -ex
 
