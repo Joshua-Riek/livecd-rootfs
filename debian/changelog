@@ -1,4 +1,4 @@
-livecd-rootfs (2.427) UNRELEASED; urgency=medium
+livecd-rootfs (2.427) yakkety; urgency=medium
 
   * live-build/auto/build: If the image pre-installs network-manager, let it
     manage all devices by default by shipping a default netplan policy.
@@ -6,7 +6,7 @@ livecd-rootfs (2.427) UNRELEASED; urgency=medium
     interfering with networkd managed devices on existing server/cloud
     instances.
 
- -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 18 Aug 2016 08:37:39 +0200
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 18 Aug 2016 08:39:36 +0200
 
 livecd-rootfs (2.426) yakkety; urgency=medium
 
