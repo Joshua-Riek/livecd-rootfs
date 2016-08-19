@@ -1,9 +1,9 @@
-livecd-rootfs (2.428) UNRELEASED; urgency=medium
+livecd-rootfs (2.428) yakkety; urgency=medium
 
   * live-build/auto/build: Move NetworkManager configuration to the right
     place.
 
- -- Martin Pitt <martin.pitt@ubuntu.com>  Fri, 19 Aug 2016 16:27:46 +0200
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Fri, 19 Aug 2016 16:28:23 +0200
 
 livecd-rootfs (2.427) yakkety; urgency=medium
 
