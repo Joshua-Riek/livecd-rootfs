@@ -203,7 +203,7 @@ EOF
 		cat <<EOF > chroot/etc/netplan/01-network-manager-all.yaml
 # Let NetworkManager manage all devices on this system
 network:
-  version 2
+  version: 2
   renderer: NetworkManager
 EOF
 	else
