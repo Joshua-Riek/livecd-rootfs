@@ -1,9 +1,9 @@
-livecd-rootfs (2.429) UNRELEASED; urgency=medium
+livecd-rootfs (2.429) yakkety; urgency=medium
 
   * live-build/auto/build: Fix typo in netplan policy snippet.
     *brown paperbag* (LP: #1615180)
 
- -- Martin Pitt <martin.pitt@ubuntu.com>  Sat, 20 Aug 2016 06:55:34 +0200
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Sat, 20 Aug 2016 06:56:37 +0200
 
 livecd-rootfs (2.428) yakkety; urgency=medium
 
