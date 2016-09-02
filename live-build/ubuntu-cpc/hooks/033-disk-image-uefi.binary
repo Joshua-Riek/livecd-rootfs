@@ -108,7 +108,7 @@ EOF
 
     chroot mountpoint dpkg-divert --local --rename /etc/grub.d/30_os-prober
     chroot mountpoint update-grub
-    sed -i "s,root=.* ,root=LABEL=cloudimg-rootfs ,g" mountpoint/boot/grub/grub.cfg
+    replace_grub_root_with_label mountpoint
     chroot mountpoint dpkg-divert --remove --local --rename /etc/grub.d/30_os-prober
 
     chroot mountpoint apt-get -y clean
