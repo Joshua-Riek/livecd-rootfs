@@ -1,7 +1,10 @@
 livecd-rootfs (2.430) UNRELEASED; urgency=medium
 
-  * do not create "ubuntu" user for ubuntu-core anymore, the
-    console-conf package will create this user now
+  * live-build/ubuntu-core/hooks/01-setup_user.chroot:
+    - do not create "ubuntu" user for ubuntu-core anymore, the
+      console-conf package will create this user now
+  * live-build/ubuntu-core/hooks/02-add_user_to_groups.chroot
+    - dropped
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 02 Sep 2016 17:03:57 +0200
 
