@@ -1,4 +1,4 @@
-livecd-rootfs (2.430) UNRELEASED; urgency=medium
+livecd-rootfs (2.430) yakkety; urgency=medium
 
   [ Michael Vogt ]
   * live-build/ubuntu-core/hooks/01-setup_user.chroot:
@@ -13,7 +13,7 @@ livecd-rootfs (2.430) UNRELEASED; urgency=medium
     image from our filesystem, since otherwise /etc/resolv.conf is broken.
     LP: #1621393.
 
- -- Michael Vogt <michael.vogt@ubuntu.com>  Fri, 02 Sep 2016 17:03:57 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 09 Sep 2016 15:57:27 -0700
 
 livecd-rootfs (2.429) yakkety; urgency=medium
 
