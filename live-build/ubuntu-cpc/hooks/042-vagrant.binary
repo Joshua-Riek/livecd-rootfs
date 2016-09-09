@@ -39,7 +39,9 @@ create_derivative "disk" "vagrant" #sets ${derivative_img}
 mount_disk_image ${derivative_img} ${mount_d}
 
 cleanup_vagrant() {
-    umount_disk_image ${mount_d}
+    if [ -d "$mount_d" ]; then
+        umount_disk_image "$mount_d"
+    fi
     rm -rf ${box_d} ${seed_d} ${mount_d} ${derivative_img}
 }
 trap cleanup_vagrant EXIT
@@ -49,6 +51,8 @@ chroot ${mount_d} apt-get update
 # avoid pulling into a cloud image.
 chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-utils
 chroot ${mount_d} apt-get clean
+umount_disk_image "$mount_d"
+rmdir "$mount_d"
 
 # Used to identify bits
 suite=$(chroot chroot lsb_release -c -s)
