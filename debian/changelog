@@ -1,10 +1,10 @@
-livecd-rootfs (2.431) UNRELEASED; urgency=medium
+livecd-rootfs (2.431) yakkety; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Temporarily change the 60-install-click.chroot script to pull in clicks for
     arm64 builds from a different location for ubuntu-touch.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 14 Sep 2016 14:24:07 -0500
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 14 Sep 2016 14:27:40 -0500
 
 livecd-rootfs (2.430) yakkety; urgency=medium
 
