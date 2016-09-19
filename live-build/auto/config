@@ -477,7 +477,6 @@ case $PROJECT in
 				add_task install server
 				;;
 			powerpc)
-				KERNEL_FLAVOURS=powerpc64-smp
 				add_task install server
 				;;
 		esac

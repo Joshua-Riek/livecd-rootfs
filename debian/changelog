@@ -1,3 +1,9 @@
+livecd-rootfs (2.432) yakkety; urgency=medium
+
+  * Use the virtual kernel for the powerpc64 cpc images (LP: #1625368)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 19 Sep 2016 16:55:40 -0600
+
 livecd-rootfs (2.431) yakkety; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
