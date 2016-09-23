@@ -1,3 +1,9 @@
+livecd-rootfs (2.433) yakkety; urgency=medium
+
+  * Use the virtual kernel for the arm64 cpc images instead of generic.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 22 Sep 2016 21:54:16 -0600
+
 livecd-rootfs (2.432) yakkety; urgency=medium
 
   * Use the virtual kernel for the powerpc64 cpc images (LP: #1625368)

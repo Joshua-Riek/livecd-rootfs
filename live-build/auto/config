@@ -469,7 +469,6 @@ case $PROJECT in
 				add_task install server
 				;;
 			arm64)
-				KERNEL_FLAVOURS=generic
 				add_package install flash-kernel
 				add_task install server
 				;;
