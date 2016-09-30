@@ -3,8 +3,8 @@
 ERRCNT=""
 
 # Known good post-debootstrap values
-passwd_bootstrap="f2598910b254fd6da1ccf0f96c887cb0"
-shadow_bootstrap="541badbde89169deaae3fc04d52b4fac"
+passwd_bootstrap="8c7663019ac545a6ba9a6021dd54b129"
+shadow_bootstrap="021bea180cc9e71a34519d1212092954"
 group_bootstrap="4a1be7f950a839f44708bb0919339ff9"
 gshadow_bootstrap="e75f449f2327bc7e4c306a73e04d8815"
 

@@ -1,3 +1,10 @@
+livecd-rootfs (2.434) UNRELEASED; urgency=medium
+
+  * Update the 00-uid-gid-fix.chroot_early hook for touch to include the new
+    known good bootstrap hash values.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 30 Sep 2016 11:20:22 +0200
+
 livecd-rootfs (2.433) yakkety; urgency=medium
 
   * Use the virtual kernel for the arm64 cpc images instead of generic.
