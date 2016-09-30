@@ -1,4 +1,4 @@
-livecd-rootfs (2.434) UNRELEASED; urgency=medium
+livecd-rootfs (2.434) yakkety; urgency=medium
 
   * Update the 00-uid-gid-fix.chroot_early hook for touch to include the new
     known good bootstrap hash values.
