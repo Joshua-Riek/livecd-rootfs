@@ -418,7 +418,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-touch|ubuntu-touch-custom)
-		HINTS="packagekit ubuntu-system-settings-online-accounts"
+		HINTS="packagekit ubuntu-system-settings"
 		case $ARCH in
 		    amd64|i386)
 			HINTS="$HINTS qml-module-ubuntu-components-gles unity8"

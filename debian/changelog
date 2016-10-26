@@ -1,3 +1,12 @@
+livecd-rootfs (2.435) UNRELEASED; urgency=medium
+
+  * Update the ubuntu-touch hints to try installing ubuntu-system-settings
+    instead of ubuntu-system-settings-online-accounts as this makes the dep
+    resolver more happy on amd64/i386 systems. This should fix the current
+    image build failure for yakkety i386 images.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 10 Oct 2016 14:41:46 +0200
+
 livecd-rootfs (2.434) yakkety; urgency=medium
 
   * Update the 00-uid-gid-fix.chroot_early hook for touch to include the new
