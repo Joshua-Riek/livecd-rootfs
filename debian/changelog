@@ -1,3 +1,11 @@
+livecd-rootfs (2.435) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: Don't remove .pyc files any more - we don't care
+    *that* much about the small space gain these days, and would prefer the
+    speed win. (LP: #1627190)
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 26 Oct 2016 16:58:27 +0100
+
 livecd-rootfs (2.434) yakkety; urgency=medium
 
   * Update the 00-uid-gid-fix.chroot_early hook for touch to include the new

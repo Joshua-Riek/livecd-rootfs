@@ -575,10 +575,8 @@ add_chroot_hook remove-openssh-server-host-keys
 add_chroot_hook remove-udev-persistent-rules
 
 case $PROJECT in
-	ubuntu-server|ubuntu-cpc)
-		;;
-
-	*)
+	# if any flavours want to strip .pyc files from their live images, add them here
+	_)
 		add_chroot_hook remove-python-py
 		;;
 esac
