@@ -1,4 +1,4 @@
-livecd-rootfs (2.435) UNRELEASED; urgency=medium
+livecd-rootfs (2.435) yakkety; urgency=medium
 
   * Update the ubuntu-touch hints to try installing ubuntu-system-settings
     instead of ubuntu-system-settings-online-accounts as this makes the dep
