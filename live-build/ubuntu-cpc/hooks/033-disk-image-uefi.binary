@@ -70,9 +70,6 @@ install_grub() {
         amd64)
             chroot mountpoint apt-get install -qqy grub-efi-amd64-signed grub-efi-amd64 shim-signed
             grub_modules="part_gpt fat ext2 normal chain boot configfile linux multiboot search_fs_uuid search_label terminal serial video video_fb video_bochs usb usb_keyboard efi_gop efi_uga"
-            chroot mountpoint cp /usr/lib/shim/shim.efi.signed "${efi_boot_dir}/shimx64.efi"
-            chroot mountpoint cp /usr/lib/shim/MokManager.efi.signed "${efi_boot_dir}/MokManager.efi"
-            chroot mountpoint cp /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed "${efi_boot_dir}/grubx64.efi"
             efi_target=x86_64-efi
             ;;
     esac
