@@ -1,10 +1,10 @@
-livecd-rootfs (2.437) UNRELEASED; urgency=medium
+livecd-rootfs (2.437) zesty; urgency=medium
 
   * live-build/auto/config: Don't remove .pyc files any more - we don't care
     *that* much about the small space gain these days, and would prefer the
     speed win. (LP: #1627190)
 
- -- Iain Lane <iain.lane@canonical.com>  Fri, 04 Nov 2016 11:00:58 +0000
+ -- Iain Lane <iain.lane@canonical.com>  Fri, 04 Nov 2016 11:02:13 +0000
 
 livecd-rootfs (2.436) zesty; urgency=medium
 
