@@ -1,3 +1,9 @@
+livecd-rootfs (2.438) zesty; urgency=medium
+
+  * live-build/auto/config: Add ubuntu-budgie project (LP: #1652144)
+
+ -- David Mohammed <fossfreedom@ubuntu.com>  Thu, 22 Dec 2016 18:51:29 +0000
+
 livecd-rootfs (2.437) zesty; urgency=medium
 
   * live-build/auto/config: Don't remove .pyc files any more - we don't care
