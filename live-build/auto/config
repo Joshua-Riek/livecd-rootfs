@@ -321,6 +321,15 @@ case $PROJECT in
 		COMPONENTS='main restricted universe'
 		;;
 
+	ubuntu-budgie)
+		add_task install minimal standard ubuntu-budgie-desktop
+		LIVE_TASK='ubuntu-budgie-live'
+		case $ARCH in
+			amd64)	add_package live linux-signed-generic ;;
+		esac
+		COMPONENTS='main restricted universe'
+		;;
+
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
