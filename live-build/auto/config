@@ -321,7 +321,7 @@ case $PROJECT in
 		COMPONENTS='main restricted universe'
 		;;
 
-    ubuntu-budgie)
+	ubuntu-budgie)
 		add_task install minimal standard ubuntu-budgie-desktop
 		LIVE_TASK='ubuntu-budgie-live'
 		case $ARCH in
