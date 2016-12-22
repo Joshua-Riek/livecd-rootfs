@@ -1,4 +1,4 @@
-livecd-rootfs (2.438) UNRELEASED; urgency=medium
+livecd-rootfs (2.438) zesty; urgency=medium
 
   * live-build/auto/config: Add ubuntu-budgie project (LP: #1652144)
 
