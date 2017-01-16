@@ -181,7 +181,7 @@ manifest="${box_d}/${prefix}.mf"
 cat > "${manifest}" <<EOF
 SHA256(${vmdk_f##*/})= ${vmdk_sha256}
 SHA256(${cdrom_vmdk_f##*/})= ${cdrom_sha256}
-SHA256(${ovf##*/}.ovf)= ${ovf_sha256}
+SHA256(${ovf##*/})= ${ovf_sha256}
 EOF
 
 # Now create the box
