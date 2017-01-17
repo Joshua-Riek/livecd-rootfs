@@ -9,24 +9,22 @@
 #
 # For this step, we re-use the VMDK's made in 040-vmdk-image.binary
 
-case $ARCH in
-        amd64|i386) ;;
-                 *) echo "OVA images are not supported for $ARCH yet.";
-                     exit 0;;
-esac
 
 # Switch on $ARCH to determine which ID and description to use in the produced
 # OVF. We have fancy Ubuntu-specific IDs in the OVF specification, we might as
 # well use them.
 case $ARCH in
         amd64)
-           ovf_id=94
-           ovf_os_type="ubuntu64Guest"
-           ovf_desc_bits=64 ;;
+            ovf_id=94
+            ovf_os_type="ubuntu64Guest"
+            ovf_desc_bits=64 ;;
         i386)
-           ovf_id=93
-           ovf_os_type="ubuntu32Guest"
-           ovf_desc_bits=32 ;;
+            ovf_id=93
+            ovf_os_type="ubuntu32Guest"
+            ovf_desc_bits=32 ;;
+        *)
+            echo "OVA images are not supported for $ARCH yet.";
+            exit 0;;
 esac
 
 cur_d=${PWD}
