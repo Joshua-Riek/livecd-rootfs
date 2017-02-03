@@ -67,7 +67,7 @@ ovf_sha256=$(sha256sum ${ovf} | cut -d' ' -f1)
 manifest="${scratch_d}/${prefix}.mf"
 cat > "${manifest}" <<EOF
 SHA256(${vmdk_f##*/})= ${vmdk_sha256}
-SHA256(${ovf##*/}.ovf)= ${ovf_sha256}
+SHA256(${ovf##*/})= ${ovf_sha256}
 EOF
 
 # Now create the OVA

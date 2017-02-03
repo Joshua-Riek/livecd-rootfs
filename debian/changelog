@@ -1,3 +1,10 @@
+livecd-rootfs (2.439) UNRELEASED; urgency=medium
+
+  * Fix the manifest generation in OVA files so that ovf files don't have
+    double extensions.  Thanks to Chris Glass.  (LP: #1627931)
+
+ -- Brian Murray <brian@ubuntu.com>  Fri, 03 Feb 2017 13:30:57 -0800
+
 livecd-rootfs (2.438) zesty; urgency=medium
 
   * live-build/auto/config: Add ubuntu-budgie project (LP: #1652144)
