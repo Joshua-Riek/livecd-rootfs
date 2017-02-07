@@ -15,6 +15,15 @@
 # some packages in it, convert it to a vmdk, and then assemble the vagrant
 # box.
 
+case $LB_IMAGE_FLAVORS in
+	""|*vagrant*)
+		;;
+	*)
+		echo "Skipping Vagrant image build"
+		exit 0
+		;;
+esac
+
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 

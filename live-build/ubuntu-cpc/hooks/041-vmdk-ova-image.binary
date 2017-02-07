@@ -14,6 +14,16 @@ case $ARCH in
                  *) echo "OVA images are not supported for $ARCH yet.";
                      exit 0;;
 esac
+
+case $LB_IMAGE_FLAVORS in
+	""|*ova*)
+		;;
+	*)
+		echo "Skipping OVA image build"
+		exit 0
+		;;
+esac
+
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 

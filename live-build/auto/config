@@ -618,6 +618,9 @@ lb config noauto \
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
+if [ -n "$IMAGE_FLAVORS" ]; then
+	echo "LB_IMAGE_FLAVORS="$IMAGE_FLAVORS" >> config/binary
+fi
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2)
