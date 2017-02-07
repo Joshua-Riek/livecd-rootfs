@@ -15,7 +15,7 @@
 # some packages in it, convert it to a vmdk, and then assemble the vagrant
 # box.
 
-case $LB_IMAGE_FLAVORS in
+case $IMAGE_TARGETS in
 	""|*vagrant*)
 		;;
 	*)

@@ -15,7 +15,7 @@ case $ARCH in
                      exit 0;;
 esac
 
-case $LB_IMAGE_FLAVORS in
+case ${IMAGE_TARGETS:-} in
 	""|*ova*)
 		;;
 	*)

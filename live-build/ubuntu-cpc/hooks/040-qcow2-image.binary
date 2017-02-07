@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-case $LB_IMAGE_FLAVORS in
+case $IMAGE_TARGETS in
 	""|*qcow2*)
 		;;
 	*)
