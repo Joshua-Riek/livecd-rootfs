@@ -16,7 +16,7 @@ case $ARCH in
 esac
 
 case ${IMAGE_TARGETS:-} in
-	""|*ova*)
+	""|*vmdk*)
 		;;
 	*)
 		echo "Skipping OVA image build"
