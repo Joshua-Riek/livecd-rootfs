@@ -115,7 +115,6 @@ umount_settle() {
     # Unmount device, and let it settle
     umount $1
     udevadm settle
-    sleep 3
 }
 
 umount_partition() {
@@ -123,9 +122,10 @@ umount_partition() {
     mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
     for submnt in proc sys dev/pts dev tmp;
     do
-        umount_settle $mountpoint/$submnt
+        umount $mountpoint/$submnt
     done
-    umount_settle $mountpoint
+    umount $mountpoint
+    udevadm settle
 
     if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
         # buildd's don't have /etc/mtab symlinked
