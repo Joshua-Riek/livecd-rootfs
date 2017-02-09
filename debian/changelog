@@ -1,5 +1,6 @@
 livecd-rootfs (2.440) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * live-build/ubuntu-cpc/functions: don't call sleep as part of
     umount_settle; udevadm settle is synchronous and there's no reason to
     sleep after it.
@@ -7,7 +8,12 @@ livecd-rootfs (2.440) UNRELEASED; urgency=medium
     umount_settle for each submount; just unmount them one by one and
     settle at the end.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 08 Feb 2017 13:41:45 -0800
+  [ Nishanth Aravamudan ]
+  * live-build/ubuntu-cpc/hooks/061-open-iscsi.chroot: generate iSCSI
+    Initiator Name at first iscsid run for cloud images to ensure it is
+    unique (LP: #1444992).
+
+ -- Nishanth Aravamudan <nish.aravamudan@canonical.com>  Wed, 08 Feb 2017 18:08:24 -0800
 
 livecd-rootfs (2.439) zesty; urgency=medium
 

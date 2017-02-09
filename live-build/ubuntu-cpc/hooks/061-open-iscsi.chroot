@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Set InitiatorName to be runtime generated when iscsid first starts, so
+# that each cloud image gets a unique value
+#
+
+if [ -f /etc/iscsi/initiatorname.iscsi ]; then
+    echo "GenerateName=yes" > /etc/iscsi/initiatorname.iscsi
+fi
