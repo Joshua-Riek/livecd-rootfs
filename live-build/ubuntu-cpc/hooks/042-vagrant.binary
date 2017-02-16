@@ -18,13 +18,6 @@
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
-case $ARCH in
-	amd64|i386) ;;
-	*)
-		echo "Vagrant images are not supported for $ARCH"
-		exit 0
-esac
-
 # Switch on $ARCH to determine which ID and description to use in the produced
 # OVF. We have fancy Ubuntu-specific IDs in the OVF specification, we might as
 # well use them.
@@ -37,6 +30,9 @@ case $ARCH in
            ovf_id=93
            ovf_os_type="ubuntu32Guest"
            ovf_desc_bits=32 ;;
+        *)
+           echo "Vagrant images are not supported for $ARCH"
+           exit 0;;
 esac
 
 . /build/config/functions
