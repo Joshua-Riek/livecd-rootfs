@@ -18,11 +18,21 @@
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
+# Switch on $ARCH to determine which ID and description to use in the produced
+# OVF. We have fancy Ubuntu-specific IDs in the OVF specification, we might as
+# well use them.
 case $ARCH in
-	amd64|i386) ;;
-	*)
-		echo "Vagrant images are not supported for $ARCH"
-		exit 0
+        amd64)
+           ovf_id=94
+           ovf_os_type="ubuntu64Guest"
+           ovf_desc_bits=64 ;;
+        i386)
+           ovf_id=93
+           ovf_os_type="ubuntu32Guest"
+           ovf_desc_bits=32 ;;
+        *)
+           echo "Vagrant images are not supported for $ARCH yet."
+           exit 0;;
 esac
 
 . /build/config/functions
@@ -172,7 +182,10 @@ sed -i "${ovf}" \
     -e "s/@@NUM_CPUS@@/2/g" \
     -e "s/@@VERSION@@/${version}/g" \
     -e "s/@@DATE@@/${serial_stamp}/g" \
-    -e "s/@@MEM_SIZE@@/1024/g"
+    -e "s/@@MEM_SIZE@@/1024/g" \
+    -e "s/@@OVF_ID@@/${ovf_id}/g" \
+    -e "s/@@OVF_OS_TYPE@@/${ovf_os_type}/g" \
+    -e "s/@@OVF_DESC_BITS@@/${ovf_desc_bits}/g"
 
 ovf_sha256=$(sha256sum ${ovf} | cut -d' ' -f1)
 

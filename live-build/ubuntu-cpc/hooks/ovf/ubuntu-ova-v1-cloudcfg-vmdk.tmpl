@@ -18,8 +18,9 @@
   <VirtualSystem ovf:id="@@NAME@@">
     <Info>A virtual machine</Info>
     <Name>@@NAME@@</Name>
-    <OperatingSystemSection ovf:id="100" vmw:osType="other3xLinux64Guest">
+    <OperatingSystemSection ovf:id="@@OVF_ID@@" vmw:osType="@@OVF_OS_TYPE@@">
       <Info>The kind of installed guest operating system</Info>
+      <Description>Ubuntu Linux (@@OVF_DESC_BITS@@-bit)</Description>
     </OperatingSystemSection>
 
     <ProductSection ovf:required="false">
