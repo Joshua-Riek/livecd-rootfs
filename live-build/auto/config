@@ -641,6 +641,7 @@ cat > /boot/firmware/config.txt << EOM
 # Some settings may impact device functionality. See link above for details
 
 kernel=uboot.bin
+device_tree_address=0x02000000
 
 # enable i2c
 dtparam=i2c_arm=on
