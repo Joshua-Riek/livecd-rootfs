@@ -249,4 +249,11 @@ convert_to_qcow2() {
     qemu-img info "$destination"
 }
 
+replace_grub_root_with_label() {
+    # When update-grub is run, it will detect the disks in the build system.
+    # Instead, we want grub to use the cloudimg-rootfs labelled disk
+    CHROOT_ROOT="$1"
 
+    sed -i -e "s,root=[^ ]\+,root=LABEL=cloudimg-rootfs," \
+        "$CHROOT_ROOT/boot/grub/grub.cfg"
+}

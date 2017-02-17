@@ -16,7 +16,9 @@ livecd-rootfs (2.440) UNRELEASED; urgency=medium
   [ Brian Murray ]
   * Fix the OVF's metadata to include Ubuntu specific identifiers and
     descriptions instead of the generic Linux ones. Thanks to Chris Glass.
-    (LP: #1656293) 
+    (LP: #1656293)
+  * Add replace_grub_root_with_label function thereby consolidating multiple
+    uses of the same calls to sed. Thanks to Dan Watkins.
 
   [ Adam Conrad ]
   * Set device_tree_address for the new kernel in the RPi bootloader config.txt
