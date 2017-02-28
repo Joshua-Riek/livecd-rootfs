@@ -7,6 +7,9 @@ livecd-rootfs (2.440) UNRELEASED; urgency=medium
   * live-build/ubuntu-cpc/functions: umount_partition: don't call
     umount_settle for each submount; just unmount them one by one and
     settle at the end.
+  * Support passing IMAGE_TARGETS in the environment, to limit which images
+    are output as part of a build; particularly useful for ubuntu-cpc builds
+    which output multiple image types.
 
   [ Nishanth Aravamudan ]
   * live-build/ubuntu-cpc/hooks/061-open-iscsi.chroot: generate iSCSI
