@@ -1,0 +1,271 @@
+# vi: ts=4 expandtab syntax=sh
+
+CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
+
+rootfs_dev_mapper=
+loop_device=
+loop_raw=
+backing_img=
+
+apt-get -qqy install dosfstools gdisk
+
+clean_loops() {
+
+    if [ -n "${backing_img}" ]; then
+        kpartx -v -d "${backing_img}"
+        unset backing_img
+    fi
+
+    if [ -z "${rootfs_dev_mapper}" ]; then
+        return 0
+    fi
+
+    unset loop_device
+    unset loop_raw
+    unset rootfs_dev_mapper
+}
+
+create_empty_disk_image() {
+    # Prepare an empty disk image
+    dd if=/dev/zero of="$1" bs=1 count=0 seek="${IMAGE_SIZE}"
+}
+
+make_ext4_partition() {
+    device="$1"
+
+    mkfs.ext4 -F -b 4096 -i 8192 -m 0 -L cloudimg-rootfs -E resize=536870912 "$device"
+}
+
+mount_image() {
+    apt-get install -qqy kpartx
+    trap clean_loops EXIT
+    backing_img="$1"
+    local rootpart="$2"
+    kpartx_mapping="$(kpartx -s -v -a ${backing_img})"
+
+    # Find the loop device
+    loop_p1="$(echo -e ${kpartx_mapping} | head -n1 | awk '{print$3}')"
+    loop_device="/dev/loop$(echo ${loop_p1} | cut -b5)"
+    if [ ! -b ${loop_device} ]; then
+        echo "unable to find loop device for ${backing_img}"
+        exit 1
+    fi
+
+    # Find the rootfs location
+    rootfs_dev_mapper="/dev/mapper/${loop_p1%%[0-9]}${rootpart}"
+    if [ ! -b "${rootfs_dev_mapper}" ]; then
+        echo "${rootfs_dev_mapper} is not a block device";
+        exit 1
+    fi
+
+    # Add some information to the debug logs
+    echo "Mounted disk image ${backing_img} to ${rootfs_dev_mapper}"
+    blkid ${rootfs_dev_mapper}
+
+    return 0
+}
+
+setup_mountpoint() {
+    local mountpoint="$1"
+
+    mount --bind /dev "$mountpoint/dev"
+    mount devpts-live -t proc "$mountpoint/dev/pts"
+    mount proc-live -t proc "$mountpoint/proc"
+    mount sysfs-live -t sysfs "$mountpoint/sys"
+    mount -t tmpfs none "$mountpoint/tmp"
+    mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
+    cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
+
+}
+
+mount_partition() {
+    partition="$1"
+    mountpoint="$2"
+
+    mount "$partition" "$mountpoint"
+    setup_mountpoint "$mountpoint"
+}
+
+
+mount_overlay() {
+    lower="$1"
+    upper="$2"
+    work="$2/../work"
+    path="$3"
+
+    mkdir -p "$work"
+    mount -t overlay overlay \
+	-olowerdir="$lower",upperdir="$upper",workdir="$work" \
+	"$path"
+}
+
+mount_disk_image() {
+    local disk_image=${1}
+    local mountpoint=${2}
+    mount_image ${disk_image} 1
+    mount_partition "${rootfs_dev_mapper}" $mountpoint
+
+    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
+        mount "${uefi_dev}" $mountpoint/boot/efi
+    fi
+
+    # This is needed to allow for certain operations
+    # such as updating grub and installing software
+    cat > $mountpoint/usr/sbin/policy-rc.d << EOF
+#!/bin/sh
+# ${CLOUD_IMG_STR}
+echo "All runlevel operations denied by policy" >&2
+exit 101
+EOF
+    chmod 0755 $mountpoint/usr/sbin/policy-rc.d
+
+}
+
+umount_settle() {
+    # Unmount device, and let it settle
+    umount $1
+    udevadm settle
+}
+
+umount_partition() {
+    local mountpoint=${1}
+    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
+    for submnt in proc sys dev/pts dev tmp;
+    do
+        umount $mountpoint/$submnt
+    done
+    umount $mountpoint
+    udevadm settle
+
+    if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
+        # buildd's don't have /etc/mtab symlinked
+        # /etc/mtab is needed in order zerofree space for ext4 filesystems
+        [ -e /etc/mtab ] || ln -s /proc/mounts /etc/mtab
+
+        # both of these are likely overkill, but it does result in slightly
+        # smaller ext4 filesystem
+        apt-get -qqy install zerofree
+        e2fsck -y -E discard ${rootfs_dev_mapper}
+        zerofree ${rootfs_dev_mapper}
+    fi
+}
+
+umount_disk_image() {
+    mountpoint="$1"
+
+    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    if [ -e "$mountpoint/boot/efi" -a -b "$uefi_dev" ]; then
+        umount --detach-loop "$mountpoint/boot/efi"
+    fi
+
+    if [ -e $mountpoint/usr/sbin/policy-rc.d ]; then
+        rm $mountpoint/usr/sbin/policy-rc.d
+    fi
+    umount_partition $mountpoint
+    clean_loops
+}
+
+modify_vmdk_header() {
+    # Modify the VMDK headers so that both VirtualBox _and_ VMware can
+    # read the vmdk and import them. The vodoo here is _not_ documented
+    # anywhere....so this will have to do. This is undocumented vodoo
+    # that has been learned by the Cloud Image team.
+
+    vmdk_name="${1}"
+    descriptor=$(mktemp)
+    newdescriptor=$(mktemp)
+
+    # Extract the vmdk header for manipulation
+    dd if="${vmdk_name}" of="${descriptor}" bs=1 skip=512 count=1024
+
+    # The sed lines below is where the magic is. Specifically:
+    #   ddb.toolsVersion: sets the open-vm-tools so that VMware shows
+    #       the tooling as current
+    #   ddb.virtualHWVersion: set the version to 7, which covers most
+    #       current versions of VMware
+    #   createType: make sure its set to stream Optimized
+    #   remove the vmdk-stream-converter comment and replace with
+    #       # Disk DescriptorFile. This is needed for Virtualbox
+    #   remove the comments from vmdk-stream-converter which causes
+    #       VirtualBox and others to fail VMDK validation
+
+    sed -e 's|# Description file.*|# Disk DescriptorFile|' \
+        -e '/# Believe this is random*/d' \
+        -e '/# Indicates no parent/d' \
+        -e '/# The Disk Data Base/d' \
+        -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
+            "${descriptor}" > "${newdescriptor}"
+
+    # The header is cannot be bigger than 1024
+    expr $(stat --format=%s ${newdescriptor}) \< 1024 > /dev/null 2>&1 || {
+        echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
+
+    # Overwrite the vmdk header with our new, modified one
+    dd conv=notrunc,nocreat \
+        if="${newdescriptor}" of="${vmdk_name}" \
+        bs=1 seek=512 count=1024
+
+    rm ${descriptor} ${newdescriptor}
+}
+
+create_vmdk() {
+    # There is no real good way to create a _compressed_ VMDK using open source
+    # tooling that works across multiple VMDK-capable platforms. This functions
+    # uses vmdk-stream-converter and then calls modify_vmdk_header to produce a
+    # compatible VMDK.
+
+    src="$1"
+    destination="$2"
+    size="${3:-10240}"
+
+    apt-get install -qqy qemu-utils vmdk-stream-converter
+    streamconverter="/usr/share/pyshared/VMDKstream.py"
+    scratch_d=$(mktemp -d)
+    cp ${src} ${scratch_d}/resize.img
+
+    truncate --size=${size}M ${scratch_d}/resize.img
+    python ${streamconverter} ${scratch_d}/resize.img ${destination}
+    modify_vmdk_header ${destination}
+
+    qemu-img info ${destination}
+    rm -rf ${scratch_d}
+}
+
+create_derivative() {
+    # arg1 is the disk type
+    # arg2 is the new name
+    unset derivative_img
+    case ${1} in
+           uefi) disk_image="binary/boot/disk-uefi.ext4";
+                 dname="${disk_image//-uefi/-$2-uefi}";;
+              *) disk_image="binary/boot/disk.ext4";
+                 dname="${disk_image//.ext4/-$2.ext4}";;
+    esac
+
+    if [ ! -e ${disk_image} ]; then
+        echo "Did not find ${disk_image}!"; exit 1;
+    fi
+
+    cp ${disk_image} ${dname}
+    export derivative_img=${dname}
+}
+
+convert_to_qcow2() {
+    apt-get install -qqy qemu-utils
+
+    src="$1"
+    destination="$2"
+    qemu-img convert -c -O qcow2 -o compat=0.10 "$src" "$destination"
+    qemu-img info "$destination"
+}
+
+replace_grub_root_with_label() {
+    # When update-grub is run, it will detect the disks in the build system.
+    # Instead, we want grub to use the cloudimg-rootfs labelled disk
+    CHROOT_ROOT="$1"
+
+    sed -i -e "s,root=[^ ]\+,root=LABEL=cloudimg-rootfs," \
+        "$CHROOT_ROOT/boot/grub/grub.cfg"
+}

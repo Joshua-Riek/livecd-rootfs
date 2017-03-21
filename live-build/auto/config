@@ -105,6 +105,9 @@ case $PROJECT in
 	ubuntu-cpc)
 		IMAGEFORMAT=ext4
 		;;
+	ubuntu-server-next)
+		IMAGEFORMAT=plain
+		;;
 esac
 
 case $IMAGEFORMAT in
@@ -168,7 +171,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc|ubuntu-desktop-next)
+		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc|ubuntu-desktop-next|ubuntu-server-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -365,6 +368,17 @@ case $PROJECT in
 		add_task install minimal
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
+		;;
+
+        ubuntu-server-next)
+		add_task install minimal
+		add_task install standard
+		add_task install server
+		COMPONENTS='main restricted universe'
+		add_package install snapd
+		add_package install nplan
+		add_package install curtin
+		add_package install hdparm
 		;;
 
 	ubuntu-core)
@@ -569,7 +583,7 @@ case $ARCH in
 esac
 
 case $PROJECT in
-	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-touch-custom)
+	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-touch-custom|ubuntu-server-next)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -748,7 +762,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*)
+	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*|ubuntu-server-next:*)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;

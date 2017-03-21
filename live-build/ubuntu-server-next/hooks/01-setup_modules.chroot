@@ -1,0 +1,5 @@
+#!/bin/sh -x
+
+set -e
+
+mkdir -p /lib/modules
