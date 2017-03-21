@@ -375,10 +375,6 @@ case $PROJECT in
 		add_task install standard
 		add_task install server
 		COMPONENTS='main restricted universe'
-		add_package install snapd
-		add_package install nplan
-		add_package install curtin
-		add_package install hdparm
 		;;
 
 	ubuntu-core)
