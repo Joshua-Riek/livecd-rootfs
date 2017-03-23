@@ -1,4 +1,4 @@
-livecd-rootfs (2.440) UNRELEASED; urgency=medium
+livecd-rootfs (2.440) zesty; urgency=medium
 
   [ Steve Langasek ]
   * live-build/ubuntu-cpc/functions: don't call sleep as part of
@@ -26,7 +26,7 @@ livecd-rootfs (2.440) UNRELEASED; urgency=medium
   [ Adam Conrad ]
   * Set device_tree_address for the new kernel in the RPi bootloader config.txt
 
- -- Nishanth Aravamudan <nish.aravamudan@canonical.com>  Wed, 08 Feb 2017 18:08:24 -0800
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 23 Mar 2017 11:39:22 -0600
 
 livecd-rootfs (2.439) zesty; urgency=medium
 
