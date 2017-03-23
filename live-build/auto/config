@@ -375,6 +375,7 @@ case $PROJECT in
 		add_task install standard
 		add_task install server
 		COMPONENTS='main restricted universe'
+		add_package install cloud-init
 		;;
 
 	ubuntu-core)
