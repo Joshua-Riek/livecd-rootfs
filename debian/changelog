@@ -1,3 +1,9 @@
+livecd-rootfs (2.441~mtrudel2) zesty; urgency=medium
+
+  * 
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Thu, 23 Mar 2017 16:20:16 -0400
+
 livecd-rootfs (2.440) zesty; urgency=medium
 
   [ Steve Langasek ]

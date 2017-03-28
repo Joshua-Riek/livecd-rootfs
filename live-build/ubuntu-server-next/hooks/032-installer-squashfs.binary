@@ -26,7 +26,7 @@ fi
 SQUASH_ROOT=binary/boot/squashfs.dir
 OVERLAY_ROOT=binary/boot/overlay.dir
 
-mkdir "$OVERLAY_ROOT"
+mkdir -p "$OVERLAY_ROOT"
 
 setup_mountpoint binary/boot/squashfs.dir
 
