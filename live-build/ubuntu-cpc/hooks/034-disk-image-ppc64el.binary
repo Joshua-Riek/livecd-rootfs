@@ -7,7 +7,7 @@ case $ARCH in
         ;;
 esac
 
-. /build/config/functions
+. config/functions
 
 create_partitions() {
     disk_image="$1"

@@ -9,7 +9,7 @@ case $ARCH in
         ;;
 esac
 
-. /build/config/functions
+. config/functions
 
 apt-get -qqy install dosfstools gdisk
 

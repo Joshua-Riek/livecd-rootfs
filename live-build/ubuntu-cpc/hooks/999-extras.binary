@@ -9,7 +9,7 @@ if [ ! -d ${my_dir}/extra ]; then
 fi
 
 # Export the common functions to the extras
-. /build/config/functions
+. config/functions
 
 # Cleaner execution
 /bin/run-parts --regex ".*\.binary" "${extra_d}"

@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-. /build/config/functions
+. config/functions
 
 BOOTPART_START=
 BOOTPART_END=
