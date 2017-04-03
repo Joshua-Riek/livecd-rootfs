@@ -92,7 +92,7 @@ case $ARCH:$SUBARCH in
 		# not the best place for this, but neither flash-kernel nor
 		# u-boot have provisions for installing u-boot via maintainer
 		# script
-		/build/config/hooks/raspi2/mkknlimg --dtok \
+		config/hooks/raspi2/mkknlimg --dtok \
 			mountpoint/usr/lib/u-boot/rpi_2/u-boot.bin \
 			mountpoint/boot/firmware/uboot.bin
 		;;
