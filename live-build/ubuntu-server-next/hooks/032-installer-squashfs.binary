@@ -41,6 +41,9 @@ chroot $SQUASH_ROOT apt-get update
 chroot $SQUASH_ROOT apt-get -y install user-setup
 chroot $SQUASH_ROOT apt-get -y install curtin
 
+# Don't let cloud-init run in the live session.
+touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
+
 # Do the snap seeding dance.
 chroot $SQUASH_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
 chroot $SQUASH_ROOT sh -c '
