@@ -1,6 +1,6 @@
-livecd-rootfs (2.441~mtrudel2) zesty; urgency=medium
+livecd-rootfs (2.441) UNRELEASED; urgency=medium
 
-  * 
+  * Add ubuntu-server-live for a subiquity-based server image.
 
  -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Thu, 23 Mar 2017 16:20:16 -0400
 
