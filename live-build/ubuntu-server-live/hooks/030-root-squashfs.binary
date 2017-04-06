@@ -27,7 +27,7 @@ cp -a chroot/* binary/boot/squashfs.dir
 
 apt-get -qqy install squashfs-tools
 
-squashfs_f="${PWD}/livecd.ubuntu-server-next.squashfs"
+squashfs_f="${PWD}/livecd.${PROJECT}.squashfs"
 squashfs_f_manifest="${squashfs_f}.manifest"
 
 dpkg-query --admindir=binary/boot/squashfs.dir/var/lib/dpkg -W > ${squashfs_f_manifest}
