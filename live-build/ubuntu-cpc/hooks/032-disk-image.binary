@@ -1,6 +1,9 @@
 #!/bin/bash -ex
 
-. /build/config/functions
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+FS_LABEL="cloudimg-rootfs"
+
+. auto/functions
 
 BOOTPART_START=
 BOOTPART_END=

@@ -1,6 +1,7 @@
 livecd-rootfs (2.441) UNRELEASED; urgency=medium
 
   * Add ubuntu-server-live for a subiquity-based server image.
+  * Refactor functions out of ubuntu-cpc and ubuntu-server hooks.
 
  -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Thu, 23 Mar 2017 16:20:16 -0400
 

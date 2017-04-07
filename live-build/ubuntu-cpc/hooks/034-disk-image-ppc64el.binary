@@ -7,7 +7,10 @@ case $ARCH in
         ;;
 esac
 
-. /build/config/functions
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+FS_LABEL="cloudimg-rootfs"
+
+. auto/functions
 
 create_partitions() {
     disk_image="$1"
