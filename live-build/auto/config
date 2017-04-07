@@ -101,11 +101,11 @@ add_binary_hook ()
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
 }
 
-case $PROJECT in
-	ubuntu-cpc)
+case $PROJECT:$SUBPROJECT in
+	ubuntu-cpc:*)
 		IMAGEFORMAT=ext4
 		;;
-	ubuntu-server-live)
+	ubuntu-server:live)
 		IMAGEFORMAT=plain
 		;;
 esac
@@ -133,7 +133,13 @@ case $IMAGEFORMAT in
 
 	plain)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
-		PREINSTALLED=true
+		case $PROJECT:$SUBPROJECT in
+			ubuntu-server:live)
+				;;
+			*)
+				PREINSTALLED=true
+				;;
+		esac
 		;;
 
 	*)
@@ -147,7 +153,7 @@ case $IMAGEFORMAT in
 		;;
 esac
 
-if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
+if [ "$PREINSTALLED" = "true" ]; then
 	# This is an oem-config preinstalled image, touch a random file that
 	# we can refer back to during build, cause that's wildly hackish
 	touch config/oem-config-preinstalled
@@ -171,7 +177,7 @@ if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc|ubuntu-desktop-next|ubuntu-server-live)
+		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc|ubuntu-desktop-next)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -366,16 +372,15 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal
+		case $SUBPROJECT in
+			live)
+				add_task install standard
+				add_task install server
+				LIVE_TASK='cloud-image'
+				;;
+		esac
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
-		;;
-
-	ubuntu-server-live)
-		add_task install minimal
-		add_task install standard
-		add_task install server
-		add_task install cloud-image
-		COMPONENTS='main'
 		;;
 
 	ubuntu-core)
@@ -759,7 +764,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*|ubuntu-server-live:*)
+	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*|ubuntu-server:live)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;
