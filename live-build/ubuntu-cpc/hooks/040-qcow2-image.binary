@@ -21,7 +21,7 @@ esac
 
 apt-get install -qqy qemu-utils
 
-. /build/config/functions
+. config/functions
 
 if [ -f binary/boot/disk-uefi.ext4 ]; then
     convert_to_qcow2 binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.img

@@ -18,7 +18,7 @@ case ${IMAGE_TARGETS:-} in
 		;;
 esac
 
-. /build/config/functions
+. config/functions
 
 if [ -e binary/boot/disk-uefi.ext4 ]; then
     create_vmdk binary/boot/disk-uefi.ext4 livecd.ubuntu-cpc.vmdk

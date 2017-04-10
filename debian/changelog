@@ -1,3 +1,10 @@
+livecd-rootfs (2.441) UNRELEASED; urgency=medium
+
+  [ Balint Reczey ]
+  * Add a basic but configurable autopkgtest.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Apr 2017 16:35:03 -0700
+
 livecd-rootfs (2.440) zesty; urgency=medium
 
   [ Steve Langasek ]

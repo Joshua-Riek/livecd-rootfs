@@ -17,7 +17,7 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
-. /build/config/functions
+. config/functions
 
 mkdir binary/boot/squashfs.dir
 cp -a chroot/* binary/boot/squashfs.dir

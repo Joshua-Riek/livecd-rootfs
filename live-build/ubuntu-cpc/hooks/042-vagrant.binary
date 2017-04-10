@@ -44,7 +44,7 @@ case $ARCH in
            exit 0;;
 esac
 
-. /build/config/functions
+. config/functions
 
 # Virtualbox is needed for making a small VMDK
 apt-get -qqy install genisoimage qemu-utils
