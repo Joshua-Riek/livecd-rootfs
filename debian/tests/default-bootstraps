@@ -1,0 +1,95 @@
+#!/bin/sh
+# autopkgtest check: Build default rootfs for all supported project:subproject pairs
+# (C) 2017 Canonical Ltd.
+# Author: Balint Reczey <balint.reczey@canonical.com>
+
+set -e
+
+if [ -z "$SUITE" ]; then
+    SUITE=$(lsb_release -c -s)
+fi
+
+# Known project:subproject:template combinations.
+# Listed subprojects can be combined with other projects as well,
+# but this list gives reasonable coverage.
+ALL_TRIPLETS="
+ base::
+ edubuntu::
+ edubuntu-dvd::
+ kubuntu::
+ kubuntu-active::
+ kubuntu-dvd::
+ kubuntu-plasma5::
+ lubuntu::
+ lubuntu-next::
+ mythbuntu::
+ ubuntu::
+ ubuntu-base::
+ ubuntu-budgie::
+ ubuntu-budgie-desktop::
+ ubuntu-budgie-live::
+ ubuntu-core:system-image:ubuntu-core
+ ubuntu-cpc::ubuntu-cpc
+ ubuntu-desktop-next:system-image:ubuntu-desktop-next
+ ubuntu-desktop-next::ubuntu-desktop-next
+ ubuntu-dvd::
+ ubuntu-gnome::
+ ubuntukylin::
+ ubuntu-mate::
+ ubuntu-mate-core::
+ ubuntu-mate-desktop::
+ ubuntu-mate-live::
+ ubuntu-netbook::
+ ubuntu-server::
+ ubuntu-server:ubuntu-rtm:
+ ubuntu-server:ubuntu-rtm/foo:
+ ubuntu-server:wubi:
+ ubuntu-touch-custom::ubuntu-touch-custom
+ ubuntu-touch::ubuntu-touch
+ xubuntu::"
+
+if [ -z "$SELECTED_TRIPLETS" ]; then
+    SELECTED_TRIPLETS="
+ ubuntu-base::
+ ubuntu-cpc::ubuntu-cpc
+"
+fi
+
+live_build_rootfs() {
+    PROJECT=${1%%:*}
+    local SUBPROJECT_TMP=${1%:*}
+    SUBPROJECT=${SUBPROJECT_TMP#*:}
+    TEMPLATE=${1##*:}
+    ARCH=$(dpkg --print-architecture)
+    echo "Building rootfs for project: '$PROJECT' subproject: '$SUBPROJECT' template: '$TEMPLATE' in $PWD"
+    cp -a /usr/share/livecd-rootfs/live-build/auto .
+    if [ -n "$TEMPLATE" ]; then
+        cp -a /usr/share/livecd-rootfs/live-build/$TEMPLATE .
+    fi
+    env PROJECT=$PROJECT \
+         SUBPROJECT=$SUBPROJECT \
+         SUITE=$SUITE \
+         ARCH=$ARCH \
+         lb config
+    mkdir chroot
+    # this part needs root rights, but right now the whole script ran as root by autopkgtest
+    env PROJECT=$PROJECT \
+         SUBPROJECT=$SUBPROJECT \
+         ARCH=$ARCH \
+         lb build
+    echo "Build results for project: '$PROJECT' subproject: '$SUBPROJECT' template: '$TEMPLATE' in $PWD"
+    du -sh *
+    echo ""
+}
+
+WORKDIR=$(mktemp -d)
+trap "RET=\$?; rm -rf $WORKDIR; exit \$RET" 0 INT QUIT ABRT PIPE TERM
+cd $WORKDIR
+
+for i in $SELECTED_TRIPLETS; do
+    mkdir $i
+    (cd $i && live_build_rootfs $i)
+    # clean up after build to avoid filling the disk, needs root rights
+    rm -rf $i
+done
+
