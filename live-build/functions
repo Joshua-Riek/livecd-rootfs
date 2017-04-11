@@ -87,6 +87,17 @@ mount_partition() {
     setup_mountpoint "$mountpoint"
 }
 
+mount_overlay() {
+    lower="$1"
+    upper="$2"
+    work="$2/../work"
+    path="$3"
+
+    mkdir -p "$work"
+    mount -t overlay overlay \
+	-olowerdir="$lower",upperdir="$upper",workdir="$work" \
+	"$path"
+}
 
 mount_disk_image() {
     local disk_image=${1}
