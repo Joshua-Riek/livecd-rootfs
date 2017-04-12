@@ -1,7 +1,7 @@
 # vi: ts=4 expandtab syntax=sh
 
-CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
-IMAGE_SIZE=$((2252*1024**2))  # 2.2G (the current size we ship)
+imagesize=${IMAGE_SIZE:-$((2252*1024**2))}  # 2.2G (the current size we ship)
+fs_label="${FS_LABEL:-rootfs}"
 
 rootfs_dev_mapper=
 loop_device=
@@ -28,13 +28,13 @@ clean_loops() {
 
 create_empty_disk_image() {
     # Prepare an empty disk image
-    dd if=/dev/zero of="$1" bs=1 count=0 seek="${IMAGE_SIZE}"
+    dd if=/dev/zero of="$1" bs=1 count=0 seek="${imagesize}"
 }
 
 make_ext4_partition() {
     device="$1"
-
-    mkfs.ext4 -F -b 4096 -i 8192 -m 0 -L cloudimg-rootfs -E resize=536870912 "$device"
+    label=${fs_label:+-L "${fs_label}"}
+    mkfs.ext4 -F -b 4096 -i 8192 -m 0 ${label} -E resize=536870912 "$device"
 }
 
 mount_image() {
@@ -87,6 +87,17 @@ mount_partition() {
     setup_mountpoint "$mountpoint"
 }
 
+mount_overlay() {
+    lower="$1"
+    upper="$2"
+    work="$2/../work"
+    path="$3"
+
+    mkdir -p "$work"
+    mount -t overlay overlay \
+	-olowerdir="$lower",upperdir="$upper",workdir="$work" \
+	"$path"
+}
 
 mount_disk_image() {
     local disk_image=${1}
@@ -103,7 +114,7 @@ mount_disk_image() {
     # such as updating grub and installing software
     cat > $mountpoint/usr/sbin/policy-rc.d << EOF
 #!/bin/sh
-# ${CLOUD_IMG_STR}
+# ${IMAGE_STR}
 echo "All runlevel operations denied by policy" >&2
 exit 101
 EOF
@@ -157,9 +168,7 @@ umount_disk_image() {
 
 modify_vmdk_header() {
     # Modify the VMDK headers so that both VirtualBox _and_ VMware can
-    # read the vmdk and import them. The vodoo here is _not_ documented
-    # anywhere....so this will have to do. This is undocumented vodoo
-    # that has been learned by the Cloud Image team.
+    # read the vmdk and import them.
 
     vmdk_name="${1}"
     descriptor=$(mktemp)
@@ -251,9 +260,9 @@ convert_to_qcow2() {
 
 replace_grub_root_with_label() {
     # When update-grub is run, it will detect the disks in the build system.
-    # Instead, we want grub to use the cloudimg-rootfs labelled disk
+    # Instead, we want grub to use the right labelled disk
     CHROOT_ROOT="$1"
 
-    sed -i -e "s,root=[^ ]\+,root=LABEL=cloudimg-rootfs," \
+    sed -i -e "s,root=[^ ]\+,root=LABEL=${fs_label}," \
         "$CHROOT_ROOT/boot/grub/grub.cfg"
 }

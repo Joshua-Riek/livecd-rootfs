@@ -7,6 +7,9 @@ case $ARCH in
         ;;
 esac
 
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+FS_LABEL="cloudimg-rootfs"
+
 . config/functions
 
 create_partitions() {
@@ -33,7 +36,7 @@ install_grub() {
     # set the kernel commandline to use hvc0
     mkdir -p mountpoint/etc/default/grub.d
     cat << EOF > mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
-${CLOUD_IMG_STR}
+${IMAGE_STR}
 
 # Set the recordfail timeout
 GRUB_RECORDFAIL_TIMEOUT=0

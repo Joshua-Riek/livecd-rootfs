@@ -1,0 +1,168 @@
+#!/bin/bash -ex
+# vi: ts=4 noexpandtab
+#
+# Generate a squashfs root and manifest
+
+set -x
+
+echo "032-installer-squashfs.binary"
+
+case $IMAGE_TARGETS in
+	""|*squashfs*)
+		;;
+	*)
+		echo "Skipping squashfs build"
+		exit 0
+		;;
+esac
+
+if [ -n "$SUBARCH" ]; then
+	echo "Skipping rootfs build for subarch flavor build"
+	exit 0
+fi
+
+. config/functions
+
+SQUASH_ROOT=binary/boot/squashfs.dir
+OVERLAY_ROOT=binary/boot/overlay.dir
+
+mkdir -p "$OVERLAY_ROOT"
+
+setup_mountpoint binary/boot/squashfs.dir
+
+# Create an installer squashfs layer
+mount_overlay "$SQUASH_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
+
+# Prepare installer layer.
+
+# Install any requirements for the installer, for things we don't want
+# to see on the installed system
+chroot $SQUASH_ROOT apt-get update
+chroot $SQUASH_ROOT apt-get -y install user-setup
+chroot $SQUASH_ROOT apt-get -y install curtin
+
+# Don't let cloud-init run in the live session.
+touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
+
+# Do the snap seeding dance.
+chroot $SQUASH_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
+chroot $SQUASH_ROOT sh -c '
+set -x;
+cd /var/lib/snapd/seed;
+sudo SNAPPY_STORE_NO_CDN=1 snap download core;
+sudo SNAPPY_STORE_NO_CDN=1 snap download --channel=edge subiquity;
+
+CORE_SNAP=$(ls -1 core*.snap);
+SUBIQUITY_SNAP=$(ls -1 subiquity*.snap);
+
+mv *.assert /var/lib/snapd/seed/assertions/;
+mv *.snap /var/lib/snapd/seed/snaps/;
+
+cat <<EOF > /var/lib/snapd/seed/seed.yaml
+snaps:
+ - name: core
+   channel: stable
+   file: ${CORE_SNAP}
+ - name: subiquity
+   channel: edge
+   classic: true
+   file: ${SUBIQUITY_SNAP}
+EOF
+'
+
+cat <<EOF > $SQUASH_ROOT/var/lib/snapd/seed/assertions/cyphermox.account
+type: account
+authority-id: canonical
+account-id: H0szZPjHTU4x04XeYjLyv8tJqYXq7cYk
+display-name: Mathieu Trudel
+timestamp: 2016-09-12T20:11:03.478544Z
+username: cyphermox
+validation: unproven
+sign-key-sha3-384: BWDEoaqyr25nF5SNCvEv2v7QnM9QsfCc0PBMYD_i2NGSQ32EF2d4D0hqUel3m8ul
+
+AcLBUgQAAQoABgUCV9cL1wAAbQIQAEa8X5Bf2achG/9gC2d9YHWE+Uk9/FXK58bZ4Ym5VDTPW2Es
+BZOTMA6ROcCrii8/HM88+5bKGGoYLVNjfYUosYfR31kkFT1z1payhs4zfhANTBHXQpeNlGASm9ua
+O1UkBNFJwYu+tRh9gsY5wuryjfxXndS2pzUm2fXlFB4I/FgQEZnKJP99C3H0cUkGHzEwadRc7vqu
+/B+mmlwX/pgzlUwt3EXkCpx0hvN4ZgSzyKAtLn+ij2XSe4MxptT/uGCY2tnqsSa+H6J+O0RYENYD
+Xa7MJLXSGS9iqOwBkTO5X1eHSNPUs0LqzAqz4zTL5Kd9c/ohFwPzZpO8ltLA2nhKEfHzofMsMjEi
+qwhCDQ5LZD93dQ/VWzmmrCi9cmy+mci7K+hEYLtopzbkMl7cFBVVc2pQlTArspsFy9aMurCs4m8K
+GfGJOmvYP4Rnn8YYVLtAIPbGADAzG4mxBDxc8r+NRCprDIJmVHed/aQo6gNNip6VHi7xORnAJYRI
+0XQThASCRYzZxEBv3iND0GzAlRdlOLA+x+jRt2CDg0qLQ5DmuXGePEkEyJEMQb+OBsFHrPcvX1UI
+eHoKL9ZyvcrhsuPmG92P2UYiGp7qeKYmPQFsWNNh/R18tgingyJbm75pAE8MrpyZ1TTyDEYhwzbm
+F5zdm4dy0k1EGMhTTDz/hzlE0Ugw
+EOF
+
+cat <<EOF > $SQUASH_ROOT/var/lib/snapd/seed/assertions/cyphermox-sn-test.account-key
+type: account-key
+authority-id: canonical
+public-key-sha3-384: vihTQiNMkgsi2g39sggy3k4EVGrkFyWMof_nIrCbhxSOO7U00PRD_TDeWrpqGNor
+account-id: H0szZPjHTU4x04XeYjLyv8tJqYXq7cYk
+name: cyphermox-sn-test
+since: 2017-03-14T21:24:50Z
+body-length: 717
+sign-key-sha3-384: BWDEoaqyr25nF5SNCvEv2v7QnM9QsfCc0PBMYD_i2NGSQ32EF2d4D0hqUel3m8ul
+
+AcbBTQRWhcGAARAAqJ9Xdy+csx9nQkipmldiKNsBKqwRh3HjwlnSrBm/YpI7Jbgs6zubD8Zj/hwr
+bQiu4E2d6aobJcn3cgNdTlCEXES1M3sC6vSmkuz2fXdHRsYD6V3l5rlPjlyWPGNajcKvn1lEyOxC
+j6efASJysX5lCDPfGy8Joe4OdeZxmPAwCJpuxpltlSMBlPjCHBgHMzv+C1zh9wkBuFh3wDIFP8ih
+hnzGN/UevSHMfZCGh3y20TzDHeaeI35hiHkaibQuifqVNMTjnxReYKHV2eAP8/2XpEhfMAU6AD/Y
+020ayr9REE/c6KTYq7Po7REzvUrWlG0KknBtHM7wCn9puo5HrM767K0H+ts6fsrvx5kRC5ZheVOf
+Jh3EoXYQYCL1EGw0bzU03Lxx0RQ6teEc0WTDzky54vFr6UHjCAwethpzZ7MtZRdfwW4r/jUcxwXR
+JXXKh03WK/ivhtr9KAROVkdUeMb/txp/8DvLW5zs7ohTaaC0qH5J+MMp0lm6ux0S8WyPmMOcb0SP
+0IwOTvQc1ALDG3SiUgtJRP9Kt5jeuWIltH0cYE+QGPzey+fJ+iJx0QmeVnF2+O2JH2RihR5uJIBE
+HzQlNMVZB/iyjgdCLamMUeqa6DAOpzR2haIRgaXKtK0G9Ho1ArEsXZsRiFYorhtxzrwGmkq7kGCw
+tsY2pTeILZO1QPMAEQEAAQ==
+
+AcLBUgQAAQoABgUCWMhfrAAAXn4QALo795LKWhSNlzI7KIz3hq6rFK1YVDbj3KXW8xoF1FEwyE51
+4s1hZXc5N5h7DO49pj7JcXtE+Vi2gV+X294BqRevglBZgMwUtXdHX29IgPAx0jR9ARybS9A0QQYV
+OaoKmnq+44p76D2gZz0blax18uROJCKfL6GCRw29/C/GJWpRnEEJlXC2DVD45vJeptSqLDcBL6z+
+AypoV9NhJlmGm2jxPg5Jm+BdkyCZSbfNMw2sBcjJbs63KHgE9XsaP6Frb9gBexwXCx8/U6Y2jFTL
+wmyHpXXjBY0et8ze2bcqcEsDeW30eFALki/+FfPzjTtxY/Xo/r2j78YMHVFOkWJYj3MZJ+LJ0UWC
+eM4xzJm2ROwxFhFpIqlIRtR6WUPIxAx3Fb1j3uDTSBXDYv/hjxhSLZpw3/AN7Rj7pLWnwfD3076i
+3R900ad3/tRQp8hlrn4H9zRxBwaCKhZ9h1kfmyHcVpf0Nk03Fe5tHTai0pdHpC6bPi798Iw6qt0r
+D7VoKv29fa55zlGRTAG9mW0cbgkKUq1SBtLnBSy+peluVGjJWgZ3j1K9waTEoQPiNn6/JJvg2GjK
+awZPm8R1ngBYQs/vGPhcfz8DGF3uwFzbSh/bLAKky22qrRypTtczDXw4H1LWPlUvB4cQfTY6Ad+w
+KaHPaPmuIpn1DVEfPhNeByz57PDu
+EOF
+
+cat <<EOF > $SQUASH_ROOT/var/lib/snapd/seed/assertions/cyphermox-classic.model
+type: model
+authority-id: H0szZPjHTU4x04XeYjLyv8tJqYXq7cYk
+series: 16
+brand-id: H0szZPjHTU4x04XeYjLyv8tJqYXq7cYk
+model: cyphermox-test-classic
+classic: true
+timestamp: 2017-03-15T14:32:45+00:00
+sign-key-sha3-384: vihTQiNMkgsi2g39sggy3k4EVGrkFyWMof_nIrCbhxSOO7U00PRD_TDeWrpqGNor
+
+AcLBXAQAAQoABgUCWMm5vAAKCRBdai1JSycAlUiAD/41bWorQOI343Ub/JVGFXN8aHXwZWh2iVzY
+m42QbHZSuyyLBLiEqauiQLvuFa3Dtb3i6GC6hdtOlf/sPwZISriWrNuO5qPXik5SqP5zZop/qy4y
+msWpG1S6M/aNqGVfUPIx0v7l9iTb4ZG9hyyxPwdE5lFj4nIqWlu6rIGPCGC+dfAS62PPkUGdXqzV
+VOA6/D2FgthhxywaZZwSLwzP/Ee+JAgeO17iX605Lb0dzy/5HmopM7G8wUgzidPUY9AIZ63gr+GP
+KyBrvwHzE6PbH9QjQy1Z7DhkThKeViocx67ewnBocBr75F09LfcVR+cAxMujSs7NBbYl444aQeth
+HUuLwvuH189KsnQdqF2Tfta5lkCn9Uqeshq2c2jGyYXBTpvxyQny4X+yQZF1uEalH3PRR+AxIT9Y
+2siMLMuRyS/iMhIkLToutzuhZS+7ujuGs7H4l9C0hUon9c+62XEIkNH4rjutR7lCuFbE3CMqVl9H
+lgGQ6HXl0uoJHEzK4T1+ipstSiujn9KD+8LCtkz0YWFmdWQ97VHB2Wmjp4c2bze+BojbqJyfJ2bo
+AAHP0AEiHQ7zN0yLl7+fkYIMy64xQJqamH1Z2BFN0GWMPwTjpXpszOC+ev7Bpbg0xoldQ1tBHHxH
+J4Weia71DnXOnt8cj1VhebVMlyv7B/TGAbGwgprgmQ==
+EOF
+
+mv resolv.conf.tmp "binary/boot/squashfs.dir/etc/resolv.conf"
+
+# Unmount the overlay first, where it is mounted:
+umount "$SQUASH_ROOT"
+
+# Then we can start unmounting the "real" root:
+umount "binary/boot/squashfs.dir/proc"
+umount "binary/boot/squashfs.dir/sys"
+umount "binary/boot/squashfs.dir/dev/pts"
+umount "binary/boot/squashfs.dir/dev"
+umount "binary/boot/squashfs.dir/tmp"
+
+apt-get -qqy install squashfs-tools
+
+squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
+
+(cd "$OVERLAY_ROOT/" &&
+      mksquashfs . ${squashfs_f} \
+        -no-progress -xattrs -comp xz )

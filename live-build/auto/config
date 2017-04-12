@@ -33,6 +33,9 @@ if [ -z "$MIRROR" ]; then
 	esac
 fi
 
+mkdir -p config
+cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
+
 mkdir -p config/package-lists
 
 add_task ()
@@ -101,9 +104,12 @@ add_binary_hook ()
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
 }
 
-case $PROJECT in
-	ubuntu-cpc)
+case $PROJECT:$SUBPROJECT in
+	ubuntu-cpc:*)
 		IMAGEFORMAT=ext4
+		;;
+	ubuntu-server:live)
+		IMAGEFORMAT=plain
 		;;
 esac
 
@@ -130,7 +136,13 @@ case $IMAGEFORMAT in
 
 	plain)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
-		PREINSTALLED=true
+		case $PROJECT:$SUBPROJECT in
+			ubuntu-server:live)
+				;;
+			*)
+				PREINSTALLED=true
+				;;
+		esac
 		;;
 
 	*)
@@ -144,7 +156,7 @@ case $IMAGEFORMAT in
 		;;
 esac
 
-if [ "$PREINSTALLED" = "true" ] && [ "$SUBPROJECT" != "wubi" ]; then
+if [ "$PREINSTALLED" = "true" ]; then
 	# This is an oem-config preinstalled image, touch a random file that
 	# we can refer back to during build, cause that's wildly hackish
 	touch config/oem-config-preinstalled
@@ -363,6 +375,13 @@ case $PROJECT in
 
 	ubuntu-server)
 		add_task install minimal
+		case $SUBPROJECT in
+			live)
+				add_task install standard
+				add_task install server
+				LIVE_TASK='cloud-image'
+				;;
+		esac
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
@@ -694,16 +713,15 @@ EOF
 		;;
 esac
 
-case $PROJECT in
-	ubuntu-server)
-		cat > config/hooks/100-remove-fstab.chroot <<EOF
+if [ $PROJECT = ubuntu-server ] && [ $SUBPROJECT != live ]; then
+	cat > config/hooks/100-remove-fstab.chroot <<EOF
 #! /bin/sh
 rm -f /etc/fstab
 EOF
-		;;
+fi
 
-	ubuntukylin)
-		cat > config/hooks/100-ubuntukylin.chroot <<EOF
+if [ $PROJECT = ubuntukylin ]; then
+	cat > config/hooks/100-ubuntukylin.chroot <<EOF
 #! /bin/sh
 set -e
 HOOK=/usr/share/ubuntukylin-default-settings/hooks/chroot
@@ -712,8 +730,7 @@ if [ -x \$HOOK ]; then
 fi
 exit 0
 EOF
-		;;
-esac
+fi
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
@@ -748,7 +765,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*)
+	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*|ubuntu-server:live)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 		;;
