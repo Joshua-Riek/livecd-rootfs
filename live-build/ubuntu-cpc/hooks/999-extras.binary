@@ -8,6 +8,10 @@ if [ ! -d ${my_dir}/extra ]; then
     exit 0
 fi
 
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+CLOUD_IMG_STR="$IMAGE_STR"
+FS_LABEL="cloudimg-rootfs"
+
 # Export the common functions to the extras
 . config/functions
 
