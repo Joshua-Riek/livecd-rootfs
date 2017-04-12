@@ -168,9 +168,7 @@ umount_disk_image() {
 
 modify_vmdk_header() {
     # Modify the VMDK headers so that both VirtualBox _and_ VMware can
-    # read the vmdk and import them. The vodoo here is _not_ documented
-    # anywhere....so this will have to do. This is undocumented vodoo
-    # that has been learned by the Cloud Image team.
+    # read the vmdk and import them.
 
     vmdk_name="${1}"
     descriptor=$(mktemp)
