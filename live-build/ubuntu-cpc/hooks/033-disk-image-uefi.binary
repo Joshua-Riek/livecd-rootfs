@@ -78,7 +78,7 @@ install_grub() {
     esac
 
     cat << EOF >> mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
-${CLOUD_IMG_STR}
+${IMAGE_STR}
 # For Cloud Image compatability
 GRUB_PRELOAD_MODULES="${grub_modules}"
 EOF
@@ -93,7 +93,7 @@ EOF
 
     if [ -f mountpoint/boot/efi/EFI/BOOT/grub.cfg ]; then
         sed -i "s| root| root hd0,gpt1|" mountpoint/boot/efi/EFI/BOOT/grub.cfg
-        sed -i "1i${CLOUD_IMG_STR}" mountpoint/boot/efi/EFI/BOOT/grub.cfg
+        sed -i "1i${IMAGE_STR}" mountpoint/boot/efi/EFI/BOOT/grub.cfg
         # For some reason the grub disk is looking for /boot/grub/grub.cfg on
         # part 15....
         chroot mountpoint mkdir -p /boot/efi/boot/grub

@@ -36,7 +36,7 @@ install_grub() {
     # set the kernel commandline to use hvc0
     mkdir -p mountpoint/etc/default/grub.d
     cat << EOF > mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
-${CLOUD_IMG_STR}
+${IMAGE_STR}
 
 # Set the recordfail timeout
 GRUB_RECORDFAIL_TIMEOUT=0
