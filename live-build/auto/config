@@ -713,16 +713,15 @@ EOF
 		;;
 esac
 
-case $PROJECT in
-	ubuntu-server)
-		cat > config/hooks/100-remove-fstab.chroot <<EOF
+if [ $PROJECT = ubuntu-server ] && [ $SUBPROJECT != live ]; then
+	cat > config/hooks/100-remove-fstab.chroot <<EOF
 #! /bin/sh
 rm -f /etc/fstab
 EOF
-		;;
+fi
 
-	ubuntukylin)
-		cat > config/hooks/100-ubuntukylin.chroot <<EOF
+if [ $PROJECT = ubuntukylin ]; then
+	cat > config/hooks/100-ubuntukylin.chroot <<EOF
 #! /bin/sh
 set -e
 HOOK=/usr/share/ubuntukylin-default-settings/hooks/chroot
@@ -731,8 +730,7 @@ if [ -x \$HOOK ]; then
 fi
 exit 0
 EOF
-		;;
-esac
+fi
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
