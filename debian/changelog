@@ -1,3 +1,12 @@
+livecd-rootfs (2.442) UNRELEASED; urgency=medium
+
+  [ Robert Jennings ]
+  * live-build/ubuntu-cpc/hooks/060-ipv6.chroot: remove faulty release
+    comparison prior to aa-series (LP: #1681548)
+  * live-build/ubuntu-cpc/hooks/999-extras.binary: Exit on first failure
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Apr 2017 10:38:04 -0700
+
 livecd-rootfs (2.441) zesty; urgency=medium
 
   [ Balint Reczey ]

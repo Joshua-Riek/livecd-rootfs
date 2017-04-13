@@ -1,14 +1,7 @@
 #!/bin/bash
 #
-# Disable IPv6 privacy extensions on Utopic and later
+# Disable IPv6 privacy extensions
 #
-
-codename=$(sh -c 'lsb_release --short --codename')
-dist_ge() { [[ "$1" > "$2" || "$1" == "$2" ]]; }
-
-if ! dist_ge "${codename}" "trusty"; then
-    exit 0
-fi
 
 cat << EOF > /etc/sysctl.d/99-cloudimg-ipv6.conf
 # Written by the Cloud Image build process

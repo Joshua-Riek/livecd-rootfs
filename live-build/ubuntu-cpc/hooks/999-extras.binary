@@ -13,4 +13,4 @@ export CLOUD_IMG_STR="$IMAGE_STR"
 export FS_LABEL="cloudimg-rootfs"
 
 # Cleaner execution
-/bin/run-parts --regex ".*\.binary" "${extra_d}"
+/bin/run-parts --exit-on-error --regex ".*\.binary" "${extra_d}"
