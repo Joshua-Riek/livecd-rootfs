@@ -11,9 +11,22 @@ backing_img=
 apt-get -qqy install dosfstools gdisk
 
 clean_loops() {
+    local kpartx_ret
+    local kpartx_stdout
 
     if [ -n "${backing_img}" ]; then
-        kpartx -v -d "${backing_img}"
+        # sync before removing loop to avoid "Device or resource busy" errors
+        sync
+        kpartx_ret=""
+        kpartx_stdout=$(kpartx -v -d "${backing_img}") || kpartx_ret=$?
+        echo "$kpartx_stdout"
+        if [ -n "$kpartx_ret" ]; then
+            if echo "$kpartx_stdout" | grep -q "loop deleted: "; then
+                echo "Suppressing kpartx returning error (#860894)"
+            else
+                exit $kpartx_ret
+            fi
+        fi
         unset backing_img
     fi
 
