@@ -5,6 +5,9 @@ livecd-rootfs (2.442) UNRELEASED; urgency=medium
     comparison prior to aa-series (LP: #1681548)
   * live-build/ubuntu-cpc/hooks/999-extras.binary: Exit on first failure
 
+  [Balint Reczey]
+  * sync before calling kpartx to let writing to loop devices finish
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Apr 2017 10:38:04 -0700
 
 livecd-rootfs (2.441) zesty; urgency=medium

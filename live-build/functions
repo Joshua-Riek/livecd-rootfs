@@ -13,6 +13,8 @@ apt-get -qqy install dosfstools gdisk
 clean_loops() {
 
     if [ -n "${backing_img}" ]; then
+        # sync before removing loop to avoid "Device or resource busy" errors
+        sync
         kpartx -v -d "${backing_img}"
         unset backing_img
     fi
