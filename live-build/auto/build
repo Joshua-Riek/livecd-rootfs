@@ -10,6 +10,17 @@ Arguments "${@}"
 Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
 Set_defaults
 
+if [ -z "${PROJECT:-}" ]; then
+    echo "PROJECT environment variable has to be set" >&2
+    exit 1
+fi
+
+if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
+	# Use ubuntu-image instead of live-build
+	env SNAPPY_STORE_NO_CDN=1 ubuntu-image -o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
+	exit 0
+fi
+
 # Setup cleanup function
 Setup_cleanup
 
