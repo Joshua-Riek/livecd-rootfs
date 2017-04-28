@@ -5,8 +5,12 @@ livecd-rootfs (2.442) UNRELEASED; urgency=medium
     comparison prior to aa-series (LP: #1681548)
   * live-build/ubuntu-cpc/hooks/999-extras.binary: Exit on first failure
 
-  [Balint Reczey]
+  [ Balint Reczey ]
   * sync before calling kpartx to let writing to loop devices finish
+  * Sort and list dependencies nicely
+  * Require PROJECT environment to be set for lb build
+  * Allow overwriting IMAGEFORMAT even for ubuntu-cpc and ubuntu-server
+  * Optionally use ubuntu-image for building snap based images
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Apr 2017 10:38:04 -0700
 
