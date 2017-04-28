@@ -135,14 +135,17 @@ case $IMAGEFORMAT in
 		;;
 
 	plain)
-		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
+		INITRAMFS_TYPE=none
 		case $PROJECT:$SUBPROJECT in
 			ubuntu-server:live)
+				add_package live lupin-casper
+				INITRAMFS_TYPE=auto
 				;;
 			*)
 				PREINSTALLED=true
 				;;
 		esac
+		OPTS="${OPTS:+$OPTS }--initramfs $INITRAMFS_TYPE --chroot-filesystem $IMAGEFORMAT"
 		;;
 
 	*)
