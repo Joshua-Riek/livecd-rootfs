@@ -1,4 +1,4 @@
-livecd-rootfs (2.442) UNRELEASED; urgency=medium
+livecd-rootfs (2.442) artful; urgency=medium
 
   [ Robert Jennings ]
   * live-build/ubuntu-cpc/hooks/060-ipv6.chroot: remove faulty release
@@ -12,7 +12,7 @@ livecd-rootfs (2.442) UNRELEASED; urgency=medium
   * Allow overwriting IMAGEFORMAT even for ubuntu-cpc and ubuntu-server
   * Optionally use ubuntu-image for building snap based images
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Apr 2017 10:38:04 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 15:15:12 -0700
 
 livecd-rootfs (2.441.2) zesty; urgency=medium
 
