@@ -587,8 +587,10 @@ case $ARCH in
 		;;
 esac
 
-case $PROJECT in
-	ubuntu-server|ubuntu-base|ubuntu-touch|ubuntu-touch-custom)
+case $PROJECT:$SUBPROJECT in
+	ubuntu-server:live)
+		;;
+	ubuntu-server:*|ubuntu-base:*|ubuntu-touch:*|ubuntu-touch-custom:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
