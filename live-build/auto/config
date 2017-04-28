@@ -104,14 +104,16 @@ add_binary_hook ()
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
 }
 
-case $PROJECT:$SUBPROJECT in
-	ubuntu-cpc:*)
-		IMAGEFORMAT=ext4
-		;;
-	ubuntu-server:live)
-		IMAGEFORMAT=plain
-		;;
-esac
+if [ -z "${IMAGEFORMAT:-}" ]; then
+	case $PROJECT:$SUBPROJECT in
+		ubuntu-cpc:*)
+			IMAGEFORMAT=ext4
+			;;
+		ubuntu-server:live)
+			IMAGEFORMAT=plain
+			;;
+	esac
+fi
 
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
