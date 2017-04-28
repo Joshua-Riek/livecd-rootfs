@@ -15,6 +15,12 @@ if [ -z "${PROJECT:-}" ]; then
     exit 1
 fi
 
+if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
+	# Use ubuntu-image instead of live-build
+	env SNAPPY_STORE_NO_CDN=1 ubuntu-image -o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
+	exit 0
+fi
+
 # Setup cleanup function
 Setup_cleanup
 

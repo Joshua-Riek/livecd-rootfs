@@ -147,6 +147,35 @@ case $IMAGEFORMAT in
 		esac
 		;;
 
+	ubuntu-image)
+		case "$ARCH+${SUBARCH:-}" in
+			amd64+*)
+				MODEL=pc-amd64 ;;
+			i386+*)
+				MODEL=pc-i386 ;;
+			arm64+snapdragon)
+				MODEL=dragonboard ;;
+			armhf+raspi2)
+				MODEL=pi2 ;;
+			armhf+raspi3)
+				MODEL=pi3 ;;
+			*)
+				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
+				exit 1
+				;;
+		esac
+		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+		# Store model assertion in top dir to get it picked up later as a build artifact
+		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > livecd."$PROJECT".model-assertion
+		echo "Configured ubuntu-image for the following model assertion:"
+		cat livecd."$PROJECT".model-assertion
+		echo "----------------------------------------------------------"
+		# Fake finished configuration for lb build
+		mkdir -p .build
+		touch .build/config
+		exit 0
+		;;
+
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
