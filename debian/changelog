@@ -1,4 +1,4 @@
-livecd-rootfs (2.441.1) UNRELEASED; urgency=medium
+livecd-rootfs (2.441.1) zesty; urgency=medium
 
   * Setup kernel properly for ubuntu-server:live; we *do* want to build
     kernel-generic and initrd-generic for this image. (LP: #1682460)
