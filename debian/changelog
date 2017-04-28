@@ -14,6 +14,20 @@ livecd-rootfs (2.442) UNRELEASED; urgency=medium
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Apr 2017 10:38:04 -0700
 
+livecd-rootfs (2.441.2) zesty; urgency=medium
+
+  * The ubuntu-server:live should use a casper-based initramfs to work
+    correctly. (LP: #1682460)
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 18 Apr 2017 09:56:31 -0400
+
+livecd-rootfs (2.441.1) zesty; urgency=medium
+
+  * Setup kernel properly for ubuntu-server:live; we *do* want to build
+    kernel-generic and initrd-generic for this image. (LP: #1682460)
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Thu, 13 Apr 2017 11:14:09 -0400
+
 livecd-rootfs (2.441) zesty; urgency=medium
 
   [ Balint Reczey ]
