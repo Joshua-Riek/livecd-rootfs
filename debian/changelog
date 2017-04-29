@@ -1,3 +1,12 @@
+livecd-rootfs (2.445) UNRELEASED; urgency=medium
+
+  * Resurrect Balint's fix from
+    lp:~rbalint/livecd-rootfs/livecd-rootfs-autopkgtest-fix to wrap kpartx
+    and trap spurious errors, since the problem is still being seen
+    intermittently on i386 despite us calling sync before kpartx.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 20:43:10 -0700
+
 livecd-rootfs (2.444) artful; urgency=medium
 
   * For now, make sure all automated image builds are on the edge channel.
