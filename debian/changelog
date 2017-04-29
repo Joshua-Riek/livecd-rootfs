@@ -1,9 +1,9 @@
-livecd-rootfs (2.444) UNRELEASED; urgency=medium
+livecd-rootfs (2.444) artful; urgency=medium
 
   * For now, make sure all automated image builds are on the edge channel.
     Eventually we will want to pass the channel as build metadata instead.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 17:58:08 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 18:22:45 -0700
 
 livecd-rootfs (2.443) artful; urgency=medium
 
