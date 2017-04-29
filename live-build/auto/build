@@ -17,7 +17,10 @@ fi
 
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
+	apt-get install -qqy pxz
+
 	env SNAPPY_STORE_NO_CDN=1 ubuntu-image -o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
+	pxz -T4 livecd."$PROJECT".img
 	exit 0
 fi
 

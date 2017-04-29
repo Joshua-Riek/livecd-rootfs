@@ -2,6 +2,8 @@ livecd-rootfs (2.443) UNRELEASED; urgency=medium
 
   * Mark autopkgtests isolation-machine since debootstrap won't work in a
     container.
+  * Use xz to compress ubuntu-image .img files before transfer, so that we
+    have smaller downloads and retain file sparseness everywhere.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 17:41:05 -0700
 
