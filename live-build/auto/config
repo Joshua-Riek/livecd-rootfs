@@ -332,7 +332,7 @@ case $PROJECT in
 
 	lubuntu)
 		add_task install minimal standard lubuntu-desktop
-		LIVE_TASK='lubuntu-live'
+		LIVE_TASK='lubuntu-live-gtk'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
@@ -348,7 +348,7 @@ case $PROJECT in
 
 	lubuntu-next)
 		add_task install minimal standard lubuntu-qt-desktop
-		LIVE_TASK='lubuntu-next-live'
+		LIVE_TASK='lubuntu-live-qt'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
