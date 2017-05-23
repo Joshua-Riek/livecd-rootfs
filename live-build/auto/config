@@ -348,7 +348,7 @@ case $PROJECT in
 
 	lubuntu-next)
 		add_task install minimal standard lubuntu-qt-desktop
-		LIVE_TASK='lubuntu-next-live'
+		LIVE_TASK='lubuntu-live-qt'
 		case $ARCH in
 			amd64)	add_package live linux-signed-generic ;;
 		esac
@@ -356,6 +356,10 @@ case $PROJECT in
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
 		esac
+
+		# The Lubuntu STRUCTURE file has "feature
+		# no-follow-recommends". Mirror this.
+		export APT_OPTIONS="--yes --no-install-recommends"
 		;;
 
 	ubuntu-gnome)
