@@ -1,4 +1,4 @@
-livecd-rootfs (2.445) UNRELEASED; urgency=medium
+livecd-rootfs (2.445) artful; urgency=medium
 
   * Resurrect Balint's fix from
     lp:~rbalint/livecd-rootfs/livecd-rootfs-autopkgtest-fix to wrap kpartx
@@ -12,7 +12,7 @@ livecd-rootfs (2.445) UNRELEASED; urgency=medium
   * Use the correct task for lubuntu-next.
   * Use --no-install-recommends for lubuntu-next, consistent with lubuntu.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 28 Apr 2017 20:43:10 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 23 May 2017 15:56:52 -0700
 
 livecd-rootfs (2.444) artful; urgency=medium
 
