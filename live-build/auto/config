@@ -233,12 +233,10 @@ case $BINARYFORMAT in
 esac
 
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
-UNITY_HWE_HINTS="unity-settings-daemon notify-osd libqt4-sql-sqlite unity gnome-terminal"
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_package install ubuntu-minimal ubuntu-standard
-		add_package install ubuntu-desktop $UNITY_HWE_HINTS
+		add_task install minimal standard ubuntu-desktop
 		LIVE_TASK='ubuntu-live'
 		case $ARCH in
 			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
