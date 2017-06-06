@@ -1,4 +1,4 @@
-livecd-rootfs (2.446) UNRELEASED; urgency=medium
+livecd-rootfs (2.446) artful; urgency=medium
 
   * Build ubuntu back with tasks. The metapackage switch was due to g++
     transition and needed some additional hint. This is adding maintenance
