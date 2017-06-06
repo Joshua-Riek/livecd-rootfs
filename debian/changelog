@@ -1,3 +1,11 @@
+livecd-rootfs (2.446) UNRELEASED; urgency=medium
+
+  * Build ubuntu back with tasks. The metapackage switch was due to g++
+    transition and needed some additional hint. This is adding maintenance
+    and as mentioned in 2.335, we can revert this.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Fri, 02 Jun 2017 15:08:29 +0200
+
 livecd-rootfs (2.445) artful; urgency=medium
 
   * Resurrect Balint's fix from
