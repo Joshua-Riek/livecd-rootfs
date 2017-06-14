@@ -1,3 +1,11 @@
+livecd-rootfs (2.447) UNRELEASED; urgency=medium
+
+  * Depend on packages in main instead of installing them at runtime
+  * Depend on pxz and vmdk-stream-converter instead of installing them
+    at run time
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Wed, 14 Jun 2017 18:25:32 +0200
+
 livecd-rootfs (2.446) artful; urgency=medium
 
   * Build ubuntu back with tasks. The metapackage switch was due to g++
