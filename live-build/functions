@@ -226,7 +226,6 @@ create_vmdk() {
     destination="$2"
     size="${3:-10240}"
 
-    apt-get install -qqy vmdk-stream-converter
     streamconverter="/usr/share/pyshared/VMDKstream.py"
     scratch_d=$(mktemp -d)
     cp ${src} ${scratch_d}/resize.img
