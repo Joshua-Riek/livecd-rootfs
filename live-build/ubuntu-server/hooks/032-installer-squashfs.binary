@@ -159,8 +159,6 @@ umount "binary/boot/squashfs.dir/dev/pts"
 umount "binary/boot/squashfs.dir/dev"
 umount "binary/boot/squashfs.dir/tmp"
 
-apt-get -qqy install squashfs-tools
-
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 
 (cd "$OVERLAY_ROOT/" &&

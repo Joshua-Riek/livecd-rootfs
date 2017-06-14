@@ -19,8 +19,6 @@ case $ARCH:$SUBARCH in
 		;;
 esac
 
-apt-get install -qqy qemu-utils
-
 . config/functions
 
 if [ -f binary/boot/disk-uefi.ext4 ]; then

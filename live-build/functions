@@ -8,8 +8,6 @@ loop_device=
 loop_raw=
 backing_img=
 
-apt-get -qqy install dosfstools gdisk
-
 clean_loops() {
     local kpartx_ret
     local kpartx_stdout
@@ -51,7 +49,6 @@ make_ext4_partition() {
 }
 
 mount_image() {
-    apt-get install -qqy kpartx
     trap clean_loops EXIT
     backing_img="$1"
     local rootpart="$2"
@@ -158,7 +155,6 @@ umount_partition() {
 
         # both of these are likely overkill, but it does result in slightly
         # smaller ext4 filesystem
-        apt-get -qqy install zerofree
         e2fsck -y -E discard ${rootfs_dev_mapper}
         zerofree ${rootfs_dev_mapper}
     fi
@@ -230,7 +226,7 @@ create_vmdk() {
     destination="$2"
     size="${3:-10240}"
 
-    apt-get install -qqy qemu-utils vmdk-stream-converter
+    apt-get install -qqy vmdk-stream-converter
     streamconverter="/usr/share/pyshared/VMDKstream.py"
     scratch_d=$(mktemp -d)
     cp ${src} ${scratch_d}/resize.img
@@ -263,8 +259,6 @@ create_derivative() {
 }
 
 convert_to_qcow2() {
-    apt-get install -qqy qemu-utils
-
     src="$1"
     destination="$2"
     qemu-img convert -c -O qcow2 -o compat=0.10 "$src" "$destination"
