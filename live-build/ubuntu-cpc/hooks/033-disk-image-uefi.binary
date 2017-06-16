@@ -14,8 +14,6 @@ FS_LABEL="cloudimg-rootfs"
 
 . config/functions
 
-apt-get -qqy install dosfstools gdisk
-
 create_partitions() {
     disk_image="$1"
     sgdisk "${disk_image}" --zap-all

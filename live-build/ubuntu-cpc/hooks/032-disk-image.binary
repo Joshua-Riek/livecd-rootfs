@@ -32,8 +32,6 @@ case $ARCH:$SUBARCH in
 esac
 
 create_empty_partition_table() {
-    apt-get install -qqy parted
-
     parted "$1" --script -- mklabel msdos
 }
 

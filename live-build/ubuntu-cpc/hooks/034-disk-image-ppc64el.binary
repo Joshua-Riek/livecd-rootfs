@@ -14,7 +14,6 @@ FS_LABEL="cloudimg-rootfs"
 
 create_partitions() {
     disk_image="$1"
-    apt-get install -qqy gdisk
     sgdisk "${disk_image}" \
         --zap-all
     sgdisk "${disk_image}" \
