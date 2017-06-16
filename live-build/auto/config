@@ -162,6 +162,8 @@ case $IMAGEFORMAT in
 				MODEL=pi2 ;;
 			armhf+raspi3)
 				MODEL=pi3 ;;
+			armhf+cm3)
+				MODEL=cm3 ;;
 			*)
 				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
 				exit 1
