@@ -1,8 +1,8 @@
-livecd-rootfs (2.447) UNRELEASED; urgency=medium
+livecd-rootfs (2.447) artful; urgency=medium
 
   * Add cm3 as a known ubuntu-core image type.  LP: #1698223.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 15 Jun 2017 23:35:00 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 15 Jun 2017 23:36:44 -0700
 
 livecd-rootfs (2.446) artful; urgency=medium
 
