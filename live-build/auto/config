@@ -94,6 +94,8 @@ PREINSTALL_POOL_SEEDS=
 CHROOT_HOOKS=
 BINARY_HOOKS=
 
+APT_OPTIONS=" --yes -oDebug::pkgDepCache::AutoInstall=yes "
+
 add_chroot_hook ()
 {
 	CHROOT_HOOKS="${CHROOT_HOOKS:+$CHROOT_HOOKS }$1"
@@ -343,7 +345,7 @@ case $PROJECT in
 
 		# The Lubuntu STRUCTURE file has "feature
 		# no-follow-recommends".  Mirror this.
-		export APT_OPTIONS="--yes --no-install-recommends"
+		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
 		;;
 
 	lubuntu-next)
@@ -359,7 +361,7 @@ case $PROJECT in
 
 		# The Lubuntu STRUCTURE file has "feature
 		# no-follow-recommends". Mirror this.
-		export APT_OPTIONS="--yes --no-install-recommends"
+		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
 		;;
 
 	ubuntu-gnome)
@@ -556,6 +558,8 @@ case $PROJECT in
 		exit 2
 		;;
 esac
+
+export APT_OPTIONS
 
 if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
 	add_task live "$LIVE_TASK"

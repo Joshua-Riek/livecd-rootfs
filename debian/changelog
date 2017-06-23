@@ -1,8 +1,13 @@
 livecd-rootfs (2.448) UNRELEASED; urgency=medium
 
+  [ Balint Reczey ]
   * Depend on packages in main instead of installing them at runtime
   * Depend on pxz and vmdk-stream-converter instead of installing them
     at run time
+
+  [ Mathieu Trudel-Lapierre ]
+  * auto/config: enable Debug::pkgDepCache::AutoInstall so tracking down
+    dependency bugs in the livefs is a little clearer.
 
  -- Balint Reczey <rbalint@ubuntu.com>  Wed, 14 Jun 2017 18:25:32 +0200
 
