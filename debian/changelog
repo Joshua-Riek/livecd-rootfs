@@ -12,6 +12,9 @@ livecd-rootfs (2.448) UNRELEASED; urgency=medium
   * auto/config: enable Debug::pkgDepCache::AutoInstall so tracking down
     dependency bugs in the livefs is a little clearer.
 
+  [ Robert C Jennings ]
+  * live-build/functions: Update path for VMDKstream.py (LP: #1706116)
+
  -- Balint Reczey <rbalint@ubuntu.com>  Wed, 14 Jun 2017 18:25:32 +0200
 
 livecd-rootfs (2.447) artful; urgency=medium

@@ -226,7 +226,7 @@ create_vmdk() {
     destination="$2"
     size="${3:-10240}"
 
-    streamconverter="/usr/share/pyshared/VMDKstream.py"
+    streamconverter="/usr/lib/python2.7/dist-packages/VMDKstream.py"
     scratch_d=$(mktemp -d)
     cp ${src} ${scratch_d}/resize.img
 
