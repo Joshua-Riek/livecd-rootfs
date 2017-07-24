@@ -1,3 +1,9 @@
+livecd-rootfs (2.449) UNRELEASED; urgency=medium
+
+  * Use VMDKstream in a more future-proof way
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Mon, 24 Jul 2017 20:39:35 +0200
+
 livecd-rootfs (2.448) artful; urgency=medium
 
   [ Balint Reczey ]
