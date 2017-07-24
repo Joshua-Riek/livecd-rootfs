@@ -1,4 +1,4 @@
-livecd-rootfs (2.448) UNRELEASED; urgency=medium
+livecd-rootfs (2.448) artful; urgency=medium
 
   [ Balint Reczey ]
   * Depend on packages in main instead of installing them at runtime
@@ -15,7 +15,7 @@ livecd-rootfs (2.448) UNRELEASED; urgency=medium
   [ Robert C Jennings ]
   * live-build/functions: Update path for VMDKstream.py (LP: #1706116)
 
- -- Balint Reczey <rbalint@ubuntu.com>  Wed, 14 Jun 2017 18:25:32 +0200
+ -- Brian Murray <brian@ubuntu.com>  Mon, 24 Jul 2017 11:06:24 -0700
 
 livecd-rootfs (2.447) artful; urgency=medium
 
