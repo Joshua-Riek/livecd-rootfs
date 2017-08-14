@@ -20,36 +20,6 @@ _xchroot() {
 #### COMMON architecture independent functions
 arch=$(_xchroot "${rootd}" dpkg --print-architecture)
 
-add_serial_console() {
-   condev=$1
-   idir="$rootd/etc/init"
-   cat << EOF > "${idir}/${condev}.conf"
-# CONDEV - getty
-#
-# This service maintains a getty on CONDEV from the point the system is
-# started until it is shut down again.
-
-start on stopped rc RUNLEVEL=[2345] and (
-            not-container or
-            container CONTAINER=lxc or
-            container CONTAINER=lxc-libvirt)
-
-stop on runlevel [!2345]
-
-pre-start script
-    # getty will not be started if the serial console is not present
-    stty -F /dev/CONDEV -a 2> /dev/null > /dev/null || { stop ; exit 0; }
-end script
-
-respawn
-script
-    exec /sbin/getty -L CONDEV 115200 vt102
-end script
-${CLOUD_IMG_STR}
-EOF
-   sed -i "s/CONDEV/${condev}/g" "$idir/${condev}.conf"
-}
-
 fake_cloud_init() {
     # If the cloud does not provide a meta-data service this should be run
     # This will setup a nocloud datasource.
@@ -157,8 +127,6 @@ fi
 case $arch in
 	# ARM images are special
 	armhf|arm64)
-		echo "Configuring ARM Serial Port"
-		add_serial_console ttyAMA0
 		# Dirty hack because SUBARCH doesn't exist when running chroot hooks,
 		# and we don't want raspi2 images to depend on a cloud data source:
 		if _xchroot "${rootd}" dpkg -l linux-image-raspi2 2>/dev/null | grep -q '^.i'; then
@@ -169,15 +137,7 @@ case $arch in
 
 		exit 0
 		;;
-	## Add ttyS0 for i386/amd64 for Trusty and newer
-	i386|amd64)
-		add_serial_console ttyS0
-		;;
-	powerpc|ppc64el)
-		add_serial_console hvc0
-		exit 0
-		;;
-	s390x)
+	powerpc|ppc64el|s390x)
 		exit 0
 		;;
 esac
