@@ -1,6 +1,10 @@
 livecd-rootfs (2.449) UNRELEASED; urgency=medium
 
+  [ Balint Reczey ]
   * Use VMDKstream in a more future-proof way
+
+  [ Steve Langasek ]
+  * Set a default locale of C.UTF-8 in the cloud images.
 
  -- Balint Reczey <rbalint@ubuntu.com>  Mon, 24 Jul 2017 20:39:35 +0200
 
