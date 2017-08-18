@@ -60,6 +60,12 @@ _xchroot "${rootd}" sh -c 'rm -f /etc/ssh/ssh_host_[rd]sa_key*'
 _xchroot "${rootd}" locale-gen en_US.utf8
 
 ## --------------
+# We continue to pre-generate en_US.UTF-8 locale above, but the default locale
+# should be C.UTF-8 for 17.10 and later.  For earlier releases, cloud-init may
+# override this.
+echo LANG="C.UTF-8" > "${rootd}/etc/default/locale"
+
+## --------------
 # set cloud-init to be on
 values="NoCloud, ConfigDrive, AltCloud, OVF, MAAS, Ec2, None"
 printf "%s\t%s\t%s\t%s\n" \
