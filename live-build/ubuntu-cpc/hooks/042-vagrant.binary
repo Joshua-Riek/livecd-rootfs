@@ -93,13 +93,36 @@ ubuntu_user_pass=$(openssl rand -hex 12)
 
 cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 
+
+# Create and setup users inside the image.
+# Vagrant users expect a "vagrant" user with a "vagrant" username, and that the
+# root password is set to "vagrant" as well.
+# See https://www.vagrantup.com/docs/boxes/base.html
+chroot ${mount_d} useradd -m vagrant -s /bin/bash
+echo "root:vagrant" | chroot ${mount_d} chpasswd
+echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
+
+# The vagrant user should have passwordless sudo.
+cat << EOF > ${mount_d}/etc/sudoers.d/vagrant
+vagrant ALL=(ALL) NOPASSWD:ALL
+EOF
+
+# Add the insecure vagrant pubkey to the vagrant user, as is expected by the
+# vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
+chroot ${mout_d} chmod 0440 /etc/sudoers.d/vagrant
+chroot ${mount_d} mkdir -p /home/vagrant/.ssh
+chroot ${mount_d} chown -R vagrant: /home/vagrant/.ssh
+cat << EOF > ${mount_d}/home/vagrant/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+EOF
+
 # Create the user-data. This is totally insecure, but so is Vagrant. To
 # mitigate this insecurity, the vagrant instance is not accessible
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-password: ${ubuntu_user_pass}
 chpasswd: { expire: False }
+password: ${ubuntu_user_pass}
 ssh_pwauth: True
 manage_etc_hosts: localhost
 END
@@ -139,10 +162,11 @@ cat > ${box_d}/Vagrantfile <<EOF
 include_vagrantfile = File.expand_path("../include/_Vagrantfile", __FILE__)
 load include_vagrantfile if File.exist?(include_vagrantfile)
 
+## We also have an "ubuntu" user with pass "${ubuntu_user_pass}"
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
-  config.ssh.username = "ubuntu"
-  config.ssh.password = "${ubuntu_user_pass}"
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
