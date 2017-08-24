@@ -83,7 +83,7 @@ EOF
 
 # Add the insecure vagrant pubkey to the vagrant user, as is expected by the
 # vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
-chroot ${mout_d} chmod 0440 /etc/sudoers.d/vagrant
+chroot ${mount_d} chmod 0440 /etc/sudoers.d/vagrant
 chroot ${mount_d} mkdir -p /home/vagrant/.ssh
 chroot ${mount_d} chown -R vagrant: /home/vagrant/.ssh
 cat << EOF > ${mount_d}/home/vagrant/.ssh/authorized_keys
