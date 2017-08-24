@@ -62,24 +62,21 @@ install_grub() {
     efi_boot_dir="/boot/efi/EFI/BOOT"
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
+    # UEFI GRUB modules are meant to be used equally by Secure Boot and
+    # non-Secure Boot systems. If you need an extra module not already
+    # provided or run into "Secure Boot policy forbids loading X" problems,
+    # please file a bug against grub2 to include the affected module.
     case $ARCH in
         arm64)
             chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm64 grub-efi-arm64-bin
-            grub_modules="part_gpt fat gzio ext2 normal chain boot configfile linux search_fs_uuid search_label terminal serial video video_fb efi_gop"
             efi_target=arm64-efi
             ;;
         amd64)
             chroot mountpoint apt-get install -qqy grub-efi-amd64-signed grub-efi-amd64 shim-signed
-            grub_modules="part_gpt fat ext2 normal chain boot configfile linux multiboot search_fs_uuid search_label terminal serial video video_fb video_bochs usb usb_keyboard efi_gop efi_uga"
             efi_target=x86_64-efi
             ;;
     esac
 
-    cat << EOF >> mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
-${IMAGE_STR}
-# For Cloud Image compatability
-GRUB_PRELOAD_MODULES="${grub_modules}"
-EOF
     chroot mountpoint grub-install "${loop_device}" \
         --boot-directory=/boot \
         --efi-directory=/boot/efi \
