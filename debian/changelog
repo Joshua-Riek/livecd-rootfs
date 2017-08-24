@@ -3,6 +3,10 @@ livecd-rootfs (2.450) UNRELEASED; urgency=medium
   [ Steve Langasek ]
   * Set a default locale of C.UTF-8 in the cloud images.
 
+  [ Mathieu Trudel-Lapierre ]
+  * Drop special handling of grub modules.  Modules should be included in
+    the signed grub binaries when necessary.
+
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 18 Aug 2017 09:11:42 +0100
 
 livecd-rootfs (2.449) artful; urgency=medium
