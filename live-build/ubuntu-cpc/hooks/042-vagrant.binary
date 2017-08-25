@@ -81,6 +81,9 @@ cat << EOF > ${mount_d}/etc/sudoers.d/vagrant
 vagrant ALL=(ALL) NOPASSWD:ALL
 EOF
 
+# We should permit root login with password :(
+sed -i 's/^#PermitRootLogin .*/PermitRootLogin yes/g' ${mount_d}/etc/ssh/sshd_config
+
 # Add the insecure vagrant pubkey to the vagrant user, as is expected by the
 # vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
 chroot ${mount_d} chmod 0440 /etc/sudoers.d/vagrant
