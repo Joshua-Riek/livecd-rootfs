@@ -115,14 +115,13 @@ ubuntu_user_pass=$(openssl rand -hex 12)
 
 cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 
-
 # Create the user-data. This is totally insecure, but so is Vagrant. To
 # mitigate this insecurity, the vagrant instance is not accessible
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-chpasswd: { expire: False }
 password: ${ubuntu_user_pass}
+chpasswd: { expire: False }
 ssh_pwauth: True
 manage_etc_hosts: localhost
 END
