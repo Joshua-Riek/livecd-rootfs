@@ -69,11 +69,9 @@ chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-ut
 chroot ${mount_d} apt-get clean
 
 # Create and setup users inside the image.
-# Vagrant users expect a "vagrant" user with a "vagrant" username, and that the
-# root password is set to "vagrant" as well.
+# Vagrant users expect a "vagrant" user with a "vagrant" username.
 # See https://www.vagrantup.com/docs/boxes/base.html
 chroot ${mount_d} useradd -m vagrant -s /bin/bash
-echo "root:vagrant" | chroot ${mount_d} chpasswd
 echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
 
 # The vagrant user should have passwordless sudo.
@@ -82,7 +80,7 @@ vagrant ALL=(ALL) NOPASSWD:ALL
 EOF
 
 # We should permit root login with password :(
-sed -i 's/^#PermitRootLogin .*/PermitRootLogin yes/g' ${mount_d}/etc/ssh/sshd_config
+#sed -i 's/^#PermitRootLogin .*/PermitRootLogin yes/g' ${mount_d}/etc/ssh/sshd_config
 
 # Add the insecure vagrant pubkey to the vagrant user, as is expected by the
 # vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
@@ -125,7 +123,7 @@ cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-chpasswd: { expire: False }
+chpasswd: { expire: True }
 password: ${ubuntu_user_pass}
 ssh_pwauth: True
 manage_etc_hosts: localhost
@@ -169,8 +167,8 @@ load include_vagrantfile if File.exist?(include_vagrantfile)
 ## We also have an "ubuntu" user with pass "${ubuntu_user_pass}"
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
-  config.ssh.username = "vagrant"
-  config.ssh.password = "vagrant"
+  config.ssh.username = "ubuntu"
+  config.ssh.password = "${ubuntu_user_pass}"
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
