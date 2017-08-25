@@ -121,7 +121,7 @@ cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-chpasswd: { expire: True }
+chpasswd: { expire: False }
 password: ${ubuntu_user_pass}
 ssh_pwauth: True
 manage_etc_hosts: localhost
@@ -165,8 +165,6 @@ load include_vagrantfile if File.exist?(include_vagrantfile)
 ## We also have an "ubuntu" user with pass "${ubuntu_user_pass}"
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
-  config.ssh.username = "vagrant"
-  config.ssh.password = "vagrant"
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
