@@ -167,8 +167,8 @@ load include_vagrantfile if File.exist?(include_vagrantfile)
 ## We also have an "ubuntu" user with pass "${ubuntu_user_pass}"
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
-  config.ssh.username = "ubuntu"
-  config.ssh.password = "${ubuntu_user_pass}"
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
