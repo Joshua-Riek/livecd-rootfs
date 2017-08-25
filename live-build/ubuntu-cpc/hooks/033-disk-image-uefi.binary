@@ -83,8 +83,7 @@ install_grub() {
         --target=${efi_target} \
         --removable \
         --uefi-secure-boot \
-        --no-nvram \
-        --modules="${grub_modules}"
+        --no-nvram
 
     if [ -f mountpoint/boot/efi/EFI/BOOT/grub.cfg ]; then
         sed -i "s| root| root hd0,gpt1|" mountpoint/boot/efi/EFI/BOOT/grub.cfg
