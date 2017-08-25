@@ -71,6 +71,7 @@ chroot ${mount_d} apt-get clean
 # Create and setup users inside the image.
 # Vagrant users expect a "vagrant" user with a "vagrant" username.
 # See https://www.vagrantup.com/docs/boxes/base.html
+# Note: We decided NOT to allow root login with a default password.
 chroot ${mount_d} useradd -m vagrant -s /bin/bash
 echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
 
@@ -78,9 +79,6 @@ echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
 cat << EOF > ${mount_d}/etc/sudoers.d/vagrant
 vagrant ALL=(ALL) NOPASSWD:ALL
 EOF
-
-# We should permit root login with password :(
-#sed -i 's/^#PermitRootLogin .*/PermitRootLogin yes/g' ${mount_d}/etc/ssh/sshd_config
 
 # Add the insecure vagrant pubkey to the vagrant user, as is expected by the
 # vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
