@@ -1,9 +1,9 @@
-livecd-rootfs (2.451) UNRELEASED; urgency=medium
+livecd-rootfs (2.451) artful; urgency=medium
 
   * Fix a reference to an undefined variable in the ubuntu-cpc hooks,
     introduced by the previous upload.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 25 Aug 2017 14:28:01 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 25 Aug 2017 14:28:43 -0700
 
 livecd-rootfs (2.450) artful; urgency=medium
 
