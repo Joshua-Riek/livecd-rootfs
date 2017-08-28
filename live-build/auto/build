@@ -235,9 +235,15 @@ EOF
 	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
 	echo END docdirs
 
-	lb binary "$@"
-	touch binary.success
+	if [ -z "${GENERATE_ROOTFS_ONLY:-}" ]; then
+		lb binary "$@"
+		touch binary.success    
+	fi
 ) 2>&1 | tee binary.log
+
+if [ ! -z "${GENERATE_ROOTFS_ONLY:-}" ] && [ "${GENERATE_ROOTFS_ONLY}" != "false" ]; then
+	exit 0
+fi
 
 # bash has trouble with the build.sh sourcing arrangement at the top of this
 # file, so we use this cheap-and-cheerful approach rather than the more
