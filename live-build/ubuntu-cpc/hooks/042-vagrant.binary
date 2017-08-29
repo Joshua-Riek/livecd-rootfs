@@ -102,12 +102,6 @@ prefix="${distro}-${suite}-${version}-cloudimg"
 vmdk_f="${box_d}/${prefix}.vmdk"
 create_vmdk ${derivative_img} ${vmdk_f}
 
-# Vagrant needs a base user. We either inject the well-known SSH key
-# or use password authentication. Both are ugly. So we'll use a password
-# and make it random. This obviously is insecure...but at least its
-# better than the alternatives.
-ubuntu_user_pass=$(openssl rand -hex 12)
-
 ####################################
 # Create the ConfigDrive
 # This is a cloud-init piece that instructs cloud-init to configure
@@ -120,9 +114,6 @@ cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-password: ${ubuntu_user_pass}
-chpasswd: { expire: False }
-ssh_pwauth: True
 manage_etc_hosts: localhost
 END
 
@@ -161,7 +152,6 @@ cat > ${box_d}/Vagrantfile <<EOF
 include_vagrantfile = File.expand_path("../include/_Vagrantfile", __FILE__)
 load include_vagrantfile if File.exist?(include_vagrantfile)
 
-## We also have an "ubuntu" user with pass "${ubuntu_user_pass}"
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
 
