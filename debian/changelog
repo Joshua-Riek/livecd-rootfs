@@ -1,3 +1,9 @@
+livecd-rootfs (2.452) UNRELEASED; urgency=medium
+
+  * Fix suppressing kpartx error
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Tue, 29 Aug 2017 16:18:36 +0200
+
 livecd-rootfs (2.451) artful; urgency=medium
 
   * Fix a reference to an undefined variable in the ubuntu-cpc hooks,
