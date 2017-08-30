@@ -1,4 +1,4 @@
-livecd-rootfs (2.452) UNRELEASED; urgency=medium
+livecd-rootfs (2.452) artful; urgency=medium
 
   * Fix suppressing kpartx error
 
