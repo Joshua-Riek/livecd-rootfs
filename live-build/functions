@@ -19,7 +19,7 @@ clean_loops() {
         kpartx_stdout=$(kpartx -v -d "${backing_img}") || kpartx_ret=$?
         echo "$kpartx_stdout"
         if [ -n "$kpartx_ret" ]; then
-            if echo "$kpartx_stdout" | grep -q "loop deleted: "; then
+            if echo "$kpartx_stdout" | grep -q "loop deleted"; then
                 echo "Suppressing kpartx returning error (#860894)"
             else
                 exit $kpartx_ret

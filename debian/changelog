@@ -1,6 +1,6 @@
 livecd-rootfs (2.452) UNRELEASED; urgency=medium
 
-  *
+  * Fix suppressing kpartx error
 
  -- Balint Reczey <rbalint@ubuntu.com>  Tue, 29 Aug 2017 16:18:36 +0200
 
