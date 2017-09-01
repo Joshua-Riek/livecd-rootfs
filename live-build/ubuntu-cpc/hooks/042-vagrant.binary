@@ -67,6 +67,29 @@ chroot ${mount_d} apt-get update
 # avoid pulling into a cloud image.
 chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-utils
 chroot ${mount_d} apt-get clean
+
+# Create and setup users inside the image.
+# Vagrant users expect a "vagrant" user with a "vagrant" username.
+# See https://www.vagrantup.com/docs/boxes/base.html
+# Note: We decided NOT to allow root login with a default password.
+chroot ${mount_d} adduser vagrant
+echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
+
+# The vagrant user should have passwordless sudo.
+cat << EOF > ${mount_d}/etc/sudoers.d/vagrant
+vagrant ALL=(ALL) NOPASSWD:ALL
+EOF
+
+# Add the insecure vagrant pubkey to the vagrant user, as is expected by the
+# vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
+chroot ${mount_d} chmod 0440 /etc/sudoers.d/vagrant
+chroot ${mount_d} mkdir -p /home/vagrant/.ssh
+cat << EOF > ${mount_d}/home/vagrant/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+EOF
+chroot ${mount_d} chown -R vagrant:vagrant /home/vagrant/.ssh
+chroot ${mount_d} chmod 700 /home/vagrant/.ssh
+
 umount_disk_image "$mount_d"
 rmdir "$mount_d"
 
@@ -80,12 +103,6 @@ prefix="${distro}-${suite}-${version}-cloudimg"
 vmdk_f="${box_d}/${prefix}.vmdk"
 create_vmdk ${derivative_img} ${vmdk_f}
 
-# Vagrant needs a base user. We either inject the well-known SSH key
-# or use password authentication. Both are ugly. So we'll use a password
-# and make it random. This obviously is insecure...but at least its
-# better than the alternatives.
-ubuntu_user_pass=$(openssl rand -hex 12)
-
 ####################################
 # Create the ConfigDrive
 # This is a cloud-init piece that instructs cloud-init to configure
@@ -98,9 +115,6 @@ cdrom_vmdk_f="${box_d}/${prefix}-configdrive.vmdk"
 # except via local host.
 cat > ${seed_d}/user-data <<END
 #cloud-config
-password: ${ubuntu_user_pass}
-chpasswd: { expire: False }
-ssh_pwauth: True
 manage_etc_hosts: localhost
 END
 
@@ -141,8 +155,6 @@ load include_vagrantfile if File.exist?(include_vagrantfile)
 
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
-  config.ssh.username = "ubuntu"
-  config.ssh.password = "${ubuntu_user_pass}"
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
