@@ -1,4 +1,4 @@
-livecd-rootfs (2.453) UNRELEASED; urgency=medium
+livecd-rootfs (2.453) artful; urgency=medium
 
   [ Chris Glass ]
   * Create vagrant user for vagrant image, per upstream requirements.
@@ -8,7 +8,7 @@ livecd-rootfs (2.453) UNRELEASED; urgency=medium
     interesting bind-mounts under /dev (e.g. loop devices bind-mounted by
     LXD).  LP: #1716465.
 
- -- Adam Conrad <adconrad@ubuntu.com>  Fri, 01 Sep 2017 10:53:46 -0600
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 11 Sep 2017 11:39:11 -0700
 
 livecd-rootfs (2.452) artful; urgency=medium
 
