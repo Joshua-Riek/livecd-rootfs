@@ -3,6 +3,11 @@ livecd-rootfs (2.453) UNRELEASED; urgency=medium
   [ Chris Glass ]
   * Create vagrant user for vagrant image, per upstream requirements.
 
+  [ Colin Watson ]
+  * Mount and unmount /dev recursively, to cope with setups where there are
+    interesting bind-mounts under /dev (e.g. loop devices bind-mounted by
+    LXD).  LP: #1716465.
+
  -- Adam Conrad <adconrad@ubuntu.com>  Fri, 01 Sep 2017 10:53:46 -0600
 
 livecd-rootfs (2.452) artful; urgency=medium

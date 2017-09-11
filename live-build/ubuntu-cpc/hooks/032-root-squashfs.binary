@@ -39,8 +39,7 @@ chroot binary/boot/squashfs.dir dpkg-divert --remove --local --rename /usr/sbin/
 mv resolv.conf.tmp "binary/boot/squashfs.dir/etc/resolv.conf"
 umount "binary/boot/squashfs.dir/proc"
 umount "binary/boot/squashfs.dir/sys"
-umount "binary/boot/squashfs.dir/dev/pts"
-umount "binary/boot/squashfs.dir/dev"
+umount -R "binary/boot/squashfs.dir/dev"
 umount "binary/boot/squashfs.dir/tmp"
 
 squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"

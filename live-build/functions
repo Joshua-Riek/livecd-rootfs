@@ -79,8 +79,7 @@ mount_image() {
 setup_mountpoint() {
     local mountpoint="$1"
 
-    mount --bind /dev "$mountpoint/dev"
-    mount devpts-live -t proc "$mountpoint/dev/pts"
+    mount --rbind /dev "$mountpoint/dev"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mount -t tmpfs none "$mountpoint/tmp"
@@ -141,11 +140,7 @@ umount_settle() {
 umount_partition() {
     local mountpoint=${1}
     mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
-    for submnt in proc sys dev/pts dev tmp;
-    do
-        umount $mountpoint/$submnt
-    done
-    umount $mountpoint
+    umount -R $mountpoint
     udevadm settle
 
     if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
