@@ -8,6 +8,8 @@ livecd-rootfs (2.454) UNRELEASED; urgency=medium
     images.
   * live-build/functions: also call 'apt-get update' after mounting the
     blank /var/lib/apt.
+  * live-build/ubuntu-cpc/hooks/033-disk-image-uefi.binary: call apt-get
+    update *before* installing packages, not after.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 12 Sep 2017 14:33:02 -0700
 

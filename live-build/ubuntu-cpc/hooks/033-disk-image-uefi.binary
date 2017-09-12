@@ -62,6 +62,8 @@ install_grub() {
     efi_boot_dir="/boot/efi/EFI/BOOT"
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
+    chroot mountpoint apt-get -y update
+
     # UEFI GRUB modules are meant to be used equally by Secure Boot and
     # non-Secure Boot systems. If you need an extra module not already
     # provided or run into "Secure Boot policy forbids loading X" problems,
@@ -106,7 +108,6 @@ install_grub() {
     chroot mountpoint dpkg-divert --remove --local --rename /etc/grub.d/30_os-prober
 
     chroot mountpoint apt-get -y clean
-    chroot mountpoint apt-get -y update
 
     rm mountpoint/tmp/device.map
     sync
