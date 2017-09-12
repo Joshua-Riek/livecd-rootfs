@@ -41,6 +41,8 @@ umount "binary/boot/squashfs.dir/proc"
 umount "binary/boot/squashfs.dir/sys"
 umount -R "binary/boot/squashfs.dir/dev"
 umount "binary/boot/squashfs.dir/tmp"
+umount "binary/boot/squashfs.dir/var/lib/apt"
+umount "binary/boot/squashfs.dir/var/cache/apt"
 
 squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
 squashfs_f_manifest="${squashfs_f}.manifest"
