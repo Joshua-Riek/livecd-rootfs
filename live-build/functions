@@ -152,6 +152,7 @@ EOF
 umount_partition() {
     local mountpoint=${1}
     teardown_mountpoint $mountpoint
+    umount -R $mountpoint
     udevadm settle
 
     if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
