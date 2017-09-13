@@ -1,3 +1,14 @@
+livecd-rootfs (2.456) UNRELEASED; urgency=medium
+
+  * Improve teardown_mountpoint to recursively find all submounts and
+    unmount them, instead of working from a hard-coded list.  This makes
+    the code resilient against other submounts being added later, including
+    downstream.
+  * Also nuke the sleep / udevadm settle calls in the process, which should
+    never be required and slow down the builds.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 13:38:58 -0700
+
 livecd-rootfs (2.455) artful; urgency=medium
 
   * Restore the call to 'umount -R $mountpoint' from umount_partition,
