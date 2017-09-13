@@ -1,4 +1,4 @@
-livecd-rootfs (2.454) UNRELEASED; urgency=medium
+livecd-rootfs (2.454) artful; urgency=medium
 
   [ Steve Langasek ]
   * live-build/functions: mount tmpfs on /var/cache/apt and var/lib/apt, so
@@ -24,7 +24,7 @@ livecd-rootfs (2.454) UNRELEASED; urgency=medium
   * Also adjust live-build/ubuntu-server/hooks/032-installer-squashfs.binary
     to use teardown_mountpoint.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 12 Sep 2017 14:33:02 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 12:04:48 -0700
 
 livecd-rootfs (2.453) artful; urgency=medium
 
