@@ -28,10 +28,10 @@ OVERLAY_ROOT=binary/boot/overlay.dir
 
 mkdir -p "$OVERLAY_ROOT"
 
-setup_mountpoint binary/boot/squashfs.dir
-
 # Create an installer squashfs layer
 mount_overlay "$SQUASH_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
+
+setup_mountpoint binary/boot/squashfs.dir
 
 # Prepare installer layer.
 
@@ -147,16 +147,10 @@ AAHP0AEiHQ7zN0yLl7+fkYIMy64xQJqamH1Z2BFN0GWMPwTjpXpszOC+ev7Bpbg0xoldQ1tBHHxH
 J4Weia71DnXOnt8cj1VhebVMlyv7B/TGAbGwgprgmQ==
 EOF
 
-mv resolv.conf.tmp "binary/boot/squashfs.dir/etc/resolv.conf"
+teardown_mountpoint "$SQUASH_ROOT"
 
-# Unmount the overlay first, where it is mounted:
+# Then unmount the overlay
 umount "$SQUASH_ROOT"
-
-# Then we can start unmounting the "real" root:
-umount "binary/boot/squashfs.dir/proc"
-umount "binary/boot/squashfs.dir/sys"
-umount -R "binary/boot/squashfs.dir/dev"
-umount "binary/boot/squashfs.dir/tmp"
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 

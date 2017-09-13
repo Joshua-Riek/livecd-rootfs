@@ -20,6 +20,10 @@ livecd-rootfs (2.454) UNRELEASED; urgency=medium
   * live-build/ubuntu-cpc/functions: Remove umount_settle function.
     The was only used where teardown_mountpoint was lacking.
 
+  [ Steve Langasek ]
+  * Also adjust live-build/ubuntu-server/hooks/032-installer-squashfs.binary
+    to use teardown_mountpoint.
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 12 Sep 2017 14:33:02 -0700
 
 livecd-rootfs (2.453) artful; urgency=medium
