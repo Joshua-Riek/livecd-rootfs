@@ -91,6 +91,21 @@ setup_mountpoint() {
 
 }
 
+teardown_mountpoint() {
+    # Reverse the operations from setup_mountpoint
+    local mountpoint="$1"
+
+    umount "$mountpoint/var/cache/apt"
+    umount "$mountpoint/var/lib/apt"
+    umount "$mountpoint/tmp"
+    umount "$mountpoint/sys"
+    umount "$mountpoint/proc"
+    umount -R "$mountpoint/dev"
+    udevadm settle
+    sleep 3
+    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
+}
+
 mount_partition() {
     partition="$1"
     mountpoint="$2"
@@ -134,16 +149,9 @@ EOF
 
 }
 
-umount_settle() {
-    # Unmount device, and let it settle
-    umount $1
-    udevadm settle
-}
-
 umount_partition() {
     local mountpoint=${1}
-    mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
-    umount -R $mountpoint
+    teardown_mountpoint $mountpoint
     udevadm settle
 
     if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then

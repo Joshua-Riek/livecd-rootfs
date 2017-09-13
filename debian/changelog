@@ -1,5 +1,14 @@
 livecd-rootfs (2.454) UNRELEASED; urgency=medium
 
+  [ Robert C Jennings ]
+  * live-build/ubuntu-cpc/functions: Add a function, teardown_mountpoint,
+    to reverse the work done in setup_mountpoint.  Lack of this function
+    has forced users of setup_mountpoint to implement this separately
+    and the implementations have diverged. (LP: #1716992)
+  * live-build/ubuntu-cpc/functions: Remove umount_settle function.
+    The was only used where teardown_mountpoint was lacking.
+
+  [ Steve Langasek ]
   * live-build/functions: mount tmpfs on /var/cache/apt and var/lib/apt, so
     we don't have to leave empty space in our derivative images for packages
     that have been downloaded/installed/removed.  This normally isn't
