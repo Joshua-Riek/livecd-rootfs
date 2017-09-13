@@ -36,13 +36,7 @@ chroot binary/boot/squashfs.dir mkdir /lib/modules
 chroot binary/boot/squashfs.dir rm /usr/sbin/grub-probe
 chroot binary/boot/squashfs.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
 
-mv resolv.conf.tmp "binary/boot/squashfs.dir/etc/resolv.conf"
-umount "binary/boot/squashfs.dir/proc"
-umount "binary/boot/squashfs.dir/sys"
-umount -R "binary/boot/squashfs.dir/dev"
-umount "binary/boot/squashfs.dir/tmp"
-umount "binary/boot/squashfs.dir/var/lib/apt"
-umount "binary/boot/squashfs.dir/var/cache/apt"
+teardown_mountpoint binary/boot/squashfs.dir
 
 squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
 squashfs_f_manifest="${squashfs_f}.manifest"
