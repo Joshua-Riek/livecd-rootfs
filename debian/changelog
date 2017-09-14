@@ -1,3 +1,20 @@
+livecd-rootfs (2.457) UNRELEASED; urgency=medium
+
+  * Enable systemd-networkd by default.
+    - Usually, netplan's systemd-generator enables systemd-networkd and
+    systemd-networkd-wait-online on boot. But netplan configuration is not
+    yet generated at that point by cloud-init. Cloud-init generates in the
+    network-pre.target and expects the network.target /
+    network-online.target to work. These are already part of the ongoing
+    systemd transaction, thus cannot be injected into the boot-sequency by
+    cloud-init local mode. Therefore make sure cloud images include
+    networkd in the initial boot transaction.
+    - src:systemd will shortly not enable networkd unconditionally by
+    default.
+  * Drop ifupdown e-n-i configuration files, no longer used.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 14 Sep 2017 17:14:37 +0100
+
 livecd-rootfs (2.456) artful; urgency=medium
 
   * Improve teardown_mountpoint to recursively find all submounts and
