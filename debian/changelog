@@ -7,6 +7,9 @@ livecd-rootfs (2.456) UNRELEASED; urgency=medium
   * Also nuke the sleep / udevadm settle calls in the process, which should
     never be required and slow down the builds.
 
+  [ Michael Hudson-Doyle ]
+  * set a default netplan config of dhcp-on-ethernet for the server live image
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 13:38:58 -0700
 
 livecd-rootfs (2.455) artful; urgency=medium
