@@ -1,4 +1,4 @@
-livecd-rootfs (2.456) UNRELEASED; urgency=medium
+livecd-rootfs (2.456) artful; urgency=medium
 
   * Improve teardown_mountpoint to recursively find all submounts and
     unmount them, instead of working from a hard-coded list.  This makes
@@ -10,7 +10,7 @@ livecd-rootfs (2.456) UNRELEASED; urgency=medium
   [ Michael Hudson-Doyle ]
   * set a default netplan config of dhcp-on-ethernet for the server live image
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 13:38:58 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 22:35:03 -0700
 
 livecd-rootfs (2.455) artful; urgency=medium
 
