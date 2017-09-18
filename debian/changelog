@@ -1,3 +1,9 @@
+livecd-rootfs (2.457ubuntu1) UNRELEASED; urgency=medium
+
+  * Add GENERATE_ROOTFS_ONLY to support generating a single rootfs.
+
+ -- Gary Wang <gary.wang@canonical.com>  Mon, 18 Sep 2017 09:51:04 +0800
+
 livecd-rootfs (2.457) artful; urgency=medium
 
   * Enable systemd-networkd by default.
