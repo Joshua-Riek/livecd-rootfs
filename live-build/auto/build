@@ -16,17 +16,11 @@ if [ -z "${PROJECT:-}" ]; then
 fi
 
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
-	if [ "${IMAGETYPE:-}" = "classic" ]; then
-		# Use ubuntu-image instead of live-build
-		OPTS="${PROJECT:+--project=$PROJECT} ${SUITE:+--suite=$SUITE} ${ARCH:+--arch=$ARCH} ${SUBPROJECT:+--subproject=$SUBPROJECT} ${SUBARCH:+--subarch=$SUBARCH} ${PROPOSED:+--with-proposed=$PROPOSED} ${IMAGEFORMAT:+--image-format=$IMAGEFORMAT} ${EXTRA_PPAS:+--extra-ppas=$EXTRA_PPAS}"
-		ubuntu-image classic $OPTS gadget_tree
-	else
-		# Use ubuntu-image instead of live-build
-		env SNAPPY_STORE_NO_CDN=1 \
-		ubuntu-image snap -c edge \
+	# Use ubuntu-image instead of live-build
+	env SNAPPY_STORE_NO_CDN=1 \
+	ubuntu-image -c edge \
 		-o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
-		xz -0 -T4 livecd."$PROJECT".img
-	fi
+	xz -0 -T4 livecd."$PROJECT".img
 	exit 0
 fi
 
