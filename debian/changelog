@@ -1,3 +1,10 @@
+livecd-rootfs (2.458) artful; urgency=medium
+
+  * Move default netplan config for server-live image to where hook will
+    pick it up.
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Mon, 18 Sep 2017 10:47:59 +1200
+
 livecd-rootfs (2.457) artful; urgency=medium
 
   * Enable systemd-networkd by default.
