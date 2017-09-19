@@ -110,7 +110,6 @@ install_grub() {
     chroot mountpoint apt-get -y clean
 
     rm mountpoint/tmp/device.map
-    sync
     umount mountpoint/boot/efi
     mount
     umount_partition mountpoint
