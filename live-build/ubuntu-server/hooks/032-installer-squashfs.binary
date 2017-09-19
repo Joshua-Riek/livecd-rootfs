@@ -24,7 +24,7 @@ fi
 . config/functions
 
 SQUASH_ROOT=binary/boot/squashfs.dir
-OVERLAY_ROOT=binary/boot/overlay.dir
+OVERLAY_ROOT=binary/overlay
 
 mkdir -p "$OVERLAY_ROOT"
 
