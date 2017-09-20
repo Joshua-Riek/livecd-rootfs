@@ -235,7 +235,7 @@ EOF
 	fi
 ) 2>&1 | tee binary.log
 
-if [ ! -z "${GENERATE_ROOTFS_ONLY:-}" ] && [ "${GENERATE_ROOTFS_ONLY}" != "false" ]; then
+if [ ! -z "${GENERATE_ROOTFS_ONLY:-}" ] && [ "${GENERATE_ROOTFS_ONLY}" = 1 ]; then
 	exit 0
 fi
 

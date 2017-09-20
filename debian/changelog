@@ -1,6 +1,7 @@
-livecd-rootfs (2.457ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.458) artful; urgency=medium
 
   * Add GENERATE_ROOTFS_ONLY to support generating a single rootfs.
+  * Add a test for SUBPROJECT when PROJECT comes to ubuntu-server.
 
  -- Gary Wang <gary.wang@canonical.com>  Mon, 18 Sep 2017 09:51:04 +0800
 

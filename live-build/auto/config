@@ -757,7 +757,7 @@ EOF
 		;;
 esac
 
-if [ $PROJECT = ubuntu-server ] && [ $SUBPROJECT != live ]; then
+if [ $PROJECT = ubuntu-server ] && [ ! -z "${SUBPROJECT:-}" ] && [ $SUBPROJECT != live ]; then
 	cat > config/hooks/100-remove-fstab.chroot <<EOF
 #! /bin/sh
 rm -f /etc/fstab
