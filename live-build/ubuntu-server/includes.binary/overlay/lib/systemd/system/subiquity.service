@@ -11,6 +11,7 @@ ConditionPathExists=!/run/subiquity/complete
 Environment=PYTHONPATH=/usr/share/subiquity
 ExecStartPre=/bin/systemctl stop getty@tty1
 ExecStartPre=/bin/dmesg -n 1
+ExecStartPre=/usr/bin/subiquity-loadkeys
 ExecStart=/sbin/agetty -n --noclear -l /snap/bin/subiquity tty1 $TERM
 ExecStopPost=/bin/systemctl start getty@tty1
 Type=idle
