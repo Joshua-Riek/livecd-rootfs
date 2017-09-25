@@ -72,7 +72,7 @@ chroot ${mount_d} apt-get clean
 # Vagrant users expect a "vagrant" user with a "vagrant" username.
 # See https://www.vagrantup.com/docs/boxes/base.html
 # Note: We decided NOT to allow root login with a default password.
-chroot ${mount_d} adduser vagrant
+chroot ${mount_d} adduser vagrant --disabled-password --gecos ""
 echo "vagrant:vagrant" | chroot ${mount_d} chpasswd
 
 # The vagrant user should have passwordless sudo.
