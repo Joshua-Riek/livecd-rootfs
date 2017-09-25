@@ -79,7 +79,7 @@ mount_image() {
 setup_mountpoint() {
     local mountpoint="$1"
 
-    mount --rbind /dev "$mountpoint/dev"
+    mount --rbind --make-rslave /dev "$mountpoint/dev"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mount -t tmpfs none "$mountpoint/tmp"
