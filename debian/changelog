@@ -2,6 +2,7 @@ livecd-rootfs (2.460) UNRELEASED; urgency=medium
 
   [ Balint Reczey ]
   * Mount using --make-rslave to ensure safe unmounts for rbind mounts
+  * Don't ask for password and GECOS while creating vagrant user
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Sep 2017 00:59:08 -0400
 
