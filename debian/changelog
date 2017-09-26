@@ -1,3 +1,10 @@
+livecd-rootfs (2.460) UNRELEASED; urgency=medium
+
+  [ Balint Reczey ]
+  * Mount using --make-rslave to ensure safe unmounts for rbind mounts
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Sep 2017 00:59:08 -0400
+
 livecd-rootfs (2.459) artful; urgency=medium
 
   [ Steve Langasek ]
