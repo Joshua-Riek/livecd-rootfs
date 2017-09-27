@@ -67,7 +67,7 @@ install_grub() {
         # and 033-disk-image-uefi.binary.  We want to fix this to not
         # have initramfs-tools installed at all on these images.
         echo "partuuid found for root device; omitting initrd"
-        echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub
+        echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid
     fi
 
     chroot mountpoint apt-get -y update
