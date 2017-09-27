@@ -238,6 +238,10 @@ esac
 
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
 
+if [ "$SUBPROJECT" = minimize ]; then
+	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+fi
+
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
@@ -524,8 +528,12 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
-		add_task install minimal standard cloud-image
-		add_package install ubuntu-minimal
+		if [ "$SUBPROJECT" = minimize ]; then
+			add_task install cloud-image
+		else
+			add_task install minimal standard cloud-image
+			add_package install ubuntu-minimal
+		fi
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
