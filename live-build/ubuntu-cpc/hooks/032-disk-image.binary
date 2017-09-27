@@ -5,7 +5,7 @@ FS_LABEL="cloudimg-rootfs"
 
 . config/functions
 
-. /build/config/binary
+. config/binary
 
 BOOTPART_START=
 BOOTPART_END=
