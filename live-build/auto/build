@@ -98,6 +98,12 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
        rm /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp
     fi
 fi
+
+if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
+    echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
+fi
+
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
         fi
