@@ -51,6 +51,27 @@ Expire-Date: 0
 		rm -f chroot/etc/localtime chroot/etc/timezone
 	fi
 
+	if [ "$SUBPROJECT" = minimize ]; then
+		# set up dpkg filters to skip installing docs on minimized system
+		mkdir -p chroot/etc/dpkg/dpkg.cfg.d
+		cat > chroot/etc/dpkg/dpkg.cfg.d/excludes <<EOF
+# Drop all man pages
+path-exclude=/usr/share/man/*
+
+# Drop all documentation ...
+path-exclude=/usr/share/doc/*
+
+# ... except copyright files ...
+path-include=/usr/share/doc/*/copyright
+
+# ... and Debian changelogs
+path-include=/usr/share/doc/*/changelog.Debian.*
+EOF
+
+		# Remove docs installed by bootstrap
+		Chroot chroot dpkg-query -f '${binary:Package}\n' -W | Chroot chroot xargs apt-get install --reinstall
+        fi
+
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
