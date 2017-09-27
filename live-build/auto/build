@@ -99,8 +99,13 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
     dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {print $2}' | sed 's|/[^/]*$||' | sort |uniq \
          | xargs dpkg -S | sed 's|, |\n|g;s|: [^:]*$||' | uniq | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
     if dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {exit 1}'; then
-       echo "Documentation has been restored successfully."
-       rm /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp
+        echo "Documentation has been restored successfully."
+        rm /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp
+    else
+        echo "There are still files missing from /usr/share/doc/:"
+        dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {print " " $2}'
+        echo "You may want to try running this script again or you can remove"
+        echo "/etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp and restore the files manually."
     fi
 fi
 
