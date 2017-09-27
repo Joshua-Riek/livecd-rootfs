@@ -122,20 +122,7 @@ if [ "${should_install_grub}" -eq 1 ]; then
     rm mountpoint/tmp/device.map
 
 	if [ "$SUBPROJECT" = minimize ] && [ -n "$partuuid" ]; then
-		echo "partuuid found for root device; omitting initrd"
-		chroot mountpoint dpkg-divert --add \
-			--divert /usr/sbin/update-initramfs.divert-minimize \
-			--rename /usr/sbin/update-initramfs
-		cat > mountpoint/usr/sbin/update-initramfs <<'EOF'
-#! /bin/sh
-echo "initramfs disabled on this system.  To reenable, run:" >&2
-echo "  sudo rm -f /usr/sbin/update-initramfs" >&2
-echo "  sudo dpkg-divert --remove --rename /usr/sbin/update-initramfs" >&2
-exit 0
-EOF
-		chmod +x mountpoint/usr/sbin/update-initramfs
-		rm -f mountpoint/boot/initrd.img-*
-
+		echo "partuuid found for root device; forcing it in Grub"
 		echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub
 		chroot mountpoint update-grub
 	fi
