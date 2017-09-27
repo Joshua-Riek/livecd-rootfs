@@ -1,10 +1,30 @@
 livecd-rootfs (2.460) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
+  * Begin adding support for a project-independent 'minimize' subproject, which
+    (ironically) omits ubuntu-minimal in favor of using only the minbase
+    package set.
+  * Export the subproject into config/chroot and config/binary, so that this
+    information is available to per-project hooks that need to be
+    subproject-aware (e.g., to skip steps when SUBPROJECT=minimize)
+  * Make the 999-cpc-fixes.chroot subproject-aware, so we don't try to
+    locale-gen
+  * In a cloud environment, we can rely on the kernel being able to boot the
+    root filesystem directly, without an initramfs; enable this when building
+    minimized.
+  * If we're using SUBPROJECT=minimize, and tzdata is not installed, remove
+    files that have been left behind.  This is a workaround for a bug that
+    should be fixed in tzdata.
+
   [ Balint Reczey ]
   * Mount using --make-rslave to ensure safe unmounts for rbind mounts
   * Don't ask for password and GECOS while creating vagrant user
+  * Drop man pages and most of the documentation from minimized images
+    /usr/share/doc/*/copyright and changelog.Debian.gz files are still kept
+  * Add unminimize script for reverting minimization on running system
+  * Install ubuntu-minimal while unminimizing the system
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Sep 2017 00:59:08 -0400
+ -- Balint Reczey <rbalint@ubuntu.com>  Wed, 27 Sep 2017 12:29:02 -0400
 
 livecd-rootfs (2.459) artful; urgency=medium
 
