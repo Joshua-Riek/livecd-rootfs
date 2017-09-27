@@ -5,6 +5,8 @@ FS_LABEL="cloudimg-rootfs"
 
 . config/functions
 
+. /build/config/binary
+
 BOOTPART_START=
 BOOTPART_END=
 BOOT_MOUNTPOINT=
@@ -69,6 +71,8 @@ create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 ext2 "$R
 
 mount_image "${disk_image}" "$ROOTPART"
 
+partuuid=$(blkid -s PARTUUID -o value "$rootfs_dev_mapper")
+
 # Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
@@ -116,6 +120,25 @@ if [ "${should_install_grub}" -eq 1 ]; then
         ${loop_device}
 
     rm mountpoint/tmp/device.map
+
+	if [ "$SUBPROJECT" = minimize ] && [ -n "$partuuid" ]; then
+		echo "partuuid found for root device; omitting initrd"
+		chroot mountpoint dpkg-divert --add \
+			--divert /usr/sbin/update-initramfs.divert-minimize \
+			--rename /usr/sbin/update-initramfs
+		cat > mountpoint/usr/sbin/update-initramfs <<'EOF'
+#! /bin/sh
+echo "initramfs disabled on this system.  To reenable, run:" >&2
+echo "  sudo rm -f /usr/sbin/update-initramfs" >&2
+echo "  sudo dpkg-divert --remove --rename /usr/sbin/update-initramfs" >&2
+exit 0
+EOF
+		chmod +x mountpoint/usr/sbin/update-initramfs
+		rm -f mountpoint/boot/initrd.img-*
+
+		echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub
+		chroot mountpoint update-grub
+	fi
 fi
 
 if [ "$ARCH" = "s390x" ]; then
