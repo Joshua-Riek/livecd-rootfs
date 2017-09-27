@@ -3,6 +3,8 @@ rootd="${1:-/}"
 root_fs_label=cloudimg-rootfs
 set -ex
 
+. /root/config/chroot
+
 CLOUD_IMG_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 
 LANG=C
@@ -57,7 +59,9 @@ _xchroot "${rootd}" sh -c 'sed -i "/^127.0.1.1/d" /etc/hosts'
 _xchroot "${rootd}" sh -c 'rm -f /etc/ssh/ssh_host_[rd]sa_key*'
 
 ## --------------
-_xchroot "${rootd}" locale-gen en_US.utf8
+if [ "${SUBPROJECT:-}" != minimize ]; then
+	_xchroot "${rootd}" locale-gen en_US.utf8
+fi
 
 ## --------------
 # We continue to pre-generate en_US.UTF-8 locale above, but the default locale
