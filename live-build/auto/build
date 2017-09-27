@@ -45,6 +45,12 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
+	if [ "$SUBPROJECT" = minimize ] \
+	   && ! Chroot chroot dpkg -l tzdata 2>&1 |grep -q ^ii; then
+		# workaround for tzdata purge not removing these files
+		rm -f chroot/etc/localtime chroot/etc/timezone
+	fi
+
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
