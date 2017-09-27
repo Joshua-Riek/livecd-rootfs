@@ -90,7 +90,7 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
     echo "Restoring system documentation..."
     echo "Reinstalling packages with files in /usr/share/man/ ..."
     dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
-    echo "Reinstalling packages with system documentaion in /usr/share/doc/ .."
+    echo "Reinstalling packages with system documentation in /usr/share/doc/ .."
     dpkg --verify | awk '/..5......   \/usr\/share\/doc/ {print $2}' | sed 's|/[^/]*$||' | sort |uniq \
          | xargs dpkg -S | sed 's|, |\n|g;s|: [^:]*$||' | uniq | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
     if dpkg --verify > /dev/null; then
