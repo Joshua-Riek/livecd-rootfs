@@ -1,4 +1,4 @@
-livecd-rootfs (2.460) UNRELEASED; urgency=medium
+livecd-rootfs (2.460) artful; urgency=medium
 
   [ Steve Langasek ]
   * Begin adding support for a project-independent 'minimize' subproject, which
@@ -24,7 +24,7 @@ livecd-rootfs (2.460) UNRELEASED; urgency=medium
   * Add unminimize script for reverting minimization on running system
   * Install ubuntu-minimal while unminimizing the system
 
- -- Balint Reczey <rbalint@ubuntu.com>  Wed, 27 Sep 2017 12:29:02 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 28 Sep 2017 09:24:30 -0400
 
 livecd-rootfs (2.459) artful; urgency=medium
 
