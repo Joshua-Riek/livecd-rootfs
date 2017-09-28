@@ -1,3 +1,9 @@
+livecd-rootfs (2.461) artful; urgency=medium
+
+  * In subiquity, loadkeys to setup Shift+Tab key combination.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 28 Sep 2017 13:58:43 -0400
+
 livecd-rootfs (2.460) artful; urgency=medium
 
   [ Steve Langasek ]
