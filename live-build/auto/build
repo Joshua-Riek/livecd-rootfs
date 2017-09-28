@@ -45,6 +45,79 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
+	if [ "$SUBPROJECT" = minimize ] \
+	   && ! Chroot chroot dpkg -l tzdata 2>&1 |grep -q ^ii; then
+		# workaround for tzdata purge not removing these files
+		rm -f chroot/etc/localtime chroot/etc/timezone
+	fi
+
+	if [ "$SUBPROJECT" = minimize ]; then
+		# set up dpkg filters to skip installing docs on minimized system
+		mkdir -p chroot/etc/dpkg/dpkg.cfg.d
+		cat > chroot/etc/dpkg/dpkg.cfg.d/excludes <<EOF
+# Drop all man pages
+path-exclude=/usr/share/man/*
+
+# Drop all documentation ...
+path-exclude=/usr/share/doc/*
+
+# ... except copyright files ...
+path-include=/usr/share/doc/*/copyright
+
+# ... and Debian changelogs
+path-include=/usr/share/doc/*/changelog.Debian.*
+EOF
+
+		# Remove docs installed by bootstrap
+		Chroot chroot dpkg-query -f '${binary:Package}\n' -W | Chroot chroot xargs apt-get install --reinstall
+
+                # Add unminimizer script which restores default image behavior
+                mkdir -p chroot/usr/local/sbin
+                cat > chroot/usr/local/sbin/unminimize <<'EOF'
+#!/bin/sh
+
+set -e
+
+if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp ]; then
+    echo "Re-enabling installation of all documentation in dpkg..."
+    if [ -f /etc/dpkg/dpkg.cfg.d/excludes ]; then
+        mv /etc/dpkg/dpkg.cfg.d/excludes /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp
+    fi
+    echo "Updating package list and upgrading packages..."
+    apt-get update
+    # apt-get upgrade asks for confirmation before upgrading packages to let the user stop here
+    apt-get upgrade
+    echo "Restoring system documentation..."
+    echo "Reinstalling packages with files in /usr/share/man/ ..."
+    # Reinstallation takes place in two steps because a single dpkg --verified
+    # command generates very long parameter list for "xargs dpkg -S" and may go
+    # over ARG_MAX. Since many packages have man pages the second download
+    # handles a much smaller amount of packages.
+    dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
+    echo "Reinstalling packages with system documentation in /usr/share/doc/ .."
+    # This step processes the packages which still have missing documentation
+    dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {print $2}' | sed 's|/[^/]*$||' | sort |uniq \
+         | xargs dpkg -S | sed 's|, |\n|g;s|: [^:]*$||' | uniq | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
+    if dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {exit 1}'; then
+        echo "Documentation has been restored successfully."
+        rm /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp
+    else
+        echo "There are still files missing from /usr/share/doc/:"
+        dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {print " " $2}'
+        echo "You may want to try running this script again or you can remove"
+        echo "/etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp and restore the files manually."
+    fi
+fi
+
+if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
+    echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
+fi
+
+EOF
+                chmod +x chroot/usr/local/sbin/unminimize
+        fi
+
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"

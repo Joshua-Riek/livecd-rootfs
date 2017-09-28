@@ -238,6 +238,10 @@ esac
 
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
 
+if [ "$SUBPROJECT" = minimize ]; then
+	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+fi
+
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
@@ -524,8 +528,13 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
-		add_task install minimal standard cloud-image
-		add_package install ubuntu-minimal
+		if [ "$SUBPROJECT" = minimize ]; then
+			add_task install cloud-image
+			add_package install sudo
+		else
+			add_task install minimal standard cloud-image
+			add_package install ubuntu-minimal
+		fi
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
@@ -679,8 +688,10 @@ lb config noauto \
 	"$@"
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
+echo "SUBPROJECT=\"$SUBPROJECT\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
+echo "SUBPROJECT=\"$SUBPROJECT\"" >> config/binary
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2)
