@@ -78,6 +78,22 @@ EOF
 
 set -e
 
+echo "This system was optimized for smaller footprint by reducing the available"
+echo "installed documentation, removal of rarely used tools, and by other means."
+echo ""
+echo "This script reverts part of the optimization and makes documentation and"
+echo "tools available again to match the familiar Ubuntu minimial system."
+echo ""
+echo "Be warned that reinstallation of packages may fail due to changes to the"
+echo "system configuration, due to installation of 3rd party packages, or for"
+echo "other reasons."
+read -p "Would you like to continue? [y/N]" REPLY
+echo    # (optional) move to a new line
+if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]
+then
+    exit 1
+fi
+
 if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp ]; then
     echo "Re-enabling installation of all documentation in dpkg..."
     if [ -f /etc/dpkg/dpkg.cfg.d/excludes ]; then
