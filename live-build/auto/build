@@ -45,13 +45,13 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
-	if [ "$SUBPROJECT" = minimize ] \
+	if [ "${SUBPROJECT:-}" = minimized ] \
 	   && ! Chroot chroot dpkg -l tzdata 2>&1 |grep -q ^ii; then
 		# workaround for tzdata purge not removing these files
 		rm -f chroot/etc/localtime chroot/etc/timezone
 	fi
 
-	if [ "$SUBPROJECT" = minimize ]; then
+	if [ "${SUBPROJECT:-}" = minimized ]; then
 		# set up dpkg filters to skip installing docs on minimized system
 		mkdir -p chroot/etc/dpkg/dpkg.cfg.d
 		cat > chroot/etc/dpkg/dpkg.cfg.d/excludes <<EOF
@@ -77,6 +77,22 @@ EOF
 #!/bin/sh
 
 set -e
+
+echo "This system has been minimized by removing packages and content that are"
+echo "not required on a system that users do not log into."
+echo ""
+echo "This script restores the content and packages that are found on a default"
+echo "Ubuntu server system."
+echo ""
+echo "Reinstallation of packages may fail due to changes to the system"
+echo "configuration, the presence of third-party packages, or for other"
+echo "reasons."
+read -p "Would you like to continue? [y/N]" REPLY
+echo    # (optional) move to a new line
+if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]
+then
+    exit 1
+fi
 
 if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp ]; then
     echo "Re-enabling installation of all documentation in dpkg..."
@@ -114,10 +130,26 @@ if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /d
     DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
 fi
 
+# unminimization succeeded, there is no need to mention it in motd
+rm -f /etc/update-motd.d/60-unminimize
+
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
         fi
 
+	# inform users about the unminimize script
+	cat > "chroot/etc/update-motd.d/60-unminimize" << EOF
+#!/bin/sh
+#
+# This file is not managed by a package.  If you no longer want to
+# see this message you can safely remove the file.
+echo "This system has been minimized by removing packages and content that are"
+echo "not required on a system that users do not log into."
+echo ""
+echo "To restore this content, you can run the 'unminimize' command."
+EOF
+
+	chmod +x chroot/etc/update-motd.d/60-unminimize
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
@@ -353,7 +385,7 @@ elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
 fi
 
-if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
+if [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-core:system-image" ]; then
     if [ -e "binary/$INITFS/filesystem.dir" ]; then
         rootfs="binary/$INITFS/filesystem.dir"
 
@@ -404,7 +436,7 @@ fi
 # ubuntu-core and ubuntu-desktop-next splits kernel stuff into a "device" tarball so
 # at this point we reset it to "none" as all the work to extract it was done already
 # in a binary hook
-case $PROJECT:$SUBPROJECT in
+case $PROJECT:${SUBPROJECT:-} in
         ubuntu-core:system-image|ubuntu-desktop-next:system-image)
 
     # create device tarball (for snappy only atm)
