@@ -1,5 +1,6 @@
 livecd-rootfs (2.463) UNRELEASED; urgency=medium
 
+  [ Balint Reczey ]
   * Bump needed live-build version which can build images without initrd
   * Mention unminimize script in motd
   * Warn users that unminimize may fail reinstalling packages
@@ -7,6 +8,9 @@ livecd-rootfs (2.463) UNRELEASED; urgency=medium
     consistency
   * Run autopkgtest for SUBPROJECT=minimized
   * When SUBPROJECT environment variable is not set assume it to be ""
+
+  [ Michael Hudson-Doyle ]
+  * Fix path to subiquity-loadkeys 
 
  -- Balint Reczey <rbalint@ubuntu.com>  Fri, 29 Sep 2017 15:38:33 -0400
 
