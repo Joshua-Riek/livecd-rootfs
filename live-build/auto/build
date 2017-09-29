@@ -45,14 +45,14 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
-	if [ "$SUBPROJECT" = minimize ] \
+	if [ "$SUBPROJECT" = minimized ] \
 	   && ! Chroot chroot dpkg -l tzdata 2>&1 |grep -q ^ii; then
 		# workaround for tzdata purge not removing these files
 		rm -f chroot/etc/localtime chroot/etc/timezone
 	fi
 
-	if [ "$SUBPROJECT" = minimize ]; then
-		# set up dpkg filters to skip installing docs on minimized system
+	if [ "$SUBPROJECT" = minimized ]; then
+		# set up dpkg filters to skip installing docs on minimizedd system
 		mkdir -p chroot/etc/dpkg/dpkg.cfg.d
 		cat > chroot/etc/dpkg/dpkg.cfg.d/excludes <<EOF
 # Drop all man pages

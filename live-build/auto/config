@@ -238,7 +238,7 @@ esac
 
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
 
-if [ "$SUBPROJECT" = minimize ]; then
+if [ "$SUBPROJECT" = minimized ]; then
 	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 fi
 
@@ -528,7 +528,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
-		if [ "$SUBPROJECT" = minimize ]; then
+		if [ "$SUBPROJECT" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
 		else

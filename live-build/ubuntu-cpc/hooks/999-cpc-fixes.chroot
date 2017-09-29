@@ -59,7 +59,7 @@ _xchroot "${rootd}" sh -c 'sed -i "/^127.0.1.1/d" /etc/hosts'
 _xchroot "${rootd}" sh -c 'rm -f /etc/ssh/ssh_host_[rd]sa_key*'
 
 ## --------------
-if [ "${SUBPROJECT:-}" != minimize ]; then
+if [ "${SUBPROJECT:-}" != minimized ]; then
 	_xchroot "${rootd}" locale-gen en_US.utf8
 fi
 
