@@ -1,3 +1,15 @@
+livecd-rootfs (2.462) UNRELEASED; urgency=medium
+
+  * Bump needed live-build version which can build images without initrd
+  * Mention unminimize script in motd
+  * Warn users that unminimize may fail reinstalling packages
+  * Use SUBPROJECT=minimized name instead of SUBPROJECT=minimize for
+    consistency
+  * Run autopkgtest for SUBPROJECT=minimized
+  * When SUBPROJECT environment variable is not set assume it to be ""
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Fri, 29 Sep 2017 15:38:33 -0400
+
 livecd-rootfs (2.461) artful; urgency=medium
 
   * In subiquity, loadkeys to setup Shift+Tab key combination.
