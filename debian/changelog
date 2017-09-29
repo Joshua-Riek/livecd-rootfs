@@ -1,8 +1,8 @@
-livecd-rootfs (2.462) UNRELEASED; urgency=medium
+livecd-rootfs (2.462) artful; urgency=medium
 
   * Fix a reference to an undefined variable in a script that's set -u.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Sep 2017 15:10:20 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Sep 2017 15:10:47 -0400
 
 livecd-rootfs (2.461) artful; urgency=medium
 
