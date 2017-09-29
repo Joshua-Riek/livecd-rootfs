@@ -114,10 +114,26 @@ if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /d
     DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
 fi
 
+# unminimization succeeded, there is no need to mention it in motd
+rm -f /etc/update-motd.d/60-unminimize
+
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
         fi
 
+	# inform users about the unminimize script
+	cat > "chroot/etc/update-motd.d/60-unminimize" << EOF
+#!/bin/sh
+#
+# This file is not managed by a package.  If you no longer want to
+# see this message you can safely remove the file.
+echo ""
+echo "This system does not provide part of the tools and documentation"
+echo "which are available on standard Ubuntu systems."
+echo "To make them available please run the "unminimize" command."
+EOF
+
+	chmod +x chroot/etc/update-motd.d/60-unminimize
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
