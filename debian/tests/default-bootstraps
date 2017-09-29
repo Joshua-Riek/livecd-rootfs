@@ -30,6 +30,7 @@ ALL_TRIPLETS="
  ubuntu-budgie-live::
  ubuntu-core:system-image:ubuntu-core
  ubuntu-cpc::ubuntu-cpc
+ ubuntu-cpc:minimized:ubuntu-cpc
  ubuntu-desktop-next:system-image:ubuntu-desktop-next
  ubuntu-desktop-next::ubuntu-desktop-next
  ubuntu-dvd::

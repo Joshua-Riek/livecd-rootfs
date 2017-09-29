@@ -1,3 +1,7 @@
 Tests: default-bootstraps
 Depends: @, lsb-release
 Restrictions: needs-root isolation-machine
+
+Tests: minimized
+Depends: @, lsb-release
+Restrictions: needs-root isolation-machine
