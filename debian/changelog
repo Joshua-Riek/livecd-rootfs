@@ -1,4 +1,4 @@
-livecd-rootfs (2.463) UNRELEASED; urgency=medium
+livecd-rootfs (2.463) artful; urgency=medium
 
   [ Balint Reczey ]
   * Bump needed live-build version which can build images without initrd
@@ -12,7 +12,7 @@ livecd-rootfs (2.463) UNRELEASED; urgency=medium
   [ Michael Hudson-Doyle ]
   * Fix path to subiquity-loadkeys 
 
- -- Balint Reczey <rbalint@ubuntu.com>  Fri, 29 Sep 2017 15:38:33 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Sep 2017 17:33:02 -0400
 
 livecd-rootfs (2.462) artful; urgency=medium
 
