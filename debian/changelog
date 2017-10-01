@@ -2,6 +2,7 @@ livecd-rootfs (2.464) UNRELEASED; urgency=medium
 
   * Ignore failure of new autopkgtest on ppc64el, where it's not a
     regression.
+  * Use /bin/sh, not /bin/bash, for autopkgtest.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 01 Oct 2017 13:38:22 -0700
 
