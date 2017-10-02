@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ln -snf ../run/resolvconf/resolv.conf /etc/resolv.conf

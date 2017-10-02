@@ -1,3 +1,10 @@
+livecd-rootfs (2.465) UNRELEASED; urgency=medium
+
+  * Drop obsolete fix-ups of resolv.conf, debootstrap should now result in
+    correct symlink to resolved without any further fixes.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 02 Oct 2017 14:29:11 +0100
+
 livecd-rootfs (2.464) artful; urgency=medium
 
   * Ignore failure of new autopkgtest on ppc64el, where it's not a
