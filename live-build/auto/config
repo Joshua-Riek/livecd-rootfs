@@ -239,7 +239,7 @@ esac
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
 
 if [ "${SUBPROJECT:-}" = minimized ]; then
-	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
 
 case $PROJECT in
