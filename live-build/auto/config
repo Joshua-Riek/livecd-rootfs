@@ -531,14 +531,15 @@ case $PROJECT in
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
+			KERNEL_FLAVOURS=kvm
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
+			KERNEL_FLAVOURS=virtual
 		fi
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
-		KERNEL_FLAVOURS=virtual
 		case $ARCH in
 			armhf)
 				KERNEL_FLAVOURS=generic-lpae
