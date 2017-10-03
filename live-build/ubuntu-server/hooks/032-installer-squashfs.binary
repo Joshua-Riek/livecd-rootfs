@@ -70,22 +70,6 @@ snaps:
 EOF
 '
 
-assertions_dir="$SQUASH_ROOT/var/lib/snapd/seed/assertions"
-model_assertion="$assertions_dir/generic-classic.model"
-account_key_assertion="$assertions_dir/generic.account-key"
-account_assertion="$assertions_dir/generic.account"
-
-snap known --remote model series=16 model=generic-classic brand-id=generic \
-	> "$model_assertion"
-account_key=$(sed -n -e's/sign-key-sha3-384: //p' "$model_assertion")
-
-snap known --remote account-key public-key-sha3-384="$account_key" \
-	> "$account_key_assertion"
-account=$(sed -n -e's/account-id: //p' "$account_key_assertion")
-
-snap known --remote account account-id=generic \
-	> "$account_assertion"
-
 teardown_mountpoint "$SQUASH_ROOT"
 
 # Then unmount the overlay
