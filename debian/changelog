@@ -1,3 +1,10 @@
+livecd-rootfs (2.465) UNRELEASED; urgency=medium
+
+  * ubuntu-server: drop hard-coded test key from the subiquity overlay in
+    favor of the generic-classic assertion from the store.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 03 Oct 2017 15:31:21 -0700
+
 livecd-rootfs (2.464) artful; urgency=medium
 
   * Ignore failure of new autopkgtest on ppc64el, where it's not a
