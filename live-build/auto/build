@@ -298,7 +298,7 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 	fi
 	case $PROJECT:$SUBPROJECT in
-		ubuntu-server:live)
+		ubuntu-server:live|ubuntu-mate:*)
 			assertions_dir="chroot/var/lib/snapd/seed/assertions"
 			model_assertion="$assertions_dir/generic-classic.model"
 			account_key_assertion="$assertions_dir/generic.account-key"
