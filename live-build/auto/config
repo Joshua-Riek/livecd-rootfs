@@ -239,7 +239,7 @@ esac
 SIGNED_KERNEL_PACKAGE="linux-signed-generic"
 
 if [ "${SUBPROJECT:-}" = minimized ]; then
-	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
 
 case $PROJECT in
@@ -531,14 +531,28 @@ case $PROJECT in
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
+			# linux-kvm currently only exists in xenial, not in
+			# non-LTS suites.  Fall back to virtual flavor, which
+			# may or may not boot initramfsless but enables us to
+			# test building and possibly build derivative images
+			# using other kernel flavors.
+			# If you enable an extra ppa, it is assumed that
+			# linux-kvm is available since you control the
+			# archive and can provide this metapackage as
+			# necessary.
+			if [ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]; then
+				KERNEL_FLAVOURS=virtual
+			else
+				KERNEL_FLAVOURS=kvm
+			fi
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
+			KERNEL_FLAVOURS=virtual
 		fi
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
-		KERNEL_FLAVOURS=virtual
 		case $ARCH in
 			armhf)
 				KERNEL_FLAVOURS=generic-lpae
