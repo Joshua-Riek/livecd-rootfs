@@ -531,7 +531,20 @@ case $PROJECT in
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
-			KERNEL_FLAVOURS=kvm
+			# linux-kvm currently only exists in xenial, not in
+			# non-LTS suites.  Fall back to virtual flavor, which
+			# may or may not boot initramfsless but enables us to
+			# test building and possibly build derivative images
+			# using other kernel flavors.
+			# If you enable an extra ppa, it is assumed that
+			# linux-kvm is available since you control the
+			# archive and can provide this metapackage as
+			# necessary.
+			if [ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]; then
+				KERNEL_FLAVOURS=virtual
+			else
+				KERNEL_FLAVOURS=kvm
+			fi
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
