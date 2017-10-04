@@ -304,6 +304,7 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 			account_key_assertion="$assertions_dir/generic.account-key"
 			account_assertion="$assertions_dir/generic.account"
 
+			mkdir -p "$assertions_dir"
 			snap known --remote model series=16 \
 				model=generic-classic brand-id=generic \
 				> "$model_assertion"
