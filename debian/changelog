@@ -5,6 +5,11 @@ livecd-rootfs (2.466) UNRELEASED; urgency=medium
   * move snap assertion handling into the generic build script (and, in
     the process, from the subiquity overlay to the base squashfs).
   * add ubuntu-mate to the set of projects we add snap model assertions to.
+  * Factor out grub-related diversions and use them consistently, so we
+    don't end up with wrong os-probe output in our grub.cfg.
+  * Fix the force-partuuid handling to create the file under
+    /etc/default/grub.d/ with a .cfg extension as grub expects; it's unclear
+    how this ever worked without.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 22:57:11 -0700
 

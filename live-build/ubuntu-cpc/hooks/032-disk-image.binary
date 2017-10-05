@@ -124,8 +124,10 @@ if [ "${should_install_grub}" -eq 1 ]; then
 	if [ "${SUBPROJECT:-}" = minimized ] && [ -n "$partuuid" ]; then
 		echo "partuuid found for root device; forcing it in Grub"
 		mkdir -p mountpoint/etc/default/grub.d
-		echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid
+		echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid.cfg
+		divert_grub mountpoint
 		chroot mountpoint update-grub
+		undivert_grub mountpoint
 	fi
 fi
 
