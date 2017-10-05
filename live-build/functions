@@ -277,7 +277,7 @@ replace_grub_root_with_label() {
 
     # If boot by partuuid has been requested, don't override.
     if [ -f $CHROOT_ROOT/etc/default/grub.d/40-partuuid ] && \
-           grep -q ^GRUB_FORCE_PARTUUID= $CHROOT_ROOT/etc/default/grub.d/40-partuuid; then
+           grep -q ^GRUB_FORCE_PARTUUID= $CHROOT_ROOT/etc/default/grub.d/40-partuuid.cfg; then
         return 0
     fi
     sed -i -e "s,root=[^ ]\+,root=LABEL=${fs_label}," \
