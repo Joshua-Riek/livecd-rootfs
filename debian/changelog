@@ -1,4 +1,4 @@
-livecd-rootfs (2.466) UNRELEASED; urgency=medium
+livecd-rootfs (2.466) artful; urgency=medium
 
   * ubuntu-server: drop hard-coded test key from the subiquity overlay in
     favor of the generic-classic assertion from the store.
@@ -11,7 +11,7 @@ livecd-rootfs (2.466) UNRELEASED; urgency=medium
     /etc/default/grub.d/ with a .cfg extension as grub expects; it's unclear
     how this ever worked without.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 22:57:11 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 23:02:36 -0700
 
 livecd-rootfs (2.465) artful; urgency=medium
 
