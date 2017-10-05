@@ -1,3 +1,10 @@
+livecd-rootfs (2.468) UNRELEASED; urgency=medium
+
+  * Drop obsolete fix-ups of resolv.conf, debootstrap should now result in
+    correct symlink to resolved without any further fixes.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 02 Oct 2017 14:29:11 +0100
+
 livecd-rootfs (2.467) artful; urgency=medium
 
   * fix remaining wrong references to /etc/default/grub.d/40-partuuid
