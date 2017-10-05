@@ -1,7 +1,13 @@
 livecd-rootfs (2.468) UNRELEASED; urgency=medium
 
+  [ Dimitri John Ledkov ]
   * Drop obsolete fix-ups of resolv.conf, debootstrap should now result in
     correct symlink to resolved without any further fixes.
+
+  [ Michael Hudson-Doyle ]
+  * Have subiquity.service order after on a service defined by the subiquity
+    snap, which in turn will order after the job that mounts the subiquity
+    snap. (LP: #1721414)
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 02 Oct 2017 14:29:11 +0100
 
