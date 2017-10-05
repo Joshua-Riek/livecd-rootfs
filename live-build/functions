@@ -283,3 +283,32 @@ replace_grub_root_with_label() {
     sed -i -e "s,root=[^ ]\+,root=LABEL=${fs_label}," \
         "$CHROOT_ROOT/boot/grub/grub.cfg"
 }
+
+
+# When running update-grub in a chroot on a build host, we don't want it to
+# probe for disks or probe for other installed OSes.  Extract common
+# diversion wrappers, so this isn't reinvented differently for each image.
+divert_grub() {
+	CHROOT_ROOT="$1"
+
+	chroot "$CHROOT_ROOT" dpkg-divert --local \
+		--rename /usr/sbin/grub-probe
+	chroot "$CHROOT_ROOT" touch /usr/sbin/grub-probe
+	chroot "$CHROOT_ROOT" chmod +x /usr/sbin/grub-probe
+
+	chroot "$CHROOT_ROOT" dpkg-divert --local \
+		--divert /etc/grub.d/30_os-prober.dpkg-divert \
+		--rename /etc/grub.d/30_os-prober
+}
+
+undivert_grub() {
+	CHROOT_ROOT="$1"
+
+	chroot "$CHROOT_ROOT" rm /usr/sbin/grub-probe
+	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
+		--rename /usr/sbin/grub-probe
+
+	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
+		--divert /etc/grub.d/30_os-prober.dpkg-divert \
+		--rename /etc/grub.d/30_os-prober
+}

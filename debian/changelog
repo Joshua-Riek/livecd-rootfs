@@ -1,3 +1,10 @@
+livecd-rootfs (2.466) UNRELEASED; urgency=medium
+
+  * Factor out grub-related diversions and use them consistently, so we
+    don't end up with wrong os-probe output in our grub.cfg.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 22:31:40 -0700
+
 livecd-rootfs (2.465) artful; urgency=medium
 
   * Skip installation of kernel headers for all minimal images

@@ -52,10 +52,10 @@ EOF
         --boot-directory=/boot \
         --target=powerpc-ieee1275
 
-    chroot mountpoint dpkg-divert --local --rename /etc/grub.d/30_os-prober
+    divert_grub mountpoint
     chroot mountpoint update-grub
     replace_grub_root_with_label mountpoint
-    chroot mountpoint dpkg-divert --remove --local --rename /etc/grub.d/30_os-prober
+    undivert_grub mountpoint
 
     umount_partition mountpoint
     rmdir mountpoint
