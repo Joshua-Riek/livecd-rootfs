@@ -1,8 +1,8 @@
-livecd-rootfs (2.467) UNRELEASED; urgency=medium
+livecd-rootfs (2.467) artful; urgency=medium
 
   * fix remaining wrong references to /etc/default/grub.d/40-partuuid
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 23:51:56 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 23:52:21 -0700
 
 livecd-rootfs (2.466) artful; urgency=medium
 
