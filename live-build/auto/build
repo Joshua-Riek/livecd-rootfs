@@ -297,6 +297,31 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 			> chroot/etc/apt/sources.list
 		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 	fi
+	case $PROJECT:$SUBPROJECT in
+		ubuntu-server:live|ubuntu-mate:*)
+			assertions_dir="chroot/var/lib/snapd/seed/assertions"
+			model_assertion="$assertions_dir/generic-classic.model"
+			account_key_assertion="$assertions_dir/generic.account-key"
+			account_assertion="$assertions_dir/generic.account"
+
+			mkdir -p "$assertions_dir"
+			snap known --remote model series=16 \
+				model=generic-classic brand-id=generic \
+				> "$model_assertion"
+			account_key=$(sed -n -e's/sign-key-sha3-384: //p' \
+				< "$model_assertion")
+
+			snap known --remote account-key \
+				public-key-sha3-384="$account_key" \
+				> "$account_key_assertion"
+			account=$(sed -n -e's/account-id: //p' \
+				< "$account_key_assertion")
+
+			snap known --remote account account-id=generic \
+				> "$account_assertion"
+			;;
+	esac
+
 	if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
 		if [ "$ARCH" = "armhf" ]; then
 			INFO_DESC="$(lsb_release -d -s)"

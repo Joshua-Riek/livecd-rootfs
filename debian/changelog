@@ -1,3 +1,13 @@
+livecd-rootfs (2.466) UNRELEASED; urgency=medium
+
+  * ubuntu-server: drop hard-coded test key from the subiquity overlay in
+    favor of the generic-classic assertion from the store.
+  * move snap assertion handling into the generic build script (and, in
+    the process, from the subiquity overlay to the base squashfs).
+  * add ubuntu-mate to the set of projects we add snap model assertions to.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 04 Oct 2017 22:57:11 -0700
+
 livecd-rootfs (2.465) artful; urgency=medium
 
   * Skip installation of kernel headers for all minimal images
