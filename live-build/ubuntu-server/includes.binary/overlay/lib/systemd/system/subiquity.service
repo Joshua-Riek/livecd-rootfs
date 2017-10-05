@@ -1,7 +1,7 @@
 [Unit]
 Description=Subiquity, the installer for Ubuntu Server
 After=systemd-user-sessions.service plymouth-quit-wait.service
-After=rc-local.service
+After=rc-local.service snap.subiquity.started.service
 Requires=snapd.service
 IgnoreOnIsolate=yes
 ConditionPathExists=/dev/tty0

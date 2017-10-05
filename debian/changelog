@@ -1,3 +1,11 @@
+livecd-rootfs (2.468) UNRELEASED; urgency=medium
+
+  * Have subiquity.service order after on a service defined by the subiquity
+    snap, which in turn will order after the job that mounts the subiquity
+    snap. (LP: #1721414)
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Thu, 05 Oct 2017 21:37:38 +1300
+
 livecd-rootfs (2.467) artful; urgency=medium
 
   * fix remaining wrong references to /etc/default/grub.d/40-partuuid
