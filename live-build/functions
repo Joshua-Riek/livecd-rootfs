@@ -276,7 +276,7 @@ replace_grub_root_with_label() {
     CHROOT_ROOT="$1"
 
     # If boot by partuuid has been requested, don't override.
-    if [ -f $CHROOT_ROOT/etc/default/grub.d/40-partuuid ] && \
+    if [ -f $CHROOT_ROOT/etc/default/grub.d/40-partuuid.cfg ] && \
            grep -q ^GRUB_FORCE_PARTUUID= $CHROOT_ROOT/etc/default/grub.d/40-partuuid.cfg; then
         return 0
     fi
