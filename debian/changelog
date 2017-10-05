@@ -1,4 +1,4 @@
-livecd-rootfs (2.468) UNRELEASED; urgency=medium
+livecd-rootfs (2.468) artful; urgency=medium
 
   [ Dimitri John Ledkov ]
   * Drop obsolete fix-ups of resolv.conf, debootstrap should now result in
@@ -9,7 +9,7 @@ livecd-rootfs (2.468) UNRELEASED; urgency=medium
     snap, which in turn will order after the job that mounts the subiquity
     snap. (LP: #1721414)
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 02 Oct 2017 14:29:11 +0100
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 06 Oct 2017 12:52:43 +1300
 
 livecd-rootfs (2.467) artful; urgency=medium
 
