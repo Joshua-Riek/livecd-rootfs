@@ -29,12 +29,12 @@ Setup_cleanup
 
 preinstall_snaps() {
 	lb chroot_resolv install
-	Chroot chroot sh -c '
+	chroot chroot sh -c '
 		set -x;
 		cd /var/lib/snapd/seed;
 		SNAPPY_STORE_NO_CDN=1 snap download core'
 	for snap in "$@"; do
-		Chroot chroot sh -c "
+		chroot chroot sh -c "
 			set -x;
 			cd /var/lib/snapd/seed;
 			SNAPPY_STORE_NO_CDN=1 snap download \"$snap\""
