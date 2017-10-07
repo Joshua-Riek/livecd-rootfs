@@ -55,7 +55,7 @@ EOF
    channel: stable
 EOF
 		echo -n "   file: " >> chroot/var/lib/snapd/seed/seed.yaml
-		(cd chroot/var/lib/snapd/seed; ls -1 "${snap}_*.snap") \
+		(cd chroot/var/lib/snapd/seed; ls -1 ${snap}_*.snap) \
 			>> chroot/var/lib/snapd/seed/seed.yaml
 	done
 
