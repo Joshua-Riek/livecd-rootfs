@@ -59,6 +59,8 @@ EOF
 			>> chroot/var/lib/snapd/seed/seed.yaml
 	done
 
+	mkdir -p chroot/var/lib/snapd/seed/snaps \
+		chroot/var/lib/snapd/seed/assertions
 	mv chroot/var/lib/snapd/seed/*.assert \
 		chroot/var/lib/snapd/seed/assertions/
 	mv chroot/var/lib/snapd/seed/*.snap chroot/var/lib/snapd/seed/snaps/
