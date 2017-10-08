@@ -1,9 +1,9 @@
-livecd-rootfs (2.469) UNRELEASED; urgency=medium
+livecd-rootfs (2.469) artful; urgency=medium
 
   * Unminimization information should only go to motd when we are actually
     minimized.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 08 Oct 2017 16:07:42 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 08 Oct 2017 16:08:10 -0400
 
 livecd-rootfs (2.468) artful; urgency=medium
 
