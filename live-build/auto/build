@@ -135,10 +135,9 @@ rm -f /etc/update-motd.d/60-unminimize
 
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
-        fi
 
-	# inform users about the unminimize script
-	cat > "chroot/etc/update-motd.d/60-unminimize" << EOF
+		# inform users about the unminimize script
+		cat > "chroot/etc/update-motd.d/60-unminimize" << EOF
 #!/bin/sh
 #
 # This file is not managed by a package.  If you no longer want to
@@ -149,7 +148,8 @@ echo ""
 echo "To restore this content, you can run the 'unminimize' command."
 EOF
 
-	chmod +x chroot/etc/update-motd.d/60-unminimize
+		chmod +x chroot/etc/update-motd.d/60-unminimize
+        fi
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
