@@ -27,6 +27,45 @@ fi
 # Setup cleanup function
 Setup_cleanup
 
+preinstall_snaps() {
+	lb chroot_resolv install
+	chroot chroot sh -c '
+		set -x;
+		cd /var/lib/snapd/seed;
+		SNAPPY_STORE_NO_CDN=1 snap download core'
+	for snap in "$@"; do
+		chroot chroot sh -c "
+			set -x;
+			cd /var/lib/snapd/seed;
+			SNAPPY_STORE_NO_CDN=1 snap download \"$snap\""
+	done
+	lb chroot_resolv remove
+
+	CORE_SNAP=$(cd chroot/var/lib/snapd/seed; ls -1 core_*.snap)
+
+	cat <<EOF > chroot/var/lib/snapd/seed/seed.yaml
+snaps:
+ - name: core
+   channel: stable
+   file: ${CORE_SNAP}
+EOF
+	for snap in "$@"; do
+		cat <<EOF >> chroot/var/lib/snapd/seed/seed.yaml
+ - name: $snap
+   channel: stable
+EOF
+		echo -n "   file: " >> chroot/var/lib/snapd/seed/seed.yaml
+		(cd chroot/var/lib/snapd/seed; ls -1 ${snap}_*.snap) \
+			>> chroot/var/lib/snapd/seed/seed.yaml
+	done
+
+	mkdir -p chroot/var/lib/snapd/seed/snaps \
+		chroot/var/lib/snapd/seed/assertions
+	mv chroot/var/lib/snapd/seed/*.assert \
+		chroot/var/lib/snapd/seed/assertions/
+	mv chroot/var/lib/snapd/seed/*.snap chroot/var/lib/snapd/seed/snaps/
+}
+
 rm -f binary.success
 (
 	if [ -d config/gnupg ]; then
@@ -321,6 +360,17 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 				> "$account_assertion"
 			;;
 	esac
+
+	# FIXME: this should not be a hard-coded list in this script; this
+	# is an interim solution for 17.10.
+	case $PROJECT:$SUBPROJECT in
+		ubuntu-mate:*)
+			SNAP_LIST=pulsemixer
+			;;
+	esac
+	if [ -n "$SNAP_LIST" ]; then
+		preinstall_snaps $SNAP_LIST
+	fi
 
 	if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
 		if [ "$ARCH" = "armhf" ]; then

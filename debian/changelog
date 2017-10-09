@@ -1,3 +1,10 @@
+livecd-rootfs (2.470) UNRELEASED; urgency=medium
+
+  * Add initial support for preinstallation of snaps in images, and
+    preinstall pulsemixer in the Ubuntu MATE image.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 08 Oct 2017 21:48:35 -0400
+
 livecd-rootfs (2.469) artful; urgency=medium
 
   * Unminimization information should only go to motd when we are actually
