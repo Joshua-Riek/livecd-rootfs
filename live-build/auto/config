@@ -540,7 +540,7 @@ case $PROJECT in
 			# linux-kvm is available since you control the
 			# archive and can provide this metapackage as
 			# necessary.
-			if [ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]; then
+			if [ "$ARCH" != "amd64" ] || ([ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]); then
 				KERNEL_FLAVOURS=virtual
 			else
 				KERNEL_FLAVOURS=kvm
