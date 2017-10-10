@@ -8,6 +8,12 @@ livecd-rootfs (2.471) artful; urgency=medium
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 10 Oct 2017 13:26:21 +0100
 
+livecd-rootfs (2.470ubuntu1) UNRELEASED; urgency=medium
+
+  * Add snap.subiquity.started.service to subiquity.service's Requires=.
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Mon, 09 Oct 2017 15:09:56 +1300
+
 livecd-rootfs (2.470) artful; urgency=medium
 
   * Add initial support for preinstallation of snaps in images, and
