@@ -130,6 +130,11 @@ if [ -f "${rootd}/etc/overlayroot.conf" ] &&
    } > "${rootd}/etc/overlayroot.local.conf"
 fi
 
+# previous steps may have left a dangling symlink here with
+# SUBPROJECT=minimized and that breaks lb_chroot_hacks step
+if [ -L "${rootd}/boot/initrd.img" ] && [ ! -e "${rootd}/boot/initrd.img" ]; then
+	rm "${rootd}/boot/initrd.img"
+fi
 
 #### END COMMON ARCH FUNCTIONS
 
