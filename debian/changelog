@@ -1,6 +1,10 @@
 livecd-rootfs (2.472) UNRELEASED; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Add snap.subiquity.started.service to subiquity.service's Requires=.
+
+  [ Steve Langasek ]
+  * Purge initramfs-tools from minimized images.
 
  -- Michael Hudson-Doyle <mwhudson@debian.org>  Mon, 09 Oct 2017 15:09:56 +1300
 
