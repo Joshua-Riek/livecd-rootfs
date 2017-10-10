@@ -1,3 +1,13 @@
+livecd-rootfs (2.471) UNRELEASED; urgency=medium
+
+  * Now that grub-related diversions have been factored out in 2.466
+    instead of having bogus root=stuff arg generated in grub.cfg, it is
+    actually empty. Therefore update the sed command to make the arg in
+    the root= token optional. This should resolve non-booting livecd cpc
+    images.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 10 Oct 2017 12:53:43 +0100
+
 livecd-rootfs (2.470) artful; urgency=medium
 
   * Add initial support for preinstallation of snaps in images, and

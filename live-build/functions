@@ -281,7 +281,7 @@ replace_grub_root_with_label() {
     then
         return 0
     fi
-    sed -i -e "s,root=[^ ]\+,root=LABEL=${fs_label}," \
+    sed -i -e "s,root=[^ ]*,root=LABEL=${fs_label}," \
         "$CHROOT_ROOT/boot/grub/grub.cfg"
 }
 
