@@ -1,11 +1,3 @@
 #!/bin/sh
 
-ARCH=$(dpkg --print-architecture)
-
-failure_code=1
-if [ "$ARCH" = ppc64el ]; then
-	# not a regression; don't block while debugging
-	failure_code=0
-fi
-
-env SELECTED_TRIPLETS=ubuntu-cpc:minimized:ubuntu-cpc debian/tests/default-bootstraps || exit $failure_code
+env SELECTED_TRIPLETS=ubuntu-cpc:minimized:ubuntu-cpc debian/tests/default-bootstraps

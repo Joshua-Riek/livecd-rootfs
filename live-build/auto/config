@@ -540,7 +540,7 @@ case $PROJECT in
 			# linux-kvm is available since you control the
 			# archive and can provide this metapackage as
 			# necessary.
-			if [ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]; then
+			if [ "$ARCH" != "amd64" ] || ([ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]); then
 				KERNEL_FLAVOURS=virtual
 			else
 				KERNEL_FLAVOURS=kvm
@@ -549,6 +549,11 @@ case $PROJECT in
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
 			KERNEL_FLAVOURS=virtual
+		        case $ARCH in
+				armhf|arm64|ppc64el|powerpc)
+					add_task install server
+					;;
+			esac
 		fi
 
 		BINARY_REMOVE_LINUX=false
@@ -557,17 +562,9 @@ case $PROJECT in
 			armhf)
 				KERNEL_FLAVOURS=generic-lpae
 				add_package install flash-kernel
-				add_task install server
 				;;
 			arm64)
 				add_package install flash-kernel
-				add_task install server
-				;;
-			ppc64el)
-				add_task install server
-				;;
-			powerpc)
-				add_task install server
 				;;
 		esac
 		OPTS="${OPTS:+$OPTS }--system=normal"

@@ -1,3 +1,12 @@
+livecd-rootfs (2.473) UNRELEASED; urgency=medium
+
+  * Clean up dangling /boot/initrd.img symlink when needed
+  * Revert ignoring failure of minimized autopkgtest on ppc64el
+  * Use kvm kernel only on amd64
+  * Skip installing server task when building minimial images
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Wed, 11 Oct 2017 01:58:39 +0200
+
 livecd-rootfs (2.472) artful; urgency=medium
 
   [ Michael Hudson-Doyle ]
