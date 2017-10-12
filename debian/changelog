@@ -1,9 +1,9 @@
-livecd-rootfs (2.476) UNRELEASED; urgency=medium
+livecd-rootfs (2.476) artful; urgency=medium
 
   * snap.subiquity.started.service must be RemainAfterExit=yes to satisfy
     the service dependencies.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 12 Oct 2017 09:23:16 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 12 Oct 2017 09:23:52 -0400
 
 livecd-rootfs (2.475) artful; urgency=medium
 
