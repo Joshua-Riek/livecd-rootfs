@@ -2,6 +2,7 @@ livecd-rootfs (2.477) UNRELEASED; urgency=medium
 
   * Remove boot/grub leftovers from our root squashfs, left behind after
     grub purge.
+  * Remove apt, debconf cruft files from /var/cache in all our livefses.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 14:18:45 -0400
 
