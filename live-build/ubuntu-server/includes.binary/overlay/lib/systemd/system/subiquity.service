@@ -9,6 +9,7 @@ ConditionPathExists=!/run/subiquity/complete
 
 [Service]
 Environment=PYTHONPATH=/usr/share/subiquity
+Environment=SNAP_REEXEC=0
 ExecStartPre=/bin/systemctl stop getty@tty1
 ExecStartPre=/bin/dmesg -n 1
 ExecStartPre=/snap/bin/subiquity.subiquity-loadkeys

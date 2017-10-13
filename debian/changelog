@@ -1,12 +1,48 @@
-livecd-rootfs (2.472) UNRELEASED; urgency=medium
+livecd-rootfs (2.477) UNRELEASED; urgency=medium
+
+  * Purge initramfs-tools from minimized images.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 17:14:58 -0400
+
+livecd-rootfs (2.476) artful; urgency=medium
+
+  * snap.subiquity.started.service must be RemainAfterExit=yes to satisfy
+    the service dependencies.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 12 Oct 2017 09:23:52 -0400
+
+livecd-rootfs (2.475) artful; urgency=medium
+
+  * Add the SNAP_REEXEC=0 enviroment to the subiquity service as well.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 12 Oct 2017 00:32:46 -0400
+
+livecd-rootfs (2.474) artful; urgency=medium
+
+  * Fix wrong variable name in systemd unit snippets.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 11 Oct 2017 18:24:21 -0400
+
+livecd-rootfs (2.473) artful; urgency=medium
+
+  [ Balint Reczey ]
+  * Clean up dangling /boot/initrd.img symlink when needed
+  * Revert ignoring failure of minimized autopkgtest on ppc64el
+  * Use kvm kernel only on amd64
+  * Skip installing server task when building minimial images
+
+  [ Steve Langasek ]
+  * export SNAP_REEXEC=0 to our snappy systemd units in the livefs overlay,
+    to work around apparmor not working reliably against aufs.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 11 Oct 2017 12:46:14 -0400
+
+livecd-rootfs (2.472) artful; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * Add snap.subiquity.started.service to subiquity.service's Requires=.
 
-  [ Steve Langasek ]
-  * Purge initramfs-tools from minimized images.
-
- -- Michael Hudson-Doyle <mwhudson@debian.org>  Mon, 09 Oct 2017 15:09:56 +1300
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 10 Oct 2017 18:41:01 -0400
 
 livecd-rootfs (2.471) artful; urgency=medium
 
