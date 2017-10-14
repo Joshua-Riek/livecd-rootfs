@@ -4,6 +4,9 @@ livecd-rootfs (2.477) UNRELEASED; urgency=medium
   * Remove boot/grub leftovers from our root squashfs, left behind after
     grub purge.
   * Remove apt, debconf cruft files from /var/cache in all our livefses.
+  * Pass --cache false to lb config; otherwise we copy around caches of
+    .debs that are never used properly, and which prevent us from emptying
+    /var/cache/apt in images.
   * When building minimized cloud images, remove various packages that we
     don't want installed by default.  Some are tools that aren't needed for
     non-interactive use; some are libraries whose reverse-dependencies
