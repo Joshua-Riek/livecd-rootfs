@@ -145,12 +145,12 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	# in VMWare guest images, and we know none of the minimized images
 	# are targeted at VMWare.
 	_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
-		apt-mark auto '^lib.*' '^python*' 2>/dev/null
+		apt-mark auto '^lib.*' '^python*' vim-runtime 2>/dev/null
 	# FIXME: iso-codes is a dep of software-properties and shouldn't be
 	_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
 		apt-get -y autoremove --purge iso-codes xauth pastebinit \
-		plymouth open-vm-tools git shared-mime-info vim console-setup \
-		ncurses-term tmux screen
+		plymouth open-vm-tools git shared-mime-info vim vim-common \
+		console-setup ncurses-term tmux screen
 	_xchroot "${rootd}" apt clean
 fi
 
