@@ -151,6 +151,7 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 		apt-get -y autoremove --purge iso-codes xauth pastebinit \
 		plymouth open-vm-tools git shared-mime-info vim console-setup \
 		ncurses-term tmux screen
+	_xchroot "${rootd}" apt clean
 fi
 
 #### END COMMON ARCH FUNCTIONS
