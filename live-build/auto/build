@@ -215,9 +215,8 @@ EOF
 		# required for any minimized images but is still pulled in by
 		# default
 		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-			apt-get -y purge initramfs-tools"
-		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-			apt-mark auto busybox-initramfs busybox-static"
+			apt-get -y purge initramfs-tools busybox-initramfs \
+				busybox-static"
 		# temporary workaround: don't remove linux-base which
 		# may have no other reverse-depends currently
 		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
