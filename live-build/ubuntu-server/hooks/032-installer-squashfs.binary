@@ -50,7 +50,7 @@ chroot $SQUASH_ROOT sh -c '
 set -x;
 cd /var/lib/snapd/seed;
 sudo SNAPPY_STORE_NO_CDN=1 snap download core;
-sudo SNAPPY_STORE_NO_CDN=1 snap download --channel=edge subiquity;
+sudo SNAPPY_STORE_NO_CDN=1 snap download subiquity;
 
 CORE_SNAP=$(ls -1 core*.snap);
 SUBIQUITY_SNAP=$(ls -1 subiquity*.snap);

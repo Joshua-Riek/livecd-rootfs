@@ -1,3 +1,10 @@
+livecd-rootfs (2.477) UNRELEASED; urgency=medium
+
+  * Fix server live image to pull subiquity from the stable channel, not
+    from edge.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 15 Oct 2017 13:44:34 -0700
+
 livecd-rootfs (2.476) artful; urgency=medium
 
   * snap.subiquity.started.service must be RemainAfterExit=yes to satisfy
