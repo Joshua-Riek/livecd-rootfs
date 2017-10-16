@@ -3,6 +3,11 @@
 #
 # Generate VMDK files
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping VMDK image build as we only generate rootfs."
+    exit 0
+fi
+
 case $ARCH in
          i386|amd64) ;;
                   *) echo "VMDK images are not supported for $ARCH yet.";

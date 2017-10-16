@@ -3,6 +3,11 @@
 #
 # Generate a squashfs root and manifest
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+	echo "Skipping squashfs build as we only generate rootfs."
+    exit 0
+fi
+
 case $IMAGE_TARGETS in
 	""|*squashfs*)
 		;;

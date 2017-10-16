@@ -1,3 +1,9 @@
+livecd-rootfs (2.477) UNRELEASED; urgency=medium
+
+  * Add the IMAGEFORMAT=none to support generating a single rootfs.
+
+ -- Gary Wang <gary.wang@canonical.com>  Mon, 16 Oct 2017 10:40:30 +0800
+
 livecd-rootfs (2.476) artful; urgency=medium
 
   * snap.subiquity.started.service must be RemainAfterExit=yes to satisfy

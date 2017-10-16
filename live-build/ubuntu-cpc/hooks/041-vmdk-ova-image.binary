@@ -13,6 +13,12 @@
 # Switch on $ARCH to determine which ID and description to use in the produced
 # OVF. We have fancy Ubuntu-specific IDs in the OVF specification, we might as
 # well use them.
+
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping OVA image build since we only generate rootfs."
+    exit 0
+fi
+
 case $ARCH in
         amd64)
             ovf_id=94

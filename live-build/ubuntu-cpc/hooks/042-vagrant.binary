@@ -15,6 +15,11 @@
 # some packages in it, convert it to a vmdk, and then assemble the vagrant
 # box.
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping Vagrant image build since we only generate rootfs."
+    exit 0
+fi
+
 case $IMAGE_TARGETS in
 	""|*vagrant*)
 		;;

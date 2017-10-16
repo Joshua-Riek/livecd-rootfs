@@ -12,6 +12,11 @@ BOOTPART_END=
 BOOT_MOUNTPOINT=
 ROOTPART_START=1
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping disk image build as we only generate rootfs."
+    exit 0
+fi
+
 case $ARCH:$SUBARCH in
 	ppc64el:*|powerpc:*)
 		echo "POWER disk images are handled separately"

@@ -1,4 +1,10 @@
 #!/bin/bash -eux
+
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping disk images build as we only generate rootfs."
+    exit 0
+fi
+
 case $ARCH in
     ppc64el|powerpc)
         ;;
