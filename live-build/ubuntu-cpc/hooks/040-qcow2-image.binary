@@ -1,5 +1,10 @@
 #!/bin/bash -ex
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping qcow2 image build as we only generate rootfs."
+    exit 0
+fi
+
 case $IMAGE_TARGETS in
 	""|*qcow2*)
 		;;

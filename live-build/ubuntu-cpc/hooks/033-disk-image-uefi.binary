@@ -1,5 +1,10 @@
 #!/bin/bash -eux
 
+if [ "${IMAGEFORMAT:-}" = "none" ]; then
+    echo "Skipping EFI image build as we only generate rootfs."
+    exit 0
+fi
+
 case $ARCH in
     amd64|arm64)
         ;;

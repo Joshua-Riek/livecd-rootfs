@@ -1,3 +1,9 @@
+livecd-rootfs (2.478) UNRELEASED; urgency=medium
+
+  * Add the IMAGEFORMAT=none to support generating a single rootfs.
+
+ -- Gary Wang <gary.wang@canonical.com>  Mon, 16 Oct 2017 10:40:30 +0800
+
 livecd-rootfs (2.477) artful; urgency=medium
 
   * Fix server live image to pull subiquity from the stable channel, not
