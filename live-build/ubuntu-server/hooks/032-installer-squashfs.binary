@@ -64,7 +64,7 @@ snaps:
    channel: stable
    file: ${CORE_SNAP}
  - name: subiquity
-   channel: edge
+   channel: stable
    classic: true
    file: ${SUBIQUITY_SNAP}
 EOF
