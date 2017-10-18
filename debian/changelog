@@ -1,12 +1,13 @@
-livecd-rootfs (2.478) UNRELEASED; urgency=medium
+livecd-rootfs (2.478) artful; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Two last minute server-live fixes:
     - Seed the subiquity snap to track the stable channel (LP: #1724410)
     - Remove snap.subiquity.started from subiquity's After=/Requires= as it
       does not fix the race condition they were intended to address and causes
       subiquity to be killed when snapd refreshes subiquity (LP: #1724411)
 
- -- Michael Hudson-Doyle <mwhudson@debian.org>  Wed, 18 Oct 2017 13:22:50 +1300
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 17 Oct 2017 22:08:38 -0700
 
 livecd-rootfs (2.477) artful; urgency=medium
 
