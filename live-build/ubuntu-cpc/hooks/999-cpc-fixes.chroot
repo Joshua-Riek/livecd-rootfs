@@ -150,7 +150,10 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
 		apt-get -y autoremove --purge iso-codes xauth pastebinit \
 		plymouth open-vm-tools git shared-mime-info vim vim-common \
-		console-setup ncurses-term tmux screen
+		console-setup ncurses-term tmux screen policykit-1 \
+		xdg-user-dirs less publicsuffix run-one apport-symptoms \
+		ubuntu-cloudimage-keyring
+
 	_xchroot "${rootd}" apt clean
 fi
 
