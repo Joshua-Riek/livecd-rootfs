@@ -152,7 +152,7 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 		plymouth open-vm-tools git shared-mime-info vim vim-common \
 		console-setup ncurses-term tmux screen policykit-1 \
 		xdg-user-dirs less publicsuffix run-one apport-symptoms \
-		ubuntu-cloudimage-keyring
+		ubuntu-cloudimage-keyring file
 
 	_xchroot "${rootd}" apt clean
 fi
