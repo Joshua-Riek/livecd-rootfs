@@ -210,6 +210,21 @@ EOF
 
 	lb chroot "$@"
 
+	if [ "${SUBPROJECT:-}" = minimized ]; then
+		# force removal of initramfs-tools, which we assert is not
+		# required for any minimized images but is still pulled in by
+		# default
+		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+			apt-get -y purge initramfs-tools busybox-initramfs \
+				busybox-static"
+		# temporary workaround: don't remove linux-base which
+		# may have no other reverse-depends currently
+		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+			apt-mark manual linux-base"
+		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+			apt-get -y --purge autoremove"
+	fi
+
 	if [ -f config/oem-config-preinstalled ]; then
 
 # This is cargo-culted almost verbatim (with some syntax changes for

@@ -1,3 +1,9 @@
+livecd-rootfs (2.479) UNRELEASED; urgency=medium
+
+  * Purge initramfs-tools from minimized images.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 17:14:58 -0400
+
 livecd-rootfs (2.478) artful; urgency=medium
 
   [ Michael Hudson-Doyle ]
