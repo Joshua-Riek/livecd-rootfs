@@ -3,7 +3,8 @@ livecd-rootfs (2.477) UNRELEASED; urgency=medium
   * Purge initramfs-tools from minimized images.
   * Remove boot/grub leftovers from our root squashfs, left behind after
     grub purge.
-  * Remove apt, debconf cruft files from /var/cache in all our livefses.
+  * Remove apt, debconf, dpkg cruft files from /var/cache and /var/lib in all
+    our livefses.
   * Pass --cache false to lb config; otherwise we copy around caches of
     .debs that are never used properly, and which prevent us from emptying
     /var/cache/apt in images.
