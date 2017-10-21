@@ -56,7 +56,7 @@ mount_image() {
 
     # Find the loop device
     loop_p1="$(echo -e ${kpartx_mapping} | head -n1 | awk '{print$3}')"
-    loop_device="/dev/loop$(echo ${loop_p1} | cut -b5)"
+    loop_device="/dev/${loop_p1%p[0-9]*}"
     if [ ! -b ${loop_device} ]; then
         echo "unable to find loop device for ${backing_img}"
         exit 1

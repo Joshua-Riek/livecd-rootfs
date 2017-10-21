@@ -1,6 +1,8 @@
 livecd-rootfs (2.479) UNRELEASED; urgency=medium
 
   * Purge initramfs-tools from minimized images.
+  * Properly handle loop device names when there are > 10 devices on the
+    system.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 17:14:58 -0400
 
