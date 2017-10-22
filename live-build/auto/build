@@ -217,6 +217,12 @@ EOF
 		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
 			apt-get -y purge initramfs-tools busybox-initramfs \
 				busybox-static"
+		# and if initramfs-tools was configured before our kernel,
+		# /etc/kernel/postinst.d/initramfs-tools will have created
+		# an initramfs despite the generic dpkg-divert; so remove it
+		# here.
+		rm -f chroot/boot/initrd.img-*
+
 		# temporary workaround: don't remove linux-base which
 		# may have no other reverse-depends currently
 		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
