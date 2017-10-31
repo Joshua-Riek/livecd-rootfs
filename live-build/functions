@@ -300,6 +300,15 @@ divert_grub() {
 	chroot "$CHROOT_ROOT" dpkg-divert --local \
 		--divert /etc/grub.d/30_os-prober.dpkg-divert \
 		--rename /etc/grub.d/30_os-prober
+
+	# Divert systemd-detect-virt; /etc/kernel/postinst.d/zz-update-grub
+	# no-ops if we are in a container, and the launchpad farm runs builds
+	# in lxd.  We therefore pretend that we're never in a container (by
+	# exiting 1).
+	chroot "$CHROOT_ROOT" dpkg-divert --local \
+		--rename /usr/bin/systemd-detect-virt
+	echo "exit 1" > "$CHROOT_ROOT"/usr/bin/systemd-detect-virt
+	chmod +x "$CHROOT_ROOT"/usr/bin/systemd-detect-virt
 }
 
 undivert_grub() {
@@ -312,4 +321,8 @@ undivert_grub() {
 	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
 		--divert /etc/grub.d/30_os-prober.dpkg-divert \
 		--rename /etc/grub.d/30_os-prober
+
+	rm "$CHROOT_ROOT"/usr/bin/systemd-detect-virt
+	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
+		--rename /usr/bin/systemd-detect-virt
 }

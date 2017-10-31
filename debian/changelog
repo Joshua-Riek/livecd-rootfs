@@ -3,6 +3,9 @@ livecd-rootfs (2.479) UNRELEASED; urgency=medium
   * Purge initramfs-tools from minimized images.
   * Make sure to remove any initramfs that was generated in a minimized
     image.
+  * divert /usr/bin/systemd-detect-virt as part of the grub diversions, so
+    that the grub kernel postinst hook is operational when we're building
+    in a container.  LP: #1729034.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 17:14:58 -0400
 
