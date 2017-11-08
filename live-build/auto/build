@@ -33,6 +33,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	ubuntu-image -c edge $extra_args \
 		-o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
 	xz -0 -T4 livecd."$PROJECT".img
+	mv seed.manifest livecd."$PROJECT".manifest
 	exit 0
 fi
 

@@ -2,6 +2,8 @@ livecd-rootfs (2.481) UNRELEASED; urgency=medium
 
   * The target for x86 ubuntu-core images is VMs, so create them with
     a buffer of free space in order to work if booted in place.
+  * ubuntu-image now produces a manifest file listing the snap revisions
+    used; publish this so that it's picked up by launchpad-buildd.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 08 Nov 2017 12:01:25 -0800
 
