@@ -15,6 +15,9 @@ if [ -z "${PROJECT:-}" ]; then
     exit 1
 fi
 
+# Link output files somewhere BuildLiveCD will be able to find them.
+PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
@@ -33,7 +36,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	ubuntu-image -c edge $extra_args \
 		-o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
 	xz -0 -T4 livecd."$PROJECT".img
-	mv seed.manifest livecd."$PROJECT".manifest
+	mv seed.manifest "PREFIX".manifest
 	exit 0
 fi
 
@@ -455,9 +458,6 @@ if [ -e binary.success ]; then
 else
 	exit 1
 fi
-
-# Link output files somewhere BuildLiveCD will be able to find them.
-PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
 case $LB_INITRAMFS in
 	casper)
