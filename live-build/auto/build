@@ -17,8 +17,20 @@ fi
 
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
+
+	# this should actually be per-model instead of per-architecture,
+	# but for the moment all our x86 models follow this rule.
+	case $ARCH in
+		amd64|i386)
+			extra_args="--image-size 3700M"
+			;;
+		*)
+			extra_args=""
+			;;
+	esac
+
 	env SNAPPY_STORE_NO_CDN=1 \
-	ubuntu-image -c edge \
+	ubuntu-image -c edge $extra_args \
 		-o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
 	xz -0 -T4 livecd."$PROJECT".img
 	exit 0
