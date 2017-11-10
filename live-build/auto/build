@@ -236,6 +236,10 @@ EOF
 			apt-get -y --purge autoremove"
 	fi
 
+	# remove crufty files that shouldn't be left in an image
+	rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
+	Chroot chroot apt clean
+
 	if [ -f config/oem-config-preinstalled ]; then
 
 # This is cargo-culted almost verbatim (with some syntax changes for

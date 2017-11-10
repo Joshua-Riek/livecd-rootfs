@@ -31,6 +31,7 @@ chroot binary/boot/squashfs.dir chmod +x /usr/sbin/grub-probe
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --purge remove --assume-yes '^grub-.*'
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get autoremove --purge --assume-yes
+rm -rf binary/boot/squashfs.dir/boot/grub
 chroot binary/boot/squashfs.dir mkdir /lib/modules
 
 chroot binary/boot/squashfs.dir rm /usr/sbin/grub-probe

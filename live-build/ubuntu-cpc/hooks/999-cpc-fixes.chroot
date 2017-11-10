@@ -136,6 +136,27 @@ if [ -L "${rootd}/boot/initrd.img" ] && [ ! -e "${rootd}/boot/initrd.img" ]; the
 	rm "${rootd}/boot/initrd.img"
 fi
 
+if [ "${SUBPROJECT:-}" = minimized ]; then
+	# Remove various packages that we don't want in the minimized images.
+	# Some of these are tools that don't make sense by default
+	# non-interactively; some are libraries whose reverse-dependencies
+	# will have already been removed; open-vm-tools, it's a bug that this
+	# is in the common cloud seed because this should only be included
+	# in VMWare guest images, and we know none of the minimized images
+	# are targeted at VMWare.
+	_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
+		apt-mark auto '^lib.*' '^python*' vim-runtime 2>/dev/null
+	# FIXME: iso-codes is a dep of software-properties and shouldn't be
+	_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
+		apt-get -y autoremove --purge iso-codes xauth pastebinit \
+		plymouth open-vm-tools git shared-mime-info vim vim-common \
+		console-setup ncurses-term tmux screen policykit-1 \
+		xdg-user-dirs less publicsuffix run-one apport-symptoms \
+		ubuntu-cloudimage-keyring file
+
+	_xchroot "${rootd}" apt clean
+fi
+
 #### END COMMON ARCH FUNCTIONS
 
 

@@ -1,3 +1,22 @@
+livecd-rootfs (2.482) UNRELEASED; urgency=medium
+
+  * Remove boot/grub leftovers from our root squashfs, left behind after
+    grub purge.
+  * Remove apt, debconf, dpkg cruft files from /var/cache and /var/lib in all
+    our livefses.
+  * Pass --cache false to lb config; otherwise we copy around caches of
+    .debs that are never used properly, and which prevent us from emptying
+    /var/cache/apt in images.
+  * When building minimized cloud images, remove various packages that we
+    don't want installed by default.  Some are tools that aren't needed for
+    non-interactive use; some are libraries whose reverse-dependencies
+    will have already been removed; and one, open-vm-tools, should only be
+    included in images that are targeted to VMWare (which is not the case
+    for any of the current minimal images), rather than being included
+    directly in the cloud-image seed.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Nov 2017 23:47:23 -0800
+
 livecd-rootfs (2.481) bionic; urgency=medium
 
   * The target for x86 ubuntu-core images is VMs, so create them with

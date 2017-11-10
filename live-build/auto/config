@@ -706,6 +706,7 @@ lb config noauto \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
 	--initramfs-compression lzma \
+	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
 	"$@"
