@@ -1,4 +1,4 @@
-livecd-rootfs (2.482) UNRELEASED; urgency=medium
+livecd-rootfs (2.482) bionic; urgency=medium
 
   * Remove boot/grub leftovers from our root squashfs, left behind after
     grub purge.
@@ -15,7 +15,7 @@ livecd-rootfs (2.482) UNRELEASED; urgency=medium
     for any of the current minimal images), rather than being included
     directly in the cloud-image seed.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Nov 2017 23:47:23 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 09 Nov 2017 23:49:43 -0800
 
 livecd-rootfs (2.481) bionic; urgency=medium
 
