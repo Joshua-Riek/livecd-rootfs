@@ -23,8 +23,8 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 
 	env SNAPPY_STORE_NO_CDN=1 \
 	ubuntu-image -c edge $UBUNTU_IMAGE_ARGS \
-		-o livecd."$PROJECT".img livecd."$PROJECT".model-assertion
-	xz -0 -T4 livecd."$PROJECT".img
+		-o "$PREFIX".img "$PREFIX".model-assertion
+	xz -0 -T4 "$PREFIX".img
 	mv seed.manifest "PREFIX".manifest
 	exit 0
 fi
