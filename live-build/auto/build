@@ -25,7 +25,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	ubuntu-image -c edge $UBUNTU_IMAGE_ARGS \
 		-o "$PREFIX".img "$PREFIX".model-assertion
 	xz -0 -T4 "$PREFIX".img
-	mv seed.manifest "PREFIX".manifest
+	mv seed.manifest "$PREFIX".manifest
 	exit 0
 fi
 
