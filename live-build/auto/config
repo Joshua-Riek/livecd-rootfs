@@ -90,6 +90,7 @@ LIVE_TASK=
 PREINSTALLED=false
 PREINSTALL_POOL=
 PREINSTALL_POOL_SEEDS=
+PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
 CHROOT_HOOKS=
 BINARY_HOOKS=
@@ -171,9 +172,17 @@ case $IMAGEFORMAT in
 				exit 1
 				;;
 		esac
+		case $MODEL in
+			pc-amd64|pc-i386)
+				UBUNTU_IMAGE_ARGS="--image-size 3700M" ;;
+			*)
+				UBUNTU_IMAGE_ARGS="" ;;
+		esac
+
 		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+		echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
 		# Store model assertion in top dir to get it picked up later as a build artifact
-		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > livecd."$PROJECT".model-assertion
+		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
 		echo "Configured ubuntu-image for the following model assertion:"
 		cat livecd."$PROJECT".model-assertion
 		echo "----------------------------------------------------------"
