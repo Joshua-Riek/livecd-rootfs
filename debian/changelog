@@ -1,3 +1,10 @@
+livecd-rootfs (2.483) UNRELEASED; urgency=medium
+
+  * Fix lingering reference to livecd-rootfs.ubuntu-core.model-assertion
+    that breaks the ubuntu-core image build.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 13 Nov 2017 09:14:44 -0800
+
 livecd-rootfs (2.482) bionic; urgency=medium
 
   * Remove boot/grub leftovers from our root squashfs, left behind after

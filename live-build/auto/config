@@ -184,7 +184,7 @@ case $IMAGEFORMAT in
 		# Store model assertion in top dir to get it picked up later as a build artifact
 		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
 		echo "Configured ubuntu-image for the following model assertion:"
-		cat livecd."$PROJECT".model-assertion
+		cat "$PREFIX".model-assertion
 		echo "----------------------------------------------------------"
 		# Fake finished configuration for lb build
 		mkdir -p .build
