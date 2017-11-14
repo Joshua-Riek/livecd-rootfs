@@ -155,9 +155,9 @@ EOF
         ln -sf initrd.img-* initrd.img
         popd
 
-        ZIPL_EXTRA_PARAMS=--ramdisk=/boot/initrd.img
-
         echo "ramdisk = /boot/initrd.img" >> mountpoint/etc/zipl.conf
+
+        ZIPL_EXTRA_PARAMS=--ramdisk=/boot/initrd.img
     fi
 
     # Create bootmap file
