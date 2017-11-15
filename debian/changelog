@@ -1,9 +1,10 @@
-livecd-rootfs (2.484) UNRELEASED; urgency=medium
+livecd-rootfs (2.484) bionic; urgency=medium
 
+  [ Balint Reczey ]
   * Skip setting up initrd for s390x when it is not generated for the image.
     This fixes building minimized s390x images.
 
- -- Balint Reczey <rbalint@ubuntu.com>  Tue, 14 Nov 2017 18:51:14 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 14 Nov 2017 16:58:34 -0800
 
 livecd-rootfs (2.483) bionic; urgency=medium
 
