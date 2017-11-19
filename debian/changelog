@@ -1,4 +1,4 @@
-livecd-rootfs (2.484~mwhudson1~ppa2) bionic; urgency=medium
+livecd-rootfs (2.485) UNRELEASED; urgency=medium
 
   * Automount a partition of fixed UUID for giving subiquity canned answers.
 
