@@ -1,3 +1,9 @@
+livecd-rootfs (2.485) UNRELEASED; urgency=medium
+
+  * Automount a partition of fixed UUID for giving subiquity canned answers.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 17 Nov 2017 13:59:37 +1300
+
 livecd-rootfs (2.484) bionic; urgency=medium
 
   [ Balint Reczey ]

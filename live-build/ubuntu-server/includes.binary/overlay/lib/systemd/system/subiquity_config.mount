@@ -1,0 +1,4 @@
+[Mount]
+What=/dev/disk/by-uuid/00c629d6-06ab-4dfd-b21e-c3186f34105d
+Where=/subiquity_config
+Type=ext4
