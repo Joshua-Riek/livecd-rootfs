@@ -6,8 +6,11 @@ livecd-rootfs (2.485) UNRELEASED; urgency=medium
   [ Balint Reczey ]
   * Use default xz compression (-6) for raspi2 image.
     Xz with -0 generated ~35% bigger compressed image. (LP: #1732681)
+  * Zero fill space in UEFI partitions, too
+  * Set LB_ISO_PREPARER to livecd-rootfs to avoid unbound variable in default string
+  * Build minimized images in a 1GiB image
 
- -- Balint Reczey <rbalint@ubuntu.com>  Mon, 20 Nov 2017 21:18:53 +0100
+ -- Balint Reczey <rbalint@ubuntu.com>  Thu, 23 Nov 2017 20:29:29 +0100
 
 livecd-rootfs (2.484) bionic; urgency=medium
 
