@@ -171,6 +171,9 @@ umount_disk_image() {
 
     local uefi_dev="/dev/mapper${loop_device///dev/}p15"
     if [ -e "$mountpoint/boot/efi" -a -b "$uefi_dev" ]; then
+	# zero fill free space in UEFI partition
+	cat < /dev/zero > "$mountpoint/boot/efi/bloat_file" 2> /dev/null || true
+	rm "$mountpoint/boot/efi/bloat_file"
         umount --detach-loop "$mountpoint/boot/efi"
     fi
 
