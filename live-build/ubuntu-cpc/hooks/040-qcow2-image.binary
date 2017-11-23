@@ -13,7 +13,7 @@ case $ARCH:$SUBARCH in
 	# Not sure if any other cloud images use subarch for something that
 	# should take qcow2 format, so only skipping this on raspi2 for now.
 	armhf:raspi2)
-		xz -0 -T4 -c binary/boot/disk.ext4 > livecd.ubuntu-cpc.disk1.img.xz
+		xz -T4 -c binary/boot/disk.ext4 > livecd.ubuntu-cpc.disk1.img.xz
 	        exit 0
 		;;
 esac
