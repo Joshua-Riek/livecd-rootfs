@@ -694,6 +694,7 @@ esac
 lb config noauto \
 	--mode ubuntu \
 	--distribution "$SUITE" \
+	--iso-preparer "livecd-rootfs" \
 	--bootstrap-keyring ubuntu-keyring \
 	--binary-images "$BINARY_IMAGES" \
 	--memtest "$MEMTEST" \
