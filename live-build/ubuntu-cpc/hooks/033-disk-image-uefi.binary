@@ -12,6 +12,8 @@ esac
 IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 FS_LABEL="cloudimg-rootfs"
 
+. config/binary
+
 . config/functions
 
 create_partitions() {
