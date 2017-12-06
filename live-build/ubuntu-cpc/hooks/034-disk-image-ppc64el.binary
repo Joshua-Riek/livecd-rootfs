@@ -31,7 +31,7 @@ install_grub() {
     mount_partition "${rootfs_dev_mapper}" mountpoint
 
     chroot mountpoint apt-get -qqy update
-    chroot mountpoint apt-get -qqy install grub2
+    chroot mountpoint apt-get -qqy install grub-ieee1275
     chroot mountpoint apt-get -qqy remove --purge grub-legacy-ec2
 
     # set the kernel commandline to use hvc0
