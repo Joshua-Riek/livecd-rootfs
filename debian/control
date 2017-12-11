@@ -9,7 +9,6 @@ Vcs-Bzr: http://bazaar.launchpad.net/~ubuntu-core-dev/livecd-rootfs/trunk
 Package: livecd-rootfs
 Architecture: any
 Depends: ${misc:Depends},
-         android-tools-fsutils [armhf],
          apt-utils,
          debootstrap,
          dosfstools,
