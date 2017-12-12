@@ -1,3 +1,9 @@
+livecd-rootfs (2.488~ppa1) bionic; urgency=medium
+
+  * Move casper from filesystem.squashfs to installer.squashfs. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 12 Dec 2017 10:55:10 +1300
+
 livecd-rootfs (2.487) bionic; urgency=medium
 
   * Drop android-tools-fsutils dependency, and instead install it on

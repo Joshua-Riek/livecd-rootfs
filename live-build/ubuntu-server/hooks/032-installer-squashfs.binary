@@ -39,6 +39,7 @@ setup_mountpoint binary/boot/squashfs.dir
 # to see on the installed system
 chroot $SQUASH_ROOT apt-get update
 chroot $SQUASH_ROOT apt-get -y install user-setup
+chroot $SQUASH_ROOT apt-get -y install lupin-casper
 chroot $SQUASH_ROOT apt-get -y install curtin
 
 # Don't let cloud-init run in the live session.

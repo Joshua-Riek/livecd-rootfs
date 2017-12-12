@@ -143,7 +143,9 @@ case $IMAGEFORMAT in
 		INITRAMFS_TYPE=none
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
-				add_package live lupin-casper
+				# Hack to stop lb installing casper into filesystem.squashfs
+				mkdir -p .build
+				touch .build/chroot_live-packages
 				INITRAMFS_TYPE=auto
 				;;
 			*)
