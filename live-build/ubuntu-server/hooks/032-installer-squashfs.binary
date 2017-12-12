@@ -40,7 +40,11 @@ setup_mountpoint binary/boot/squashfs.dir
 chroot $SQUASH_ROOT apt-get update
 chroot $SQUASH_ROOT apt-get -y install user-setup
 chroot $SQUASH_ROOT apt-get -y install lupin-casper
+
+mv $SQUASH_ROOT/boot/initrd.img-* livecd.ubuntu-server.initrd-generic
+
 chroot $SQUASH_ROOT apt-get -y install curtin
+
 
 # Don't let cloud-init run in the live session.
 touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
