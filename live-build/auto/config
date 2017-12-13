@@ -144,6 +144,8 @@ case $IMAGEFORMAT in
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
 				# Hack to stop lb installing casper into filesystem.squashfs
+				# (It's manually installed into installer.sqashfs in
+				# 032-installer-squashfs.binary)
 				mkdir -p .build
 				touch .build/chroot_live-packages
 				INITRAMFS_TYPE=auto

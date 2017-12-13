@@ -54,7 +54,6 @@ mv $SQUASH_ROOT/boot/initrd.img-* binary/casper/
 
 chroot $SQUASH_ROOT apt-get -y install curtin
 
-
 # Don't let cloud-init run in the live session.
 touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
 
