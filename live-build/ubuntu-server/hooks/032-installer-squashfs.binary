@@ -43,7 +43,7 @@ chroot $SQUASH_ROOT apt-get -y install lupin-casper
 
 # Installing lupin-casper means we need a new initramfs, so we
 # cargo cult stuff from lb_chroot_hacks:
-chroot $SQUASH_ROOT CASPER_GENERATE_UUID=1 update-initramfs -k all -t -u
+CASPER_GENERATE_UUID=1 chroot $SQUASH_ROOT update-initramfs -k all -t -u
 for INITRAMFS in $(find $SQUASH_ROOT/boot -name 'initrd*' -not -type l); do
     zcat "${INITRAMFS}" | lzma -c -6 > "${INITRAMFS}.new"
     mv "${INITRAMFS}.new" "${INITRAMFS}"
