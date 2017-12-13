@@ -50,7 +50,7 @@ for INITRAMFS in $(find $SQUASH_ROOT/boot -name 'initrd*' -not -type l); do
 done
 # and lb_binary_linux-image:
 mv $SQUASH_ROOT/boot/initrd.img-* binary/casper/
-# To replace the previously built one with it.
+# to replace the previously built one with it.
 
 chroot $SQUASH_ROOT apt-get -y install curtin
 
