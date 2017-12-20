@@ -1,3 +1,9 @@
+livecd-rootfs (2.488) UNRELEASED; urgency=medium
+
+  * Enable systemd-networkd by default for live-server installs.
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Thu, 21 Dec 2017 10:59:50 +1300
+
 livecd-rootfs (2.487) bionic; urgency=medium
 
   * Drop android-tools-fsutils dependency, and instead install it on
