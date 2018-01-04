@@ -717,11 +717,6 @@ echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
-if [ "${SUBPROJECT:-}" = minimized ]; then
-	# try building minimized images in a 1GiB image but still allow overriding
-	# IMAGE_SIZE in lb build
-	echo 'IMAGE_SIZE=${IMAGE_SIZE:-'$((1024*1024*1024))'}' >> config/binary
-fi
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2)
