@@ -1,3 +1,10 @@
+livecd-rootfs (2.489) UNRELEASED; urgency=medium
+
+  * Revert to building minimized and not minimimized images with the same
+    ~2.2 GiB size
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Thu, 04 Jan 2018 14:37:51 +0100
+
 livecd-rootfs (2.488) bionic; urgency=medium
 
   * Enable systemd-networkd by default for live-server installs.
