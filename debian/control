@@ -35,7 +35,6 @@ Depends: ${misc:Depends},
          vmdk-stream-converter [amd64 i386],
          xz-utils,
          zerofree
-Suggests: partimage
 Breaks: ubuntu-defaults-builder (<< 0.32)
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem
