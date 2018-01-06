@@ -835,7 +835,7 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	fi
 fi
 
-if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
+if [ "$SUBARCH" = "ac100" ]; then
 	# create the md5sum and size files for which we are actually doing all this
 	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
 	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
@@ -855,16 +855,6 @@ if [ "$SUBARCH" = "ac100" ] || [ "$SUBARCH" = "nexus7" ]; then
 
 	# create boot.img
 	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
-
-	if [ "$SUBARCH" = "nexus7" ]; then
-		# roll the android rootfs images
-		mkdir -p userdata
-		mv $PREFIX.rootfs.tar.gz userdata/rootfs.tar.gz
-		apt-get -y install android-tools-fsutils
-		make_ext4fs -l 6G -s $PREFIX.ext4-$FLAVOUR userdata/
-		mv userdata/rootfs.tar.gz $PREFIX.rootfs.tar.gz
-		ln -sf "$PREFIX.ext4-$FLAVOUR" "$PREFIX.ext4"
-	fi
 
 	# clean up
 	lb chroot_devpts remove "$@"
