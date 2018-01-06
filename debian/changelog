@@ -2,8 +2,10 @@ livecd-rootfs (2.489) UNRELEASED; urgency=medium
 
   * Revert to building minimized and not minimimized images with the same
     ~2.2 GiB size
+  * Stop suggesting partimage which is not used anymore
+  * Drop Nexus 7 support
 
- -- Balint Reczey <rbalint@ubuntu.com>  Thu, 04 Jan 2018 14:37:51 +0100
+ -- Balint Reczey <rbalint@ubuntu.com>  Sat, 06 Jan 2018 23:49:15 +0100
 
 livecd-rootfs (2.488) bionic; urgency=medium
 
