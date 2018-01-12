@@ -21,8 +21,9 @@ PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
+	CHANNEL="${CHANNEL:-edge}"
 	env SNAPPY_STORE_NO_CDN=1 \
-	ubuntu-image -c edge $UBUNTU_IMAGE_ARGS \
+	ubuntu-image -c "$CHANNEL" $UBUNTU_IMAGE_ARGS \
 		-o "$PREFIX".img "$PREFIX".model-assertion
 	xz -0 -T4 "$PREFIX".img
 	mv seed.manifest "$PREFIX".manifest
