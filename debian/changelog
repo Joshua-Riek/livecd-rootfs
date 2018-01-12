@@ -1,4 +1,4 @@
-livecd-rootfs (2.489) UNRELEASED; urgency=medium
+livecd-rootfs (2.489) bionic; urgency=medium
 
   [ Balint Reczey ]
   * Revert to building minimized and not minimimized images with the same
@@ -9,7 +9,7 @@ livecd-rootfs (2.489) UNRELEASED; urgency=medium
   [ Steve Langasek ]
   * Add support for passing snap channel to ubuntu-core image builds.
 
- -- Balint Reczey <rbalint@ubuntu.com>  Sat, 06 Jan 2018 23:49:15 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 12 Jan 2018 15:04:42 -0800
 
 livecd-rootfs (2.488) bionic; urgency=medium
 
