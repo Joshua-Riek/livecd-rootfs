@@ -1,3 +1,10 @@
+livecd-rootfs (2.490) UNRELEASED; urgency=medium
+
+  * Run subiquity on any serial consoles that the user told systemd
+    about.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 Jan 2018 10:53:33 +1300
+
 livecd-rootfs (2.489) bionic; urgency=medium
 
   [ Balint Reczey ]
