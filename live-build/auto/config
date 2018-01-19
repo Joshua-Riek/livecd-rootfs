@@ -487,7 +487,8 @@ case $PROJECT in
 				add_package install shim-signed
 				;;
 		esac
-		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		INITRAMFS_COMPRESSION="none"
 
 		# contains the framework definition
 		add_package install ubuntu-core-libs
@@ -583,6 +584,7 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
 		OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
 		OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+		INITRAMFS_COMPRESSION="gzip"
 		;;
 
 	*)
@@ -696,7 +698,7 @@ lb config noauto \
 	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
-	--initramfs-compression lzma \
+	--initramfs-compression "${INITRAMFS_COMPRESSION:-lzma}" \
 	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
