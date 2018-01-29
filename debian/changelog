@@ -1,9 +1,9 @@
-livecd-rootfs (2.490) UNRELEASED; urgency=medium
+livecd-rootfs (2.490) bionic; urgency=medium
 
   * ubuntu-cpc: Initramfs compression should match default for
     update-initramfs (LP: #1744114)
 
- -- Robert C Jennings <robert.jennings@canonical.com>  Thu, 18 Jan 2018 10:16:37 -0600
+ -- Robert C Jennings <robert.jennings@canonical.com>  Mon, 29 Jan 2018 12:15:17 -0500
 
 livecd-rootfs (2.489) bionic; urgency=medium
 
