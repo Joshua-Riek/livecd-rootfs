@@ -289,6 +289,21 @@ case $PROJECT in
         xubuntu*)
                 SEED=xubuntu.$SUITE
                 ;;
+        ubuntu-mate*)
+                SEED=ubuntu-mate.$SUITE
+                ;;
+        lubuntu*)
+                SEED=lubuntu.$SUITE
+                ;;
+        ubuntu-budgie*)
+                SEED=ubuntu-budgie.$SUITE
+                ;;
+        ubuntukylin*)
+                SEED=ubuntukylin.$SUITE
+                ;;
+        ubuntustudio*)
+                SEED=ubuntustudio.$SUITE
+                ;;
         *)
                 SEED=ubuntu.$SUITE
                 ;;
