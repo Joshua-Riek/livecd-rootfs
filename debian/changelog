@@ -1,8 +1,8 @@
-livecd-rootfs (2.491) UNRELEASED; urgency=medium
+livecd-rootfs (2.491) bionic; urgency=medium
 
   * Support seeding of snaps, as emitted by germinate >= 2.27.
 
- -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 10:05:49 +0000
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 11:20:28 +0000
 
 livecd-rootfs (2.490) bionic; urgency=medium
 

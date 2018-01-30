@@ -5,7 +5,8 @@ rm -rf config
 
 echo "Building on $(hostname --fqdn)"
 
-SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
+SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/~laney/seeds/
+MIRROR=http://raleigh/mirrors/ubuntu/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
 		bld-*.mmjgroup.com)	;;
