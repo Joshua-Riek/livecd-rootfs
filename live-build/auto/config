@@ -254,6 +254,53 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
 
+# cribbed from cdimage, perhaps this should be a small helper script in germinate?
+add_inheritance () {
+	case " $inherit " in
+		*" $1 "*)
+			;;
+		*)
+			inherit="${inherit:+$inherit }$1"
+			;;
+	esac
+}
+
+expand_inheritance () {
+	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
+		expand_inheritance "$seed"
+	done
+	add_inheritance "$1"
+}
+
+inheritance () {
+	inherit=
+	expand_inheritance "$1"
+	echo "$inherit"
+}
+
+mkdir -p config/germinate-output
+case $PROJECT in
+        kubuntu-active*)
+                SEED=kubuntu-active.$SUITE
+                ;;
+        kubuntu*)
+                SEED=kubuntu.$SUITE
+                ;;
+        xubuntu*)
+                SEED=xubuntu.$SUITE
+                ;;
+        *)
+                SEED=ubuntu.$SUITE
+                ;;
+esac
+
+if ! [ -e config/germinate-output/structure ]; then
+        echo "Running germinate..."
+        (cd config/germinate-output && germinate --no-rdepends --no-installer \
+                -S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
+                ${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
+fi
+
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
@@ -593,6 +640,32 @@ case $PROJECT in
 		;;
 esac
 
+# we'll expand the base seed given here according to the STRUCTURE file, and
+# then look in all of the seeds found to see which snaps are seeded
+case $PROJECT in
+	ubuntu|kubuntu*|lubuntu*|xubuntu*|ubuntu-mate*|ubuntustudio*|ubuntukylin*|ubuntu-budgie*)
+		BASE_SEED='desktop'
+		;;
+esac
+
+if [ -n "${BASE_SEED}" ]; then
+	SEEDS_EXPANDED=$(inheritance ${BASE_SEED})
+	for seed in ${SEEDS_EXPANDED}; do
+		echo "snap: considering ${seed}"
+		file=config/germinate-output/${seed}.snaps
+		[ -e "${file}" ] || continue
+		# extract the first column (snap package name) from germinate's output
+		# translate the human-readable "foo (classic)" into a
+		# more machine readable "foo/classic"
+		seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
+		for snap in ${seed_snaps}; do
+			echo "snap: found ${snap}"
+			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
+		done
+	done
+	echo "${ALL_SNAPS}" > config/seeded-snaps
+fi
+
 export APT_OPTIONS
 
 if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
@@ -926,51 +999,8 @@ case ${SUBPROJECT:-} in
 	;;
 esac
 
-# cribbed from cdimage, perhaps this should be a small helper script in germinate?
-add_inheritance () {
-	case " $inherit " in
-		*" $1 "*)
-			;;
-		*)
-			inherit="${inherit:+$inherit }$1"
-			;;
-	esac
-}
-
-expand_inheritance () {
-	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
-		expand_inheritance "$seed"
-	done
-	add_inheritance "$1"
-}
-
-inheritance () {
-	inherit=
-	expand_inheritance "$1"
-	echo "$inherit"
-}
-
 if [ "$PREINSTALLED" = "true" ]; then
 	if [ -n "$PREINSTALL_POOL_SEEDS" ]; then
-		mkdir -p config/germinate-output
-		case $PROJECT in
-			kubuntu-active*)
-				SEED=kubuntu-active.$SUITE
-				;;
-			kubuntu*)
-				SEED=kubuntu.$SUITE
-				;;
-			xubuntu*)
-				SEED=xubuntu.$SUITE
-				;;
-			*)
-				SEED=ubuntu.$SUITE
-				;;
-		esac
-		(cd config/germinate-output && germinate --no-rdepends --no-installer \
-			-S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
-			${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
-
 		UNWANTED_SEEDS="${LIVE_TASK:+$LIVE_TASK }boot installer required"
 		for i in $UNWANTED_SEEDS; do
 			UNWANTED_SEEDS="${UNWANTED_SEEDS:+$UNWANTED_SEEDS }$(inheritance $i)"
