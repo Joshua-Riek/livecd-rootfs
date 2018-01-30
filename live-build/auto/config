@@ -305,7 +305,6 @@ case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
 		LIVE_TASK='ubuntu-live'
-		BASE_SEED='desktop'
 		case $ARCH in
 			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
 		esac
@@ -636,6 +635,14 @@ case $PROJECT in
 	*)
 		echo "unknown project $PROJECT" >&2
 		exit 2
+		;;
+esac
+
+# we'll expand the base seed given here according to the STRUCTURE file, and
+# then look in all of the seeds found to see which snaps are seeded
+case $PROJECT in
+	ubuntu|kubuntu*|lubuntu*|xubuntu*|ubuntu-mate*|ubuntustudio*|ubuntukylin*|ubuntu-budgie*)
+		BASE_SEED='desktop'
 		;;
 esac
 
