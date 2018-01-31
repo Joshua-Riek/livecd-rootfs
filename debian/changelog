@@ -1,9 +1,28 @@
-livecd-rootfs (2.490) UNRELEASED; urgency=medium
+livecd-rootfs (2.493) UNRELEASED; urgency=medium
 
   * Run subiquity on any serial consoles that the user told systemd
     about.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 Jan 2018 10:53:33 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 31 Jan 2018 21:58:33 +1300
+
+livecd-rootfs (2.492) bionic; urgency=medium
+
+  * Oops. I shouldn't reference my private stuff.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 11:51:19 +0000
+
+livecd-rootfs (2.491) bionic; urgency=medium
+
+  * Support seeding of snaps, as emitted by germinate >= 2.27.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 11:20:28 +0000
+
+livecd-rootfs (2.490) bionic; urgency=medium
+
+  * ubuntu-cpc: Initramfs compression should match default for
+    update-initramfs (LP: #1744114)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Mon, 29 Jan 2018 12:15:17 -0500
 
 livecd-rootfs (2.489) bionic; urgency=medium
 
