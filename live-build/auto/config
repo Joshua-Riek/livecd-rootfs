@@ -30,7 +30,11 @@ if [ -z "$MIRROR" ]; then
 		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*)			MIRROR=http://archive.ubuntu.com/ubuntu/ ;;
+		*)			case $ARCH in
+						i386|amd64) MIRROR=http://archive.ubuntu.com/ubuntu/ ;;
+						*) MIRROR=http://ports.ubuntu.com/ubuntu-ports ;;
+					esac
+					;;
 	esac
 fi
 

@@ -1,3 +1,10 @@
+livecd-rootfs (2.495) UNRELEASED; urgency=medium
+
+  * Set ports/archive as appropriate for default mirror - should fix
+    autopkgtests.
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 31 Jan 2018 09:37:44 +0000
+
 livecd-rootfs (2.494) bionic; urgency=medium
 
   * Run subiquity on any serial consoles that the user told systemd
