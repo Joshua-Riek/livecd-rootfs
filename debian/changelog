@@ -1,3 +1,10 @@
+livecd-rootfs (2.494) bionic; urgency=medium
+
+  * Run subiquity on any serial consoles that the user told systemd
+    about.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 31 Jan 2018 21:58:33 +1300
+
 livecd-rootfs (2.493) bionic; urgency=medium
 
   * Set a default archive mirror - needed for germinate.
