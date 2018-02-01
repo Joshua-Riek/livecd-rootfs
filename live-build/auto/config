@@ -27,7 +27,7 @@ if [ -z "$MIRROR" ]; then
 		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
+		*.ppa|*.scalingstack)	MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
 		*)			case $ARCH in
