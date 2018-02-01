@@ -676,7 +676,9 @@ if [ -n "${BASE_SEED}" ]; then
 			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
 		done
 	done
-	echo "${ALL_SNAPS}" > config/seeded-snaps
+	if [ -n "${ALL_SNAPS}" ]; then
+		echo "${ALL_SNAPS}" > config/seeded-snaps
+	fi
 fi
 
 export APT_OPTIONS
