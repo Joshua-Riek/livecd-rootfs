@@ -1,8 +1,8 @@
-livecd-rootfs (2.498) UNRELEASED; urgency=medium
+livecd-rootfs (2.498) bionic; urgency=medium
 
   * Don't write config/seeded-snaps if no snaps have been seeded.
 
- -- Iain Lane <iain.lane@canonical.com>  Thu, 01 Feb 2018 11:52:16 +0000
+ -- Iain Lane <iain.lane@canonical.com>  Thu, 01 Feb 2018 11:52:56 +0000
 
 livecd-rootfs (2.497) bionic; urgency=medium
 
