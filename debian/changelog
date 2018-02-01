@@ -1,10 +1,10 @@
-livecd-rootfs (2.496) UNRELEASED; urgency=medium
+livecd-rootfs (2.496) bionic; urgency=medium
 
   * Update hostname matches for launchpad buildds to match current practice,
     fixing build failures due to LP being unable to reach
     people.canonical.com.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 31 Jan 2018 16:39:02 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 31 Jan 2018 16:41:23 -0800
 
 livecd-rootfs (2.495) bionic; urgency=medium
 
