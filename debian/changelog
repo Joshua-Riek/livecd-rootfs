@@ -1,3 +1,13 @@
+livecd-rootfs (2.497) bionic; urgency=medium
+
+  * live-build/auto/config: Clean out unused hostname matches and fix indenting.
+  * live-build/auto/config: Reinstate hostname filtering for "*.buildd", which
+    is the correct match for non-lxd builders, and add "lp-*" for the lxd ones.
+  * live-build/auto/config: Fix incorrect quoting causing a skipped if statement
+    in non-live ubuntu-server builds since sometime in mid-October of last year.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 31 Jan 2018 20:54:54 -0700
+
 livecd-rootfs (2.496) bionic; urgency=medium
 
   * Update hostname matches for launchpad buildds to match current practice,

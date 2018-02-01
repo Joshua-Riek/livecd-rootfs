@@ -8,13 +8,6 @@ echo "Building on $(hostname --fqdn)"
 SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
-		bld-*.mmjgroup.com)	;;
-		*.mmjgroup.com)
-			case $ARCH in
-				i386|amd64)	MIRROR=http://archive.mmjgroup.com/ubuntu/ ;;
-				*)		MIRROR=http://archive.mmjgroup.com/ubuntu-ports/ ;;
-			esac
-			;;
 		*.0c3.net)
 			case $ARCH in
 				i386|amd64)	MIRROR=http://mirrors.0c3.net/ubuntu/ ;;
@@ -24,17 +17,17 @@ if [ -z "$MIRROR" ]; then
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/
+		*.buildd|lp-*)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
 		*.ppa|*.scalingstack)	MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*)			case $ARCH in
-						i386|amd64) MIRROR=http://archive.ubuntu.com/ubuntu/ ;;
-						*) MIRROR=http://ports.ubuntu.com/ubuntu-ports ;;
-					esac
-					;;
+		*)	case $ARCH in
+				i386|amd64)	MIRROR=http://archive.ubuntu.com/ubuntu/ ;;
+				*)		MIRROR=http://ports.ubuntu.com/ubuntu-ports/ ;;
+			esac
+			;;
 	esac
 fi
 
