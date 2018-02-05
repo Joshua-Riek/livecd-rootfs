@@ -4,7 +4,7 @@
 # Generate VMDK files
 
 case $ARCH in
-         i386|amd64) ;;
+         amd64) ;;
                   *) echo "VMDK images are not supported for $ARCH yet.";
                      exit 0;;
 esac
