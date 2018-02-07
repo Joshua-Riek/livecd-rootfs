@@ -1,9 +1,9 @@
-livecd-rootfs (2.499) UNRELEASED; urgency=medium
+livecd-rootfs (2.499) bionic; urgency=medium
 
   * live-build/auto/config: Take into account SUBPROJECT when setting seeded
     snaps, and also make sure we can work with snaps seeded in project hooks. 
 
- -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 06 Feb 2018 22:47:05 -0500
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 06 Feb 2018 23:37:32 -0500
 
 livecd-rootfs (2.498) bionic; urgency=medium
 
