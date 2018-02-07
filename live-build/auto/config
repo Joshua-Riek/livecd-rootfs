@@ -655,9 +655,15 @@ esac
 
 # we'll expand the base seed given here according to the STRUCTURE file, and
 # then look in all of the seeds found to see which snaps are seeded
-case $PROJECT in
-	ubuntu|kubuntu*|lubuntu*|xubuntu*|ubuntu-mate*|ubuntustudio*|ubuntukylin*|ubuntu-budgie*)
+case $PROJECT:${SUBPROJECT:-} in
+	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
 		BASE_SEED='desktop'
+		;;
+	ubuntu-server:live)
+		BASE_SEED='server'
+		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
+		HOOK_SNAPS='subiquity'
+		ALL_SNAPS=''
 		;;
 esac
 
@@ -676,7 +682,7 @@ if [ -n "${BASE_SEED}" ]; then
 			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
 		done
 	done
-	if [ -n "${ALL_SNAPS}" ]; then
+	if [ -n "${ALL_SNAPS}" ] || [ -n "${HOOK_SNAPS}" ]; then
 		echo "${ALL_SNAPS}" > config/seeded-snaps
 	fi
 fi
