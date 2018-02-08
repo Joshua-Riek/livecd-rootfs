@@ -1,4 +1,4 @@
-livecd-rootfs (2.500) UNRELEASED; urgency=medium
+livecd-rootfs (2.500) bionic; urgency=medium
 
   * Disable the snapd.refresh.timer in the live server session.
 
