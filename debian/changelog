@@ -1,3 +1,9 @@
+livecd-rootfs (2.501) bionic; urgency=medium
+
+  * Stop building ova, vmdk, vagrant images on i386.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 12 Feb 2018 11:24:49 +0000
+
 livecd-rootfs (2.500) bionic; urgency=medium
 
   * Disable the snapd.refresh.timer in the live server session.
