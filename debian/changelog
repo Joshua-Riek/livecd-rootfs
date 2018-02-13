@@ -1,9 +1,9 @@
-livecd-rootfs (2.502) UNRELEASED; urgency=medium
+livecd-rootfs (2.502) bionic; urgency=medium
 
   * Shuffle subiquity service definition to a mix of a snapd-generated service
     file (from the subiquity snap) and an overlay (in this package).
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 14 Feb 2018 12:43:16 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 14 Feb 2018 12:46:06 +1300
 
 livecd-rootfs (2.501) bionic; urgency=medium
 
