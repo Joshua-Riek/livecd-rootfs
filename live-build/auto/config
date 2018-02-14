@@ -496,6 +496,9 @@ case $PROJECT in
 				add_task install standard
 				add_task install server
 				LIVE_TASK='cloud-image'
+				case $ARCH in
+					amd64)	add_package live linux-signed-generic ;;
+				esac
 				;;
 		esac
 		COMPONENTS='main'
