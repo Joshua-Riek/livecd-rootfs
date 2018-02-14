@@ -1,8 +1,8 @@
-livecd-rootfs (2.503) UNRELEASED; urgency=medium
+livecd-rootfs (2.503) bionic; urgency=medium
 
   * Install linux-signed-generic in the live-server image. (LP: #1749065)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Feb 2018 09:30:06 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Feb 2018 09:54:14 +1300
 
 livecd-rootfs (2.502) bionic; urgency=medium
 
