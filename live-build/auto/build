@@ -35,6 +35,8 @@ Setup_cleanup
 
 preinstall_snaps() {
 	lb chroot_resolv install
+	snap_channel="stable/ubuntu-$(distro-info --series="$LB_DISTRIBUTION" \
+	                              -r | awk '{ print $1 }')"
 	chroot chroot sh -c '
 		set -x;
 		cd /var/lib/snapd/seed;
@@ -43,7 +45,7 @@ preinstall_snaps() {
 		chroot chroot sh -c "
 			set -x;
 			cd /var/lib/snapd/seed;
-			SNAPPY_STORE_NO_CDN=1 snap download \"${snap%/*}\""
+			SNAPPY_STORE_NO_CDN=1 snap download --channel=$snap_channel \"${snap%/*}\""
 	done
 	lb chroot_resolv remove
 
@@ -59,7 +61,7 @@ EOF
 		snap_name=${snap%/*}
 		cat <<EOF >> chroot/var/lib/snapd/seed/seed.yaml
  - name: ${snap_name}
-   channel: stable
+   channel: $snap_channel
 EOF
 		case ${snap} in */classic) echo "   classic: true" >> chroot/var/lib/snapd/seed/seed.yaml;; esac
 		echo -n "   file: " >> chroot/var/lib/snapd/seed/seed.yaml
