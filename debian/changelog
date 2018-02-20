@@ -1,3 +1,11 @@
+livecd-rootfs (2.504) UNRELEASED; urgency=medium
+
+  * Override JobRunningTimeoutSec to 0s on the .device unit that
+    subiquity_config.mount depends on to avoid a 5s delay on switching to a
+    new VT when there is no device there (LP: #1750117)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 20 Feb 2018 12:57:07 +1300
+
 livecd-rootfs (2.503) bionic; urgency=medium
 
   * Install linux-signed-generic in the live-server image. (LP: #1749065)
