@@ -338,28 +338,11 @@ recreate_initramfs() {
 	# tweaking...
 	CHROOT="$1"
 	# Start by cargo culting bits of lb_chroot_hacks:
+	if [ -n "$LB_INITRAMFS_COMPRESSION" ]; then
+		echo "COMPRESS=$LB_INITRAMFS_COMPRESSION" > "$CHROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
+	fi
 	chroot "$CHROOT" sh -c "${UPDATE_INITRAMFS_OPTIONS:-} update-initramfs -k all -t -u"
-	case "${LB_INITRAMFS_COMPRESSION}" in
-		gzip)
-		;;
-
-		bzip2)
-			for INITRAMFS in $(find "$CHROOT"/boot -name 'initrd*' -not -type l); do
-				zcat "${INITRAMFS}" | bzip2 -c ${BZIP2_OPTIONS} > "${INITRAMFS}.new"
-				mv "${INITRAMFS}.new" "${INITRAMFS}"
-			done
-			;;
-
-		lzma)
-			# We probably ought to use COMPRESS= in a temporary file in
-			# /etc/initramfs-tools/conf.d/ instead, but it's hard to
-			# pass options that way.
-			for INITRAMFS in $(find "$CHROOT"/boot -name 'initrd*' -not -type l); do
-				zcat "${INITRAMFS}" | lzma -c ${LZMA_OPTIONS} > "${INITRAMFS}.new"
-				mv "${INITRAMFS}.new" "${INITRAMFS}"
-			done
-			;;
-	esac
+	rm -rf "$CHROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
 	# Then bits of lb_binary_linux-image:
 	case "${LB_INITRAMFS}" in
 		casper)
