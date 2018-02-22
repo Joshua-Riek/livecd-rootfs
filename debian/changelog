@@ -124,7 +124,7 @@ livecd-rootfs (2.488) bionic; urgency=medium
 
   * Enable systemd-networkd by default for live-server installs.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 12 Dec 2017 10:55:10 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 04 Jan 2018 09:36:56 +1300
 
 livecd-rootfs (2.487) bionic; urgency=medium
 
