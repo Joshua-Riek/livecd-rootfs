@@ -8,13 +8,6 @@ echo "Building on $(hostname --fqdn)"
 SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
-		bld-*.mmjgroup.com)	;;
-		*.mmjgroup.com)
-			case $ARCH in
-				i386|amd64)	MIRROR=http://archive.mmjgroup.com/ubuntu/ ;;
-				*)		MIRROR=http://archive.mmjgroup.com/ubuntu-ports/ ;;
-			esac
-			;;
 		*.0c3.net)
 			case $ARCH in
 				i386|amd64)	MIRROR=http://mirrors.0c3.net/ubuntu/ ;;
@@ -24,12 +17,17 @@ if [ -z "$MIRROR" ]; then
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.warthogs.hbd.com)	MIRROR=http://ftpmaster.internal/ubuntu/
+		*.buildd|lp-*)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
+		*.ppa|*.scalingstack)	MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
+		*)	case $ARCH in
+				i386|amd64)	MIRROR=http://archive.ubuntu.com/ubuntu/ ;;
+				*)		MIRROR=http://ports.ubuntu.com/ubuntu-ports/ ;;
+			esac
+			;;
 	esac
 fi
 
@@ -258,6 +256,68 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
 
+# cribbed from cdimage, perhaps this should be a small helper script in germinate?
+add_inheritance () {
+	case " $inherit " in
+		*" $1 "*)
+			;;
+		*)
+			inherit="${inherit:+$inherit }$1"
+			;;
+	esac
+}
+
+expand_inheritance () {
+	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
+		expand_inheritance "$seed"
+	done
+	add_inheritance "$1"
+}
+
+inheritance () {
+	inherit=
+	expand_inheritance "$1"
+	echo "$inherit"
+}
+
+mkdir -p config/germinate-output
+case $PROJECT in
+        kubuntu-active*)
+                SEED=kubuntu-active.$SUITE
+                ;;
+        kubuntu*)
+                SEED=kubuntu.$SUITE
+                ;;
+        xubuntu*)
+                SEED=xubuntu.$SUITE
+                ;;
+        ubuntu-mate*)
+                SEED=ubuntu-mate.$SUITE
+                ;;
+        lubuntu*)
+                SEED=lubuntu.$SUITE
+                ;;
+        ubuntu-budgie*)
+                SEED=ubuntu-budgie.$SUITE
+                ;;
+        ubuntukylin*)
+                SEED=ubuntukylin.$SUITE
+                ;;
+        ubuntustudio*)
+                SEED=ubuntustudio.$SUITE
+                ;;
+        *)
+                SEED=ubuntu.$SUITE
+                ;;
+esac
+
+if ! [ -e config/germinate-output/structure ]; then
+        echo "Running germinate..."
+        (cd config/germinate-output && germinate --no-rdepends --no-installer \
+                -S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
+                ${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
+fi
+
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
@@ -440,6 +500,9 @@ case $PROJECT in
 				add_task install standard
 				add_task install server
 				LIVE_TASK='cloud-image'
+				case $ARCH in
+					amd64)	add_package live linux-signed-generic ;;
+				esac
 				;;
 		esac
 		COMPONENTS='main'
@@ -491,7 +554,8 @@ case $PROJECT in
 				add_package install shim-signed
 				;;
 		esac
-		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none --initramfs-compression=none"
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		INITRAMFS_COMPRESSION="none"
 
 		# contains the framework definition
 		add_package install ubuntu-core-libs
@@ -587,6 +651,7 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
 		OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
 		OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+		INITRAMFS_COMPRESSION="gzip"
 		;;
 
 	*)
@@ -594,6 +659,40 @@ case $PROJECT in
 		exit 2
 		;;
 esac
+
+# we'll expand the base seed given here according to the STRUCTURE file, and
+# then look in all of the seeds found to see which snaps are seeded
+case $PROJECT:${SUBPROJECT:-} in
+	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
+		BASE_SEED='desktop'
+		;;
+	ubuntu-server:live)
+		BASE_SEED='server'
+		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
+		HOOK_SNAPS='subiquity'
+		ALL_SNAPS=''
+		;;
+esac
+
+if [ -n "${BASE_SEED}" ]; then
+	SEEDS_EXPANDED=$(inheritance ${BASE_SEED})
+	for seed in ${SEEDS_EXPANDED}; do
+		echo "snap: considering ${seed}"
+		file=config/germinate-output/${seed}.snaps
+		[ -e "${file}" ] || continue
+		# extract the first column (snap package name) from germinate's output
+		# translate the human-readable "foo (classic)" into a
+		# more machine readable "foo/classic"
+		seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
+		for snap in ${seed_snaps}; do
+			echo "snap: found ${snap}"
+			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
+		done
+	done
+	if [ -n "${ALL_SNAPS}" ] || [ -n "${HOOK_SNAPS}" ]; then
+		echo "${ALL_SNAPS}" > config/seeded-snaps
+	fi
+fi
 
 export APT_OPTIONS
 
@@ -645,16 +744,6 @@ case $ARCH in
 				add_package install zram-config abootimg
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
-				;;
-			nexus7)
-				COMPONENTS='main restricted universe multiverse'
-				add_package install zram-config abootimg 
-				add_package install nvidia-tegra3 ubuntu-defaults-nexus7
-				add_package live ac100-tarball-installer
-				BINARY_REMOVE_LINUX=false
-				mkdir -p config/preseed
-				echo "linux-firmware-nexus7 shared/nexus7_notice_accepted boolean true" >config/preseed/linux-firmware-nexus7.preseed.chroot
-				echo "d-i passwd/auto-login boolean true" >config/preseed/autologin.preseed.chroot
 				;;
 			raspi2)
 				COMPONENTS='main restricted universe multiverse'
@@ -710,7 +799,7 @@ lb config noauto \
 	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
-	--initramfs-compression lzma \
+	--initramfs-compression "${INITRAMFS_COMPRESSION:-lzma}" \
 	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
@@ -721,11 +810,6 @@ echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
-if [ "${SUBPROJECT:-}" = minimized ]; then
-	# try building minimized images in a 1GiB image but still allow overriding
-	# IMAGE_SIZE in lb build
-	echo 'IMAGE_SIZE=${IMAGE_SIZE:-'$((1024*1024*1024))'}' >> config/binary
-fi
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2)
@@ -802,7 +886,7 @@ EOF
 		;;
 esac
 
-if [ $PROJECT = ubuntu-server ] && [ ${SUBPROJECT:-} != live ]; then
+if [ $PROJECT = ubuntu-server ] && [ "${SUBPROJECT:-}" != live ]; then
 	cat > config/hooks/100-remove-fstab.chroot <<EOF
 #! /bin/sh
 rm -f /etc/fstab
@@ -943,51 +1027,8 @@ case ${SUBPROJECT:-} in
 	;;
 esac
 
-# cribbed from cdimage, perhaps this should be a small helper script in germinate?
-add_inheritance () {
-	case " $inherit " in
-		*" $1 "*)
-			;;
-		*)
-			inherit="${inherit:+$inherit }$1"
-			;;
-	esac
-}
-
-expand_inheritance () {
-	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
-		expand_inheritance "$seed"
-	done
-	add_inheritance "$1"
-}
-
-inheritance () {
-	inherit=
-	expand_inheritance "$1"
-	echo "$inherit"
-}
-
 if [ "$PREINSTALLED" = "true" ]; then
 	if [ -n "$PREINSTALL_POOL_SEEDS" ]; then
-		mkdir -p config/germinate-output
-		case $PROJECT in
-			kubuntu-active*)
-				SEED=kubuntu-active.$SUITE
-				;;
-			kubuntu*)
-				SEED=kubuntu.$SUITE
-				;;
-			xubuntu*)
-				SEED=xubuntu.$SUITE
-				;;
-			*)
-				SEED=ubuntu.$SUITE
-				;;
-		esac
-		(cd config/germinate-output && germinate --no-rdepends --no-installer \
-			-S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
-			${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
-
 		UNWANTED_SEEDS="${LIVE_TASK:+$LIVE_TASK }boot installer required"
 		for i in $UNWANTED_SEEDS; do
 			UNWANTED_SEEDS="${UNWANTED_SEEDS:+$UNWANTED_SEEDS }$(inheritance $i)"

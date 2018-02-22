@@ -1,6 +1,128 @@
-livecd-rootfs (2.488) UNRELEASED; urgency=medium
+livecd-rootfs (2.505) UNRELEASED; urgency=medium
 
   * Move casper from filesystem.squashfs to installer.squashfs. 
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Thu, 22 Feb 2018 13:57:35 +1300
+
+livecd-rootfs (2.504) bionic; urgency=medium
+
+  * Override JobRunningTimeoutSec to 0s on the .device unit that
+    subiquity_config.mount depends on to avoid a 5s delay on switching to a
+    new VT when there is no device there (LP: #1750117)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 21 Feb 2018 10:39:58 +1300
+
+livecd-rootfs (2.503) bionic; urgency=medium
+
+  * Install linux-signed-generic in the live-server image. (LP: #1749065)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Feb 2018 09:54:14 +1300
+
+livecd-rootfs (2.502) bionic; urgency=medium
+
+  * Shuffle subiquity service definition to a mix of a snapd-generated service
+    file (from the subiquity snap) and an overlay (in this package).
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 14 Feb 2018 12:46:06 +1300
+
+livecd-rootfs (2.501) bionic; urgency=medium
+
+  * Stop building ova, vmdk, vagrant images on i386.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 12 Feb 2018 11:24:49 +0000
+
+livecd-rootfs (2.500) bionic; urgency=medium
+
+  * Disable the snapd.refresh.timer in the live server session.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 08 Feb 2018 13:43:12 +1300
+
+livecd-rootfs (2.499) bionic; urgency=medium
+
+  * live-build/auto/config: Take into account SUBPROJECT when setting seeded
+    snaps, and also make sure we can work with snaps seeded in project hooks. 
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 06 Feb 2018 23:37:32 -0500
+
+livecd-rootfs (2.498) bionic; urgency=medium
+
+  * Don't write config/seeded-snaps if no snaps have been seeded.
+
+ -- Iain Lane <iain.lane@canonical.com>  Thu, 01 Feb 2018 11:52:56 +0000
+
+livecd-rootfs (2.497) bionic; urgency=medium
+
+  * live-build/auto/config: Clean out unused hostname matches and fix indenting.
+  * live-build/auto/config: Reinstate hostname filtering for "*.buildd", which
+    is the correct match for non-lxd builders, and add "lp-*" for the lxd ones.
+  * live-build/auto/config: Fix incorrect quoting causing a skipped if statement
+    in non-live ubuntu-server builds since sometime in mid-October of last year.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Wed, 31 Jan 2018 20:54:54 -0700
+
+livecd-rootfs (2.496) bionic; urgency=medium
+
+  * Update hostname matches for launchpad buildds to match current practice,
+    fixing build failures due to LP being unable to reach
+    people.canonical.com.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 31 Jan 2018 16:41:23 -0800
+
+livecd-rootfs (2.495) bionic; urgency=medium
+
+  * Set ports/archive as appropriate for default mirror - should fix
+    autopkgtests.
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 31 Jan 2018 09:38:07 +0000
+
+livecd-rootfs (2.494) bionic; urgency=medium
+
+  * Run subiquity on any serial consoles that the user told systemd
+    about.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 31 Jan 2018 21:58:33 +1300
+
+livecd-rootfs (2.493) bionic; urgency=medium
+
+  * Set a default archive mirror - needed for germinate.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 15:08:23 +0000
+
+livecd-rootfs (2.492) bionic; urgency=medium
+
+  * Oops. I shouldn't reference my private stuff.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 11:51:19 +0000
+
+livecd-rootfs (2.491) bionic; urgency=medium
+
+  * Support seeding of snaps, as emitted by germinate >= 2.27.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 30 Jan 2018 11:20:28 +0000
+
+livecd-rootfs (2.490) bionic; urgency=medium
+
+  * ubuntu-cpc: Initramfs compression should match default for
+    update-initramfs (LP: #1744114)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Mon, 29 Jan 2018 12:15:17 -0500
+
+livecd-rootfs (2.489) bionic; urgency=medium
+
+  [ Balint Reczey ]
+  * Revert to building minimized and not minimimized images with the same
+    ~2.2 GiB size
+  * Stop suggesting partimage which is not used anymore
+  * Drop Nexus 7 support
+
+  [ Steve Langasek ]
+  * Add support for passing snap channel to ubuntu-core image builds.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 12 Jan 2018 15:04:42 -0800
+
+livecd-rootfs (2.488) bionic; urgency=medium
+
+  * Enable systemd-networkd by default for live-server installs.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 12 Dec 2017 10:55:10 +1300
 

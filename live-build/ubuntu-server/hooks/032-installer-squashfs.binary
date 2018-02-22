@@ -33,6 +33,18 @@ mount_overlay "$SQUASH_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
 
 setup_mountpoint binary/boot/squashfs.dir
 
+# Override JobRunningTimeoutSec to 0s on the .device unit that
+# subiquity_config.mount depends on to avoid a 5s delay on switching
+# to a new VT when there is no device there (LP: #1750117).
+# It would be better to have this in ../includes.binary/overlay but
+# you can't have backslashes in filenames in bzr branches!
+DEVICE_UNIT_NAME='dev-disk-by\x2duuid-00c629d6\x2d06ab\x2d4dfd\x2db21e\x2dc3186f34105d.device'
+mkdir -p "$SQUASH_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d"
+cat > "$SQUASH_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d/override.conf" <<EOF
+[Unit]
+JobRunningTimeoutSec=0s
+EOF
+
 # Prepare installer layer.
 
 # Install any requirements for the installer, for things we don't want

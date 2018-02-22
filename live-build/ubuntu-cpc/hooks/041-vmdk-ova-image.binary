@@ -18,10 +18,6 @@ case $ARCH in
             ovf_id=94
             ovf_os_type="ubuntu64Guest"
             ovf_desc_bits=64 ;;
-        i386)
-            ovf_id=93
-            ovf_os_type="ubuntu32Guest"
-            ovf_desc_bits=32 ;;
         *)
             echo "OVA images are not supported for $ARCH yet.";
             exit 0;;
