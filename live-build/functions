@@ -335,3 +335,50 @@ skip_lb_stage() {
 	mkdir -p .build
 	touch ".build/$STAGE"
 }
+
+recreate_initramfs() {
+	# Regenerate the initramfs by running update-initramfs in the
+	# chroot at $1 and copying the generated initramfs
+	# around. Beware that this was written for a single use case
+	# (live-server) and may not work in all cases without
+	# tweaking...
+	CHROOT="$1"
+	# Start by cargo culting bits of lb_chroot_hacks:
+	chroot "$CHROOT" sh -c "${UPDATE_INITRAMFS_OPTIONS:-} update-initramfs -k all -t -u"
+	case "${LB_INITRAMFS_COMPRESSION}" in
+		gzip)
+		;;
+
+		bzip2)
+			for INITRAMFS in $(find "$CHROOT"/boot -name 'initrd*' -not -type l); do
+				zcat "${INITRAMFS}" | bzip2 -c ${BZIP2_OPTIONS} > "${INITRAMFS}.new"
+				mv "${INITRAMFS}.new" "${INITRAMFS}"
+			done
+			;;
+
+		lzma)
+			# We probably ought to use COMPRESS= in a temporary file in
+			# /etc/initramfs-tools/conf.d/ instead, but it's hard to
+			# pass options that way.
+			for INITRAMFS in $(find "$CHROOT"/boot -name 'initrd*' -not -type l); do
+				zcat "${INITRAMFS}" | lzma -c ${LZMA_OPTIONS} > "${INITRAMFS}.new"
+				mv "${INITRAMFS}.new" "${INITRAMFS}"
+			done
+			;;
+	esac
+	# Then bits of lb_binary_linux-image:
+	case "${LB_INITRAMFS}" in
+		casper)
+			DESTDIR="binary/casper"
+			;;
+
+		live-boot)
+			DESTDIR="binary/live"
+			;;
+
+		*)
+			DESTDIR="binary/boot"
+			;;
+	esac
+	mv "$CHROOT"/boot/initrd.img-* $DESTDIR
+}
