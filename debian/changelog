@@ -1,4 +1,4 @@
-livecd-rootfs (2.505) UNRELEASED; urgency=medium
+livecd-rootfs (2.505~ppa1) bionic; urgency=medium
 
   * Move casper from filesystem.squashfs to installer.squashfs. 
 

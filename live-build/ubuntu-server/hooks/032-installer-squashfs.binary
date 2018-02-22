@@ -50,8 +50,7 @@ EOF
 # Install any requirements for the installer, for things we don't want
 # to see on the installed system
 chroot $SQUASH_ROOT apt-get update
-chroot $SQUASH_ROOT apt-get -y install user-setup
-chroot $SQUASH_ROOT apt-get -y install lupin-casper
+chroot $SQUASH_ROOT apt-get -y install user-setup lupin-casper
 
 # Installing lupin-casper means we need a new initramfs, so we
 # cargo cult stuff from lb_chroot_hacks:

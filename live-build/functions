@@ -329,3 +329,9 @@ undivert_grub() {
 	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
 		--rename /usr/bin/systemd-detect-virt
 }
+
+skip_lb_stage() {
+	STAGE="$1"
+	mkdir -p .build
+	touch ".build/$STAGE"
+}
