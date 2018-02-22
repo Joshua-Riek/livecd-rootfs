@@ -53,7 +53,7 @@ chroot $SQUASH_ROOT apt-get update
 chroot $SQUASH_ROOT apt-get -y install user-setup curtin lupin-casper
 
 # Installing casper means we need a new initramfs
-UPDATE_INITRAMFS_OPTIONS=CASPER_GENERATE_UUID=1 recreate_initramfs
+UPDATE_INITRAMFS_OPTIONS=CASPER_GENERATE_UUID=1 recreate_initramfs $SQUASH_ROOT
 
 # Don't let cloud-init run in the live session.
 touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
