@@ -116,6 +116,12 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	esac
 fi
 
+skip_lb_stage() {
+	STAGE="$1"
+	mkdir -p .build
+	touch ".build/$STAGE"
+}
+
 case $IMAGEFORMAT in
 	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
@@ -141,7 +147,9 @@ case $IMAGEFORMAT in
 		INITRAMFS_TYPE=none
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
-				add_package live lupin-casper
+				# Stop lb installing casper into filesystem.squashfs
+				#  by skipping lb_chroot_live-packages.
+				skip_lb_stage chroot_live-packages
 				INITRAMFS_TYPE=auto
 				;;
 			*)

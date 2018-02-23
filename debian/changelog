@@ -1,3 +1,9 @@
+livecd-rootfs (2.505) UNRELEASED; urgency=medium
+
+  * Move casper from filesystem.squashfs to installer.squashfs. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 23 Feb 2018 13:40:35 +1300
+
 livecd-rootfs (2.504) bionic; urgency=medium
 
   * Override JobRunningTimeoutSec to 0s on the .device unit that

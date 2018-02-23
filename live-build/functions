@@ -329,3 +329,34 @@ undivert_grub() {
 	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
 		--rename /usr/bin/systemd-detect-virt
 }
+
+recreate_initramfs() {
+	# Regenerate the initramfs by running update-initramfs in the
+	# chroot at $1 and copying the generated initramfs
+	# around. Beware that this was written for a single use case
+	# (live-server) and may not work in all cases without
+	# tweaking...
+	# config/common must be sourced before calling this function.
+	CHROOT="$1"
+	# Start by cargo culting bits of lb_chroot_hacks:
+	if [ -n "$LB_INITRAMFS_COMPRESSION" ]; then
+		echo "COMPRESS=$LB_INITRAMFS_COMPRESSION" > "$CHROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
+	fi
+	chroot "$CHROOT" sh -c "${UPDATE_INITRAMFS_OPTIONS:-} update-initramfs -k all -t -u"
+	rm -rf "$CHROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
+	# Then bits of lb_binary_linux-image:
+	case "${LB_INITRAMFS}" in
+		casper)
+			DESTDIR="binary/casper"
+			;;
+
+		live-boot)
+			DESTDIR="binary/live"
+			;;
+
+		*)
+			DESTDIR="binary/boot"
+			;;
+	esac
+	mv "$CHROOT"/boot/initrd.img-* $DESTDIR
+}

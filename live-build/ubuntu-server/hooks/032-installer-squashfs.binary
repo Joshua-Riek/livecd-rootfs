@@ -22,6 +22,7 @@ if [ -n "$SUBARCH" ]; then
 fi
 
 . config/functions
+. config/common
 
 SQUASH_ROOT=binary/boot/squashfs.dir
 OVERLAY_ROOT=binary/overlay
@@ -50,8 +51,10 @@ EOF
 # Install any requirements for the installer, for things we don't want
 # to see on the installed system
 chroot $SQUASH_ROOT apt-get update
-chroot $SQUASH_ROOT apt-get -y install user-setup
-chroot $SQUASH_ROOT apt-get -y install curtin
+chroot $SQUASH_ROOT apt-get -y install user-setup curtin lupin-casper
+
+# Installing casper means we need a new initramfs
+UPDATE_INITRAMFS_OPTIONS=CASPER_GENERATE_UUID=1 recreate_initramfs $SQUASH_ROOT
 
 # Don't let cloud-init run in the live session.
 touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
