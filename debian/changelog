@@ -1,4 +1,4 @@
-livecd-rootfs (2.506) UNRELEASED; urgency=medium
+livecd-rootfs (2.506) bionic; urgency=medium
 
   * live-build-auto/{build,config}: Support fetching a file from the seed
     mirror (BASE_SEED.minimal-remove) and putting it into the livefs build as
@@ -6,7 +6,7 @@ livecd-rootfs (2.506) UNRELEASED; urgency=medium
     this file as a list of packages to remove when doing a 'minimal' desktop
     installation.
 
- -- Iain Lane <iain.lane@canonical.com>  Fri, 23 Feb 2018 12:07:57 +0000
+ -- Iain Lane <iain.lane@canonical.com>  Fri, 23 Feb 2018 15:37:42 +0000
 
 livecd-rootfs (2.505) bionic; urgency=medium
 
