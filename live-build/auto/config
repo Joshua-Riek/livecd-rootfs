@@ -698,6 +698,20 @@ if [ -n "${BASE_SEED}" ]; then
 	fi
 fi
 
+# grab a list of packags to remove for a "minimal" installation from the seed
+# mirror for this project
+if [ -n "${BASE_SEED}" ] && [ -n "${BASE_SEED}" ]; then
+	minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
+	echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
+	minimal_packages_remove=$(wget -q -O- ${minimal_packages_url} | sed -e '/\s*#.*$/d' -e '/^\s*$/d')
+	if [ -n "${minimal_packages_remove}" ]; then
+		echo "${minimal_packages_remove}" > config/manifest-minimal-remove
+		echo "$(echo ${minimal_packages_remove} | tr '\n' ' ')"
+	else
+		echo "failed to retrieve, not including."
+	fi
+fi
+
 export APT_OPTIONS
 
 if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
