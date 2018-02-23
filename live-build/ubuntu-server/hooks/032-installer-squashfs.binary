@@ -22,7 +22,7 @@ if [ -n "$SUBARCH" ]; then
 fi
 
 . config/functions
-. config/binary
+. config/common
 
 SQUASH_ROOT=binary/boot/squashfs.dir
 OVERLAY_ROOT=binary/overlay
