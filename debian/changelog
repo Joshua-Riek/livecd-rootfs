@@ -1,3 +1,11 @@
+livecd-rootfs (2.507) bionic; urgency=medium
+
+  * ubuntu-server: generate multi-lowerdir overlayfs for
+    maas-rack-controller, and full maas. To be used in subiquity for maas
+    install options.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 28 Feb 2018 13:11:03 +0000
+
 livecd-rootfs (2.506) bionic; urgency=medium
 
   * live-build-auto/{build,config}: Support fetching a file from the seed
