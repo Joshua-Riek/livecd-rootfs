@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 case $ARCH in
-    amd64|arm64)
+    amd64|arm64|armhf)
         ;;
     *)
         echo "We don't create EFI images for $ARCH."
@@ -20,7 +20,7 @@ create_partitions() {
     disk_image="$1"
     sgdisk "${disk_image}" --zap-all
     case $ARCH in
-        arm64)
+        arm64|armhf)
             sgdisk "${disk_image}" \
                 --new=15:0:204800 \
                 --typecode=15:ef00 \
@@ -82,6 +82,10 @@ install_grub() {
         arm64)
             chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm64 grub-efi-arm64-bin
             efi_target=arm64-efi
+            ;;
+        armhf)
+            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm grub-efi-arm-bin
+            efi_target=arm-efi
             ;;
         amd64)
             chroot mountpoint apt-get install -qqy grub-efi-amd64-signed grub-efi-amd64 shim-signed
