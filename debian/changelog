@@ -1,4 +1,4 @@
-livecd-rootfs (2.509) UNRELEASED; urgency=medium
+livecd-rootfs (2.509) bionic; urgency=medium
 
   [ Steve Langasek ]
   * Properly handle loop device names when there are > 10 devices on the
@@ -7,7 +7,7 @@ livecd-rootfs (2.509) UNRELEASED; urgency=medium
   [ Dimitri John Ledkov ]
   * Build EFI armhf images.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 06 Mar 2018 10:30:02 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 06 Mar 2018 12:58:46 +0000
 
 livecd-rootfs (2.508) bionic; urgency=medium
 
