@@ -1,3 +1,10 @@
+livecd-rootfs (2.509) UNRELEASED; urgency=medium
+
+  * Properly handle loop device names when there are > 10 devices on the
+    system.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 06 Mar 2018 10:30:02 +0100
+
 livecd-rootfs (2.508) bionic; urgency=medium
 
   * Use Ubuntu-specific branches when seeding snaps, as required in
