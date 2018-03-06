@@ -2,6 +2,7 @@ livecd-rootfs (2.508) UNRELEASED; urgency=medium
 
   * Use Ubuntu-specific branches when seeding snaps, as required in
     <https://wiki.ubuntu.com/UbuntuSeededSnaps>.
+  * Add dependency on distro-info for the above.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 16 Feb 2018 14:02:49 -0800
 

@@ -11,6 +11,7 @@ Architecture: any
 Depends: ${misc:Depends},
          apt-utils,
          debootstrap,
+         distro-info,
          dosfstools,
          e2fsprogs,
          gdisk,
