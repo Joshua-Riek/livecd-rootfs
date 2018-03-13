@@ -1,3 +1,10 @@
+livecd-rootfs (2.510) UNRELEASED; urgency=medium
+
+  * Set INITRAMFS_COMPRESSION to gzip for live-server builds to speed up the
+    boot. (LP: #1750873)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 13 Mar 2018 21:24:27 +1300
+
 livecd-rootfs (2.509) bionic; urgency=medium
 
   [ Steve Langasek ]

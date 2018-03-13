@@ -507,6 +507,7 @@ case $PROJECT in
 				case $ARCH in
 					amd64)	add_package live linux-signed-generic ;;
 				esac
+				INITRAMFS_COMPRESSION='gzip'
 				;;
 		esac
 		COMPONENTS='main'
