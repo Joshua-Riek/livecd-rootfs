@@ -323,30 +323,8 @@ if ! [ -e config/germinate-output/structure ]; then
 fi
 
 case $PROJECT in
-        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|lubuntu-next|mythbuntu|ubuntu|ubuntu-base|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntu-touch|ubuntu-touch-custom|ubuntukylin|ubuntustudio-dvd|xubuntu)
+        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|lubuntu-next|mythbuntu|ubuntu|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntukylin|ubuntustudio-dvd|xubuntu)
 		INITRAMFS_COMPRESSION="lzma"
-		;;
-
-	ubuntu-server)
-		case ${SUBPROJECT:-} in
-			live)
-				;;
-			*)
-				INITRAMFS_COMPRESSION="lzma"
-				;;
-		esac
-		;;
-
-	ubuntu-core)
-		INITRAMFS_COMPRESSION="none"
-		;;
-
-	ubuntu-cpc)
-		;;
-
-	*)
-		echo "unknown project $PROJECT" >&2
-		exit 2
 		;;
 esac
 
