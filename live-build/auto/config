@@ -323,8 +323,35 @@ if ! [ -e config/germinate-output/structure ]; then
 fi
 
 case $PROJECT in
+        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|lubuntu-next|mythbuntu|ubuntu|ubuntu-base|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntu-touch|ubuntu-touch-custom|ubuntukylin|ubuntustudio-dvd|xubuntu)
+		INITRAMFS_COMPRESSION="lzma"
+		;;
+
+	ubuntu-server)
+		case ${SUBPROJECT:-} in
+			live)
+				;;
+			*)
+				INITRAMFS_COMPRESSION="lzma"
+				;;
+		esac
+		;;
+
+	ubuntu-core)
+		INITRAMFS_COMPRESSION="none"
+		;;
+
+	ubuntu-cpc)
+		;;
+
+	*)
+		echo "unknown project $PROJECT" >&2
+		exit 2
+		;;
+esac
+
+case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-desktop
 		LIVE_TASK='ubuntu-live'
 		case $ARCH in
@@ -333,7 +360,6 @@ case $PROJECT in
 		;;
 
 	ubuntu-desktop-next)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-desktop-next ubuntu-sdk-libs
 		COMPONENTS='main restricted universe'
 		LIVE_TASK='ubuntu-touch-live'
@@ -353,7 +379,6 @@ case $PROJECT in
 		;;
 
 	kubuntu|kubuntu-dvd)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard
 		add_task install kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
@@ -365,7 +390,6 @@ case $PROJECT in
 		;;
 
 	kubuntu-active)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard kubuntu-active
 		LIVE_TASK='kubuntu-active-live'
 		COMPONENTS='main restricted universe'
@@ -373,7 +397,6 @@ case $PROJECT in
 		;;
 
 	kubuntu-plasma5)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard
 		add_package install kubuntu-plasma5-desktop
 		# Technically cheating, but PPAs don't have tasks and the
@@ -386,7 +409,6 @@ case $PROJECT in
 		;;
 
 	edubuntu|edubuntu-dvd)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-desktop edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'
 		case $ARCH in
@@ -396,7 +418,6 @@ case $PROJECT in
 		;;
 
 	xubuntu)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard xubuntu-desktop
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
@@ -410,13 +431,11 @@ case $PROJECT in
 		;;
 
 	ubuntu-netbook)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-netbook
 		LIVE_TASK='netbook-live'
 		;;
 
 	mythbuntu)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard mythbuntu-desktop
 		LIVE_TASK='mythbuntu-live'
 		case $ARCH in
@@ -426,7 +445,6 @@ case $PROJECT in
 		;;
 
 	lubuntu)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
 		case $ARCH in
@@ -443,7 +461,6 @@ case $PROJECT in
 		;;
 
 	lubuntu-next)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard lubuntu-qt-desktop
 		LIVE_TASK='lubuntu-live-qt'
 		case $ARCH in
@@ -460,7 +477,6 @@ case $PROJECT in
 		;;
 
 	ubuntu-gnome)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-gnome-desktop
 		LIVE_TASK='ubuntu-gnome-live'
 		case $ARCH in
@@ -470,7 +486,6 @@ case $PROJECT in
 		;;
 
 	ubuntu-budgie)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-budgie-desktop
 		LIVE_TASK='ubuntu-budgie-live'
 		case $ARCH in
@@ -480,7 +495,6 @@ case $PROJECT in
 		;;
 
 	ubuntu-mate)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
 		case $ARCH in
@@ -490,7 +504,6 @@ case $PROJECT in
 		;;
 
 	ubuntustudio-dvd)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-fonts ubuntustudio-graphics ubuntustudio-video ubuntustudio-publishing ubuntustudio-photography
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
@@ -499,7 +512,6 @@ case $PROJECT in
 		;;
 
 	ubuntukylin)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard ubuntukylin-desktop
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntukylin-live'
@@ -510,7 +522,6 @@ case $PROJECT in
 		;;
 
 	base)
-		INITRAMFS_COMPRESSION='lzma'
 		add_task install minimal standard
 		;;
 
@@ -576,7 +587,6 @@ case $PROJECT in
 				;;
 		esac
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-		INITRAMFS_COMPRESSION="none"
 
 		# contains the framework definition
 		add_package install ubuntu-core-libs
@@ -587,12 +597,10 @@ case $PROJECT in
 		;;
 
 	ubuntu-base)
-		INITRAMFS_COMPRESSION='lzma'
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
 	ubuntu-touch|ubuntu-touch-custom)
-		INITRAMFS_COMPRESSION='lzma'
 		HINTS="packagekit ubuntu-system-settings"
 		case $ARCH in
 		    amd64|i386)
@@ -631,7 +639,6 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
-		INITRAMFS_COMPRESSION='lzma'
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
