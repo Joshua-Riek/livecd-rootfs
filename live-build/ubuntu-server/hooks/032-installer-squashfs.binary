@@ -53,6 +53,10 @@ EOF
 chroot $SQUASH_ROOT apt-get update
 chroot $SQUASH_ROOT apt-get -y install user-setup curtin lupin-casper
 
+# For bug #1743643 "Install to dirty disk with swap fails" remove the
+# "helpful" casper script that mounts any swap partitions it finds.
+rm -f $SQUASH_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
+
 # Installing casper means we need a new initramfs
 UPDATE_INITRAMFS_OPTIONS=CASPER_GENERATE_UUID=1 recreate_initramfs $SQUASH_ROOT
 

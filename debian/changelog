@@ -1,3 +1,10 @@
+livecd-rootfs (2.511) UNRELEASED; urgency=medium
+
+  * In the live-server build, prevent casper from mounting any existing swap
+    partitions from drives we might later be installing to.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Mar 2018 20:23:27 +1300
+
 livecd-rootfs (2.510) bionic; urgency=medium
 
   * Rename the directory containing the systemd override file for subiquity to
