@@ -1,3 +1,12 @@
+livecd-rootfs (2.510) UNRELEASED; urgency=medium
+
+  * Rename the directory containing the systemd override file for subiquity to
+    the correct name :/
+  * Add Environment=SNAP_REEXEC=0 to the above override file.
+  * Remove the snap.subiquity.started overrides, that service is long gone.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Mar 2018 13:19:22 +1300
+
 livecd-rootfs (2.509) bionic; urgency=medium
 
   [ Steve Langasek ]
