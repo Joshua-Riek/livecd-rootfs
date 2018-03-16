@@ -27,7 +27,7 @@ do
 done
 
 # Remove un-owned log directories
-whitelisted_dirs=(/var/log/fsck)
+whitelisted_dirs=(/var/log/fsck /var/log/journal)
 
 for log_d in $(find /var/log/* -type d)
 do
