@@ -1,3 +1,10 @@
+livecd-rootfs (2.512) bionic; urgency=medium
+
+  * ubuntu-cpc: When performing a minimized build, don't generate artifacts
+    that won't boot with the linux-kvm kernel (LP: #1757223).
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Tue, 20 Mar 2018 13:42:50 -0400
+
 livecd-rootfs (2.511) bionic; urgency=medium
 
   * Whitelist preserving "unowned" /var/log/journal. Maybe systemd package
