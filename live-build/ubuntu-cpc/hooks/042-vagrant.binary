@@ -15,6 +15,15 @@
 # some packages in it, convert it to a vmdk, and then assemble the vagrant
 # box.
 
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 build as images won't boot with linux-kvm"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
 case $IMAGE_TARGETS in
 	""|*vagrant*)
 		;;

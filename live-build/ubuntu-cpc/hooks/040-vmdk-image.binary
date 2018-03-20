@@ -3,6 +3,15 @@
 #
 # Generate VMDK files
 
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 build as images won't boot with linux-kvm"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
 case $ARCH in
          amd64) ;;
                   *) echo "VMDK images are not supported for $ARCH yet.";
