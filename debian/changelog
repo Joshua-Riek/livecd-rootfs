@@ -1,3 +1,10 @@
+livecd-rootfs (2.514) bionic; urgency=medium
+
+  * On amd64, if building minimal images for bionic, xenial, or extra ppa,
+    use kvm kernel, otherwise fallback to virtual.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 21 Mar 2018 11:02:25 +0000
+
 livecd-rootfs (2.513) bionic; urgency=medium
 
   * In the live-server build, prevent casper from mounting any existing

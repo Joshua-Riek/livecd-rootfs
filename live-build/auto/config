@@ -624,10 +624,10 @@ case $PROJECT in
 			# linux-kvm is available since you control the
 			# archive and can provide this metapackage as
 			# necessary.
-			if [ "$ARCH" != "amd64" ] || ([ -z "$EXTRA_PPAS" ] && [ "$SUITE" != xenial ]); then
-				KERNEL_FLAVOURS=virtual
-			else
+			if [ "$ARCH" = "amd64" ] && ([ -n "$EXTRA_PPAS" ] || [ "$SUITE" = xenial ] || [ "$SUITE" = bionic ]); then
 				KERNEL_FLAVOURS=kvm
+			else
+				KERNEL_FLAVOURS=virtual
 			fi
 		else
 			add_task install minimal standard cloud-image
