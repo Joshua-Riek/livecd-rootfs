@@ -1,3 +1,11 @@
+livecd-rootfs (2.513) UNRELEASED; urgency=medium
+
+  * In the live-server build, prevent casper from mounting any existing
+    swap partitions from drives we might later be installing to.
+    (LP: #1743643)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 21 Mar 2018 15:50:27 +1300
+
 livecd-rootfs (2.512) bionic; urgency=medium
 
   * ubuntu-cpc: When performing a minimized build, don't generate artifacts
