@@ -675,6 +675,7 @@ case $PROJECT:${SUBPROJECT:-} in
 		;;
 	lubuntu*:*)
 		BASE_SEED='desktop-gtk'
+		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
 		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
