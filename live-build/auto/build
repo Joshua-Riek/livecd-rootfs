@@ -94,6 +94,16 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
+	case $PROJECT in
+		ubuntu-server|ubuntu-cpc)
+			# Set locale to C.UTF-8 by default. We should
+			# probably do this for all images early in the
+			# 18.10 cycle but for now just do it for
+			# server and cpc products.
+			echo "LANG=C.UTF-8" > chroot/etc/default/locale
+			;;
+	esac
+
 	if [ "${SUBPROJECT:-}" = minimized ] \
 	   && ! Chroot chroot dpkg -l tzdata 2>&1 |grep -q ^ii; then
 		# workaround for tzdata purge not removing these files
