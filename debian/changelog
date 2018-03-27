@@ -1,9 +1,9 @@
-livecd-rootfs (2.515) UNRELEASED; urgency=medium
+livecd-rootfs (2.515) bionic; urgency=medium
 
   * Set the default locale to C.UTF-8 in all server and cloud images.
    (LP: #1751051, #1759003)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 27 Mar 2018 09:41:59 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 27 Mar 2018 09:59:02 +1300
 
 livecd-rootfs (2.514) bionic; urgency=medium
 
