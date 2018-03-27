@@ -419,8 +419,13 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 		fi
 	fi
 	if [ "$PROJECT" = "ubuntu-cpc" ]; then
+		if [ "${SUBPROJECT:-}" = minimized ]; then
+			BUILD_NAME=minimal
+		else
+			BUILD_NAME=server
+		fi
 		cat > chroot/etc/cloud/build.info << EOF
-build_name: server
+build_name: $BUILD_NAME
 serial: $BUILDSTAMP
 EOF
 	fi
