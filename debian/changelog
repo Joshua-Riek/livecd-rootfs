@@ -1,10 +1,10 @@
-livecd-rootfs (2.516) UNRELEASED; urgency=medium
+livecd-rootfs (2.516) bionic; urgency=medium
 
   [ Chris Glass ]
   * Make sure we call the build "minimal" within the cloud build info,
     when building a minimized image.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 27 Mar 2018 12:11:36 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 27 Mar 2018 12:12:31 -0700
 
 livecd-rootfs (2.515) bionic; urgency=medium
 
