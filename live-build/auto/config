@@ -667,8 +667,14 @@ esac
 # we'll expand the base seed given here according to the STRUCTURE file, and
 # then look in all of the seeds found to see which snaps are seeded
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
+	ubuntu:*|kubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
 		BASE_SEED='desktop'
+		;;
+	lubuntu-next:*)
+		BASE_SEED='desktop-qt'
+		;;
+	lubuntu:*)
+		BASE_SEED='desktop-gtk'
 		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
