@@ -1,10 +1,10 @@
-livecd-rootfs (2.518) UNRELEASED; urgency=medium
+livecd-rootfs (2.518) bionic; urgency=medium
 
   * Make subiquity installer boot quicker, by making dhcp interfaces
     optional, such that wait-online is not blocking bringing up the
     installer UI.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 03 Apr 2018 14:36:43 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 03 Apr 2018 14:56:58 +0100
 
 livecd-rootfs (2.517) bionic; urgency=medium
 
