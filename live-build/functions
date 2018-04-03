@@ -360,3 +360,90 @@ recreate_initramfs() {
 	esac
 	mv "$CHROOT"/boot/initrd.img-* $DESTDIR
 }
+
+_snap_preseed() {
+    # Download the snap/assertion and add to the preseed
+    local CHROOT_ROOT=$1
+    local SNAP=$2
+    local SNAP_NAME=${SNAP%/*}
+    local CHANNEL=${3:?Snap channel must be specified}
+
+    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
+    local snaps_dir="$seed_dir/snaps"
+    local seed_yaml="$seed_dir/seed.yaml"
+    local assertions_dir="$seed_dir/assertions"
+
+    # Download the snap & assertion
+    chroot $CHROOT_ROOT sh -c "
+        set -x;
+        cd /var/lib/snapd/seed;
+        SNAPPY_STORE_NO_CDN=1 snap download \
+            --channel=$CHANNEL \"$SNAP_NAME\""
+    mv -v $seed_dir/*.assert $assertions_dir
+    mv -v $seed_dir/*.snap $snaps_dir
+
+    # Add the snap to the seed.yaml
+    ! [ -e $seed_yaml ] && echo "snaps:" > $seed_yaml
+    cat <<EOF >> $seed_yaml
+- name: ${SNAP_NAME}
+  channel: ${CHANNEL}
+EOF
+
+    case ${SNAP} in */classic) echo "  classic: true" >> $seed_yaml;; esac
+
+    echo -n "  file: " >> $seed_yaml
+    (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
+}
+
+snap_prepare() {
+    # Configure basic snapd assertions and pre-seeds the 'core' snap
+    local CHROOT_ROOT=$1
+
+    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
+    local snaps_dir="$seed_dir/snaps"
+    local assertions_dir="$seed_dir/assertions"
+    local model_assertion="$assertions_dir/generic-classic.model"
+    local account_key_assertion="$assertions_dir/generic.account-key"
+    local account_assertion="$assertions_dir/generic.account"
+
+    mkdir -p "$assertions_dir"
+    mkdir -p "$snaps_dir"
+
+    if ! [ -e "$model_assertion" ] ; then
+        snap known --remote model series=16 \
+            model=generic-classic brand-id=generic \
+            > "$model_assertion"
+    fi
+
+    if ! [ -e "$account_key_assertion" ] ; then
+        local account_key=$(sed -n -e's/sign-key-sha3-384: //p' \
+            < "$model_assertion")
+        snap known --remote account-key \
+            public-key-sha3-384="$account_key" \
+            > "$account_key_assertion"
+    fi
+
+    # XXX Copied from auto/build this value is never used.
+    # Is that correct in that file or was there a reason for this?
+    # account=$(sed -n -e's/account-id: //p' \ < "$account_key_assertion")
+
+    if ! [ -e "$account_assertion" ] ; then
+    snap known --remote account account-id=generic \
+        > "$account_assertion"
+    fi
+
+    # Download the core snap
+    if ! [ -f $snaps_dir/core_[0-9]*.snap ] ; then
+        _snap_preseed $CHROOT_ROOT core stable
+    fi
+}
+
+snap_preseed() {
+    # Preseeed a snap in the image
+    local CHROOT_ROOT=$1
+    local SNAP=$2
+    local CHANNEL=${3:-stable}
+
+    snap_prepare $CHROOT_ROOT
+    _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
+}
