@@ -423,12 +423,10 @@ snap_prepare() {
             > "$account_key_assertion"
     fi
 
-    # XXX Copied from auto/build this value is never used.
-    # Is that correct in that file or was there a reason for this?
-    # account=$(sed -n -e's/account-id: //p' \ < "$account_key_assertion")
+    account=$(sed -n -e's/account-id: //p' \ < "$account_key_assertion")
 
     if ! [ -e "$account_assertion" ] ; then
-    snap known --remote account account-id=generic \
+    snap known --remote account account-id=$account \
         > "$account_assertion"
     fi
 
