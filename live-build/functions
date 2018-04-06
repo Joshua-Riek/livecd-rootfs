@@ -386,13 +386,14 @@ _snap_preseed() {
     # Add the snap to the seed.yaml
     ! [ -e $seed_yaml ] && echo "snaps:" > $seed_yaml
     cat <<EOF >> $seed_yaml
-- name: ${SNAP_NAME}
-  channel: ${CHANNEL}
+  -
+    name: ${SNAP_NAME}
+    channel: ${CHANNEL}
 EOF
 
-    case ${SNAP} in */classic) echo "  classic: true" >> $seed_yaml;; esac
+    case ${SNAP} in */classic) echo "    classic: true" >> $seed_yaml;; esac
 
-    echo -n "  file: " >> $seed_yaml
+    echo -n "    file: " >> $seed_yaml
     (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
 }
 
