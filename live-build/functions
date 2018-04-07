@@ -425,7 +425,7 @@ snap_prepare() {
             > "$account_key_assertion"
     fi
 
-    account=$(sed -n -e's/account-id: //p' \ < "$account_key_assertion")
+    account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
 
     if ! [ -e "$account_assertion" ] ; then
     snap known --remote account account-id=$account \
