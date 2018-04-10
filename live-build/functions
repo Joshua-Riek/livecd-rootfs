@@ -380,11 +380,21 @@ _snap_preseed() {
     local assertions_dir="$seed_dir/assertions"
 
     # Download the snap & assertion
+    local snap_download_failed=0
     chroot $CHROOT_ROOT sh -c "
         set -x;
         cd /var/lib/snapd/seed;
         SNAPPY_STORE_NO_CDN=1 snap download \
-            --channel=$CHANNEL \"$SNAP_NAME\""
+            --channel=$CHANNEL \"$SNAP_NAME\"" || snap_download_failed=1
+    if [ $snap_download_failed = 1 ] ; then
+        echo "If the channel ($CHANNEL) includes '*/ubuntu-##.##' track per "
+        echo "Ubuntu policy (ex. stable/ubuntu-18.04) the publisher will need "
+        echo "to temporarily create the channel/track to allow fallback during"
+        echo "download (ex. stable/ubuntu-18.04 falls back to stable if the"
+        echo "prior had been created in the past)."
+        exit 1
+    fi
+
     mv -v $seed_dir/*.assert $assertions_dir
     mv -v $seed_dir/*.snap $snaps_dir
 
