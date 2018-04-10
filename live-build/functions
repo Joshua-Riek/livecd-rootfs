@@ -425,11 +425,11 @@ snap_prepare() {
             > "$account_key_assertion"
     fi
 
-    account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
 
     if ! [ -e "$account_assertion" ] ; then
-    snap known --remote account account-id=$account \
-        > "$account_assertion"
+        local account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
+        snap known --remote account account-id=$account \
+            > "$account_assertion"
     fi
 
     # Download the core snap
