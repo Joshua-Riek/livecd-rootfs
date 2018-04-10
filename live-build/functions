@@ -362,6 +362,11 @@ recreate_initramfs() {
 	mv "$CHROOT"/boot/initrd.img-* $DESTDIR
 }
 
+release_ver() {
+    # Return the release version number
+    distro-info --series="$LB_DISTRIBUTION" -r | awk '{ print $1 }'
+}
+
 _snap_preseed() {
     # Download the snap/assertion and add to the preseed
     local CHROOT_ROOT=$1
@@ -442,7 +447,9 @@ snap_preseed() {
     # Preseeed a snap in the image
     local CHROOT_ROOT=$1
     local SNAP=$2
-    local CHANNEL=${3:-stable}
+    # Per Ubuntu policy, all seeded snaps (with the exception of the core
+    # snap) must pull from stable/ubuntu-$(release_ver) as their channel.
+    local CHANNEL=${3:-"stable/ubuntu-$(release_ver)"}
 
     snap_prepare $CHROOT_ROOT
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL

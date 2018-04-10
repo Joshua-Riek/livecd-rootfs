@@ -39,10 +39,8 @@ preinstall_snaps() {
 	lb chroot_resolv install
 	snap_prepare chroot
     
-	snap_channel="stable/ubuntu-$(distro-info --series="$LB_DISTRIBUTION" \
-	                              -r | awk '{ print $1 }')"
 	for snap in "$@"; do
-		snap_preseed chroot "${snap}" "$snap_channel"
+		snap_preseed chroot "${snap}"
 	done
 	lb chroot_resolv remove
 }
