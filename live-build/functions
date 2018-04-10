@@ -454,7 +454,7 @@ snap_prepare() {
 }
 
 snap_preseed() {
-    # Preseeed a snap in the image
+    # Preseed a snap in the image
     local CHROOT_ROOT=$1
     local SNAP=$2
     # Per Ubuntu policy, all seeded snaps (with the exception of the core
