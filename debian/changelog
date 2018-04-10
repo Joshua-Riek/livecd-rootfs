@@ -1,3 +1,11 @@
+livecd-rootfs (2.519) UNRELEASED; urgency=medium
+
+  [ Robert C Jennings ]
+  * Refactor snap preseeding to allow additional snaps to be preseeded from
+    hooks
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 10 Apr 2018 15:58:56 -0700
+
 livecd-rootfs (2.518) bionic; urgency=medium
 
   * Make subiquity installer boot quicker, by making dhcp interfaces

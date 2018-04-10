@@ -15,6 +15,8 @@ if [ -z "${PROJECT:-}" ]; then
     exit 1
 fi
 
+. config/functions
+
 # Link output files somewhere BuildLiveCD will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
@@ -35,45 +37,12 @@ Setup_cleanup
 
 preinstall_snaps() {
 	lb chroot_resolv install
-	snap_channel="stable/ubuntu-$(distro-info --series="$LB_DISTRIBUTION" \
-	                              -r | awk '{ print $1 }')"
-	chroot chroot sh -c '
-		set -x;
-		cd /var/lib/snapd/seed;
-		SNAPPY_STORE_NO_CDN=1 snap download core'
+	snap_prepare chroot
+    
 	for snap in "$@"; do
-		chroot chroot sh -c "
-			set -x;
-			cd /var/lib/snapd/seed;
-			SNAPPY_STORE_NO_CDN=1 snap download --channel=$snap_channel \"${snap%/*}\""
+		snap_preseed chroot "${snap}"
 	done
 	lb chroot_resolv remove
-
-	CORE_SNAP=$(cd chroot/var/lib/snapd/seed; ls -1 core_*.snap)
-
-	cat <<EOF > chroot/var/lib/snapd/seed/seed.yaml
-snaps:
- - name: core
-   channel: stable
-   file: ${CORE_SNAP}
-EOF
-	for snap in "$@"; do
-		snap_name=${snap%/*}
-		cat <<EOF >> chroot/var/lib/snapd/seed/seed.yaml
- - name: ${snap_name}
-   channel: $snap_channel
-EOF
-		case ${snap} in */classic) echo "   classic: true" >> chroot/var/lib/snapd/seed/seed.yaml;; esac
-		echo -n "   file: " >> chroot/var/lib/snapd/seed/seed.yaml
-		(cd chroot/var/lib/snapd/seed; ls -1 ${snap_name}_*.snap) \
-			>> chroot/var/lib/snapd/seed/seed.yaml
-	done
-
-	mkdir -p chroot/var/lib/snapd/seed/snaps \
-		chroot/var/lib/snapd/seed/assertions
-	mv chroot/var/lib/snapd/seed/*.assert \
-		chroot/var/lib/snapd/seed/assertions/
-	mv chroot/var/lib/snapd/seed/*.snap chroot/var/lib/snapd/seed/snaps/
 }
 
 rm -f binary.success
@@ -384,26 +353,6 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 	case $PROJECT:$SUBPROJECT in
 		*)
 			if [ -e "config/seeded-snaps" ]; then
-				assertions_dir="chroot/var/lib/snapd/seed/assertions"
-				model_assertion="$assertions_dir/generic-classic.model"
-				account_key_assertion="$assertions_dir/generic.account-key"
-				account_assertion="$assertions_dir/generic.account"
-
-				mkdir -p "$assertions_dir"
-				snap known --remote model series=16 \
-					model=generic-classic brand-id=generic \
-					> "$model_assertion"
-				account_key=$(sed -n -e's/sign-key-sha3-384: //p' \
-					< "$model_assertion")
-
-				snap known --remote account-key \
-					public-key-sha3-384="$account_key" \
-					> "$account_key_assertion"
-				account=$(sed -n -e's/account-id: //p' \
-					< "$account_key_assertion")
-
-				snap known --remote account account-id=generic \
-					> "$account_assertion"
 				snap_list=$(cat config/seeded-snaps)
 				preinstall_snaps $snap_list
 			fi

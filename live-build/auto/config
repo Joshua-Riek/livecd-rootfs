@@ -831,9 +831,11 @@ lb config noauto \
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
+echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
+echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2)
