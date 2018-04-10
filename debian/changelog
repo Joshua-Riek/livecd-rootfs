@@ -1,10 +1,10 @@
-livecd-rootfs (2.519) UNRELEASED; urgency=medium
+livecd-rootfs (2.519) bionic; urgency=medium
 
   [ Robert C Jennings ]
   * Refactor snap preseeding to allow additional snaps to be preseeded from
     hooks
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 10 Apr 2018 15:58:56 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 10 Apr 2018 15:59:33 -0700
 
 livecd-rootfs (2.518) bionic; urgency=medium
 
