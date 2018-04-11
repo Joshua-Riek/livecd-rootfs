@@ -158,6 +158,12 @@ if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /d
     DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
 fi
 
+if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/null | grep -q '^installed$' \
+   && ! dpkg-query --show --showformat='${db:Status-Status}\n' landscape-common 2> /dev/null | grep -q '^installed$'; then
+    echo "Installing ubuntu-server recommends..."
+    DEBIAN_FRONTEND=noninteractive apt-get install -y landscape-common
+fi
+
 # unminimization succeeded, there is no need to mention it in motd
 rm -f /etc/update-motd.d/60-unminimize
 
@@ -203,9 +209,12 @@ EOF
 		# force removal of initramfs-tools, which we assert is not
 		# required for any minimized images but is still pulled in by
 		# default
+		# also remove landscape-common, which is heavyweight and
+		# in the server seed only to provide /etc/motd content which
+		# would only be seen by humans
 		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
 			apt-get -y purge initramfs-tools busybox-initramfs \
-				busybox-static"
+				busybox-static landscape-common"
 		# and if initramfs-tools was configured before our kernel,
 		# /etc/kernel/postinst.d/initramfs-tools will have created
 		# an initramfs despite the generic dpkg-divert; so remove it
