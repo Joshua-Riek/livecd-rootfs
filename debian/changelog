@@ -1,8 +1,8 @@
-livecd-rootfs (2.521) UNRELEASED; urgency=medium
+livecd-rootfs (2.521) bionic; urgency=medium
 
   * In subiquity image, mount additional squashfs in /media.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 11 Apr 2018 14:19:34 +0200
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 11 Apr 2018 14:20:27 +0200
 
 livecd-rootfs (2.520) bionic; urgency=medium
 
