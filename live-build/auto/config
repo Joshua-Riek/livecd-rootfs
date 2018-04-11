@@ -323,6 +323,12 @@ if ! [ -e config/germinate-output/structure ]; then
 fi
 
 case $PROJECT in
+        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|lubuntu-next|mythbuntu|ubuntu|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntukylin|ubuntustudio-dvd|xubuntu)
+		INITRAMFS_COMPRESSION="lzma"
+		;;
+esac
+
+case $PROJECT in
 	ubuntu|ubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop
 		LIVE_TASK='ubuntu-live'
@@ -559,7 +565,6 @@ case $PROJECT in
 				;;
 		esac
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-		INITRAMFS_COMPRESSION="none"
 
 		# contains the framework definition
 		add_package install ubuntu-core-libs
@@ -655,7 +660,6 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
 		OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
 		OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
-		INITRAMFS_COMPRESSION="gzip"
 		;;
 
 	*)
@@ -823,7 +827,7 @@ lb config noauto \
 	${KERNEL_FLAVOURS:+--linux-flavours "$KERNEL_FLAVOURS"} \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
-	--initramfs-compression "${INITRAMFS_COMPRESSION:-lzma}" \
+	${INITRAMFS_COMPRESSION:+--initramfs-compression "$INITRAMFS_COMPRESSION}" \
 	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
