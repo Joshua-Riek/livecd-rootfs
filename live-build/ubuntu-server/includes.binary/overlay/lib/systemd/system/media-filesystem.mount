@@ -1,0 +1,5 @@
+[Mount]
+What=/cdrom/casper/filesystem.squashfs
+Where=/media/filesystem
+Type=squashfs
+Options=ro

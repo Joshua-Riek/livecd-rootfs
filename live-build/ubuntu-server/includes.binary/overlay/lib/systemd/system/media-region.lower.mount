@@ -1,0 +1,5 @@
+[Mount]
+What=/cdrom/casper/maas/maas-region.squashfs
+Where=/media/region.lower
+Type=squashfs
+Options=ro
