@@ -9,6 +9,15 @@
 #
 # For this step, we re-use the VMDK's made in 040-vmdk-image.binary
 
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 build as images won't boot with linux-kvm"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
 
 # Switch on $ARCH to determine which ID and description to use in the produced
 # OVF. We have fancy Ubuntu-specific IDs in the OVF specification, we might as

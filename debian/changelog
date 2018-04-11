@@ -1,9 +1,86 @@
-livecd-rootfs (2.510) UNRELEASED; urgency=medium
+livecd-rootfs (2.520) UNRELEASED; urgency=medium
 
   * Make lzma initramfs compression opt-in rather than opt-out, and do not
     opt-in to it for live-server builds to speed up the boot. (LP: #1750873)
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 13 Mar 2018 21:24:27 +1300
+
+livecd-rootfs (2.519) bionic; urgency=medium
+
+  [ Robert C Jennings ]
+  * Refactor snap preseeding to allow additional snaps to be preseeded from
+    hooks
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 10 Apr 2018 15:59:33 -0700
+
+livecd-rootfs (2.518) bionic; urgency=medium
+
+  * Make subiquity installer boot quicker, by making dhcp interfaces
+    optional, such that wait-online is not blocking bringing up the
+    installer UI.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 03 Apr 2018 14:56:58 +0100
+
+livecd-rootfs (2.517) bionic; urgency=medium
+
+  [ Simon Quigley ]
+  * Add proper lubuntu support in BASE_SEED.
+
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 03 Apr 2018 11:56:32 +0100
+
+livecd-rootfs (2.516) bionic; urgency=medium
+
+  [ Chris Glass ]
+  * Make sure we call the build "minimal" within the cloud build info,
+    when building a minimized image.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 27 Mar 2018 12:12:31 -0700
+
+livecd-rootfs (2.515) bionic; urgency=medium
+
+  * Set the default locale to C.UTF-8 in all server and cloud images.
+   (LP: #1751051, #1759003)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 27 Mar 2018 09:59:02 +1300
+
+livecd-rootfs (2.514) bionic; urgency=medium
+
+  * On amd64, if building minimal images for bionic, xenial, or extra ppa,
+    use kvm kernel, otherwise fallback to virtual.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 21 Mar 2018 11:02:25 +0000
+
+livecd-rootfs (2.513) bionic; urgency=medium
+
+  * In the live-server build, prevent casper from mounting any existing
+    swap partitions from drives we might later be installing to.
+    (LP: #1743643)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 21 Mar 2018 15:58:02 +1300
+
+livecd-rootfs (2.512) bionic; urgency=medium
+
+  * ubuntu-cpc: When performing a minimized build, don't generate artifacts
+    that won't boot with the linux-kvm kernel (LP: #1757223).
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Tue, 20 Mar 2018 13:42:50 -0400
+
+livecd-rootfs (2.511) bionic; urgency=medium
+
+  * Whitelist preserving "unowned" /var/log/journal. Maybe systemd package
+    should own the directory, and only adjust the permissions in
+    postinst. LP: #1754332
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 16 Mar 2018 18:36:56 +0000
+
+livecd-rootfs (2.510) bionic; urgency=medium
+
+  * Rename the directory containing the systemd override file for subiquity to
+    the correct name :/
+  * Add Environment=SNAP_REEXEC=0 to the above override file.
+  * Remove the snap.subiquity.started overrides, that service is long gone.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Mar 2018 14:09:57 +1300
 
 livecd-rootfs (2.509) bionic; urgency=medium
 
