@@ -1,9 +1,9 @@
-livecd-rootfs (2.522) UNRELEASED; urgency=medium
+livecd-rootfs (2.522) bionic; urgency=medium
 
   * Remove landscape-common from minimal image, and handle restoring it in
     unminimize script.  LP: #1763182.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 11 Apr 2018 14:26:14 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 17 Apr 2018 13:53:00 -0700
 
 livecd-rootfs (2.521) bionic; urgency=medium
 
