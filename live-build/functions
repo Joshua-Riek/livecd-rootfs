@@ -417,7 +417,7 @@ snap_prepare_assertions() {
     local CHROOT_ROOT=$1
     # Optional. If set, should be a colon-separated string of brand:model to be
     # used for the image's model assertion
-    local CUSTOM_BRAND_MODEL=$2
+    local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
     local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
     local snaps_dir="$seed_dir/snaps"
@@ -429,8 +429,6 @@ snap_prepare_assertions() {
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
-    local brand="generic"
-    local model="generic-classic"
     if [ -n "$CUSTOM_BRAND_MODEL" ] ; then
         brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
         model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
