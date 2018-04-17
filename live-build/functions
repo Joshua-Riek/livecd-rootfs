@@ -433,7 +433,7 @@ snap_prepare_assertions() {
     local model="generic-classic"
     if [ -n "$CUSTOM_BRAND_MODEL" ] ; then
         brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
-        brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
+        model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
     fi
 
     if ! [ -e "$model_assertion" ] ; then
