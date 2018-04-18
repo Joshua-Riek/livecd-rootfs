@@ -463,6 +463,9 @@ snap_prepare() {
     # used for the image's model assertion
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
+    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
+    local snaps_dir="$seed_dir/snaps"
+
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
 
     # Download the core snap
