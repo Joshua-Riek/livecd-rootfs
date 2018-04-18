@@ -422,7 +422,7 @@ snap_prepare_assertions() {
     local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
     local snaps_dir="$seed_dir/snaps"
     local assertions_dir="$seed_dir/assertions"
-    local model_assertion="$assertions_dir/generic-classic.model"
+    local model_assertion="$assertions_dir/model"
     local account_key_assertion="$assertions_dir/generic.account-key"
     local account_assertion="$assertions_dir/generic.account"
 
