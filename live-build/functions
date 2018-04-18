@@ -461,7 +461,7 @@ snap_prepare() {
     local CHROOT_ROOT=$1
     # Optional. If set, should be a colon-separated string of brand:model to be
     # used for the image's model assertion
-    local CUSTOM_BRAND_MODEL=$2
+    local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
 
