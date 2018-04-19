@@ -1,3 +1,13 @@
+livecd-rootfs (2.522) bionic; urgency=medium
+
+  * Allow the configuration of model assertions independent of preseeding
+    snaps.
+  * Allow non-generic model assertions to be configured.
+  * Don't include the name of the model assertion in the path we write it out
+    to (LP: #1764541).
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Thu, 19 Apr 2018 11:44:38 -0400
+
 livecd-rootfs (2.521) bionic; urgency=medium
 
   * In subiquity image, mount additional squashfs in /media.
