@@ -1,3 +1,9 @@
+livecd-rootfs (2.523) UNRELEASED; urgency=medium
+
+  * Ensure MAAS squashfsi are clean of passwords. LP: #1764991.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 19 Apr 2018 13:29:08 +0100
+
 livecd-rootfs (2.522) bionic; urgency=medium
 
   * Remove landscape-common from minimal image, and handle restoring it in
