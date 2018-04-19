@@ -1,3 +1,9 @@
+livecd-rootfs (2.524) UNRELEASED; urgency=medium
+
+  * Ensure MAAS squashfsi are clean of passwords. LP: #1764991.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 19 Apr 2018 21:22:25 +0100
+
 livecd-rootfs (2.523) bionic; urgency=medium
 
   * Allow the configuration of model assertions independent of preseeding
