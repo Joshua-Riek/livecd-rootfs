@@ -429,10 +429,8 @@ snap_prepare_assertions() {
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
-    if [ -n "$CUSTOM_BRAND_MODEL" ] ; then
-        brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
-        model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
-    fi
+    local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
+    local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
 
     if ! [ -e "$model_assertion" ] ; then
         snap known --remote model series=16 \
