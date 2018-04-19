@@ -412,23 +412,29 @@ EOF
     (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
 }
 
-snap_prepare() {
-    # Configure basic snapd assertions and pre-seeds the 'core' snap
+snap_prepare_assertions() {
+    # Configure basic snapd assertions
     local CHROOT_ROOT=$1
+    # A colon-separated string of brand:model to be used for the image's model
+    # assertion
+    local CUSTOM_BRAND_MODEL=$2
 
     local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
     local snaps_dir="$seed_dir/snaps"
     local assertions_dir="$seed_dir/assertions"
-    local model_assertion="$assertions_dir/generic-classic.model"
-    local account_key_assertion="$assertions_dir/generic.account-key"
-    local account_assertion="$assertions_dir/generic.account"
+    local model_assertion="$assertions_dir/model"
+    local account_key_assertion="$assertions_dir/account-key"
+    local account_assertion="$assertions_dir/account"
 
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
+    local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
+    local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
+
     if ! [ -e "$model_assertion" ] ; then
         snap known --remote model series=16 \
-            model=generic-classic brand-id=generic \
+            model=$model brand-id=$brand \
             > "$model_assertion"
     fi
 
@@ -446,6 +452,19 @@ snap_prepare() {
         snap known --remote account account-id=$account \
             > "$account_assertion"
     fi
+}
+
+snap_prepare() {
+    # Configure basic snapd assertions and pre-seeds the 'core' snap
+    local CHROOT_ROOT=$1
+    # Optional. If set, should be a colon-separated string of brand:model to be
+    # used for the image's model assertion
+    local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
+
+    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
+    local snaps_dir="$seed_dir/snaps"
+
+    snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
 
     # Download the core snap
     if ! [ -f $snaps_dir/core_[0-9]*.snap ] ; then
