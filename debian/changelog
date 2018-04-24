@@ -1,3 +1,10 @@
+livecd-rootfs (2.525) bionic; urgency=medium
+
+  * Don't fail to build CPC images if /lib/modules already exists in the
+    squashfs.
+
+ -- Daniel Watkins <daniel.watkins@canonical.com>  Tue, 24 Apr 2018 12:00:55 -0400
+
 livecd-rootfs (2.524) bionic; urgency=medium
 
   * Ensure MAAS squashfsi are clean of passwords. LP: #1764991.
