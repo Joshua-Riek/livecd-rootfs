@@ -32,7 +32,7 @@ env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --pur
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get --purge remove --assume-yes '^grub-.*'
 env DEBIAN_FRONTEND=noninteractive chroot binary/boot/squashfs.dir apt-get autoremove --purge --assume-yes
 rm -rf binary/boot/squashfs.dir/boot/grub
-chroot binary/boot/squashfs.dir mkdir /lib/modules
+chroot binary/boot/squashfs.dir mkdir -p /lib/modules
 
 chroot binary/boot/squashfs.dir rm /usr/sbin/grub-probe
 chroot binary/boot/squashfs.dir dpkg-divert --remove --local --rename /usr/sbin/grub-probe
