@@ -1,0 +1,14 @@
+#! /bin/sh
+set -e
+
+# Configure APT.
+cat >/etc/apt/apt.conf.d/99buildd <<EOF
+DPkg::Options {"--force-unsafe-io";};
+DPkg::Use-Pty "false";
+EOF
+
+cat >/etc/apt/preferences.d/backports <<EOF
+Package: *
+Pin: release a=*-backports
+Pin-Priority: 500
+EOF

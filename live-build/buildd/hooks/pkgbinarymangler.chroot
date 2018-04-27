@@ -1,0 +1,10 @@
+#! /bin/sh
+set -e
+
+# Configure pkgbinarymangler.
+sed -i /^enable/s/false/true/ \
+	/etc/pkgbinarymangler/maintainermangler.conf \
+	/etc/pkgbinarymangler/striptranslations.conf || true
+sed -i /^invalid_current/s/ignore/fail/ \
+	/etc/pkgbinarymangler/maintainermangler.conf \
+	/etc/pkgbinarymangler/striptranslations.conf || true
