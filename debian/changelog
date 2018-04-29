@@ -1,4 +1,4 @@
-livecd-rootfs (2.525+lp1) UNRELEASED; urgency=medium
+livecd-rootfs (2.526) UNRELEASED; urgency=medium
 
   * Add a buildd subproject.
 
