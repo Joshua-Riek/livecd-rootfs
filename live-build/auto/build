@@ -467,7 +467,8 @@ elif [ "$SUBPROJECT" = buildd ]; then
 	# gzip was chosen for fastest decompression speed: it decompresses
 	# buildd chroots about twice as fast as xz and about five times as
 	# fast as bzip2.
-	tar --transform 's,^binary,chroot-autobuild,' \
+	tar --transform='s,^binary,chroot-autobuild,' \
+		--sort=name --numeric-owner \
 		-czf "$PREFIX.rootfs.tar.gz" binary
 fi
 
