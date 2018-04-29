@@ -677,7 +677,7 @@ case $SUBPROJECT in
 		OPTS="${OPTS:+$OPTS }--apt-secure false"
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		INITRAMFS_COMPRESSION=none
-		OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
+		OPTS="${OPTS:+$OPTS }--parent-mirror-binary ${MIRROR}"
 		# XXX cjwatson 2018-04-27: We need to work out how to make
 		# this conditional so that we can do things like building
 		# buildd chroots with -updates.  This probably involves
