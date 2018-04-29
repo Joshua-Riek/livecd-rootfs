@@ -8,5 +8,5 @@ set -e
 # has run "apt-get update" for the last time, in order that
 # /var/lib/apt/lists/ has suitable cached Packages files; this speeds up
 # builds on buildds.
-sed "s,${LB_PARENT_MIRROR_BINARY},${LB_MIRROR_BINARY},g" \
+sed -i "s,${LB_PARENT_MIRROR_BINARY},${LB_MIRROR_BINARY},g" \
 	binary/etc/apt/sources.list
