@@ -672,11 +672,8 @@ case $SUBPROJECT in
 	buildd)
 		OPTS="${OPTS:+$OPTS }--archive-areas main"
 		COMPONENTS='main restricted universe multiverse'
-		KERNEL_FLAVOURS=none
 		OPTS="${OPTS:+$OPTS }--apt-recommends false"
 		OPTS="${OPTS:+$OPTS }--apt-secure false"
-		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-		INITRAMFS_COMPRESSION=none
 		OPTS="${OPTS:+$OPTS }--parent-mirror-binary ${MIRROR}"
 		# XXX cjwatson 2018-04-27: We need to work out how to make
 		# this conditional so that we can do things like building
@@ -685,7 +682,6 @@ case $SUBPROJECT in
 		# way that SUITE is in fact a series; in either case it's
 		# likely to involve work both here and in launchpad-buildd.
 		OPTS="${OPTS:+$OPTS }--security false --volatile false"
-		OPTS="${OPTS:+$OPTS }--binary-images none"
 
 		add_package install adduser
 		add_package install policyrcd-script-zg2
