@@ -1,8 +1,3 @@
-#! /bin/sh
-set -e
-
-# Configure policy-rc.d.
-cat >/usr/local/sbin/policy-rc.d <<'EOF'
 #!/bin/sh
 
 # policy-rc.d script for chroots.
@@ -16,5 +11,3 @@ while true; do
     *) echo "Not running services in chroot."; exit 101 ;;
   esac
 done
-EOF
-chmod 755 /usr/local/sbin/policy-rc.d

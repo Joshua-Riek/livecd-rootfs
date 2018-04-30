@@ -1,5 +1,0 @@
-#! /bin/sh
-set -e
-
-# Install a dummy fstab.
-echo /dev/root / ext2 noatime,errors=remount-ro 0 1 >/etc/fstab

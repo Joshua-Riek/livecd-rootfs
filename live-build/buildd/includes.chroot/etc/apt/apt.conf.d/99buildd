@@ -1,0 +1,2 @@
+DPkg::Options {"--force-unsafe-io";};
+DPkg::Use-Pty "false";
