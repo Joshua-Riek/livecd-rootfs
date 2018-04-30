@@ -711,6 +711,8 @@ case $SUBPROJECT in
 		esac
 		add_package install fakeroot
 		add_package install build-essential
+		# Needed for LXD-based builds.
+		add_package install init
 		;;
 esac
 
