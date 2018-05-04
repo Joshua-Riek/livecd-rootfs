@@ -432,10 +432,6 @@ case $PROJECT in
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
 		esac
-
-		# The Lubuntu STRUCTURE file has "feature
-		# no-follow-recommends".  Mirror this.
-		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
 		;;
 
 	lubuntu-next)
@@ -448,10 +444,6 @@ case $PROJECT in
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
 		esac
-
-		# The Lubuntu STRUCTURE file has "feature
-		# no-follow-recommends". Mirror this.
-		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
 		;;
 
 	ubuntu-gnome)

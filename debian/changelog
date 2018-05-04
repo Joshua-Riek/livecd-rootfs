@@ -2,6 +2,8 @@ livecd-rootfs (2.526) UNRELEASED; urgency=medium
 
   * Drop the workaround for setting the base seed of Lubuntu and Lubuntu Next
     now that Lubuntu Next is Lubuntu.
+  * Don't follow recommends on Lubuntu now that this is no longer the
+    case in the seed.
 
  -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 03 May 2018 23:18:52 -0500
 
