@@ -1,3 +1,10 @@
+livecd-rootfs (2.526) UNRELEASED; urgency=medium
+
+  * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
+    dangling symlink.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 16 May 2018 16:20:31 +0200
+
 livecd-rootfs (2.525) bionic; urgency=medium
 
   * Don't fail to build CPC images if /lib/modules already exists in the
