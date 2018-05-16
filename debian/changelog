@@ -1,3 +1,11 @@
+livecd-rootfs (2.526) UNRELEASED; urgency=medium
+
+  * Drop Lubuntu Next now that Lubuntu Next is Lubuntu.
+  * Don't follow recommends on Lubuntu now that this is no longer the
+    case in the seed.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 03 May 2018 23:18:52 -0500
+
 livecd-rootfs (2.525) bionic; urgency=medium
 
   * Don't fail to build CPC images if /lib/modules already exists in the
