@@ -2,6 +2,7 @@ livecd-rootfs (2.527) UNRELEASED; urgency=medium
 
   * Symlink systemd-networkd-wait-online to /bin/true in the live installer
     live session to avoid depending on buggy systemd behaviour.
+  * Remove "optional: true" from installer netplan config.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 30 Apr 2018 20:00:02 +1200
 
