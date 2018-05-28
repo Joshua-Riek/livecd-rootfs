@@ -1,3 +1,11 @@
+livecd-rootfs (2.528) UNRELEASED; urgency=medium
+
+  * Don't divert grub-probe; otherwise we're missing the filesystem UUIDs that
+    the grub search command needs to find the right prefix/root. This is
+    different than the PARTUUID for booting initrd-less.
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Mon, 28 May 2018 10:36:18 -0400
+
 livecd-rootfs (2.527) cosmic; urgency=medium
 
   * Symlink systemd-networkd-wait-online to /bin/true in the live installer
