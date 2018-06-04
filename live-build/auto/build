@@ -152,6 +152,11 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
         echo "/etc/dpkg/dpkg.cfg.d/excludes.dpkg-tmp and restore the files manually."
     fi
 fi
+EOF
+
+                if [ "$PROJECT" != "ubuntu-base" ]; then
+                    	# The ubuntu-base unminimizer should not install ubuntu-minimal, but others should.
+	                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
     echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
@@ -163,10 +168,12 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
     echo "Installing ubuntu-server recommends..."
     DEBIAN_FRONTEND=noninteractive apt-get install -y landscape-common
 fi
+EOF
+fi
+                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 # unminimization succeeded, there is no need to mention it in motd
 rm -f /etc/update-motd.d/60-unminimize
-
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
 
