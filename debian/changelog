@@ -1,4 +1,4 @@
-livecd-rootfs (2.529~ppa4) cosmic; urgency=medium
+livecd-rootfs (2.529~ppa6) cosmic; urgency=medium
 
   * Improvements to the ubuntu-base (i.e. Docker) build:
     - Customize the unminimize script to not install ubuntu-minimal.
