@@ -1,6 +1,8 @@
-livecd-rootfs (2.529~ppa1manpages1) cosmic; urgency=medium
+livecd-rootfs (2.529~ppa2~manpages1) cosmic; urgency=medium
 
-  * Test build.
+  * Improvements to the ubuntu-base (i.e. Docker) build:
+    - Customize the unminimize script to not install so many packages.
+    - Divert /usr/bin/man to a script that points to the unminimize script.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 05 Jun 2018 14:19:17 +1200
 
