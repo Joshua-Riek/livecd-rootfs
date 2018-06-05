@@ -158,14 +158,9 @@ rm -f /usr/bin/man
 dpkg-divert --quiet --remove --rename /usr/bin/man
 EOF
 
-                if [ "$PROJECT" = "ubuntu-base" ]; then
+                if [ "$PROJECT" != "ubuntu-base" ]; then
                     	# ubuntu-minimal is too much for a docker container (it contains
-                    	# e.g. systemd) but we should restore at least a few common things.
-	                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
-apt-get install -y less man-db iproute2 vim-tiny
-EOF
-                else
-                    	# Other unminimizers install more.
+                    	# systemd and other things)
 	                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
@@ -209,7 +204,7 @@ echo "This system has been minimized by removing packages and content that are"
 echo "not required on a system that users do not log into."
 echo ""
 echo "To restore this content, including manpages, you can run the 'unminimize'"
-echo "command."
+echo "command. You will still need to ensure the 'man-db' package is installed."
 EOF
                 chmod +x chroot/usr/bin/man
 	fi
