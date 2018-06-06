@@ -1,3 +1,9 @@
+livecd-rootfs (2.530) cosmic; urgency=medium
+
+  * ubuntu-cpc: Reintroduce the -root.tar.xz artifact (LP: #1585233).
+
+ -- Daniel Watkins <oddbloke@ubuntu.com>  Wed, 06 Jun 2018 11:21:57 -0700
+
 livecd-rootfs (2.529) cosmic; urgency=medium
 
   * Improvements to the ubuntu-base (i.e. Docker) build:
