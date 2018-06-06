@@ -8,7 +8,7 @@ if [ -n "$SUBARCH" ]; then
     exit 0
 fi
 
-. /build/config/functions
+. config/functions
 
 tardir=filesystem.dir
 mkdir $tardir
