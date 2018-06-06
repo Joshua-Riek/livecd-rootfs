@@ -19,6 +19,9 @@ setup_mountpoint $tardir
 env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
 env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assume-yes '^grub-.*'
 env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get autoremove --purge --assume-yes
+
+# This directory is required downstream by MAAS (LP: #1543204), so ensure it
+# exists
 chroot $tardir mkdir -p /lib/modules
 
 teardown_mountpoint $tardir
