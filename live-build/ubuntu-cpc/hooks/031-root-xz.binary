@@ -20,10 +20,6 @@ env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assum
 env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assume-yes '^grub-.*'
 env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get autoremove --purge --assume-yes
 
-# This directory is required downstream by MAAS (LP: #1543204), so ensure it
-# exists
-chroot $tardir mkdir -p /lib/modules
-
 teardown_mountpoint $tardir
 
 dpkg-query --admindir=$tardir/var/lib/dpkg -W > livecd.ubuntu-cpc.rootfs.manifest
