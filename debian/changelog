@@ -1,4 +1,4 @@
-livecd-rootfs (2.529) UNRELEASED; urgency=medium
+livecd-rootfs (2.529) cosmic; urgency=medium
 
   * Improvements to the ubuntu-base (i.e. Docker) build:
     - Customize the unminimize script to not install ubuntu-minimal.
@@ -6,7 +6,7 @@ livecd-rootfs (2.529) UNRELEASED; urgency=medium
     - Remove apt lists that are currently removed downstream anyway. 
       (LP: #1699913)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 05 Jun 2018 14:19:17 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Jun 2018 05:59:12 +1200
 
 livecd-rootfs (2.528) cosmic; urgency=medium
 
