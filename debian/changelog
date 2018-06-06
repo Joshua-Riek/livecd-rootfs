@@ -1,3 +1,13 @@
+livecd-rootfs (2.529) UNRELEASED; urgency=medium
+
+  * Improvements to the ubuntu-base (i.e. Docker) build:
+    - Customize the unminimize script to not install ubuntu-minimal.
+    - Divert /usr/bin/man to a script that points to the unminimize script.
+    - Remove apt lists that are currently removed downstream anyway. 
+      (LP: #1699913)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 05 Jun 2018 14:19:17 +1200
+
 livecd-rootfs (2.528) cosmic; urgency=medium
 
   * Don't divert grub-probe; otherwise we're missing the filesystem UUIDs that

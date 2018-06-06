@@ -115,7 +115,7 @@ echo ""
 echo "Reinstallation of packages may fail due to changes to the system"
 echo "configuration, the presence of third-party packages, or for other"
 echo "reasons."
-read -p "Would you like to continue? [y/N]" REPLY
+read -p "Would you like to continue? [y/N] " REPLY
 echo    # (optional) move to a new line
 if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]
 then
@@ -153,6 +153,18 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
     fi
 fi
 
+if  [ "$(dpkg-divert --truename /usr/bin/man)" = "/usr/bin/man.REAL" ]; then
+    # Remove diverted man binary
+    rm -f /usr/bin/man
+    dpkg-divert --quiet --remove --rename /usr/bin/man
+fi
+EOF
+
+                if [ "$PROJECT" != "ubuntu-base" ]; then
+                    	# ubuntu-minimal is too much for a docker container (it contains
+                    	# systemd and other things)
+	                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
+
 if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
     echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
     DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
@@ -163,10 +175,12 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
     echo "Installing ubuntu-server recommends..."
     DEBIAN_FRONTEND=noninteractive apt-get install -y landscape-common
 fi
+EOF
+fi
+                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 # unminimization succeeded, there is no need to mention it in motd
 rm -f /etc/update-motd.d/60-unminimize
-
 EOF
                 chmod +x chroot/usr/local/sbin/unminimize
 
@@ -183,7 +197,19 @@ echo "To restore this content, you can run the 'unminimize' command."
 EOF
 
 		chmod +x chroot/etc/update-motd.d/60-unminimize
-        fi
+		Chroot chroot "dpkg-divert --quiet --add \
+			--divert /usr/bin/man.REAL --rename \
+			/usr/bin/man"
+		cat > chroot/usr/bin/man << EOF
+#!/bin/sh
+echo "This system has been minimized by removing packages and content that are"
+echo "not required on a system that users do not log into."
+echo ""
+echo "To restore this content, including manpages, you can run the 'unminimize'"
+echo "command. You will still need to ensure the 'man-db' package is installed."
+EOF
+                chmod +x chroot/usr/bin/man
+	fi
 	Chroot chroot "dpkg-divert --quiet --add \
 		--divert /usr/sbin/update-initramfs.REAL --rename \
 		/usr/sbin/update-initramfs"
@@ -232,6 +258,11 @@ EOF
 	# remove crufty files that shouldn't be left in an image
 	rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
 	Chroot chroot apt clean
+	if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ]; then
+		# Save even more size by removing apt lists (that are currently removed
+		# downstream anyway)
+		rm -rf chroot/var/lib/apt/lists/*
+	fi
 
 	if [ -f config/oem-config-preinstalled ]; then
 
