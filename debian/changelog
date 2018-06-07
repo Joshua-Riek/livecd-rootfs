@@ -1,5 +1,6 @@
-livecd-rootfs (2.531) UNRELEASED; urgency=medium
+livecd-rootfs (2.531) cosmic; urgency=medium
 
+  [ Daniel Watkins ]
   * ubuntu-cpc: Use linux-kvm for all amd64 minimized builds (LP: #1775472).
 
   [ Steve Langasek ]
@@ -7,7 +8,7 @@ livecd-rootfs (2.531) UNRELEASED; urgency=medium
     install grub-efi-amd64 since that forces off grub-pc, which is otherwise
     now coinstallable.
 
- -- Daniel Watkins <oddbloke@ubuntu.com>  Wed, 06 Jun 2018 17:17:32 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Jun 2018 17:34:07 -0700
 
 livecd-rootfs (2.530) cosmic; urgency=medium
 
