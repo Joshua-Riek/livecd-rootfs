@@ -600,16 +600,9 @@ case $PROJECT in
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
-			# linux-kvm currently only exists in xenial, not in
-			# non-LTS suites.  Fall back to virtual flavor, which
-			# may or may not boot initramfsless but enables us to
-			# test building and possibly build derivative images
-			# using other kernel flavors.
-			# If you enable an extra ppa, it is assumed that
-			# linux-kvm is available since you control the
-			# archive and can provide this metapackage as
-			# necessary.
-			if [ "$ARCH" = "amd64" ] && ([ -n "$EXTRA_PPAS" ] || [ "$SUITE" = xenial ] || [ "$SUITE" = bionic ]); then
+			# linux-kvm currently only exists for amd64, so fall back to the
+			# virtual flavour for other architectures
+			if [ "$ARCH" = "amd64" ]; then
 				KERNEL_FLAVOURS=kvm
 			else
 				KERNEL_FLAVOURS=virtual
