@@ -19,6 +19,7 @@ setup_mountpoint $rootfs_dir
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get --purge remove --assume-yes '^grub-.*'
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get autoremove --purge --assume-yes
+rm -rf $rootfs_dir/boot/grub
 
 teardown_mountpoint $rootfs_dir
 
