@@ -20,10 +20,10 @@ fi
 # This is the directory created by 031-0-create-root-dir.binary
 rootfs_dir=rootfs.dir
 
-squashfs_f="${PWD}/livecd.ubuntu-cpc.squashfs"
+squashfs_f="$PWD/livecd.ubuntu-cpc.squashfs"
 
-cp $rootfs_dir.manifest "${squashfs_f}.manifest"
+cp $rootfs_dir.manifest $squashfs_f.manifest
 
-(cd "$rootfs_dir" &&
-      mksquashfs . ${squashfs_f} \
+(cd $rootfs_dir &&
+      mksquashfs . $squashfs_f \
         -no-progress -xattrs -comp xz )
