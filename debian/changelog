@@ -1,10 +1,26 @@
-livecd-rootfs (2.529) UNRELEASED; urgency=medium
+livecd-rootfs (2.531) UNRELEASED; urgency=medium
 
   * live-build/ubuntu-cpc/hooks/033-disk-image-uefi.binary: don't manually
     install grub-efi-amd64 since that forces off grub-pc, which is otherwise
     now coinstallable.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Jun 2018 15:39:27 -0700
+
+livecd-rootfs (2.530) cosmic; urgency=medium
+
+  * ubuntu-cpc: Reintroduce the -root.tar.xz artifact (LP: #1585233).
+
+ -- Daniel Watkins <oddbloke@ubuntu.com>  Wed, 06 Jun 2018 11:21:57 -0700
+
+livecd-rootfs (2.529) cosmic; urgency=medium
+
+  * Improvements to the ubuntu-base (i.e. Docker) build:
+    - Customize the unminimize script to not install ubuntu-minimal.
+    - Divert /usr/bin/man to a script that points to the unminimize script.
+    - Remove apt lists that are currently removed downstream anyway. 
+      (LP: #1699913)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Jun 2018 05:59:12 +1200
 
 livecd-rootfs (2.528) cosmic; urgency=medium
 

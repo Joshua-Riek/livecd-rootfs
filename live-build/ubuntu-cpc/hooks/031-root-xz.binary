@@ -1,0 +1,29 @@
+#!/bin/bash -ex
+# vi: ts=4 expandtab
+#
+# Generate the rootfs.tar.xz and manifest
+
+if [ -n "$SUBARCH" ]; then
+    echo "Skipping rootfs build for subarch flavor build"
+    exit 0
+fi
+
+. config/functions
+
+tardir=filesystem.dir
+mkdir $tardir
+cp -a chroot/* $tardir
+
+setup_mountpoint $tardir
+
+env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
+env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get --purge remove --assume-yes '^grub-.*'
+env DEBIAN_FRONTEND=noninteractive chroot $tardir apt-get autoremove --purge --assume-yes
+
+teardown_mountpoint $tardir
+
+dpkg-query --admindir=$tardir/var/lib/dpkg -W > livecd.ubuntu-cpc.rootfs.manifest
+
+(cd "$tardir/" && tar -c *) | xz > "livecd.ubuntu-cpc.rootfs.tar.xz"
+
+rm -rf $tardir
