@@ -1,15 +1,15 @@
+livecd-rootfs (2.533) UNRELEASED; urgency=medium
+
+  * ubuntu-cpc: Remove git-man for minimized images 
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
+
 livecd-rootfs (2.532) cosmic; urgency=medium
 
   * ubuntu-cpc: Generate the root image contents once, and use it for both the
     -root.tar.xz and the .squashfs.
 
  -- Daniel Watkins <oddbloke@ubuntu.com>  Thu, 07 Jun 2018 11:11:02 -0700
-
-livecd-rootfs (2.531ubuntu1) cosmic; urgency=medium
-
-  * ubuntu-cpc: Remove git-man for minimized images 
-
- -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
 
 livecd-rootfs (2.531) cosmic; urgency=medium
 
