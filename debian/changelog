@@ -1,6 +1,11 @@
 livecd-rootfs (2.533) UNRELEASED; urgency=medium
 
+  [ Robert C Jennings ]
   * ubuntu-cpc: Remove git-man for minimized images 
+
+  [ Colin Watson ]
+  * live-build/auto/config: Drop "lp-*" hostname filter for Launchpad
+    builders, since LP #1747015 is now fixed; "*.buildd" should be enough.
 
  -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
 

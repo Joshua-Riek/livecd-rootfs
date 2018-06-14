@@ -17,7 +17,7 @@ if [ -z "$MIRROR" ]; then
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.buildd|lp-*)		MIRROR=http://ftpmaster.internal/ubuntu/
+		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
 		*.ppa|*.scalingstack)	MIRROR=http://ftpmaster.internal/ubuntu/
