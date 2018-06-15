@@ -1,6 +1,11 @@
 livecd-rootfs (2.533) UNRELEASED; urgency=medium
 
+  [ Robert C Jennings ]
   * ubuntu-cpc: Remove git-man for minimized images 
+
+  [ Michael Hudson-Doyle ]
+  * Disable journald rate limiting in the live-server live session. 
+    (LP: #1776891) 
 
  -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
 
