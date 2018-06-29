@@ -1,0 +1,26 @@
+#!/bin/bash -ex
+# vi: ts=4 expandtab
+#
+# Generate the root directory/manifest for rootfs.tar.xz and squashfs
+
+if [ -n "$SUBARCH" ]; then
+    echo "Skipping rootfs build for subarch flavor build"
+    exit 0
+fi
+
+. config/functions
+
+rootfs_dir=rootfs.dir
+mkdir $rootfs_dir
+cp -a chroot/* $rootfs_dir
+
+setup_mountpoint $rootfs_dir
+
+env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get --purge remove --assume-yes '^linux-.*' 'linux-base+'
+env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get --purge remove --assume-yes '^grub-.*'
+env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get autoremove --purge --assume-yes
+rm -rf $rootfs_dir/boot/grub
+
+teardown_mountpoint $rootfs_dir
+
+dpkg-query --admindir=$rootfs_dir/var/lib/dpkg -W > $rootfs_dir.manifest

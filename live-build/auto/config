@@ -323,7 +323,7 @@ if ! [ -e config/germinate-output/structure ]; then
 fi
 
 case $PROJECT in
-        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|lubuntu-next|mythbuntu|ubuntu|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntukylin|ubuntustudio-dvd|xubuntu)
+        base|edubuntu|edubuntu-dvd|kubuntu|kubuntu-active|kubuntu-dvd|kubuntu-plasma5|lubuntu|mythbuntu|ubuntu|ubuntu-budgie|ubuntu-desktop-next|ubuntu-dvd|ubuntu-gnome|ubuntu-mate|ubuntu-netbook|ubuntukylin|ubuntustudio-dvd|xubuntu)
 		INITRAMFS_COMPRESSION="lzma"
 		;;
 esac
@@ -432,26 +432,6 @@ case $PROJECT in
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
 		esac
-
-		# The Lubuntu STRUCTURE file has "feature
-		# no-follow-recommends".  Mirror this.
-		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
-		;;
-
-	lubuntu-next)
-		add_task install minimal standard lubuntu-qt-desktop
-		LIVE_TASK='lubuntu-live-qt'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
-		COMPONENTS='main restricted universe multiverse'
-		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=generic ;;
-		esac
-
-		# The Lubuntu STRUCTURE file has "feature
-		# no-follow-recommends". Mirror this.
-		APT_OPTIONS="${APT_OPTIONS} --no-install-recommends"
 		;;
 
 	ubuntu-gnome)
@@ -620,16 +600,9 @@ case $PROJECT in
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo
-			# linux-kvm currently only exists in xenial, not in
-			# non-LTS suites.  Fall back to virtual flavor, which
-			# may or may not boot initramfsless but enables us to
-			# test building and possibly build derivative images
-			# using other kernel flavors.
-			# If you enable an extra ppa, it is assumed that
-			# linux-kvm is available since you control the
-			# archive and can provide this metapackage as
-			# necessary.
-			if [ "$ARCH" = "amd64" ] && ([ -n "$EXTRA_PPAS" ] || [ "$SUITE" = xenial ] || [ "$SUITE" = bionic ]); then
+			# linux-kvm currently only exists for amd64, so fall back to the
+			# virtual flavour for other architectures
+			if [ "$ARCH" = "amd64" ]; then
 				KERNEL_FLAVOURS=kvm
 			else
 				KERNEL_FLAVOURS=virtual
@@ -719,14 +692,8 @@ esac
 # we'll expand the base seed given here according to the STRUCTURE file, and
 # then look in all of the seeds found to see which snaps are seeded
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu:*|kubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
+	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
 		BASE_SEED='desktop'
-		;;
-	lubuntu-next:*)
-		BASE_SEED='desktop-qt'
-		;;
-	lubuntu:*)
-		BASE_SEED='desktop-gtk'
 		;;
 	ubuntu-server:live)
 		BASE_SEED='server'

@@ -21,7 +21,6 @@ ALL_TRIPLETS="
  kubuntu-dvd::
  kubuntu-plasma5::
  lubuntu::
- lubuntu-next::
  mythbuntu::
  ubuntu::
  ubuntu-base::

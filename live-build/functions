@@ -296,10 +296,9 @@ replace_grub_root_with_label() {
 divert_grub() {
 	CHROOT_ROOT="$1"
 
-	chroot "$CHROOT_ROOT" dpkg-divert --local \
-		--rename /usr/sbin/grub-probe
-	chroot "$CHROOT_ROOT" touch /usr/sbin/grub-probe
-	chroot "$CHROOT_ROOT" chmod +x /usr/sbin/grub-probe
+	# Don't divert all of grub-probe here; just the scripts we don't want
+	# running. Otherwise, you may be missing part-uuids for the search
+	# command, for example. ~cyphermox
 
 	chroot "$CHROOT_ROOT" dpkg-divert --local \
 		--divert /etc/grub.d/30_os-prober.dpkg-divert \
@@ -317,10 +316,6 @@ divert_grub() {
 
 undivert_grub() {
 	CHROOT_ROOT="$1"
-
-	chroot "$CHROOT_ROOT" rm /usr/sbin/grub-probe
-	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
-		--rename /usr/sbin/grub-probe
 
 	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
 		--divert /etc/grub.d/30_os-prober.dpkg-divert \

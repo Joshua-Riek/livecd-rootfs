@@ -1,8 +1,71 @@
-livecd-rootfs (2.526) UNRELEASED; urgency=medium
+livecd-rootfs (2.533) UNRELEASED; urgency=medium
 
+  [ Robert C Jennings ]
+  * ubuntu-cpc: Remove git-man for minimized images 
+
+  [ Colin Watson ]
   * Add a buildd subproject.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Thu, 26 Apr 2018 14:22:27 +0100
+ -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
+
+livecd-rootfs (2.532) cosmic; urgency=medium
+
+  * ubuntu-cpc: Generate the root image contents once, and use it for both the
+    -root.tar.xz and the .squashfs.
+
+ -- Daniel Watkins <oddbloke@ubuntu.com>  Thu, 07 Jun 2018 11:11:02 -0700
+
+livecd-rootfs (2.531) cosmic; urgency=medium
+
+  [ Daniel Watkins ]
+  * ubuntu-cpc: Use linux-kvm for all amd64 minimized builds (LP: #1775472).
+
+  [ Steve Langasek ]
+  * live-build/ubuntu-cpc/hooks/033-disk-image-uefi.binary: don't manually
+    install grub-efi-amd64 since that forces off grub-pc, which is otherwise
+    now coinstallable.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Jun 2018 17:34:07 -0700
+
+livecd-rootfs (2.530) cosmic; urgency=medium
+
+  * ubuntu-cpc: Reintroduce the -root.tar.xz artifact (LP: #1585233).
+
+ -- Daniel Watkins <oddbloke@ubuntu.com>  Wed, 06 Jun 2018 11:21:57 -0700
+
+livecd-rootfs (2.529) cosmic; urgency=medium
+
+  * Improvements to the ubuntu-base (i.e. Docker) build:
+    - Customize the unminimize script to not install ubuntu-minimal.
+    - Divert /usr/bin/man to a script that points to the unminimize script.
+    - Remove apt lists that are currently removed downstream anyway. 
+      (LP: #1699913)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Jun 2018 05:59:12 +1200
+
+livecd-rootfs (2.528) cosmic; urgency=medium
+
+  * Don't divert grub-probe; otherwise we're missing the filesystem UUIDs that
+    the grub search command needs to find the right prefix/root. This is
+    different than the PARTUUID for booting initrd-less.
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Mon, 28 May 2018 10:39:09 -0400
+
+livecd-rootfs (2.527) cosmic; urgency=medium
+
+  * Symlink systemd-networkd-wait-online to /bin/true in the live installer
+    live session to avoid depending on buggy systemd behaviour.
+  * Remove "optional: true" from installer netplan config.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 23 May 2018 14:27:01 +1200
+
+livecd-rootfs (2.526) cosmic; urgency=medium
+
+  * Drop Lubuntu Next now that Lubuntu Next is Lubuntu.
+  * Don't follow recommends on Lubuntu now that this is no longer the
+    case in the seed.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 03 May 2018 23:18:52 -0500
 
 livecd-rootfs (2.525) bionic; urgency=medium
 
