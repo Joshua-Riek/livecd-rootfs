@@ -695,17 +695,17 @@ case $SUBPROJECT in
 				add_package install pkg-create-dbgsym
 				# no longer needed in >= bionic
 				add_package install apt-transport-https
-				# no longer needed in >= CC
+				# no longer needed in >= cosmic
 				add_package install tzdata
 				;;
 			artful)
 				# no longer needed in >= bionic
 				add_package install apt-transport-https
-				# no longer needed in >= CC
+				# no longer needed in >= cosmic
 				add_package install tzdata
 				;;
 			bionic)
-				# no longer needed in >= CC
+				# no longer needed in >= cosmic
 				add_package install tzdata
 				;;
 		esac
