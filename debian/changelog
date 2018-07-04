@@ -1,11 +1,3 @@
-livecd-rootfs (2.534) bionic; urgency=medium
-
-  [ Francis Ginther ]
-  * Update unminimize script text and install ubuntu-standard when
-    unminimizing a minimal image (LP: #1778777)
-
--- Phil Roche <phil.roche@canonical.com>  Wed, 04 Jul 2018 15:44:15 +0100
-
 livecd-rootfs (2.533) UNRELEASED; urgency=medium
 
   [ Robert C Jennings ]
@@ -14,6 +6,10 @@ livecd-rootfs (2.533) UNRELEASED; urgency=medium
   [ Colin Watson ]
   * live-build/auto/config: Drop "lp-*" hostname filter for Launchpad
     builders, since LP #1747015 is now fixed; "*.buildd" should be enough.
+
+  [ Francis Ginther ]
+  * Update unminimize script text and install ubuntu-standard when
+    unminimizing a minimal image (LP: #1778777)
 
  -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 08 Jun 2018 10:10:53 -0700
 
