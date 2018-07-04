@@ -109,12 +109,16 @@ set -e
 echo "This system has been minimized by removing packages and content that are"
 echo "not required on a system that users do not log into."
 echo ""
-echo "This script restores the content and packages that are found on a default"
-echo "Ubuntu server system."
+echo "This script restores content and packages that are found on a default"
+echo "Ubuntu server system in order to make this system more suitable for"
+echo "interactive use."
 echo ""
 echo "Reinstallation of packages may fail due to changes to the system"
 echo "configuration, the presence of third-party packages, or for other"
 echo "reasons."
+echo ""
+echo "This operation may take some time."
+echo ""
 read -p "Would you like to continue? [y/N] " REPLY
 echo    # (optional) move to a new line
 if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]
@@ -167,7 +171,7 @@ EOF
 
 if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
     echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal ubuntu-standard
 fi
 
 if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/null | grep -q '^installed$' \
