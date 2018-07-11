@@ -2,6 +2,7 @@ livecd-rootfs (2.533) UNRELEASED; urgency=medium
 
   [ Robert C Jennings ]
   * ubuntu-cpc: Remove git-man for minimized images 
+  * Disable checksum generation
 
   [ Colin Watson ]
   * live-build/auto/config: Drop "lp-*" hostname filter for Launchpad
