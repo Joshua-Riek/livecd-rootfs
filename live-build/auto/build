@@ -268,9 +268,8 @@ EOF
 		rm -rf chroot/var/lib/apt/lists/*
 		# Having device notes in the docker image can cause problems
 		# (https://github.com/tianon/docker-brew-ubuntu-core/issues/62)
-		# so remove them.  We only do this for docker because the rootfs
-		# for system booting without initramfs needs a minimal /dev to
-		# get to the point of running udev.
+		# so remove them.  We only do this for docker out of an
+		# abundance of caution.
 		rm -rf chroot/dev/*
 	fi
 
