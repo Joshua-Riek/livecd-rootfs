@@ -490,7 +490,7 @@ for ISO in binary.iso binary.hybrid.iso; do
 done
 
 if [ -e "binary/$INITFS/filesystem.dir" ]; then
-	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/filesystem.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
@@ -527,7 +527,7 @@ EOF
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
-	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/custom.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
 	chmod 644 "$PREFIX.custom.tar.gz"
 fi
