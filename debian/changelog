@@ -1,3 +1,11 @@
+livecd-rootfs (2.534) UNRELEASED; urgency=medium
+
+  [ Michael Hudson-Doyle ]
+  * Disable journald rate limiting in the live-server live session.
+    (LP: #1776891)
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 01 Aug 2018 23:28:47 -0700
+
 livecd-rootfs (2.533) cosmic; urgency=medium
 
   [ Robert C Jennings ]
