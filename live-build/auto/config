@@ -151,6 +151,7 @@ case $IMAGEFORMAT in
 				#  by skipping lb_chroot_live-packages.
 				skip_lb_stage chroot_live-packages
 				INITRAMFS_TYPE=auto
+				PREINSTALLED=true
 				;;
 			*)
 				PREINSTALLED=true
