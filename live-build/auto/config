@@ -495,9 +495,11 @@ case $PROJECT in
 					amd64)	add_package live linux-signed-generic ;;
 				esac
 				;;
+                        *)
+                            PREINSTALL_POOL_SEEDS='server-ship'
+                            ;;
 		esac
 		COMPONENTS='main'
-		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
 	ubuntu-core)
@@ -695,6 +697,10 @@ export APT_OPTIONS
 if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
 	add_task live "$LIVE_TASK"
 fi
+if [ -n "$LIVE_TASK" ] && [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-server:live" ]; then
+	add_task live "$LIVE_TASK"
+fi
+
 
 case $PROJECT in
 	ubuntu-dvd)
