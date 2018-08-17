@@ -1,10 +1,9 @@
-livecd-rootfs (2.535~ppa3) cosmic; urgency=medium
+livecd-rootfs (2.535~ppa4) cosmic; urgency=medium
 
-  * Set PREINSTALLED=true for live-server so that universe ends up being
-    enabled in the image. But make sure PREINSTALLED_POOL_SEEDS is not set.
-    And that the LIVE_TASK gets installed.
+  * Disentangle enabling universe in the final image a little from having
+    PREINSTALLED=true set and enable it for a live-server build.
 
- -- Michael Hudson-Doyle <mwhudson@debian.org>  Thu, 16 Aug 2018 21:28:00 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 16 Aug 2018 21:28:00 +1200
 
 livecd-rootfs (2.534) cosmic; urgency=medium
 
