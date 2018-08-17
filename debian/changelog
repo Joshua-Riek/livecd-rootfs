@@ -1,4 +1,4 @@
-livecd-rootfs (2.535~ppa4) cosmic; urgency=medium
+livecd-rootfs (2.535) UNRELEASED; urgency=medium
 
   * Disentangle enabling universe in the final image a little from having
     PREINSTALLED=true set and enable it for a live-server build.
