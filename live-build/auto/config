@@ -151,7 +151,7 @@ case $IMAGEFORMAT in
 				#  by skipping lb_chroot_live-packages.
 				skip_lb_stage chroot_live-packages
 				INITRAMFS_TYPE=auto
-				PREINSTALLED=true
+	                        touch config/universe-enabled
 				;;
 			*)
 				PREINSTALLED=true
@@ -214,9 +214,9 @@ case $IMAGEFORMAT in
 esac
 
 if [ "$PREINSTALLED" = "true" ]; then
-	# This is an oem-config preinstalled image, touch a random file that
-	# we can refer back to during build, cause that's wildly hackish
-	touch config/oem-config-preinstalled
+	# Touch a random file that we can refer back to during build,
+	# cause that's wildly hackish
+	touch config/universe-enabled
 	case $PROJECT in
 		kubuntu*)
 			add_package live oem-config-kde ubiquity-frontend-kde
@@ -495,10 +495,8 @@ case $PROJECT in
 					amd64)	add_package live linux-signed-generic ;;
 				esac
 				;;
-                        *)
-                            PREINSTALL_POOL_SEEDS='server-ship'
-                            ;;
 		esac
+                PREINSTALL_POOL_SEEDS='server-ship'
 		COMPONENTS='main'
 		;;
 
@@ -697,10 +695,6 @@ export APT_OPTIONS
 if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
 	add_task live "$LIVE_TASK"
 fi
-if [ -n "$LIVE_TASK" ] && [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-server:live" ]; then
-	add_task live "$LIVE_TASK"
-fi
-
 
 case $PROJECT in
 	ubuntu-dvd)
