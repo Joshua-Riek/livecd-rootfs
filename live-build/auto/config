@@ -496,8 +496,8 @@ case $PROJECT in
 				esac
 				;;
 		esac
-                PREINSTALL_POOL_SEEDS='server-ship'
 		COMPONENTS='main'
+		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
 	ubuntu-core)
