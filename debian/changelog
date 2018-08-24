@@ -1,3 +1,11 @@
+livecd-rootfs (2.535) UNRELEASED; urgency=medium
+
+  * Disentangle enabling universe in the final image a little from having
+    PREINSTALLED=true set and enable it for a live-server build.
+    (LP: #1783129)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 16 Aug 2018 21:28:00 +1200
+
 livecd-rootfs (2.534) cosmic; urgency=medium
 
   [ Michael Hudson-Doyle ]

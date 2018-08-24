@@ -268,7 +268,7 @@ EOF
 		rm -rf chroot/var/lib/apt/lists/*
 	fi
 
-	if [ -f config/oem-config-preinstalled ]; then
+	if [ -f config/universe-enabled ]; then
 
 # This is cargo-culted almost verbatim (with some syntax changes for
 # preinstalled being slightly different in what it doesn't ask) from
