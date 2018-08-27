@@ -1,3 +1,10 @@
+livecd-rootfs (2.536) UNRELEASED; urgency=medium
+
+  * Fix live-server journald config snippet to actually disable journald rate
+    limiting.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 28 Aug 2018 10:54:38 +1200
+
 livecd-rootfs (2.535) cosmic; urgency=medium
 
   * Disentangle enabling universe in the final image a little from having
