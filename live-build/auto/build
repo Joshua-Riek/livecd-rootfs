@@ -555,7 +555,7 @@ case $PROJECT:${SUBPROJECT:-} in
     if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
       case $ARCH in
           armhf)
-            subarches="generic raspi2"
+            subarches="generic raspi2 raspi3"
             ;;
           arm64)
             subarches="generic dragonboard"
@@ -592,6 +592,8 @@ case $PROJECT:${SUBPROJECT:-} in
               ;;
             armhf)
               if [ "$devarch" = "raspi2" ]; then
+                  linux_package="linux-image-raspi2"
+              elif [ "$devarch" = "raspi3" ]; then
                   linux_package="linux-image-raspi2"
               fi
               ;;
@@ -660,7 +662,7 @@ case $PROJECT:${SUBPROJECT:-} in
         if [ -n "$dtbs" ]; then
            mv "$dtbs" $TMPDIR/assets/dtbs
            case $devarch in
-               raspi2)
+               raspi2|raspi3)
                    # ubuntu-device-flash does not like subdirs here, we need to tar it up
                    if [ -e $TMPDIR/assets/dtbs/overlays ]; then
                        tar -C $TMPDIR/assets/dtbs -f $TMPDIR/assets/dtbs/overlays.tgz -czv overlays
@@ -707,6 +709,9 @@ EOF
         if [ "$devarch" = "raspi2" ];then
             tarname="raspi2.$tarname"
             manifestname="$devarch.$manifestname"
+        elif [ "$devarch" = "raspi3" ];then
+            tarname="raspi3.$tarname"
+            manifestname="$devarch.$manifestname"
         elif [ "$devarch" = "dragonboard" ];then
             tarname="$devarch.$tarname"
             manifestname="$devarch.$manifestname"
@@ -735,6 +740,9 @@ EOF
 
         if [ "$devarch" = "raspi2" ];then
             metaname=canonical-pi2-linux
+            snapname="$devarch.kernel.snap"
+        elif [ "$devarch" = "raspi3" ];then
+            metaname=canonical-pi3-linux
             snapname="$devarch.kernel.snap"
         elif [ "$devarch" = "generic" ] && [ "$ARCH" = "armhf" ];then
             metaname=canonical-bbb-linux
@@ -845,36 +853,46 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	fi
 fi
 
-if [ "$SUBARCH" = "ac100" ]; then
-	# create the md5sum and size files for which we are actually doing all this
-	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
-	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
+case $SUBARCH in
+	ac100)
+		# create the md5sum and size files for which we are actually doing all this
+		md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
+		wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
+	
+		INFO_DESC="$(lsb_release -d -s)"
+		INFO_STAMP=$(date +20%y%m%d-%H:%M)
+	
+		echo "$INFO_DESC - $ARCH ($INFO_STAMP)" >chroot/media-info
+	
+		# make sure update-initramfs feels cosy and warm in the environment
+		lb chroot_proc install "$@"
+		lb chroot_sysfs install "$@"
+		lb chroot_devpts install "$@"
+	
+		# re-create initrd to contain the installer.md5 file
+		Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
+	
+		# create boot.img
+		Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
+	
+		# clean up
+		lb chroot_devpts remove "$@"
+		lb chroot_sysfs remove "$@"
+		lb chroot_proc remove "$@"
+	
+		cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
+		ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
+		;;
 
-	INFO_DESC="$(lsb_release -d -s)"
-	INFO_STAMP=$(date +20%y%m%d-%H:%M)
+	raspi2|raspi3)
+		UBOOT_BOOT="image/boot/uboot"
 
-	echo "$INFO_DESC - $ARCH ($INFO_STAMP)" >chroot/media-info
+		mkdir -p $UBOOT_BOOT
 
-	# make sure update-initramfs feels cosy and warm in the environment
-	lb chroot_proc install "$@"
-	lb chroot_sysfs install "$@"
-	lb chroot_devpts install "$@"
-
-	# re-create initrd to contain the installer.md5 file
-	Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
-
-	# create boot.img
-	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
-
-	# clean up
-	lb chroot_devpts remove "$@"
-	lb chroot_sysfs remove "$@"
-	lb chroot_proc remove "$@"
-
-	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
-	ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
-
-fi
+		cp $PREFIX.initrd $UBOOT_BOOT/initrd.img || true
+		cp $PREFIX.kernel $UBOOT_BOOT/vmlinuz || true
+		;;
+esac
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
 	sourceslist="chroot/etc/apt/sources.list"
