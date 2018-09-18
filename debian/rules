@@ -7,7 +7,7 @@ DEB_HOST_MULTIARCH := $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 override_dh_auto_test:
 	dh_auto_test
 	set -e; for x in live-build/auto/*; do \
-		echo "$$x" | grep -q .py || sh -n "$$x"; \
+		sh -n "$$x"; \
 	done
 
 override_dh_install:
