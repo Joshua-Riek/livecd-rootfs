@@ -445,6 +445,8 @@ EOF
 	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
 	echo END docdirs
 
+	live-build/auto/minimize-manual.py chroot
+
 	lb binary "$@"
 	touch binary.success
 ) 2>&1 | tee binary.log

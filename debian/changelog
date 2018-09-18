@@ -1,3 +1,10 @@
+livecd-rootfs (2.536ubuntu1) UNRELEASED; urgency=medium
+
+  * Minimize the number of manually installed packages in images by marking
+    dependencies of metapackages as automatically installed.
+
+ -- Julian Andres Klode <juliank@ubuntu.com>  Tue, 18 Sep 2018 08:55:04 +0200
+
 livecd-rootfs (2.536) cosmic; urgency=medium
 
   * Fix live-server journald config snippet to actually disable journald rate
