@@ -7,9 +7,7 @@ network:
             match:
                 name: "en*"
             dhcp4: true
-            optional: true
         all-eth:
             match:
                 name: "eth*"
             dhcp4: true
-            optional: true

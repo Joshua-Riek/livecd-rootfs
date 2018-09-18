@@ -1,0 +1,29 @@
+#!/bin/bash -ex
+# vi: ts=4 noexpandtab
+#
+# Generate a squashfs root and manifest
+
+case $IMAGE_TARGETS in
+	""|*squashfs*)
+		;;
+	*)
+		echo "Skipping squashfs build"
+		exit 0
+		;;
+esac
+
+if [ -n "$SUBARCH" ]; then
+	echo "Skipping rootfs build for subarch flavor build"
+	exit 0
+fi
+
+# This is the directory created by 031-0-create-root-dir.binary
+rootfs_dir=rootfs.dir
+
+squashfs_f="$PWD/livecd.ubuntu-cpc.squashfs"
+
+cp $rootfs_dir.manifest $squashfs_f.manifest
+
+(cd $rootfs_dir &&
+      mksquashfs . $squashfs_f \
+        -no-progress -xattrs -comp xz )
