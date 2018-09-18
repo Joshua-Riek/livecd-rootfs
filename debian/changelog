@@ -1,4 +1,4 @@
-livecd-rootfs (2.536ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.537) UNRELEASED; urgency=medium
 
   * Minimize the number of manually installed packages in images by marking
     dependencies of metapackages as automatically installed.
