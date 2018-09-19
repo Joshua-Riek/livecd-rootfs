@@ -497,6 +497,16 @@ if [ -e "binary/$INITFS/filesystem.dir" ]; then
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
+elif [ "$SUBPROJECT" = buildd ]; then
+	# A few things (launchpad-buildd, sbuild-launchpad-chroot) rely on
+	# the top-level directory being "chroot-autobuild", so we have to do
+	# this ourselves.
+	# gzip was chosen for fastest decompression speed: it decompresses
+	# buildd chroots about twice as fast as xz and about five times as
+	# fast as bzip2.
+	tar --transform='s,^binary,chroot-autobuild,' \
+		--sort=name --numeric-owner --xattrs \
+		-czf "$PREFIX.rootfs.tar.gz" binary
 fi
 
 if [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-core:system-image" ]; then

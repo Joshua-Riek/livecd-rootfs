@@ -1,0 +1,3 @@
+# Avoid unnecessary manual page database builds (see
+# https://bugs.debian.org/554914).
+man-db man-db/auto-update boolean false
