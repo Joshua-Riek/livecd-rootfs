@@ -1,8 +1,8 @@
-livecd-rootfs (2.538) UNRELEASED; urgency=medium
+livecd-rootfs (2.538) cosmic; urgency=medium
 
   * Add a buildd subproject.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 19 Sep 2018 16:19:58 +0200
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 19 Sep 2018 16:35:54 +0200
 
 livecd-rootfs (2.537) cosmic; urgency=medium
 
