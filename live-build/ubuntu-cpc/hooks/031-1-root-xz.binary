@@ -12,4 +12,4 @@ fi
 rootfs_dir=rootfs.dir
 
 cp $rootfs_dir.manifest livecd.ubuntu-cpc.rootfs.manifest
-(cd $rootfs_dir/ && tar -c *) | xz > livecd.ubuntu-cpc.rootfs.tar.xz
+(cd $rootfs_dir/ && tar -c --xattrs *) | xz > livecd.ubuntu-cpc.rootfs.tar.xz

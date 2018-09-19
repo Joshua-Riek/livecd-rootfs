@@ -109,12 +109,16 @@ set -e
 echo "This system has been minimized by removing packages and content that are"
 echo "not required on a system that users do not log into."
 echo ""
-echo "This script restores the content and packages that are found on a default"
-echo "Ubuntu server system."
+echo "This script restores content and packages that are found on a default"
+echo "Ubuntu server system in order to make this system more suitable for"
+echo "interactive use."
 echo ""
 echo "Reinstallation of packages may fail due to changes to the system"
 echo "configuration, the presence of third-party packages, or for other"
 echo "reasons."
+echo ""
+echo "This operation may take some time."
+echo ""
 read -p "Would you like to continue? [y/N] " REPLY
 echo    # (optional) move to a new line
 if [ "$REPLY" != "y" ] && [ "$REPLY" != "Y" ]
@@ -167,7 +171,7 @@ EOF
 
 if ! dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-minimal 2> /dev/null | grep -q '^installed$'; then
     echo "Installing ubuntu-minimal package to provide the familiar Ubuntu minimal system..."
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal ubuntu-standard
 fi
 
 if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/null | grep -q '^installed$' \
@@ -264,7 +268,7 @@ EOF
 		rm -rf chroot/var/lib/apt/lists/*
 	fi
 
-	if [ -f config/oem-config-preinstalled ]; then
+	if [ -f config/universe-enabled ]; then
 
 # This is cargo-culted almost verbatim (with some syntax changes for
 # preinstalled being slightly different in what it doesn't ask) from
@@ -441,6 +445,8 @@ EOF
 	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
 	echo END docdirs
 
+	/usr/share/livecd-rootfs/minimize-manual chroot
+
 	lb binary "$@"
 	touch binary.success
 ) 2>&1 | tee binary.log
@@ -486,7 +492,7 @@ for ISO in binary.iso binary.hybrid.iso; do
 done
 
 if [ -e "binary/$INITFS/filesystem.dir" ]; then
-	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/filesystem.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
@@ -533,7 +539,7 @@ EOF
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
-	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/custom.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
 	chmod 644 "$PREFIX.custom.tar.gz"
 fi

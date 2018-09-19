@@ -17,7 +17,7 @@ if [ -z "$MIRROR" ]; then
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
-		*.buildd|lp-*)		MIRROR=http://ftpmaster.internal/ubuntu/
+		*.buildd)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
 		*.ppa|*.scalingstack)	MIRROR=http://ftpmaster.internal/ubuntu/
@@ -151,6 +151,7 @@ case $IMAGEFORMAT in
 				#  by skipping lb_chroot_live-packages.
 				skip_lb_stage chroot_live-packages
 				INITRAMFS_TYPE=auto
+	                        touch config/universe-enabled
 				;;
 			*)
 				PREINSTALLED=true
@@ -213,9 +214,9 @@ case $IMAGEFORMAT in
 esac
 
 if [ "$PREINSTALLED" = "true" ]; then
-	# This is an oem-config preinstalled image, touch a random file that
-	# we can refer back to during build, cause that's wildly hackish
-	touch config/oem-config-preinstalled
+	# Touch a random file that we can refer back to during build,
+	# cause that's wildly hackish
+	touch config/universe-enabled
 	case $PROJECT in
 		kubuntu*)
 			add_package live oem-config-kde ubiquity-frontend-kde
@@ -843,6 +844,7 @@ lb config noauto \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
 	${INITRAMFS_COMPRESSION:+--initramfs-compression "$INITRAMFS_COMPRESSION"} \
+	--checksums none \
 	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
