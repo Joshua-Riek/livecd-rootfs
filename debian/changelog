@@ -1,3 +1,10 @@
+livecd-rootfs (2.540) cosmic; urgency=medium
+
+  * Ensure /lib/modules exists in root tarballs and sqashfs.
+    (LP: #1792905)
+
+ -- Tobias Koch <tobias.koch@canonical.com>  Thu, 20 Sep 2018 09:38:34 +0200
+
 livecd-rootfs (2.539) cosmic; urgency=medium
 
   * Stop building buildd chroots with --xattrs until we move to python3.
