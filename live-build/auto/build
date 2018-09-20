@@ -505,7 +505,7 @@ elif [ "$SUBPROJECT" = buildd ]; then
 	# buildd chroots about twice as fast as xz and about five times as
 	# fast as bzip2.
 	tar --transform='s,^binary,chroot-autobuild,' \
-		--sort=name --numeric-owner --xattrs \
+		--sort=name --numeric-owner \
 		-czf "$PREFIX.rootfs.tar.gz" binary
 fi
 

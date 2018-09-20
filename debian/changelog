@@ -1,3 +1,9 @@
+livecd-rootfs (2.539) cosmic; urgency=medium
+
+  * Stop building buildd chroots with --xattrs until we move to python3.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 20 Sep 2018 02:52:10 -0600
+
 livecd-rootfs (2.538) cosmic; urgency=medium
 
   * Add a buildd subproject.
