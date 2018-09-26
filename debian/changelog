@@ -1,3 +1,9 @@
+livecd-rootfs (2.541) UNRELEASED; urgency=medium
+
+  * Remove device nodes from Docker images. (LP: #1645468) 
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Wed, 26 Sep 2018 12:43:23 +1200
+
 livecd-rootfs (2.540) cosmic; urgency=medium
 
   * Ensure /lib/modules exists in root tarballs and sqashfs.
@@ -63,9 +69,6 @@ livecd-rootfs (2.533) cosmic; urgency=medium
   [ Francis Ginther ]
   * Update unminimize script text and install ubuntu-standard when
     unminimizing a minimal image (LP: #1778777)
-
-  [ Michael Hudson-Doyle ]
-  * Remove device nodes from Docker images. (LP: #1645468) 
 
  -- Adam Conrad <adconrad@ubuntu.com>  Wed, 18 Jul 2018 11:06:54 -0600
 
