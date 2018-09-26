@@ -266,6 +266,11 @@ EOF
 		# Save even more size by removing apt lists (that are currently removed
 		# downstream anyway)
 		rm -rf chroot/var/lib/apt/lists/*
+		# Having device notes in the docker image can cause problems
+		# (https://github.com/tianon/docker-brew-ubuntu-core/issues/62)
+		# so remove them.  We only do this for docker out of an
+		# abundance of caution.
+		rm -rf chroot/dev/*
 	fi
 
 	if [ -f config/universe-enabled ]; then
