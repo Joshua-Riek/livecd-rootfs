@@ -21,6 +21,9 @@ env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get --purge remove --a
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get autoremove --purge --assume-yes
 rm -rf $rootfs_dir/boot/grub
 
+# Keep this as some derivatives mount a tempfs here
+mkdir -p $rootfs_dir/lib/modules
+
 teardown_mountpoint $rootfs_dir
 
 dpkg-query --admindir=$rootfs_dir/var/lib/dpkg -W > $rootfs_dir.manifest

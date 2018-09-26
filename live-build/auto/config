@@ -151,6 +151,7 @@ case $IMAGEFORMAT in
 				#  by skipping lb_chroot_live-packages.
 				skip_lb_stage chroot_live-packages
 				INITRAMFS_TYPE=auto
+	                        touch config/universe-enabled
 				;;
 			*)
 				PREINSTALLED=true
@@ -213,9 +214,9 @@ case $IMAGEFORMAT in
 esac
 
 if [ "$PREINSTALLED" = "true" ]; then
-	# This is an oem-config preinstalled image, touch a random file that
-	# we can refer back to during build, cause that's wildly hackish
-	touch config/oem-config-preinstalled
+	# Touch a random file that we can refer back to during build,
+	# cause that's wildly hackish
+	touch config/universe-enabled
 	case $PROJECT in
 		kubuntu*)
 			add_package live oem-config-kde ubiquity-frontend-kde
@@ -641,6 +642,54 @@ case $PROJECT in
 		;;
 esac
 
+case $SUBPROJECT in
+	buildd)
+		OPTS="${OPTS:+$OPTS }--archive-areas main"
+		COMPONENTS='main restricted universe multiverse'
+		OPTS="${OPTS:+$OPTS }--apt-recommends false"
+		OPTS="${OPTS:+$OPTS }--apt-secure false"
+		OPTS="${OPTS:+$OPTS }--parent-mirror-binary ${MIRROR}"
+		# XXX cjwatson 2018-04-27: We need to work out how to make
+		# this conditional so that we can do things like building
+		# buildd chroots with -updates.  This probably involves
+		# either extending the PROPOSED hack or fixing the strange
+		# way that SUITE is in fact a series; in either case it's
+		# likely to involve work both here and in launchpad-buildd.
+		OPTS="${OPTS:+$OPTS }--security false --volatile false"
+
+		add_package install adduser
+		add_package install policyrcd-script-zg2
+		add_package install pkgbinarymangler
+		add_package install ca-certificates
+		add_package install gpg
+		add_package install gpg-agent
+		case $SUITE in
+			precise|trusty|xenial)
+				# no longer needed in >= artful
+				add_package install pkg-create-dbgsym
+				# no longer needed in >= bionic
+				add_package install apt-transport-https
+				# no longer needed in >= cosmic
+				add_package install tzdata
+				;;
+			artful)
+				# no longer needed in >= bionic
+				add_package install apt-transport-https
+				# no longer needed in >= cosmic
+				add_package install tzdata
+				;;
+			bionic)
+				# no longer needed in >= cosmic
+				add_package install tzdata
+				;;
+		esac
+		add_package install fakeroot
+		add_package install build-essential
+		# Needed for LXD-based builds.
+		add_package install init
+		;;
+esac
+
 # we'll expand the base seed given here according to the STRUCTURE file, and
 # then look in all of the seeds found to see which snaps are seeded
 case $PROJECT:${SUBPROJECT:-} in
@@ -795,6 +844,7 @@ lb config noauto \
 	--initsystem none \
 	--bootloader "$BOOTLOADER" \
 	${INITRAMFS_COMPRESSION:+--initramfs-compression "$INITRAMFS_COMPRESSION"} \
+	--checksums none \
 	--cache false \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
@@ -941,6 +991,12 @@ EOF
 		if [ "$IMAGEFORMAT" = none ]; then
 			rm -f config/hooks/*.binary*
 		fi
+		;;
+esac
+
+case $SUBPROJECT in
+	buildd)
+		cp -af /usr/share/livecd-rootfs/live-build/buildd/* config/
 		;;
 esac
 

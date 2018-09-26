@@ -273,7 +273,7 @@ EOF
 		rm -rf chroot/dev/*
 	fi
 
-	if [ -f config/oem-config-preinstalled ]; then
+	if [ -f config/universe-enabled ]; then
 
 # This is cargo-culted almost verbatim (with some syntax changes for
 # preinstalled being slightly different in what it doesn't ask) from
@@ -450,6 +450,8 @@ EOF
 	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
 	echo END docdirs
 
+	/usr/share/livecd-rootfs/minimize-manual chroot
+
 	lb binary "$@"
 	touch binary.success
 ) 2>&1 | tee binary.log
@@ -495,11 +497,21 @@ for ISO in binary.iso binary.hybrid.iso; do
 done
 
 if [ -e "binary/$INITFS/filesystem.dir" ]; then
-	(cd "binary/$INITFS/filesystem.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/filesystem.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
+elif [ "$SUBPROJECT" = buildd ]; then
+	# A few things (launchpad-buildd, sbuild-launchpad-chroot) rely on
+	# the top-level directory being "chroot-autobuild", so we have to do
+	# this ourselves.
+	# gzip was chosen for fastest decompression speed: it decompresses
+	# buildd chroots about twice as fast as xz and about five times as
+	# fast as bzip2.
+	tar --transform='s,^binary,chroot-autobuild,' \
+		--sort=name --numeric-owner \
+		-czf "$PREFIX.rootfs.tar.gz" binary
 fi
 
 if [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-core:system-image" ]; then
@@ -532,7 +544,7 @@ EOF
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
-	(cd "binary/$INITFS/custom.dir/" && tar -c *) | \
+	(cd "binary/$INITFS/custom.dir/" && tar -c --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
 	chmod 644 "$PREFIX.custom.tar.gz"
 fi
