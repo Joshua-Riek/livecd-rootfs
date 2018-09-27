@@ -432,17 +432,10 @@ snap_prepare_assertions() {
     if [ -e "$model_assertion" ] ; then
         existing_model=$(sed -n 's/^model: \(.*\)$/\1/p' $model_assertion)
         existing_brand=$(sed -n 's/^brand-id: \(.*\)$/\1/p' $model_assertion)
-        if [ "$existing_model" == "generic-classic" ] &&
-           [ "$existing_brand" == "generic" ] &&
-           ( [ "$existing_model" != "$model" ] ||
-             [ "$existing_brand" != "$brand" ] ); then
-            echo "snap_prepare_assertions: clearing $existing_brand:$existing_model for $brand:$model"
-            rm "$model_assertion"
-            rm "$account_key_assertion"
-            rm "$account_assertion"
-       else
-           echo "snap_prepare_assertions: not replacing $existing_brand:$existing_model with $brand:$model"
-       fi
+        echo "snap_prepare_assertions: replacing $existing_brand:$existing_model with $brand:$model"
+        rm "$model_assertion"
+        rm "$account_key_assertion"
+        rm "$account_assertion"
     fi
 
     if ! [ -e "$model_assertion" ] ; then
@@ -486,13 +479,12 @@ snap_prepare() {
 }
 
 snap_preseed() {
-    # Preseed a snap in the image
+    # Preseed a snap in the image (snap_prepare must be called once prior)
     local CHROOT_ROOT=$1
     local SNAP=$2
     # Per Ubuntu policy, all seeded snaps (with the exception of the core
     # snap) must pull from stable/ubuntu-$(release_ver) as their channel.
     local CHANNEL=${3:-"stable/ubuntu-$(release_ver)"}
 
-    snap_prepare $CHROOT_ROOT
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
 }
