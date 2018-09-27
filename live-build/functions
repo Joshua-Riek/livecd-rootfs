@@ -427,6 +427,22 @@ snap_prepare_assertions() {
     local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
     local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
 
+    # Clear the assertions if a hook wants to prepare a new
+    # assertion that isn't the default generic:generic-classic
+    if [ -e "$model_assertion" ] ; then
+        existing_model=$(sed -n 's/^model: \(.*\)$/\1/p' $model_assertion)
+        existing_brand=$(sed -n 's/^brand-id: \(.*\)$/\1/p' $model_assertion)
+        if [ "$existing_model" == "generic-classic" ] &&
+           [ "$existing_brand" == "generic" ] &&
+           ( [ "$existing_model" != "$model" ] ||
+             [ "$existing_brand" != "$brand" ] ); then
+            echo "snap_prepare_assertions: clearing $existing_brand:$existing_model for $brand:$model"
+            rm "$model_assertion"
+            rm "$account_key_assertion"
+            rm "$account_assertion"
+       fi
+    fi
+
     if ! [ -e "$model_assertion" ] ; then
         snap known --remote model series=16 \
             model=$model brand-id=$brand \
