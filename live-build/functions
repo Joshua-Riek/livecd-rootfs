@@ -427,6 +427,16 @@ snap_prepare_assertions() {
     local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
     local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
 
+    # Clear the assertions if they already exist
+    if [ -e "$model_assertion" ] ; then
+        existing_model=$(awk '/^model: / {print $2}' $model_assertion)
+        existing_brand=$(awk '/^brand-id: / {print $2}' $model_assertion)
+        echo "snap_prepare_assertions: replacing $existing_brand:$existing_model with $brand:$model"
+        rm "$model_assertion"
+        rm "$account_key_assertion"
+        rm "$account_assertion"
+    fi
+
     if ! [ -e "$model_assertion" ] ; then
         snap known --remote model series=16 \
             model=$model brand-id=$brand \
@@ -440,7 +450,6 @@ snap_prepare_assertions() {
             public-key-sha3-384="$account_key" \
             > "$account_key_assertion"
     fi
-
 
     if ! [ -e "$account_assertion" ] ; then
         local account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
@@ -468,13 +477,16 @@ snap_prepare() {
 }
 
 snap_preseed() {
-    # Preseed a snap in the image
+    # Preseed a snap in the image (snap_prepare must be called once prior)
     local CHROOT_ROOT=$1
     local SNAP=$2
     # Per Ubuntu policy, all seeded snaps (with the exception of the core
     # snap) must pull from stable/ubuntu-$(release_ver) as their channel.
     local CHANNEL=${3:-"stable/ubuntu-$(release_ver)"}
 
-    snap_prepare $CHROOT_ROOT
+    if [ ! -e "$CHROOT_ROOT/var/lib/snapd/seed/assertions/model" ]; then
+        echo "ERROR: Snap model assertion not present, snap_prepare must be called"
+        exit 1
+    fi
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
 }

@@ -696,6 +696,9 @@ case $PROJECT:${SUBPROJECT:-} in
 	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
 		BASE_SEED='desktop'
 		;;
+	ubuntu-cpc:*)
+		BASE_SEED='server'
+		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
 		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
