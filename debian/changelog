@@ -1,12 +1,13 @@
-livecd-rootfs (2.541) UNRELEASED; urgency=medium
+livecd-rootfs (2.541) cosmic; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Remove device nodes from Docker images. (LP: #1645468) 
 
   [ Robert C Jennings ]
   * Add the server snap seed to the ubuntu-cpc project
   * Allow hooks to replace generic snap assertion
 
- -- Michael Hudson-Doyle <mwhudson@debian.org>  Wed, 26 Sep 2018 12:43:23 +1200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 27 Sep 2018 15:21:49 -0700
 
 livecd-rootfs (2.540) cosmic; urgency=medium
 
