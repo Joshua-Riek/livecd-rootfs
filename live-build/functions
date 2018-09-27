@@ -440,6 +440,8 @@ snap_prepare_assertions() {
             rm "$model_assertion"
             rm "$account_key_assertion"
             rm "$account_assertion"
+       else
+           echo "snap_prepare_assertions: not replacing $existing_brand:$existing_model with $brand:$model"
        fi
     fi
 
