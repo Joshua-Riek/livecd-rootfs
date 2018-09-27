@@ -427,8 +427,7 @@ snap_prepare_assertions() {
     local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
     local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
 
-    # Clear the assertions if a hook wants to prepare a new
-    # assertion that isn't the default generic:generic-classic
+    # Clear the assertions if they already exist
     if [ -e "$model_assertion" ] ; then
         existing_model=$(sed -n 's/^model: \(.*\)$/\1/p' $model_assertion)
         existing_brand=$(sed -n 's/^brand-id: \(.*\)$/\1/p' $model_assertion)
@@ -451,7 +450,6 @@ snap_prepare_assertions() {
             public-key-sha3-384="$account_key" \
             > "$account_key_assertion"
     fi
-
 
     if ! [ -e "$account_assertion" ] ; then
         local account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
@@ -486,5 +484,9 @@ snap_preseed() {
     # snap) must pull from stable/ubuntu-$(release_ver) as their channel.
     local CHANNEL=${3:-"stable/ubuntu-$(release_ver)"}
 
+    if [ ! -e "$CHROOT_ROOT/var/lib/snapd/seed/assertions/model" ]; then
+        echo "ERROR: Snap model assertion not present, snap_prepare must be called"
+        exit 1
+    fi
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
 }
