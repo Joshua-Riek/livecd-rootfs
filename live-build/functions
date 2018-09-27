@@ -429,8 +429,8 @@ snap_prepare_assertions() {
 
     # Clear the assertions if they already exist
     if [ -e "$model_assertion" ] ; then
-        existing_model=$(sed -n 's/^model: \(.*\)$/\1/p' $model_assertion)
-        existing_brand=$(sed -n 's/^brand-id: \(.*\)$/\1/p' $model_assertion)
+        existing_model=$(awk '/^model: / {print $2}' $model_assertion)
+        existing_brand=$(awk '/^brand-id: / {print $2}' $model_assertion)
         echo "snap_prepare_assertions: replacing $existing_brand:$existing_model with $brand:$model"
         rm "$model_assertion"
         rm "$account_key_assertion"
