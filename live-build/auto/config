@@ -185,11 +185,17 @@ case $IMAGEFORMAT in
 			*)
 				UBUNTU_IMAGE_ARGS="" ;;
 		esac
+		case $SUITE in
+			xenial)
+				CORE_SERIES=16 ;;
+			*)
+				CORE_SERIES=18 ;;
+		esac
 
 		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 		echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
 		# Store model assertion in top dir to get it picked up later as a build artifact
-		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
+		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=$CORE_SERIES model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
 		echo "Configured ubuntu-image for the following model assertion:"
 		cat "$PREFIX".model-assertion
 		echo "----------------------------------------------------------"
