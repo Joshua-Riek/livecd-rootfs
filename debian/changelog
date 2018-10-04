@@ -1,3 +1,13 @@
+livecd-rootfs (2.542) UNRELEASED; urgency=medium
+
+  * Unconditionally set GRUB_FORCE_PARTUUID in cloud images; as of version
+    2.02+dfsg1-5ubuntu5 grub will automatically fall back to booting with an
+    initrd if one is available, so we can now always attempt initramfsless
+    boot for cloud images which almost always works and causes only minimal
+    increase in boot speed for cases where it does not.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 03 Oct 2018 17:13:46 -0700
+
 livecd-rootfs (2.541) cosmic; urgency=medium
 
   [ Michael Hudson-Doyle ]
