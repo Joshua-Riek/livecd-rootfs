@@ -191,7 +191,7 @@ case $IMAGEFORMAT in
 				;;
 			*)
 				# Ubuntu Core 18
-				MODEL="ubuntu-core-18-$MODEL" ;;
+				MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
 		esac
 
 		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
