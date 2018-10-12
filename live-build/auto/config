@@ -185,6 +185,14 @@ case $IMAGEFORMAT in
 			*)
 				UBUNTU_IMAGE_ARGS="" ;;
 		esac
+		case $SUITE in
+			xenial)
+				# Ubuntu Core 16
+				;;
+			*)
+				# Ubuntu Core 18
+				MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
+		esac
 
 		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 		echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
