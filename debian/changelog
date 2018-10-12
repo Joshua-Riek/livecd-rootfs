@@ -1,4 +1,4 @@
-livecd-rootfs (2.542) UNRELEASED; urgency=medium
+livecd-rootfs (2.542) cosmic; urgency=medium
 
   * Decide what model assertion series to fetch depending on the suite. Use 16
     for xenial and 18 for other series (bionic+). This enables core18 image
