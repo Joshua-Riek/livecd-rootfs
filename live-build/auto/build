@@ -848,13 +848,13 @@ done
 NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
 if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	# only one kernel flavour
-	if [ -e "binary/$INITFS/vmlinuz" ]; then
+	if [ -e "binary/$INITFS/vmlinuz" -a ! -h "binary/$INITFS/vmlinuz" ]; then
 		ln "binary/$INITFS/vmlinuz" "$PREFIX.kernel"
 		chmod 644 "$PREFIX.kernel"
 	else
 		ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
 	fi
-	if [ -e "binary/$INITFS/initrd.lz" ]; then
+	if [ -e "binary/$INITFS/initrd.lz" -a ! -h "binary/$INITFS/initrd.lz" ]; then
 		ln "binary/$INITFS/initrd.lz" "$PREFIX.initrd"
 		chmod 644 "$PREFIX.initrd"
 	else

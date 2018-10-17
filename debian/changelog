@@ -1,3 +1,10 @@
+livecd-rootfs (2.543) UNRELEASED; urgency=medium
+
+  * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
+    dangling symlink.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:21:30 +0200
+
 livecd-rootfs (2.542) cosmic; urgency=medium
 
   * Decide what model assertion series to fetch depending on the suite. Use 16
