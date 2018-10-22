@@ -26,4 +26,4 @@ mkdir -p $rootfs_dir/lib/modules
 
 teardown_mountpoint $rootfs_dir
 
-dpkg-query --admindir=$rootfs_dir/var/lib/dpkg -W > $rootfs_dir.manifest
+create_manifest "${rootfs_dir}" "${rootfs_dir}.manifest"

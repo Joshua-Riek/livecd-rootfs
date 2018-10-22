@@ -33,6 +33,7 @@ fi
 
 mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
+cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
 
 mkdir -p config/package-lists
 

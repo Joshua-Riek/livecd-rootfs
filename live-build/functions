@@ -43,6 +43,17 @@ create_empty_disk_image() {
     dd if=/dev/zero of="$1" bs=1 count=0 seek="${imagesize}"
 }
 
+create_manifest() {
+    local chroot_root=${1}
+    local target_file=${2}
+    echo "create_manifest chroot_root: ${chroot_root}"
+    dpkg-query --show --admindir="${chroot_root}/var/lib/dpkg" > ${target_file}
+    echo "create_manifest call to dpkg-query finished."
+    /build/config/snap-seed-parse "${chroot_root}" >> ${target_file}
+    echo "create_manifest call to snap_seed_parse finished."
+    echo "create_manifest finished"
+}
+
 make_ext4_partition() {
     device="$1"
     label=${fs_label:+-L "${fs_label}"}

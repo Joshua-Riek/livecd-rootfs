@@ -551,6 +551,7 @@ fi
 
 # '--initramfs none' produces different manifest names.
 if [ -e "binary/$INITFS/filesystem.packages" ]; then
+	/build/config/snap-seed-parse "chroot/" >> "binary/${INITFS}/filesystem.packages"
 	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"
 	chmod 644 "$PREFIX.manifest"
 fi
