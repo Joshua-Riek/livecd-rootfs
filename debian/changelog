@@ -1,4 +1,4 @@
-livecd-rootfs (2.543) cosmic; urgency=medium
+livecd-rootfs (2.543) UNRELEASED; urgency=medium
 
   * Ensure pre-seeded snaps are now published in the image manifests.
 
