@@ -28,7 +28,7 @@ cp -a chroot/* binary/boot/squashfs.dir
 squashfs_f="${PWD}/livecd.${PROJECT}.squashfs"
 squashfs_f_manifest="${squashfs_f}.manifest"
 
-dpkg-query --admindir=binary/boot/squashfs.dir/var/lib/dpkg -W > ${squashfs_f_manifest}
+create_manifest "binary/boot/squashfs.dir" "${squashfs_f_manifest}"
 
 (cd "binary/boot/squashfs.dir/" &&
       mksquashfs . ${squashfs_f} \
