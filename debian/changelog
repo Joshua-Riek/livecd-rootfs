@@ -2,6 +2,9 @@ livecd-rootfs (2.543) UNRELEASED; urgency=medium
 
   * Ensure pre-seeded snaps are now published in the image manifests.
 
+  [ Aleksandr Bogdanov ]
+  * vagrant: disabling automatic console log file
+
  -- Cody Shepherd <cody.shepherd@canonical.com>  Mon, 22 Oct 2018 10:16:19 -0700
 
 livecd-rootfs (2.542) cosmic; urgency=medium
