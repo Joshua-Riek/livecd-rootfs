@@ -1,6 +1,7 @@
 livecd-rootfs (2.543) UNRELEASED; urgency=medium
 
   * Ensure pre-seeded snaps are now published in the image manifests.
+  * Include grub efi packages in manifests for uefi images.
 
   [ Aleksandr Bogdanov ]
   * vagrant: disabling automatic console log file
