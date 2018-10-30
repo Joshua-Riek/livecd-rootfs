@@ -33,6 +33,7 @@ fi
 
 mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
+cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
 
 mkdir -p config/package-lists
 
@@ -196,6 +197,14 @@ case $IMAGEFORMAT in
 					UBUNTU_IMAGE_ARGS="--image-size 3700M" ;;
 				*)
 					UBUNTU_IMAGE_ARGS="" ;;
+			esac
+			case $SUITE in
+				xenial)
+					# Ubuntu Core 16
+					;;
+				*)
+					# Ubuntu Core 18
+					MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
 			esac
 
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
