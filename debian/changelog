@@ -1,12 +1,65 @@
-livecd-rootfs (2.537) UNRELEASED; urgency=medium
+livecd-rootfs (2.543) UNRELEASED; urgency=medium
 
+  [ Cody Shepherd ]
+  * Ensure pre-seeded snaps are now published in the image manifests.
+  * Include grub efi packages in manifests for uefi images.
+
+  [ Aleksandr Bogdanov ]
+  * vagrant: disabling automatic console log file
+
+  [ Łukasz 'sil2100' Zemczak ]
   * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
     dangling symlink.
   * Add support for raspi3 rootfs builds (based on Ryan Finnie).
   * For ubuntu-image consumption, export the kernel and initrd to
     image/boot/uboot for raspi*.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:45:58 +0200
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:21:30 +0200
+
+livecd-rootfs (2.542) cosmic; urgency=medium
+
+  * Decide what model assertion series to fetch depending on the suite. Use 16
+    for xenial and 18 for other series (bionic+). This enables core18 image
+    builds.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 03 Oct 2018 11:51:59 +0200
+
+livecd-rootfs (2.541) cosmic; urgency=medium
+
+  [ Michael Hudson-Doyle ]
+  * Remove device nodes from Docker images. (LP: #1645468) 
+
+  [ Robert C Jennings ]
+  * Add the server snap seed to the ubuntu-cpc project
+  * Allow hooks to replace generic snap assertion
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 27 Sep 2018 15:21:49 -0700
+
+livecd-rootfs (2.540) cosmic; urgency=medium
+
+  * Ensure /lib/modules exists in root tarballs and sqashfs.
+    (LP: #1792905)
+
+ -- Tobias Koch <tobias.koch@canonical.com>  Thu, 20 Sep 2018 09:38:34 +0200
+
+livecd-rootfs (2.539) cosmic; urgency=medium
+
+  * Stop building buildd chroots with --xattrs until we move to python3.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Thu, 20 Sep 2018 02:52:10 -0600
+
+livecd-rootfs (2.538) cosmic; urgency=medium
+
+  * Add a buildd subproject.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 19 Sep 2018 16:35:54 +0200
+
+livecd-rootfs (2.537) cosmic; urgency=medium
+
+  * Minimize the number of manually installed packages in images by marking
+    dependencies of metapackages as automatically installed.
+
+ -- Julian Andres Klode <juliank@ubuntu.com>  Tue, 18 Sep 2018 08:55:04 +0200
 
 livecd-rootfs (2.536) cosmic; urgency=medium
 

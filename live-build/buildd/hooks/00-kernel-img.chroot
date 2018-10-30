@@ -1,0 +1,5 @@
+#! /bin/sh
+set -e
+
+# At one point, kernel builds needed this.
+echo do_initrd = Yes >>/etc/kernel-img.conf
