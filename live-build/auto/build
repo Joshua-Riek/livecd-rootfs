@@ -587,7 +587,7 @@ case $PROJECT:${SUBPROJECT:-} in
     if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
       case $ARCH in
           armhf)
-            subarches="generic raspi2 raspi3"
+            subarches="generic raspi2"
             ;;
           arm64)
             subarches="generic dragonboard"
@@ -623,9 +623,7 @@ case $PROJECT:${SUBPROJECT:-} in
               fi
               ;;
             armhf)
-              if [ "$devarch" = "raspi2" ]; then
-                  linux_package="linux-image-raspi2"
-              elif [ "$devarch" = "raspi3" ]; then
+              if [ "$devarch" = "raspi2" ] || [ "$devarch" = "raspi3" ]; then
                   linux_package="linux-image-raspi2"
               fi
               ;;
@@ -871,13 +869,13 @@ done
 NUMFLAVOURS="$(set -- $LB_LINUX_FLAVOURS; echo $#)"
 if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	# only one kernel flavour
-	if [ -e "binary/$INITFS/vmlinuz" -a ! -h "binary/$INITFS/vmlinuz" ]; then
+	if [ -f "binary/$INITFS/vmlinuz" ]; then
 		ln "binary/$INITFS/vmlinuz" "$PREFIX.kernel"
 		chmod 644 "$PREFIX.kernel"
 	else
 		ln -sf "$PREFIX.kernel-$LB_LINUX_FLAVOURS" "$PREFIX.kernel"
 	fi
-	if [ -e "binary/$INITFS/initrd.lz" -a ! -h "binary/$INITFS/initrd.lz" ]; then
+	if [ -f "binary/$INITFS/initrd.lz" ]; then
 		ln "binary/$INITFS/initrd.lz" "$PREFIX.initrd"
 		chmod 644 "$PREFIX.initrd"
 	else
@@ -917,6 +915,12 @@ case $SUBARCH in
 		;;
 
 	raspi2|raspi3)
+		# copy the kernel and initrd to a predictable directory for
+		# ubuntu-image consumption.  In some cases, like in pi2/3
+		# u-boot, the bootloader needs to contain the kernel and initrd,
+		# so during rootfs build we copy it over to a directory that
+		# ubuntu-image looks for and shoves into the bootloader
+		# partition.
 		UBOOT_BOOT="image/boot/uboot"
 
 		mkdir -p $UBOOT_BOOT

@@ -831,14 +831,8 @@ case $ARCH in
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				;;
-			raspi2)
+			raspi2|raspi3)
 				COMPONENTS='main restricted universe multiverse'
-				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools
-				BINARY_REMOVE_LINUX=false
-				;;
-			raspi3)
-				COMPONENTS='main restricted universe multiverse'
-				KERNEL_FLAVOURS=raspi2
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
