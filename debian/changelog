@@ -1,12 +1,17 @@
 livecd-rootfs (2.543) UNRELEASED; urgency=medium
 
+  [ Cody Shepherd ]
   * Ensure pre-seeded snaps are now published in the image manifests.
   * Include grub efi packages in manifests for uefi images.
 
   [ Aleksandr Bogdanov ]
   * vagrant: disabling automatic console log file
 
- -- Cody Shepherd <cody.shepherd@canonical.com>  Mon, 22 Oct 2018 10:16:19 -0700
+  [ Łukasz 'sil2100' Zemczak ]
+  * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
+    dangling symlink.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:21:30 +0200
 
 livecd-rootfs (2.542) cosmic; urgency=medium
 
