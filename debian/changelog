@@ -1,4 +1,4 @@
-livecd-rootfs (2.543) UNRELEASED; urgency=medium
+livecd-rootfs (2.543) disco; urgency=medium
 
   [ Cody Shepherd ]
   * Ensure pre-seeded snaps are now published in the image manifests.
@@ -18,7 +18,7 @@ livecd-rootfs (2.543) UNRELEASED; urgency=medium
     boot for cloud images which almost always works and causes only minimal
     increase in boot time for cases where it does not.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:21:30 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 02 Nov 2018 14:40:17 -0700
 
 livecd-rootfs (2.542) cosmic; urgency=medium
 
