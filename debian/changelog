@@ -11,6 +11,13 @@ livecd-rootfs (2.543) UNRELEASED; urgency=medium
   * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
     dangling symlink.
 
+  [ Steve Langasek ]
+  * Unconditionally set GRUB_FORCE_PARTUUID in cloud images; as of version
+    2.02+dfsg1-5ubuntu5 grub will automatically fall back to booting with an
+    initrd if one is available, so we can now always attempt initramfsless
+    boot for cloud images which almost always works and causes only minimal
+    increase in boot time for cases where it does not.
+
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 18 Sep 2018 10:21:30 +0200
 
 livecd-rootfs (2.542) cosmic; urgency=medium

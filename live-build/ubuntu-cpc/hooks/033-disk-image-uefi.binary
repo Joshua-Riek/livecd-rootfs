@@ -64,7 +64,7 @@ install_grub() {
     efi_boot_dir="/boot/efi/EFI/BOOT"
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
-    if [ "${SUBPROJECT:-}" = minimized ] && [ -n "$partuuid" ]; then
+    if [ -n "$partuuid" ]; then
         # FIXME: code duplicated between 032-disk-image.binary
         # and 033-disk-image-uefi.binary.  We want to fix this to not
         # have initramfs-tools installed at all on these images.
