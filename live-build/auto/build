@@ -623,7 +623,7 @@ case $PROJECT:${SUBPROJECT:-} in
               fi
               ;;
             armhf)
-              if [ "$devarch" = "raspi2" ] || [ "$devarch" = "raspi3" ]; then
+              if [ "$devarch" = "raspi2" ]; then
                   linux_package="linux-image-raspi2"
               fi
               ;;
@@ -692,7 +692,7 @@ case $PROJECT:${SUBPROJECT:-} in
         if [ -n "$dtbs" ]; then
            mv "$dtbs" $TMPDIR/assets/dtbs
            case $devarch in
-               raspi2|raspi3)
+               raspi2)
                    # ubuntu-device-flash does not like subdirs here, we need to tar it up
                    if [ -e $TMPDIR/assets/dtbs/overlays ]; then
                        tar -C $TMPDIR/assets/dtbs -f $TMPDIR/assets/dtbs/overlays.tgz -czv overlays
@@ -739,9 +739,6 @@ EOF
         if [ "$devarch" = "raspi2" ];then
             tarname="raspi2.$tarname"
             manifestname="$devarch.$manifestname"
-        elif [ "$devarch" = "raspi3" ];then
-            tarname="raspi3.$tarname"
-            manifestname="$devarch.$manifestname"
         elif [ "$devarch" = "dragonboard" ];then
             tarname="$devarch.$tarname"
             manifestname="$devarch.$manifestname"
@@ -770,9 +767,6 @@ EOF
 
         if [ "$devarch" = "raspi2" ];then
             metaname=canonical-pi2-linux
-            snapname="$devarch.kernel.snap"
-        elif [ "$devarch" = "raspi3" ];then
-            metaname=canonical-pi3-linux
             snapname="$devarch.kernel.snap"
         elif [ "$devarch" = "generic" ] && [ "$ARCH" = "armhf" ];then
             metaname=canonical-bbb-linux
