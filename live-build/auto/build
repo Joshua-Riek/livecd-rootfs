@@ -550,8 +550,9 @@ if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; th
 fi
 
 # '--initramfs none' produces different manifest names.
+# NB! we want stdout appended to the manifest, yet stderr to be printed on stdout
 if [ -e "binary/$INITFS/filesystem.packages" ]; then
-	./config/snap-seed-parse "chroot/" >> "binary/${INITFS}/filesystem.packages"
+	./config/snap-seed-parse "chroot/" 2>&1 >> "binary/${INITFS}/filesystem.packages"
 	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"
 	chmod 644 "$PREFIX.manifest"
 fi
