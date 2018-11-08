@@ -41,25 +41,16 @@ Setup_cleanup
 
 . config/functions
 
-teardownPath="config/teardown_chroot_layered"
-cat >> $teardownPath << EOF
-#!/bin/sh
-set -e
-EOF
-chmod +x $teardownPath
-
 PASSES="${PASSES:-install live}"
 CURPASS=1
 LASTPASS=$(echo $PASSES|wc -w)
+LOWER_LAYERS=""
 for _PASS in $PASSES
 do
 
 	if [ $CURPASS -gt 1 ]; then
 		mkdir chroot.${_PASS}
-		mount_overlay chroot/ "chroot.${_PASS}/" chroot/
-		cat >> $teardownPath << EOF		
-umount chroot/
-EOF
+		mount_overlay $LOWER_LAYERS "chroot.${_PASS}/" chroot/
 	fi
 
 	# Configuring chroot
@@ -129,13 +120,25 @@ EOF
 	lb chroot_cache save ${*}
 
 	if [ $CURPASS -eq 1 ]; then
-		cp -a chroot chroot.${_PASS}
+		mv chroot chroot.${_PASS}
+		mkdir chroot
+	elif [ $CURPASS -ne $LASTPASS ]; then
+		# we will unmount chroot/ at teardown for upper layer
+		umount chroot
 	fi
+	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
+	LOWER_LAYERS="${LOWER_LAYERS%:}"
 	
 	CURPASS=$(( CURPASS + 1 ))
 done
 
 # Remove unused chroot binary corresponding to bottom layer (once everything is unmount)
-cat >> $teardownPath << EOF		
+
+TEARDOWNPATH="config/teardown_chroot_layered"
+cat > $TEARDOWNPATH << EOF
+#!/bin/sh
+set -e
+umount chroot
 rm -rf chroot/
 EOF
+chmod +x $TEARDOWNPATH
