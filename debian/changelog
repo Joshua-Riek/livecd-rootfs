@@ -1,4 +1,4 @@
-livecd-rootfs (2.544) UNRELEASED; urgency=medium
+livecd-rootfs (2.544) disco; urgency=medium
 
   [ Steve Langasek ]
   * Properly fix the hard-linking of vmlinuz, taken astray by my misguided
@@ -8,7 +8,7 @@ livecd-rootfs (2.544) UNRELEASED; urgency=medium
   * When calling snap-seed-parse append stdout to file, but redirect
     stderr to stdout, thus unbreak autopkgtests.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 02 Nov 2018 14:46:30 -0700
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 08 Nov 2018 15:40:42 +0000
 
 livecd-rootfs (2.543) disco; urgency=medium
 
