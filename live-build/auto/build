@@ -480,10 +480,11 @@ EOF
 	lb binary "$@"
 
 	# Create layered squashfs system
+	CURPASS=1
 	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
 		for _PASS in $PASSES
 		do
-			squashfs_f="${PWD}/livecd.${PROJECT}.${_PASS}.squashfs"
+			squashfs_f="${PWD}/livecd.${PROJECT}.$(printf "%02g" $CURPASS)-${_PASS}.squashfs"
 
 			(cd "chroot.${_PASS}/" &&
       			mksquashfs . ${squashfs_f} \
@@ -491,6 +492,7 @@ EOF
 
 			squashfs_f_manifest="${squashfs_f}.manifest"
 			create_manifest "chroot.${_PASS}/" "${squashfs_f_manifest}"
+			CURPASS=$(( CURPASS + 1 ))
 		done
 	fi
 
