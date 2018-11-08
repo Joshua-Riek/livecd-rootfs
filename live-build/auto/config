@@ -33,6 +33,7 @@ fi
 
 mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
+cp -af /usr/share/livecd-rootfs/live-build/lb_chroot_layered config/lb_chroot_layered
 cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
 
 mkdir -p config/package-lists
@@ -69,6 +70,9 @@ add_binary_hook ()
 }
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
+	if [ ${SUBPROJECT:-} = layered ]; then
+		IMAGEFORMAT=live-layered
+	fi
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*)
 			if [ "$SUBARCH" = "raspi3" ]; then
@@ -187,6 +191,12 @@ case $IMAGEFORMAT in
 		mkdir -p .build
 		touch .build/config
 		exit 0
+		;;
+
+	live-layered)
+		# Stop lb creating filesystem.squashfs by skipping lb_binary_rootfs and lb_binary_manifest
+		skip_lb_stage binary_rootfs
+		skip_lb_stage binary_manifest
 		;;
 
 	none)
@@ -321,8 +331,19 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_task install minimal standard ubuntu-desktop
-		LIVE_TASK='ubuntu-live'
+		case ${SUBPROJECT:-} in
+			layered)
+				PASSES="install-minimal install live"
+				add_task install-minimal minimal standard
+				add_task install ubuntu-desktop
+				LIVE_TASK='ubuntu-live'
+				;;
+			*)
+				add_task install minimal standard ubuntu-desktop
+				LIVE_TASK='ubuntu-live'
+				;;
+		esac
+
 		case $ARCH in
 			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
 		esac
@@ -686,54 +707,56 @@ case $SUBPROJECT in
 		;;
 esac
 
-# we'll expand the base seed given here according to the STRUCTURE file, and
-# then look in all of the seeds found to see which snaps are seeded
-case $PROJECT:${SUBPROJECT:-} in
-	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
-		BASE_SEED='desktop'
-		;;
-	ubuntu-cpc:*)
-		BASE_SEED='server'
-		;;
-	ubuntu-server:live)
-		BASE_SEED='server'
-		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
-		HOOK_SNAPS='subiquity'
-		ALL_SNAPS=''
-		;;
-esac
+if [ "${IMAGEFORMAT:-}" != live-layered ]; then
+	# we'll expand the base seed given here according to the STRUCTURE file, and
+	# then look in all of the seeds found to see which snaps are seeded
+	case $PROJECT:${SUBPROJECT:-} in
+		ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
+			BASE_SEED='desktop'
+			;;
+		ubuntu-cpc:*)
+			BASE_SEED='server'
+			;;
+		ubuntu-server:live)
+			BASE_SEED='server'
+			# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
+			HOOK_SNAPS='subiquity'
+			ALL_SNAPS=''
+			;;
+	esac
 
-if [ -n "${BASE_SEED}" ]; then
-	SEEDS_EXPANDED=$(inheritance ${BASE_SEED})
-	for seed in ${SEEDS_EXPANDED}; do
-		echo "snap: considering ${seed}"
-		file=config/germinate-output/${seed}.snaps
-		[ -e "${file}" ] || continue
-		# extract the first column (snap package name) from germinate's output
-		# translate the human-readable "foo (classic)" into a
-		# more machine readable "foo/classic"
-		seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
-		for snap in ${seed_snaps}; do
-			echo "snap: found ${snap}"
-			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
+	if [ -n "${BASE_SEED}" ]; then
+		SEEDS_EXPANDED=$(inheritance ${BASE_SEED})
+		for seed in ${SEEDS_EXPANDED}; do
+			echo "snap: considering ${seed}"
+			file=config/germinate-output/${seed}.snaps
+			[ -e "${file}" ] || continue
+			# extract the first column (snap package name) from germinate's output
+			# translate the human-readable "foo (classic)" into a
+			# more machine readable "foo/classic"
+			seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
+			for snap in ${seed_snaps}; do
+				echo "snap: found ${snap}"
+				ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
+			done
 		done
-	done
-	if [ -n "${ALL_SNAPS}" ] || [ -n "${HOOK_SNAPS}" ]; then
-		echo "${ALL_SNAPS}" > config/seeded-snaps
+		if [ -n "${ALL_SNAPS}" ] || [ -n "${HOOK_SNAPS}" ]; then
+			echo "${ALL_SNAPS}" > config/seeded-snaps
+		fi
 	fi
-fi
 
-# grab a list of packags to remove for a "minimal" installation from the seed
-# mirror for this project
-if [ -n "${BASE_SEED}" ] && [ -n "${BASE_SEED}" ]; then
-	minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
-	echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
-	minimal_packages_remove=$(wget -q -O- ${minimal_packages_url} | sed -e '/\s*#.*$/d' -e '/^\s*$/d')
-	if [ -n "${minimal_packages_remove}" ]; then
-		echo "${minimal_packages_remove}" > config/manifest-minimal-remove
-		echo "$(echo ${minimal_packages_remove} | tr '\n' ' ')"
-	else
-		echo "failed to retrieve, not including."
+	# grab a list of packags to remove for a "minimal" installation from the seed
+	# mirror for this project
+	if [ -n "${BASE_SEED}" ] && [ -n "${BASE_SEED}" ]; then
+		minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
+		echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
+		minimal_packages_remove=$(wget -q -O- ${minimal_packages_url} | sed -e '/\s*#.*$/d' -e '/^\s*$/d')
+		if [ -n "${minimal_packages_remove}" ]; then
+			echo "${minimal_packages_remove}" > config/manifest-minimal-remove
+			echo "$(echo ${minimal_packages_remove} | tr '\n' ' ')"
+		else
+			echo "failed to retrieve, not including."
+		fi
 	fi
 fi
 
@@ -857,6 +880,10 @@ lb config noauto \
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
+echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+if [ -n "$PASSES" ]; then
+	echo "PASSES=\"$PASSES\"" >> config/common
+fi
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary

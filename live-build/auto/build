@@ -254,7 +254,11 @@ rm -f /usr/sbin/update-initramfs
 dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
 EOF
 
-	lb chroot "$@"
+	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
+		PATH="config/:$PATH" lb chroot_layered "$@"
+	else
+		lb chroot "$@"
+	fi
 
 	if [ "${SUBPROJECT:-}" = minimized ]; then
 		# force removal of initramfs-tools, which we assert is not
@@ -474,6 +478,28 @@ EOF
 	/usr/share/livecd-rootfs/minimize-manual chroot
 
 	lb binary "$@"
+
+	# Create layered squashfs system
+	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
+		for _PASS in $PASSES
+		do
+			squashfs_f="${PWD}/livecd.${PROJECT}.${_PASS}.squashfs"
+
+			(cd "chroot.${_PASS}/" &&
+      			mksquashfs . ${squashfs_f} \
+        		-no-progress -xattrs -comp xz )
+
+			squashfs_f_manifest="${squashfs_f}.manifest"
+			create_manifest "chroot.${_PASS}/" "${squashfs_f_manifest}"
+		done
+		# We are skipping lb_binary_rootfs
+	fi
+
+	# Teardown mount points in layered mode
+	if [ -x config/teardown_chroot_layered ]; then
+		config/teardown_chroot_layered
+	fi
+
 	touch binary.success
 ) 2>&1 | tee binary.log
 
