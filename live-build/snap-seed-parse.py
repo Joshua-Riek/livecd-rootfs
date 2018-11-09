@@ -16,7 +16,7 @@ import yaml
 
 
 def log(msg):
-    print("snap-seed-parse: {}\n".format(msg))
+    print("snap-seed-parse: {}".format(msg))
 
 
 log("Parsing seed.yaml")

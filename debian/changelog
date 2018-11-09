@@ -3,6 +3,7 @@ livecd-rootfs (2.545) disco; urgency=medium
   [ Dimitri John Ledkov ]
   * Do not mount result, on top of lowerdir, appears to fail in
     disco. Should unblock building server-live images in disco.
+  * Also strip duplicate \n from the below.
 
   [ Cody Shepherd ]
   * Fix snap-seed-parse to take filename argument instead of printing to
