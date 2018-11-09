@@ -40,7 +40,7 @@ mkdir -p "$OVERLAY_REGION_ROOT"
 
 # RACK is on top of the regular squashfs
 
-mount_overlay "$SQUASH_ROOT/" "$OVERLAY_RACK_ROOT/" "$RACK_ROOT/" "RACK"
+mount_overlay "$SQUASH_ROOT/" "$OVERLAY_RACK_ROOT/" "$RACK_ROOT/"
 
 setup_mountpoint $RACK_ROOT
 env DEBIAN_FRONTEND=noninteractive chroot $RACK_ROOT apt-get -y install maas-rack-controller
@@ -54,7 +54,7 @@ umount "$RACK_ROOT"
 
 # Full MAAS (Region) is on top of the rack
 # in overlayfs lowerdir are mounted right to left, colon separated
-mount_overlay "$OVERLAY_RACK_ROOT/:$SQUASH_ROOT/" "$OVERLAY_REGION_ROOT/" "$REGION_ROOT/" "REGION"
+mount_overlay "$OVERLAY_RACK_ROOT/:$SQUASH_ROOT/" "$OVERLAY_REGION_ROOT/" "$REGION_ROOT/"
 
 setup_mountpoint $REGION_ROOT
 
