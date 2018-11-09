@@ -1,7 +1,12 @@
 livecd-rootfs (2.545) UNRELEASED; urgency=medium
 
+  [ Dimitri John Ledkov ]
   * Do not mount result, on top of lowerdir, appears to fail in
     disco. Should unblock building server-live images in disco.
+
+  [ Cody Shepherd ]
+  * Fix snap-seed-parse to take filename argument instead of printing to
+    stdout
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 09 Nov 2018 22:13:49 +0000
 
