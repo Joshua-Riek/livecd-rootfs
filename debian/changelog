@@ -1,3 +1,10 @@
+livecd-rootfs (2.545) UNRELEASED; urgency=medium
+
+  * Do not mount result, on top of lowerdir, appears to fail in
+    disco. Should unblock building server-live images in disco.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 09 Nov 2018 22:13:49 +0000
+
 livecd-rootfs (2.544) disco; urgency=medium
 
   [ Steve Langasek ]
