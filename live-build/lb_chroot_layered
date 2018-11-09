@@ -95,7 +95,6 @@ do
 	fi
 
 	lb chroot_includes ${*}
-	# TODO: look if this is what copies distro hooks
 	lb chroot_hooks ${*}
 	lb chroot_hacks ${*}
 	lb chroot_interactive ${*}
