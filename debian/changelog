@@ -1,8 +1,9 @@
-livecd-rootfs (2.545) disco; urgency=medium
+livecd-rootfs (2.545) UNRELEASED; urgency=medium
 
-  [ Cody Shepherd ]
   * Fix snap-seed-parse to take filename argument instead of printing to
     stdout
+
+ -- Cody Shepherd <cody.shepherd@canonical.com>  Thu, 08 Nov 2018 15:10:09 -0800
 
 livecd-rootfs (2.544) disco; urgency=medium
 
