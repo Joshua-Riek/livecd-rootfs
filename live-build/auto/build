@@ -481,18 +481,28 @@ EOF
 
 	# Create layered squashfs system
 	CURPASS=1
+	LASTPASS=$(echo $PASSES|wc -w)
+	prev_manifest=""
 	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
 		for _PASS in $PASSES
 		do
-			squashfs_f="${PWD}/livecd.${PROJECT}.$(printf "%02g" $CURPASS)-${_PASS}.squashfs"
+			base="${PWD}/livecd.${PROJECT}.$(printf "%02g" $CURPASS)-${_PASS}"
+			squashfs_f="${base}.squashfs"
 
 			(cd "chroot.${_PASS}/" &&
       			mksquashfs . ${squashfs_f} \
         		-no-progress -xattrs -comp xz )
 
-			squashfs_f_manifest="${squashfs_f}.manifest"
-			create_manifest "chroot.${_PASS}/" "${squashfs_f_manifest}"
-			squashfs_f_size="${squashfs_f}.size"
+			squashfs_f_manifest="${base}.manifest"
+			create_manifest "chroot.${_PASS}/" "${squashfs_f_manifest}.full"
+			# We want manifest to only contain the diff of current pass
+			diff -NU0 ${prev_manifest}.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+			prev_manifest=$squashfs_f_manifest
+			if [ $CURPASS -eq $LASTPASS ]; then
+				cp "${squashfs_f_manifest}.full" livecd.${PROJECT}.manifest
+			fi
+
+			squashfs_f_size="${base}.size"
 			du -B 1 -s "chroot.${_PASS}/" | cut -f1 > "${squashfs_f_size}"
 
 			CURPASS=$(( CURPASS + 1 ))
