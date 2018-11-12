@@ -24,17 +24,15 @@ fi
 . config/functions
 . config/common
 
-BOTTOM_ROOT=binary/boot/squashfs.dir
-SQUASH_ROOT=binary/boot/squashfs-installer.dir
-OVERLAY_ROOT=binary/overlay-installer
+SQUASH_ROOT=binary/boot/squashfs.dir
+OVERLAY_ROOT=binary/overlay
 
-mkdir -p "$SQUASH_ROOT"
 mkdir -p "$OVERLAY_ROOT"
 
 # Create an installer squashfs layer
-mount_overlay "$BOTTOM_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
+mount_overlay "$SQUASH_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
 
-setup_mountpoint $SQUASH_ROOT
+setup_mountpoint binary/boot/squashfs.dir
 
 # Override JobRunningTimeoutSec to 0s on the .device unit that
 # subiquity_config.mount depends on to avoid a 5s delay on switching
