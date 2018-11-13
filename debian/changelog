@@ -1,8 +1,9 @@
-livecd-rootfs (2.546~ppa1) disco; urgency=medium
+livecd-rootfs (2.546) disco; urgency=medium
 
   * Revert "Do not mount result, on top of lowerdir, appears to fail in
     disco." the actual problem is in live-build with merged-usr and
     copying over chroot/binary includes.
+  * Move overlay include.binary /lib to /usr/lib.
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 12 Nov 2018 20:37:51 +0000
 
