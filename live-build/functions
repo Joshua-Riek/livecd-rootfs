@@ -43,7 +43,6 @@ create_empty_disk_image() {
     dd if=/dev/zero of="$1" bs=1 count=0 seek="${imagesize}"
 }
 
-# NB! we want stdout appended to the manifest, yet stderr to be printed on stdout
 create_manifest() {
     local chroot_root=${1}
     local target_file=${2}
