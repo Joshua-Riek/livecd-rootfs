@@ -47,6 +47,7 @@ LASTPASS=$(echo $PASSES|wc -w)
 LOWER_LAYERS=""
 for _PASS in $PASSES
 do
+	export PASS=${_PASS}
 
 	if [ $CURPASS -gt 1 ]; then
 		mkdir chroot.${_PASS}
