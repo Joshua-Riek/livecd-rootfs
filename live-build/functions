@@ -411,6 +411,12 @@ _snap_preseed() {
 
     # Download the snap & assertion
     local snap_download_failed=0
+
+    # Preseed a snap only once
+    if [ -f ${snaps_dir}/${SNAP_NAME}_[0-9]*.snap ]; then
+        return
+    fi
+
     chroot $CHROOT_ROOT sh -c "
         set -x;
         cd /var/lib/snapd/seed;
@@ -456,6 +462,10 @@ snap_prepare_assertions() {
     local account_key_assertion="$assertions_dir/account-key"
     local account_assertion="$assertions_dir/account"
 
+    if [ -d "$assertions_dir" ]; then
+        return
+    fi
+
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
@@ -500,15 +510,10 @@ snap_prepare() {
     # used for the image's model assertion
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
-    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
-    local snaps_dir="$seed_dir/snaps"
-
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
 
     # Download the core snap
-    if ! [ -f $snaps_dir/core_[0-9]*.snap ] ; then
-        _snap_preseed $CHROOT_ROOT core stable
-    fi
+    _snap_preseed $CHROOT_ROOT core stable
 }
 
 snap_preseed() {
