@@ -334,7 +334,7 @@ case $PROJECT in
 		case ${SUBPROJECT:-} in
 			layered)
 				PASSES="install-minimal install live"
-				add_task install-minimal minimal standard
+				add_task install-minimal minimal standard ubuntu-desktop-minimal
 				add_task install ubuntu-desktop
 				LIVE_TASK='ubuntu-live'
 				;;
