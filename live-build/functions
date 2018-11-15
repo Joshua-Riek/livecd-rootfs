@@ -373,6 +373,30 @@ release_ver() {
     distro-info --series="$LB_DISTRIBUTION" -r | awk '{ print $1 }'
 }
 
+# cribbed from cdimage, perhaps this should be a small helper script in germinate?
+add_inheritance () {
+	case " $inherit " in
+		*" $1 "*)
+			;;
+		*)
+			inherit="${inherit:+$inherit }$1"
+			;;
+	esac
+}
+
+expand_inheritance () {
+	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
+		expand_inheritance "$seed"
+	done
+	add_inheritance "$1"
+}
+
+inheritance () {
+	inherit=
+	expand_inheritance "$1"
+	echo "$inherit"
+}
+
 _snap_preseed() {
     # Download the snap/assertion and add to the preseed
     local CHROOT_ROOT=$1
@@ -502,6 +526,30 @@ snap_preseed() {
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
 }
 
+snap_from_seed() {
+    local base_seed=$1
+    local out=$2
+    local all_snaps
+    local seeds_expanded
+
+    seeds_expanded=$(inheritance ${base_seed})
+    for seed in ${seeds_expanded}; do
+        echo "snap: considering ${seed}"
+        file=config/germinate-output/${seed}.snaps
+        [ -e "${file}" ] || continue
+        # extract the first column (snap package name) from germinate's output
+        # translate the human-readable "foo (classic)" into a
+        # more machine readable "foo/classic"
+        seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
+        for snap in ${seed_snaps}; do
+            echo "snap: found ${snap}"
+            all_snaps="${all_snaps:+${all_snaps} }${snap}"
+        done
+    done
+    if [ -n "${all_snaps}" ]; then
+        echo "${all_snaps}" > $out
+    fi
+}
 
 add_task ()
 {
