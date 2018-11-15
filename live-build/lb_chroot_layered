@@ -41,8 +41,49 @@ Setup_cleanup
 
 . config/functions
 
+# Create the snap list specific to this layer
+lb_chroot_snap_lists() {
+	local pass=$1
+	local prevpass=$2
+
+	# This assumes that the prefix is unique for a given project
+	local snap_for_pass=$(ls config/package-lists/*.snaplist.chroot_${pass}.full 2>/dev/null || true)
+	local snap_for_prevpass=$(ls config/package-lists/*.snaplist.chroot_${prevpass}.full 2>/dev/null || true)
+
+	if [ -z "${snap_for_pass}" ]; then
+		return
+	fi
+
+	if [ -z "${snap_for_prevpass}" ]; then
+		cp ${snap_for_pass} ${snap_for_pass%.full}
+		return
+	fi
+
+	# Generate a list of snaps added to a layer.
+	diff -NU0 ${snap_for_prevpass} ${snap_for_pass}|grep -Ev '^(---|\+\+\+|@@)'|cut -c2- > ${snap_for_pass%.full}
+}
+
+lb_chroot_install_snaps() {
+	# Prepare the snap environment and install snaps into a chroot
+	#
+	# $1: Name of the pass
+
+	local snaplist_file=$(ls config/package-lists/*.snaplist.chroot_${1} 2>/dev/null || true)
+
+	if [ -z "${snaplist_file}" ]; then
+		return
+	fi
+
+	snap_prepare chroot
+
+	while read snap; do
+		snap_preseed chroot "${snap}"
+	done < $snaplist_file
+}
+
 PASSES="${PASSES:-install live}"
 CURPASS=1
+PREVPASS=""
 LASTPASS=$(echo $PASSES|wc -w)
 LOWER_LAYERS=""
 for _PASS in $PASSES
@@ -78,6 +119,10 @@ do
 
 	lb chroot_package-lists ${_PASS} ${*}
 	lb chroot_install-packages ${_PASS} ${*}
+
+	# Snap management
+	lb_chroot_snap_lists ${_PASS} ${PREVPASS}
+	lb_chroot_install_snaps ${_PASS} ${*}
 
 	# Kernel should be in first layer
 	if [ $CURPASS -eq 1 ]; then
@@ -128,6 +173,7 @@ do
 	fi
 	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
 	LOWER_LAYERS="${LOWER_LAYERS%:}"
+	PREVPASS=${_PASS}
 	
 	CURPASS=$(( CURPASS + 1 ))
 done
