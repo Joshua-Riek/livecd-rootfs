@@ -863,36 +863,52 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 	fi
 fi
 
-if [ "$SUBARCH" = "ac100" ]; then
-	# create the md5sum and size files for which we are actually doing all this
-	md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
-	wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
+case $SUBARCH in
+	ac100)
+		# create the md5sum and size files for which we are actually doing all this
+		md5sum $PREFIX.rootfs.tar.gz >chroot/installer.md5
+		wc -c $PREFIX.rootfs.tar.gz >chroot/installer.size
+	
+		INFO_DESC="$(lsb_release -d -s)"
+		INFO_STAMP=$(date +20%y%m%d-%H:%M)
+	
+		echo "$INFO_DESC - $ARCH ($INFO_STAMP)" >chroot/media-info
+	
+		# make sure update-initramfs feels cosy and warm in the environment
+		lb chroot_proc install "$@"
+		lb chroot_sysfs install "$@"
+		lb chroot_devpts install "$@"
+	
+		# re-create initrd to contain the installer.md5 file
+		Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
+	
+		# create boot.img
+		Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
+	
+		# clean up
+		lb chroot_devpts remove "$@"
+		lb chroot_sysfs remove "$@"
+		lb chroot_proc remove "$@"
+	
+		cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
+		ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
+		;;
 
-	INFO_DESC="$(lsb_release -d -s)"
-	INFO_STAMP=$(date +20%y%m%d-%H:%M)
+	raspi2|raspi3)
+		# copy the kernel and initrd to a predictable directory for
+		# ubuntu-image consumption.  In some cases, like in pi2/3
+		# u-boot, the bootloader needs to contain the kernel and initrd,
+		# so during rootfs build we copy it over to a directory that
+		# ubuntu-image looks for and shoves into the bootloader
+		# partition.
+		UBOOT_BOOT="image/boot/uboot"
 
-	echo "$INFO_DESC - $ARCH ($INFO_STAMP)" >chroot/media-info
+		mkdir -p $UBOOT_BOOT
 
-	# make sure update-initramfs feels cosy and warm in the environment
-	lb chroot_proc install "$@"
-	lb chroot_sysfs install "$@"
-	lb chroot_devpts install "$@"
-
-	# re-create initrd to contain the installer.md5 file
-	Chroot chroot "env FLASH_KERNEL_SKIP=1 update-initramfs -k all -t -u -v"
-
-	# create boot.img
-	Chroot chroot "abootimg --create /boot/installer-${KVERS}.img -f /boot/bootimg.cfg-$SUBARCH -r /boot/initrd.img-${KVERS} -k /boot/vmlinuz-${KVERS}"
-
-	# clean up
-	lb chroot_devpts remove "$@"
-	lb chroot_sysfs remove "$@"
-	lb chroot_proc remove "$@"
-
-	cp "chroot/boot/installer-${KVERS}.img" "$PREFIX.bootimg-$FLAVOUR"
-	ln -sf "$PREFIX.bootimg-$FLAVOUR" "$PREFIX.bootimg"
-
-fi
+		cp $PREFIX.initrd $UBOOT_BOOT/initrd.img || true
+		cp $PREFIX.kernel $UBOOT_BOOT/vmlinuz || true
+		;;
+esac
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
 	sourceslist="chroot/etc/apt/sources.list"
