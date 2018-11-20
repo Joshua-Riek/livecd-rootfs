@@ -41,6 +41,18 @@ Setup_cleanup
 
 . config/functions
 
+lb_chroot_remove_packages() {
+	# Remove packages from the chroot specific to this layer
+	#
+	# $1: Name of the pass*
+	local pass=$1
+
+	Expand_packagelist "$(basename config/package-lists/*.removal-list.chroot_${pass})" "config/package-lists" \
+			>> chroot/root/packages.chroot.removal
+	Chroot chroot "xargs --arg-file=/root/packages.chroot.removal apt-get ${APT_OPTIONS} autoremove --purge"
+	rm -f chroot/root/packages.chroot.removal
+}
+
 # Create the snap list specific to this layer
 lb_chroot_snap_lists() {
 	local pass=$1
@@ -124,6 +136,7 @@ create_chroot_pass() {
 
 	lb chroot_package-lists ${pass} ${*}
 	lb chroot_install-packages ${pass} ${*}
+	lb_chroot_remove_packages ${pass} ${*}
 
 	# Snap management
 	lb_chroot_snap_lists ${pass} ${prevpass}
