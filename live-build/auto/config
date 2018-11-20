@@ -311,7 +311,13 @@ case $PROJECT in
 			layered)
 				PASSES="install-minimal install live"
 				add_task install-minimal minimal standard ubuntu-desktop-minimal
+				# LANG PASS for minimal
+				add_layered_pass_delta install-minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
+				add_layered_pass_delta install-minimal desktop-minimal-default-languages 'nolangpacks'  # none (if no default langpack is selected)
 				add_task install ubuntu-desktop
+				# LANG PASS for install
+				add_layered_pass_delta install desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
+				add_layered_pass_delta install desktop-default-languages 'nolangpacks'  # none (if no default langpack is selected)
 				LIVE_TASK='ubuntu-live'
 				;;
 			*)

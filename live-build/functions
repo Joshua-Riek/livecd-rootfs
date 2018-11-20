@@ -643,3 +643,59 @@ add_package ()
 		echo "$pkg" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
 	done
 }
+
+list_packages_from_seed () {
+    # Store all packages for a given seed, including its seed dependency
+    # $1: Name of the seed to expand to a package list
+
+    local all_seeds="$(inheritance $1)"
+
+    for seed in $all_seeds; do
+        head -n-2 config/germinate-output/${seed}.seed|tail -n+3|awk '{print $1}'
+    done|sort -u
+}
+
+add_layered_pass() {
+    # Add a layer to an existing pass based on seeds matching a regexp
+    # $1 base pass
+    # $2 seeds (regexp)
+
+    for seed in $(ls config/germinate-output/|grep -P "$2"); do
+       pass=${1}_${seed}
+       list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
+    done
+}
+
+add_layered_pass_delta() {
+    # Add a layer to an existing pass based on delta between seeds matching a regexp and a base seed
+    # $1 base pass
+    # $2 base seed
+    # $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
+
+    local seed_regexp="$3"
+    if [ -z "${seed_regexp}" ]; then
+        substract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_${1}_no-{$2}
+        return
+    fi
+
+    for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
+       pass=${1}_${seed}
+       substract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+    done
+}
+
+substract_package_lists() {
+    # Substract a package list from another
+    #
+    # $1 source package list
+    # $2 Package list to substract from source package list
+    local list1=$(mktemp)
+    local list2=$(mktemp)
+
+    list_packages_from_seed $1 > list1
+    list_packages_from_seed $2 > list2
+    comm -23 list1 list2
+
+    rm list1
+    rm list2
+}

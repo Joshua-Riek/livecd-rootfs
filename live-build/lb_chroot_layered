@@ -191,7 +191,7 @@ create_chroot_pass() {
 
 	# Handle direct sublayer of current one
 	# Extract the name of the pass corresponding to the sublayer
-	for subpass in $(ls config/package-lists/*.list.chroot_${pass}_* 2>/dev/null | sed -e "s/.*list\.chroot_\(${pass}_[^_]\+\).*/\1/"); do
+	for subpass in $(ls config/package-lists/*list.chroot_${pass}_* 2>/dev/null | sed -e "s/.*list\.chroot_\(${pass}_[^_]\+\).*/\1/"); do
 		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
 		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
 		create_chroot_pass "${subpass}" "${pass}" "${lowerlayers_for_subpass}" "" ${*}
