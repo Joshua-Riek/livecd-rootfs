@@ -17,6 +17,57 @@ fi
 
 . config/functions
 
+build_layered_squashfs() {
+	local pass=$1   # install|install_subpass|install_subpass_subsubpass|…
+	local prevpass=$2  # install|install_subpass|…
+	local prefix=$3 # 01-|02-|…
+	local lowerlayers=$4
+
+	base="${PWD}/livecd.${PROJECT}.${prefix}${pass}"
+	squashfs_f="${base}.squashfs"
+
+	# We have already treated that pass
+	if [ -f "${squashfs_f}" ]; then
+		return
+	fi
+
+	if [ -n "${lowerlayers}" ]; then
+		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
+	else
+		# first pass
+		ln -s "chroot.${pass}/" chroot
+	fi
+
+	(cd "chroot.${pass}/" &&
+		mksquashfs . ${squashfs_f} \
+		-no-progress -xattrs -comp xz )
+
+	# Full manifest until that PASS
+	squashfs_f_manifest="${base}.manifest"
+	create_manifest "chroot" "${squashfs_f_manifest}.full"
+
+	# Delta manifest
+	diff -NU0 ${PWD}/livecd.${PROJECT}.${prefix}${prevpass}.manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+
+	squashfs_f_size="${base}.size"
+	du -B 1 -s "chroot.${pass}/" | cut -f1 > "${squashfs_f_size}"
+
+	if [ -n "${lowerlayers}" ]; then
+		umount chroot
+	else
+		rm chroot
+		mkdir chroot/
+	fi
+
+	# Handle direct sublayer of current one
+	# Extract the name of the pass corresponding to the sublayer
+	for subpass in $(ls -d chroot.${pass}_* 2>/dev/null | sed -e "s/chroot\.\(${pass}_[^_]\+\).*/\1/"); do
+		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
+		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
+		build_layered_squashfs "${subpass}" "${pass}" "${prefix}" "${lowerlayers_for_subpass}"
+	done
+}
+
 # Link output files somewhere launchpad-buildd will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
@@ -479,59 +530,31 @@ EOF
 
 	lb binary "$@"
 
-	# Create layered squashfs system
-	CURPASS=1
-	PREVPASS=""
-	LASTPASS=$(echo $PASSES|wc -w)
-	prev_manifest=""
-	to_remove=""
-	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
-		for _PASS in $PASSES
-		do
-			base="${PWD}/livecd.${PROJECT}.$(printf "%02g" $CURPASS)-${_PASS}"
-			squashfs_f="${base}.squashfs"
-
-			(cd "chroot.${_PASS}/" &&
-      			mksquashfs . ${squashfs_f} \
-        		-no-progress -xattrs -comp xz )
-
-			# Full manifest until that PASS
-			# Note: snaps won't be listed in the new layer by snap-seed-parse
-			# if no newly snap was installed in that layer. Copy and then remove it
-			# just to create the correct full manifest and avoid a new layer
-			# chroot mount dance.
-			SNAPPATH=var/lib/snapd/seed/seed.yaml
-			if [ ! -f "chroot.${_PASS}/${SNAPPATH}" ] && [ -n "${PREVPASS}" ] && [ -f "chroot.${PREVPASS}/${SNAPPATH}" ]; then
-				mkdir -p chroot.${_PASS}/$(dirname ${SNAPPATH})
-				cp "chroot.${PREVPASS}/${SNAPPATH}" "chroot.${_PASS}/${SNAPPATH}"
-				to_remove="chroot.${_PASS}/var/lib/snapd ${to_remove}"
-			fi
-			squashfs_f_manifest="${base}.manifest"
-			create_manifest "chroot.${_PASS}/" "${squashfs_f_manifest}.full"
-
-			# Delta manifest
-			diff -NU0 ${prev_manifest}.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
-			prev_manifest=$squashfs_f_manifest
-
-			# Full ISO manifest
-			if [ $CURPASS -eq $LASTPASS ]; then
-				cp "${squashfs_f_manifest}.full" livecd.${PROJECT}.manifest
-			fi
-
-			squashfs_f_size="${base}.size"
-			du -B 1 -s "chroot.${_PASS}/" | cut -f1 > "${squashfs_f_size}"
-
-			PREVPASS=${_PASS}
-			CURPASS=$(( CURPASS + 1 ))
-		done
-		if [ -n "${to_remove}" ]; then
-			rm -r ${to_remove}
-		fi
-	fi
-
 	# Teardown mount points in layered mode
 	if [ -x config/teardown_chroot_layered ]; then
 		config/teardown_chroot_layered
+	fi
+
+	# Create layered squashfs system
+	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
+		CURPASS=1
+		PREVPASS=""
+		PREFIX=""
+		LOWER_LAYERS=""
+	
+		for _PASS in $PASSES
+		do
+			PREFIX="$(printf "%02g" $CURPASS)-"
+			build_layered_squashfs "${_PASS}" "${PREVPASS}" "$PREFIX" ${LOWER_LAYERS}
+
+			LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
+			LOWER_LAYERS="${LOWER_LAYERS%:}"
+			PREVPASS=${_PASS}
+			CURPASS=$(( CURPASS + 1 ))
+		done
+
+		# Full ISO manifest
+		cp "${PWD}/livecd.${PROJECT}.${PREFIX}${_PASS}.manifest.full" livecd.${PROJECT}.manifest
 	fi
 
 	touch binary.success

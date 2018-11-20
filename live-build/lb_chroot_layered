@@ -81,18 +81,23 @@ lb_chroot_install_snaps() {
 	done < $snaplist_file
 }
 
-PASSES="${PASSES:-install live}"
-CURPASS=1
-PREVPASS=""
-LASTPASS=$(echo $PASSES|wc -w)
-LOWER_LAYERS=""
-for _PASS in $PASSES
-do
-	export PASS=${_PASS}
+create_chroot_pass() {
+	local pass=$1
+	local prevpass=$2
+	local lowerlayers=$3
+	local passtype=$4  # "first"|"last"|"" empty string
+	shift 4 # restore ${*}
 
-	if [ $CURPASS -gt 1 ]; then
-		mkdir chroot.${_PASS}
-		mount_overlay $LOWER_LAYERS "chroot.${_PASS}/" chroot/
+	# We have already treated that pass
+	if [ -d "chroot.${pass}/" ]; then
+		return
+	fi
+
+	export PASS=${pass}
+
+	if [ "${passtype}" != "first" ]; then
+		mkdir chroot.${pass}
+		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
 	fi
 
 	# Configuring chroot
@@ -117,15 +122,15 @@ do
 	lb chroot_preseed ${*}
 	lb chroot_early_hooks ${*}
 
-	lb chroot_package-lists ${_PASS} ${*}
-	lb chroot_install-packages ${_PASS} ${*}
+	lb chroot_package-lists ${pass} ${*}
+	lb chroot_install-packages ${pass} ${*}
 
 	# Snap management
-	lb_chroot_snap_lists ${_PASS} ${PREVPASS}
-	lb_chroot_install_snaps ${_PASS} ${*}
+	lb_chroot_snap_lists ${pass} ${prevpass}
+	lb_chroot_install_snaps ${pass} ${*}
 
 	# Kernel should be in first layer
-	if [ $CURPASS -eq 1 ]; then
+	if [ "${passtype}" = "first" ]; then
 		Chroot chroot "dpkg -l linux-headers-3* linux-headers-4*" 2>/dev/null \
 			| awk '/^i/ {print $2}' > chroot.headers
 		for i in $(cat chroot.headers); do
@@ -136,7 +141,7 @@ do
 	Chroot chroot "apt-get --purge -y autoremove"
 
 	# Add live packages to top layer
-	if [ $CURPASS -eq $LASTPASS ]; then
+	if [ "${passtype}" = "last" ]; then
 		lb chroot_live-packages ${*}
 	fi
 
@@ -145,7 +150,7 @@ do
 	lb chroot_hacks ${*}
 	lb chroot_interactive ${*}
 
-	Chroot chroot "dpkg-query -W" > chroot.packages.${_PASS}
+	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
 	# Deconfiguring chroot
 	lb chroot_archives chroot remove ${*}
@@ -164,13 +169,38 @@ do
 	lb chroot_devpts remove ${*}
 	lb chroot_cache save ${*}
 
-	if [ $CURPASS -eq 1 ]; then
-		mv chroot chroot.${_PASS}
+	if [ "${passtype}" = "first" ]; then
+		mv chroot chroot.${pass}
 		mkdir chroot
-	elif [ $CURPASS -ne $LASTPASS ]; then
-		# we will unmount chroot/ at teardown for upper layer
+	else
 		umount chroot
 	fi
+
+	# Handle direct sublayer of current one
+	# Extract the name of the pass corresponding to the sublayer
+	for subpass in $(ls config/package-lists/*.list.chroot_${pass}_* 2>/dev/null | sed -e "s/.*list\.chroot_\(${pass}_[^_]\+\).*/\1/"); do
+		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
+		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
+		create_chroot_pass "${subpass}" "${pass}" "${lowerlayers_for_subpass}" "" ${*}
+	done
+}
+
+PASSES="${PASSES:-install live}"
+CURPASS=1
+PREVPASS=""
+LASTPASS=$(echo $PASSES|wc -w)
+LOWER_LAYERS=""
+for _PASS in $PASSES
+do
+	PASSTYPE=""
+	if [ $CURPASS -eq 1 ]; then
+		PASSTYPE="first"
+	elif [ $CURPASS -eq $LASTPASS ]; then
+		PASSTYPE="last"
+	fi
+
+	create_chroot_pass "$_PASS" "$PREVPASS" "$LOWER_LAYERS" "$PASSTYPE" ${*}
+	
 	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
 	LOWER_LAYERS="${LOWER_LAYERS%:}"
 	PREVPASS=${_PASS}
@@ -178,8 +208,10 @@ do
 	CURPASS=$(( CURPASS + 1 ))
 done
 
-# Remove unused chroot binary corresponding to bottom layer (once everything is unmount)
+# remount last pass on chroot for lb binary
+mount_overlay "${LOWER_LAYERS}" "chroot.${_PASS}/" chroot/
 
+# Remove unused chroot binary corresponding to bottom layer (once everything is unmount)
 TEARDOWNPATH="config/teardown_chroot_layered"
 cat > $TEARDOWNPATH << EOF
 #!/bin/sh
