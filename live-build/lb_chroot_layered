@@ -93,6 +93,19 @@ lb_chroot_install_snaps() {
 	done < $snaplist_file
 }
 
+lb_chroot_includes() {
+	# Copying includes from pass subdirectory
+	local pass="$1"
+
+	if [ ! -d config/includes.chroot.${pass} ]; then
+		return
+	fi
+
+	cd config/includes.chroot.${pass}
+	find . | cpio -dmpu --no-preserve-owner "${OLDPWD}"/chroot
+	cd "${OLDPWD}"
+}
+
 create_chroot_pass() {
 	local pass=$1
 	local prevpass=$2
@@ -158,7 +171,9 @@ create_chroot_pass() {
 		lb chroot_live-packages ${*}
 	fi
 
-	lb chroot_includes ${*}
+	# Run includes by pass
+	lb_chroot_includes ${pass} ${*}
+
 	lb chroot_hooks ${*}
 	lb chroot_hacks ${*}
 	lb chroot_interactive ${*}
