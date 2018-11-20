@@ -70,9 +70,6 @@ add_binary_hook ()
 }
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
-	if [ ${SUBPROJECT:-} = layered ]; then
-		IMAGEFORMAT=live-layered
-	fi
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*)
 			if [ "$SUBARCH" = "raspi3" ]; then
@@ -193,12 +190,6 @@ case $IMAGEFORMAT in
 		exit 0
 		;;
 
-	live-layered)
-		# Stop lb creating filesystem.squashfs by skipping lb_binary_rootfs and lb_binary_manifest
-		skip_lb_stage binary_rootfs
-		skip_lb_stage binary_manifest
-		;;
-
 	none)
 		OPTS="${OPTS:+$OPTS }--chroot-filesystem $IMAGEFORMAT"
 		;;
@@ -212,6 +203,12 @@ case $IMAGEFORMAT in
 		esac
 		;;
 esac
+
+if [ -n "${PASSES}" ]; then
+	# Stop lb creating filesystem.squashfs by skipping lb_binary_rootfs and lb_binary_manifest
+	skip_lb_stage binary_rootfs
+	skip_lb_stage binary_manifest
+fi
 
 if [ "$PREINSTALLED" = "true" ]; then
 	# Touch a random file that we can refer back to during build,
@@ -307,22 +304,18 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
+		PASSES="install-minimal install live"
+		add_task install-minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+		add_task install ubuntu-desktop ubuntu-desktop-default-languages
+		LIVE_TASK='ubuntu-live'
+
 		case ${SUBPROJECT:-} in
 			layered)
-				PASSES="install-minimal install live"
-				add_task install-minimal minimal standard ubuntu-desktop-minimal
-				# LANG PASS for minimal
+				# LANG PASS for minimal and install
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages 'nolangpacks'  # none (if no default langpack is selected)
-				add_task install ubuntu-desktop
-				# LANG PASS for install
 				add_layered_pass_delta install desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
 				add_layered_pass_delta install desktop-default-languages 'nolangpacks'  # none (if no default langpack is selected)
-				LIVE_TASK='ubuntu-live'
-				;;
-			*)
-				add_task install minimal standard ubuntu-desktop
-				LIVE_TASK='ubuntu-live'
 				;;
 		esac
 
@@ -689,7 +682,7 @@ case $SUBPROJECT in
 		;;
 esac
 
-if [ "${IMAGEFORMAT:-}" != live-layered ]; then
+if [ -z "${PASSES}" ]; then
 	# we'll expand the base seed given here according to the STRUCTURE file, and
 	# then look in all of the seeds found to see which snaps are seeded
 	case $PROJECT:${SUBPROJECT:-} in

@@ -305,7 +305,7 @@ rm -f /usr/sbin/update-initramfs
 dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
 EOF
 
-	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
+	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb chroot_layered "$@"
 	else
 		lb chroot "$@"
@@ -536,7 +536,7 @@ EOF
 	fi
 
 	# Create layered squashfs system
-	if [ "${IMAGEFORMAT:-}" = live-layered ]; then
+	if [ -n "${PASSES}" ]; then
 		CURPASS=1
 		PREVPASS=""
 		PREFIX=""
