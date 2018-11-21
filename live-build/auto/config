@@ -180,28 +180,46 @@ case $IMAGEFORMAT in
 				exit 1
 				;;
 		esac
-		case $MODEL in
-			pc-amd64|pc-i386)
-				UBUNTU_IMAGE_ARGS="--image-size 3700M" ;;
-			*)
-				UBUNTU_IMAGE_ARGS="" ;;
-		esac
-		case $SUITE in
-			xenial)
-				# Ubuntu Core 16
-				;;
-			*)
-				# Ubuntu Core 18
-				MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
-		esac
 
-		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
-		echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
-		# Store model assertion in top dir to get it picked up later as a build artifact
-		env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
-		echo "Configured ubuntu-image for the following model assertion:"
-		cat "$PREFIX".model-assertion
-		echo "----------------------------------------------------------"
+		if [ $PROJECT = "ubuntu-core" ]; then
+			# snap-based core images
+
+			case $MODEL in
+				pc-amd64|pc-i386)
+					UBUNTU_IMAGE_ARGS="--image-size 3700M" ;;
+				*)
+					UBUNTU_IMAGE_ARGS="" ;;
+			esac
+			case $SUITE in
+				xenial)
+					# Ubuntu Core 16
+					;;
+				*)
+					# Ubuntu Core 18
+					MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
+			esac
+
+			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
+			# Store model assertion in top dir to get it picked up later as a build artifact
+			env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 model="$MODEL" brand-id=canonical > "$PREFIX".model-assertion
+			echo "Configured ubuntu-image for the following model assertion:"
+			cat "$PREFIX".model-assertion
+			echo "----------------------------------------------------------"
+		else
+			# classic images
+
+			UBUNTU_IMAGE_ARGS=""
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
+
+			git clone lp:~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
+
+			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
+
+			echo "Configured ubuntu-image for the following gadget model: $MODEL"
+		fi
 		# Fake finished configuration for lb build
 		mkdir -p .build
 		touch .build/config
