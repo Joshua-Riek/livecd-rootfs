@@ -607,3 +607,89 @@ substract_package_lists() {
     rm list1
     rm list2
 }
+
+clean_debian_chroot() {
+    # remove crufty files that shouldn't be left in an image
+    rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
+	Chroot chroot apt clean
+}
+
+configure_universe() {
+	if [ -f config/universe-enabled ]; then
+        # This is cargo-culted almost verbatim (with some syntax changes for
+        # preinstalled being slightly different in what it doesn't ask) from
+        # debian-installer's apt-setup:
+
+        cat > chroot/etc/apt/sources.list << EOF
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
+
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
+
+## Uncomment the following two lines to add software from Canonical's
+## 'partner' repository.
+## This software is not part of Ubuntu, but is offered by Canonical and the
+## respective vendors as a service to Ubuntu users.
+# deb http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
+# deb-src http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
+
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
+EOF
+
+fi
+}
+
+configure_network_manager() {
+    # If the image pre-installs network-manager, let it manage all devices by
+    # default. Installing NM on an existing system only manages wifi and wwan via
+    # /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf. When setting
+    # the global backend to NM, netplan overrides that file.
+    if [ -e chroot/usr/sbin/NetworkManager ]; then
+        echo "===== Enabling all devices in NetworkManager ===="
+        mkdir -p chroot/etc/netplan
+        cat <<EOF > chroot/etc/netplan/01-network-manager-all.yaml
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+EOF
+    else
+        echo "==== NetworkManager not installed ===="
+    fi
+}
