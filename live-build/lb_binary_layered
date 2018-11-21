@@ -1,0 +1,125 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2012 Daniel Baumann <daniel@debian.org>
+##
+## This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+( . "${LIVE_BUILD}/scripts/build.sh" > /dev/null 2>&1 || true ) || . /usr/lib/live/build.sh
+
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .build/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build binary images')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Setup cleanup function
+Setup_cleanup
+
+. config/functions
+
+build_layered_squashfs() {
+	local pass=$1   # install|install_subpass|install_subpass_subsubpass|…
+	local prevpass=$2  # install|install_subpass|…
+	local prefix=$3 # 01-|02-|…
+	local lowerlayers=$4
+	shift 4 # restore ${*}
+
+	# Cleanup root filesystem
+	lb binary_chroot ${*}
+
+	# Building squashfs filesystem & manifest
+	base="${PWD}/livecd.${PROJECT}.${prefix}${pass}"
+	squashfs_f="${base}.squashfs"
+
+	# We have already treated that pass
+	if [ -f "${squashfs_f}" ]; then
+		return
+	fi
+
+	if [ -n "${lowerlayers}" ]; then
+		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
+	else
+		# first pass
+		rmdir chroot||true
+		ln -s "chroot.${pass}/" chroot
+	fi
+
+	# Full manifest until that PASS
+	squashfs_f_manifest="${base}.manifest"
+	create_manifest "chroot" "${squashfs_f_manifest}.full"
+
+	# Delta manifest
+	diff -NU0 ${PWD}/livecd.${PROJECT}.[0-9]{2..2}-${prevpass}.manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+
+	squashfs_f_size="${base}.size"
+	du -B 1 -s "chroot.${pass}/" | cut -f1 > "${squashfs_f_size}"
+
+	(cd "chroot.${pass}/" &&
+		mksquashfs . ${squashfs_f} \
+		-no-progress -xattrs -comp xz )
+
+	if [ -n "${lowerlayers}" ]; then
+		umount chroot
+	else
+		rm chroot
+		mkdir chroot/
+	fi
+
+	# Handle direct sublayer of current one
+	# Extract the name of the pass corresponding to the sublayer
+	for subpass in $(ls -d chroot.${pass}_* 2>/dev/null | sed -e "s/chroot\.\(${pass}_[^_]\+\).*/\1/"); do
+		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
+		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
+		build_layered_squashfs "${subpass}" "${pass}" "${prefix}" "${lowerlayers_for_subpass}" ${*}
+	done
+}
+
+CURPASS=1
+PREVPASS=""
+PASSPREFIX=""
+LOWER_LAYERS=""
+for _PASS in $PASSES
+do
+	PASSPREFIX="$(printf "%02g" $CURPASS)-"
+
+	build_layered_squashfs "${_PASS}" "${PREVPASS}" "$PASSPREFIX" "${LOWER_LAYERS}" ${*}
+
+	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
+	LOWER_LAYERS="${LOWER_LAYERS%:}"
+	PREVPASS=${_PASS}
+	CURPASS=$(( CURPASS + 1 ))
+done
+
+# remount last "main" pass on chroot for lb binary
+mount_overlay "${LOWER_LAYERS}" "chroot.${_PASS}/" chroot/
+
+# Prepare initrd + kernel
+lb binary_linux-image ${*}
+
+umount chroot/
+
+# Full ISO manifest & size from last main PASS
+PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+cp "livecd.${PROJECT}.${PASSPREFIX}${_PASS}.size" "$PREFIX.size"
+cp "livecd.${PROJECT}.${PASSPREFIX}${_PASS}.manifest.full" "$PREFIX.manifest"
+chmod 644 *.squashfs *.manifest *.manifest.full *.size

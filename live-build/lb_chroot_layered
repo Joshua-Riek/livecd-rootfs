@@ -143,6 +143,11 @@ create_chroot_pass() {
 	# We could modify livebuild if necessary to have conditional upgrade (first pass only).
 	lb chroot_archives chroot install ${*}
 
+	if [ "${passtype}" = "first" ]; then
+		configure_universe
+		configure_network_manager
+	fi
+
 	# Customizing chroot
 	lb chroot_linux-image ${*}
 	lb chroot_preseed ${*}
@@ -178,6 +183,10 @@ create_chroot_pass() {
 	lb chroot_hooks ${*}
 	lb chroot_hacks ${*}
 	lb chroot_interactive ${*}
+
+	# Misc ubuntu cleanup and post-layer configuration
+	clean_debian_chroot
+	/usr/share/livecd-rootfs/minimize-manual chroot
 
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
@@ -234,15 +243,4 @@ do
 	CURPASS=$(( CURPASS + 1 ))
 done
 
-# remount last pass on chroot for lb binary
-mount_overlay "${LOWER_LAYERS}" "chroot.${_PASS}/" chroot/
-
-# Remove unused chroot binary corresponding to bottom layer (once everything is unmount)
-TEARDOWNPATH="config/teardown_chroot_layered"
-cat > $TEARDOWNPATH << EOF
-#!/bin/sh
-set -e
-umount chroot
-rm -rf chroot/
-EOF
-chmod +x $TEARDOWNPATH
+rmdir chroot

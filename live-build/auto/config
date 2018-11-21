@@ -33,7 +33,7 @@ fi
 
 mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
-cp -af /usr/share/livecd-rootfs/live-build/lb_chroot_layered config/lb_chroot_layered
+cp -af /usr/share/livecd-rootfs/live-build/lb_*_layered config/
 cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
 
 mkdir -p config/package-lists
@@ -295,12 +295,6 @@ case $IMAGEFORMAT in
 		esac
 		;;
 esac
-
-if [ -n "${PASSES}" ]; then
-	# Stop lb creating filesystem.squashfs by skipping lb_binary_rootfs and lb_binary_manifest
-	skip_lb_stage binary_rootfs
-	skip_lb_stage binary_manifest
-fi
 
 if [ "$PREINSTALLED" = "true" ]; then
 	# Touch a random file that we can refer back to during build,
