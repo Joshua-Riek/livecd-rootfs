@@ -32,10 +32,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		mv seed.manifest "$PREFIX".manifest
 	else
 		# First we need to build the gadget tree
-		(
-			cd config/$PREFIX-gadget
-			make &&	make install
-		)
+		make -C "config/$PREFIX-gadget"
 		ubuntu-image classic $UBUNTU_IMAGE_ARGS \
 			-p $PROJECT -a $ARCH --subarch $SUBARCH \
 			-o "$PREFIX".img config/$PREFIX-gadget/install

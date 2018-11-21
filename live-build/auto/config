@@ -218,12 +218,8 @@ case $IMAGEFORMAT in
 			# classic images
 
 			UBUNTU_IMAGE_ARGS=""
-			if [ "$PROPOSED" ]; then
-				UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --with-proposed"
-			fi
-			if [ "$EXTRA_PPAS" ]; then
-				UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --extra-ppas \"$EXTRA_PPAS\""
-			fi
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
 
 			git clone lp:~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
 
