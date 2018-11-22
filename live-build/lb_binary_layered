@@ -60,7 +60,7 @@ build_layered_squashfs() {
 		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
 	else
 		# first pass
-		rmdir chroot||true
+		rmdir chroot 2>/dev/null||true
 		ln -s "chroot.${pass}/" chroot
 	fi
 
@@ -122,4 +122,11 @@ umount chroot/
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 cp "livecd.${PROJECT}.${PASSPREFIX}${_PASS}.size" "$PREFIX.size"
 cp "livecd.${PROJECT}.${PASSPREFIX}${_PASS}.manifest.full" "$PREFIX.manifest"
-chmod 644 *.squashfs *.manifest *.manifest.full *.size
+
+# Ubiquity-compatible removal manifest for ISO not using a layered-aware installer
+if [ -n "$(ls livecd.${PROJECT}.[0-9][0-9]-live.manifest.full 2>/dev/null)" ] && \
+   [ -n "$(ls livecd.${PROJECT}.[0-9][0-9]-install.manifest.full 2>/dev/null)" ]; then
+	echo "$(diff livecd.${PROJECT}.[0-9][0-9]-live.manifest.full livecd.${PROJECT}.[0-9][0-9]-install.manifest.full | awk '/^< / { print $2 }')" > livecd.${PROJECT}-manifest-remove
+fi
+
+chmod 644 *.squashfs *.manifest* *.size

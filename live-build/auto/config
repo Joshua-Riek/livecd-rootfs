@@ -396,7 +396,7 @@ case $PROJECT in
 		LIVE_TASK='ubuntu-live'
 
 		case ${SUBPROJECT:-} in
-			layered)
+			ubiquity-ng)
 				# LANG PASS for minimal and install
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
@@ -768,37 +768,35 @@ case $SUBPROJECT in
 		;;
 esac
 
-if [ -z "${PASSES}" ]; then
-	# we'll expand the base seed given here according to the STRUCTURE file, and
-	# then look in all of the seeds found to see which snaps are seeded
-	case $PROJECT:${SUBPROJECT:-} in
-		ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
-			BASE_SEED='desktop'
-			;;
-		ubuntu-cpc:*)
-			BASE_SEED='server'
-			;;
-		ubuntu-server:live)
-			BASE_SEED='server'
-			;;
-	esac
+# we'll expand the base seed given here according to the STRUCTURE file, and
+# then look in all of the seeds found to see which snaps are seeded
+case $PROJECT:${SUBPROJECT:-} in
+	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
+		BASE_SEED='desktop'
+		;;
+	ubuntu-cpc:*)
+		BASE_SEED='server'
+		;;
+	ubuntu-server:live)
+		BASE_SEED='server'
+		;;
+esac
 
-	if [ -n "${BASE_SEED}" ]; then
-		snap_from_seed "${BASE_SEED}" config/seeded-snaps
-	fi
+if [ -z "$PASSES" ] && [ -n "${BASE_SEED}" ]; then
+	snap_from_seed "${BASE_SEED}" config/seeded-snaps
+fi
 
-	# grab a list of packags to remove for a "minimal" installation from the seed
-	# mirror for this project
-	if [ -n "${BASE_SEED}" ] && [ -n "${BASE_SEED}" ]; then
-		minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
-		echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
-		minimal_packages_remove=$(wget -q -O- ${minimal_packages_url} | sed -e '/\s*#.*$/d' -e '/^\s*$/d')
-		if [ -n "${minimal_packages_remove}" ]; then
-			echo "${minimal_packages_remove}" > config/manifest-minimal-remove
-			echo "$(echo ${minimal_packages_remove} | tr '\n' ' ')"
-		else
-			echo "failed to retrieve, not including."
-		fi
+# grab a list of packags to remove for a "minimal" installation from the seed
+# mirror for this project
+if [ -n "${BASE_SEED}" ] && [ -n "${BASE_SEED}" ]; then
+	minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
+	echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
+	minimal_packages_remove=$(wget -q -O- ${minimal_packages_url} | sed -e '/\s*#.*$/d' -e '/^\s*$/d')
+	if [ -n "${minimal_packages_remove}" ]; then
+		echo "${minimal_packages_remove}" > config/manifest-minimal-remove
+		echo "$(echo ${minimal_packages_remove} | tr '\n' ' ')"
+	else
+		echo "failed to retrieve, not including."
 	fi
 fi
 
@@ -922,7 +920,6 @@ lb config noauto \
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
-echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 if [ -n "$PASSES" ]; then
 	echo "PASSES=\"$PASSES\"" >> config/common
 fi
