@@ -786,7 +786,7 @@ case $PROJECT in
 esac
 
 case $ARCH in
-	armel|armhf)
+	armel|armhf|arm64)
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
 			dove)
@@ -896,7 +896,7 @@ echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
 case $ARCH+$SUBARCH in
-	armhf+raspi2|armhf+raspi3)
+	armhf+raspi2|armhf+raspi3|arm64+raspi3)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF
 #!/bin/sh -ex
 mkdir -p /boot/firmware

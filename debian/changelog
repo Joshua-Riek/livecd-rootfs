@@ -6,6 +6,7 @@ livecd-rootfs (2.547) UNRELEASED; urgency=medium
     image/boot/uboot for raspi*.
   * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
     dangling symlink.
+  * Add raspi3 arm64 rootfs build support.
 
   [ Aleksandr Bogdanov ]
   * vagrant: disabling automatic console log file
@@ -13,7 +14,7 @@ livecd-rootfs (2.547) UNRELEASED; urgency=medium
   [ Michael Zanetti ]
   * Don't set QML2_IMPORT_PATH in environment for Ubuntu Touch images.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 19 Nov 2018 10:39:33 -0800
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 23 Nov 2018 17:20:29 +0100
 
 livecd-rootfs (2.546) disco; urgency=medium
 
