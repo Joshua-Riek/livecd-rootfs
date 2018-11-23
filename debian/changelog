@@ -1,14 +1,13 @@
 livecd-rootfs (2.547) UNRELEASED; urgency=medium
 
   [ Łukasz Zemczak ]
-  * Add support for raspi3 rootfs builds (based on Ryan Finnie).
+  * Add support for raspi3 rootfs builds (based on Ryan Finnie's changes).
   * For ubuntu-image consumption, export the kernel and initrd to
     image/boot/uboot for raspi*.
   * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
     dangling symlink.
-  * Add support for raspi3 rootfs builds (based on Ryan Finnie).
-  * For ubuntu-image consumption, export the kernel and initrd to
-    image/boot/uboot for raspi*.
+
+  [ Aleksandr Bogdanov ]
   * vagrant: disabling automatic console log file
 
   [ Michael Zanetti ]
