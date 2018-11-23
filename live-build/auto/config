@@ -819,11 +819,18 @@ case $ARCH in
 				add_package live ac100-tarball-installer
 				BINARY_REMOVE_LINUX=false
 				;;
-			raspi2|raspi3)
+			raspi2)
 				COMPONENTS='main restricted universe multiverse'
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools
 				BINARY_REMOVE_LINUX=false
 				;;
+			raspi3)
+				COMPONENTS='main restricted universe multiverse'
+				KERNEL_FLAVOURS=raspi2
+				add_package install raspi3-firmware u-boot-rpi flash-kernel u-boot-tools
+				BINARY_REMOVE_LINUX=false
+				;;
+
 		esac
 		;;
 esac
@@ -889,7 +896,7 @@ echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
 case $ARCH+$SUBARCH in
-	armhf+raspi2)
+	armhf+raspi2|armhf+raspi3)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF
 #!/bin/sh -ex
 mkdir -p /boot/firmware
