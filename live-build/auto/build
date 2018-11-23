@@ -371,6 +371,11 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 			rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
 		fi
 		case $PROJECT:$SUBPROJECT in
+			ubuntu-server:live)
+				lb chroot_resolv install
+				snap_prepare chroot
+				lb chroot_resolv remove
+				;;
 			*)
 				if [ -e "config/seeded-snaps" ]; then
 					snap_list=$(cat config/seeded-snaps)
