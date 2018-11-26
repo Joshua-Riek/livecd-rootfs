@@ -33,7 +33,7 @@ Depends: ${misc:Depends},
          rsync,
          snapd,
          squashfs-tools (>= 1:3.3-1),
-         sudo
+         sudo,
          u-boot-tools [armhf arm64],
          ubuntu-image,
          vmdk-stream-converter [amd64 i386],
