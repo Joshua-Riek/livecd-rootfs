@@ -145,7 +145,6 @@ create_chroot_pass() {
 
 	if [ "${passtype}" = "first" ]; then
 		configure_universe
-		configure_network_manager
 	fi
 
 	# Customizing chroot
@@ -163,6 +162,7 @@ create_chroot_pass() {
 
 	# Kernel should be in first layer
 	if [ "${passtype}" = "first" ]; then
+		configure_network_manager
 		Chroot chroot "dpkg -l linux-headers-3* linux-headers-4*" 2>/dev/null \
 			| awk '/^i/ {print $2}' > chroot.headers
 		for i in $(cat chroot.headers); do
