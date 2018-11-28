@@ -171,7 +171,7 @@ case $IMAGEFORMAT in
 				MODEL=dragonboard ;;
 			armhf+raspi2)
 				MODEL=pi2 ;;
-			armhf+raspi3)
+			armhf+raspi3|arm64+raspi3)
 				MODEL=pi3 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
@@ -213,9 +213,10 @@ case $IMAGEFORMAT in
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
 
-			git clone lp:~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
+			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
 
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
+			echo "SUITE=$SUITE" >> config/common
 			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
 
 			echo "Configured ubuntu-image for the following gadget model: $MODEL"

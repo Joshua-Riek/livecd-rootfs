@@ -7,6 +7,10 @@ livecd-rootfs (2.547) UNRELEASED; urgency=medium
   * Avoid issues of hard-linking to a symbolic vmlinuz as this can lead to a
     dangling symlink.
   * Add raspi3 arm64 rootfs build support.
+  * Add git to the build dependencies for the gadget tree pull.
+  * Minor fixes to raspi3 builds: add arm64+raspi3 to the supported model
+    list, pass SUITE on to the build stage and use the git:// url for the
+    gadget tree.
 
   [ Aleksandr Bogdanov ]
   * vagrant: disabling automatic console log file
