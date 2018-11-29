@@ -1,4 +1,4 @@
-livecd-rootfs (2.547) UNRELEASED; urgency=medium
+livecd-rootfs (2.547) disco; urgency=medium
 
   [ Łukasz Zemczak ]
   * Add support for raspi3 rootfs builds (based on Ryan Finnie's changes).
