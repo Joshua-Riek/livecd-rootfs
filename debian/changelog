@@ -1,3 +1,11 @@
+livecd-rootfs (2.548) UNRELEASED; urgency=medium
+
+  * Key netplan delegation to NetworkManager on presence of
+    /usr/sbin/NetworkManager, not on /usr/lib/NetworkManager which may have
+    hooks from other packages (i.e., wpasupplicant).
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 06 Dec 2018 13:36:25 +0200
+
 livecd-rootfs (2.547) disco; urgency=medium
 
   [ Łukasz Zemczak ]
