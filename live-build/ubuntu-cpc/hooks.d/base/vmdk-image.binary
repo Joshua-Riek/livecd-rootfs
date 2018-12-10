@@ -18,15 +18,6 @@ case $ARCH in
                      exit 0;;
 esac
 
-case ${IMAGE_TARGETS:-} in
-	""|*vmdk*)
-		;;
-	*)
-		echo "Skipping VMDK image build"
-		exit 0
-		;;
-esac
-
 . config/functions
 
 if [ -e binary/boot/disk-uefi.ext4 ]; then

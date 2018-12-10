@@ -1026,6 +1026,19 @@ EOF
 	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-desktop-next:system-image|ubuntu-cpc:*|ubuntu-server:live)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
+
+		if [ "$PROJECT" = "ubuntu-cpc" ]; then
+			case ${IMAGE_TARGETS:-} in
+				"")
+					config/hooks.d/make-hooks --hooks-dir config/hooks all
+					;;
+				*)
+					config/hooks.d/make-hooks --hooks-dir config/hooks \
+						"$IMAGE_TARGETS"
+					;;
+			esac
+		fi
+
 		if [ "$IMAGEFORMAT" = none ]; then
 			rm -f config/hooks/*.binary*
 		fi

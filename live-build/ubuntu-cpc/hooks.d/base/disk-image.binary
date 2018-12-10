@@ -12,6 +12,8 @@ BOOTPART_END=
 BOOT_MOUNTPOINT=
 ROOTPART_START=1
 
+my_d=$(dirname $(readlink -f ${0}))
+
 case $ARCH:$SUBARCH in
 	ppc64el:*|powerpc:*)
 		echo "POWER disk images are handled separately"
@@ -97,7 +99,7 @@ case $ARCH:$SUBARCH in
 		# not the best place for this, but neither flash-kernel nor
 		# u-boot have provisions for installing u-boot via maintainer
 		# script
-		config/hooks/raspi2/mkknlimg --dtok \
+		${my_d}/raspi2/mkknlimg --dtok \
 			mountpoint/usr/lib/u-boot/rpi_2/u-boot.bin \
 			mountpoint/boot/firmware/uboot.bin
 		;;

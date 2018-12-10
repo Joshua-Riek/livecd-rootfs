@@ -1,0 +1,3 @@
+base/disk-image.binary
+base/disk-image-uefi.binary
+base/disk-image-ppc64el.binary

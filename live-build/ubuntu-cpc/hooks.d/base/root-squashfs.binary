@@ -3,15 +3,6 @@
 #
 # Generate a squashfs root and manifest
 
-case $IMAGE_TARGETS in
-	""|*squashfs*)
-		;;
-	*)
-		echo "Skipping squashfs build"
-		exit 0
-		;;
-esac
-
 if [ -n "$SUBARCH" ]; then
 	echo "Skipping rootfs build for subarch flavor build"
 	exit 0
