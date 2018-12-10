@@ -1,0 +1,3 @@
+depends disk-image
+base/vmdk-image.binary
+base/vmdk-ova-image.binary

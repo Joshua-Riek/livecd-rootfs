@@ -1,0 +1,237 @@
+#!/usr/bin/env python3
+#-*- encoding: utf-8 -*-
+"""
+This script parses a series file and its dependencies and generates a hooks
+folder containing symbolic links to the scripts that need to be invoked for
+a given image target set.
+
+For example, if you wish to build the image target sets "vmdk" and "vagrant",
+you would call this script as
+
+./make-hooks --hooks-dir hooks vmdk vagrant
+
+Scripts live in subfolders below the "hooks.d" folder. Currently the folders
+"chroot" and "base" exist. The folder with the name "extra" is reserved for
+private scripts, which are not included in the source of livecd-rootfs. The
+scripts are not numbered, instead the order of their execution depends on the
+order in which they are listed in a series file.
+
+Series files are placed into the subfolders "base/series" or "extra/series".
+Each series file contains a list of scripts to be executed. Empty lines and
+lines starting with a '#' are ignored. Series files in "extra/series" override
+files in "base/series" with the same name. For example, if a series file
+"base/series/cloudA" exists and a series file "extra/series/cloudA", then the
+latter will be preferred.
+
+A series file in "extra/series" may also list scripts that are located in the
+"chroot" and "base" folders. In addition, series files can depend on other
+series files. For example, the series files for most custom images look similar
+to this:
+
+    depends disk-image
+    depends extra-settings
+    extra/cloudB.binary
+
+Where "disk-image" and "extra-settings" may list scripts and dependencies which
+are to be processed before the script "extra/cloudB.binary" is called.
+
+ACHTUNG: live build runs scripts with the suffix ".chroot" in a batch separate
+from scripts ending in ".binary". Even if you arrange them interleaved in your
+series files, the chroot scripts will be run before the binary scripts.
+"""
+
+import argparse
+import os
+import re
+import shutil
+import sys
+import yaml
+
+SCRIPT_DIR = os.path.normpath(os.path.dirname(os.path.realpath(sys.argv[0])))
+HOOKS_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "hooks"))
+
+EXIT_OK = 0
+EXIT_ERR = 1
+
+class MakeHooksError(Exception):
+    pass
+
+class MakeHooks:
+    """This class provides series file parsing and symlink generator
+    functionality."""
+
+    def __init__(self, hooks_dir=None, quiet=False):
+        """The hooks_dir parameter can be used to specify the path to the
+        directory, into which the hook symlinks to the actual script files
+        should be placed.
+
+        If quiet is set to True, info messages during symlink creation will
+        be suppressed. Use this if your build is not private, but you would
+        like to hide which scripts are being run.
+        """
+        self._script_dir = SCRIPT_DIR
+        self._hooks_dir  = hooks_dir or HOOKS_DIR
+        self._quiet      = quiet
+        self._hooks_list = []
+        self._included   = set()
+
+    def reset(self):
+        """Reset the internal state allowing instance to be reused for
+        another run."""
+        self._hooks_list.clear()
+        self._included.clear()
+
+    def print_usage(self):
+        print(
+            "CPC live build hook generator script                               \n"
+            "                                                                   \n"
+            "Usage: ./make-hooks.sh [OPTIONS] <image_set>                       \n"
+            "                                                                   \n"
+            "Options:                                                           \n"
+            "                                                                   \n"
+            " --help, -h              Show this message and exit.               \n"
+            " --quiet, -q             Only show warnings and error messages.    \n"
+            " --hooks-dir, -d <dir>   The directory where to write the symlinks.\n"
+        )
+
+    def find_series_file(self, image_set):
+        """Search for the series file requested in the image_set parameter.
+
+        The image_set parameter should be a string containing the name of an
+        image target set represented by a series file. First the "extra/series"
+        folder is searched followed by the "base/series" folder.
+        
+        When a file with the given name is found, the search stops and the
+        full path to the file is returned.
+        """
+        for subdir in ["extra", "base"]:
+            series_file = os.path.join(self._script_dir, subdir, "series",
+                    image_set)
+            if os.path.isfile(series_file):
+                return series_file
+        return None
+
+    def make_hooks(self, image_sets):
+        """Entry point for parsing series files and their dependencies and
+        for generating the symlinks in the hooks folder.
+
+        The image_sets parameter must be an iterable containing the names of
+        the series files representing the corresponding image target sets,
+        e.g. "vmdk" or "vagrant".
+        """
+        self.collect_chroot_hooks()
+        self.collect_binary_hooks(image_sets)
+        self.create_symlinks()
+
+    def collect_chroot_hooks(self):
+        """Chroot hooks are numbered and not explicitly mentioned in series
+        files. Collect them, sort them and add them to the internal list of
+        paths to hook sripts.
+        """
+        chroot_hooks_dir = os.path.join(self._script_dir, "chroot")
+
+        chroot_entries = os.listdir(chroot_hooks_dir)
+        chroot_entries.sort()
+
+        for entry in chroot_entries:
+            if not (entry.endswith(".chroot_early") or 
+                    entry.endswith(".chroot")):
+                continue
+            self._hooks_list.append(os.path.join("chroot", entry))
+
+    def collect_binary_hooks(self, image_sets):
+        """Search the series files for the given image_sets and parse them
+        and their dependencies to generate a list of hook scripts to be run
+        during image build.
+
+        The image_sets parameter must be an iterable containing the names of
+        the series files representing the corresponding image target sets,
+        e.g. "vmdk" or "vagrant".
+
+        Populates the internal list of paths to hook scripts in the order in
+        which the scripts are to be run.
+        """
+        for image_set in image_sets:
+            series_file = self.find_series_file(image_set)
+
+            if not series_file:
+                raise MakeHooksError(
+                    "Series file for image set '%s' not found." % image_set)
+
+            with open(series_file, "r", encoding="utf-8") as fp:
+                for line in fp:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    m = re.match(r"^\s*depends\s+(\S+.*)$", line)
+                    if m:
+                        include_set = m.group(1)
+                        if include_set in self._included:
+                            continue
+                        self._included.add(include_set)
+                        self.collect_binary_hooks([include_set,])
+                        continue
+                    if not line in self._hooks_list:
+                        self._hooks_list.append(line)
+
+    def create_symlinks(self):
+        """Once the internal list of hooks scripts has been populated by a
+        call to collect_?_hooks, this method is used to populate the hooks
+        folder with enumerated symbolic links to the hooks scripts. If the
+        folder does not exist, it will be created. If it exists, it must be
+        empty or a MakeHooksError will be thrown.
+        """
+        if os.path.isdir(self._hooks_dir) and os.listdir(self._hooks_dir):
+            # Only print a warning, because directory might have been created
+            # by auto/config voodoo.
+            sys.stderr.write("WARNING: Hooks directory exists and is not empty.\n")
+        os.makedirs(self._hooks_dir, exist_ok=True)
+
+        for counter, hook in enumerate(self._hooks_list, start=1):
+            hook_basename = os.path.basename(hook)
+
+            m = re.match(r"^\d+-(?:\d+-)?(?P<basename>.*)$", hook_basename)
+            if m:
+                hook_basename = m.group("basename")
+
+            linkname = ("%03d-" % counter) + hook_basename
+            linksrc  = os.path.join(self._hooks_dir, linkname)
+            linkdest = os.path.relpath(os.path.join(self._script_dir, hook),
+                    self._hooks_dir)
+
+            if not self._quiet:
+                print("[HOOK] %s => %s" % (linkname, hook))
+            os.symlink(linkdest, linksrc)
+
+    def cli(self, args):
+        """Command line interface to the hooks generator."""
+        parser = argparse.ArgumentParser()
+
+        parser.add_argument("-q", "--quiet", dest="quiet", type=bool,
+                help="Only show warnings and error messages.")
+        parser.add_argument("-d", "--hooks-dir", dest="hooks_dir", type=str,
+                help="The directory where to create the symlinks.")
+        parser.add_argument("image_target", nargs="+", type=str,
+                help="")
+
+        self.reset()
+        options = parser.parse_args(args)
+
+        # Copy options to object attributes.
+        for key, value in vars(options).items():
+            if value and hasattr(self, "_" + key):
+                setattr(self, "_" + key, value)
+
+        # Take remaining command line arguments, sanitize and turn into list.
+        image_sets = re.sub(r";|,", " ", " ".join(options.image_target))\
+                .split()
+
+        self.make_hooks(image_sets)
+
+
+if __name__ == "__main__":
+    try:
+        MakeHooks().cli(sys.argv[1:])
+    except MakeHooksError as e:
+        sys.stderr.write("%s: %s\n" % (os.path.basename(sys.argv[0]), str(e)))
+        sys.exit(EXIT_ERR)

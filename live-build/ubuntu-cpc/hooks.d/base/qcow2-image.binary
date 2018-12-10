@@ -1,14 +1,5 @@
 #!/bin/bash -ex
 
-case $IMAGE_TARGETS in
-	""|*qcow2*)
-		;;
-	*)
-		echo "Skipping qcow2 image build"
-		exit 0
-		;;
-esac
-
 case $ARCH:$SUBARCH in
 	# Not sure if any other cloud images use subarch for something that
 	# should take qcow2 format, so only skipping this on raspi2 for now.

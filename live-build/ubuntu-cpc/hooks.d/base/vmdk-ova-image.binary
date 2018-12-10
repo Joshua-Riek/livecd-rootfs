@@ -32,15 +32,6 @@ case $ARCH in
             exit 0;;
 esac
 
-case ${IMAGE_TARGETS:-} in
-	""|*vmdk*)
-		;;
-	*)
-		echo "Skipping OVA image build"
-		exit 0
-		;;
-esac
-
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 

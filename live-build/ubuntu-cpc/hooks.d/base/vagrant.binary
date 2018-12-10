@@ -24,15 +24,6 @@ case ${SUBPROJECT:-} in
         ;;
 esac
 
-case $IMAGE_TARGETS in
-	""|*vagrant*)
-		;;
-	*)
-		echo "Skipping Vagrant image build"
-		exit 0
-		;;
-esac
-
 cur_d=${PWD}
 my_d=$(dirname $(readlink -f ${0}))
 
