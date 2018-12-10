@@ -1,10 +1,10 @@
-livecd-rootfs (2.549) UNRELEASED; urgency=medium
+livecd-rootfs (2.549) disco; urgency=medium
 
   [ Tobias Koch ]
   * Use series files with dependency handling to generate hook symlinks
     dynamically
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Dec 2018 13:04:22 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Dec 2018 14:15:34 -0800
 
 livecd-rootfs (2.548) disco; urgency=medium
 
