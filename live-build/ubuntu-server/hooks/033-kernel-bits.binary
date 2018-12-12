@@ -1,0 +1,66 @@
+#!/bin/bash -eux
+# vi: ts=4 noexpandtab
+#
+# Generate a squashfs root and manifest
+
+echo "033-kernel-bits.binary"
+
+case ${IMAGE_TARGETS-} in
+	""|*squashfs*)
+		;;
+	*)
+		echo "Skipping squashfs build"
+		exit 0
+		;;
+esac
+
+if [ -n "${SUBARCH-}" ]; then
+	echo "Skipping rootfs build for subarch flavor build"
+	exit 0
+fi
+
+. config/functions
+. config/common
+
+INSTALLER_ROOT=binary/boot/installer.squashfs.dir
+
+KERNEL_BITS_ROOT=binary/boot/kernel-bits.dir
+KERNEL_BITS_OVERLAY=binary/boot/overlay-kernel-bits
+
+#variants='ga hwe'
+variants='ga'
+
+for variant in $variants; do
+	if [ "$variant" = "ga" ]; then
+		kernel_metapkg=linux-generic
+		flavor=generic
+	elif [ "$variant" = "hwe" ]; then
+		kernel_metapkg=linux-generic-hwe-$(lsb_release -sc)
+		flavor=generic-hwe
+	else
+		echo "bogus variant: $variant"
+		exit 1
+	fi
+
+	# Make preparations
+	mkdir -p $KERNEL_BITS_ROOT $KERNEL_BITS_OVERLAY
+	mount_overlay "$INSTALLER_ROOT/" "$KERNEL_BITS_OVERLAY/" "$KERNEL_BITS_ROOT/"
+	setup_mountpoint $KERNEL_BITS_ROOT
+
+	# Install the kernel!
+	env DEBIAN_FRONTEND=noninteractive chroot $KERNEL_BITS_ROOT apt-get -y install ${kernel_metapkg}
+
+	# Fish out generated kernel image and initrd
+	mv "$KERNEL_BITS_ROOT"/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-$flavor
+	mv "$KERNEL_BITS_ROOT"/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-$flavor
+
+	# Create squashfs containing all the modules
+	modules_squashfs_path="${PWD}/livecd.${PROJECT}.modules.squashfs-$flavor"
+	(cd "$KERNEL_BITS_ROOT/lib/modules" &&
+		mksquashfs . $modules_squashfs_path -no-progress -xattrs -comp xz)
+
+	# And clean up
+	teardown_mountpoint $KERNEL_BITS_ROOT
+	umount $KERNEL_BITS_ROOT
+	rm -rf $KERNEL_BITS_ROOT $KERNEL_BITS_OVERLAY
+done
