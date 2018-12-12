@@ -1,3 +1,10 @@
+livecd-rootfs (2.551) UNRELEASED; urgency=medium
+
+  * Do no install openssh-server in the base filsystem for the live server
+    installer.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 17 Dec 2018 13:40:21 +1300
+
 livecd-rootfs (2.550) disco; urgency=medium
 
   [ Balint Reczey ]

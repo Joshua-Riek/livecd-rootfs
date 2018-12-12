@@ -513,7 +513,7 @@ case $PROJECT in
 			live)
 				add_task install standard
 				add_task install server
-				LIVE_TASK='cloud-image'
+				add_package install cloud-init
 				;;
 		esac
 		COMPONENTS='main'
