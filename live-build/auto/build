@@ -23,7 +23,7 @@ PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
-	if [ "$PROJECT" = "ubuntu-core"]; then
+	if [ "$PROJECT" = "ubuntu-core" ]; then
 		CHANNEL="${CHANNEL:-edge}"
 		env SNAPPY_STORE_NO_CDN=1 \
 		ubuntu-image snap -c "$CHANNEL" $UBUNTU_IMAGE_ARGS \

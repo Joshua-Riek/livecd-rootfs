@@ -1,3 +1,9 @@
+livecd-rootfs (2.550) UNRELEASED; urgency=medium
+
+  * Fix typo preventing builds of ubuntu-core images.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 12 Dec 2018 15:09:28 +1300
+
 livecd-rootfs (2.549) disco; urgency=medium
 
   [ Tobias Koch ]
