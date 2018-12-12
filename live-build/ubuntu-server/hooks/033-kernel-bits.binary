@@ -47,6 +47,27 @@ for variant in $variants; do
 	mount_overlay "$INSTALLER_ROOT/" "$KERNEL_BITS_OVERLAY/" "$KERNEL_BITS_ROOT/"
 	setup_mountpoint $KERNEL_BITS_ROOT
 
+	# Configure initramfs creation
+	mkdir -p "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/
+	if [ -n "$LB_INITRAMFS_COMPRESSION" ]; then
+		echo "COMPRESS=$LB_INITRAMFS_COMPRESSION" > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
+	fi
+	echo "CASPER_GENERATE_UUID=1" > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/casper.conf
+
+	# Add a hook to record which kernel was booted and mount the
+	# modules.squashfs created below.
+	cat <<EOF > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/scripts/init-bottom/live-server
+#!/bin/sh
+case \$1 in
+prereqs) exit 0;;
+esac
+
+echo ${kernel_metapkg} > /run/kernel-meta-package
+mkdir -p \$rootmnt/lib/modules
+mount \$rootmnt/cdrom/casper/extras/modules.squashfs-$flavor \$rootmnt/lib/modules
+EOF
+	chmod +x "$KERNEL_BITS_ROOT"/etc/initramfs-tools/scripts/init-bottom/live-server
+
 	# Install the kernel!
 	env DEBIAN_FRONTEND=noninteractive chroot $KERNEL_BITS_ROOT apt-get -y install ${kernel_metapkg}
 
