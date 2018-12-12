@@ -47,6 +47,10 @@ for variant in $variants; do
 	mount_overlay "$INSTALLER_ROOT/" "$KERNEL_BITS_OVERLAY/" "$KERNEL_BITS_ROOT/"
 	setup_mountpoint $KERNEL_BITS_ROOT
 
+	# Our initramfs hook implements a kind of extreme version of
+	# cloud-initramfs-copymods, so remove that and prevent duelling hooks
+	env DEBIAN_FRONTEND=noninteractive chroot $KERNEL_BITS_ROOT apt-get -y remove cloud-initramfs-copymods ubuntu-server || true
+
 	# Configure initramfs creation
 	mkdir -p "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/
 	if [ -n "$LB_INITRAMFS_COMPRESSION" ]; then
