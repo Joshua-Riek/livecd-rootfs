@@ -1,6 +1,11 @@
 livecd-rootfs (2.550) UNRELEASED; urgency=medium
 
   * Fix typo preventing builds of ubuntu-core images.
+  * Changes to kernel handling for live-server: do not include kernel/initrd
+    in filesystem.squashfs but rather install it in a throwaway layer on top
+    of installer.squashfs and fish kernel, initrd and modules out of that with
+    an initrd hook that records kernel metapackage name in /run and mounts
+    /lib/modules from a squashfs on the ISO.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 12 Dec 2018 15:09:28 +1300
 

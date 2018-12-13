@@ -24,13 +24,14 @@ fi
 . config/functions
 . config/common
 
-SQUASH_ROOT=binary/boot/squashfs.dir
+FILESYSTEM_ROOT=binary/boot/squashfs.dir
+INSTALLER_ROOT=binary/boot/installer.squashfs.dir
 OVERLAY_ROOT=binary/overlay
 
-mkdir -p "$OVERLAY_ROOT"
+mkdir -p "$INSTALLER_ROOT" "$OVERLAY_ROOT"
 
 # Create an installer squashfs layer
-mount_overlay "$SQUASH_ROOT/" "$OVERLAY_ROOT/" "$SQUASH_ROOT/"
+mount_overlay "$FILESYSTEM_ROOT/" "$OVERLAY_ROOT/" "$INSTALLER_ROOT/"
 
 setup_mountpoint binary/boot/squashfs.dir
 
@@ -40,8 +41,8 @@ setup_mountpoint binary/boot/squashfs.dir
 # It would be better to have this in ../includes.binary/overlay but
 # you can't have backslashes in filenames in bzr branches!
 DEVICE_UNIT_NAME='dev-disk-by\x2duuid-00c629d6\x2d06ab\x2d4dfd\x2db21e\x2dc3186f34105d.device'
-mkdir -p "$SQUASH_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d"
-cat > "$SQUASH_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d/override.conf" <<EOF
+mkdir -p "$INSTALLER_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d"
+cat > "$INSTALLER_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d/override.conf" <<EOF
 [Unit]
 JobRunningTimeoutSec=0s
 EOF
@@ -50,22 +51,19 @@ EOF
 
 # Install any requirements for the installer, for things we don't want
 # to see on the installed system
-chroot $SQUASH_ROOT apt-get update
-chroot $SQUASH_ROOT apt-get -y install user-setup curtin lupin-casper
+chroot $INSTALLER_ROOT apt-get update
+chroot $INSTALLER_ROOT apt-get -y install user-setup curtin lupin-casper
 
 # For bug #1743643 "Install to dirty disk with swap fails" remove the
 # "helpful" casper script that mounts any swap partitions it finds.
-rm -f $SQUASH_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
-
-# Installing casper means we need a new initramfs
-UPDATE_INITRAMFS_OPTIONS=CASPER_GENERATE_UUID=1 recreate_initramfs $SQUASH_ROOT
+rm -f $INSTALLER_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
 
 # Don't let cloud-init run in the live session.
-touch $SQUASH_ROOT/etc/cloud/cloud-init.disabled
+touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
 
 # Do the snap seeding dance.
-chroot $SQUASH_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
-chroot $SQUASH_ROOT sh -c '
+chroot $INSTALLER_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
+chroot $INSTALLER_ROOT sh -c '
 set -x;
 cd /var/lib/snapd/seed;
 sudo SNAPPY_STORE_NO_CDN=1 snap download core;
@@ -89,10 +87,7 @@ snaps:
 EOF
 '
 
-teardown_mountpoint "$SQUASH_ROOT"
-
-# Then unmount the overlay
-umount "$SQUASH_ROOT"
+teardown_mountpoint "$INSTALLER_ROOT"
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 

@@ -145,20 +145,15 @@ case $IMAGEFORMAT in
 		;;
 
 	plain)
-		INITRAMFS_TYPE=none
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
-				# Stop lb installing casper into filesystem.squashfs
-				#  by skipping lb_chroot_live-packages.
-				skip_lb_stage chroot_live-packages
-				INITRAMFS_TYPE=auto
 	                        touch config/universe-enabled
 				;;
 			*)
 				PREINSTALLED=true
 				;;
 		esac
-		OPTS="${OPTS:+$OPTS }--initramfs $INITRAMFS_TYPE --chroot-filesystem $IMAGEFORMAT"
+		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
 		;;
 
 	ubuntu-image)
@@ -519,9 +514,6 @@ case $PROJECT in
 				add_task install standard
 				add_task install server
 				LIVE_TASK='cloud-image'
-				case $ARCH in
-					amd64)	add_package live linux-signed-generic ;;
-				esac
 				;;
 		esac
 		COMPONENTS='main'
@@ -837,8 +829,6 @@ case $ARCH in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:live)
-		;;
 	ubuntu-server:*|ubuntu-base:*|ubuntu-touch:*|ubuntu-touch-custom:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
