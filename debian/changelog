@@ -1,5 +1,9 @@
 livecd-rootfs (2.550) UNRELEASED; urgency=medium
 
+  [ Balint Reczey ]
+  * Update Vcs-* fields in debian/control to point to git.
+
+  [ Michael Hudson-Doyle ]
   * Fix typo preventing builds of ubuntu-core images.
   * Changes to kernel handling for live-server: do not include kernel/initrd
     in filesystem.squashfs but rather install it in a throwaway layer on top
