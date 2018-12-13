@@ -1,4 +1,4 @@
-livecd-rootfs (2.550) UNRELEASED; urgency=medium
+livecd-rootfs (2.550) disco; urgency=medium
 
   [ Balint Reczey ]
   * Update Vcs-* fields in debian/control to point to git.
@@ -11,7 +11,7 @@ livecd-rootfs (2.550) UNRELEASED; urgency=medium
     an initrd hook that records kernel metapackage name in /run and mounts
     /lib/modules from a squashfs on the ISO.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 12 Dec 2018 15:09:28 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 13 Dec 2018 14:04:52 +1300
 
 livecd-rootfs (2.549) disco; urgency=medium
 
