@@ -1,4 +1,4 @@
-livecd-rootfs (2.551) UNRELEASED; urgency=medium
+livecd-rootfs (2.551) disco; urgency=medium
 
   * Do no install openssh-server in the base filsystem for the live server
     installer.
