@@ -4,6 +4,13 @@ livecd-rootfs (2.551) UNRELEASED; urgency=medium
     installer.
   * Use right lsb_release argument for HWE kernel name (-sc -> bionic, need
     -sr -> 18.04).
+  * A few simple tweaks to reduce size of live servers installer.squashfs:
+    - Do not run apt-get update (which can bring in package lists if we are
+      unlikely wrt publisher schedules).
+    - Run apt-get clean to clear out downloaded debs of curtin/casper and
+      dependencies.
+    - Do not install user-setup.
+    - Use the core snap from the base filesystem if present.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 17 Dec 2018 13:40:21 +1300
 

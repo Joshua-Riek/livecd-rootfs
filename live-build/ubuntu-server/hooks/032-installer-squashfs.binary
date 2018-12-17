@@ -51,8 +51,9 @@ EOF
 
 # Install any requirements for the installer, for things we don't want
 # to see on the installed system
-chroot $INSTALLER_ROOT apt-get update
-chroot $INSTALLER_ROOT apt-get -y install user-setup curtin lupin-casper
+chroot $INSTALLER_ROOT apt-get -y install curtin lupin-casper
+chroot $INSTALLER_ROOT apt-get clean
+
 
 # For bug #1743643 "Install to dirty disk with swap fails" remove the
 # "helpful" casper script that mounts any swap partitions it finds.
@@ -65,15 +66,17 @@ touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
 chroot $INSTALLER_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
 chroot $INSTALLER_ROOT sh -c '
 set -x;
-cd /var/lib/snapd/seed;
-sudo SNAPPY_STORE_NO_CDN=1 snap download core;
-sudo SNAPPY_STORE_NO_CDN=1 snap download subiquity;
+mkdir -p /var/lib/snapd/seed/snaps/
+cd /var/lib/snapd/seed/snaps/;
+if [ ! -e core_*.snap ]; then
+	SNAPPY_STORE_NO_CDN=1 snap download core
+fi
+SNAPPY_STORE_NO_CDN=1 snap download subiquity;
 
-CORE_SNAP=$(ls -1 core*.snap);
+CORE_SNAP=$(ls -1 core_*.snap);
 SUBIQUITY_SNAP=$(ls -1 subiquity*.snap);
 
 mv *.assert /var/lib/snapd/seed/assertions/;
-mv *.snap /var/lib/snapd/seed/snaps/;
 
 cat <<EOF > /var/lib/snapd/seed/seed.yaml
 snaps:
