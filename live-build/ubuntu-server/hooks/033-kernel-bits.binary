@@ -35,7 +35,7 @@ for variant in $variants; do
 		kernel_metapkg=linux-generic
 		flavor=generic
 	elif [ "$variant" = "hwe" ]; then
-		kernel_metapkg=linux-generic-hwe-$(lsb_release -sc)
+		kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 		flavor=generic-hwe
 	else
 		echo "bogus variant: $variant"

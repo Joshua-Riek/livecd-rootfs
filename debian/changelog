@@ -2,6 +2,8 @@ livecd-rootfs (2.551) UNRELEASED; urgency=medium
 
   * Do no install openssh-server in the base filsystem for the live server
     installer.
+  * Use right lsb_release argument for HWE kernel name (-sc -> bionic, need
+    -sr -> 18.04).
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 17 Dec 2018 13:40:21 +1300
 
