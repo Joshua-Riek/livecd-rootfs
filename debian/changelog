@@ -1,3 +1,10 @@
+livecd-rootfs (2.552) UNRELEASED; urgency=medium
+
+  * Add wpasupplicant to the additional packages installed for the raspi2 and
+    raspi3 targets.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 17 Dec 2018 16:38:19 +0100
+
 livecd-rootfs (2.551) disco; urgency=medium
 
   * Do no install openssh-server in the base filsystem for the live server
