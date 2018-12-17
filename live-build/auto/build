@@ -17,6 +17,30 @@ fi
 
 . config/functions
 
+if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
+    if [ "`whoami`" != "root" ]; then
+        echo "Magic repo snapshots only work when running as root." >&2
+        exit 1
+    fi
+
+    apt-get -qyy install iptables
+
+    # Redirect all outgoing traffic to port 80 to proxy instead.
+    iptables -t nat -A OUTPUT -p tcp --dport 80 -m owner ! --uid-owner daemon \
+        -j REDIRECT --to 8080
+
+    # Run proxy as "daemon" to avoid infinite loop.
+    /usr/share/livecd-rootfs/magic-proxy \
+        --address="127.0.0.1" \
+        --port=8080 \
+        --run-as=daemon \
+        --cutoff-time="$REPO_SNAPSHOT_STAMP" \
+        --log-file=/build/livecd.magic-proxy.log \
+        --pid-file=config/magic-proxy.pid \
+        --background \
+        --setsid
+fi
+
 # Link output files somewhere launchpad-buildd will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
@@ -930,3 +954,12 @@ case $PROJECT in
 		fi
 		;;
 esac
+
+if [ -f "config/magic-proxy.pid" ]; then
+    kill -TERM $(cat config/magic-proxy.pid)
+    rm -f config/magic-proxy.pid
+
+    # Remove previously-inserted iptables rule.
+    iptables -t nat -D OUTPUT -p tcp --dport 80 -m owner ! --uid-owner daemon \
+        -j REDIRECT --to 8080
+fi
