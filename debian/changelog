@@ -6,7 +6,7 @@ livecd-rootfs (2.551) UNRELEASED; urgency=medium
     -sr -> 18.04).
   * A few simple tweaks to reduce size of live servers installer.squashfs:
     - Do not run apt-get update (which can bring in package lists if we are
-      unlikely wrt publisher schedules).
+      unlucky wrt publisher schedules).
     - Run apt-get clean to clear out downloaded debs of curtin/casper and
       dependencies.
     - Do not install user-setup.
