@@ -45,6 +45,7 @@ mkdir -p "$INSTALLER_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d"
 cat > "$INSTALLER_ROOT/etc/systemd/system/$DEVICE_UNIT_NAME.d/override.conf" <<EOF
 [Unit]
 JobRunningTimeoutSec=0s
+Wants=subiquity_config.mount
 EOF
 
 # Prepare installer layer.
