@@ -49,11 +49,9 @@ EOF
 
 # Prepare installer layer.
 
-# Install any requirements for the installer, for things we don't want
-# to see on the installed system
-chroot $INSTALLER_ROOT apt-get -y install curtin lupin-casper
+# Install casper for live session magic.
+chroot $INSTALLER_ROOT apt-get -y install lupin-casper
 chroot $INSTALLER_ROOT apt-get clean
-
 
 # For bug #1743643 "Install to dirty disk with swap fails" remove the
 # "helpful" casper script that mounts any swap partitions it finds.

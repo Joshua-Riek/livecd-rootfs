@@ -1,3 +1,11 @@
+livecd-rootfs (2.552) UNRELEASED; urgency=medium
+
+  * Do not include curtin in the live-server installer.squashfs as the
+    version of subiquity that includes it in the snap has now been released to
+    stable.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 18 Dec 2018 15:17:08 +1300
+
 livecd-rootfs (2.551) disco; urgency=medium
 
   * Do no install openssh-server in the base filsystem for the live server
