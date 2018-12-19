@@ -707,6 +707,8 @@ case $SUBPROJECT in
 		add_package install build-essential
 		# Needed for LXD-based builds.
 		add_package install init
+
+		cp -af /usr/share/livecd-rootfs/live-build/make-lxd-metadata.py config/make-lxd-metadata
 		;;
 esac
 

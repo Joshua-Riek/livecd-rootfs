@@ -531,6 +531,18 @@ elif [ "$SUBPROJECT" = buildd ]; then
 	tar --transform='s,^binary,chroot-autobuild,' \
 		--sort=name --numeric-owner \
 		-czf "$PREFIX.rootfs.tar.gz" binary
+
+	# Build a LXD image as well, which is preferable for some build types.
+	TMPDIR="$(mktemp -d)"
+	config/make-lxd-metadata "${LB_DISTRIBUTION%-*}" "$ARCH" >"$TMPDIR/metadata.yaml"
+	tar --numeric-owner -cf "$PREFIX.lxd.tar" -C "$TMPDIR" metadata.yaml
+	rm -rf "$TMPDIR"
+	# When using the combined metadata/rootfs form, the rootfs must be
+	# under rootfs/ rather than under chroot-autobuild/.
+	tar --transform='s,^binary,rootfs,' \
+		--sort=name --numeric-owner \
+		-rf "$PREFIX.lxd.tar" binary
+	gzip -9 "$PREFIX.lxd.tar"
 fi
 
 if [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-core:system-image" ]; then
