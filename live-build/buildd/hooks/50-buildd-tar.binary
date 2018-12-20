@@ -1,0 +1,10 @@
+#! /bin/sh
+# A few things (launchpad-buildd, sbuild-launchpad-chroot) rely on the
+# top-level directory being "chroot-autobuild", so we have to do this
+# ourselves.
+set -e
+
+# gzip was chosen for fastest decompression speed: it decompresses buildd
+# chroots about twice as fast as xz and about five times as fast as bzip2.
+tar --transform='s,^binary,chroot-autobuild,' --sort=name --numeric-owner \
+	-czf "livecd.$PROJECT.rootfs.tar.gz" binary
