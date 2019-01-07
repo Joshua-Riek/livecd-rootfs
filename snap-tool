@@ -159,6 +159,7 @@ class Snap:
                     "action":       "download",
                     "instance-key": "0",
                     "name":         self._name,
+                    "channel":      self._channel,
                 }
             ]
         }
