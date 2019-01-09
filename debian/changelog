@@ -1,4 +1,4 @@
-livecd-rootfs (2.554) UNRELEASED; urgency=medium
+livecd-rootfs (2.554) disco; urgency=medium
 
   * Default to IMAGEFORMAT=ubuntu-image for raspi3 ubuntu-cpc builds.
   * Rename the resulting raspi3 image file to *.disk1.img.xz to be compatible
