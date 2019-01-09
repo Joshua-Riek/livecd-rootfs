@@ -1,3 +1,11 @@
+livecd-rootfs (2.554) UNRELEASED; urgency=medium
+
+  * Default to IMAGEFORMAT=ubuntu-image for raspi3 ubuntu-cpc builds.
+  * Rename the resulting raspi3 image file to *.disk1.img.xz to be compatible
+    with how raspi2 images are provided.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 09 Jan 2019 10:34:59 +0100
+
 livecd-rootfs (2.553) disco; urgency=medium
 
   * Add a LXD image to builds for the buildd subproject.

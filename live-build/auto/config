@@ -109,7 +109,12 @@ add_binary_hook ()
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*)
-			IMAGEFORMAT=ext4
+			if [ "$SUBARCH" = "raspi3" ]; then
+				# For now only raspi3, but others are soon to follow
+				IMAGEFORMAT=ubuntu-image
+			else
+				IMAGEFORMAT=ext4
+			fi
 			;;
 		ubuntu-server:live)
 			IMAGEFORMAT=plain

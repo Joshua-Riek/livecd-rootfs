@@ -43,8 +43,11 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		# XXX: currently we only have one image generated, but really
 		#  we should be supporting more than one for models that
 		#  define those.
-		mv output/*.img "$PREFIX".img
-		xz -0 -T4 "$PREFIX".img
+		# Also, we use the .disk1.img suffix so that the resulting
+		# image path is compatible with how raspi2 images are consumed
+		# by cdimage.
+		mv output/*.img "$PREFIX".disk1.img
+		xz -0 -T4 "$PREFIX".disk1.img
 		mv output/filesystem.manifest "$PREFIX".manifest
 	fi
 
