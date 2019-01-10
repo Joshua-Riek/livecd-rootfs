@@ -1,3 +1,11 @@
+livecd-rootfs (2.555) UNRELEASED; urgency=medium
+
+  * Apparently the last raspi3 image rename was not what cdimage expected.
+    Link to the expected name instead, so that we can change it to something
+    more sensible once raspi2 is migrated to ubuntu-image.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 10 Jan 2019 22:54:23 +0100
+
 livecd-rootfs (2.554) disco; urgency=medium
 
   * Default to IMAGEFORMAT=ubuntu-image for raspi3 ubuntu-cpc builds.
