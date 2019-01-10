@@ -1,4 +1,4 @@
-livecd-rootfs (2.555) UNRELEASED; urgency=medium
+livecd-rootfs (2.555) disco; urgency=medium
 
   * Apparently the last raspi3 image rename was not what cdimage expected.
     Link to the expected name instead, so that we can change it to something
