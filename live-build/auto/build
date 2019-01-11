@@ -17,7 +17,7 @@ fi
 
 . config/functions
 
-# Link output files somewhere BuildLiveCD will be able to find them.
+# Link output files somewhere launchpad-buildd will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
@@ -45,6 +45,8 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		#  define those.
 		mv output/*.img "$PREFIX".img
 		xz -0 -T4 "$PREFIX".img
+		# Also link the output image to a filename that cdimage expects
+		ln "$PREFIX".img.xz livecd.ubuntu-cpc.disk1.img.xz
 		mv output/filesystem.manifest "$PREFIX".manifest
 	fi
 
@@ -521,16 +523,6 @@ if [ -e "binary/$INITFS/filesystem.dir" ]; then
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
 	cp -a binary-tar.tar.gz "$PREFIX.rootfs.tar.gz"
-elif [ "$SUBPROJECT" = buildd ]; then
-	# A few things (launchpad-buildd, sbuild-launchpad-chroot) rely on
-	# the top-level directory being "chroot-autobuild", so we have to do
-	# this ourselves.
-	# gzip was chosen for fastest decompression speed: it decompresses
-	# buildd chroots about twice as fast as xz and about five times as
-	# fast as bzip2.
-	tar --transform='s,^binary,chroot-autobuild,' \
-		--sort=name --numeric-owner \
-		-czf "$PREFIX.rootfs.tar.gz" binary
 fi
 
 if [ "$PROJECT:${SUBPROJECT:-}" = "ubuntu-core:system-image" ]; then

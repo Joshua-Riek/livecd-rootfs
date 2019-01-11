@@ -1,9 +1,40 @@
-livecd-rootfs (2.552) UNRELEASED; urgency=medium
+livecd-rootfs (2.556) UNRELEASED; urgency=medium
 
   * Add wpasupplicant to the additional packages installed for the raspi2 and
     raspi3 targets.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 17 Dec 2018 16:38:19 +0100
+
+livecd-rootfs (2.555) disco; urgency=medium
+
+  * Apparently the last raspi3 image rename was not what cdimage expected.
+    Link to the expected name instead, so that we can change it to something
+    more sensible once raspi2 is migrated to ubuntu-image.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 10 Jan 2019 22:54:23 +0100
+
+livecd-rootfs (2.554) disco; urgency=medium
+
+  * Default to IMAGEFORMAT=ubuntu-image for raspi3 ubuntu-cpc builds.
+  * Rename the resulting raspi3 image file to *.disk1.img.xz to be compatible
+    with how raspi2 images are provided.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 09 Jan 2019 10:34:59 +0100
+
+livecd-rootfs (2.553) disco; urgency=medium
+
+  * Add a LXD image to builds for the buildd subproject.
+  * Move buildd image building to binary hooks.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 07 Jan 2019 21:23:31 +0000
+
+livecd-rootfs (2.552) disco; urgency=medium
+
+  * Do not include curtin in the live-server installer.squashfs as the
+    version of subiquity that includes it in the snap has now been released to
+    stable.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 19 Dec 2018 11:00:08 +1300
 
 livecd-rootfs (2.551) disco; urgency=medium
 

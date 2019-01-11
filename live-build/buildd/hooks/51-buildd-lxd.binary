@@ -1,0 +1,16 @@
+#! /bin/sh
+# Some build types prefer a LXD image over a traditional chroot tarball.
+set -e
+
+. config/bootstrap
+
+TMPDIR="$(mktemp -d)"
+config/make-lxd-metadata "${LB_DISTRIBUTION%-*}" "$ARCH" \
+	>"$TMPDIR/metadata.yaml"
+tar --numeric-owner -cf "livecd.$PROJECT.lxd.tar" -C "$TMPDIR" metadata.yaml
+rm -rf "$TMPDIR"
+# When using the combined metadata/rootfs form, the rootfs must be under
+# rootfs/ rather than under chroot-autobuild/.
+tar --transform='s,^binary,rootfs,' --sort=name --numeric-owner \
+	-rf "livecd.$PROJECT.lxd.tar" binary
+gzip -9 "livecd.$PROJECT.lxd.tar"
