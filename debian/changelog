@@ -1,4 +1,4 @@
-livecd-rootfs (2.556) UNRELEASED; urgency=medium
+livecd-rootfs (2.556) disco; urgency=medium
 
   * Add wpasupplicant to the additional packages installed for the raspi2 and
     raspi3 targets.
