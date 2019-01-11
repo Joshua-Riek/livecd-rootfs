@@ -3,7 +3,7 @@ livecd-rootfs (2.556) UNRELEASED; urgency=medium
   * Add wpasupplicant to the additional packages installed for the raspi2 and
     raspi3 targets.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 17 Dec 2018 16:38:19 +0100
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 11 Jan 2019 11:25:05 +0100
 
 livecd-rootfs (2.555) disco; urgency=medium
 
