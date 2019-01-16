@@ -686,8 +686,15 @@ case $SUBPROJECT in
 		add_package install policyrcd-script-zg2
 		add_package install pkgbinarymangler
 		add_package install ca-certificates
-		add_package install gpg
-		add_package install gpg-agent
+		case $SUITE in
+			precise|trusty|xenial)
+				;;
+			*)
+				# only needed in >= bionic
+				add_package install gpg
+				add_package install gpg-agent
+				;;
+		esac
 		case $SUITE in
 			precise|trusty|xenial)
 				# no longer needed in >= artful
