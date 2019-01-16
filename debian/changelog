@@ -1,10 +1,10 @@
-livecd-rootfs (2.557) UNRELEASED; urgency=medium
+livecd-rootfs (2.557) disco; urgency=medium
 
   * Don't install gpg or gpg-agent when building buildd images for series
     earlier than bionic.  (In earlier series, those packages didn't exist
     and gnupg was build-essential.)
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 16 Jan 2019 12:36:48 +0000
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 16 Jan 2019 12:50:39 +0000
 
 livecd-rootfs (2.556) disco; urgency=medium
 
