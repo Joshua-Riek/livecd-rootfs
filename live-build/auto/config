@@ -390,18 +390,22 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		PASSES="install-minimal install live"
-		add_task install-minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
-		add_task install ubuntu-desktop ubuntu-desktop-default-languages
 		LIVE_TASK='ubuntu-live'
 
 		case ${SUBPROJECT:-} in
 			ubiquity-ng)
+				PASSES="install-minimal install live"
+				add_task install-minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+				add_task install ubuntu-desktop ubuntu-desktop-default-languages
+
 				# LANG PASS for minimal and install
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
 				add_layered_pass_delta install-minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
 				add_layered_pass_delta install desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
 				add_layered_pass_delta install desktop-default-languages ''  # none (if no default langpack is selected)
+				;;
+			*)
+				add_task install minimal standard ubuntu-desktop ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
 				;;
 		esac
 
