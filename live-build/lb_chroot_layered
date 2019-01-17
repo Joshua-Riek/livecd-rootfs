@@ -114,15 +114,15 @@ create_chroot_pass() {
 	shift 4 # restore ${*}
 
 	# We have already treated that pass
-	if [ -d "chroot.${pass}/" ]; then
+	if [ -d "overlay.${pass}/" ]; then
 		return
 	fi
 
 	export PASS=${pass}
 
 	if [ "${passtype}" != "first" ]; then
-		mkdir chroot.${pass}
-		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
+		mkdir overlay.${pass}
+		mount_overlay ${lowerlayers} "overlay.${pass}/" chroot/
 	fi
 
 	# Configuring chroot
@@ -205,7 +205,7 @@ create_chroot_pass() {
 	lb chroot_cache save ${*}
 
 	if [ "${passtype}" = "first" ]; then
-		mv chroot chroot.${pass}
+		mv chroot overlay.${pass}
 		mkdir chroot
 	else
 		umount chroot
@@ -214,7 +214,7 @@ create_chroot_pass() {
 	# Handle direct sublayer of current one
 	# Extract the name of the pass corresponding to the sublayer
 	for subpass in $(ls config/package-lists/*list.chroot_${pass}_* 2>/dev/null | sed -e "s/.*list\.chroot_\(${pass}_[^_]\+\).*/\1/"); do
-		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
+		lowerlayers_for_subpass="overlay.${pass}:${lowerlayers}"
 		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
 		create_chroot_pass "${subpass}" "${pass}" "${lowerlayers_for_subpass}" "" ${*}
 	done
@@ -236,7 +236,7 @@ do
 
 	create_chroot_pass "$_PASS" "$PREVPASS" "$LOWER_LAYERS" "$PASSTYPE" ${*}
 	
-	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
+	LOWER_LAYERS="overlay.${_PASS}:$LOWER_LAYERS"
 	LOWER_LAYERS="${LOWER_LAYERS%:}"
 	PREVPASS=${_PASS}
 	

@@ -57,11 +57,11 @@ build_layered_squashfs() {
 	fi
 
 	if [ -n "${lowerlayers}" ]; then
-		mount_overlay ${lowerlayers} "chroot.${pass}/" chroot/
+		mount_overlay ${lowerlayers} "overlay.${pass}/" chroot/
 	else
 		# first pass
 		rmdir chroot 2>/dev/null||true
-		ln -s "chroot.${pass}/" chroot
+		ln -s "overlay.${pass}/" chroot
 	fi
 
 	# Full manifest until that PASS
@@ -72,9 +72,9 @@ build_layered_squashfs() {
 	diff -NU0 ${PWD}/livecd.${PROJECT}.[0-9][0-9]-${prevpass}.manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
 
 	squashfs_f_size="${base}.size"
-	du -B 1 -s "chroot.${pass}/" | cut -f1 > "${squashfs_f_size}"
+	du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
 
-	(cd "chroot.${pass}/" &&
+	(cd "overlay.${pass}/" &&
 		mksquashfs . ${squashfs_f} \
 		-no-progress -xattrs -comp xz )
 
@@ -87,8 +87,8 @@ build_layered_squashfs() {
 
 	# Handle direct sublayer of current one
 	# Extract the name of the pass corresponding to the sublayer
-	for subpass in $(ls -d chroot.${pass}_* 2>/dev/null | sed -e "s/chroot\.\(${pass}_[^_]\+\).*/\1/"); do
-		lowerlayers_for_subpass="chroot.${pass}:${lowerlayers}"
+	for subpass in $(ls -d overlay.${pass}_* 2>/dev/null | sed -e "s/overlay\.\(${pass}_[^_]\+\).*/\1/"); do
+		lowerlayers_for_subpass="overlay.${pass}:${lowerlayers}"
 		lowerlayers_for_subpass="${lowerlayers_for_subpass%:}"
 		build_layered_squashfs "${subpass}" "${pass}" "${prefix}" "${lowerlayers_for_subpass}" ${*}
 	done
@@ -104,14 +104,14 @@ do
 
 	build_layered_squashfs "${_PASS}" "${PREVPASS}" "$PASSPREFIX" "${LOWER_LAYERS}" ${*}
 
-	LOWER_LAYERS="chroot.${_PASS}:$LOWER_LAYERS"
+	LOWER_LAYERS="overlay.${_PASS}:$LOWER_LAYERS"
 	LOWER_LAYERS="${LOWER_LAYERS%:}"
 	PREVPASS=${_PASS}
 	CURPASS=$(( CURPASS + 1 ))
 done
 
 # remount last "main" pass on chroot for lb binary
-mount_overlay "${LOWER_LAYERS}" "chroot.${_PASS}/" chroot/
+mount_overlay "${LOWER_LAYERS}" "overlay.${_PASS}/" chroot/
 
 # Prepare initrd + kernel
 lb binary_linux-image ${*}
