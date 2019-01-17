@@ -592,11 +592,11 @@ list_packages_from_seed () {
     done|sort -u
 }
 
-substract_package_lists() {
-    # Substract a package list from another
+subtract_package_lists() {
+    # Subtract a package list from another
     #
     # $1 source package list
-    # $2 Package list to substract from source package list
+    # $2 Package list to subtract from source package list
     local list1=$(mktemp)
     local list2=$(mktemp)
 

@@ -141,13 +141,13 @@ add_layered_pass_delta() {
 
     local seed_regexp="$3"
     if [ -z "${seed_regexp}" ]; then
-        substract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_${1}_no-${2}
+        subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_${1}_no-${2}
         return
     fi
 
     for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
        pass=${1}_${seed}
-       substract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+       subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
     done
 }
 
