@@ -1,4 +1,4 @@
-livecd-rootfs (2.558) UNRELEASED; urgency=medium
+livecd-rootfs (2.558) disco; urgency=medium
 
   * Use the new linux-firmware-raspi2 for pi3 boot binary blobs as
     raspi3-firmware includes upgrade hooks that conflict with our image
