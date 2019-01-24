@@ -405,7 +405,7 @@ case $IMAGEFORMAT in
 			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
 				;;
 			ubuntu)
-				if [ $SUBPROJECT != "canary" ]; then
+				if [ "$SUBPROJECT" != "canary" ]; then
 					add_package live lupin-casper
 				fi
 				;;
