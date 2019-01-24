@@ -260,6 +260,22 @@ _sanitize_passes ()
 	echo $passes
 }
 
+_get_live_passes ()
+{
+	# Returns a list of all passes that ends with .live for automated live passes detection
+	# $1 list of passes
+	local passes="$1"
+	local livepasses=""
+	[ -z "$passes" ] && return
+
+	for pass in $passes; do
+		if echo $pass | grep -Eq '\.live*'; then
+			livepasses="$pass $livepasses"
+		fi
+	done
+	echo $livepasses
+}
+
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*)
@@ -1031,12 +1047,21 @@ lb config noauto \
 	"$@"
 
 PASSES=$(_sanitize_passes "$PASSES")
+LIVE_PASSES=${LIVE_PASSES:-$(_get_live_passes "$PASSES")}
+
+if [ -n "$PASSES" ] && [ -z "$LIVE_PASSES" ]; then
+	Echo_warning "Multi-layered mode is enabled, but we didn't find any live pass." \
+	             "Either set \$LIVE_PASSES or add a pass ending with '.live'."
+fi
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
 if [ -n "$PASSES" ]; then
 	echo "PASSES=\"$PASSES\"" >> config/common
+fi
+if [ -n "$LIVE_PASSES" ]; then
+	echo "LIVE_PASSES=\"$LIVE_PASSES\"" >> config/common
 fi
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary

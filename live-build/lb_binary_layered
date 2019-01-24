@@ -100,10 +100,14 @@ build_layered_squashfs () {
 	# Prepare initrd + kernel
 	# Main manifest and size files
 	prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
-	if echo $pass | grep -Eq '\.live*' && test ! -e "${prefix}.manifest"; then
-		lb binary_linux-image ${*}
-		cp ${squashfs_f_size} "${prefix}.size"
-		cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
+	if [ ! -e "${prefix}.manifest" ]; then
+		for livepass in $LIVE_PASSES; do
+			[ "$livepass" != "$pass" ] && continue
+			lb binary_linux-image ${*}
+			cp ${squashfs_f_size} "${prefix}.size"
+			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
+			break
+		done
 	fi
 
 	(cd "overlay.${pass}/" &&

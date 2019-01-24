@@ -220,9 +220,11 @@ create_chroot_pass () {
 	Chroot chroot "apt-get --purge -y autoremove"
 
 	# Add live packages to live layers
-	if echo $pass | grep -Eq '\.live*'; then
+	for livepass in $LIVE_PASSES; do
+		[ "$livepass" != "$pass" ] && continue
 		lb chroot_live-packages ${*}
-	fi
+		break
+	done
 
 	# Run includes by pass
 	lb_chroot_includes ${pass} ${*}
