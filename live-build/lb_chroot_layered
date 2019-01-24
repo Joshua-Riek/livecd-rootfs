@@ -106,6 +106,38 @@ lb_chroot_includes () {
 	cd "${OLDPWD}"
 }
 
+reduce_pass_size () {
+	# Remove duplicated files between parent and currant pass
+	# Note the empty directories created in a child pass are not removed
+	local pass=$1
+	local parent="$(get_parent_pass $pass)"
+
+	$(is_root_layer $pass) && return
+
+	pass_dir="overlay.${pass}"
+	parent_pass_dir="overlay.${parent}"
+
+	local list_pass=$(mktemp)
+    local list_parent=$(mktemp)
+
+	(cd $pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_pass)
+	(cd $parent_pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_parent)
+
+	# Only iterate on common files with same type, owner, permission and size
+    comm -12 $list_pass $list_parent|cut -d'|' -f1|while read f; do
+		# If file contents are different, keep it
+		if ! diff --brief --no-dereference "$pass_dir/$f" "$parent_pass_dir/$f" >/dev/null; then
+			continue
+		fi
+		# Files are strictly identical between the 2 passes (only mod or access times differs). No need for unused delta.
+		Echo_message "reduce_pass_size: '$f' is strictly identical between $parent and $pass. Removing."
+		rm "$pass_dir/$f"
+	done
+
+    rm $list_pass
+    rm $list_parent
+}
+
 create_chroot_pass () {
 	local pass=$1
 	shift 1 # restore ${*}
@@ -233,6 +265,8 @@ create_chroot_pass () {
 	else
 		rm chroot
 	fi
+
+	reduce_pass_size $pass
 }
 
 if [ ! -d chroot.bootstrap/ ]; then
