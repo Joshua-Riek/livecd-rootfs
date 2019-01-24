@@ -59,6 +59,40 @@ BINARY_HOOKS=
 
 APT_OPTIONS=" --yes -oDebug::pkgDepCache::AutoInstall=yes "
 
+PASSES_TO_LAYERS=false
+_PASSES_TO_LAYERS=		# Stores the initial value of PASSES_TO_LAYERS
+PASSES=
+
+_check_immutable_passes_to_layers () {
+	# Check that PASSES_TO_LAYERS didn't change ie we didn't switch from layer
+	# to non-layer image format and vice versa.
+	if [ -z "$_PASSES_TO_LAYERS" ]; then
+		_PASSES_TO_LAYERS=$PASSES_TO_LAYERS
+	fi
+
+	if [ "$_PASSES_TO_LAYERS" != "$PASSES_TO_LAYERS" ]; then
+		echo "ERROR: PASSES_TO_LAYERS has changed from $_PASSES_TO_LAYERS to $PASSES_TO_LAYERS between 2 API calls. Please set it first."
+		exit 1
+	fi
+}
+
+_check_layers_only_API () {
+	# Check if a function is designed only for layered mode
+	# $1 name of the function
+	if [ "$PASSES_TO_LAYERS" != "true" ]; then
+		echo "$1 should only be used in layered mode, with PASSES_TO_LAYERS set to true"
+		exit 1
+	fi
+}
+
+_register_pass () {
+	# In layer mode, record a pass into the list of passes
+	# $1 Name of the pass
+	[ "$PASSES_TO_LAYERS" != "true" ] && return
+
+	PASSES="$PASSES $1"
+}
+
 add_task ()
 {
 	local pass="$1"
@@ -67,6 +101,9 @@ add_task ()
 	local snap_list_file
 	local snap_list_files
 	local curseed
+
+	_check_immutable_passes_to_layers
+	_register_pass "$pass"
 
 	# The removal of direct task installation support from live-build
 	# poses some problems.  If the chroot has multiarch configured - for
@@ -113,40 +150,80 @@ add_task ()
 
 add_package ()
 {
+	# Adds a pass named pass_name composed of packages to install
+	# $1 pass
+	# $@ list of packages
+
 	local pass="$1"
 	shift
 	local pkg
+
+	_check_immutable_passes_to_layers
+	_register_pass "$pass"
 
 	for pkg; do
 		echo "$pkg" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
 	done
 }
 
-add_layered_pass() {
-    # Add a layer to an existing pass based on seeds matching a regexp
+remove_package ()
+{
+	# Adds a pass named pass_name composed of packages to remove
+	# $1 pass
+	# $@ list of packages
+
+	local pass="$1"
+	shift
+	local pkg
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "remove_package"
+	_register_pass "$pass"
+
+	for pkg; do
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.removal-list.chroot_$pass"
+	done
+}
+
+add_packages_from_seed_regexp () {
+    # Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
     # $1 base pass
     # $2 seeds (regexp)
+	local pass
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "add_packages_from_seed_regexp"
 
     for seed in $(ls config/germinate-output/|grep -P "$2"); do
-       pass=${1}_${seed}
+       pass=${1}.${seed}
+	   _register_pass "$pass"
        list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
     done
 }
 
-add_layered_pass_delta() {
-    # Add a layer to an existing pass based on delta between seeds matching a regexp and a base seed
+remove_packages_from_seed_regexp() {
+    # Creates one or more passes, based on base_pass_name, from any seed matching seed_regexp.
+	# This package list is a list of packages to remove (and included in a previous dependent
+	# pass then), resulting from base_seed - {current_seed_match_from_regexp}.
     # $1 base pass
     # $2 base seed
     # $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
+	local pass
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "remove_packages_from_seed_regexp"
 
     local seed_regexp="$3"
     if [ -z "${seed_regexp}" ]; then
-        subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_${1}_no-${2}
+		pass="${1}.no-${2}"
+		_register_pass "$pass"
+        subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
         return
     fi
 
     for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
-       pass=${1}_${seed}
+       pass="${1}.${seed}"
+	   _register_pass "$pass"
        subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
     done
 }
@@ -159,6 +236,28 @@ add_chroot_hook ()
 add_binary_hook ()
 {
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
+}
+
+_sanitize_passes ()
+{
+	# Returns an uniquely ordered list of passes and ensure dependency tree is coherent
+	# $1 list of passes
+	local passes="$1"
+	[ -z "$passes" ] && return
+
+	passes=$(echo $passes | tr ' ' '\n' | sort -u)
+	for pass in $passes; do
+		parent=$(get_parent_pass $pass)
+		# if root pass, no parent to find
+		[ -z "$parent" ] && continue
+		if [ $(echo "$passes"|grep -cE "^$parent\$") -ne 1 ]; then
+			echo "ERROR: '$parent' is required by '$pass' but is missing. Registered passes are:\n$passes"
+			exit 1
+		fi
+	done
+
+	# return the list of passes
+	echo $passes
 }
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
@@ -289,6 +388,11 @@ case $IMAGEFORMAT in
 		case $PROJECT in
 			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
 				;;
+			ubuntu)
+				if [ $SUBPROJECT != "canary" ]; then
+					add_package live lupin-casper
+				fi
+				;;
 			*)
 				add_package live lupin-casper
 				;;
@@ -390,27 +494,32 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		LIVE_TASK='ubuntu-live'
 
 		case ${SUBPROJECT:-} in
-			ubiquity-ng)
-				PASSES="install-minimal install live"
-				add_task install-minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
-				add_task install ubuntu-desktop ubuntu-desktop-default-languages
+			canary)
+				PASSES_TO_LAYERS="true"
+				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
+				add_task minimal.standard.live ubuntu-live
+				add_package minimal.standard.live lupin-casper
 
-				# LANG PASS for minimal and install
-				add_layered_pass_delta install-minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
-				add_layered_pass_delta install-minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
-				add_layered_pass_delta install desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
-				add_layered_pass_delta install desktop-default-languages ''  # none (if no default langpack is selected)
+				case $ARCH in
+					amd64)	add_package minimal.standard.live $SIGNED_KERNEL_PACKAGE ;;
+				esac
+
+				# LANG PASS for minimal and standard
+				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
+				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
+				remove_packages_from_seed_regexp minimal.standard desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
+				remove_packages_from_seed_regexp minimal.standard desktop-default-languages ''  # none (if no default langpack is selected)
 				;;
 			*)
+				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
+				case $ARCH in
+					amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
+				esac
 				;;
-		esac
-
-		case $ARCH in
-			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
 		esac
 		;;
 
@@ -786,7 +895,7 @@ case $PROJECT:${SUBPROJECT:-} in
 		;;
 esac
 
-if [ -z "$PASSES" ] && [ -n "${BASE_SEED}" ]; then
+if [ "$PASSES_TO_LAYERS" != "true" ] && [ -n "${BASE_SEED}" ]; then
 	snap_from_seed "${BASE_SEED}" config/seeded-snaps
 fi
 
@@ -806,7 +915,7 @@ fi
 
 export APT_OPTIONS
 
-if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
+if [ "$PREINSTALLED" != "true" ] && [ "$PASSES_TO_LAYERS" != "true" ] && [ "$LIVE_TASK" ]; then
 	add_task live "$LIVE_TASK"
 fi
 
@@ -920,6 +1029,8 @@ lb config noauto \
 	${BOOTAPPEND_LIVE:+--bootappend-live "$BOOTAPPEND_LIVE"} \
 	$OPTS \
 	"$@"
+
+PASSES=$(_sanitize_passes "$PASSES")
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot

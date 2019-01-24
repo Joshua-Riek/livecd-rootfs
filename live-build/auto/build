@@ -235,28 +235,11 @@ echo "command. You will still need to ensure the 'man-db' package is installed."
 EOF
                 chmod +x chroot/usr/bin/man
 	fi
-	Chroot chroot "dpkg-divert --quiet --add \
-		--divert /usr/sbin/update-initramfs.REAL --rename \
-		/usr/sbin/update-initramfs"
-	cat > chroot/usr/sbin/update-initramfs <<'EOF'
-#! /bin/sh
-if [ $# != 1 ] || [ "$1" != -u ]; then
-	exec update-initramfs.REAL "$@"
-fi
-echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
-exit 0
-EOF
-	chmod +x chroot/usr/sbin/update-initramfs
-
-	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
-#! /bin/sh
-rm -f /usr/sbin/update-initramfs
-dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
-EOF
 
 	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb chroot_layered "$@"
 	else
+		divert_update_initramfs
 		lb chroot "$@"
 	fi
 
@@ -453,7 +436,7 @@ for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 done
 
 # we don't need a manifest-remove for a layered-aware installer
-if [ "$SUBPROJECT" = "ubiquity-ng" ]; then
+if [ "$PROJECT" = "ubuntu" ] && [ "$SUBPROJECT" = "canary" ]; then
 	rm -f livecd.${PROJECT}-manifest-remove
 	rm -f config/manifest-minimal-remove
 fi

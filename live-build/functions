@@ -137,6 +137,22 @@ mount_overlay() {
 	"$path"
 }
 
+get_lowerdirs_for_pass () {
+    # Returns the name of the lowerdir from the name of a pass
+    # $1 Name of the pass
+    local curpass="$1"
+    local lowerlayers=""
+
+	while :; do
+		curpass=$(get_parent_pass $curpass)
+        # We climbed up the tree to the root layer, we are done
+		[ -z "$curpass" ] && break
+
+		lowerlayers="${lowerlayers}:overlay.${curpass}"
+	done
+    echo "${lowerlayers#:}"
+}
+
 mount_disk_image() {
     local disk_image=${1}
     local mountpoint=${2}
@@ -680,7 +696,7 @@ configure_network_manager() {
     # default. Installing NM on an existing system only manages wifi and wwan via
     # /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf. When setting
     # the global backend to NM, netplan overrides that file.
-    if [ -e chroot/usr/sbin/NetworkManager ]; then
+    if [ -e chroot/usr/sbin/NetworkManager -a ! -f chroot/etc/netplan/01-network-manager-all.yaml ]; then
         echo "===== Enabling all devices in NetworkManager ===="
         mkdir -p chroot/etc/netplan
         cat <<EOF > chroot/etc/netplan/01-network-manager-all.yaml
@@ -692,4 +708,54 @@ EOF
     else
         echo "==== NetworkManager not installed ===="
     fi
+}
+
+get_parent_pass () {
+    # return parent pass
+    # $1 name of the pass
+    # return parent pass name or '' if pass is root pass.
+    local pass="$1"
+
+    parent_pass=${pass%.*}
+    if [ "${parent_pass}" = "${pass}" ]; then
+        return
+    fi
+    echo ${pass%.*}
+}
+
+setenv_file () {
+    # Exposes an environment variable in a chroot
+    # $1 Name of the variable
+    # $2 Value of the variable
+    # $3 Path to the environment file of the chroot
+	local var="$1"
+	local val="$2"
+	local file="$3"
+
+	grep -v "^$var" $file || true > $file.new
+	echo "${var}=${val}" >> $file.new
+	mv $file.new $file
+}
+
+divert_update_initramfs () {
+    Chroot chroot "dpkg-divert --quiet --add \
+		--divert /usr/sbin/update-initramfs.REAL --rename \
+		/usr/sbin/update-initramfs"
+	cat > chroot/usr/sbin/update-initramfs <<'EOF'
+#! /bin/sh
+if [ $# != 1 ] || [ "$1" != -u ]; then
+	exec update-initramfs.REAL "$@"
+fi
+echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
+
+exit 0
+EOF
+	chmod +x chroot/usr/sbin/update-initramfs
+
+	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
+#! /bin/sh
+[ ! -f /usr/sbin/update-initramfs.REAL ] && exit 0
+rm -f /usr/sbin/update-initramfs
+dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
+EOF
 }
