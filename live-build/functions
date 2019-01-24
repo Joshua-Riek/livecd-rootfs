@@ -759,3 +759,11 @@ rm -f /usr/sbin/update-initramfs
 dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
 EOF
 }
+
+is_root_layer () {
+    local pass=$1
+    if [ -z "$(get_parent_pass $pass)" ]; then
+        return 0
+    fi
+    return 1
+}

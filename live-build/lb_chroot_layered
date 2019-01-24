@@ -120,7 +120,7 @@ create_chroot_pass () {
 
 	# Only get some function executed on root passes
 	# Copy bootstrap on root layers
-	if [ -z "$(get_parent_pass $pass)" ]; then
+	if $(is_root_layer $pass); then
 		rm -f .build/chroot_linux-image .build/chroot_preseed .build/chroot_hacks
 		cp -a chroot.bootstrap/ "$overlay_dir/"
 	fi
@@ -144,7 +144,7 @@ create_chroot_pass () {
 	lb chroot_proc install ${*}
 	lb chroot_sysfs install ${*}
 	# We run chroot_hacks only on root layers (update-initramfs diverted)
-	if [ -z "$(get_parent_pass $pass)" ]; then
+	if $(is_root_layer $pass); then
 		divert_update_initramfs
 	fi
 	lb chroot_debianchroot install ${*}
@@ -155,13 +155,11 @@ create_chroot_pass () {
 	lb chroot_hostname install ${*}
 	lb chroot_apt install ${*}
 	# Note: this triggers an upgrade + dist-ugprade; which may impact sublayers with more
-	# diff content than desired. However, we still need to setup the archive and teardown
-	# for each layer.
-	# We could modify livebuild if necessary to have conditional upgrade (root pass only).
-	lb chroot_archives chroot install ${*}
-
+	# diff content than desired. So only running this on root pass.
+	# Also configure universe
 	# Only configure universe on root passes
-	if [ -z "$(get_parent_pass $pass)" ]; then
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot install ${*}
 		configure_universe
 	fi
 
@@ -215,7 +213,9 @@ create_chroot_pass () {
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
 	# Deconfiguring chroot
-	lb chroot_archives chroot remove ${*}
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot remove ${*}
+	fi
 	lb chroot_apt remove ${*}
 	lb chroot_hostname remove ${*}
 	lb chroot_resolv remove ${*}
