@@ -724,10 +724,10 @@ get_parent_pass () {
 }
 
 setenv_file () {
-    # Exposes an environment variable in a chroot
-    # $1 Name of the variable
-    # $2 Value of the variable
-    # $3 Path to the environment file of the chroot
+	# Exposes an environment variable in a chroot
+	# $1 Name of the variable
+	# $2 Value of the variable
+	# $3 Path to the environment file of the chroot
 	local var="$1"
 	local val="$2"
 	local file="$3"

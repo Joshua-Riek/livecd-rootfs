@@ -186,46 +186,46 @@ remove_package ()
 }
 
 add_packages_from_seed_regexp () {
-    # Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
-    # $1 base pass
-    # $2 seeds (regexp)
+	# Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
+	# $1 base pass
+	# $2 seeds (regexp)
 	local pass
 
 	_check_immutable_passes_to_layers
 	_check_layers_only_API "add_packages_from_seed_regexp"
 
-    for seed in $(ls config/germinate-output/|grep -P "$2"); do
-       pass=${1}.${seed}
-	   _register_pass "$pass"
-       list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
-    done
+	for seed in $(ls config/germinate-output/|grep -P "$2"); do
+		pass=${1}.${seed}
+		_register_pass "$pass"
+		list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
+	done
 }
 
 remove_packages_from_seed_regexp() {
-    # Creates one or more passes, based on base_pass_name, from any seed matching seed_regexp.
+	# Creates one or more passes, based on base_pass_name, from any seed matching seed_regexp.
 	# This package list is a list of packages to remove (and included in a previous dependent
 	# pass then), resulting from base_seed - {current_seed_match_from_regexp}.
-    # $1 base pass
-    # $2 base seed
-    # $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
+	# $1 base pass
+	# $2 base seed
+	# $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
 	local pass
 
 	_check_immutable_passes_to_layers
 	_check_layers_only_API "remove_packages_from_seed_regexp"
 
-    local seed_regexp="$3"
-    if [ -z "${seed_regexp}" ]; then
+	local seed_regexp="$3"
+	if [ -z "${seed_regexp}" ]; then
 		pass="${1}.no-${2}"
 		_register_pass "$pass"
-        subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
-        return
-    fi
+		subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+		return
+	fi
 
-    for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
-       pass="${1}.${seed}"
+	for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
+	   pass="${1}.${seed}"
 	   _register_pass "$pass"
-       subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
-    done
+	   subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+	done
 }
 
 add_chroot_hook ()
@@ -269,7 +269,7 @@ _get_live_passes ()
 	[ -z "$passes" ] && return
 
 	for pass in $passes; do
-		if echo $pass | grep -Eq '\.live*'; then
+		if echo $pass | grep -Eq '\.live$'; then
 			livepasses="$pass $livepasses"
 		fi
 	done

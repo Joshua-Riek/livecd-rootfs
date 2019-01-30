@@ -96,7 +96,7 @@ build_layered_squashfs () {
 	squashfs_f_size="${base}.size"
 	du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
 
-	# We take first live path for "global" ISO properties (used by installers and checkers):
+	# We take first live pass for "global" ISO properties (used by installers and checkers):
 	# Prepare initrd + kernel
 	# Main manifest and size files
 	prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
@@ -104,7 +104,18 @@ build_layered_squashfs () {
 		for livepass in $LIVE_PASSES; do
 			[ "$livepass" != "$pass" ] && continue
 			lb binary_linux-image ${*}
-			cp ${squashfs_f_size} "${prefix}.size"
+
+			totalsize=$(cat ${squashfs_f_size})
+			curpass="$pass"
+			while :; do
+				curpass=$(get_parent_pass $curpass)
+				# We climbed up the tree to the root layer, we are done
+				[ -z "$curpass" ] && break
+
+				totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
+			done
+			echo ${totalsize} > "${prefix}.size"
+
 			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
 			break
 		done

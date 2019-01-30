@@ -8,7 +8,7 @@
 ## under certain conditions; see COPYING for details.
 
 ## This is a fork of lb_chroot for layered live system.
-## We don't want leaking host configuratino in each layer, and so,
+## We don't want leaking host configuration in each layer, and so,
 ## we clean and setup the chroot each time.
 ## In addition, we create the squashfs for each layer, but top one (live)
 ## which still can be configured after lb chroot call.
@@ -107,7 +107,7 @@ lb_chroot_includes () {
 }
 
 reduce_pass_size () {
-	# Remove duplicated files between parent and currant pass
+	# Remove duplicated files between parent and current pass
 	# Note the empty directories created in a child pass are not removed
 	local pass=$1
 	local parent="$(get_parent_pass $pass)"
@@ -118,7 +118,7 @@ reduce_pass_size () {
 	parent_pass_dir="overlay.${parent}"
 
 	local list_pass=$(mktemp)
-    local list_parent=$(mktemp)
+	local list_parent=$(mktemp)
 
 	(cd $pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_pass)
 	(cd $parent_pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_parent)
@@ -188,7 +188,6 @@ create_chroot_pass () {
 	lb chroot_apt install ${*}
 	# Note: this triggers an upgrade + dist-ugprade; which may impact sublayers with more
 	# diff content than desired. So only running this on root pass.
-	# Also configure universe
 	# Only configure universe on root passes
 	if $(is_root_layer $pass); then
 		lb chroot_archives chroot install ${*}
