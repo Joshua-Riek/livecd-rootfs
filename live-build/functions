@@ -767,3 +767,12 @@ is_root_layer () {
     fi
     return 1
 }
+
+is_live_layer () {
+    local pass=$1
+    for livepass in $LIVE_PASSES; do
+	    [ "$livepass" != "$pass" ] && continue
+        return 0
+    done
+    return 1
+}

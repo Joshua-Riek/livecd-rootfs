@@ -86,6 +86,12 @@ build_layered_squashfs () {
 	lb_binary_includes $pass ${*}
 	lb binary_hooks ${*}
 
+	# Copy initrd and vmlinuz outside of chroot and remove them from the layer squashfs
+	if $(is_live_layer "$pass"); then
+		lb binary_linux-image ${*}
+		rm -f chroot/boot/initrd.img-* chroot/boot/vmlinu{x,z}-*
+	fi
+
 	# Full manifest until that PASS
 	squashfs_f_manifest="${base}.manifest"
 	create_manifest "chroot" "${squashfs_f_manifest}.full"
@@ -100,25 +106,19 @@ build_layered_squashfs () {
 	# Prepare initrd + kernel
 	# Main manifest and size files
 	prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
-	if [ ! -e "${prefix}.manifest" ]; then
-		for livepass in $LIVE_PASSES; do
-			[ "$livepass" != "$pass" ] && continue
-			lb binary_linux-image ${*}
+	if [ ! -e "${prefix}.manifest" ] && $(is_live_layer "$pass"); then
+		totalsize=$(cat ${squashfs_f_size})
+		curpass="$pass"
+		while :; do
+			curpass=$(get_parent_pass $curpass)
+			# We climbed up the tree to the root layer, we are done
+			[ -z "$curpass" ] && break
 
-			totalsize=$(cat ${squashfs_f_size})
-			curpass="$pass"
-			while :; do
-				curpass=$(get_parent_pass $curpass)
-				# We climbed up the tree to the root layer, we are done
-				[ -z "$curpass" ] && break
-
-				totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
-			done
-			echo ${totalsize} > "${prefix}.size"
-
-			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
-			break
+			totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
 		done
+		echo ${totalsize} > "${prefix}.size"
+
+		cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
 	fi
 
 	(cd "overlay.${pass}/" &&
