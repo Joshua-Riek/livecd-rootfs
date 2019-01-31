@@ -124,7 +124,7 @@ reduce_pass_size () {
 	(cd $parent_pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_parent)
 
 	# Only iterate on common files with same type, owner, permission and size
-    comm -12 $list_pass $list_parent|cut -d'|' -f1|while read f; do
+	comm -12 $list_pass $list_parent|cut -d'|' -f1|while read f; do
 		# If file contents are different, keep it
 		if ! diff --brief --no-dereference "$pass_dir/$f" "$parent_pass_dir/$f" >/dev/null; then
 			continue
@@ -134,8 +134,8 @@ reduce_pass_size () {
 		rm "$pass_dir/$f"
 	done
 
-    rm $list_pass
-    rm $list_parent
+	rm $list_pass
+	rm $list_parent
 }
 
 create_chroot_pass () {
