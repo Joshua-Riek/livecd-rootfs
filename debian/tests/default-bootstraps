@@ -25,6 +25,7 @@ ALL_TRIPLETS="
  ubuntu::
  ubuntu:canary:
  ubuntu-base::
+ ubuntu-base:buildd:
  ubuntu-budgie::
  ubuntu-budgie-desktop::
  ubuntu-budgie-live::
