@@ -1220,6 +1220,11 @@ esac
 case $SUBPROJECT in
 	buildd)
 		cp -af /usr/share/livecd-rootfs/live-build/buildd/* config/
+
+		# Disable merged /usr to avoid building packages with
+		# hardcoded paths that assume it.
+		echo 'DEBOOTSTRAP_OPTIONS="$DEBOOTSTRAP_OPTIONS --no-merged-usr"' \
+			>> config/common
 		;;
 esac
 

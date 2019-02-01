@@ -1,3 +1,9 @@
+livecd-rootfs (2.560) UNRELEASED; urgency=medium
+
+  * Disable merged /usr in buildd images.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 01 Feb 2019 18:01:56 +0000
+
 livecd-rootfs (2.559) disco; urgency=medium
 
   [ Jean-Baptiste Lallement ]
