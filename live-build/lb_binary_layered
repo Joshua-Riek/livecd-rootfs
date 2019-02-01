@@ -1,0 +1,147 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2012 Daniel Baumann <daniel@debian.org>
+##
+## This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+( . "${LIVE_BUILD}/scripts/build.sh" > /dev/null 2>&1 || true ) || . /usr/lib/live/build.sh
+
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .build/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build binary images')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Setup cleanup function
+Setup_cleanup
+
+. config/functions
+
+lb_binary_includes () {
+	# Copying includes from pass subdirectory
+	local pass="$1"
+
+	if [ ! -d config/includes.binary.${pass} ]; then
+		return
+	fi
+
+	cd config/includes.binary.${pass}
+	find . | cpio -dmpu --no-preserve-owner "${OLDPWD}"/chroot
+	cd "${OLDPWD}"
+}
+
+build_layered_squashfs () {
+	local pass=$1
+	shift 1 # restore ${*}
+
+	Echo_message "lb_binary_layered: treating pass $pass"
+
+	# Building squashfs filesystem & manifest
+	local overlay_dir="overlay.${pass}"
+	base="${PWD}/livecd.${PROJECT}.${pass}"
+	squashfs_f="${base}.squashfs"
+
+	# We have already treated that pass
+	if [ -f "${squashfs_f}" ]; then
+		return
+	fi
+
+	rm -f .build/binary_chroot
+
+	mkdir -p "$overlay_dir/"
+	lowerdirs=$(get_lowerdirs_for_pass $pass)
+	if [ -n "$lowerdirs" ]; then
+		mkdir -p chroot/
+		mount_overlay "$lowerdirs" "$overlay_dir" chroot/
+	else
+		ln -s "$overlay_dir/" chroot
+	fi
+
+	export PASS=${pass}
+	setenv_file PASS "${pass}" config/environment.chroot
+
+	# Cleanup root filesystem
+	lb binary_chroot ${*}
+
+	lb_binary_includes $pass ${*}
+	lb binary_hooks ${*}
+
+	# Copy initrd and vmlinuz outside of chroot and remove them from the layer squashfs
+	if $(is_live_layer "$pass"); then
+		lb binary_linux-image ${*}
+		rm -f chroot/boot/initrd.img-* chroot/boot/vmlinu{x,z}-*
+	fi
+
+	# Full manifest until that PASS
+	squashfs_f_manifest="${base}.manifest"
+	create_manifest "chroot" "${squashfs_f_manifest}.full"
+
+	# Delta manifest
+	diff -NU0 ${PWD}/livecd.${PROJECT}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+
+	squashfs_f_size="${base}.size"
+	du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
+
+	# We take first live pass for "global" ISO properties (used by installers and checkers):
+	# Prepare initrd + kernel
+	# Main manifest and size files
+	prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+	if [ ! -e "${prefix}.manifest" ] && $(is_live_layer "$pass"); then
+		totalsize=$(cat ${squashfs_f_size})
+		curpass="$pass"
+		while :; do
+			curpass=$(get_parent_pass $curpass)
+			# We climbed up the tree to the root layer, we are done
+			[ -z "$curpass" ] && break
+
+			totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
+		done
+		echo ${totalsize} > "${prefix}.size"
+
+		cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
+	fi
+
+	(cd "overlay.${pass}/" &&
+		mksquashfs . ${squashfs_f} \
+		-no-progress -xattrs -comp xz )
+
+	if [ -n "$lowerdirs" ]; then
+		umount chroot
+		rmdir chroot
+	else
+		rm chroot
+	fi
+}
+
+for _PASS in $PASSES
+do
+	build_layered_squashfs "${_PASS}" ${*}
+done
+
+# Ubiquity-compatible removal manifest for ISO not using a layered-aware installer
+if [ -n "$(ls livecd.${PROJECT}.*install.live.manifest.full 2>/dev/null)" ] && \
+   [ -n "$(ls livecd.${PROJECT}.*install.manifest.full 2>/dev/null)" ]; then
+	echo "$(diff livecd.${PROJECT}.*install.live.manifest.full livecd.${PROJECT}.*install.manifest.full | awk '/^< / { print $2 }')" > livecd.${PROJECT}-manifest-remove
+fi
+
+chmod 644 *.squashfs *.manifest* *.size

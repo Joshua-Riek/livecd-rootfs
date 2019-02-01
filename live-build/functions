@@ -137,6 +137,22 @@ mount_overlay() {
 	"$path"
 }
 
+get_lowerdirs_for_pass () {
+    # Returns the name of the lowerdir from the name of a pass
+    # $1 Name of the pass
+    local curpass="$1"
+    local lowerlayers=""
+
+	while :; do
+		curpass=$(get_parent_pass $curpass)
+        # We climbed up the tree to the root layer, we are done
+		[ -z "$curpass" ] && break
+
+		lowerlayers="${lowerlayers}:overlay.${curpass}"
+	done
+    echo "${lowerlayers#:}"
+}
+
 mount_disk_image() {
     local disk_image=${1}
     local mountpoint=${2}
@@ -373,6 +389,30 @@ release_ver() {
     distro-info --series="$LB_DISTRIBUTION" -r | awk '{ print $1 }'
 }
 
+# cribbed from cdimage, perhaps this should be a small helper script in germinate?
+add_inheritance () {
+	case " $inherit " in
+		*" $1 "*)
+			;;
+		*)
+			inherit="${inherit:+$inherit }$1"
+			;;
+	esac
+}
+
+expand_inheritance () {
+	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
+		expand_inheritance "$seed"
+	done
+	add_inheritance "$1"
+}
+
+inheritance () {
+	inherit=
+	expand_inheritance "$1"
+	echo "$inherit"
+}
+
 _snap_preseed() {
     # Download the snap/assertion and add to the preseed
     local CHROOT_ROOT=$1
@@ -387,6 +427,12 @@ _snap_preseed() {
 
     # Download the snap & assertion
     local snap_download_failed=0
+
+    # Preseed a snap only once
+    if [ -f ${snaps_dir}/${SNAP_NAME}_[0-9]*.snap ]; then
+        return
+    fi
+
     chroot $CHROOT_ROOT sh -c "
         set -x;
         cd /var/lib/snapd/seed;
@@ -432,6 +478,10 @@ snap_prepare_assertions() {
     local account_key_assertion="$assertions_dir/account-key"
     local account_assertion="$assertions_dir/account"
 
+    if [ -d "$assertions_dir" ]; then
+        return
+    fi
+
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
@@ -476,15 +526,10 @@ snap_prepare() {
     # used for the image's model assertion
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
-    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
-    local snaps_dir="$seed_dir/snaps"
-
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
 
     # Download the core snap
-    if ! [ -f $snaps_dir/core_[0-9]*.snap ] ; then
-        _snap_preseed $CHROOT_ROOT core stable
-    fi
+    _snap_preseed $CHROOT_ROOT core stable
 }
 
 snap_preseed() {
@@ -500,4 +545,234 @@ snap_preseed() {
         exit 1
     fi
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
+}
+
+snap_from_seed() {
+    local base_seed=$1
+    local out=$2
+    local all_snaps
+    local seeds_expanded
+
+    seeds_expanded=$(inheritance ${base_seed})
+    for seed in ${seeds_expanded}; do
+        echo "snap: considering ${seed}"
+        file=config/germinate-output/${seed}.snaps
+        [ -e "${file}" ] || continue
+        # extract the first column (snap package name) from germinate's output
+        # translate the human-readable "foo (classic)" into a
+        # more machine readable "foo/classic"
+        seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
+        for snap in ${seed_snaps}; do
+            echo "snap: found ${snap}"
+            all_snaps="${all_snaps:+${all_snaps} }${snap}"
+        done
+    done
+    if [ -n "${all_snaps}" ]; then
+        echo "${all_snaps}" > $out
+    fi
+}
+
+seed_from_task ()
+{
+    # Retrieve the name of the seed from a task name
+    local task=$1
+    local seed
+    local seedfile
+    local seedfiles
+
+    seedfile="$(grep -lE "^Task-Key: +${task}\$" config/germinate-output/*seedtext|head -1)"
+    if [ -n "$seedfile" ]; then
+        basename $seedfile .seedtext
+        return
+    fi
+
+    seedfiles="$(grep -lE "^Task-Per-Derivative: *1\$" config/germinate-output/*seedtext)"
+    if [ -n "$seedfiles" ]; then
+        for seed in $(echo $seedfiles | xargs basename -s .seedtext); do
+            if [ ${PROJECT}-${seed} = $task ]; then
+                echo ${seed}
+                return
+            fi
+        done
+    fi
+}
+
+list_packages_from_seed () {
+    # Store all packages for a given seed, including its seed dependency
+    # $1: Name of the seed to expand to a package list
+
+    local all_seeds="$(inheritance $1)"
+
+    for seed in $all_seeds; do
+        head -n-2 config/germinate-output/${seed}.seed|tail -n+3|awk '{print $1}'
+    done|sort -u
+}
+
+subtract_package_lists() {
+    # Subtract a package list from another
+    #
+    # $1 source package list
+    # $2 Package list to subtract from source package list
+    local list1=$(mktemp)
+    local list2=$(mktemp)
+
+    list_packages_from_seed $1 > list1
+    list_packages_from_seed $2 > list2
+    comm -23 list1 list2
+
+    rm list1
+    rm list2
+}
+
+clean_debian_chroot() {
+    # remove crufty files that shouldn't be left in an image
+    rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
+	Chroot chroot apt clean
+}
+
+configure_universe() {
+	if [ -f config/universe-enabled ]; then
+        # This is cargo-culted almost verbatim (with some syntax changes for
+        # preinstalled being slightly different in what it doesn't ask) from
+        # debian-installer's apt-setup:
+
+        cat > chroot/etc/apt/sources.list << EOF
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
+
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
+
+## Uncomment the following two lines to add software from Canonical's
+## 'partner' repository.
+## This software is not part of Ubuntu, but is offered by Canonical and the
+## respective vendors as a service to Ubuntu users.
+# deb http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
+# deb-src http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
+
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
+deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
+# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
+EOF
+
+fi
+}
+
+configure_network_manager() {
+    # If the image pre-installs network-manager, let it manage all devices by
+    # default. Installing NM on an existing system only manages wifi and wwan via
+    # /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf. When setting
+    # the global backend to NM, netplan overrides that file.
+    if [ -e chroot/usr/sbin/NetworkManager -a ! -f chroot/etc/netplan/01-network-manager-all.yaml ]; then
+        echo "===== Enabling all devices in NetworkManager ===="
+        mkdir -p chroot/etc/netplan
+        cat <<EOF > chroot/etc/netplan/01-network-manager-all.yaml
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+EOF
+    else
+        echo "==== NetworkManager not installed ===="
+    fi
+}
+
+get_parent_pass () {
+    # return parent pass
+    # $1 name of the pass
+    # return parent pass name or '' if pass is root pass.
+    local pass="$1"
+
+    parent_pass=${pass%.*}
+    if [ "${parent_pass}" = "${pass}" ]; then
+        return
+    fi
+    echo ${pass%.*}
+}
+
+setenv_file () {
+	# Exposes an environment variable in a chroot
+	# $1 Name of the variable
+	# $2 Value of the variable
+	# $3 Path to the environment file of the chroot
+	local var="$1"
+	local val="$2"
+	local file="$3"
+
+	grep -v "^$var" $file || true > $file.new
+	echo "${var}=${val}" >> $file.new
+	mv $file.new $file
+}
+
+divert_update_initramfs () {
+    Chroot chroot "dpkg-divert --quiet --add \
+		--divert /usr/sbin/update-initramfs.REAL --rename \
+		/usr/sbin/update-initramfs"
+	cat > chroot/usr/sbin/update-initramfs <<'EOF'
+#! /bin/sh
+if [ $# != 1 ] || [ "$1" != -u ]; then
+	exec update-initramfs.REAL "$@"
+fi
+echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
+
+exit 0
+EOF
+	chmod +x chroot/usr/sbin/update-initramfs
+
+	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
+#! /bin/sh
+[ ! -f /usr/sbin/update-initramfs.REAL ] && exit 0
+rm -f /usr/sbin/update-initramfs
+dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
+EOF
+}
+
+is_root_layer () {
+    local pass=$1
+    if [ -z "$(get_parent_pass $pass)" ]; then
+        return 0
+    fi
+    return 1
+}
+
+is_live_layer () {
+    local pass=$1
+    for livepass in $LIVE_PASSES; do
+	    [ "$livepass" != "$pass" ] && continue
+        return 0
+    done
+    return 1
 }

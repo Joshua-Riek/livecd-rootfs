@@ -235,126 +235,59 @@ echo "command. You will still need to ensure the 'man-db' package is installed."
 EOF
                 chmod +x chroot/usr/bin/man
 	fi
-	Chroot chroot "dpkg-divert --quiet --add \
-		--divert /usr/sbin/update-initramfs.REAL --rename \
-		/usr/sbin/update-initramfs"
-	cat > chroot/usr/sbin/update-initramfs <<'EOF'
-#! /bin/sh
-if [ $# != 1 ] || [ "$1" != -u ]; then
-	exec update-initramfs.REAL "$@"
-fi
-echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
-exit 0
-EOF
-	chmod +x chroot/usr/sbin/update-initramfs
 
-	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
-#! /bin/sh
-rm -f /usr/sbin/update-initramfs
-dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
-EOF
-
-	lb chroot "$@"
-
-	if [ "${SUBPROJECT:-}" = minimized ]; then
-		# force removal of initramfs-tools, which we assert is not
-		# required for any minimized images but is still pulled in by
-		# default
-		# also remove landscape-common, which is heavyweight and
-		# in the server seed only to provide /etc/motd content which
-		# would only be seen by humans
-		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-			apt-get -y purge initramfs-tools busybox-initramfs \
-				busybox-static landscape-common"
-		# and if initramfs-tools was configured before our kernel,
-		# /etc/kernel/postinst.d/initramfs-tools will have created
-		# an initramfs despite the generic dpkg-divert; so remove it
-		# here.
-		rm -f chroot/boot/initrd.img-*
-
-		# temporary workaround: don't remove linux-base which
-		# may have no other reverse-depends currently
-		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-			apt-mark manual linux-base"
-		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-			apt-get -y --purge autoremove"
+	if [ -n "${PASSES}" ]; then
+		PATH="config/:$PATH" lb chroot_layered "$@"
+	else
+		divert_update_initramfs
+		lb chroot "$@"
 	fi
 
-	# remove crufty files that shouldn't be left in an image
-	rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
-	Chroot chroot apt clean
-	if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ]; then
-		# Save even more size by removing apt lists (that are currently removed
-		# downstream anyway)
-		rm -rf chroot/var/lib/apt/lists/*
-		# Having device notes in the docker image can cause problems
-		# (https://github.com/tianon/docker-brew-ubuntu-core/issues/62)
-		# so remove them.  We only do this for docker out of an
-		# abundance of caution.
-		rm -rf chroot/dev/*
-	fi
+	# Let all configuration non multi-layered project here.
+	# If those are moving to a multi-layer layout, this needs to be
+	# done in chroot hooks.
+	if [ -z "$PASSES" ]; then
+		if [ "${SUBPROJECT:-}" = minimized ]; then
+			# force removal of initramfs-tools, which we assert is not
+			# required for any minimized images but is still pulled in by
+			# default
+			# also remove landscape-common, which is heavyweight and
+			# in the server seed only to provide /etc/motd content which
+			# would only be seen by humans
+			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+				apt-get -y purge initramfs-tools busybox-initramfs \
+					busybox-static landscape-common"
+			# and if initramfs-tools was configured before our kernel,
+			# /etc/kernel/postinst.d/initramfs-tools will have created
+			# an initramfs despite the generic dpkg-divert; so remove it
+			# here.
+			rm -f chroot/boot/initrd.img-*
 
-	if [ -f config/universe-enabled ]; then
+			# temporary workaround: don't remove linux-base which
+			# may have no other reverse-depends currently
+			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+				apt-mark manual linux-base"
+			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+				apt-get -y --purge autoremove"
+		fi
 
-# This is cargo-culted almost verbatim (with some syntax changes for
-# preinstalled being slightly different in what it doesn't ask) from
-# debian-installer's apt-setup:
+		clean_debian_chroot
 
-cat > chroot/etc/apt/sources.list << EOF
-# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
-# newer versions of the distribution.
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION main restricted
+		if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ]; then
+			# Save even more size by removing apt lists (that are currently removed
+			# downstream anyway)
+			rm -rf chroot/var/lib/apt/lists/*
+			# Having device notes in the docker image can cause problems
+			# (https://github.com/tianon/docker-brew-ubuntu-core/issues/62)
+			# so remove them.  We only do this for docker out of an
+			# abundance of caution.
+			rm -rf chroot/dev/*
+		fi
 
-## Major bug fix updates produced after the final release of the
-## distribution.
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates main restricted
+		configure_universe
 
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team. Also, please note that software in universe WILL NOT receive any
-## review or updates from the Ubuntu security team.
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION universe
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates universe
-
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team, and may not be under a free licence. Please satisfy yourself as to
-## your rights to use the software. Also, please note that software in
-## multiverse WILL NOT receive any review or updates from the Ubuntu
-## security team.
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION multiverse
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-updates multiverse
-
-## N.B. software from this repository may not have been tested as
-## extensively as that contained in the main release, although it includes
-## newer versions of some applications which may provide useful features.
-## Also, please note that software in backports WILL NOT receive any review
-## or updates from the Ubuntu security team.
-deb $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
-# deb-src $LB_PARENT_MIRROR_BINARY $LB_DISTRIBUTION-backports main restricted universe multiverse
-
-## Uncomment the following two lines to add software from Canonical's
-## 'partner' repository.
-## This software is not part of Ubuntu, but is offered by Canonical and the
-## respective vendors as a service to Ubuntu users.
-# deb http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
-# deb-src http://archive.canonical.com/ubuntu $LB_DISTRIBUTION partner
-
-deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
-# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security main restricted
-deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
-# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security universe
-deb $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
-# deb-src $LB_PARENT_MIRROR_BINARY_SECURITY $LB_DISTRIBUTION-security multiverse
-EOF
-
-	fi
-	if [ -d chroot/var/lib/preinstalled-pool ]; then
-		cat > config/indices/apt.conf <<-EOF
+		if [ -d chroot/var/lib/preinstalled-pool ]; then
+			cat > config/indices/apt.conf <<-EOF
 Dir {
  ArchiveDir "chroot/var/lib/preinstalled-pool";
  OverrideDir "config/indices";
@@ -371,11 +304,11 @@ Tree "dists/$LB_DISTRIBUTION"
  Contents " ";
 }
 EOF
-		for component in $LB_PARENT_ARCHIVE_AREAS; do
-			mkdir -p chroot/var/lib/preinstalled-pool/dists/$LB_DISTRIBUTION/$component/binary-$LB_ARCHITECTURES
-		done
-		apt-ftparchive generate config/indices/apt.conf
-		cat << @@EOF > chroot/etc/apt/sources.list.preinstall
+			for component in $LB_PARENT_ARCHIVE_AREAS; do
+				mkdir -p chroot/var/lib/preinstalled-pool/dists/$LB_DISTRIBUTION/$component/binary-$LB_ARCHITECTURES
+			done
+			apt-ftparchive generate config/indices/apt.conf
+			cat << @@EOF > chroot/etc/apt/sources.list.preinstall
 # This is a sources.list entry for a small pool of packages
 # provided on your preinstalled filesystem for your convenience.
 #
@@ -387,93 +320,84 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 #
 @@EOF
 
-		cp chroot/etc/apt/sources.list chroot/etc/apt/sources.list.orig
-		cp chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list
+			cp chroot/etc/apt/sources.list chroot/etc/apt/sources.list.orig
+			cp chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list
 
-		echo "Waiting on gnupg ("$GPG_PROCESS") to finish generating a key."
-		wait $GPG_PROCESS
+			echo "Waiting on gnupg ("$GPG_PROCESS") to finish generating a key."
+			wait $GPG_PROCESS
 
-		R_ORIGIN=$(lsb_release -i -s)
-		R_CODENAME=$(lsb_release -c -s)
-		R_VERSION=$(lsb_release -r -s)
-		R_PRETTYNAME=$(echo $R_CODENAME | sed -e 's/^\(.\)/\U\1/')
+			R_ORIGIN=$(lsb_release -i -s)
+			R_CODENAME=$(lsb_release -c -s)
+			R_VERSION=$(lsb_release -r -s)
+			R_PRETTYNAME=$(echo $R_CODENAME | sed -e 's/^\(.\)/\U\1/')
 
-		apt-ftparchive -o APT::FTPArchive::Release::Origin=$R_ORIGIN \
-			-o APT::FTPArchive::Release::Label=$R_ORIGIN \
-			-o APT::FTPArchive::Release::Suite=$R_CODENAME-local \
-			-o APT::FTPArchive::Release::Version=$R_VERSION \
-			-o APT::FTPArchive::Release::Codename=$R_CODENAME \
-			-o APT::FTPArchive::Release::Description="$R_ORIGIN $R_PRETTYNAME Local" \
-			release chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/ \
-				> config/gnupg/Release
+			apt-ftparchive -o APT::FTPArchive::Release::Origin=$R_ORIGIN \
+				-o APT::FTPArchive::Release::Label=$R_ORIGIN \
+				-o APT::FTPArchive::Release::Suite=$R_CODENAME-local \
+				-o APT::FTPArchive::Release::Version=$R_VERSION \
+				-o APT::FTPArchive::Release::Codename=$R_CODENAME \
+				-o APT::FTPArchive::Release::Description="$R_ORIGIN $R_PRETTYNAME Local" \
+				release chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/ \
+					> config/gnupg/Release
 
-		gpg --home config/gnupg --detach-sign --armor config/gnupg/Release
-		mv config/gnupg/Release \
-			chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release
-		mv config/gnupg/Release.asc \
-			chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release.gpg
-		apt-key --keyring chroot/etc/apt/trusted.gpg add config/gnupg/pubring.gpg
-		find chroot/var/lib/preinstalled-pool/ -name Packages | xargs rm
+			gpg --home config/gnupg --detach-sign --armor config/gnupg/Release
+			mv config/gnupg/Release \
+				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release
+			mv config/gnupg/Release.asc \
+				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release.gpg
+			apt-key --keyring chroot/etc/apt/trusted.gpg add config/gnupg/pubring.gpg
+			find chroot/var/lib/preinstalled-pool/ -name Packages | xargs rm
 
-		Chroot chroot "apt-get update"
-		cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig \
-			> chroot/etc/apt/sources.list
-		rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
-	fi
-	case $PROJECT:$SUBPROJECT in
-		*)
-			if [ -e "config/seeded-snaps" ]; then
-				snap_list=$(cat config/seeded-snaps)
-				preinstall_snaps $snap_list
+			Chroot chroot "apt-get update"
+			cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig \
+				> chroot/etc/apt/sources.list
+			rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
+		fi
+		case $PROJECT:$SUBPROJECT in
+			*)
+				if [ -e "config/seeded-snaps" ]; then
+					snap_list=$(cat config/seeded-snaps)
+					preinstall_snaps $snap_list
+				fi
+				;;
+		esac
+
+		if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
+			if [ "$ARCH" = "armhf" ]; then
+				INFO_DESC="$(lsb_release -d -s)"
+				echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/etc/media-info
+				mkdir -p chroot/var/log/installer
+				Chroot chroot "ln -s /etc/media-info /var/log/installer/media-info"
 			fi
-			;;
-	esac
-
-	if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
-		if [ "$ARCH" = "armhf" ]; then
-			INFO_DESC="$(lsb_release -d -s)"
-			echo "$INFO_DESC - $ARCH ($BUILDSTAMP)" >chroot/etc/media-info
-			mkdir -p chroot/var/log/installer
-			Chroot chroot "ln -s /etc/media-info /var/log/installer/media-info"
 		fi
-	fi
-	if [ "$PROJECT" = "ubuntu-cpc" ]; then
-		if [ "${SUBPROJECT:-}" = minimized ]; then
-			BUILD_NAME=minimal
-		else
-			BUILD_NAME=server
-		fi
-		cat > chroot/etc/cloud/build.info << EOF
+		if [ "$PROJECT" = "ubuntu-cpc" ]; then
+			if [ "${SUBPROJECT:-}" = minimized ]; then
+				BUILD_NAME=minimal
+			else
+				BUILD_NAME=server
+			fi
+			cat > chroot/etc/cloud/build.info << EOF
 build_name: $BUILD_NAME
 serial: $BUILDSTAMP
 EOF
+		fi
+
+		configure_network_manager
+
+		echo "===== Checking size of /usr/share/doc ====="
+		echo BEGIN docdirs
+		(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
+		echo END docdirs
+
+		/usr/share/livecd-rootfs/minimize-manual chroot
 	fi
 
-	# If the image pre-installs network-manager, let it manage all devices by
-	# default. Installing NM on an existing system only manages wifi and wwan via
-	# /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf. When setting
-	# the global backend to NM, netplan overrides that file.
-	if [ -e chroot/usr/sbin/NetworkManager ]; then
-		echo "===== Enabling all devices in NetworkManager ===="
-		mkdir -p chroot/etc/netplan
-		cat <<EOF > chroot/etc/netplan/01-network-manager-all.yaml
-# Let NetworkManager manage all devices on this system
-network:
-  version: 2
-  renderer: NetworkManager
-EOF
+	if [ -n "${PASSES}" ]; then
+		PATH="config/:$PATH" lb binary_layered "$@"
 	else
-		echo "==== NetworkManager not installed ===="
+		lb binary "$@"
 	fi
 
-	echo "===== Checking size of /usr/share/doc ====="
-	echo BEGIN docdirs
-	(cd chroot && find usr/share/doc -maxdepth 1 -type d | xargs du -s | sort -nr)
-	echo END docdirs
-
-	/usr/share/livecd-rootfs/minimize-manual chroot
-
-	lb binary "$@"
 	touch binary.success
 ) 2>&1 | tee binary.log
 
@@ -505,6 +429,12 @@ for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 	ln "binary/$INITFS/filesystem.$OUTPUT" "$PREFIX.$OUTPUT"
 	chmod 644 "$PREFIX.$OUTPUT"
 done
+
+# we don't need a manifest-remove for a layered-aware installer
+if [ "$PROJECT" = "ubuntu" ] && [ "$SUBPROJECT" = "canary" ]; then
+	rm -f livecd.${PROJECT}-manifest-remove
+	rm -f config/manifest-minimal-remove
+fi
 
 if [ -e config/manifest-minimal-remove ]; then
         cp config/manifest-minimal-remove  "$PREFIX.manifest-minimal-remove"

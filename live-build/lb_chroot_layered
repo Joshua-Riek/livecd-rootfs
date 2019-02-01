@@ -1,0 +1,279 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2012 Daniel Baumann <daniel@debian.org>
+##
+## This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+## This is a fork of lb_chroot for layered live system.
+## We don't want leaking host configuration in each layer, and so,
+## we clean and setup the chroot each time.
+## In addition, we create the squashfs for each layer, but top one (live)
+## which still can be configured after lb chroot call.
+
+set -e
+
+# Including common functions
+( . "${LIVE_BUILD}/scripts/build.sh" > /dev/null 2>&1 || true ) || . /usr/lib/live/build.sh
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .build/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'customize the Debian system')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Setup cleanup function
+Setup_cleanup
+
+. config/functions
+
+lb_chroot_remove_packages () {
+	# Remove packages from the chroot specific to this layer
+	#
+	# $1: Name of the pass*
+	local pass=$1
+
+	Expand_packagelist "$(basename config/package-lists/*.removal-list.chroot_${pass})" "config/package-lists" \
+			>> chroot/root/packages.chroot.removal
+	Chroot chroot "xargs --arg-file=/root/packages.chroot.removal apt-get ${APT_OPTIONS} autoremove --purge"
+	rm -f chroot/root/packages.chroot.removal
+}
+
+# Create the snap list specific to this layer
+lb_chroot_snap_lists () {
+	local pass=$1
+
+	# This assumes that the prefix is unique for a given project
+	local snap_for_pass=$(ls config/package-lists/*.snaplist.chroot_${pass}.full 2>/dev/null || true)
+	parent_pass=$(get_parent_pass $pass)
+	local snap_for_parent_pass=$(ls config/package-lists/*.snaplist.chroot_${parent_pass}.full 2>/dev/null || true)
+
+	if [ -z "${snap_for_pass}" ]; then
+		return
+	fi
+
+	if [ -z "${snap_for_parent_pass}" ]; then
+		cp ${snap_for_pass} ${snap_for_pass%.full}
+		return
+	fi
+
+	# Generate a list of snaps added to a layer.
+	diff -NU0 ${snap_for_parent_pass} ${snap_for_pass}|grep -Ev '^(---|\+\+\+|@@)'|cut -c2- > ${snap_for_pass%.full}
+}
+
+lb_chroot_install_snaps () {
+	# Prepare the snap environment and install snaps into a chroot
+	#
+	# $1: Name of the pass
+
+	local snaplist_file=$(ls config/package-lists/*.snaplist.chroot_${1} 2>/dev/null || true)
+
+	if [ -z "${snaplist_file}" ]; then
+		return
+	fi
+
+	snap_prepare chroot
+
+	while read snap; do
+		snap_preseed chroot "${snap}"
+	done < $snaplist_file
+}
+
+lb_chroot_includes () {
+	# Copying includes from pass subdirectory
+	local pass="$1"
+
+	if [ ! -d config/includes.chroot.${pass} ]; then
+		return
+	fi
+
+	cd config/includes.chroot.${pass}
+	find . | cpio -dmpu --no-preserve-owner "${OLDPWD}"/chroot
+	cd "${OLDPWD}"
+}
+
+reduce_pass_size () {
+	# Remove duplicated files between parent and current pass
+	# Note the empty directories created in a child pass are not removed
+	local pass=$1
+	local parent="$(get_parent_pass $pass)"
+
+	$(is_root_layer $pass) && return
+
+	pass_dir="overlay.${pass}"
+	parent_pass_dir="overlay.${parent}"
+
+	local list_pass=$(mktemp)
+	local list_parent=$(mktemp)
+
+	(cd $pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_pass)
+	(cd $parent_pass_dir && find . ! -type d  -printf "%h/%f|%s|%y|%U|%G|%m\n"|sort > $list_parent)
+
+	# Only iterate on common files with same type, owner, permission and size
+	comm -12 $list_pass $list_parent|cut -d'|' -f1|while read f; do
+		# If file contents are different, keep it
+		if ! diff --brief --no-dereference "$pass_dir/$f" "$parent_pass_dir/$f" >/dev/null; then
+			continue
+		fi
+		# Files are strictly identical between the 2 passes (only mod or access times differs). No need for unused delta.
+		Echo_message "reduce_pass_size: '$f' is strictly identical between $parent and $pass. Removing."
+		rm "$pass_dir/$f"
+	done
+
+	rm $list_pass
+	rm $list_parent
+}
+
+create_chroot_pass () {
+	local pass=$1
+	shift 1 # restore ${*}
+
+	Echo_message "lb_chroot_layered: treating pass $pass"
+
+	# We have already treated that pass just return.
+	local overlay_dir="overlay.${pass}"
+	if [ -d "$overlay_dir/" ]; then
+		return
+	fi
+
+	# Only get some function executed on root passes
+	# Copy bootstrap on root layers
+	if $(is_root_layer $pass); then
+		rm -f .build/chroot_linux-image .build/chroot_preseed .build/chroot_hacks
+		cp -a chroot.bootstrap/ "$overlay_dir/"
+	fi
+	# Others have to be executed on every pass
+	rm -f .build/chroot_early_hooks .build/chroot_hooks .build/chroot_interactive
+
+	mkdir -p "$overlay_dir/"
+	lowerdirs=$(get_lowerdirs_for_pass $pass)
+	if [ -n "$lowerdirs" ]; then
+		mkdir -p chroot/
+		mount_overlay "$lowerdirs" "$overlay_dir" chroot/
+	else
+		ln -s "$overlay_dir/" chroot
+	fi
+
+	export PASS=${pass}
+	setenv_file PASS "${pass}" config/environment.chroot
+
+	# Configuring chroot
+	lb chroot_devpts install ${*}
+	lb chroot_proc install ${*}
+	lb chroot_sysfs install ${*}
+	# We run chroot_hacks only on root layers (update-initramfs diverted)
+	if $(is_root_layer $pass); then
+		divert_update_initramfs
+	fi
+	lb chroot_debianchroot install ${*}
+	lb chroot_dpkg install ${*}
+	lb chroot_tmpfs install ${*}
+	lb chroot_hosts install ${*}
+	lb chroot_resolv install ${*}
+	lb chroot_hostname install ${*}
+	lb chroot_apt install ${*}
+	# Note: this triggers an upgrade + dist-ugprade; which may impact sublayers with more
+	# diff content than desired. So only running this on root pass.
+	# Only configure universe on root passes
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot install ${*}
+		configure_universe
+	fi
+
+	# Customizing chroot
+	lb chroot_linux-image ${*}
+	lb chroot_preseed ${*}
+	lb chroot_early_hooks ${*}
+
+	lb chroot_package-lists ${pass} ${*}
+	lb chroot_install-packages ${pass} ${*}
+	lb_chroot_remove_packages ${pass} ${*}
+
+	# Snap management
+	lb_chroot_snap_lists ${pass} ${*}
+	lb_chroot_install_snaps ${pass} ${*}
+
+	configure_network_manager
+
+	# Mark kernel headers as autoremovable
+	Chroot chroot "dpkg -l linux-headers-3* linux-headers-4*" 2>/dev/null \
+			| awk '/^i/ {print $2}' > chroot.headers
+	for i in $(cat chroot.headers); do
+		Chroot chroot "apt-mark auto $i"
+	done
+
+	Chroot chroot "apt-get --purge -y autoremove"
+
+	# Add live packages to live layers
+	for livepass in $LIVE_PASSES; do
+		[ "$livepass" != "$pass" ] && continue
+		lb chroot_live-packages ${*}
+		break
+	done
+
+	# Run includes by pass
+	lb_chroot_includes ${pass} ${*}
+
+	lb chroot_hooks ${*}
+
+	# Run chroot_hacks only on root layers.
+	# chroot_hacks changes the mode of boot/initrd*. The side effect in
+	# layered mode is to create an initrd on each layer with a significant
+	# impact on image size (+30MB per layer). This is an issue even with
+	# update-initramfs disabled.
+	lb chroot_hacks ${*}
+
+	lb chroot_interactive ${*}
+
+	# Misc ubuntu cleanup and post-layer configuration
+	clean_debian_chroot
+	/usr/share/livecd-rootfs/minimize-manual chroot
+
+	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
+
+	# Deconfiguring chroot
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot remove ${*}
+	fi
+	lb chroot_apt remove ${*}
+	lb chroot_hostname remove ${*}
+	lb chroot_resolv remove ${*}
+	lb chroot_hosts remove ${*}
+	lb chroot_tmpfs remove ${*}
+	lb chroot_dpkg remove ${*}
+	lb chroot_debianchroot remove ${*}
+	lb chroot_sysfs remove ${*}
+	lb chroot_proc remove ${*}
+	lb chroot_devpts remove ${*}
+
+	if [ -n "$lowerdirs" ]; then
+		umount chroot
+		rmdir chroot
+	else
+		rm chroot
+	fi
+
+	reduce_pass_size $pass
+}
+
+if [ ! -d chroot.bootstrap/ ]; then
+	mv chroot/ chroot.bootstrap/
+fi
+for _PASS in $PASSES
+do
+	create_chroot_pass "$_PASS" ${*}
+done

@@ -23,6 +23,7 @@ ALL_TRIPLETS="
  lubuntu::
  mythbuntu::
  ubuntu::
+ ubuntu:canary:
  ubuntu-base::
  ubuntu-budgie::
  ubuntu-budgie-desktop::

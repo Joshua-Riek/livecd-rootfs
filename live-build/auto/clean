@@ -8,3 +8,6 @@ rm -rf config
 rm -f binary.manifest binary.manifest-desktop binary.log
 rm -f livecd.*
 rm -rf userdata
+rm -rf chroot.*
+rm -rf overlay.*
+rm -rf *.manifest.full

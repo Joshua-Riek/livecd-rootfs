@@ -33,49 +33,12 @@ fi
 
 mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
+cp -af /usr/share/livecd-rootfs/live-build/lb_*_layered config/
 cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
 
 mkdir -p config/package-lists
 
-add_task ()
-{
-	local pass="$1"
-	shift
-	local task
-
-	# The removal of direct task installation support from live-build
-	# poses some problems.  If the chroot has multiarch configured - for
-	# example, if we're building for amd64 - then dumpavail will show
-	# foreign-architecture packages which will have their own Task
-	# lines, but which we don't want to install.  (Compare
-	# PackageContainerInterface::FromTask in apt, which restricts task
-	# expansion to the native architecture.)  We therefore restrict our
-	# search to stanzas with Architecture: $ARCH or all.
-	#
-	# However, even this may not be accurate enough.  At the moment I
-	# have no idea what happens if an Architecture: all package has
-	# different Task fields on different architectures.  This is
-	# probably a lurking timebomb that we need to fix.  In the meantime,
-	# the Architecture restriction at least saves us from abject
-	# failure.
-
-	for task; do
-		# We need a ridiculous number of backslashes to protect
-		# parentheses from eval.
-		echo "!chroot chroot apt-cache dumpavail | grep-dctrl -nsPackage \\\\\\( -XFArchitecture $ARCH -o -XFArchitecture all \\\\\\) -a -wFTask $task" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
-	done
-}
-
-add_package ()
-{
-	local pass="$1"
-	shift
-	local pkg
-
-	for pkg; do
-		echo "$pkg" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
-	done
-}
+. config/functions
 
 OPTS=
 COMPONENTS=
@@ -96,6 +59,175 @@ BINARY_HOOKS=
 
 APT_OPTIONS=" --yes -oDebug::pkgDepCache::AutoInstall=yes "
 
+PASSES_TO_LAYERS=false
+_PASSES_TO_LAYERS=		# Stores the initial value of PASSES_TO_LAYERS
+PASSES=
+
+_check_immutable_passes_to_layers () {
+	# Check that PASSES_TO_LAYERS didn't change ie we didn't switch from layer
+	# to non-layer image format and vice versa.
+	if [ -z "$_PASSES_TO_LAYERS" ]; then
+		_PASSES_TO_LAYERS=$PASSES_TO_LAYERS
+	fi
+
+	if [ "$_PASSES_TO_LAYERS" != "$PASSES_TO_LAYERS" ]; then
+		echo "ERROR: PASSES_TO_LAYERS has changed from $_PASSES_TO_LAYERS to $PASSES_TO_LAYERS between 2 API calls. Please set it first."
+		exit 1
+	fi
+}
+
+_check_layers_only_API () {
+	# Check if a function is designed only for layered mode
+	# $1 name of the function
+	if [ "$PASSES_TO_LAYERS" != "true" ]; then
+		echo "$1 should only be used in layered mode, with PASSES_TO_LAYERS set to true"
+		exit 1
+	fi
+}
+
+_register_pass () {
+	# In layer mode, record a pass into the list of passes
+	# $1 Name of the pass
+	[ "$PASSES_TO_LAYERS" != "true" ] && return
+
+	PASSES="$PASSES $1"
+}
+
+add_task ()
+{
+	local pass="$1"
+	shift
+	local task
+	local snap_list_file
+	local snap_list_files
+	local curseed
+
+	_check_immutable_passes_to_layers
+	_register_pass "$pass"
+
+	# The removal of direct task installation support from live-build
+	# poses some problems.  If the chroot has multiarch configured - for
+	# example, if we're building for amd64 - then dumpavail will show
+	# foreign-architecture packages which will have their own Task
+	# lines, but which we don't want to install.  (Compare
+	# PackageContainerInterface::FromTask in apt, which restricts task
+	# expansion to the native architecture.)  We therefore restrict our
+	# search to stanzas with Architecture: $ARCH or all.
+	#
+	# However, even this may not be accurate enough.  At the moment I
+	# have no idea what happens if an Architecture: all package has
+	# different Task fields on different architectures.  This is
+	# probably a lurking timebomb that we need to fix.  In the meantime,
+	# the Architecture restriction at least saves us from abject
+	# failure.
+	#
+	# We want as well to grab the snap list for each PASS. Resolve for all
+	# given task, and deduplicate them to generate snaps for the PASS.
+
+	for task; do
+		# We need a ridiculous number of backslashes to protect
+		# parentheses from eval.
+		echo "!chroot chroot apt-cache dumpavail | grep-dctrl -nsPackage \\\\\\( -XFArchitecture $ARCH -o -XFArchitecture all \\\\\\) -a -wFTask $task" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
+
+		curseed=$(seed_from_task ${task})
+		if [ -z "${curseed}" ]; then
+			echo "W: No seed matching task ${task}"
+			continue
+		fi
+		snap_list_file="config/package-lists/seed.${curseed}.snaplist.full"
+		snap_from_seed "${curseed}" $snap_list_file
+		if [ -e "$snap_list_file" ]; then
+			snap_list_files="${snap_list_files} $snap_list_file"
+		fi
+	done
+	# The snap list is one line, and could be duplicated between seeds via inheritance.
+	# Uniquely sort them and store them back in one line.
+	if [ -n "${snap_list_files}" ]; then
+		cat ${snap_list_files}|xargs -n1|sort -u > "config/package-lists/livecd-rootfs.snaplist.chroot_${pass}.full"
+		rm ${snap_list_files}
+	fi
+}
+
+add_package ()
+{
+	# Adds a pass named pass_name composed of packages to install
+	# $1 pass
+	# $@ list of packages
+
+	local pass="$1"
+	shift
+	local pkg
+
+	_check_immutable_passes_to_layers
+	_register_pass "$pass"
+
+	for pkg; do
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.list.chroot_$pass"
+	done
+}
+
+remove_package ()
+{
+	# Adds a pass named pass_name composed of packages to remove
+	# $1 pass
+	# $@ list of packages
+
+	local pass="$1"
+	shift
+	local pkg
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "remove_package"
+	_register_pass "$pass"
+
+	for pkg; do
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.removal-list.chroot_$pass"
+	done
+}
+
+add_packages_from_seed_regexp () {
+	# Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
+	# $1 base pass
+	# $2 seeds (regexp)
+	local pass
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "add_packages_from_seed_regexp"
+
+	for seed in $(ls config/germinate-output/|grep -P "$2"); do
+		pass=${1}.${seed}
+		_register_pass "$pass"
+		list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
+	done
+}
+
+remove_packages_from_seed_regexp() {
+	# Creates one or more passes, based on base_pass_name, from any seed matching seed_regexp.
+	# This package list is a list of packages to remove (and included in a previous dependent
+	# pass then), resulting from base_seed - {current_seed_match_from_regexp}.
+	# $1 base pass
+	# $2 base seed
+	# $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
+	local pass
+
+	_check_immutable_passes_to_layers
+	_check_layers_only_API "remove_packages_from_seed_regexp"
+
+	local seed_regexp="$3"
+	if [ -z "${seed_regexp}" ]; then
+		pass="${1}.no-${2}"
+		_register_pass "$pass"
+		subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+		return
+	fi
+
+	for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
+	   pass="${1}.${seed}"
+	   _register_pass "$pass"
+	   subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+	done
+}
+
 add_chroot_hook ()
 {
 	CHROOT_HOOKS="${CHROOT_HOOKS:+$CHROOT_HOOKS }$1"
@@ -104,6 +236,44 @@ add_chroot_hook ()
 add_binary_hook ()
 {
 	BINARY_HOOKS="${BINARY_HOOKS:+$BINARY_HOOKS }$1"
+}
+
+_sanitize_passes ()
+{
+	# Returns an uniquely ordered list of passes and ensure dependency tree is coherent
+	# $1 list of passes
+	local passes="$1"
+	[ -z "$passes" ] && return
+
+	passes=$(echo $passes | tr ' ' '\n' | sort -u)
+	for pass in $passes; do
+		parent=$(get_parent_pass $pass)
+		# if root pass, no parent to find
+		[ -z "$parent" ] && continue
+		if [ $(echo "$passes"|grep -cE "^$parent\$") -ne 1 ]; then
+			echo "ERROR: '$parent' is required by '$pass' but is missing. Registered passes are:\n$passes"
+			exit 1
+		fi
+	done
+
+	# return the list of passes
+	echo $passes
+}
+
+_get_live_passes ()
+{
+	# Returns a list of all passes that ends with .live for automated live passes detection
+	# $1 list of passes
+	local passes="$1"
+	local livepasses=""
+	[ -z "$passes" ] && return
+
+	for pass in $passes; do
+		if echo $pass | grep -Eq '\.live$'; then
+			livepasses="$pass $livepasses"
+		fi
+	done
+	echo $livepasses
 }
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
@@ -234,6 +404,11 @@ case $IMAGEFORMAT in
 		case $PROJECT in
 			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
 				;;
+			ubuntu)
+				if [ "$SUBPROJECT" != "canary" ]; then
+					add_package live lupin-casper
+				fi
+				;;
 			*)
 				add_package live lupin-casper
 				;;
@@ -289,30 +464,6 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
 
-# cribbed from cdimage, perhaps this should be a small helper script in germinate?
-add_inheritance () {
-	case " $inherit " in
-		*" $1 "*)
-			;;
-		*)
-			inherit="${inherit:+$inherit }$1"
-			;;
-	esac
-}
-
-expand_inheritance () {
-	for seed in $(grep "^$1:" config/germinate-output/structure | cut -d: -f2); do
-		expand_inheritance "$seed"
-	done
-	add_inheritance "$1"
-}
-
-inheritance () {
-	inherit=
-	expand_inheritance "$1"
-	echo "$inherit"
-}
-
 mkdir -p config/germinate-output
 case $PROJECT in
         kubuntu-active*)
@@ -359,10 +510,32 @@ esac
 
 case $PROJECT in
 	ubuntu|ubuntu-dvd)
-		add_task install minimal standard ubuntu-desktop
-		LIVE_TASK='ubuntu-live'
-		case $ARCH in
-			amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
+
+		case ${SUBPROJECT:-} in
+			canary)
+				PASSES_TO_LAYERS="true"
+				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
+				add_task minimal.standard.live ubuntu-live
+				add_package minimal.standard.live lupin-casper
+
+				case $ARCH in
+					amd64)	add_package minimal.standard.live $SIGNED_KERNEL_PACKAGE ;;
+				esac
+
+				# LANG PASS for minimal and standard
+				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
+				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
+				remove_packages_from_seed_regexp minimal.standard desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
+				remove_packages_from_seed_regexp minimal.standard desktop-default-languages ''  # none (if no default langpack is selected)
+				;;
+			*)
+				LIVE_TASK='ubuntu-live'
+				add_task install minimal standard ubuntu-desktop ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
+				case $ARCH in
+					amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
+				esac
+				;;
 		esac
 		;;
 
@@ -735,30 +908,11 @@ case $PROJECT:${SUBPROJECT:-} in
 		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
-		# subiquity is seeded but in a separate squashfs via hooks; set HOOK_SNAPS and ALL_SNAPS.
-		HOOK_SNAPS='subiquity'
-		ALL_SNAPS=''
 		;;
 esac
 
-if [ -n "${BASE_SEED}" ]; then
-	SEEDS_EXPANDED=$(inheritance ${BASE_SEED})
-	for seed in ${SEEDS_EXPANDED}; do
-		echo "snap: considering ${seed}"
-		file=config/germinate-output/${seed}.snaps
-		[ -e "${file}" ] || continue
-		# extract the first column (snap package name) from germinate's output
-		# translate the human-readable "foo (classic)" into a
-		# more machine readable "foo/classic"
-		seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
-		for snap in ${seed_snaps}; do
-			echo "snap: found ${snap}"
-			ALL_SNAPS="${ALL_SNAPS:+${ALL_SNAPS} }${snap}"
-		done
-	done
-	if [ -n "${ALL_SNAPS}" ] || [ -n "${HOOK_SNAPS}" ]; then
-		echo "${ALL_SNAPS}" > config/seeded-snaps
-	fi
+if [ "$PASSES_TO_LAYERS" != "true" ] && [ -n "${BASE_SEED}" ]; then
+	snap_from_seed "${BASE_SEED}" config/seeded-snaps
 fi
 
 # grab a list of packags to remove for a "minimal" installation from the seed
@@ -777,7 +931,7 @@ fi
 
 export APT_OPTIONS
 
-if [ "$PREINSTALLED" != "true" ] && [ "$LIVE_TASK" ]; then
+if [ "$PREINSTALLED" != "true" ] && [ "$PASSES_TO_LAYERS" != "true" ] && [ "$LIVE_TASK" ]; then
 	add_task live "$LIVE_TASK"
 fi
 
@@ -892,9 +1046,23 @@ lb config noauto \
 	$OPTS \
 	"$@"
 
+PASSES=$(_sanitize_passes "$PASSES")
+LIVE_PASSES=${LIVE_PASSES:-$(_get_live_passes "$PASSES")}
+
+if [ -n "$PASSES" ] && [ -z "$LIVE_PASSES" ]; then
+	Echo_warning "Multi-layered mode is enabled, but we didn't find any live pass." \
+	             "Either set \$LIVE_PASSES or add a pass ending with '.live'."
+fi
+
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
+if [ -n "$PASSES" ]; then
+	echo "PASSES=\"$PASSES\"" >> config/common
+fi
+if [ -n "$LIVE_PASSES" ]; then
+	echo "LIVE_PASSES=\"$LIVE_PASSES\"" >> config/common
+fi
 echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
