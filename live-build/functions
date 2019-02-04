@@ -91,7 +91,7 @@ mount_image() {
 setup_mountpoint() {
     local mountpoint="$1"
 
-    mount --rbind --make-rslave /dev "$mountpoint/dev"
+    mount --rbind /dev "$mountpoint/dev"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mount -t tmpfs none "$mountpoint/tmp"
@@ -112,6 +112,7 @@ teardown_mountpoint() {
     # sort -r ensures that deeper mountpoints are unmounted first
     for submount in $(awk </proc/self/mounts "\$2 ~ /$mountpoint_match/ \
                       { print \$2 }" | LC_ALL=C sort -r); do
+        mount --make-private $submount
         umount $submount
     done
     mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
@@ -179,7 +180,8 @@ EOF
 umount_partition() {
     local mountpoint=${1}
     teardown_mountpoint $mountpoint
-    umount -R $mountpoint
+    mount --make-private $mountpoint
+    umount $mountpoint
     udevadm settle
 
     if [ -n "${rootfs_dev_mapper}" -a -b "${rootfs_dev_mapper}" ]; then
@@ -202,6 +204,7 @@ umount_disk_image() {
 	# zero fill free space in UEFI partition
 	cat < /dev/zero > "$mountpoint/boot/efi/bloat_file" 2> /dev/null || true
 	rm "$mountpoint/boot/efi/bloat_file"
+        mount --make-private "$mountpoint/boot/efi"
         umount --detach-loop "$mountpoint/boot/efi"
     fi
 
