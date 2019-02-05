@@ -8,6 +8,8 @@ livecd-rootfs (2.560) UNRELEASED; urgency=medium
   [ Tobias Koch ]
   * When the REPO_SNAPSHOT_STAMP environment variable is set, inject a
     proxy into the build providing a snapshot view of the package repo.
+  * Replace "snap download" with tool that uses snap store's coherence
+    feature.
 
   [ Didier Roche ]
   * Fix customized images with multiple brand/models.

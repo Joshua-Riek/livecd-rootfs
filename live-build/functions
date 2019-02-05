@@ -433,11 +433,12 @@ _snap_preseed() {
         return
     fi
 
-    chroot $CHROOT_ROOT sh -c "
+    sh -c "
         set -x;
-        cd /var/lib/snapd/seed;
-        SNAPPY_STORE_NO_CDN=1 snap download \
-            --channel=$CHANNEL \"$SNAP_NAME\"" || snap_download_failed=1
+        cd \"$CHROOT_ROOT/var/lib/snapd/seed\";
+        SNAPPY_STORE_NO_CDN=1 /usr/share/livecd-rootfs/snap-tool download \
+            --cohort-key=\"${COHORT_KEY:-}\" \
+            --channel=\"$CHANNEL\" \"$SNAP_NAME\"" || snap_download_failed=1
     if [ $snap_download_failed = 1 ] ; then
         echo "If the channel ($CHANNEL) includes '*/ubuntu-##.##' track per "
         echo "Ubuntu policy (ex. stable/ubuntu-18.04) the publisher will need "
