@@ -1,4 +1,4 @@
-livecd-rootfs (2.560) UNRELEASED; urgency=medium
+livecd-rootfs (2.560) disco; urgency=medium
 
   [ Colin Watson ]
   * Disable merged /usr in buildd images.
@@ -16,7 +16,11 @@ livecd-rootfs (2.560) UNRELEASED; urgency=medium
     Some customized images are built from the same chroot, but need to
     override brands and models.
 
- -- Balint Reczey <rbalint@ubuntu.com>  Tue, 05 Feb 2019 17:03:33 +0700
+  [ Balint Reczey ]
+  * live-build/functions: Always use mount --make-private before umount.
+    (LP: #1813730)
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Tue, 05 Feb 2019 19:51:03 +0700
 
 livecd-rootfs (2.559) disco; urgency=medium
 
