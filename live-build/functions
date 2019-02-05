@@ -478,20 +478,33 @@ snap_prepare_assertions() {
     local account_key_assertion="$assertions_dir/account-key"
     local account_assertion="$assertions_dir/account"
 
-    if [ -d "$assertions_dir" ]; then
+    local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
+    local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
+
+    # Get existing model and brand assertions to compare with new parameters
+    # For customized images, snap_prepare_assertions is called several times
+    # with different brand or model. In this case we want to overwrite
+    # existing brand and models.
+    local override_model_branch="false"
+    if [ -e "$model_assertion" ] ; then
+        existing_model=$(awk '/^model: / {print $2}' $model_assertion)
+        existing_brand=$(awk '/^brand-id: / {print $2}' $model_assertion)
+
+        if [ "$existing_model" != "$model" ] || [ "$existing_brand" != "$brand" ]; then
+            override_model_branch="true"
+        fi
+    fi
+
+    # Exit if assertions dir exists and we didn't change model or brand
+    if [ -d "$assertions_dir" ] && [ "$override_model_branch" = "false" ]; then
         return
     fi
 
     mkdir -p "$assertions_dir"
     mkdir -p "$snaps_dir"
 
-    local brand="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 1)"
-    local model="$(echo $CUSTOM_BRAND_MODEL | cut -d: -f 2)"
-
     # Clear the assertions if they already exist
     if [ -e "$model_assertion" ] ; then
-        existing_model=$(awk '/^model: / {print $2}' $model_assertion)
-        existing_brand=$(awk '/^brand-id: / {print $2}' $model_assertion)
         echo "snap_prepare_assertions: replacing $existing_brand:$existing_model with $brand:$model"
         rm "$model_assertion"
         rm "$account_key_assertion"
