@@ -341,8 +341,10 @@ case $IMAGEFORMAT in
 				MODEL=dragonboard ;;
 			armhf+raspi2)
 				MODEL=pi2 ;;
-			armhf+raspi3|arm64+raspi3)
+			armhf+raspi3)
 				MODEL=pi3 ;;
+			arm64+raspi3)
+				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
 			*)
@@ -378,6 +380,12 @@ case $IMAGEFORMAT in
 			echo "----------------------------------------------------------"
 		else
 			# classic images
+
+			# Certain models have different names but are built from the same source gadget tree
+			case $MODEL in
+				pi3-arm64)
+					MODEL=pi3 ;;
+			esac
 
 			UBUNTU_IMAGE_ARGS=""
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
