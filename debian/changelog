@@ -1,4 +1,4 @@
-livecd-rootfs (2.561) UNRELEASED; urgency=medium
+livecd-rootfs (2.561) disco; urgency=medium
 
   * Support building pi3-arm64 core18 images. At the same time, make sure we
     still use the right gadget tree repository for the classic arm64 pi3
