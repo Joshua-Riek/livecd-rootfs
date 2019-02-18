@@ -1,3 +1,9 @@
+livecd-rootfs (2.562) UNRELEASED; urgency=medium
+
+  * subiquity: make subiqutiy_config.mount optional
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 18 Feb 2019 10:26:53 +0100
+
 livecd-rootfs (2.561) disco; urgency=medium
 
   * Support building pi3-arm64 core18 images. At the same time, make sure we
