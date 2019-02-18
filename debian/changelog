@@ -1,3 +1,9 @@
+livecd-rootfs (2.563) UNRELEASED; urgency=medium
+
+  * Make sure buildd images have a /usr/sbin/policy-rc.d symlink.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 18 Feb 2019 14:55:41 +0000
+
 livecd-rootfs (2.562) disco; urgency=medium
 
   * subiquity: make subiqutiy_config.mount optional
