@@ -392,7 +392,8 @@ class SnapCli:
 
 if __name__ == "__main__":
     try:
-        SnapCli()(sys.argv[1:])
+        rval = SnapCli()(sys.argv[1:])
     except KeyboardInterrupt:
         sys.stderr.write("snap-tool: caught keyboard interrupt, exiting.\n")
         sys.exit(EXIT_ERR)
+    sys.exit(rval)
