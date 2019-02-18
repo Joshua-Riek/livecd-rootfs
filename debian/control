@@ -38,7 +38,7 @@ Depends: ${misc:Depends},
          sudo,
          u-boot-tools [armhf arm64],
          ubuntu-image,
-         python3-vmdkstream [amd64 i386] | vmdk-stream-converter [amd64 i386],
+         python3-vmdkstream [amd64 i386],
          xz-utils,
          zerofree
 Breaks: ubuntu-defaults-builder (<< 0.32)

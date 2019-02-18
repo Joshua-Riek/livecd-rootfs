@@ -271,7 +271,7 @@ create_vmdk() {
     cp ${src} ${scratch_d}/resize.img
 
     truncate --size=${size}M ${scratch_d}/resize.img
-    python3 -m ${streamconverter} ${scratch_d}/resize.img ${destination} || python2 -m ${streamconverter} ${scratch_d}/resize.img ${destination}
+    python3 -m ${streamconverter} ${scratch_d}/resize.img ${destination}
     modify_vmdk_header ${destination}
 
     qemu-img info ${destination}
