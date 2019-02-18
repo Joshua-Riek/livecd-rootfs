@@ -771,41 +771,41 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
             index = LPInReleaseIndex(mirror, suite,
                         cache=self.server.inrelease_cache)
+            inrelease = index.get_inrelease_for_timestamp(
+                    self.server.snapshot_stamp)
 
-            try:
-                inrelease = index.get_inrelease_for_timestamp(
-                        self.server.snapshot_stamp)
-            except LPInReleaseIndexError as e:
-                inrelease = None
+            if inrelease is None:
+                self.__send_error(404, "No InRelease file found for given "
+                                       "mirror, suite and timestamp.")
+                return
 
-            if inrelease is not None:
-                if target == "InRelease":
-                    # If target is InRelease, send back contents directly.
-                    data = inrelease.data.encode("utf-8")
+            if target == "InRelease":
+                # If target is InRelease, send back contents directly.
+                data = inrelease.data.encode("utf-8")
 
+                self.log_message(
+                    "Inject InRelease '{}'".format(inrelease.hash))
+
+                self.send_response(200)
+                self.send_header("Content-Length", len(data))
+                self.end_headers()
+
+                if verb == "GET":
+                    self.wfile.write(data)
+
+                return
+            else:
+                # If target hash is listed, then redirect to by-hash URL.
+                hash_ = inrelease.get_hash_for(target)
+
+                if hash_:
                     self.log_message(
-                        "Inject InRelease '{}'".format(inrelease.hash))
+                        "Inject {} for {}".format(hash_, target))
 
-                    self.send_response(200)
-                    self.send_header("Content-Length", len(data))
-                    self.end_headers()
+                    target_path = target.rsplit("/", 1)[0]
 
-                    if verb == "GET":
-                        self.wfile.write(data)
-
-                    return
-                else:
-                    # If target hash is listed, then redirect to by-hash URL.
-                    hash_ = inrelease.get_hash_for(target)
-
-                    if hash_:
-                        self.log_message(
-                            "Inject {} for {}".format(hash_, target))
-
-                        target_path = target.rsplit("/", 1)[0]
-
-                        path = "{}/dists/{}/{}/by-hash/SHA256/{}"\
-                                .format(base, suite, target_path, hash_)
+                    path = "{}/dists/{}/{}/by-hash/SHA256/{}"\
+                            .format(base, suite, target_path, hash_)
 
         try:
             client = http.client.HTTPConnection(host)
@@ -838,6 +838,12 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         self.end_headers()
         shutil.copyfileobj(response, self.wfile)
+
+    def __send_error(self, status, message):
+        """Return an HTTP error status and a message in the response body."""
+        self.send_response(status)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.wfile.write(message.encode("utf-8"))
 
 
 class MagicHTTPProxy(socketserver.ThreadingMixIn, http.server.HTTPServer):

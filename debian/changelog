@@ -1,7 +1,18 @@
 livecd-rootfs (2.566) UNRELEASED; urgency=medium
 
+  [ Julian Andres Klode ]
   * Do not mark direct dependencies of ubiquity as auto installed. This caused
     cryptsetup to remain auto on the installed system (LP: #1801629)
+
+  [ Tobias Koch ]
+  * When the magic-proxy script could not find a valid InRelease file for the
+    configured timestamp, it would fall back to serving the canonical version
+    of it. This meant that builds would succeed, even though snap-shotting the
+    repository failed.
+    .
+    This update makes the script return HTTP 404 when an InRelease by-hash
+    link for a given combination of mirror, suite and timestamp cannot be
+    found.
 
  -- Julian Andres Klode <juliank@ubuntu.com>  Fri, 22 Feb 2019 10:58:48 +0100
 
