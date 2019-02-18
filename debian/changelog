@@ -1,6 +1,7 @@
 livecd-rootfs (2.562) UNRELEASED; urgency=medium
 
   * subiquity: make subiqutiy_config.mount optional
+  * Add python3 vmdkstream support
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 18 Feb 2019 10:26:53 +0100
 
