@@ -1,8 +1,8 @@
-livecd-rootfs (2.564) UNRELEASED; urgency=medium
+livecd-rootfs (2.564) disco; urgency=medium
 
   * Use python3 vmdkstream exclusively; we should not fall back to python2.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 18 Feb 2019 18:02:37 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 19 Feb 2019 08:28:43 +0100
 
 livecd-rootfs (2.563) disco; urgency=medium
 
