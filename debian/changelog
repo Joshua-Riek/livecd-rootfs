@@ -1,3 +1,9 @@
+livecd-rootfs (2.565) UNRELEASED; urgency=medium
+
+  * Also drop dependency on python.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Feb 2019 08:24:29 +0100
+
 livecd-rootfs (2.564) disco; urgency=medium
 
   * Use python3 vmdkstream exclusively; we should not fall back to python2.
