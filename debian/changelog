@@ -1,6 +1,8 @@
 livecd-rootfs (2.565) UNRELEASED; urgency=medium
 
   * Also drop dependency on python.
+  * Drop python3-minimal alternate dependency; nothing should depend on
+    python3-minimal.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Feb 2019 08:24:29 +0100
 
