@@ -23,6 +23,7 @@ def main():
     roots = set(pkg for pkg in cache if is_root(pkg))
     workset = set(roots)
     seen = set()
+    ubiquity_depends = set()
 
     with cache.actiongroup():
         while True:
@@ -33,7 +34,7 @@ def main():
             for pkg in sorted(to_proc):
                 print("    Visiting", pkg, file=sys.stderr)
 
-                if pkg not in roots:
+                if pkg not in roots and pkg not in ubiquity_depends:
                     pkg.mark_auto()
 
                 for dep in (pkg.installed.dependencies +
@@ -41,6 +42,16 @@ def main():
                     for bdep in dep.or_dependencies:
                         for ver in bdep.target_versions:
                             if ver.package.is_installed:
+                                if pkg.name == "ubiquity":
+                                    ubiquity_depends.add(ver.package)
+                                if pkg.name != "ubiquity":
+                                    # Reprocess this package again, as we did not mark it when we visited it from ubiquity
+                                    try:
+                                        ubiquity_depends.remove(ver.package)
+                                        # This will raise the KeyError here if ubiquity did not depend on it
+                                        seen.remove(ver.package)
+                                    except KeyError:
+                                        continue
                                 workset.add(ver.package)
 
                 seen.add(pkg)

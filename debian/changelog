@@ -1,3 +1,10 @@
+livecd-rootfs (2.566) UNRELEASED; urgency=medium
+
+  * Do not mark direct dependencies of ubiquity as auto installed. This caused
+    cryptsetup to remain auto on the installed system (LP: #1801629)
+
+ -- Julian Andres Klode <juliank@ubuntu.com>  Fri, 22 Feb 2019 10:58:48 +0100
+
 livecd-rootfs (2.565) disco; urgency=medium
 
   * Also drop dependency on python.
