@@ -1,9 +1,9 @@
-livecd-rootfs (2.567) UNRELEASED; urgency=medium
+livecd-rootfs (2.567) disco; urgency=medium
 
   * Fix change to ignore ubiquity packages, it failed to mark anything
     as automatic.
 
- -- Julian Andres Klode <juliank@ubuntu.com>  Wed, 27 Feb 2019 09:01:31 +0100
+ -- Julian Andres Klode <juliank@ubuntu.com>  Wed, 27 Feb 2019 09:02:14 +0100
 
 livecd-rootfs (2.566) disco; urgency=medium
 
