@@ -51,7 +51,7 @@ def main():
                                         # This will raise the KeyError here if ubiquity did not depend on it
                                         seen.remove(ver.package)
                                     except KeyError:
-                                        continue
+                                        pass
                                 workset.add(ver.package)
 
                 seen.add(pkg)
