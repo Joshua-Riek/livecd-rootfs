@@ -1,4 +1,4 @@
-livecd-rootfs (2.568) UNRELEASED; urgency=medium
+livecd-rootfs (2.568) disco; urgency=medium
 
   [ Tobias Koch ]
   * Make sure snap-tool exits with non-zero exit status, if a problem
@@ -8,7 +8,7 @@ livecd-rootfs (2.568) UNRELEASED; urgency=medium
   * divert grub when calling into lb chroot, to avoid any problems from
     grub-probe.
 
- -- Tobias Koch <tobias.koch@canonical.com>  Wed, 27 Feb 2019 10:16:46 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 11 Mar 2019 18:14:46 -0700
 
 livecd-rootfs (2.567) disco; urgency=medium
 
