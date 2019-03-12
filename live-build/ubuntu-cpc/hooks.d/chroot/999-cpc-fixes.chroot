@@ -106,20 +106,6 @@ EOM
 [ ! -e "${rootd}/etc/update-motd.d" ] &&
    mkdir -p "${rootd}/etc/update-motd.d"
 
-## write a MOTD file advertising support for images
-cat > "${rootd}/etc/update-motd.d/51-cloudguest" << EOF
-#!/bin/sh
-#
-${CLOUD_IMG_STR}
-# This file is not managed by a package.  If you no longer want to
-# see this message you can safely remove the file.
-echo ""
-echo "  Get cloud support with Ubuntu Advantage Cloud Guest:"
-echo "    http://www.ubuntu.com/business/services/cloud"
-EOF
-
-chmod +x "${rootd}/etc/update-motd.d/51-cloudguest"
-
 # for quantal and newer, add /etc/overlayroot.local.conf
 # but do not overwrite anything that somehow got there
 if [ -f "${rootd}/etc/overlayroot.conf" ] &&

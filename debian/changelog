@@ -1,3 +1,12 @@
+livecd-rootfs (2.569) UNRELEASED; urgency=medium
+
+  * Drop /etc/update-motd.d/51-cloudguest from cloud images; this is not
+    consistent with current Ubuntu Advantage product language.  Any future
+    customizations to update-motd for cloud images should be done via a
+    package instead.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 12 Mar 2019 11:39:34 -0700
+
 livecd-rootfs (2.568) disco; urgency=medium
 
   [ Tobias Koch ]
