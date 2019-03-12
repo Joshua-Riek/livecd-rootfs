@@ -102,10 +102,6 @@ cat > /etc/fstab << EOM
 LABEL=cloudimg-rootfs	/	 ext4	defaults	0 0
 EOM
 
-## Make sure that the update-motd.d directory exists
-[ ! -e "${rootd}/etc/update-motd.d" ] &&
-   mkdir -p "${rootd}/etc/update-motd.d"
-
 # for quantal and newer, add /etc/overlayroot.local.conf
 # but do not overwrite anything that somehow got there
 if [ -f "${rootd}/etc/overlayroot.conf" ] &&
