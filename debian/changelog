@@ -1,3 +1,20 @@
+livecd-rootfs (2.570) UNRELEASED; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  * Fix grub divert for multilayer images:
+    grub-probe must not be called during image build so grub is diverted. In
+    multilayer image the chroot is always the tip of the filesystem, so we
+    divert grub at the beginning of each pass and undivdert it as the end.
+    For flat images, it's diverted just before building the chroot and
+    undiverted after.
+
+  [ Didier Roche ]
+  * Ensure default langpacks are removed after installation:
+    Add langpacks to live tasks to have them in the ubiquity diff file and
+    thus, purged after installation if not selected. (LP: #1818890)
+
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 18 Mar 2019 09:57:29 +0100
+
 livecd-rootfs (2.569) disco; urgency=medium
 
   * Drop /etc/update-motd.d/51-cloudguest from cloud images; this is not
