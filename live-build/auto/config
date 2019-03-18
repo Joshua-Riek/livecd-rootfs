@@ -539,7 +539,8 @@ case $PROJECT in
 				;;
 			*)
 				LIVE_TASK='ubuntu-live'
-				add_task install minimal standard ubuntu-desktop ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
+				add_task install minimal standard ubuntu-desktop
+				add_task $LIVE_TASK ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
 				case $ARCH in
 					amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
 				esac
