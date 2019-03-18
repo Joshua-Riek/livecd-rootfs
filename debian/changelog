@@ -1,4 +1,4 @@
-livecd-rootfs (2.570) UNRELEASED; urgency=medium
+livecd-rootfs (2.570) disco; urgency=medium
 
   [ Jean-Baptiste Lallement ]
   * Fix grub divert for multilayer images:
@@ -13,7 +13,7 @@ livecd-rootfs (2.570) UNRELEASED; urgency=medium
     Add langpacks to live tasks to have them in the ubiquity diff file and
     thus, purged after installation if not selected. (LP: #1818890)
 
- -- Didier Roche <didrocks@ubuntu.com>  Mon, 18 Mar 2019 09:57:29 +0100
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 18 Mar 2019 09:58:56 +0100
 
 livecd-rootfs (2.569) disco; urgency=medium
 
