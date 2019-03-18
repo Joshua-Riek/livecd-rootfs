@@ -1,3 +1,9 @@
+livecd-rootfs (2.571) disco; urgency=medium
+
+  * subiquity: fix name of mdoules.squashfs to mount
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 18 Mar 2019 14:21:28 +0000
+
 livecd-rootfs (2.570) disco; urgency=medium
 
   [ Jean-Baptiste Lallement ]
