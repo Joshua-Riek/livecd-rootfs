@@ -175,6 +175,10 @@ create_chroot_pass () {
 	lb chroot_devpts install ${*}
 	lb chroot_proc install ${*}
 	lb chroot_sysfs install ${*}
+
+	# grub-probe should not be called as part of an image build so divert it
+	divert_grub chroot
+
 	# We run chroot_hacks only on root layers (update-initramfs diverted)
 	if $(is_root_layer $pass); then
 		divert_update_initramfs
@@ -244,6 +248,9 @@ create_chroot_pass () {
 	/usr/share/livecd-rootfs/minimize-manual chroot
 
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
+
+	# Restore grub
+	undivert_grub chroot
 
 	# Deconfiguring chroot
 	if $(is_root_layer $pass); then

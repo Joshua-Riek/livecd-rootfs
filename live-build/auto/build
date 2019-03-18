@@ -261,14 +261,14 @@ EOF
                 chmod +x chroot/usr/bin/man
 	fi
 
-	divert_grub chroot
 	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb chroot_layered "$@"
 	else
+		divert_grub chroot
 		divert_update_initramfs
 		lb chroot "$@"
+		undivert_grub chroot
 	fi
-	undivert_grub chroot
 
 	# Let all configuration non multi-layered project here.
 	# If those are moving to a multi-layer layout, this needs to be
