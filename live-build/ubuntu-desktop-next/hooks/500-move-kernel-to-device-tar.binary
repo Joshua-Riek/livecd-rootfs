@@ -62,7 +62,7 @@ fi
 # and tar it up
 (
  cd $TMPDIR
- tar -c -z -f $HERE/device.tar.gz system assets hardware.yaml
+ tar -c --sort=name -z -f $HERE/device.tar.gz system assets hardware.yaml
 )
 
 rm -rf $TMPDIR

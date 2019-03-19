@@ -104,6 +104,7 @@ OVA information:
 EOM
 
 tar -C ${scratch_d} \
+    --sort=name \
     -cf ${cur_d}/livecd.ubuntu-cpc.ova \
     ${prefix}.ovf \
     ${prefix}.mf \
