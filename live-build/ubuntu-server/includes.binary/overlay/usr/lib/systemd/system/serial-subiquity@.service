@@ -7,9 +7,9 @@ ConditionPathExists=!/run/subiquity/complete
 StartLimitInterval=0
 
 [Service]
-Environment=PYTHONPATH=/usr/share/subiquity
+Environment=SNAP_REEXEC=0
 ExecStartPre=/bin/systemctl stop serial-getty@%I
-ExecStart=/sbin/agetty -n --keep-baud -l /snap/bin/subiquity --login-options "--serial" 115200,38400,9600 %I $TERM
+ExecStart=/usr/bin/snap run subiquity.subiquity-service %I
 ExecStopPost=/bin/systemctl start serial-getty@%I
 Type=idle
 Restart=always
