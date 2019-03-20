@@ -68,7 +68,7 @@ esac
 
 echo ${kernel_metapkg} > /run/kernel-meta-package
 mkdir -p \$rootmnt/lib/modules
-mount \$rootmnt/cdrom/casper/extras/filesystem.modules.squashfs-$flavor \$rootmnt/lib/modules
+mount \$rootmnt/cdrom/casper/extras/modules.squashfs-$flavor \$rootmnt/lib/modules
 EOF
 	chmod +x "$KERNEL_BITS_ROOT"/etc/initramfs-tools/scripts/init-bottom/live-server
 
