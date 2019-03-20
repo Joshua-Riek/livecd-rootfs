@@ -1,3 +1,11 @@
+livecd-rootfs (2.573) disco; urgency=medium
+
+  * Add languages to live pass
+    The name of the pass is live and not "ubuntu-live" which is the live pass
+    default task.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Wed, 20 Mar 2019 17:10:53 +0100
+
 livecd-rootfs (2.572) disco; urgency=medium
 
   * Revert "subiquity: fix name of mdoules.squashfs to mount", debian-cd
