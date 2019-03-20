@@ -24,6 +24,7 @@ import getopt
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -149,6 +150,14 @@ class Snap:
         created and included in the result."""
         if self._details and not cohort_create:
             return self._details
+
+        if re.match(r"^core\d*$", self._name) and \
+                self._channel.startswith("stable/ubuntu-"):
+            sys.stderr.write(
+                "WARNING: switching channel from '{}' to 'stable' for '{}' "
+                "snap.\n".format(self._channel, self._name)
+            )
+            self._channel = "stable"
 
         path = "/v2/snaps/refresh"
 
