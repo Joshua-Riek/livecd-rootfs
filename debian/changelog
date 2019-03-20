@@ -1,3 +1,10 @@
+livecd-rootfs (2.572) disco; urgency=medium
+
+  * Revert "subiquity: fix name of mdoules.squashfs to mount", debian-cd
+    has been fixed to to go back to the original name.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 20 Mar 2019 00:57:54 +0000
+
 livecd-rootfs (2.571) disco; urgency=medium
 
   * subiquity: fix name of mdoules.squashfs to mount
