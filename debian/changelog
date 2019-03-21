@@ -1,3 +1,9 @@
+livecd-rootfs (2.574) disco; urgency=medium
+
+  * Make serial-subiquity@ use the same codepath as tty1 subiquity.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 21 Mar 2019 22:51:04 +0000
+
 livecd-rootfs (2.573) disco; urgency=medium
 
   * Add languages to live pass
