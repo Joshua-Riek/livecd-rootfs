@@ -93,11 +93,14 @@ install_grub() {
             ;;
     esac
 
-    # This call to generate the package manifest is added here to capture 
+    # This call to rewrite the debian package manifest is added here to capture
     # grub-efi packages that otherwise would not make it into the base
     # manifest. filesystem.packages is moved into place via symlinking to
     # livecd.ubuntu-cpc.manifest by live-build/auto/build after lb_binary runs
-    create_manifest "mountpoint" "binary/boot/filesystem.packages"
+    # and at that time snaps are added to the manifest (create-manifest is
+    # not called here as it calls snap-seed-parse, resulting in duplicate
+    # snap listings)
+    chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
 
     chroot mountpoint grub-install "${loop_device}" \
         --boot-directory=/boot \

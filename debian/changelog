@@ -1,3 +1,9 @@
+livecd-rootfs (2.574ubuntu1) UNRELEASED; urgency=medium
+
+  * Remove duplicate snap listings in ubuntu-cpc qcow manifest
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 29 Mar 2019 15:39:13 -0500
+
 livecd-rootfs (2.574) disco; urgency=medium
 
   * Make serial-subiquity@ use the same codepath as tty1 subiquity.
