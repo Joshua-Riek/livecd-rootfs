@@ -1,8 +1,9 @@
-livecd-rootfs (2.574ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.575) disco; urgency=medium
 
+  [ Robert C Jennings ]
   * Remove duplicate snap listings in ubuntu-cpc qcow manifest
 
- -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 29 Mar 2019 15:39:13 -0500
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Mon, 01 Apr 2019 14:29:16 -0400
 
 livecd-rootfs (2.574) disco; urgency=medium
 
