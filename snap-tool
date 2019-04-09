@@ -24,6 +24,7 @@ import getopt
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -150,6 +151,13 @@ class Snap:
         if self._details and not cohort_create:
             return self._details
 
+        if self.is_core_snap() and self._channel.startswith("stable/ubuntu-"):
+            sys.stderr.write(
+                "WARNING: switching channel from '{}' to 'stable' for '{}' "
+                "snap.\n".format(self._channel, self._name)
+            )
+            self._channel = "stable"
+
         path = "/v2/snaps/refresh"
 
         data = {
@@ -161,7 +169,22 @@ class Snap:
                     "name":         self._name,
                     "channel":      self._channel,
                 }
-            ]
+            ],
+            "fields": [
+                "base",
+                "created-at",
+                "download",
+                "license",
+                "name",
+                "prices",
+                "publisher",
+                "revision",
+                "snap-id",
+                "summary",
+                "title",
+                "type",
+                "version",
+            ],
         }
 
         # These are mutually exclusive.
@@ -179,6 +202,12 @@ class Snap:
                     .format(self._name, str(e)))
 
         snap_data = response_dict["results"][0]
+
+        # Have "base" initialized to something meaningful.
+        if self.is_core_snap():
+            snap_data["snap"]["base"] = ""
+        elif snap_data["snap"].get("base") is None:
+            snap_data["snap"]["base"] = "core"
 
         # Copy the key into the snap details.
         if "cohort-key" in snap_data:
@@ -256,6 +285,9 @@ class Snap:
 
         self._assertions["account-key"] = data
         return data
+
+    def is_core_snap(self):
+        return re.match(r"^core\d*$", self._name) != None
 
     def _do_assertion_request(self, path):
         url = self._assertion_url + path
@@ -372,6 +404,7 @@ class SnapCli:
             name:      {}
             summary:   {}
             arch:      {}
+            base:      {}
             channel:   {}
             publisher: {}
             license:   {}
@@ -381,6 +414,7 @@ class SnapCli:
                 snap_name,
                 info.get("summary", ""),
                 snap._arch,
+                info.get("base"),
                 snap._channel,
                 info.get("publisher", {}).get("display-name", ""),
                 info.get("license", ""),

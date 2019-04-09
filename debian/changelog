@@ -1,3 +1,13 @@
+livecd-rootfs (2.576) UNRELEASED; urgency=medium
+
+  * When the "snap-tool" script encounters a core snap it will switch to
+    the "stable" channel if the channel was set to "stable/ubuntu-X.X". This
+    ensures that core snaps always come from one canonical source.
+  * Running `snap-tool info <snap_name>` will now also print out the base of
+    the snap.
+
+ -- Tobias Koch <tobias.koch@canonical.com>  Tue, 09 Apr 2019 17:33:34 +0100
+
 livecd-rootfs (2.575) disco; urgency=medium
 
   [ Robert C Jennings ]
