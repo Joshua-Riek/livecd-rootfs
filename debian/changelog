@@ -1,4 +1,4 @@
-livecd-rootfs (2.576) UNRELEASED; urgency=medium
+livecd-rootfs (2.576) disco; urgency=medium
 
   * When the "snap-tool" script encounters a core snap it will switch to
     the "stable" channel if the channel was set to "stable/ubuntu-X.X". This
