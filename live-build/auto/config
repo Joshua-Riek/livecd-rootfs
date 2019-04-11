@@ -807,7 +807,7 @@ case $PROJECT in
 	ubuntu-cpc)
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
-			add_package install sudo
+			add_package install sudo lxd-installer
 			# linux-kvm currently only exists for amd64, so fall back to the
 			# virtual flavour for other architectures
 			if [ "$ARCH" = "amd64" ]; then
@@ -895,6 +895,25 @@ esac
 
 if [ "$PASSES_TO_LAYERS" != "true" ] && [ -n "${BASE_SEED}" ]; then
 	snap_from_seed "${BASE_SEED}" config/seeded-snaps
+fi
+if [ "$PROJECT:${SUBPROJECT:-}" = ubuntu-cpc:minimized ]; then
+	# We install a lxc script that installs the snap when invoked. We don't
+	# want any other snaps to come in without due consideration, so fail the
+	# build if we see such a snap.
+	for snap in `cat config/seeded-snaps`; do
+		case $snap in
+			lxd)
+				;;
+			*)
+				echo "Unexpected seeded snap for ubuntu-cpc:minimized build: $snap"
+				exit 1
+				;;
+		esac
+	done
+
+	# Truncate but don't delete to a) prevent any snaps from being seeded,
+	# while at the same time b) triggering initialization of assertions.
+	truncate --size 0 config/seeded-snaps
 fi
 
 # grab a list of packags to remove for a "minimal" installation from the seed

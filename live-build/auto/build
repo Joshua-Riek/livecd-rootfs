@@ -226,7 +226,17 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
 fi
 EOF
 fi
-                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
+		if [ "$PROJECT" = "ubuntu-cpc" ]; then
+			cat >> chroot/usr/local/sbin/unminimize <<'EOF'
+
+echo "Removing lxd installer package..."
+apt-get purge -y lxd-installer
+
+echo "Installing lxd from snap..."
+snap install lxd
+EOF
+		fi
+		cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 # unminimization succeeded, there is no need to mention it in motd
 rm -f /etc/update-motd.d/60-unminimize

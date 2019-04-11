@@ -436,6 +436,17 @@ _snap_preseed() {
         return
     fi
 
+    # Determine if and what core snap is needed
+    local core_snap=$(/usr/share/livecd-rootfs/snap-tool info \
+        --cohort-key="${COHORT_KEY:-}" \
+        --channel="$CHANNEL" "$SNAP_NAME" | \
+        grep '^base:' | awk '{print $2}'
+    )
+
+    if [ -n "$core_snap" ]; then
+        _snap_preseed $CHROOT_ROOT $core_snap stable
+    fi
+
     sh -c "
         set -x;
         cd \"$CHROOT_ROOT/var/lib/snapd/seed\";
@@ -544,9 +555,6 @@ snap_prepare() {
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
-
-    # Download the core snap
-    _snap_preseed $CHROOT_ROOT core stable
 }
 
 snap_preseed() {
