@@ -1,4 +1,4 @@
-livecd-rootfs (2.577) UNRELEASED; urgency=medium
+livecd-rootfs (2.577) disco; urgency=medium
 
   [ Tobias Koch ]
   * Detect which core snaps are required and install them on-the-fly.
@@ -12,10 +12,14 @@ livecd-rootfs (2.577) UNRELEASED; urgency=medium
       when invoked.
     - Install lxd snap in unminimize.
 
+  [ Balint Reczey ]
+  * Pass --sort=name to tar to make tarballs more reproducible and
+    rsync-friendly
+
   [ Steve Langasek ]
   * Adjust sed command for clarity.
 
- -- Tobias Koch <tobias.koch@canonical.com>  Thu, 11 Apr 2019 17:25:25 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 12 Apr 2019 13:34:56 -0700
 
 livecd-rootfs (2.576) disco; urgency=medium
 
