@@ -416,6 +416,46 @@ inheritance () {
 	echo "$inherit"
 }
 
+_snap_post_process() {
+    # Look for the 'core' snap. If it is not present, assume that the image
+    # contains only snaps with bases >= core18. In that case snapd is
+    # preseeded. However, when 'core' is being installed and snapd has not
+    # been installed by a call to 'snap_preseed' (see below) then it is
+    # removed again.
+    local CHROOT_ROOT=$1
+    local SNAP_NAME=$2
+
+    local seed_dir="$CHROOT_ROOT/var/lib/snapd/seed"
+    local snaps_dir="$seed_dir/snaps"
+    local seed_yaml="$seed_dir/seed.yaml"
+    local assertions_dir="$seed_dir/assertions"
+
+    case $SNAP_NAME in
+        core[0-9]*)
+            # If the 'core' snap is not present, assume we are coreXX-only and
+            # install the snapd snap.
+            if [ ! -f ${snaps_dir}/core_[0-9]*.snap ]; then
+                _snap_preseed $CHROOT_ROOT snapd stable
+            fi
+            ;;
+        core)
+            # If the snapd snap has been seeded, but not marked as explicitly
+            # installed (see snap_preseed below), then remove it.
+            if [ -f ${snaps_dir}/snapd_[0-9]*.snap ] && \
+                    [ ! -f config/snapd-explicit-install-stamp ]
+            then
+                # Remove snap, assertions and entry in seed.yaml
+                rm -f ${snaps_dir}/snapd_[0-9]*.snap
+                rm -f ${assertions_dir}/snapd_[0-9]*.assert
+                sed --in-place -E 'N;/name: snapd/,+2d' $seed_yaml
+            fi
+            ;;
+        *)
+            # ignore
+            ;;
+    esac
+}
+
 _snap_preseed() {
     # Download the snap/assertion and add to the preseed
     local CHROOT_ROOT=$1
@@ -436,16 +476,25 @@ _snap_preseed() {
         return
     fi
 
-    # Determine if and what core snap is needed
-    local core_snap=$(/usr/share/livecd-rootfs/snap-tool info \
-        --cohort-key="${COHORT_KEY:-}" \
-        --channel="$CHANNEL" "$SNAP_NAME" | \
-        grep '^base:' | awk '{print $2}'
-    )
+    case $SNAP_NAME in
+        snapd)
+            # snapd is self-contained, ignore base
+            ;;
+        *)
+            # Determine if and what core snap is needed
+            local core_snap=$(/usr/share/livecd-rootfs/snap-tool info \
+                --cohort-key="${COHORT_KEY:-}" \
+                --channel="$CHANNEL" "$SNAP_NAME" | \
+                grep '^base:' | awk '{print $2}'
+            )
 
-    if [ -n "$core_snap" ]; then
-        _snap_preseed $CHROOT_ROOT $core_snap stable
-    fi
+            # If $core_snap is not the empty string then SNAP itself is not a core
+            # snap and we must additionally seed the core snap.
+            if [ -n "$core_snap" ]; then
+                _snap_preseed $CHROOT_ROOT $core_snap stable
+            fi
+            ;;
+    esac
 
     sh -c "
         set -x;
@@ -477,6 +526,12 @@ EOF
 
     echo -n "    file: " >> $seed_yaml
     (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
+
+    # If $core_snap is the empty string then SNAP itself *may be* a core snap,
+    # and we run some post-processing logic.
+    if [ -z "$core_snap" ]; then
+        _snap_post_process $CHROOT_ROOT $SNAP_NAME
+    fi
 }
 
 snap_prepare_assertions() {
@@ -561,6 +616,7 @@ snap_preseed() {
     # Preseed a snap in the image (snap_prepare must be called once prior)
     local CHROOT_ROOT=$1
     local SNAP=$2
+    local SNAP_NAME=${SNAP%/*}
     # Per Ubuntu policy, all seeded snaps (with the exception of the core
     # snap) must pull from stable/ubuntu-$(release_ver) as their channel.
     local CHANNEL=${3:-"stable/ubuntu-$(release_ver)"}
@@ -569,7 +625,14 @@ snap_preseed() {
         echo "ERROR: Snap model assertion not present, snap_prepare must be called"
         exit 1
     fi
+
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
+
+    case $SNAP_NAME in
+        snapd)
+            touch config/snapd-explicit-install-stamp
+            ;;
+    esac
 }
 
 snap_from_seed() {

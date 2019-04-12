@@ -2,6 +2,7 @@ livecd-rootfs (2.577) UNRELEASED; urgency=medium
 
   [ Tobias Koch ]
   * Detect which core snaps are required and install them on-the-fly.
+  * If image has core18 snaps only, automatically preseed snapd.
 
   [ Michael Hudson-Doyle ]
   * Slim down ubuntu-cpc:minimized builds:
