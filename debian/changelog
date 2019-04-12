@@ -12,6 +12,9 @@ livecd-rootfs (2.577) UNRELEASED; urgency=medium
       when invoked.
     - Install lxd snap in unminimize.
 
+  [ Steve Langasek ]
+  * Adjust sed command for clarity.
+
  -- Tobias Koch <tobias.koch@canonical.com>  Thu, 11 Apr 2019 17:25:25 +0200
 
 livecd-rootfs (2.576) disco; urgency=medium
