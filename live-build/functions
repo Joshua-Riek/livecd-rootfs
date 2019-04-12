@@ -429,6 +429,7 @@ _snap_post_process() {
     local snaps_dir="$seed_dir/snaps"
     local seed_yaml="$seed_dir/seed.yaml"
     local assertions_dir="$seed_dir/assertions"
+    local snapd_install_stamp="$seed_dir/.snapd-explicit-install-stamp"
 
     case $SNAP_NAME in
         core[0-9]*)
@@ -442,7 +443,7 @@ _snap_post_process() {
             # If the snapd snap has been seeded, but not marked as explicitly
             # installed (see snap_preseed below), then remove it.
             if [ -f ${snaps_dir}/snapd_[0-9]*.snap ] && \
-                    [ ! -f config/snapd-explicit-install-stamp ]
+                    [ ! -f "$snapd_install_stamp" ]
             then
                 # Remove snap, assertions and entry in seed.yaml
                 rm -f ${snaps_dir}/snapd_[0-9]*.snap
@@ -628,9 +629,10 @@ snap_preseed() {
 
     _snap_preseed $CHROOT_ROOT $SNAP $CHANNEL
 
+    # Mark this image as having snapd installed explicitly.
     case $SNAP_NAME in
         snapd)
-            touch config/snapd-explicit-install-stamp
+            touch "$CHROOT_ROOT/var/lib/snapd/seed/.snapd-explicit-install-stamp"
             ;;
     esac
 }
