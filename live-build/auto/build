@@ -475,7 +475,7 @@ for ISO in binary.iso binary.hybrid.iso; do
 done
 
 if [ -e "binary/$INITFS/filesystem.dir" ]; then
-	(cd "binary/$INITFS/filesystem.dir/" && tar -c --xattrs *) | \
+	(cd "binary/$INITFS/filesystem.dir/" && tar -c --sort=name --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.rootfs.tar.gz"
 	chmod 644 "$PREFIX.rootfs.tar.gz"
 elif [ -e binary-tar.tar.gz ]; then
@@ -512,7 +512,7 @@ EOF
 fi
 
 if [ "$PROJECT" = "ubuntu-touch" ] || [ "$PROJECT" = "ubuntu-touch-custom" ]; then
-	(cd "binary/$INITFS/custom.dir/" && tar -c --xattrs *) | \
+	(cd "binary/$INITFS/custom.dir/" && tar -c --sort=name --xattrs *) | \
 		gzip -9 --rsyncable > "$PREFIX.custom.tar.gz"
 	chmod 644 "$PREFIX.custom.tar.gz"
 fi
@@ -649,7 +649,7 @@ case $PROJECT:${SUBPROJECT:-} in
                raspi2)
                    # ubuntu-device-flash does not like subdirs here, we need to tar it up
                    if [ -e $TMPDIR/assets/dtbs/overlays ]; then
-                       tar -C $TMPDIR/assets/dtbs -f $TMPDIR/assets/dtbs/overlays.tgz -czv overlays
+                       tar --sort=name -C $TMPDIR/assets/dtbs -f $TMPDIR/assets/dtbs/overlays.tgz -czv overlays
                        rm -rf $TMPDIR/assets/dtbs/overlays
                    fi
                    ;;
@@ -698,7 +698,7 @@ EOF
             manifestname="$devarch.$manifestname"
         fi
         # create tarfile
-        tar -c -z -f $HERE/$PREFIX.$tarname system assets hardware.yaml
+        tar -c --sort=name -z -f $HERE/$PREFIX.$tarname system assets hardware.yaml
 
         # create device specific manifest to track kernel dpkg version
         cp assets/dpkg.list $HERE/$PREFIX.$manifestname

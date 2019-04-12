@@ -227,6 +227,7 @@ OVA information:
 EOM
 
 tar -C ${box_d} \
+    --sort=name \
     -cf ${cur_d}/livecd.ubuntu-cpc.vagrant.box \
     box.ovf \
     Vagrantfile \
