@@ -1,9 +1,9 @@
-livecd-rootfs (2.578) UNRELEASED; urgency=medium
+livecd-rootfs (2.578) disco; urgency=medium
 
   * Fix the sed script that Tobias had right in the first place and I
     mangled in the previous upload.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 13 Apr 2019 02:12:51 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 13 Apr 2019 02:13:19 -0700
 
 livecd-rootfs (2.577) disco; urgency=medium
 
