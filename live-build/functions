@@ -448,7 +448,7 @@ _snap_post_process() {
                 # Remove snap, assertions and entry in seed.yaml
                 rm -f ${snaps_dir}/snapd_[0-9]*.snap
                 rm -f ${assertions_dir}/snapd_[0-9]*.assert
-                sed -i -e'/name: snapd/,+2d' $seed_yaml
+                sed -i -e'N;/name: snapd/,+2d' $seed_yaml
             fi
             ;;
         *)
