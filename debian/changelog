@@ -1,3 +1,9 @@
+livecd-rootfs (2.579) UNRELEASED; urgency=medium
+
+  * Add support for the 'kassel' subflavor of UC18 images.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 19 Apr 2019 15:24:13 -0700
+
 livecd-rootfs (2.578) disco; urgency=medium
 
   * Fix the sed script that Tobias had right in the first place and I
