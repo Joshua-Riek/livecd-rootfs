@@ -56,7 +56,7 @@ for variant in $variants; do
 	if [ -n "$LB_INITRAMFS_COMPRESSION" ]; then
 		echo "COMPRESS=$LB_INITRAMFS_COMPRESSION" > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/livecd-rootfs.conf
 	fi
-	echo "CASPER_GENERATE_UUID=1" > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/casper.conf
+	echo "export CASPER_GENERATE_UUID=1" > "$KERNEL_BITS_ROOT"/etc/initramfs-tools/conf.d/casper.conf
 
 	# Add a hook to record which kernel was booted and mount the
 	# modules.squashfs created below.
