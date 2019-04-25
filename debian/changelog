@@ -1,11 +1,11 @@
-livecd-rootfs (2.579) UNRELEASED; urgency=medium
+livecd-rootfs (2.579) eoan; urgency=medium
 
   * Fix ubuntu-server-live images to generate initrd with casper
     UUID. Whilst configs are sources, the variables are not exported into
     the environment by default. Thus when casper hook is executed, it had
     no idea that it should generate UUID.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 25 Apr 2019 15:22:22 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 25 Apr 2019 17:07:10 +0100
 
 livecd-rootfs (2.578) disco; urgency=medium
 
