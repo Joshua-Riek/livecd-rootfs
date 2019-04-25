@@ -1,3 +1,9 @@
+livecd-rootfs (2.595) UNRELEASED; urgency=medium
+
+  * Add support for HyperV Gallery images
+
+ -- David Krauser <david.krauser@canonical.com>  Fri, 31 May 2019 12:51:09 -0400
+
 livecd-rootfs (2.594) UNRELEASED; urgency=medium
 
   * Add support for linux-kvm images

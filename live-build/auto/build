@@ -108,8 +108,8 @@ Expire-Date: 0
 
 	lb bootstrap "$@"
 
-	case $PROJECT in
-		ubuntu-server|ubuntu-cpc)
+        case $PROJECT:${SUBPROJECT:-} in
+		ubuntu-server:*|ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			# Set locale to C.UTF-8 by default. We should
 			# probably do this for all images early in the
 			# 18.10 cycle but for now just do it for

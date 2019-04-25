@@ -1,0 +1,128 @@
+#!/bin/bash -eux
+
+echo "Creating Hyper-V image with Desktop..."
+
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "We don't create minimized images for $0."
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+case "${ARCH}" in
+    amd64)
+        ;;
+    *)
+        echo "Hyper-V only supports amd64";
+        exit 0
+        ;;
+esac
+
+IMAGE_STR="# DESKTOP_IMG: This file was created/modified by the Desktop Image build process"
+FS_LABEL="desktop-rootfs"
+
+. config/functions
+
+export DEBIAN_FRONTEND=noninteractive
+
+create_derivative uefi hyperv
+scratch_d=$(mktemp -d)
+mount_disk_image "${derivative_img}" "${scratch_d}"
+
+cleanup_hyperv() {
+    umount_disk_image ${scratch_d}
+    rm -rf ${scratch_d}
+}
+trap cleanup_hyperv EXIT
+
+# Perform customisations
+
+chroot "${scratch_d}" apt-get update -y
+chroot "${scratch_d}" apt-get -y install xrdp linux-tools-virtual linux-cloud-tools-virtual
+
+cat > ${scratch_d}/etc/modules-load.d/hyperv.conf << EOF
+${IMAGE_STR}
+hv_sock
+EOF
+
+cat << EOF >> "${scratch_d}/etc/fstab"
+LABEL=$FS_LABEL	/		ext4	defaults	0 0
+EOF
+
+# Customise xrdp
+
+CHANGED_FILE_SUFFIX=.replaced-by-desktop-img-build
+
+# use vsock transport.
+sed -i${CHANGED_FILE_SUFFIX} -e 's/use_vsock=false/use_vsock=true/g' "${scratch_d}/etc/xrdp/xrdp.ini"
+# use rdp security.
+sed -i${CHANGED_FILE_SUFFIX} -e 's/security_layer=negotiate/security_layer=rdp/g' "${scratch_d}/etc/xrdp/xrdp.ini"
+# remove encryption validation.
+sed -i${CHANGED_FILE_SUFFIX} -e 's/crypt_level=high/crypt_level=none/g' "${scratch_d}/etc/xrdp/xrdp.ini"
+# disable bitmap compression since its local its much faster
+sed -i${CHANGED_FILE_SUFFIX} -e 's/bitmap_compression=true/bitmap_compression=false/g' "${scratch_d}/etc/xrdp/xrdp.ini"
+
+# Add script to setup the ubuntu session properly
+cat > "${scratch_d}/etc/xrdp/startubuntu.sh" << EOF
+#!/bin/sh
+${IMAGE_STR}
+export GNOME_SHELL_SESSION_MODE=ubuntu
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+exec /etc/xrdp/startwm.sh
+EOF
+chmod a+x "${scratch_d}/etc/xrdp/startubuntu.sh"
+
+# use the script to setup the ubuntu session
+sed -i${CHANGED_FILE_SUFFIX} -e 's/startwm/startubuntu/g' "${scratch_d}/etc/xrdp/sesman.ini"
+
+# rename the redirected drives to 'shared-drives'
+sed -i${CHANGED_FILE_SUFFIX} -e 's/FuseMountName=thinclient_drives/FuseMountName=shared-drives/g' "${scratch_d}/etc/xrdp/sesman.ini"
+
+# Changed the allowed_users
+sed -i${CHANGED_FILE_SUFFIX} -e 's/allowed_users=console/allowed_users=anybody/g' "${scratch_d}/etc/X11/Xwrapper.config"
+
+# Blacklist the vmw module
+cat > "${scratch_d}/etc/modprobe.d/blacklist_vmw_vsock_vmci_transport.conf" << EOF
+${IMAGE_STR}
+blacklist vmw_vsock_vmci_transport
+EOF
+
+# Configure the policy xrdp session
+cat > ${scratch_d}/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla << EOF
+${IMAGE_STR}
+[Allow Colord all Users]
+Identity=unix-user:*
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+EOF
+
+sed -i${CHANGED_FILE_SUFFIX} -e 's|After=|ConditionPathExists=!/var/lib/oem-config/run\nAfter=|g' "${scratch_d}/lib/systemd/system/xrdp.service"
+
+# End xrdp customisation
+
+# Don't run gnome-initial-setup from gdm
+sed -i${CHANGED_FILE_SUFFIX} "s|#WaylandEnable=false|#WaylandEnable=false\nInitialSetupEnable=false|" "${scratch_d}/etc/gdm3/custom.conf"
+chroot "${scratch_d}" /usr/sbin/useradd -d /home/oem -m -N -u 29999 oem
+chroot "${scratch_d}" /usr/sbin/oem-config-prepare --quiet
+touch "${scratch_d}/var/lib/oem-config/run"
+
+chroot "${scratch_d}" apt-get clean
+
+# End customisations
+
+cleanup_hyperv
+trap - EXIT
+
+raw_img=binary/boot/disk-hyperv-uefi.ext4
+vhd_img=livecd.ubuntu-desktop-hyperv.vhdx
+
+qemu-img convert -O vhdx "$raw_img" "$vhd_img"
+rm "$raw_img"
+
+apt-get install -y zip
+zip "$vhd_img.zip" "$vhd_img"
+rm "$vhd_img"
