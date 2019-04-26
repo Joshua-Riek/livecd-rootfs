@@ -308,8 +308,6 @@ EOF
 				apt-get -y --purge autoremove"
 		fi
 
-		clean_debian_chroot
-
 		if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ]; then
 			# Save even more size by removing apt lists (that are currently removed
 			# downstream anyway)
@@ -427,6 +425,8 @@ EOF
 		echo END docdirs
 
 		/usr/share/livecd-rootfs/minimize-manual chroot
+
+		clean_debian_chroot
 	fi
 
 	if [ -n "${PASSES}" ]; then
