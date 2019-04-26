@@ -1,8 +1,8 @@
-livecd-rootfs (2.580) UNRELEASED; urgency=medium
+livecd-rootfs (2.580) eoan; urgency=medium
 
   * Run clean_debian_chroot after minimize_manual (LP: #1826377)
 
- -- Julian Andres Klode <juliank@ubuntu.com>  Thu, 25 Apr 2019 11:43:11 +0200
+ -- Julian Andres Klode <juliank@ubuntu.com>  Fri, 26 Apr 2019 10:30:15 +0200
 
 livecd-rootfs (2.579) eoan; urgency=medium
 
