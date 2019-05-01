@@ -1,2 +1,3 @@
+depends disk-image
 depends root-dir
 base/root-squashfs.binary

@@ -1,3 +1,9 @@
+livecd-rootfs (2.580.1) UNRELEASED; urgency=medium
+
+  * ubuntu-cpc: Ensure base disk image is the same between all build targets
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Thu, 02 May 2019 16:03:39 -0500
+
 livecd-rootfs (2.580) eoan; urgency=medium
 
   * Run clean_debian_chroot after minimize_manual (LP: #1826377)
