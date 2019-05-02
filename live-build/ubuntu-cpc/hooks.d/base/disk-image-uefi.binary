@@ -65,8 +65,8 @@ install_grub() {
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
     if [ -n "$partuuid" ]; then
-        # FIXME: code duplicated between 032-disk-image.binary
-        # and 033-disk-image-uefi.binary.  We want to fix this to not
+        # FIXME: code duplicated between disk-image.binary
+        # and disk-image-uefi.binary.  We want to fix this to not
         # have initramfs-tools installed at all on these images.
         echo "partuuid found for root device; omitting initrd"
         echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid.cfg

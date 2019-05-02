@@ -8,7 +8,7 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
-# This is the directory created by 031-0-create-root-dir.binary
+# This is the directory created by create-root-dir.binary
 rootfs_dir=rootfs.dir
 
 squashfs_f="$PWD/livecd.ubuntu-cpc.squashfs"
