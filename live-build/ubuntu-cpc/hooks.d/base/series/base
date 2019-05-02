@@ -5,3 +5,4 @@ depends disk-image
 depends qcow2
 depends vmdk
 depends vagrant
+depends wsl
