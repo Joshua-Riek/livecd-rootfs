@@ -1,3 +1,4 @@
+# Include disk-image to ensure livecd.ubuntu-cpc.ext4 is consistent
 depends disk-image
 depends root-dir
 base/root-squashfs.binary
