@@ -1,4 +1,4 @@
-livecd-rootfs (2.581) UNRELEASED; urgency=medium
+livecd-rootfs (2.581) eoan; urgency=medium
 
   * Remove device nodes later for ubuntu-base:minimized (i.e. docker) builds.
     (LP: #1828118) 
