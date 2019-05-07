@@ -1,3 +1,10 @@
+livecd-rootfs (2.581) UNRELEASED; urgency=medium
+
+  * Remove device nodes later for ubuntu-base:minimized (i.e. docker) builds.
+    (LP: #1828118) 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 08 May 2019 09:59:35 +1200
+
 livecd-rootfs (2.580) eoan; urgency=medium
 
   * Run clean_debian_chroot after minimize_manual (LP: #1826377)
