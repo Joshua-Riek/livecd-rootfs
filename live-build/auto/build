@@ -293,7 +293,7 @@ EOF
 			# would only be seen by humans
 			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
 				apt-get -y purge initramfs-tools busybox-initramfs \
-					busybox-static landscape-common"
+					landscape-common"
 			# and if initramfs-tools was configured before our kernel,
 			# /etc/kernel/postinst.d/initramfs-tools will have created
 			# an initramfs despite the generic dpkg-divert; so remove it
