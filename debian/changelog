@@ -1,3 +1,9 @@
+livecd-rootfs (2.584) eoan; urgency=medium
+
+  * Build WSL rootfs tarball (LP: #1827930)
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Thu, 16 May 2019 23:01:13 +0200
+
 livecd-rootfs (2.583) eoan; urgency=medium
 
   * Use snap-tool to seed subiquity snap.
