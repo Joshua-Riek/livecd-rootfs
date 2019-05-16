@@ -23,6 +23,8 @@ fi
 
 . config/functions
 . config/common
+# somehow i don't have LB_DISTRIBUTION set ?!
+. config/bootstrap
 
 FILESYSTEM_ROOT=binary/boot/squashfs.dir
 INSTALLER_ROOT=binary/boot/installer.squashfs.dir
@@ -61,33 +63,11 @@ rm -f $INSTALLER_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
 # Don't let cloud-init run in the live session.
 touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
 
-# Do the snap seeding dance.
-chroot $INSTALLER_ROOT mkdir -p /var/lib/snapd/seed/snaps /var/lib/snapd/seed/assertions
-chroot $INSTALLER_ROOT sh -c '
-set -x;
-mkdir -p /var/lib/snapd/seed/snaps/
-cd /var/lib/snapd/seed/snaps/;
-if [ ! -e core_*.snap ]; then
-	SNAPPY_STORE_NO_CDN=1 snap download core
-fi
-SNAPPY_STORE_NO_CDN=1 snap download subiquity;
-
-CORE_SNAP=$(ls -1 core_*.snap);
-SUBIQUITY_SNAP=$(ls -1 subiquity*.snap);
-
-mv *.assert /var/lib/snapd/seed/assertions/;
-
-cat <<EOF > /var/lib/snapd/seed/seed.yaml
-snaps:
- - name: core
-   channel: stable
-   file: ${CORE_SNAP}
- - name: subiquity
-   channel: stable
-   classic: true
-   file: ${SUBIQUITY_SNAP}
-EOF
-'
+# Preseed subiquity into installer layer
+snap_prepare $INSTALLER_ROOT
+snap_preseed $INSTALLER_ROOT subiquity/classic
+# Drop lxd from the installer layer preseed
+sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
 
 teardown_mountpoint "$INSTALLER_ROOT"
 
