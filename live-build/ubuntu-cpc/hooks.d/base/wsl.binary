@@ -1,0 +1,52 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate the compressed root directory for WSL
+
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 build as WSL systems are designed to be interactive"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+case $ARCH in
+    amd64|arm64)
+        ;;
+    *)
+        echo "WSL root tarballs are not generated for $ARCH."
+        exit 0;;
+esac
+
+if [ -n "${SUBARCH:-}" ]; then
+    echo "Skipping rootfs build for subarch flavor build"
+    exit 0
+fi
+
+. config/functions
+
+rootfs_dir=wslroot.dir
+
+# This is the directory created by create-root-dir.binary
+cp -a rootfs.dir $rootfs_dir
+
+setup_mountpoint $rootfs_dir
+
+env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get -y -qq install ubuntu-wsl
+
+create_manifest $rootfs_dir livecd.ubuntu-cpc.wsl.rootfs.manifest
+teardown_mountpoint $rootfs_dir
+
+# remove attributes not supported by WSL's tar
+if [ -d $rootfs_dir/var/log/journal ]; then
+    setfattr -x system.posix_acl_access $rootfs_dir/var/log/journal
+    setfattr -x system.posix_acl_default $rootfs_dir/var/log/journal
+fi
+
+cd $rootfs_dir
+tar --xattrs --sort=name -czf ../livecd.ubuntu-cpc.wsl.rootfs.tar.gz *
+cd ..
+
+rm -rf $rootfs_dir

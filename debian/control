@@ -10,6 +10,7 @@ Package: livecd-rootfs
 Architecture: any
 Depends: ${misc:Depends},
          apt-utils,
+         attr,
          debootstrap,
          distro-info,
          dosfstools,
