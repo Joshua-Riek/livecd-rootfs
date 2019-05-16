@@ -1,9 +1,9 @@
-livecd-rootfs (2.583) UNRELEASED; urgency=medium
+livecd-rootfs (2.583) eoan; urgency=medium
 
   * Use snap-tool to seed subiquity snap.
   * Drop maas hook from server-live.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 13 May 2019 17:37:25 +0200
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 16 May 2019 15:23:22 +0200
 
 livecd-rootfs (2.582) eoan; urgency=medium
 
