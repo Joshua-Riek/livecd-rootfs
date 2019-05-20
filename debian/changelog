@@ -1,4 +1,4 @@
-livecd-rootfs (2.580.1) UNRELEASED; urgency=medium
+livecd-rootfs (2.585) UNRELEASED; urgency=medium
 
   * ubuntu-cpc: Ensure base disk image is the same between all build targets
 
