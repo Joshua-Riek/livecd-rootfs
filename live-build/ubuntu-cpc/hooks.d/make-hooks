@@ -161,7 +161,7 @@ class MakeHooks:
             with open(series_file, "r", encoding="utf-8") as fp:
                 for line in fp:
                     line = line.strip()
-                    if not line:
+                    if not line or line.startswith("#"):
                         continue
                     m = re.match(r"^\s*depends\s+(\S+.*)$", line)
                     if m:

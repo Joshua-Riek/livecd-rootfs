@@ -7,7 +7,7 @@
 # and checksums. This step produces an OVA that is suitable for use with
 # Cloud's that support the OVF specification.
 #
-# For this step, we re-use the VMDK's made in 040-vmdk-image.binary
+# For this step, we re-use the VMDK's made in vmdk-image.binary
 
 case ${SUBPROJECT:-} in
     minimized)

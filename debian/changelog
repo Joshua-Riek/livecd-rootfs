@@ -1,3 +1,9 @@
+livecd-rootfs (2.585) UNRELEASED; urgency=medium
+
+  * ubuntu-cpc: Ensure base disk image is the same between all build targets
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Thu, 02 May 2019 16:03:39 -0500
+
 livecd-rootfs (2.584) eoan; urgency=medium
 
   * Build WSL rootfs tarball (LP: #1827930)
