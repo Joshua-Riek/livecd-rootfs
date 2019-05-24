@@ -131,6 +131,9 @@ Expire-Date: 0
 # Drop all man pages
 path-exclude=/usr/share/man/*
 
+# Drop all translations
+path-exclude=/usr/share/locale/*/LC_MESSAGES/*.mo
+
 # Drop all documentation ...
 path-exclude=/usr/share/doc/*
 
@@ -190,6 +193,10 @@ if [ -f /etc/dpkg/dpkg.cfg.d/excludes ] || [ -f /etc/dpkg/dpkg.cfg.d/excludes.dp
     echo "Reinstalling packages with system documentation in /usr/share/doc/ .."
     # This step processes the packages which still have missing documentation
     dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {print $2}' | sed 's|/[^/]*$||' | sort |uniq \
+         | xargs dpkg -S | sed 's|, |\n|g;s|: [^:]*$||' | uniq | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
+    echo "Restoring system translations..."
+    # This step processes the packages which still have missing translations
+    dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/locale/ {print $2}' | sed 's|/[^/]*$||' | sort |uniq \
          | xargs dpkg -S | sed 's|, |\n|g;s|: [^:]*$||' | uniq | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y
     if dpkg --verify --verify-format rpm | awk '/..5......   \/usr\/share\/doc/ {exit 1}'; then
         echo "Documentation has been restored successfully."
