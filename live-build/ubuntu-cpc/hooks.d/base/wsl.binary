@@ -45,6 +45,10 @@ if [ -d $rootfs_dir/var/log/journal ]; then
     setfattr -x system.posix_acl_default $rootfs_dir/var/log/journal
 fi
 
+# The reason not using just tar .. -C $rootfs_dir . is that using '.' was found
+# not working once and checking if using the simpler command is safe needs
+# verification of the app installation on all Windows 10 builds we support
+# with WSL.
 cd $rootfs_dir
 tar --xattrs --sort=name -czf ../livecd.ubuntu-cpc.wsl.rootfs.tar.gz *
 cd ..
