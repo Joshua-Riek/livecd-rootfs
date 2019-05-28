@@ -1,10 +1,10 @@
-livecd-rootfs (2.587) UNRELEASED; urgency=medium
+livecd-rootfs (2.587) eoan; urgency=medium
 
   * Strip translation files out of the minimal images, another thing that
     goes unused when there is no human console user (and we already don't
     have the locales themselves present on a minimal image).  LP: #1829333.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 17 May 2019 18:21:15 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 28 May 2019 08:40:42 -0700
 
 livecd-rootfs (2.586) eoan; urgency=medium
 
