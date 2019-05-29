@@ -302,19 +302,6 @@ case $IMAGEFORMAT in
 	ext2|ext3|ext4)
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
 		PREINSTALLED=true
-		case ${SUBPROJECT:-} in
-			*)
-				case $PROJECT in
-					ubuntu-cpc)
-						;;
-					*)
-						add_package live jasper
-						;;
-				esac
-				;;
-		esac
-		;;
-
 	plain)
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
