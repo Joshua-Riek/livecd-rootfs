@@ -1,3 +1,9 @@
+livecd-rootfs (2.588) UNRELEASED; urgency=medium
+
+  * Drop dead wubi subproject.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 May 2019 11:04:02 +0100
+
 livecd-rootfs (2.587) eoan; urgency=medium
 
   * Strip translation files out of the minimal images, another thing that

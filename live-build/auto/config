@@ -303,10 +303,6 @@ case $IMAGEFORMAT in
 		OPTS="${OPTS:+$OPTS }--initramfs none --chroot-filesystem $IMAGEFORMAT"
 		PREINSTALLED=true
 		case ${SUBPROJECT:-} in
-			wubi)
-				add_package install lupin-support
-				COMPONENTS='main restricted universe multiverse'
-				;;
 			*)
 				case $PROJECT in
 					ubuntu-cpc)
@@ -1016,12 +1012,6 @@ case $PROJECT in
 	# if any flavours want to strip .pyc files from their live images, add them here
 	_)
 		add_chroot_hook remove-python-py
-		;;
-esac
-
-case ${SUBPROJECT:-} in
-	wubi)
-		add_binary_hook build-wubildr
 		;;
 esac
 
