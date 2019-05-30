@@ -1,3 +1,9 @@
+livecd-rootfs (2.588) UNRELEASED; urgency=medium
+
+  * Drop ubuntu-desktop-next configs
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 May 2019 12:00:40 +0100
+
 livecd-rootfs (2.587) eoan; urgency=medium
 
   * Strip translation files out of the minimal images, another thing that

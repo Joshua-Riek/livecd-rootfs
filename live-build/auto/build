@@ -537,11 +537,11 @@ if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
 	fi
 fi
 
-# ubuntu-core and ubuntu-desktop-next splits kernel stuff into a "device" tarball so
+# ubuntu-core splits kernel stuff into a "device" tarball so
 # at this point we reset it to "none" as all the work to extract it was done already
 # in a binary hook
 case $PROJECT:${SUBPROJECT:-} in
-        ubuntu-core:system-image|ubuntu-desktop-next:system-image)
+        ubuntu-core:system-image)
 
     # create device tarball (for snappy only atm)
     if [ "$PROJECT:$SUBPROJECT" = "ubuntu-core:system-image" ]; then
