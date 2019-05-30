@@ -1,10 +1,10 @@
-livecd-rootfs (2.588) UNRELEASED; urgency=medium
+livecd-rootfs (2.588) eoan; urgency=medium
 
   * Add an explicit build-dependency on python3-yaml since livecd-rootfs
     uses it, rather than relying on this dependency being pulled in
     indirectly via ubuntu-image.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 30 May 2019 14:22:25 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 30 May 2019 14:23:11 -0700
 
 livecd-rootfs (2.587) eoan; urgency=medium
 
