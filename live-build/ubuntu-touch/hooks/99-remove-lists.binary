@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# remove-lists: Remove all apt lists for space as our apport does not need them
-#
-# Author: Łukasz 'sil2100' Zemczak <achiang@canonical.com>
-# Date  : September 22, 2015
-
-echo "Removing /var/lib/apt/lists/* from the binary"
-find binary/boot/filesystem.dir/var/lib/apt/lists/ -type f | xargs rm -f
