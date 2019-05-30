@@ -1,6 +1,7 @@
 livecd-rootfs (2.588) UNRELEASED; urgency=medium
 
   * Drop ubuntu-desktop-next configs
+  * Drop ubuntu-desktop-next hooks
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 May 2019 12:00:40 +0100
 

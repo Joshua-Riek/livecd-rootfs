@@ -1,8 +1,0 @@
-#!/bin/sh -x
-
-echo "I: Removing /var/lib/apt/lists/*"
-find binary/boot/filesystem.dir/var/lib/apt/lists/ -type f | xargs rm -f
-
-echo "I: Removing /var/cache/apt/*.bin"
-rm -f binary/boot/filesystem.dir/var/cache/apt/*.bin
-

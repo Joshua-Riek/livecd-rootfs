@@ -1,8 +1,0 @@
-#!/bin/sh -x
-
-USER=ubuntu
-
-DEFGROUPS="sudo,adm,dialout,cdrom,plugdev,audio,dip,video"
-
-echo "I: add $USER to ($DEFGROUPS) group(s)"
-usermod -a -G ${DEFGROUPS} ${USER}
