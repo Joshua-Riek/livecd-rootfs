@@ -1,4 +1,4 @@
-livecd-rootfs (2.589) UNRELEASED; urgency=medium
+livecd-rootfs (2.589) eoan; urgency=medium
 
   * Add support for the 'kassel' subflavor of UC18 images.
 
