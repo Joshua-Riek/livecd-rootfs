@@ -332,6 +332,7 @@ case $IMAGEFORMAT in
 		;;
 
 	ubuntu-image)
+		UBUNTU_IMAGE_ARGS=""
 		case "$ARCH+${SUBARCH:-}" in
 			amd64+*)
 				MODEL=pc-amd64 ;;
@@ -355,12 +356,14 @@ case $IMAGEFORMAT in
 
 		if [ $PROJECT = "ubuntu-core" ]; then
 			# snap-based core images
+			EXTRA_SNAPS=""
 
 			case $MODEL in
 				pc-amd64|pc-i386)
-					UBUNTU_IMAGE_ARGS="--image-size 3700M" ;;
-				*)
-					UBUNTU_IMAGE_ARGS="" ;;
+					[ -z "${SUBARCH:-}" ] \
+					&& UBUNTU_IMAGE_ARGS="--image-size 3700M"
+					;;
+				*) ;;
 			esac
 			case $SUITE in
 				xenial)
@@ -371,6 +374,15 @@ case $IMAGEFORMAT in
 					MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
 			esac
 
+			case "$ARCH+${SUBARCH:-}" in
+				amd64+kassel)
+					EXTRA_SNAPS="core bluez alsa-utils pulseaudio udisks2"
+					;;
+				*) ;;
+			esac
+			for snap in $EXTRA_SNAPS; do
+				UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --extra-snaps $snap"
+			done
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
 			# Store model assertion in top dir to get it picked up later as a build artifact
@@ -387,7 +399,6 @@ case $IMAGEFORMAT in
 					MODEL=pi3 ;;
 			esac
 
-			UBUNTU_IMAGE_ARGS=""
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
 

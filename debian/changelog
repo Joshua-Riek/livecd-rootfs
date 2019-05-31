@@ -1,3 +1,9 @@
+livecd-rootfs (2.589) UNRELEASED; urgency=medium
+
+  * Add support for the 'kassel' subflavor of UC18 images.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 31 May 2019 01:41:13 -0700
+
 livecd-rootfs (2.588) eoan; urgency=medium
 
   * Add an explicit build-dependency on python3-yaml since livecd-rootfs
