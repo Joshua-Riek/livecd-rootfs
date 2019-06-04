@@ -1,9 +1,0 @@
-[Unit]
-After=media-filesystem.mount
-After=media-rack.lower.mount
-
-[Mount]
-What=overlay
-Where=/media/rack
-Type=overlay
-Options=lowerdir=/media/rack.lower:/media/filesystem

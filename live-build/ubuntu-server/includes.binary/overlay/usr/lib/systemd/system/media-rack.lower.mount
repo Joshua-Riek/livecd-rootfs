@@ -1,5 +1,0 @@
-[Mount]
-What=/cdrom/casper/maas/maas-rack.squashfs
-Where=/media/rack.lower
-Type=squashfs
-Options=ro
