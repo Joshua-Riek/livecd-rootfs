@@ -4,6 +4,7 @@ livecd-rootfs (2.590) UNRELEASED; urgency=medium
   * Drop dead jasper subproject.
   * Drop old arm platforms.
   * Drop ubuntu-desktop-next configs  
+  * Drop ubuntu-desktop-next hooks
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 May 2019 11:04:02 +0100
 

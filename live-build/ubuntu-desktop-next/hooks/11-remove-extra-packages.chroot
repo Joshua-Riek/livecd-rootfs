@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -e
-
-# we don't want click on snappy image
-apt-get purge -y click
