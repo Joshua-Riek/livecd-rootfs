@@ -1,0 +1,59 @@
+#!/bin/bash -ex
+# vi: ts=4 expandtab
+#
+# Generate KVM images
+#
+
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 builds"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+# Only allow amd64 builds for now
+case $ARCH in
+        amd64)
+            ;;
+        *)
+            echo "Linux KVM images are not supported for $ARCH yet.";
+            exit 0;;
+esac
+
+. config/functions
+
+mount_d=$(mktemp -d)
+
+create_derivative "disk" "kvm" #sets ${derivative_img}
+mount_disk_image ${derivative_img} ${mount_d}
+
+# unmount disk image and remove created folders on exit
+cleanup_kvm() {
+    if [ -d "$mount_d" ]; then
+        umount_disk_image "$mount_d"
+    fi
+    rm -rf ${mount_d} ${derivative_img}
+}
+trap cleanup_kvm EXIT
+
+chroot ${mount_d} apt-get update
+
+divert_grub "${mount_d}"
+replace_kernel ${mount_d} "linux-kvm"
+undivert_grub "${mount_d}"
+
+#setup grub correctly
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" update-grub
+replace_grub_root_with_label "${mount_d}"
+
+# Remove initramfs for kvm image
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
+    purge -y initramfs-tools busybox-initramfs
+
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" rm \
+    -rf /boot/initrd.img-* /boot/initrd.img
+
+create_manifest ${mount_d} livecd.ubuntu-cpc.kvm.manifest
+convert_to_qcow2 binary/boot/disk-kvm.ext4 livecd.ubuntu-cpc.kvm.img 
