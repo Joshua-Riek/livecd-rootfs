@@ -5,7 +5,7 @@
 #
 
 echo "Building KVM image"
-
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 case ${SUBPROJECT:-} in
     minimized)
         echo "Skipping minimized $0 builds"
@@ -61,4 +61,4 @@ env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
     clean
 
 create_manifest ${mount_d} livecd.ubuntu-cpc.disk-kvm.manifest
-convert_to_qcow2 binary/boot/disk-kvm.ext4 livecd.ubuntu-cpc.disk-kvm.img 
+convert_to_qcow2 ${derivative_img} livecd.ubuntu-cpc.disk-kvm.img 

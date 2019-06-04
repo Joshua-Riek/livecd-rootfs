@@ -890,4 +890,6 @@ replace_kernel () {
         update --assume-yes
     env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
         install --assume-yes "${new_kernel}" 
+    env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
+        autoremove --purge --assume-yes
 }
