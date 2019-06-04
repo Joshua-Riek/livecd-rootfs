@@ -942,39 +942,9 @@ case $PROJECT in
 esac
 
 case $ARCH in
-	armel|armhf|arm64)
+	armhf|arm64)
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
-			dove)
-				BINARY_REMOVE_LINUX=false
-				;;
-			omap)
-				add_package install u-boot-linaro-omap3-beagle u-boot-tools
-				BINARY_REMOVE_LINUX=false
-				;;
-			omap4)
-				case $PROJECT in
-					ubuntu-server|ubuntu-core|base)
-						add_package install u-boot-linaro-omap4-panda u-boot-tools
-						;;
-					*)
-						add_package install u-boot-linaro-omap4-panda u-boot-tools pvr-omap4
-						;;
-				esac
-				BINARY_REMOVE_LINUX=false
-				;;
-			mx5)
-				COMPONENTS='main restricted universe'
-				KERNEL_FLAVOURS=linaro-lt-mx5
-				add_package install flash-kernel u-boot-linaro-mx53loco u-boot-tools
-				BINARY_REMOVE_LINUX=false
-				;;
-			ac100)
-				COMPONENTS='main restricted universe multiverse'
-				add_package install zram-config abootimg
-				add_package live ac100-tarball-installer
-				BINARY_REMOVE_LINUX=false
-				;;
 			raspi2)
 				COMPONENTS='main restricted universe multiverse'
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools wpasupplicant
