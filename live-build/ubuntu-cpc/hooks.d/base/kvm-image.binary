@@ -1,8 +1,10 @@
-#!/bin/bash -ex
+#!/bin/bash -eux
 # vi: ts=4 expandtab
 #
-# Generate KVM images
+# Generate KVM image
 #
+
+echo "Building KVM image"
 
 case ${SUBPROJECT:-} in
     minimized)
@@ -38,7 +40,6 @@ cleanup_kvm() {
 }
 trap cleanup_kvm EXIT
 
-chroot ${mount_d} apt-get update
 
 divert_grub "${mount_d}"
 replace_kernel ${mount_d} "linux-kvm"
@@ -55,5 +56,9 @@ env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
 env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" rm \
     -rf /boot/initrd.img-* /boot/initrd.img
 
-create_manifest ${mount_d} livecd.ubuntu-cpc.kvm.manifest
-convert_to_qcow2 binary/boot/disk-kvm.ext4 livecd.ubuntu-cpc.kvm.img 
+# Remove indices 
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
+    clean
+
+create_manifest ${mount_d} livecd.ubuntu-cpc.disk-kvm.manifest
+convert_to_qcow2 binary/boot/disk-kvm.ext4 livecd.ubuntu-cpc.disk-kvm.img 
