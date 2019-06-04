@@ -1,3 +1,9 @@
+livecd-rootfs (2.590) eoan; urgency=medium
+
+  * Add support for linux-kvm images
+
+ -- Patrick Viafore <patrick.viafore@ubuntu.com>  Tue, 04 Jun 2019 02:13:00 -0500
+
 livecd-rootfs (2.589) eoan; urgency=medium
 
   * Add support for the 'kassel' subflavor of UC18 images.
