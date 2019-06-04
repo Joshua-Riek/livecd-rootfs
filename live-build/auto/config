@@ -404,7 +404,7 @@ case $IMAGEFORMAT in
 		;;
 	*)
 		case $PROJECT in
-			ubuntu-server|ubuntu-touch|ubuntu-touch-custom)
+			ubuntu-server)
 				;;
 			ubuntu)
 				if [ "$SUBPROJECT" != "canary" ]; then
@@ -442,7 +442,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-touch|ubuntu-touch-custom|ubuntu-cpc)
+		ubuntu-core|ubuntu-base|base|ubuntu-cpc)
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -741,44 +741,6 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
-	ubuntu-touch|ubuntu-touch-custom)
-		HINTS="packagekit ubuntu-system-settings"
-		case $ARCH in
-		    amd64|i386)
-			HINTS="$HINTS qml-module-ubuntu-components-gles unity8"
-			;;
-		esac
-		add_package install ubuntu-minimal ubuntu-touch $HINTS
-
-		COMPONENTS='main restricted universe'
-		BOOTAPPEND_LIVE='hostname=ubuntu-phablet username=ubuntu'
-		export LB_BOOTSTRAP_INCLUDE='apt-transport-https gnupg'
-		OPTS="${OPTS:+$OPTS }--apt-recommends false"
-		OPTS="${OPTS:+$OPTS }--compression gzip"
-		OPTS="${OPTS:+$OPTS }--system normal"
-		OPTS="${OPTS:+$OPTS }--zsync false"
-
-		# TODO cjwatson 2014-07-17: This is a bit of an abuse of
-		# SUBPROJECT, but it's a handy thing that launchpad-buildd
-		# already passes through to us that we weren't otherwise
-		# using here.
-		case ${SUBPROJECT:-} in
-		    ubuntu-rtm/dogfood)
-			MIRROR=http://derived-archive.dogfood.content.paddev.net/ubuntu-rtm/
-			OPTS="${OPTS:+$OPTS }--apt-secure false"
-			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
-			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
-			OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
-			;;
-		    ubuntu-rtm)
-			MIRROR=http://derived.archive.canonical.com/ubuntu-rtm/
-			OPTS="${OPTS:+$OPTS }--mirror-chroot-security ${MIRROR}"
-			OPTS="${OPTS:+$OPTS }--mirror-binary-security ${MIRROR}"
-			OPTS="${OPTS:+$OPTS }--mirror-binary ${MIRROR}"
-			;;
-		esac
-		;;
-
 	ubuntu-cpc)
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
@@ -943,7 +905,7 @@ case $ARCH in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*|ubuntu-touch:*|ubuntu-touch-custom:*)
+	ubuntu-server:*|ubuntu-base:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -1135,7 +1097,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-touch:*|ubuntu-touch-custom:*|ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live)
+	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live)
 		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 
