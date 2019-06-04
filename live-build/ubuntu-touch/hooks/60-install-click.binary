@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -e
-
-echo "Splitting out custom tarball"
-
-rm -f binary/boot/custom.dir
-mkdir -p binary/boot/custom.dir/system
-mv binary/boot/filesystem.dir/custom binary/boot/custom.dir/system/custom

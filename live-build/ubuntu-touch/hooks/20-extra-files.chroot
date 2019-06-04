@@ -1,9 +1,0 @@
-#! /bin/sh
-
-set -e
-
-echo "creating mtab and modules dir" >&2
-ln -sf /proc/mounts /etc/mtab
-mkdir -p /lib/modules
-mkdir -p /lib/firmware
-mkdir -p /userdata
