@@ -1,8 +1,8 @@
-livecd-rootfs (2.591) UNRELEASED; urgency=medium
+livecd-rootfs (2.591) eoan; urgency=medium
 
   * Fix typpo when dropping jasper.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 04 Jun 2019 23:51:33 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 04 Jun 2019 23:53:12 +0100
 
 livecd-rootfs (2.590) eoan; urgency=medium
 
