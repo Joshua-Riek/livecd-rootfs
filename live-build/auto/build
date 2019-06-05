@@ -590,8 +590,6 @@ case $PROJECT:${SUBPROJECT:-} in
         Chroot chroot "apt-get -y autoremove"
         rm -rf chroot/boot/initrd.img* chroot/boot/vmlinu?-* chroot/lib/modules/* \
             chroot/boot/abi-* chroot/boot/System.map-* chroot/boot/config-*
-        mkdir -p chroot/etc/initramfs-tools/conf.d
-        echo "COMPRESS=lzma" >chroot/etc/initramfs-tools/conf.d/snappy-device-tarball.conf
 
         # install needed packages and the kernel itself
         Chroot chroot "apt-get -y install initramfs-tools-ubuntu-core linux-firmware xz-utils"

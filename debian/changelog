@@ -2,6 +2,9 @@ livecd-rootfs (2.592) UNRELEASED; urgency=medium
 
   * Drop trying to mount removed maas squashfs.
   * Stop overriding initramfs compression default to lzma. LP: #1831736
+  * Do not force lzma on ubuntu-core builds, the compress format default
+    should be set universally inside initramfs-tools-ubuntu-core package
+    instead of getting duplicated multiple times all over the place.
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 Jun 2019 00:02:32 +0100
 
