@@ -1,4 +1,4 @@
-livecd-rootfs (2.592) UNRELEASED; urgency=medium
+livecd-rootfs (2.592) eoan; urgency=medium
 
   * Drop trying to mount removed maas squashfs.
   * Stop overriding initramfs compression default to lzma. LP: #1831736
@@ -6,7 +6,7 @@ livecd-rootfs (2.592) UNRELEASED; urgency=medium
     should be set universally inside initramfs-tools-ubuntu-core package
     instead of getting duplicated multiple times all over the place.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 Jun 2019 00:02:32 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 Jun 2019 13:55:06 +0100
 
 livecd-rootfs (2.591) eoan; urgency=medium
 
