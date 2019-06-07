@@ -24,28 +24,13 @@ arch=$(_xchroot "${rootd}" dpkg --print-architecture)
 
 fake_cloud_init() {
     # If the cloud does not provide a meta-data service this should be run
-    # This will setup a nocloud datasource.
-
-    seed_d="${rootd}/var/lib/cloud/seed/nocloud-net"
-    mkdir -p "${seed_d}"
-
-    # fake instance-id
-    cat << EOF > "${seed_d}/meta-data"
-instance_id: cloud-image
-EOF
-
-    # fake user-data to create the default user/password
-    cat << EOF > "${seed_d}/user-data"
-#cloud-config
-password: ubuntu
-chpasswd: ubuntu
-ssh_pwauth: True
-EOF
-
-   # tell cloud-init not to look for meta-data sources
-   cat << EOF > ${rootd}/etc/cloud/cloud.cfg.d/99-fake_cloud.cfg
+    # This will setup a nocloud datasource on the boot partition.
+    cat << EOF > ${rootd}/etc/cloud/cloud.cfg.d/99-fake_cloud.cfg
 # configure cloud-init for NoCloud
 datasource_list: [ NoCloud, None ]
+datasource:
+  NoCloud:
+    fs_label: system-boot
 EOF
 }
 

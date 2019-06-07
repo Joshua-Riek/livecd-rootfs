@@ -1,3 +1,9 @@
+livecd-rootfs (2.593) eoan; urgency=medium
+
+  * Use boot-partition for cloud-init seed on RPi
+
+ -- Dave Jones <dave.jones@canonical.com>  Thu, 06 Jun 2019 08:29:57 +0000
+
 livecd-rootfs (2.592) eoan; urgency=medium
 
   * Drop trying to mount removed maas squashfs.
