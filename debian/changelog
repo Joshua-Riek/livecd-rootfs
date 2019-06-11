@@ -1,4 +1,4 @@
-livecd-rootfs (2.593) eoan; urgency=medium
+livecd-rootfs (2.593) UNRELEASED; urgency=medium
 
   * Add support for linux-kvm images
 
