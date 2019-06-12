@@ -877,3 +877,19 @@ is_live_layer () {
     done
     return 1
 }
+
+replace_kernel () { 
+    mountpoint=$1
+    new_kernel=$2
+
+    # Install custom kernel (N.B. the trailing + retains linux-base during this
+    # operation)
+    env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
+        remove --purge --assume-yes '^linux-.*' 'linux-base+'
+    env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
+        update --assume-yes
+    env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
+        install --assume-yes "${new_kernel}" 
+    env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
+        autoremove --purge --assume-yes
+}

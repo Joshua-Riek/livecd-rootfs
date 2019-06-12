@@ -1,0 +1,73 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate KVM image
+#
+
+echo "Building KVM image"
+IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+case ${SUBPROJECT:-} in
+    minimized)
+        echo "Skipping minimized $0 builds"
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+# Only allow amd64 builds for now
+case $ARCH in
+        amd64)
+            ;;
+        *)
+            echo "Linux KVM images are not supported for $ARCH yet.";
+            exit 0;;
+esac
+
+. config/functions
+
+mount_d=$(mktemp -d)
+
+create_derivative "disk" "kvm" #sets ${derivative_img}
+mount_disk_image ${derivative_img} ${mount_d}
+
+# unmount disk image and remove created folders on exit
+# even though we unmount manually before we convert to
+# qcow2, we have this here just in case we error out before
+# that step
+cleanup_kvm() {
+    if [ -d "$mount_d" ]; then
+        umount_disk_image "$mount_d"
+    fi
+    rm -rf ${mount_d} ${derivative_img}
+}
+trap cleanup_kvm EXIT
+
+
+divert_grub "${mount_d}"
+replace_kernel ${mount_d} "linux-kvm"
+undivert_grub "${mount_d}"
+
+#setup grub correctly
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" update-grub
+replace_grub_root_with_label "${mount_d}"
+
+# Remove initramfs for kvm image
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
+    purge -y initramfs-tools busybox-initramfs
+
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" rm \
+    -rf /boot/initrd.img-* /boot/initrd.img
+
+# Remove indices 
+env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
+    clean
+
+create_manifest ${mount_d} livecd.ubuntu-cpc.disk-kvm.manifest
+
+# unmount disk image to prevent corruption
+# and remove it so the trap doesn't try to unmount it again
+umount_disk_image ${mount_d}
+rm -rf ${mount_d}
+
+convert_to_qcow2 ${derivative_img} livecd.ubuntu-cpc.disk-kvm.img 

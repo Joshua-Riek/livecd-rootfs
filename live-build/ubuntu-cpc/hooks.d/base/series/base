@@ -2,6 +2,7 @@ depends root-dir
 depends tarball
 depends squashfs
 depends disk-image
+depends kvm
 depends qcow2
 depends vmdk
 depends vagrant
