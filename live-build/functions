@@ -1,7 +1,7 @@
 # vi: ts=4 expandtab syntax=sh
 
-#imagesize=${IMAGE_SIZE:-$((2252*1024**2))}  # 2.2G (the current size we ship)
-imagesize=${IMAGE_SIZE:-2361393152}  # 2.2G (the current size we ship)
+# default imagesize = 2252*1024**2 = 2.2G (the current size we ship)
+imagesize=${IMAGE_SIZE:-2361393152}
 fs_label="${FS_LABEL:-rootfs}"
 
 rootfs_dev_mapper=

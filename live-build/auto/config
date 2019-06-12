@@ -278,7 +278,7 @@ _get_live_passes ()
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
-		ubuntu-cpc:*)
+		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			if [ "$SUBARCH" = "raspi3" ]; then
 				# For now only raspi3, but others are soon to follow
 				IMAGEFORMAT=ubuntu-image
@@ -444,6 +444,13 @@ if [ "$PREINSTALLED" = "true" ]; then
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
 		ubuntu-core|ubuntu-base|base|ubuntu-cpc)
+			;;
+		ubuntu)
+			add_package live oem-config-gtk ubiquity-frontend-gtk
+			add_package live ubiquity-slideshow-ubuntu
+			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
+				add_package live language-pack-en-base
+			fi
 			;;
 		*)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -1092,8 +1099,8 @@ EOF
 		fi
 		;;
 
-	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live)
-		cp -af /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
+	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
+		cp -afL /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
 			config/
 
 		if [ "$PROJECT" = "ubuntu-cpc" ]; then

@@ -1,8 +1,12 @@
 livecd-rootfs (2.594) UNRELEASED; urgency=medium
 
+  [ David Krauser ]
+  * Add support for HyperV Gallery images
+
+  [ Patrick Viafore ]
   * Add support for linux-kvm images
 
- -- Patrick Viafore <patrick.viafore@ubuntu.com>  Tue, 04 Jun 2019 02:13:00 -0500
+ -- Tiago Stürmer Daitx <tiago.daitx@ubuntu.com>  Wed, 12 Jun 2019 13:13:09 +0000
 
 livecd-rootfs (2.593) eoan; urgency=medium
 

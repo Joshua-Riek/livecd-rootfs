@@ -9,8 +9,17 @@ case $ARCH in
         ;;
 esac
 
-IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
-FS_LABEL="cloudimg-rootfs"
+case ${PROJECT:-} in
+    ubuntu)
+        IMAGE_STR="# DESKTOP_IMG: This file was created/modified by the Desktop Image build process"
+        FS_LABEL="desktop-rootfs"
+        IMAGE_SIZE=12884901888 # 12G
+        ;;
+    *)
+        IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+        FS_LABEL="cloudimg-rootfs"
+        ;;
+esac
 
 . config/binary
 
