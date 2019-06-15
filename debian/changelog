@@ -1,3 +1,13 @@
+livecd-rootfs (2.595) UNRELEASED; urgency=medium
+
+  * Remove dangling symlink
+    /usr/lib/systemd/system/local-fs.target.wants/media-region.lower.mount. 
+    It's unclear why this has just started causing build failures, but the
+    symlink should have been removed in 2.592 with the rest of the MAAS
+    stuff.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 15 Jun 2019 11:08:51 -0700
+
 livecd-rootfs (2.594) eoan; urgency=medium
 
   [ David Krauser ]
