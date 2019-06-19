@@ -813,6 +813,9 @@ case $SUBPROJECT in
 		add_package install build-essential
 		# Needed for LXD-based builds.
 		add_package install init
+		# Not strictly build-essential, but traditionally present
+		# and a variety of things fail without it.
+		add_package install tzdata
 
 		cp -af /usr/share/livecd-rootfs/live-build/make-lxd-metadata.py config/make-lxd-metadata
 		;;
