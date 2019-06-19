@@ -1,10 +1,10 @@
-livecd-rootfs (2.596) UNRELEASED; urgency=medium
+livecd-rootfs (2.596) eoan; urgency=medium
 
   * Add tzdata to buildd images.  It isn't strictly build-essential, but it
     has traditionally been present in both Debian and Ubuntu, and a variety
     of things fail without it.
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 19 Jun 2019 17:20:16 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Wed, 19 Jun 2019 23:21:56 +0100
 
 livecd-rootfs (2.595) eoan; urgency=medium
 
