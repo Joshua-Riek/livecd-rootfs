@@ -1103,8 +1103,20 @@ EOF
 		;;
 
 	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
-		cp -afL /usr/share/livecd-rootfs/live-build/${PROJECT}/* \
-			config/
+		# Ensure that most things e.g. includes.chroot are copied as is
+		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
+			case entry in
+				hooks)
+					# But hooks are shared across the projects with symlinks
+					# dereference them
+					cp -afL $entry config/
+					;;
+				*)
+					# Most places want to preserve symlinks as is
+					cp -af $entry config/
+					;;
+			esac
+		done
 
 		if [ "$PROJECT" = "ubuntu-cpc" ]; then
 			case ${IMAGE_TARGETS:-} in

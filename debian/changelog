@@ -2,6 +2,9 @@ livecd-rootfs (2.597) UNRELEASED; urgency=medium
 
   * Install s390-tools-zkey into the installer layer for zkey support in
     subiquity.
+  * Unbreak cpc/server builds, by ensuring that includes are copied with
+    archived symlinks, and only hooks resolve symlinks when getting
+    copied.
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 20 Jun 2019 23:25:13 +0100
 
