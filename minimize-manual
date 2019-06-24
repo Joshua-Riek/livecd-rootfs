@@ -11,10 +11,11 @@ import apt
 
 def is_root(pkg):
     """Check if the package is a root package (manually inst. meta)"""
+    section = pkg.candidate.section if pkg.candidate else ""
     return (pkg.is_installed and
             not pkg.is_auto_installed and
-            (pkg.section == "metapackages" or
-             pkg.section.endswith("/metapackages")))
+            (section == "metapackages" or
+             section.endswith("/metapackages")))
 
 
 def main():
