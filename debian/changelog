@@ -1,9 +1,9 @@
-livecd-rootfs (2.598) UNRELEASED; urgency=medium
+livecd-rootfs (2.598) eoan; urgency=medium
 
   * Change minimize-manual to read package section from version instead
     of package objects, fixing compatibility with (python-)apt 1.9.0
 
- -- Julian Andres Klode <juliank@ubuntu.com>  Mon, 24 Jun 2019 17:53:39 +0200
+ -- Julian Andres Klode <juliank@ubuntu.com>  Mon, 24 Jun 2019 17:55:03 +0200
 
 livecd-rootfs (2.597) eoan; urgency=medium
 
