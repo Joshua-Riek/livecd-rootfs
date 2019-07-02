@@ -511,7 +511,6 @@ fi
 
 # '--initramfs none' produces different manifest names.
 if [ -e "binary/$INITFS/filesystem.packages" ]; then
-	./config/snap-seed-parse "chroot/" "binary/${INITFS}/filesystem.packages"
 	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"
 	chmod 644 "$PREFIX.manifest"
 fi
@@ -521,6 +520,13 @@ if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
 		ln "binary/$INITFS/filesystem.packages-remove" "$PREFIX.manifest-remove"
 		chmod 644 "$PREFIX.manifest-remove"
 	fi
+fi
+
+# Since snaps are now Ubuntu first-class citizen, so always try fetching the
+# list of seeded snaps into the manifest.  In case of layered images we skip
+# this step, as we assume they're doing it on their own at some earlier stage.
+if [ -z "$PASSES" ] && [ -e "$PREFIX.manifest" ]; then
+	./config/snap-seed-parse "chroot/" "$PREFIX.manifest"
 fi
 
 # ubuntu-core splits kernel stuff into a "device" tarball so
