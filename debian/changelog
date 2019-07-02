@@ -1,3 +1,9 @@
+livecd-rootfs (2.599) UNRELEASED; urgency=medium
+
+  * Append the list of seeded snaps to manifests for all regular images.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 02 Jul 2019 11:39:11 +0200
+
 livecd-rootfs (2.598) eoan; urgency=medium
 
   * Change minimize-manual to read package section from version instead
