@@ -1,4 +1,4 @@
-livecd-rootfs (2.599) UNRELEASED; urgency=medium
+livecd-rootfs (2.599) eoan; urgency=medium
 
   * Append the list of seeded snaps to manifests for all regular images.
 
