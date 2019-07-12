@@ -529,6 +529,11 @@ if [ -z "$PASSES" ] && [ -e "$PREFIX.manifest" ]; then
 	./config/snap-seed-parse "chroot/" "$PREFIX.manifest"
 fi
 
+# Do basic validation of generated snapd seed.yaml.
+if [ -e chroot/var/lib/snapd/seed/seed.yaml ]; then
+    snap debug validate-seed chroot/var/lib/snapd/seed/seed.yaml
+fi
+
 # ubuntu-core splits kernel stuff into a "device" tarball so
 # at this point we reset it to "none" as all the work to extract it was done already
 # in a binary hook
