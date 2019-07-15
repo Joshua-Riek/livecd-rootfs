@@ -619,6 +619,12 @@ snap_prepare() {
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
+
+    # ubuntu-cpc:minimized has its own special snap handling
+    if [ "$PROJECT:${SUBPROJECT:-}" != ubuntu-cpc:minimized ]; then
+        # Download the core snap
+        _snap_preseed "$CHROOT_ROOT" core stable
+    fi
 }
 
 snap_preseed() {
