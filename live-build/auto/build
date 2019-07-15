@@ -88,6 +88,11 @@ preinstall_snaps() {
 		snap_preseed chroot "${snap}"
 	done
 	lb chroot_resolv remove
+
+        # Do basic validation of generated snapd seed.yaml.
+        if [ -e chroot/var/lib/snapd/seed/seed.yaml ]; then
+            snap debug validate-seed chroot/var/lib/snapd/seed/seed.yaml
+        fi
 }
 
 rm -f binary.success
@@ -527,11 +532,6 @@ fi
 # this step, as we assume they're doing it on their own at some earlier stage.
 if [ -z "$PASSES" ] && [ -e "$PREFIX.manifest" ]; then
 	./config/snap-seed-parse "chroot/" "$PREFIX.manifest"
-fi
-
-# Do basic validation of generated snapd seed.yaml.
-if [ -e chroot/var/lib/snapd/seed/seed.yaml ]; then
-    snap debug validate-seed chroot/var/lib/snapd/seed/seed.yaml
 fi
 
 # ubuntu-core splits kernel stuff into a "device" tarball so
