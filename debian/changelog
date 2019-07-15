@@ -1,4 +1,4 @@
-livecd-rootfs (2.600) UNRELEASED; urgency=medium
+livecd-rootfs (2.600) eoan; urgency=medium
 
   [ Tobias Koch ]
   * Do proper error checking when calling snap-tool info to determine
@@ -8,7 +8,7 @@ livecd-rootfs (2.600) UNRELEASED; urgency=medium
   * Seed core for non minimized builds, as it is still required (LP:
     #1836594).
 
- -- Tobias Koch <tobias.koch@canonical.com>  Mon, 15 Jul 2019 07:44:38 +0200
+ -- Tobias Koch <tobias.koch@canonical.com>  Mon, 15 Jul 2019 16:13:31 +0100
 
 livecd-rootfs (2.599) eoan; urgency=medium
 
