@@ -4,6 +4,10 @@ livecd-rootfs (2.600) UNRELEASED; urgency=medium
   * Do proper error checking when calling snap-tool info to determine
     the base of a snap.
 
+  [ Iain Lane ]
+  * Seed core for non minimized builds, as it is still required (LP:
+    #1836594).
+
  -- Tobias Koch <tobias.koch@canonical.com>  Mon, 15 Jul 2019 07:44:38 +0200
 
 livecd-rootfs (2.599) eoan; urgency=medium
