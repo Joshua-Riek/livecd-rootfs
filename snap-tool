@@ -28,6 +28,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -48,6 +49,178 @@ class SnapCraftError(SnapError):
 class SnapAssertionError(SnapError):
     """Error thrown on problems with the assertions API."""
     pass
+
+
+class ExpBackoffHTTPClient:
+    """This class is an abstraction layer on top of urllib with additional
+    retry logic for more reliable downloads."""
+
+    class Request:
+        """This is a convenience wrapper around urllib.request."""
+
+        def __init__(self, request, do_retry, base_interval, num_tries):
+            """
+            :param request:
+                An urllib.request.Request instance.
+            :param do_retry:
+                Whether to enable the exponential backoff and retry logic.
+            :param base_interval:
+                The initial interval to sleep after a failed attempt.
+            :param num_tries:
+                How many attempts to make.
+            """
+            self._request       = request
+            self._do_retry      = do_retry
+            self._base_interval = base_interval
+            self._num_tries     = num_tries
+            self._response      = None
+
+        def open(self):
+            """Open the connection."""
+            if not self._response:
+                self._response = self._retry_urlopen()
+
+        def close(self):
+            """Close the connection."""
+            if self._response:
+                self._response.close()
+                self._response = None
+
+        def data(self):
+            """Return the raw response body."""
+            with self:
+                return self.read()
+
+        def json(self):
+            """Return the deserialized response body interpreted as JSON."""
+            return json.loads(self.data(), encoding="utf-8")
+
+        def text(self):
+            """Return the response body as a unicode string."""
+            encoding = "utf-8"
+
+            with self:
+                content_type = self._response.getheader("Content-Type", "")
+
+                if content_type == "application/json":
+                    encoding = "utf-8"
+                else:
+                    m = re.match(r"text/\S+;\s*charset=(?P<charset>\S+)",
+                            content_type)
+                    if m:
+                        encoding=m.group("charset")
+
+                return self.read().decode(encoding)
+
+        def read(self, size=None):
+            """Read size bytes from the response. If size if not set, the
+            complete response body is read in."""
+            return self._response.read(size)
+
+        def __enter__(self):
+            """Make this class a context manager."""
+            self.open()
+            return self
+
+        def __exit__(self, type, value, traceback):
+            """Make this class a context manager."""
+            self.close()
+
+        def _retry_urlopen(self):
+            """Try to open the HTTP connection as many times as configured
+            through the constructor. Every time an error occurs, double the
+            time to wait until the next attempt."""
+            for attempt in range(self._num_tries):
+                try:
+                    return urllib.request.urlopen(self._request)
+                except Exception as e:
+                    if isinstance(e, urllib.error.HTTPError) and e.code < 500:
+                        raise
+                    if attempt >= self._num_tries - 1:
+                        raise
+                    sys.stderr.write(
+                        "WARNING: failed to open URL '{}': {}\n"
+                        .format(self._request.full_url, str(e))
+                    )
+                else:
+                    break
+
+                sleep_interval = self._base_interval * 2**attempt
+                sys.stderr.write(
+                    "Retrying HTTP request in {} seconds...\n"
+                    .format(sleep_interval)
+                )
+                time.sleep(sleep_interval)
+
+
+    def __init__(self, do_retry=True, base_interval=2, num_tries=8):
+        """
+        :param do_retry:
+            Whether to enable the retry logic.
+        :param base_interval:
+            The initial interval to sleep after a failed attempt.
+        :param num_tries:
+            How many attempts to make.
+        """
+        self._do_retry      = do_retry
+        self._base_interval = base_interval
+        self._num_tries     = num_tries if do_retry else 1
+
+    def get(self, url, headers=None):
+        """Create a GET request that can be used to retrieve the resource
+        at the given URL.
+
+        :param url:
+            An HTTP URL.
+        :param headers:
+            A dictionary of extra headers to send along.
+        :return:
+            An ExpBackoffHTTPClient.Request instance.
+        """
+        return self._prepare_request(url, headers=headers)
+
+    def post(self, url, data=None, json=None, headers=None):
+        """Create a POST request that can be used to submit data to the
+        endpoint at the given URL."""
+        return self._prepare_request(
+            url, data=data, json_data=json, headers=headers
+        )
+
+    def _prepare_request(self, url, data=None, json_data=None, headers=None):
+        """Prepare a Request instance that can be used to retrieve data from
+        and/or send data to the endpoint at the given URL.
+
+        :param url:
+            An HTTP URL.
+        :param data:
+            Raw binary data to send along in the request body.
+        :param json_data:
+            A Python data structure to be serialized and sent out in JSON
+            format.
+        :param headers:
+            A dictionary of extra headers to send along.
+        :return:
+            An ExpBackoffHTTPClient.Request instance.
+        """
+        if data is not None and json_data is not None:
+            raise ValueError(
+                "Parameters 'data' and 'json_data' are mutually exclusive."
+            )
+
+        if json_data:
+            data = json.dumps(json_data, ensure_ascii=False)
+            if headers is None:
+                headers = {}
+            headers["Content-Type"] = "application/json"
+        if isinstance(data, str):
+            data = data.encode("utf-8")
+
+        return ExpBackoffHTTPClient.Request(
+            urllib.request.Request(url, data=data, headers=headers or {}),
+            self._do_retry,
+            self._base_interval,
+            self._num_tries
+        )
 
 
 class Snap:
@@ -115,12 +288,16 @@ class Snap:
                 "Snap-CDN": "none",
             })
 
-        request = urllib.request.Request(snap_download_url, headers=headers)
-
         if not skip_snap_download:
-            with urllib.request.urlopen(request) as response, \
-                    open(snap_filename, "wb+") as fp:
+            http_client = ExpBackoffHTTPClient()
+            response = http_client.get(snap_download_url, headers=headers)
+            with response, open(snap_filename, "wb+") as fp:
                 shutil.copyfileobj(response, fp)
+
+        if os.path.getsize(snap_filename) != snap_byte_size:
+            raise SnapError(
+                "The downloaded snap does not have the expected size."
+            )
 
         if not download_assertions:
             return
@@ -193,15 +370,19 @@ class Snap:
         elif self._cohort_key:
             data["actions"][0]["cohort-key"] = self._cohort_key
 
-        request_json = json.dumps(data, ensure_ascii=False).encode("utf-8")
-
         try:
-            response_dict = self._do_snapcraft_request(path, data=request_json)
+            response_dict = self._do_snapcraft_request(path, json_data=data)
         except SnapCraftError as e:
             raise SnapError("failed to get details for '{}': {}"
                     .format(self._name, str(e)))
 
         snap_data = response_dict["results"][0]
+
+        if snap_data.get("result") == "error":
+            raise SnapError(
+                "failed to get details for '{}': {}"
+                .format(self._name, snap_data.get("error", {}).get("message"))
+            )
 
         # Have "base" initialized to something meaningful.
         if self.is_core_snap():
@@ -296,39 +477,28 @@ class Snap:
             "Accept": "application/x.ubuntu.assertion",
         }
 
-        request = urllib.request.Request(url, headers=headers)
-
+        http_client = ExpBackoffHTTPClient()
         try:
-            with urllib.request.urlopen(request) as response:
-                body = response.read()
+            with http_client.get(url, headers=headers) as response:
+                return response.text()
         except urllib.error.HTTPError as e:
             raise SnapAssertionError(str(e))
 
-        return body.decode("utf-8")
-
-    def _do_snapcraft_request(self, path, data=None):
+    def _do_snapcraft_request(self, path, json_data=None):
         url = self._snapcraft_url + "/" + path
 
         headers = {
             "Snap-Device-Series": str(self._series),
             "Snap-Device-Architecture": self._arch,
-            "Content-Type": "application/json",
         }
 
-        request = urllib.request.Request(url, data=data, headers=headers)
-
+        http_client = ExpBackoffHTTPClient()
         try:
-            with urllib.request.urlopen(request) as response:
-                body = response.read()
+            response = http_client.post(url, json=json_data, headers=headers)
+            with response:
+                return response.json()
         except urllib.error.HTTPError as e:
             raise SnapCraftError(str(e))
-
-        try:
-            response_data = json.loads(body, encoding="utf-8")
-        except json.JSONDecodeError as e:
-            raise SnapCraftError("failed to decode response body: " + str(e))
-
-        return response_data
 
 
 class SnapCli:
