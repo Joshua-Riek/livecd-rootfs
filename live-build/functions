@@ -483,11 +483,19 @@ _snap_preseed() {
             ;;
         *)
             # Determine if and what core snap is needed
-            local core_snap=$(/usr/share/livecd-rootfs/snap-tool info \
+            local snap_info
+
+            snap_info=$(/usr/share/livecd-rootfs/snap-tool info \
                 --cohort-key="${COHORT_KEY:-}" \
-                --channel="$CHANNEL" "$SNAP_NAME" | \
-                grep '^base:' | awk '{print $2}'
+                --channel="$CHANNEL" "${SNAP_NAME}" \
             )
+
+            if [ $? -ne 0 ]; then
+                echo "Failed to retrieve base of $SNAP_NAME!"
+                exit 1
+            fi
+
+            local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
 
             # If $core_snap is not the empty string then SNAP itself is not a core
             # snap and we must additionally seed the core snap.
