@@ -1,10 +1,10 @@
-livecd-rootfs (2.601) UNRELEASED; urgency=medium
+livecd-rootfs (2.601) eoan; urgency=medium
 
   [ Michael Vogt ]
   * Run "snap debug validate-seed" during preseeding to do basic validation of
     the generated seed.yaml
 
- -- Iain Lane <iain.lane@canonical.com>  Tue, 16 Jul 2019 10:27:57 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Tue, 16 Jul 2019 11:30:27 +0100
 
 livecd-rootfs (2.600) eoan; urgency=medium
 
