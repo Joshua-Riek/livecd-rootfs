@@ -649,6 +649,15 @@ snap_preseed() {
             touch "$CHROOT_ROOT/var/lib/snapd/seed/.snapd-explicit-install-stamp"
             ;;
     esac
+
+    
+    # Do basic validation of generated snapd seed.yaml, doing it here
+    # means we catch all the places(tm) that snaps are added but the
+    # downside is that each time a snap is added the seed must be valid,
+    # i.e. snaps with bases need to add bases first etc.
+    if [ -e chroot/var/lib/snapd/seed/seed.yaml ]; then
+        snap debug validate-seed "$CHROOT_ROOT/var/lib/snapd/seed/seed.yaml"
+    fi
 }
 
 snap_from_seed() {
