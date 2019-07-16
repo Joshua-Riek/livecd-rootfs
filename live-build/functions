@@ -650,7 +650,7 @@ snap_preseed() {
             ;;
     esac
 
-    
+
     # Do basic validation of generated snapd seed.yaml, doing it here
     # means we catch all the places(tm) that snaps are added but the
     # downside is that each time a snap is added the seed must be valid,
