@@ -1105,8 +1105,8 @@ EOF
 	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
-			case entry in
-				hooks)
+			case $entry in
+				*hooks*)
 					# But hooks are shared across the projects with symlinks
 					# dereference them
 					cp -afL $entry config/
