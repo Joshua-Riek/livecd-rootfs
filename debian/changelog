@@ -1,3 +1,10 @@
+livecd-rootfs (2.602) eoan; urgency=medium
+
+  [ David Krauser ]
+  * Fixing broken binary hook symlinks for hyperv gallery image builds.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 18 Jul 2019 14:07:10 +0100
+
 livecd-rootfs (2.601) eoan; urgency=medium
 
   [ Michael Vogt ]
