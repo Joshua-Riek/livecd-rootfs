@@ -44,9 +44,6 @@ saved to the "explicit_provides" file in the hooks output directory. In
 the case of the "all" target this list would be empty.  This list is
 consumed by the "remove-implicit-artifacts" which is run at the end of the build.
 
-The final.binary hook is always included as the last hook(s) if it exists,
-it should not be specified in series files.
-
 ACHTUNG: live build runs scripts with the suffix ".chroot" in a batch separate
 from scripts ending in ".binary". Even if you arrange them interleaved in your
 series files, the chroot scripts will be run before the binary scripts.
@@ -213,11 +210,6 @@ class MakeHooks:
             # by auto/config voodoo.
             sys.stderr.write("WARNING: Hooks directory exists and is not empty.\n")
         os.makedirs(self._hooks_dir, exist_ok=True)
-
-        # Always add final.binary hook if it exists
-        final_hook = os.path.join(self._script_dir, "base/final.binary")
-        if os.path.exists(final_hook) and os.path.isfile(final_hook):
-            self._hooks_list.append("base/final.binary")
 
         for counter, hook in enumerate(self._hooks_list, start=1):
             hook_basename = os.path.basename(hook)
