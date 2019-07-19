@@ -3,6 +3,9 @@ livecd-rootfs (2.603) UNRELEASED; urgency=medium
   [ Tobias Koch ]
   * Add retry logic to snap-tool to make downloads more resilient
 
+  [ Robert C Jennings ]
+  * ubuntu-cpc: Only produce explicitly specified artifacts (LP: #1837254)
+
  -- Tobias Koch <tobias.koch@canonical.com>  Mon, 15 Jul 2019 17:59:06 +0200
 
 livecd-rootfs (2.602) eoan; urgency=medium

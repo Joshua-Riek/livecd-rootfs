@@ -1,2 +1,3 @@
 depends disk-image
 base/qcow2-image.binary
+provides livecd.ubuntu-cpc.img

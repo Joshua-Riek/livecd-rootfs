@@ -1,2 +1,3 @@
 depends disk-image
 base/vagrant.binary
+provides livecd.ubuntu-cpc.vagrant.box

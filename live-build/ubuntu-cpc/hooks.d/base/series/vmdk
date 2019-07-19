@@ -1,3 +1,5 @@
 depends disk-image
 base/vmdk-image.binary
 base/vmdk-ova-image.binary
+provides livecd.ubuntu-cpc.vmdk
+provides livecd.ubuntu-cpc.ova

@@ -1,2 +1,4 @@
 depends disk-image
 base/kvm-image.binary
+provides livecd.ubuntu-cpc.disk-kvm.img
+provides livecd.ubuntu-cpc.disk-kvm.manifest

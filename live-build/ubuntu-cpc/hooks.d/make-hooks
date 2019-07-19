@@ -31,9 +31,22 @@ to this:
     depends disk-image
     depends extra-settings
     extra/cloudB.binary
+    provides livecd.ubuntu-cpc.disk-kvm.img
+    provides livecd.ubuntu-cpc.disk-kvm.manifest
 
 Where "disk-image" and "extra-settings" may list scripts and dependencies which
 are to be processed before the script "extra/cloudB.binary" is called.
+
+The "provides" directive defines a file that the hook creates; it can be
+specified multiple times.  The field is used by this script to generate a list
+of output files created explicitly by the named image targets.  The list is
+saved to the "explicit_provides" file in the hooks output directory. In
+the case of the "all" target this list would be empty.  This list is
+consumed by the "final.binary" hook file.
+
+The final.binary hook is always included as the last hook(s) if it exists,
+it should not be specified in series files.  It can be included from "base"
+and/or "extra" directories with the final hook in "exta" running last.
 
 ACHTUNG: live build runs scripts with the suffix ".chroot" in a batch separate
 from scripts ending in ".binary". Even if you arrange them interleaved in your
@@ -74,6 +87,7 @@ class MakeHooks:
         self._quiet      = quiet
         self._hooks_list = []
         self._included   = set()
+        self._provides   = []
 
     def reset(self):
         """Reset the internal state allowing instance to be reused for
@@ -120,8 +134,9 @@ class MakeHooks:
         e.g. "vmdk" or "vagrant".
         """
         self.collect_chroot_hooks()
-        self.collect_binary_hooks(image_sets)
+        self.collect_binary_hooks(image_sets, explicit_sets=True)
         self.create_symlinks()
+        self.create_explicit_provides()
 
     def collect_chroot_hooks(self):
         """Chroot hooks are numbered and not explicitly mentioned in series
@@ -139,7 +154,7 @@ class MakeHooks:
                 continue
             self._hooks_list.append(os.path.join("chroot", entry))
 
-    def collect_binary_hooks(self, image_sets):
+    def collect_binary_hooks(self, image_sets, explicit_sets=False):
         """Search the series files for the given image_sets and parse them
         and their dependencies to generate a list of hook scripts to be run
         during image build.
@@ -150,6 +165,11 @@ class MakeHooks:
 
         Populates the internal list of paths to hook scripts in the order in
         which the scripts are to be run.
+
+        If "explicit_sets" is True, the files specified on lines starting
+        with "provides" will be added to self._provides to track explicit
+        output artifacts.  This is only True for the initial images_sets
+        list, dependent image sets should set this to False.
         """
         for image_set in image_sets:
             series_file = self.find_series_file(image_set)
@@ -163,6 +183,7 @@ class MakeHooks:
                     line = line.strip()
                     if not line or line.startswith("#"):
                         continue
+
                     m = re.match(r"^\s*depends\s+(\S+.*)$", line)
                     if m:
                         include_set = m.group(1)
@@ -171,6 +192,13 @@ class MakeHooks:
                         self._included.add(include_set)
                         self.collect_binary_hooks([include_set,])
                         continue
+
+                    m = re.match(r"^\s*provides\s+(\S+.*)$", line)
+                    if m:
+                        if explicit_sets:
+                            self._provides.append(m.group(1))
+                        continue
+
                     if not line in self._hooks_list:
                         self._hooks_list.append(line)
 
@@ -187,6 +215,12 @@ class MakeHooks:
             sys.stderr.write("WARNING: Hooks directory exists and is not empty.\n")
         os.makedirs(self._hooks_dir, exist_ok=True)
 
+        # Always add final.binary hooks if they exist
+        for subdir in ["base", "extra"]:
+            final_hook = os.path.join(self._script_dir, subdir, "final.binary")
+            if os.path.exists(final_hook) and os.path.isfile(final_hook):
+                self._hooks_list.append("base/final.binary")
+
         for counter, hook in enumerate(self._hooks_list, start=1):
             hook_basename = os.path.basename(hook)
 
@@ -195,13 +229,32 @@ class MakeHooks:
                 hook_basename = m.group("basename")
 
             linkname = ("%03d-" % counter) + hook_basename
-            linksrc  = os.path.join(self._hooks_dir, linkname)
-            linkdest = os.path.relpath(os.path.join(self._script_dir, hook),
+            linkdest = os.path.join(self._hooks_dir, linkname)
+            linksrc  = os.path.relpath(os.path.join(self._script_dir, hook),
                     self._hooks_dir)
 
             if not self._quiet:
                 print("[HOOK] %s => %s" % (linkname, hook))
-            os.symlink(linkdest, linksrc)
+            os.symlink(linksrc, linkdest)
+
+    def create_explicit_provides(self):
+        """
+        Create a file named "explicit_provides" in self._hooks_dir
+        listing all files named on "provides" in the series files of
+        targets explicitly named by the user.  The file is created but
+        left empty if there are no explict "provides" keywords in the
+        targets (this is the case for 'all')
+        """
+        with open(os.path.join(self._hooks_dir, "explicit_provides"), "w",
+                  encoding="utf-8") as fp:
+            empty = True
+            for provides in self._provides:
+                if not self._quiet:
+                    print("[PROVIDES] %s" % provides)
+                fp.write("%s\n" % provides)
+                empty = False
+            if not empty:
+                fp.write('livecd.magic-proxy.log\n')
 
     def cli(self, args):
         """Command line interface to the hooks generator."""
