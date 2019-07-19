@@ -872,3 +872,8 @@ if [ -f "config/magic-proxy.pid" ]; then
     iptables -t nat -D OUTPUT -p tcp --dport 80 -m owner ! --uid-owner daemon \
         -j REDIRECT --to 8080
 fi
+
+case $PROJECT in
+    ubuntu-cpc)
+        config/hooks.d/remove-implicit-artifacts
+esac

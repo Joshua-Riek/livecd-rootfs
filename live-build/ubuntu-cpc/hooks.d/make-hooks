@@ -42,11 +42,10 @@ specified multiple times.  The field is used by this script to generate a list
 of output files created explicitly by the named image targets.  The list is
 saved to the "explicit_provides" file in the hooks output directory. In
 the case of the "all" target this list would be empty.  This list is
-consumed by the "final.binary" hook file.
+consumed by the "remove-implicit-artifacts" which is run at the end of the build.
 
 The final.binary hook is always included as the last hook(s) if it exists,
-it should not be specified in series files.  It can be included from "base"
-and/or "extra" directories with the final hook in "exta" running last.
+it should not be specified in series files.
 
 ACHTUNG: live build runs scripts with the suffix ".chroot" in a batch separate
 from scripts ending in ".binary". Even if you arrange them interleaved in your
@@ -215,11 +214,10 @@ class MakeHooks:
             sys.stderr.write("WARNING: Hooks directory exists and is not empty.\n")
         os.makedirs(self._hooks_dir, exist_ok=True)
 
-        # Always add final.binary hooks if they exist
-        for subdir in ["base", "extra"]:
-            final_hook = os.path.join(self._script_dir, subdir, "final.binary")
-            if os.path.exists(final_hook) and os.path.isfile(final_hook):
-                self._hooks_list.append("base/final.binary")
+        # Always add final.binary hook if it exists
+        final_hook = os.path.join(self._script_dir, "base/final.binary")
+        if os.path.exists(final_hook) and os.path.isfile(final_hook):
+            self._hooks_list.append("base/final.binary")
 
         for counter, hook in enumerate(self._hooks_list, start=1):
             hook_basename = os.path.basename(hook)
@@ -239,13 +237,13 @@ class MakeHooks:
 
     def create_explicit_provides(self):
         """
-        Create a file named "explicit_provides" in self._hooks_dir
+        Create a file named "explicit_provides" in self._script_dir
         listing all files named on "provides" in the series files of
         targets explicitly named by the user.  The file is created but
         left empty if there are no explict "provides" keywords in the
         targets (this is the case for 'all')
         """
-        with open(os.path.join(self._hooks_dir, "explicit_provides"), "w",
+        with open(os.path.join(self._script_dir, "explicit_provides"), "w",
                   encoding="utf-8") as fp:
             empty = True
             for provides in self._provides:
