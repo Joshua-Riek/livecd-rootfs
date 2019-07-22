@@ -8,6 +8,7 @@ script.  If the file is empty, all output will be saved.
 """
 import glob
 import os
+import sys
 
 if __name__ == "__main__":
     print('Running {}'.format(__file__))
@@ -21,7 +22,7 @@ if __name__ == "__main__":
     if not explicit:
         print('{}: explicit_provides is empty. '
               'All binary output will be included'.format(scriptname))
-        quit()
+        sys.exit(0)
 
     all = set(glob.glob('livecd.ubuntu-cpc.*'))
     implicit = all - explicit
