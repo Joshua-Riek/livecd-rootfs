@@ -1,4 +1,4 @@
-livecd-rootfs (2.604) UNRELEASED; urgency=medium
+livecd-rootfs (2.604) eoan; urgency=medium
 
   * Stop installing the udisks2 and pulseaudio extra snaps for the UC18 kassel
     subflavor images - those snaps were only needed for internal testing
