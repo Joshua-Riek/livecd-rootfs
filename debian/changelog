@@ -1,4 +1,4 @@
-livecd-rootfs (2.603) UNRELEASED; urgency=medium
+livecd-rootfs (2.603) eoan; urgency=medium
 
   [ Tobias Koch ]
   * Add retry logic to snap-tool to make downloads more resilient
