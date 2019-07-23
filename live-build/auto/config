@@ -360,7 +360,7 @@ case $IMAGEFORMAT in
 
 			case "$ARCH+${SUBARCH:-}" in
 				amd64+kassel)
-					EXTRA_SNAPS="core bluez alsa-utils pulseaudio udisks2"
+					EXTRA_SNAPS="core bluez alsa-utils"
 					;;
 				*) ;;
 			esac
