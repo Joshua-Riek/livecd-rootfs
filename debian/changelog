@@ -1,3 +1,10 @@
+livecd-rootfs (2.605) eoan; urgency=medium
+
+  [ David Krauser ]
+  * KVM disk images should derive from the uefi image.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 26 Jul 2019 14:36:03 -0300
+
 livecd-rootfs (2.604) eoan; urgency=medium
 
   * Stop installing the udisks2 and pulseaudio extra snaps for the UC18 kassel
