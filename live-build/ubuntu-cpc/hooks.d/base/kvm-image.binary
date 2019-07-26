@@ -28,7 +28,7 @@ esac
 
 mount_d=$(mktemp -d)
 
-create_derivative "disk" "kvm" #sets ${derivative_img}
+create_derivative uefi kvm #sets ${derivative_img}
 mount_disk_image ${derivative_img} ${mount_d}
 
 # unmount disk image and remove created folders on exit
@@ -46,11 +46,8 @@ trap cleanup_kvm EXIT
 
 divert_grub "${mount_d}"
 replace_kernel ${mount_d} "linux-kvm"
+chroot "${mount_d}" update-grub
 undivert_grub "${mount_d}"
-
-#setup grub correctly
-env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" update-grub
-replace_grub_root_with_label "${mount_d}"
 
 # Remove initramfs for kvm image
 env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
@@ -70,4 +67,4 @@ create_manifest ${mount_d} livecd.ubuntu-cpc.disk-kvm.manifest
 umount_disk_image ${mount_d}
 rm -rf ${mount_d}
 
-convert_to_qcow2 ${derivative_img} livecd.ubuntu-cpc.disk-kvm.img 
+convert_to_qcow2 ${derivative_img} livecd.ubuntu-cpc.disk-kvm.img
