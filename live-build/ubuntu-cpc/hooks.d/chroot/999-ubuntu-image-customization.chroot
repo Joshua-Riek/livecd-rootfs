@@ -1,0 +1,18 @@
+#!/bin/bash -ex
+
+. /root/config/common
+
+# Specific ubuntu-image chroot configuration goes here.
+if [ "$IMAGEFORMAT" == "ubuntu-image" ]; do
+    # If the cloud does not provide a meta-data service this should be run
+    # This will setup a nocloud datasource on the boot partition.
+    # This is the default behavior for our ubuntu-image built preinstalled
+    # images.
+    cat << EOF > /etc/cloud/cloud.cfg.d/99-fake_cloud.cfg
+# configure cloud-init for NoCloud
+datasource_list: [ NoCloud, None ]
+datasource:
+  NoCloud:
+    fs_label: system-boot
+EOF
+fi

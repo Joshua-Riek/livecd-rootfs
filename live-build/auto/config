@@ -394,6 +394,9 @@ case $IMAGEFORMAT in
 
 			echo "Configured ubuntu-image for the following gadget model: $MODEL"
 		fi
+
+		# Save the model name used for building, mostly for any model-specific hook execution
+		echo "MODEL=$MODEL" >> config/common
 		# Fake finished configuration for lb build
 		mkdir -p .build
 		touch .build/config
