@@ -249,9 +249,6 @@ create_chroot_pass () {
 
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
-	# Restore grub
-	undivert_grub chroot
-
 	# Deconfiguring chroot
 	if $(is_root_layer $pass); then
 		lb chroot_archives chroot remove ${*}
@@ -263,6 +260,10 @@ create_chroot_pass () {
 	lb chroot_tmpfs remove ${*}
 	lb chroot_dpkg remove ${*}
 	lb chroot_debianchroot remove ${*}
+
+	# Restore grub
+	undivert_grub chroot
+
 	lb chroot_sysfs remove ${*}
 	lb chroot_proc remove ${*}
 	lb chroot_devpts remove ${*}
