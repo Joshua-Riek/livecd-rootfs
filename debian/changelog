@@ -1,10 +1,10 @@
-livecd-rootfs (2.606) UNRELEASED; urgency=medium
+livecd-rootfs (2.606) eoan; urgency=medium
 
   * Undivert update-initramfs more carefully: previously the wrapper script
     and diversion were left in place on images such as buildd images that
     don't have initramfs-tools installed (LP: #1841573).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Tue, 27 Aug 2019 12:43:55 +0100
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 27 Aug 2019 17:05:32 +0100
 
 livecd-rootfs (2.605) eoan; urgency=medium
 
