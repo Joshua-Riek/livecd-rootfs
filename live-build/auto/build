@@ -284,6 +284,7 @@ EOF
 		divert_grub chroot
 		divert_update_initramfs
 		lb chroot "$@"
+		undivert_update_initramfs
 		undivert_grub chroot
 	fi
 

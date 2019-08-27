@@ -875,13 +875,12 @@ echo "update-initramfs: diverted by livecd-rootfs (will be called later)" >&2
 exit 0
 EOF
 	chmod +x chroot/usr/sbin/update-initramfs
+}
 
-	cat > config/hooks/999-undivert-update-initramfs.chroot <<'EOF'
-#! /bin/sh
-[ ! -f /usr/sbin/update-initramfs.REAL ] && exit 0
-rm -f /usr/sbin/update-initramfs
-dpkg-divert --quiet --remove --rename /usr/sbin/update-initramfs
-EOF
+undivert_update_initramfs () {
+	rm -f chroot/usr/sbin/update-initramfs
+	Chroot chroot "dpkg-divert --quiet --remove --rename \
+		/usr/sbin/update-initramfs"
 }
 
 is_root_layer () {

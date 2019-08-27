@@ -261,6 +261,11 @@ create_chroot_pass () {
 	lb chroot_dpkg remove ${*}
 	lb chroot_debianchroot remove ${*}
 
+	# Restore update-initramfs, if necessary
+	if $(is_root_layer $pass); then
+		undivert_update_initramfs
+	fi
+
 	# Restore grub
 	undivert_grub chroot
 
