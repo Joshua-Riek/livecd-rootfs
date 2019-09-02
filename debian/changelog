@@ -1,3 +1,19 @@
+livecd-rootfs (2.607) UNRELEASED; urgency=medium
+
+  * snap seeding: Defer validation for regular image builds. When getting the
+    list of snaps to include on an image via germinate, we process the snaps
+    in alphabetical order. Currently we seed several packages `gnome-foo` and
+    also `gtk-common-themes`, the default provider of `gtk-3-themes`. Since
+    `gtk-common-themes` is alphabetically after `gnome-foo`, the `seed.yaml`
+    we generate is invalid when we are part way through generating. What we
+    really care about, though, is not that the `seed.yaml` is always valid at
+    every step, but it is that it is valid at the *end* of seeding.  So for
+    the germinate case, let's defer validation to happen once at the end.
+    Other callsites of `snap_preseed`, where callers are careful to seed snaps
+    in the right order, are unaffected by this.
+
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 02 Sep 2019 11:37:21 +0100
+
 livecd-rootfs (2.606) eoan; urgency=medium
 
   * Undivert update-initramfs more carefully: previously the wrapper script
