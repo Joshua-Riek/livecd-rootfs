@@ -83,10 +83,11 @@ Setup_cleanup
 preinstall_snaps() {
 	lb chroot_resolv install
 	snap_prepare chroot
-    
+
 	for snap in "$@"; do
-		snap_preseed chroot "${snap}"
+		SNAP_NO_VALIDATE_SEED=1 snap_preseed chroot "${snap}"
 	done
+	snap_validate_seed chroot
 	lb chroot_resolv remove
 }
 

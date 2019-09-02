@@ -650,13 +650,22 @@ snap_preseed() {
             ;;
     esac
 
-
     # Do basic validation of generated snapd seed.yaml, doing it here
     # means we catch all the places(tm) that snaps are added but the
     # downside is that each time a snap is added the seed must be valid,
-    # i.e. snaps with bases need to add bases first etc.
-    if [ -e chroot/var/lib/snapd/seed/seed.yaml ]; then
-        snap debug validate-seed "$CHROOT_ROOT/var/lib/snapd/seed/seed.yaml"
+    # i.e. snaps with bases need to add bases first etc
+    #
+    # Skip validation by setting SNAP_NO_VALIDATE_SEED=1.
+    if [ -z "${SNAP_NO_VALIDATE_SEED}" ]; then
+        snap_validate_seed "${CHROOT_ROOT}"
+    fi
+}
+
+snap_validate_seed() {
+    local CHROOT_ROOT=$1
+
+    if [ -e "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml" ]; then
+        snap debug validate-seed "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml"
     fi
 }
 
