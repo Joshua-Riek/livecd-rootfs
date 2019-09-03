@@ -656,7 +656,7 @@ snap_preseed() {
     # i.e. snaps with bases need to add bases first etc
     #
     # Skip validation by setting SNAP_NO_VALIDATE_SEED=1.
-    if [ -z "${SNAP_NO_VALIDATE_SEED}" ]; then
+    if [ -z "${SNAP_NO_VALIDATE_SEED:-}" ]; then
         snap_validate_seed "${CHROOT_ROOT}"
     fi
 }
