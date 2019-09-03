@@ -1,3 +1,11 @@
+livecd-rootfs (2.608) UNRELEASED; urgency=medium
+
+  * Use iptables-legacy rather than iptables when running on older
+    (pre-4.15) kernel versions.  The newer nf_tables-based tools misbehave
+    at least on 4.4.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 03 Sep 2019 15:20:59 +0100
+
 livecd-rootfs (2.607) eoan; urgency=medium
 
   * snap seeding: Defer validation for regular image builds. When getting the

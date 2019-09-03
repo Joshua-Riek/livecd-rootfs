@@ -17,6 +17,32 @@ fi
 
 . config/functions
 
+# New nf_tables-based versions of iptables don't work well on old kernels.
+# We aren't sure exactly how old is a problem: 4.15 works, but with 4.4 new
+# rules are added to all chains in the requested table rather than just one,
+# and the new rules seem to have no useful effect.  In such cases,
+# iptables-legacy works better.
+#
+# We can simplify this once livecd-rootfs no longer needs to support running
+# on Ubuntu 16.04 (that is, once Launchpad's build VMs are upgraded to
+# Ubuntu 18.04).
+run_iptables () {
+    local kver kver_major kver_minor
+
+    kver="$(uname -r)"
+    kver="${kver%%-*}"
+    kver_major="${kver%%.*}"
+    kver="${kver#*.}"
+    kver_minor="${kver%%.*}"
+
+    if [ "$kver_major" -lt 4 ] || \
+       ([ "$kver_major" = 4 ] && [ "$kver_minor" -lt 15 ]); then
+        iptables-legacy "$@"
+    else
+        iptables "$@"
+    fi
+}
+
 if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
     if [ "`whoami`" != "root" ]; then
         echo "Magic repo snapshots only work when running as root." >&2
@@ -26,8 +52,8 @@ if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
     apt-get -qyy install iptables
 
     # Redirect all outgoing traffic to port 80 to proxy instead.
-    iptables -t nat -A OUTPUT -p tcp --dport 80 -m owner ! --uid-owner daemon \
-        -j REDIRECT --to 8080
+    run_iptables -t nat -A OUTPUT -p tcp --dport 80 \
+        -m owner ! --uid-owner daemon -j REDIRECT --to 8080
 
     # Run proxy as "daemon" to avoid infinite loop.
     /usr/share/livecd-rootfs/magic-proxy \
@@ -871,8 +897,8 @@ if [ -f "config/magic-proxy.pid" ]; then
     rm -f config/magic-proxy.pid
 
     # Remove previously-inserted iptables rule.
-    iptables -t nat -D OUTPUT -p tcp --dport 80 -m owner ! --uid-owner daemon \
-        -j REDIRECT --to 8080
+    run_iptables -t nat -D OUTPUT -p tcp --dport 80 \
+        -m owner ! --uid-owner daemon -j REDIRECT --to 8080
 fi
 
 case $PROJECT in
