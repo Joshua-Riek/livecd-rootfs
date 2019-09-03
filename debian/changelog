@@ -1,5 +1,9 @@
 livecd-rootfs (2.608) UNRELEASED; urgency=medium
 
+  [ Iain Lane ]
+  * snap_preseed: Handle SNAP_NO_VALIDATE_SEED being unset.
+
+  [ Colin Watson ]
   * Use iptables-legacy rather than iptables when running on older
     (pre-4.15) kernel versions.  The newer nf_tables-based tools misbehave
     at least on 4.4.
