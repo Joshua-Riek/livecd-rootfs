@@ -342,7 +342,6 @@ case $IMAGEFORMAT in
 
 		if [ $PROJECT = "ubuntu-core" ]; then
 			# snap-based core images
-			EXTRA_SNAPS=""
 
 			case $MODEL in
 				pc-amd64|pc-i386)
@@ -362,7 +361,7 @@ case $IMAGEFORMAT in
 
 			case "$ARCH+${SUBARCH:-}" in
 				amd64+kassel)
-					EXTRA_SNAPS="core bluez alsa-utils"
+					EXTRA_SNAPS="$EXTRA_SNAPS core bluez alsa-utils"
 					;;
 				*) ;;
 			esac
