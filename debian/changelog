@@ -6,8 +6,11 @@ livecd-rootfs (2.609) UNRELEASED; urgency=medium
   [ Łukasz 'sil2100' Zemczak ]
   * Do not initialize EXTRA_SNAPS with an empty value. Allow overrides via the
     environment.
+  * Make sure that currently all ubuntu-image built images ship the NoCloud
+    system-boot clout-init datasource (as right now all u-i targets are
+    physical devices).
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 06 Sep 2019 12:06:51 +0200
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 10 Sep 2019 10:46:28 +0200
 
 livecd-rootfs (2.608) eoan; urgency=medium
 
