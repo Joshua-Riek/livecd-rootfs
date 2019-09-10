@@ -22,18 +22,6 @@ _xchroot() {
 #### COMMON architecture independent functions
 arch=$(_xchroot "${rootd}" dpkg --print-architecture)
 
-fake_cloud_init() {
-    # If the cloud does not provide a meta-data service this should be run
-    # This will setup a nocloud datasource on the boot partition.
-    cat << EOF > ${rootd}/etc/cloud/cloud.cfg.d/99-fake_cloud.cfg
-# configure cloud-init for NoCloud
-datasource_list: [ NoCloud, None ]
-datasource:
-  NoCloud:
-    fs_label: system-boot
-EOF
-}
-
 ## --------------
 # remove 127.0.1.1 entry (LP: #440757)
 _xchroot "${rootd}" sh -c 'sed -i "/^127.0.1.1/d" /etc/hosts'
@@ -128,19 +116,8 @@ fi
 
 
 case $arch in
-	# ARM images are special
-	armhf|arm64)
-		# Dirty hack because SUBARCH doesn't exist when running chroot hooks,
-		# and we don't want raspi2 images to depend on a cloud data source:
-		if _xchroot "${rootd}" dpkg -l linux-image-raspi2 2>/dev/null | grep -q '^.i'; then
-			fake_cloud_init
-		fi
-
-		echo "Image architecture is ARM. Existing vmbuilder-fixups"
-
-		exit 0
-		;;
-	powerpc|ppc64el|s390x)
+	# ARM, ppc and s390 images are special
+	armhf|arm64|powerpc|ppc64el|s390x)
 		exit 0
 		;;
 esac
