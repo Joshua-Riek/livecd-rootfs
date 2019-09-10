@@ -1,4 +1,4 @@
-livecd-rootfs (2.609) UNRELEASED; urgency=medium
+livecd-rootfs (2.609) eoan; urgency=medium
 
   [ Ethan Hsieh ]
   * Add support for the Nitrogen6x board (LP: #1838064).
