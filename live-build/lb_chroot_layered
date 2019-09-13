@@ -89,8 +89,9 @@ lb_chroot_install_snaps () {
 	snap_prepare chroot
 
 	while read snap; do
-		snap_preseed chroot "${snap}"
+		SNAP_NO_VALIDATE_SEED=1 snap_preseed chroot "${snap}"
 	done < $snaplist_file
+	snap_validate_seed chroot
 }
 
 lb_chroot_includes () {
