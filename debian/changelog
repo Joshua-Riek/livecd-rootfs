@@ -1,3 +1,10 @@
+livecd-rootfs (2.611) eoan; urgency=medium
+
+  * Execute chroot_hacks in live layer only.
+  * lb_chroot_layered: also snap_validate_seed after all snaps are seeded
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 13 Sep 2019 12:37:25 +0100
+
 livecd-rootfs (2.610) eoan; urgency=medium
 
   * Fix a typo in the 999-ubuntu-image-customization.chroot hook.
