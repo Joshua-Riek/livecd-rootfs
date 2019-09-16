@@ -1,3 +1,11 @@
+livecd-rootfs (2.612) UNRELEASED; urgency=medium
+
+  * Hopefully the last fix for 999-ubuntu-image-customization.chroot: use
+    config/chroot to pass IMAGEFORMAT instead of config/common, as only that
+    file is updated with the right contents when the chroot hooks are run.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 16 Sep 2019 14:07:01 +0200
+
 livecd-rootfs (2.611) eoan; urgency=medium
 
   * Execute chroot_hacks in live layer only.
