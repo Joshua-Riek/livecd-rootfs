@@ -1,4 +1,4 @@
-livecd-rootfs (2.612) UNRELEASED; urgency=medium
+livecd-rootfs (2.612) eoan; urgency=medium
 
   * Hopefully the last fix for 999-ubuntu-image-customization.chroot: use
     config/chroot to pass IMAGEFORMAT instead of config/common, as only that
