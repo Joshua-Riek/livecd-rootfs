@@ -974,7 +974,7 @@ fi
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/chroot
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/chroot
-echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/chroot
+echo "IMAGEFORMAT=\"$IMAGEFORMAT\"" >> config/chroot
 if [ -n "$PASSES" ]; then
 	echo "PASSES=\"$PASSES\"" >> config/common
 fi
