@@ -1,3 +1,11 @@
+livecd-rootfs (2.613) UNRELEASED; urgency=medium
+
+  * 999-ubuntu-image-customization.chroot: use IMAGEFORMAT=none for the checks
+    instead of ubuntu-image, as that is what is used during ubuntu-image rootfs
+    builds.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 19 Sep 2019 11:27:12 +0200
+
 livecd-rootfs (2.612) eoan; urgency=medium
 
   * Hopefully the last fix for 999-ubuntu-image-customization.chroot: use

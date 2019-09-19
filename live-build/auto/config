@@ -405,6 +405,8 @@ case $IMAGEFORMAT in
 		;;
 
 	none)
+		# Currently the IMAGEFORMAT none format is used only for ubuntu-image
+		# targeted image builds which, currently, only target physical devices.
 		OPTS="${OPTS:+$OPTS }--chroot-filesystem $IMAGEFORMAT"
 		;;
 	*)
