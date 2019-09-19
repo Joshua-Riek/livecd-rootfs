@@ -1,4 +1,4 @@
-livecd-rootfs (2.613) UNRELEASED; urgency=medium
+livecd-rootfs (2.613) eoan; urgency=medium
 
   * 999-ubuntu-image-customization.chroot: use IMAGEFORMAT=none for the checks
     instead of ubuntu-image, as that is what is used during ubuntu-image rootfs
