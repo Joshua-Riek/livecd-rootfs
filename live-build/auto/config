@@ -815,7 +815,6 @@ case $SUBPROJECT in
 		OPTS="${OPTS:+$OPTS }--security false --volatile false"
 
 		add_package install adduser
-		add_package install policyrcd-script-zg2
 		add_package install pkgbinarymangler
 		add_package install ca-certificates
 		add_package install gpg

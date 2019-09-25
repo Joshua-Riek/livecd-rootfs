@@ -1,0 +1,61 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate linux-virtual image
+#
+
+echo "Building bootable Buildd image"
+
+IMAGE_STR="# BUILDD_IMG: This file was created/modified by the Buildd Image build process"
+
+. config/functions
+
+mount_d=$(mktemp -d)
+
+create_derivative uefi linux-virtual #sets $derivative_img
+mount_disk_image $derivative_img $mount_d
+
+# unmount disk image and remove created folders on exit
+# even though we unmount manually before we convert to
+# qcow2, we have this here just in case we error out before
+# that step
+cleanup_linux_virtual() {
+    if [ -d "$mount_d" ]; then
+        umount_disk_image "$mount_d"
+    fi
+    rm -rf $mount_d $derivative_img
+}
+trap cleanup_linux_virtual EXIT
+
+# Install dependencies
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    update --assume-yes
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    install -y lsb-release locales initramfs-tools busybox-initramfs \
+               udev dbus netplan.io cloud-init openssh-server sudo snapd
+
+# Install a kernel
+divert_grub "$mount_d"
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    install --assume-yes linux-image-virtual
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    autoremove --purge --assume-yes
+chroot "$mount_d" update-grub
+undivert_grub "$mount_d"
+
+# Update initramfs image
+chroot "$mount_d" \
+    sh -c 'update-initramfs -c -v -k $(ls /boot/vmlinuz*generic | sed 1q | cut -d- -f2-3)'
+
+# Cleanup
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    clean
+
+create_manifest $mount_d "livecd.$PROJECT.disk-linux-virtual.manifest"
+
+# unmount disk image to prevent corruption
+# and remove it so the trap doesn't try to unmount it again
+umount_disk_image $mount_d
+rm -rf $mount_d
+
+convert_to_qcow2 $derivative_img "livecd.$PROJECT.disk-linux-virtual.img"

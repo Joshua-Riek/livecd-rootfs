@@ -1,0 +1,158 @@
+#!/bin/bash -eux
+
+case $ARCH in
+    amd64|arm64|armhf)
+        ;;
+    *)
+        echo "We don't create EFI images for $ARCH."
+        exit 0
+        ;;
+esac
+
+IMAGE_STR="# BUILDD_IMG: This file was created/modified by the Buildd Image build process"
+FS_LABEL="buildd-rootfs"
+
+. config/binary
+
+. config/functions
+
+create_partitions() {
+    disk_image="$1"
+    sgdisk "${disk_image}" --zap-all
+    case $ARCH in
+        arm64|armhf)
+            sgdisk "${disk_image}" \
+                --new=15:0:204800 \
+                --typecode=15:ef00 \
+                --new=1:
+            ;;
+        amd64)
+            sgdisk "${disk_image}" \
+                --new=14::+4M \
+                --new=15::+106M \
+                --new=1::
+            sgdisk "${disk_image}" \
+                -t 14:ef02 \
+                -t 15:ef00
+            ;;
+    esac
+    sgdisk "${disk_image}" \
+        --print
+}
+
+create_and_mount_uefi_partition() {
+    uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    mountpoint="$1"
+    mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
+
+    mkdir -p "${mountpoint}"/boot/efi
+    mount "${uefi_dev}" "$mountpoint"/boot/efi
+
+    cat << EOF >> "mountpoint/etc/fstab"
+LABEL=UEFI	/boot/efi	vfat	defaults	0 0
+EOF
+}
+
+install_grub() {
+    mkdir mountpoint
+    mount_partition "${rootfs_dev_mapper}" mountpoint
+
+    create_and_mount_uefi_partition mountpoint
+
+    echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
+    mkdir -p mountpoint/etc/default/grub.d
+    efi_boot_dir="/boot/efi/EFI/BOOT"
+    chroot mountpoint mkdir -p "${efi_boot_dir}"
+
+    if [ -n "$partuuid" ]; then
+        echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid.cfg
+    fi
+
+    chroot mountpoint apt-get -y update
+
+    # UEFI GRUB modules are meant to be used equally by Secure Boot and
+    # non-Secure Boot systems. If you need an extra module not already
+    # provided or run into "Secure Boot policy forbids loading X" problems,
+    # please file a bug against grub2 to include the affected module.
+    case $ARCH in
+        arm64)
+            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm64 grub-efi-arm64-bin
+            efi_target=arm64-efi
+            ;;
+        armhf)
+            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm grub-efi-arm-bin
+            efi_target=arm-efi
+            ;;
+        amd64)
+            chroot mountpoint apt-get install -qqy grub-pc
+            chroot mountpoint apt-get install -qqy grub-efi-amd64-signed shim-signed
+            efi_target=x86_64-efi
+            ;;
+    esac
+
+    # This call to rewrite the debian package manifest is added here to capture
+    # grub-efi packages that otherwise would not make it into the base
+    # manifest. filesystem.packages is moved into place via symlinking to
+    # livecd.ubuntu-cpc.manifest by live-build/auto/build after lb_binary runs
+    # and at that time snaps are added to the manifest (create-manifest is
+    # not called here as it calls snap-seed-parse, resulting in duplicate
+    # snap listings)
+    chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
+
+    chroot mountpoint grub-install "${loop_device}" \
+        --boot-directory=/boot \
+        --efi-directory=/boot/efi \
+        --target=${efi_target} \
+        --removable \
+        --uefi-secure-boot \
+        --no-nvram
+
+    if [ -f mountpoint/boot/efi/EFI/BOOT/grub.cfg ]; then
+        sed -i "s| root| root hd0,gpt1|" mountpoint/boot/efi/EFI/BOOT/grub.cfg
+        sed -i "1i${IMAGE_STR}" mountpoint/boot/efi/EFI/BOOT/grub.cfg
+        # For some reason the grub disk is looking for /boot/grub/grub.cfg on
+        # part 15....
+        chroot mountpoint mkdir -p /boot/efi/boot/grub
+        chroot mountpoint cp /boot/efi/EFI/BOOT/grub.cfg /boot/efi/boot/grub
+    fi
+
+    if [ "$ARCH" = "amd64" ]; then
+        # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
+        # it means that we just run this simple command and we're done
+        chroot mountpoint grub-install --target=i386-pc "${loop_device}"
+    fi
+
+    divert_grub mountpoint
+    chroot mountpoint update-grub
+    replace_grub_root_with_label mountpoint
+    undivert_grub mountpoint
+
+    chroot mountpoint apt-get -y clean
+
+    rm mountpoint/tmp/device.map
+    umount mountpoint/boot/efi
+    mount
+    umount_partition mountpoint
+    rmdir mountpoint
+}
+
+disk_image=binary/boot/disk-uefi.ext4
+
+create_empty_disk_image "${disk_image}"
+create_partitions "${disk_image}"
+mount_image "${disk_image}" 1
+
+partuuid=$(blkid -s PARTUUID -o value "$rootfs_dev_mapper")
+
+# Copy the chroot in to the disk
+make_ext4_partition "${rootfs_dev_mapper}"
+mkdir mountpoint
+mount "${rootfs_dev_mapper}" mountpoint
+cp -a chroot/* mountpoint/
+umount mountpoint
+rmdir mountpoint
+
+install_grub
+
+clean_loops
+trap - EXIT
