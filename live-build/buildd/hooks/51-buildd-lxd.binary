@@ -11,6 +11,6 @@ tar --numeric-owner -cf "livecd.$PROJECT.lxd.tar" -C "$TMPDIR" metadata.yaml
 rm -rf "$TMPDIR"
 # When using the combined metadata/rootfs form, the rootfs must be under
 # rootfs/ rather than under chroot-autobuild/.
-tar --transform='s,^binary,rootfs,' --sort=name --numeric-owner \
-	-rf "livecd.$PROJECT.lxd.tar" binary
+tar --transform='s,^chroot,rootfs,' --sort=name --numeric-owner \
+	-rf "livecd.$PROJECT.lxd.tar" chroot
 gzip -9 "livecd.$PROJECT.lxd.tar"

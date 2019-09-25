@@ -9,4 +9,4 @@ set -e
 # /var/lib/apt/lists/ has suitable cached Packages files; this speeds up
 # builds on buildds.
 sed -i "s,${LB_PARENT_MIRROR_BINARY},${LB_MIRROR_BINARY},g" \
-	binary/etc/apt/sources.list
+	chroot/etc/apt/sources.list

@@ -6,8 +6,8 @@ set -e
 # installed, but that doesn't work because live-build has already installed
 # a dummy one at that point.  The simplest approach is to repair the
 # situation by putting it in place here.
-if [ -L binary/etc/alternatives/policy-rc.d ] && \
-   [ ! -e binary/usr/sbin/policy-rc.d ] && \
-   [ ! -L binary/usr/sbin/policy-rc.d ]; then
-	ln -s /etc/alternatives/policy-rc.d binary/usr/sbin/policy-rc.d
+if [ -L chroot/etc/alternatives/policy-rc.d ] && \
+   [ ! -e chroot/usr/sbin/policy-rc.d ] && \
+   [ ! -L chroot/usr/sbin/policy-rc.d ]; then
+	ln -s /etc/alternatives/policy-rc.d chroot/usr/sbin/policy-rc.d
 fi
