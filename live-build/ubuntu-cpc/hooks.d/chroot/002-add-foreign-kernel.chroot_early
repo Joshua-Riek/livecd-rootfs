@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -ex
+
+echo "I: Checking if we are i386 and amd64 architecture should be enabled"
+
+if [ "$(dpkg --print-architecture)" = "i386" ]; then
+    echo "I: Enabling amd64 multiarch support on i386"
+    dpkg --add-architecture amd64
+
+    apt-get -y update
+fi
