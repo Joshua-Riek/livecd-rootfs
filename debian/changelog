@@ -1,9 +1,9 @@
-livecd-rootfs (2.614) UNRELEASED; urgency=medium
+livecd-rootfs (2.614) eoan; urgency=medium
 
   * 002-add-foreign-kernel.chroot_early: enable amd64 as a foreign arch on
     i386 image builds, since this is where the kernel comes from henceforth.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 02 Oct 2019 15:58:42 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 02 Oct 2019 17:05:32 -0700
 
 livecd-rootfs (2.613) eoan; urgency=medium
 
