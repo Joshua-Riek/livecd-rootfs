@@ -460,6 +460,12 @@ EOF
 if [ -e binary.success ]; then
 	rm -f binary.success
 else
+	# Dump the magic-proxy log to stdout on failure to aid debugging
+	if [ -f /build/livecd.magic-proxy.log ] ; then
+		echo "================= Magic proxy log (start) ================="
+		cat /build/livecd.magic-proxy.log
+		echo "================== Magic proxy log (end) =================="
+	fi
 	exit 1
 fi
 
