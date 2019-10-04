@@ -1,4 +1,4 @@
-livecd-rootfs (2.615) UNRELEASED; urgency=medium
+livecd-rootfs (2.615) eoan; urgency=medium
 
   * magic-proxy: dump proxy log to stdout on failure
 
