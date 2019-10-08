@@ -988,6 +988,18 @@ echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
+# We add the lxd group at image build time so that the default user
+# created by the installer or cloud-init is added to it (cloud-init
+# will create any group the user is configured to be added to, but as
+# a normal group not a system group, see
+# https://bugs.launchpad.net/cloud-images/+bug/1844498).
+cat > config/hooks/100-add-lxd-group.chroot <<EOF
+#!/bin/bash
+
+echo "Adding lxd group..."
+addgroup --system --quiet lxd
+EOF
+
 case $ARCH+$SUBARCH in
 	armhf+raspi2|armhf+raspi3|arm64+raspi3)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF

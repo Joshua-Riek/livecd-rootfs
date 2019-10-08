@@ -1,3 +1,9 @@
+livecd-rootfs (2.617) UNRELEASED; urgency=medium
+
+  * Create the lxd group as a system group for all projects. (LP: #1844498)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 09 Oct 2019 10:12:09 +1300
+
 livecd-rootfs (2.616) eoan; urgency=medium
 
   * Subiquity images mount /usr/lib/modules from a squashfs, which systemd
