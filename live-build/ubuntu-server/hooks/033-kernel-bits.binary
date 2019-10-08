@@ -67,8 +67,11 @@ prereqs) exit 0;;
 esac
 
 echo ${kernel_metapkg} > /run/kernel-meta-package
-mkdir -p \$rootmnt/lib/modules
-mount \$rootmnt/cdrom/casper/extras/modules.squashfs-$flavor \$rootmnt/lib/modules
+mkdir -p \$rootmnt/usr/lib/modules
+mount \$rootmnt/cdrom/casper/extras/modules.squashfs-$flavor \$rootmnt/usr/lib/modules
+mkdir -p /run/systemd/system/usr-lib-modules.mount.d
+echo '[Mount]' >> /run/systemd/system/usr-lib-modules.mount.d/lazy.conf
+echo 'LazyUnmount=yes' >> /run/systemd/system/usr-lib-modules.mount.d/lazy.conf
 EOF
 	chmod +x "$KERNEL_BITS_ROOT"/etc/initramfs-tools/scripts/init-bottom/live-server
 

@@ -1,3 +1,15 @@
+livecd-rootfs (2.616) UNRELEASED; urgency=medium
+
+  * Subiquity images mount /usr/lib/modules from a squashfs, which systemd
+    tries to unmount on shutdown, whilst they are still being in use. As
+    systemd-udevd kmod built-in's libkmod has modules.* files
+    memorymapped. This produces an warning on shutdown, flooding the
+    screen with messages as systemd switches to a more verbose
+    output. Specify LazyUnmount=yes on that mount, such that unmount call
+    succeeds without flooding the shutdown log.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 04 Oct 2019 19:35:56 +0100
+
 livecd-rootfs (2.615) eoan; urgency=medium
 
   * magic-proxy: dump proxy log to stdout on failure
