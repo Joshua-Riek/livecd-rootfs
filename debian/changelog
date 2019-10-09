@@ -1,3 +1,10 @@
+livecd-rootfs (2.618) UNRELEASED; urgency=medium
+
+  * Do not create a hook manually for ubuntu-cpc builds, make-hooks does not
+    like that.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 09 Oct 2019 13:25:43 +1300
+
 livecd-rootfs (2.617) eoan; urgency=medium
 
   * Create the lxd group as a system group for all projects. (LP: #1844498)

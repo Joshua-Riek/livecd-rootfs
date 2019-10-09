@@ -12,3 +12,6 @@ addgroup --system --quiet admin
 
 echo "Adding netdev group..."
 addgroup --system --quiet netdev
+
+echo "Adding lxd group..."
+addgroup --system --quiet lxd
