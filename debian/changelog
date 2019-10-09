@@ -1,9 +1,10 @@
-livecd-rootfs (2.618) UNRELEASED; urgency=medium
+livecd-rootfs (2.618) eoan; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Do not create a hook manually for ubuntu-cpc builds, make-hooks does not
     like that.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 09 Oct 2019 13:25:43 +1300
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 08 Oct 2019 21:21:45 -0700
 
 livecd-rootfs (2.617) eoan; urgency=medium
 
