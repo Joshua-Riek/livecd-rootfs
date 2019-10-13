@@ -54,6 +54,8 @@ EOF
 
 # Install casper for live session magic.
 chroot $INSTALLER_ROOT apt-get -y install lupin-casper
+# Install linux-firmware for kernel to upload into hardware.
+chroot $INSTALLER_ROOT apt-get -y install linux-firmware
 if [ `dpkg --print-architecture` = s390x ]; then
 	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
 fi

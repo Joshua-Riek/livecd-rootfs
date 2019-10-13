@@ -1,3 +1,10 @@
+livecd-rootfs (2.619) UNRELEASED; urgency=medium
+
+  * Subiquity: install linux-firmware in the installer layer, to make
+    firmware blobs available in the live session. LP: #1847835
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Sun, 13 Oct 2019 20:52:25 +0100
+
 livecd-rootfs (2.618) eoan; urgency=medium
 
   [ Michael Hudson-Doyle ]
