@@ -1,3 +1,10 @@
+livecd-rootfs (2.620) eoan; urgency=medium
+
+  * Limit the lxd group to images with an installer; it's less appropriate
+    for random tarball images, which are configured in ways we don't know.
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sun, 13 Oct 2019 23:15:02 -0600
+
 livecd-rootfs (2.619) eoan; urgency=medium
 
   * Subiquity: install linux-firmware in the installer layer, to make

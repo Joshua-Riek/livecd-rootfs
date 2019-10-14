@@ -988,7 +988,12 @@ echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
-if [ $PROJECT != ubuntu-cpc ]; then
+case $PROJECT in
+  ubuntu-cpc|ubuntu-core|ubuntu-base|base)
+    # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
+    # not want this group in projects that are effectively just chroots
+    ;;
+  *)
     # We add the lxd group at image build time so that the default user
     # created by the installer or cloud-init is added to it (cloud-init
     # will create any group the user is configured to be added to, but as
@@ -1000,7 +1005,8 @@ if [ $PROJECT != ubuntu-cpc ]; then
 echo "Adding lxd group..."
 addgroup --system --quiet lxd
 EOF
-fi
+    ;;
+esac
 
 case $ARCH+$SUBARCH in
 	armhf+raspi2|armhf+raspi3|arm64+raspi3)
