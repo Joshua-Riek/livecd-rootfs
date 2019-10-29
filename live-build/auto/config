@@ -279,12 +279,14 @@ _get_live_passes ()
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
-			if [ "$SUBARCH" = "raspi3" ]; then
-				# For now only raspi3, but others are soon to follow
-				IMAGEFORMAT=ubuntu-image
-			else
-				IMAGEFORMAT=ext4
-			fi
+			case $SUBARCH in
+				raspi3|imx6)
+					IMAGEFORMAT=ubuntu-image
+					;;
+				*)
+					IMAGEFORMAT=ext4
+					;;
+			esac
 			;;
 		ubuntu-server:live)
 			IMAGEFORMAT=plain
