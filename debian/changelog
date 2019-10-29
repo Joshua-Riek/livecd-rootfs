@@ -1,4 +1,4 @@
-livecd-rootfs (2.621) UNRELEASED; urgency=medium
+livecd-rootfs (2.621) focal; urgency=medium
 
   * Make sure the imx6 subarch uses the ubuntu-image imageformat.
 
