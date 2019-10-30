@@ -1,3 +1,10 @@
+livecd-rootfs (2.622) UNRELEASED; urgency=medium
+
+  * Support fetching classic gadget trees from a non-github-mirrored launchpad
+    repository for ubuntu-image to use.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 30 Oct 2019 14:06:48 +0100
+
 livecd-rootfs (2.621) focal; urgency=medium
 
   * Make sure the imx6 subarch uses the ubuntu-image imageformat.

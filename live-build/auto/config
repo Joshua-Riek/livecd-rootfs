@@ -389,7 +389,10 @@ case $IMAGEFORMAT in
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
 
-			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
+			# We need to look in two places for the gadget tree:
+			# - Launchpad hosted gadgets will be in the snap-gadget repo
+			# - Github hosted gadgets are mirrored into a github-mirror repo
+			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/snap-$MODEL -b classic config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
 
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 			echo "SUITE=$SUITE" >> config/common
