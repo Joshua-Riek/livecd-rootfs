@@ -1,4 +1,4 @@
-livecd-rootfs (2.622) UNRELEASED; urgency=medium
+livecd-rootfs (2.622) focal; urgency=medium
 
   * Support fetching classic gadget trees from a non-github-mirrored launchpad
     repository for ubuntu-image to use.
