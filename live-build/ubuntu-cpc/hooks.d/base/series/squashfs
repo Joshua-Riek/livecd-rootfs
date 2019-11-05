@@ -2,3 +2,4 @@ depends root-dir
 base/root-squashfs.binary
 provides livecd.ubuntu-cpc.squashfs
 provides livecd.ubuntu-cpc.squashfs.manifest
+provides livecd.ubuntu-cpc.squashfs.filelist

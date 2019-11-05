@@ -7,3 +7,4 @@ provides livecd.ubuntu-cpc.initrd-generic-lpae
 provides livecd.ubuntu-cpc.kernel-generic
 provides livecd.ubuntu-cpc.kernel-generic-lpae
 provides livecd.ubuntu-cpc.manifest
+provides livecd.ubuntu-cpc.filelist
