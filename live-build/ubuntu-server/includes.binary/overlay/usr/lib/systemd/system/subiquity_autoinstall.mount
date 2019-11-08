@@ -1,0 +1,4 @@
+[Mount]
+What=/dev/disk/by-label/autoinstall
+Where=/autoinstall
+Type=ext4
