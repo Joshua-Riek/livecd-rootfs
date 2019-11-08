@@ -27,6 +27,10 @@ cleanup_linux_virtual() {
 }
 trap cleanup_linux_virtual EXIT
 
+# The base buildd chroot includes an empty resolv.conf
+# We don't want to include that in the bootable images
+rm $mount_d/etc/resolv.conf
+
 # Install dependencies
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     update --assume-yes
