@@ -82,6 +82,18 @@ snap_preseed $INSTALLER_ROOT subiquity/classic
 # Drop lxd from the installer layer preseed
 sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
 
+# Add initramfs hook to copy /autoinstall.yaml from initrd
+# /run/initrd-autoinstall.yaml
+cat <<EOF > "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
+#!/bin/sh
+case \$1 in
+prereqs) exit 0;;
+esac
+
+[ -f /autoinstall.yaml ] && cp /autoinstall.yaml /run/initrd-autoinstall.yaml
+EOF
+chmod +x "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
+
 teardown_mountpoint "$INSTALLER_ROOT"
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
