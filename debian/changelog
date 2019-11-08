@@ -12,6 +12,13 @@ livecd-rootfs (2.623) focal; urgency=medium
 
  -- David Krauser <david.krauser@canonical.com>  Fri, 08 Oct 2019 10:48:48 -0400
 
+livecd-rootfs (2.622ubuntu1) UNRELEASED; urgency=medium
+
+  * Make autoinstall files from initrd and filesystem with label autoinstall
+    available on live-server systems. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 08 Nov 2019 15:42:15 +1300
+
 livecd-rootfs (2.622) focal; urgency=medium
 
   * Support fetching classic gadget trees from a non-github-mirrored launchpad
