@@ -1,4 +1,4 @@
-livecd-rootfs (2.623) UNRELEASED; urgency=medium
+livecd-rootfs (2.623) focal; urgency=medium
 
   * Add new buildd based bootable image for snapcraft builds.
 
