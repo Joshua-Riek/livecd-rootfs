@@ -1,3 +1,9 @@
+livecd-rootfs (2.623) UNRELEASED; urgency=medium
+
+  * Add new buildd based bootable image for snapcraft builds.
+
+ -- David Krauser <david.krauser@canonical.com>  Fri, 08 Oct 2019 10:48:48 -0400
+
 livecd-rootfs (2.622) focal; urgency=medium
 
   * Support fetching classic gadget trees from a non-github-mirrored launchpad
