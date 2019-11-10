@@ -50,9 +50,9 @@ JobRunningTimeoutSec=0s
 Wants=subiquity_config.mount
 EOF
 
-AUTOINSTALL_DEVICE_UNIT='dev-disk-by\x2dlabel-default.device'
+AUTOINSTALL_DEVICE_UNIT='dev-disk-by\x2dlabel-autoinstall.device'
 mkdir -p "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d"
-cat > "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d.d/override.conf" <<EOF
+cat > "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d/override.conf" <<EOF
 [Unit]
 JobRunningTimeoutSec=0s
 Wants=subiquity_autoinstall.mount
