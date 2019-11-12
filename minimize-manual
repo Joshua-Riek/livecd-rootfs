@@ -1,64 +1,16 @@
-#!/usr/bin/python3
-"""Minimize the number of manually installed packages in the image.
+#!/bin/sh
 
-Finds all manually installed meta packages, and marks their dependencies
-as automatically installed.
-"""
-import sys
+# Minimize the number of manually installed packages in the image
 
-import apt
+# Finds all packages which could be marked as automatically installed and marks
+# them as such
 
+set -e
 
-def is_root(pkg):
-    """Check if the package is a root package (manually inst. meta)"""
-    section = pkg.candidate.section if pkg.candidate else ""
-    return (pkg.is_installed and
-            not pkg.is_auto_installed and
-            (section == "metapackages" or
-             section.endswith("/metapackages")))
+chroot=$1
 
-
-def main():
-    """Main function"""
-    cache = apt.Cache(rootdir=sys.argv[1] if len(sys.argv) > 1 else None)
-    roots = set(pkg for pkg in cache if is_root(pkg))
-    workset = set(roots)
-    seen = set()
-    ubiquity_depends = set()
-
-    with cache.actiongroup():
-        while True:
-            print("Iteration", file=sys.stderr)
-            to_proc = workset - seen
-            if not to_proc:
-                break
-            for pkg in sorted(to_proc):
-                print("    Visiting", pkg, file=sys.stderr)
-
-                if pkg not in roots and pkg not in ubiquity_depends:
-                    pkg.mark_auto()
-
-                for dep in (pkg.installed.dependencies +
-                            pkg.installed.recommends):
-                    for bdep in dep.or_dependencies:
-                        for ver in bdep.target_versions:
-                            if ver.package.is_installed:
-                                if pkg.name == "ubiquity":
-                                    ubiquity_depends.add(ver.package)
-                                if pkg.name != "ubiquity":
-                                    # Reprocess this package again, as we did not mark it when we visited it from ubiquity
-                                    try:
-                                        ubiquity_depends.remove(ver.package)
-                                        # This will raise the KeyError here if ubiquity did not depend on it
-                                        seen.remove(ver.package)
-                                    except KeyError:
-                                        pass
-                                workset.add(ver.package)
-
-                seen.add(pkg)
-
-        cache.commit()
-
-
-if __name__ == '__main__':
-    main()
+auto_packages=$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot)
+if [ -n "$auto_packages" ]; then
+	chroot chroot apt-mark auto $auto_packages
+fi
+[ -z "$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot 2> /dev/null)" ]
