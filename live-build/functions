@@ -53,7 +53,7 @@ create_manifest() {
     echo "create_manifest call to snap_seed_parse finished."
     if [ "$PROJECT" = ubuntu-cpc ]; then
         echo "create_manifest creating file listing."
-        local target_filelist=${2/.manifest}.filelist
+        local target_filelist=${2%.manifest}.filelist
         (cd "${chroot_root}" && find) > "${target_filelist}"
     fi
     echo "create_manifest finished"
