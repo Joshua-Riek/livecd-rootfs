@@ -1,3 +1,11 @@
+livecd-rootfs (2.624) focal; urgency=medium
+
+  * Mark packages as autoinstalled using apt-mark in the chroot
+    instead of using python-apt that potentially starts talking to the build
+    system's dbus causing various problems. (LP: #1835406)
+
+ -- Balint Reczey <rbalint@ubuntu.com>  Wed, 13 Nov 2019 21:01:51 +0100
+
 livecd-rootfs (2.623) focal; urgency=medium
 
   * Add new buildd based bootable image for snapcraft builds.
