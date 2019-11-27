@@ -1,8 +1,8 @@
-livecd-rootfs (2.626) UNRELEASED; urgency=medium
+livecd-rootfs (2.626) focal; urgency=medium
 
   * No-change rebuild to build for i386 again (for now).
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 28 Nov 2019 11:43:22 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 28 Nov 2019 11:43:51 +1300
 
 livecd-rootfs (2.625) focal; urgency=medium
 
