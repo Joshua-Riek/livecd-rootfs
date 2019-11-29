@@ -1,3 +1,10 @@
+livecd-rootfs (2.627) UNRELEASED; urgency=medium
+
+  * Don't depend on snapd on i386, since i386 support in focal is only for
+    launchpad buildd chroots.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Nov 2019 10:48:56 -0800
+
 livecd-rootfs (2.626) focal; urgency=medium
 
   * No-change rebuild to build for i386 again (for now).
