@@ -1,9 +1,9 @@
-livecd-rootfs (2.628) UNRELEASED; urgency=medium
+livecd-rootfs (2.628) focal; urgency=medium
 
   * Also make the ubuntu-image dependency arch-conditional, since
     ubuntu-image pulls in snapd.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Nov 2019 21:46:45 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Nov 2019 21:47:05 -0800
 
 livecd-rootfs (2.627) focal; urgency=medium
 
