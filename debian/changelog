@@ -1,9 +1,9 @@
-livecd-rootfs (2.629) UNRELEASED; urgency=medium
+livecd-rootfs (2.629) focal; urgency=medium
 
   * Also make qemu-utils a non-i386 dependency, since it is only used for
     cloud images we're not making and pulls in a lot of other dependencies.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 30 Nov 2019 20:55:52 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 30 Nov 2019 20:56:28 -0800
 
 livecd-rootfs (2.628) focal; urgency=medium
 
