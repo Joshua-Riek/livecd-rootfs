@@ -479,8 +479,6 @@ case $BINARYFORMAT in
 		;;
 esac
 
-SIGNED_KERNEL_PACKAGE="linux-signed-generic"
-
 if [ "${SUBPROJECT:-}" = minimized ]; then
 	OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal --linux-packages=linux-image"
 fi
@@ -534,10 +532,6 @@ case $PROJECT in
 				add_task minimal.standard.live ubuntu-live
 				add_package minimal.standard.live lupin-casper
 
-				case $ARCH in
-					amd64)	add_package minimal.standard.live $SIGNED_KERNEL_PACKAGE ;;
-				esac
-
 				# LANG PASS for minimal and standard
 				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
 				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
@@ -548,9 +542,6 @@ case $PROJECT in
 				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop
 				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
-				case $ARCH in
-					amd64)	add_package live $SIGNED_KERNEL_PACKAGE ;;
-				esac
 				;;
 		esac
 		;;

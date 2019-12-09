@@ -1,3 +1,10 @@
+livecd-rootfs (2.630) UNRELEASED; urgency=medium
+
+  * Drop installing dummy transitional linux-signed-generic, these days
+    linux-generic is always signed, on arches that need/support it.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 09 Dec 2019 14:21:08 +0000
+
 livecd-rootfs (2.629) focal; urgency=medium
 
   * Also make qemu-utils a non-i386 dependency, since it is only used for
