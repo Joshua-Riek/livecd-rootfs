@@ -1,3 +1,9 @@
+livecd-rootfs (2.632) UNRELEASED; urgency=medium
+
+  * Fix broken DNS in buildd image builds.
+
+ -- David Krauser <david.krauser@canonical.com>  Tue, 10 Dec 2019 15:28:12 -0400
+
 livecd-rootfs (2.631) focal; urgency=medium
 
   * Add support for uc20 model assertions.

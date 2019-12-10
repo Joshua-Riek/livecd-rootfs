@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+
+chroot chroot truncate -s 0 /etc/resolv.conf
