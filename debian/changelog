@@ -1,3 +1,9 @@
+livecd-rootfs (2.631) UNRELEASED; urgency=medium
+
+  * Add support for uc20 model assertions.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 10 Dec 2019 15:27:39 +0100
+
 livecd-rootfs (2.630) focal; urgency=medium
 
   * Drop installing dummy transitional linux-signed-generic, these days
