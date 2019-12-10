@@ -356,9 +356,12 @@ case $IMAGEFORMAT in
 				xenial)
 					# Ubuntu Core 16
 					;;
-				*)
+				bionic)
 					# Ubuntu Core 18
 					MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
+				*)
+					# Ubuntu Core 20
+					MODEL="ubuntu-core-20-${MODEL#pc-}" ;;
 			esac
 
 			case "$ARCH+${SUBARCH:-}" in
