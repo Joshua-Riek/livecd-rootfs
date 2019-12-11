@@ -1,4 +1,4 @@
-livecd-rootfs (2.631) UNRELEASED; urgency=medium
+livecd-rootfs (2.631) focal; urgency=medium
 
   * Add support for uc20 model assertions.
 
