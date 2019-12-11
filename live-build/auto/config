@@ -1103,7 +1103,9 @@ if [ $PROJECT = ubuntu-base ]; then
 # live-build "helpfully" removes /etc/apt/preferences.d/* so we put a
 # copy somewhere it won't touch it.
 
-cp -a /etc/apt/preferences.d /etc/apt/preferences.d.save
+if [ -n "$(ls -A /etc/apt/preferences.d)" ]; then
+    cp -a /etc/apt/preferences.d /etc/apt/preferences.d.save
+fi
 EOF
 fi
 
