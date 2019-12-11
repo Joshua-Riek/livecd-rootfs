@@ -1,8 +1,9 @@
-livecd-rootfs (2.632) UNRELEASED; urgency=medium
+livecd-rootfs (2.632) focal; urgency=medium
 
+  [ David Krauser ]
   * Fix broken DNS in buildd image builds.
 
- -- David Krauser <david.krauser@canonical.com>  Tue, 10 Dec 2019 15:28:12 -0400
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 12 Dec 2019 10:34:55 +1300
 
 livecd-rootfs (2.631) focal; urgency=medium
 
