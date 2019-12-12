@@ -4,6 +4,15 @@
 # Generate linux-virtual image
 #
 
+case $ARCH in
+    amd64)
+        ;;
+    *)
+        echo "We don't build bootable Buildd images for $ARCH."
+        exit 0
+        ;;
+esac
+
 echo "Building bootable Buildd image"
 
 IMAGE_STR="# BUILDD_IMG: This file was created/modified by the Buildd Image build process"

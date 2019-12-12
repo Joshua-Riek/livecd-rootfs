@@ -1,5 +1,6 @@
 livecd-rootfs (2.634) UNRELEASED; urgency=medium
 
+  * Only build bootable buildd images for amd64.
   * Properly setup the chroot before using the network.
 
  -- David Krauser <david.krauser@canonical.com>  Thu, 12 Dec 2019 13:50:58 -0400
