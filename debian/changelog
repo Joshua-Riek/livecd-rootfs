@@ -1,4 +1,4 @@
-livecd-rootfs (2.633) UNAPPROVED; urgency=medium
+livecd-rootfs (2.633) focal; urgency=medium
 
   * Snapd for uc20 model assertions does not support global channel overrides.
     So make sure --channel is not passed to u-i for any uc20 builds for now.
