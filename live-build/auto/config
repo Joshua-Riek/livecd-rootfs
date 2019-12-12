@@ -1096,7 +1096,8 @@ rm -f /etc/fstab
 EOF
 fi
 
-cat > config/hooks/100-preserve-apt-prefs.chroot <<EOF
+if [ $PROJECT != ubuntu-cpc ]; then
+	cat > config/hooks/100-preserve-apt-prefs.chroot <<\EOF
 #! /bin/sh -ex
 
 # live-build "helpfully" removes /etc/apt/preferences.d/* so we put a
@@ -1106,6 +1107,7 @@ if [ -n "$(ls -A /etc/apt/preferences.d)" ]; then
     cp -a /etc/apt/preferences.d /etc/apt/preferences.d.save
 fi
 EOF
+fi
 
 if [ $PROJECT = ubuntukylin ]; then
 	cat > config/hooks/100-ubuntukylin.chroot <<EOF
