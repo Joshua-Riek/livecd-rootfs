@@ -1,3 +1,9 @@
+livecd-rootfs (2.634) UNRELEASED; urgency=medium
+
+  * Properly setup the chroot before using the network.
+
+ -- David Krauser <david.krauser@canonical.com>  Thu, 12 Dec 2019 13:50:58 -0400
+
 livecd-rootfs (2.633) focal; urgency=medium
 
   * Snapd for uc20 model assertions does not support global channel overrides.

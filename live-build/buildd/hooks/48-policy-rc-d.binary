@@ -1,7 +1,18 @@
 #!/bin/sh
+
 set -e
 
 # This is run after 02-disk-image-uefi.binary because
 # we don't want policyrcd-script-zg2 installed in
 # bootable images.
+
+. config/functions
+
+cleanup() {
+    teardown_mountpoint chroot
+}
+trap cleanup EXIT
+
+setup_mountpoint chroot
+
 chroot chroot apt-get install -y policyrcd-script-zg2
