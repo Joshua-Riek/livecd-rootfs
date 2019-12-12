@@ -345,6 +345,7 @@ case $IMAGEFORMAT in
 		if [ $PROJECT = "ubuntu-core" ]; then
 			# snap-based core images
 
+			CHANNEL="${CHANNEL:-edge}"
 			case $MODEL in
 				pc-amd64|pc-i386)
 					[ -z "${SUBARCH:-}" ] \
@@ -355,13 +356,19 @@ case $IMAGEFORMAT in
 			case $SUITE in
 				xenial)
 					# Ubuntu Core 16
+					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				bionic)
 					# Ubuntu Core 18
-					MODEL="ubuntu-core-18-${MODEL#pc-}" ;;
+					MODEL="ubuntu-core-18-${MODEL#pc-}"
+					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
+					;;
 				*)
 					# Ubuntu Core 20
-					MODEL="ubuntu-core-20-${MODEL#pc-}" ;;
+					# XXX: Currently uc20 assertions do not support global
+					#  channel overrides.
+					MODEL="ubuntu-core-20-${MODEL#pc-}"
+					;;
 			esac
 
 			case "$ARCH+${SUBARCH:-}" in
