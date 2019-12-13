@@ -342,6 +342,13 @@ case $IMAGEFORMAT in
 				;;
 		esac
 
+		# If we have a build_id coming from cdimage, use that to populate
+		# .disk/info on the target image
+		if [ -n "$BUILD_ID" ]; then
+			echo "$BUILD_ID" > config/disk-info
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --disk-info config/disk-info"
+		fi
+
 		if [ $PROJECT = "ubuntu-core" ]; then
 			# snap-based core images
 
@@ -349,7 +356,7 @@ case $IMAGEFORMAT in
 			case $MODEL in
 				pc-amd64|pc-i386)
 					[ -z "${SUBARCH:-}" ] \
-					&& UBUNTU_IMAGE_ARGS="--image-size 3700M"
+					&& UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
 					;;
 				*) ;;
 			esac
