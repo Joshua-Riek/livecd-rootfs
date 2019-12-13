@@ -1,4 +1,4 @@
-livecd-rootfs (2.634) UNRELEASED; urgency=medium
+livecd-rootfs (2.634) focal; urgency=medium
 
   * Only build bootable buildd images for amd64.
   * Properly setup the chroot before using the network.
