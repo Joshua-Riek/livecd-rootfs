@@ -314,6 +314,12 @@ EOF
 		undivert_grub chroot
 	fi
 
+	if [ -d chroot/etc/apt/preferences.d.save ]; then
+		# https://twitter.com/infinite_scream
+		mv chroot/etc/apt/preferences.d.save/* chroot/etc/apt/preferences.d/
+		rmdir chroot/etc/apt/preferences.d.save
+	fi
+
 	# Let all configuration non multi-layered project here.
 	# If those are moving to a multi-layer layout, this needs to be
 	# done in chroot hooks.
