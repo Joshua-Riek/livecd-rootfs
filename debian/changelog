@@ -1,10 +1,10 @@
-livecd-rootfs (2.635) UNRELEASED; urgency=medium
+livecd-rootfs (2.635) focal; urgency=medium
 
   * Preserve apt preferences created by any package we install (i.e.
     ubuntu-advantage-tools) against live-build's attempt to delete them.
     (LP: #1855354)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 12 Dec 2019 12:55:17 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Sat, 14 Dec 2019 21:00:45 +1300
 
 livecd-rootfs (2.634) focal; urgency=medium
 
