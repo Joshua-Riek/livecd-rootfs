@@ -1,7 +1,7 @@
 livecd-rootfs (2.635) UNRELEASED; urgency=medium
 
-  * Support generating a .disk/info file via ubuntu-image if BUILD_ID is
-    passed from cdimage to the builder.
+  * Support generating a .disk/info file via ubuntu-image from the passed-in
+    datestamp parameter (using the $NOW environment variable).
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 13 Dec 2019 18:12:12 +0100
 
