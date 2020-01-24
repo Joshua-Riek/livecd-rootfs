@@ -1,3 +1,12 @@
+livecd-rootfs (2.636) UNRELEASED; urgency=medium
+
+  * Ensure seed partition is mounted on no-cloud images which use system-boot
+    as their seed (LP: #1860046)
+  * Have getty wait for cloud-init to complete to ensure that the default
+    user exists before presenting a login prompt
+
+ -- Dave Jones <dave.jones@canonical.com>  Fri, 24 Jan 2020 15:17:56 +0000
+
 livecd-rootfs (2.635) focal; urgency=medium
 
   * Preserve apt preferences created by any package we install (i.e.
