@@ -1,4 +1,4 @@
-livecd-rootfs (2.637) UNRELEASED; urgency=medium
+livecd-rootfs (2.637) focal; urgency=medium
 
   * Ensure seed partition is mounted on no-cloud images which use system-boot
     as their seed (LP: #1860046)
