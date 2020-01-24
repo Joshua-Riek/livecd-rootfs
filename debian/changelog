@@ -1,4 +1,4 @@
-livecd-rootfs (2.636) UNRELEASED; urgency=medium
+livecd-rootfs (2.637) UNRELEASED; urgency=medium
 
   * Ensure seed partition is mounted on no-cloud images which use system-boot
     as their seed (LP: #1860046)
@@ -6,6 +6,20 @@ livecd-rootfs (2.636) UNRELEASED; urgency=medium
     user exists before presenting a login prompt
 
  -- Dave Jones <dave.jones@canonical.com>  Fri, 24 Jan 2020 15:17:56 +0000
+
+livecd-rootfs (2.636) focal; urgency=medium
+
+  * Stop trying to install linux-oem. It's dropped, but us trying to install
+    it is causing Ubuntu images to fail to build. It is due to be replaced by
+    linux-oem-20.04 (currently built from linux-...-5.4). But that is stuck in
+    focal-proposed at the minute, so there is nothing to transition to until
+    it migrates.
+  * Drop linux-signed-generic for flavours too - follow up from 2.630 which
+    handled this for Ubuntu. (LP: #1859146)
+  * Ditto for ubuntu-core:system-image - move from linux-signed-image-generic
+    to linux-image-generic.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Fri, 10 Jan 2020 12:11:02 +0000
 
 livecd-rootfs (2.635) focal; urgency=medium
 

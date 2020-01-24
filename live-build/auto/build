@@ -606,7 +606,7 @@ case $PROJECT:${SUBPROJECT:-} in
         linux_package="linux-image-$devarch"
         case $ARCH in
             amd64)
-              linux_package="linux-signed-image-generic"
+              linux_package="linux-image-generic"
               ;;
             arm64)
               if [ "$devarch" = "dragonboard" ]; then
