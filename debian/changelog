@@ -1,3 +1,9 @@
+livecd-rootfs (2.638) UNRELEASED; urgency=medium
+
+  * Install oem-20.04 kernel flavour on Ubuntu Desktop builds.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 28 Jan 2020 15:05:09 +0000
+
 livecd-rootfs (2.637) focal; urgency=medium
 
   * Ensure seed partition is mounted on no-cloud images which use system-boot
