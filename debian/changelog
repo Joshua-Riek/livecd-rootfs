@@ -1,4 +1,4 @@
-livecd-rootfs (2.639) UNRELEASED; urgency=medium
+livecd-rootfs (2.639) focal; urgency=medium
 
   * On s390x subiquity:
     - enable cloud-init
@@ -7,7 +7,7 @@ livecd-rootfs (2.639) UNRELEASED; urgency=medium
     - provide cloud.cfg that generates random installer user password
     - disable subiquity on sclp_line0 line based console
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 29 Jan 2020 14:10:31 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 29 Jan 2020 14:16:09 +0000
 
 livecd-rootfs (2.638) focal; urgency=medium
 
