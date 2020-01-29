@@ -65,16 +65,17 @@ chroot $INSTALLER_ROOT apt-get -y install lupin-casper
 # Install linux-firmware for kernel to upload into hardware.
 chroot $INSTALLER_ROOT apt-get -y install linux-firmware
 if [ `dpkg --print-architecture` = s390x ]; then
-	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
+	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey openssh-server
+	rm $INSTALLER_ROOT/etc/netplan/00-installer-config.yaml
+else
+	# Don't let cloud-init run in the live session.
+	touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
 fi
 chroot $INSTALLER_ROOT apt-get clean
 
 # For bug #1743643 "Install to dirty disk with swap fails" remove the
 # "helpful" casper script that mounts any swap partitions it finds.
 rm -f $INSTALLER_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
-
-# Don't let cloud-init run in the live session.
-touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
 
 # Preseed subiquity into installer layer
 snap_prepare $INSTALLER_ROOT
