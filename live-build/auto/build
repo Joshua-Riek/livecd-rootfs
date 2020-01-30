@@ -819,10 +819,14 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue
 	fi
-	if [ "$FLAVOUR" = "virtual" ]; then
-		# The virtual kernel is named generic in /boot
-		FLAVOUR="generic"
-	fi
+	case $FLAVOUR in
+		virtual)
+			FLAVOUR="generic"
+			;;
+		oem-*)
+			FLAVOUR="oem"
+			;;
+	esac
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		if [ -e "binary/$INITFS/vmlinuz" ]; then
