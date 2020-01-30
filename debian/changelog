@@ -1,11 +1,11 @@
-livecd-rootfs (2.640) UNRELEASED; urgency=medium
+livecd-rootfs (2.640) focal; urgency=medium
 
   * Although the request flavour to install is oem-20.04, it really is
     called just oem on disk. Override the flavour name from oem-20.04 to
     oem when renaming built artefacts. This also means that ubuntu-cdimage
     needs to simply download 'oem' vmlinuz+initrd pairs, not 'oem-20.04'.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 Jan 2020 11:10:37 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 Jan 2020 11:52:32 +0000
 
 livecd-rootfs (2.639) focal; urgency=medium
 
