@@ -64,6 +64,14 @@ EOF
 chroot $INSTALLER_ROOT apt-get -y install lupin-casper
 # Install linux-firmware for kernel to upload into hardware.
 chroot $INSTALLER_ROOT apt-get -y install linux-firmware
+
+# Make sure NoCloud is last
+values=$(echo get cloud-init/datasources | chroot $INSTALLER_ROOT debconf-communicate | sed 's/^0 //;s/NoCloud, //;s/None/NoCloud, None/')
+printf "%s\t%s\t%s\t%s\n" \
+   cloud-init cloud-init/datasources multiselect  "$values" |
+      chroot $INSTALLER_ROOT debconf-set-selections
+chroot $INSTALLER_ROOT dpkg-reconfigure --frontend=noninteractive cloud-init
+
 if [ `dpkg --print-architecture` = s390x ]; then
 	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey openssh-server
 	rm $INSTALLER_ROOT/etc/netplan/00-installer-config.yaml
