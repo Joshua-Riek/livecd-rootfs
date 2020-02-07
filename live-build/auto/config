@@ -365,9 +365,20 @@ case $IMAGEFORMAT in
 					;;
 				*)
 					# Ubuntu Core 20
-					# XXX: Currently uc20 assertions do not support global
-					#  channel overrides.
-					MODEL="ubuntu-core-20-${MODEL#pc-}"
+					# Currently uc20 assertions do not support global
+					# channel overrides, instead we have per-channel models
+					case $CHANNEL in
+						stable)
+							MODEL="ubuntu-core-20-${MODEL#pc-}"
+							;;
+						candidate|beta|edge|dangerous)
+							MODEL="ubuntu-core-20-${MODEL#pc-}-${CHANNEL}"
+							;;
+						*)
+							echo "Unknown CHANNEL ${CHANNEL} specification for ${SUITE}"
+							exit 1
+							;;
+					esac
 					;;
 			esac
 
