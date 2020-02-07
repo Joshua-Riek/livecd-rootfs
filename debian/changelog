@@ -1,9 +1,9 @@
-livecd-rootfs (2.641) UNRELEASED; urgency=medium
+livecd-rootfs (2.641) focal; urgency=medium
 
   * Configure a better nocloud datasource for subiquity cloud-init.
   * Encode CHANNEL specification in the UC20 model names.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 07 Feb 2020 22:11:26 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 07 Feb 2020 22:18:11 +0000
 
 livecd-rootfs (2.640) focal; urgency=medium
 
