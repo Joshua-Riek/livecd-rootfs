@@ -1,8 +1,8 @@
-livecd-rootfs (2.642) UNRELEASED; urgency=medium
+livecd-rootfs (2.642) focal; urgency=medium
 
   * Set uc20 image size to 10G.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 10 Feb 2020 12:43:23 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 10 Feb 2020 12:43:44 +0000
 
 livecd-rootfs (2.641) focal; urgency=medium
 
