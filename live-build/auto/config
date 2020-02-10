@@ -364,6 +364,7 @@ case $IMAGEFORMAT in
 					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				*)
+					UBUNTU_IMAGE_ARGS="--image-size 10G"
 					# Ubuntu Core 20
 					# Currently uc20 assertions do not support global
 					# channel overrides, instead we have per-channel models
