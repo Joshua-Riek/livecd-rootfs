@@ -871,7 +871,7 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 fi
 
 case $SUBARCH in
-	raspi2|raspi3)
+	raspi|raspi2)
 		# copy the kernel and initrd to a predictable directory for
 		# ubuntu-image consumption.  In some cases, like in pi2/3
 		# u-boot, the bootloader needs to contain the kernel and initrd,

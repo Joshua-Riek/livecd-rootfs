@@ -280,7 +280,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi3|imx6)
+				raspi|imx6)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -326,10 +326,14 @@ case $IMAGEFORMAT in
 				MODEL=pc-i386 ;;
 			arm64+snapdragon)
 				MODEL=dragonboard ;;
+			armhf+raspi)
+				MODEL=pi ;;
 			armhf+raspi2)
 				MODEL=pi2 ;;
 			armhf+raspi3)
 				MODEL=pi3 ;;
+			arm64+raspi)
+				MODEL=pi-arm64 ;;
 			arm64+raspi3)
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
@@ -404,7 +408,7 @@ case $IMAGEFORMAT in
 
 			# Certain models have different names but are built from the same source gadget tree
 			case $MODEL in
-				pi3-arm64)
+				pi-arm64|pi3-arm64)
 					MODEL=pi3 ;;
 			esac
 
@@ -895,7 +899,8 @@ case $ARCH in
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools wpasupplicant
 				BINARY_REMOVE_LINUX=false
 				;;
-			raspi3)
+			raspi)
+				# Generic Raspberry Pi images
 				COMPONENTS='main restricted universe multiverse'
 				KERNEL_FLAVOURS=raspi2
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools wpasupplicant
@@ -1000,7 +1005,7 @@ EOF
 esac
 
 case $ARCH+$SUBARCH in
-	armhf+raspi2|armhf+raspi3|arm64+raspi3)
+	armhf+raspi2|armhf+raspi|arm64+raspi)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF
 #!/bin/sh -ex
 mkdir -p /boot/firmware

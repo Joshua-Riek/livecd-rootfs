@@ -1,3 +1,10 @@
+livecd-rootfs (2.644) UNRELEASED; urgency=medium
+
+  * Rename the raspi3 SUBARCH to raspi, as we generate universal generic pi
+    images since long.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 21 Feb 2020 12:37:02 +0100
+
 livecd-rootfs (2.643) focal; urgency=medium
 
   * subiquity:
