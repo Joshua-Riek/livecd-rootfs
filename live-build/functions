@@ -490,10 +490,7 @@ _snap_preseed() {
             # Determine if and what core snap is needed
             local snap_info
 
-            snap_info=$(/usr/share/livecd-rootfs/snap-tool info \
-                --cohort-key="${COHORT_KEY:-}" \
-                --channel="$CHANNEL" "${SNAP_NAME}" \
-            )
+            snap_info=$(snap info "${SNAP_NAME}")
 
             if [ $? -ne 0 ]; then
                 echo "Failed to retrieve base of $SNAP_NAME!"
@@ -513,8 +510,8 @@ _snap_preseed() {
     sh -c "
         set -x;
         cd \"$CHROOT_ROOT/var/lib/snapd/seed\";
-        SNAPPY_STORE_NO_CDN=1 /usr/share/livecd-rootfs/snap-tool download \
-            --cohort-key=\"${COHORT_KEY:-}\" \
+        SNAPPY_STORE_NO_CDN=1 snap download \
+            --cohort="${COHORT_KEY:-}" \
             --channel=\"$CHANNEL\" \"$SNAP_NAME\"" || snap_download_failed=1
     if [ $snap_download_failed = 1 ] ; then
         echo "If the channel ($CHANNEL) includes '*/ubuntu-##.##' track per "
