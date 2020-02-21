@@ -1,8 +1,9 @@
-livecd-rootfs (2.645) UNRELEASED; urgency=medium
+livecd-rootfs (2.645) focal; urgency=medium
 
+  [ Robert C Jennings ]
   * Use snap cli rather than custom snap-tool
 
- -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 21 Feb 2020 14:54:56 -0600
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 21 Feb 2020 13:02:43 -0800
 
 livecd-rootfs (2.644) focal; urgency=medium
 
