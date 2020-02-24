@@ -1,8 +1,8 @@
-livecd-rootfs (2.646) UNRELEASED; urgency=medium
+livecd-rootfs (2.646) focal; urgency=medium
 
   * Pass --verbose to `snap info` so that it includes the base.
 
- -- Iain Lane <iain.lane@canonical.com>  Mon, 24 Feb 2020 09:55:46 +0000
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 24 Feb 2020 11:22:21 +0000
 
 livecd-rootfs (2.645) focal; urgency=medium
 
