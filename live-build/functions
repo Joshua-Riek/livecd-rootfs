@@ -490,7 +490,7 @@ _snap_preseed() {
             # Determine if and what core snap is needed
             local snap_info
 
-            snap_info=$(snap info "${SNAP_NAME}")
+            snap_info=$(snap info --verbose "${SNAP_NAME}")
 
             if [ $? -ne 0 ]; then
                 echo "Failed to retrieve base of $SNAP_NAME!"
