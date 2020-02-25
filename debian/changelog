@@ -1,3 +1,9 @@
+livecd-rootfs (2.647) focal; urgency=medium
+
+  * Address snap base regression after snap-tool removal
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 25 Feb 2020 16:15:48 -0600
+
 livecd-rootfs (2.646) focal; urgency=medium
 
   * Pass --verbose to `snap info` so that it includes the base.

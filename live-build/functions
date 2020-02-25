@@ -482,12 +482,16 @@ _snap_preseed() {
         return
     fi
 
+    # Pre-seed snap's base
     case $SNAP_NAME in
         snapd)
             # snapd is self-contained, ignore base
             ;;
+        core|core[0-9][0-9])
+            # core and core## are self-contained, ignore base
+            ;;
         *)
-            # Determine if and what core snap is needed
+            # Determine which core snap is needed
             local snap_info
 
             snap_info=$(snap info --verbose "${SNAP_NAME}")
@@ -499,11 +503,10 @@ _snap_preseed() {
 
             local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
 
-            # If $core_snap is not the empty string then SNAP itself is not a core
-            # snap and we must additionally seed the core snap.
-            if [ -n "$core_snap" ]; then
-                _snap_preseed $CHROOT_ROOT $core_snap stable
-            fi
+            # If snap info does not list a base use 'core'
+            core_snap=${core_snap:-core}
+
+            _snap_preseed $CHROOT_ROOT $core_snap stable
             ;;
     esac
 
