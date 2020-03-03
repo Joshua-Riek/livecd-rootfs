@@ -60,10 +60,11 @@ EOF
 
 # Prepare installer layer.
 
-# Install casper for live session magic.
-chroot $INSTALLER_ROOT apt-get -y install lupin-casper
-# Install linux-firmware for kernel to upload into hardware.
-chroot $INSTALLER_ROOT apt-get -y install linux-firmware
+# Install:
+#   1. linux-firmware for kernel to upload into hardware.
+#   2. casper for live session magic.
+#   3. openssh-server to enable the "ssh into live session" feature
+chroot $INSTALLER_ROOT apt-get -y install linux-firmware lupin-casper openssh-server
 
 # Make sure NoCloud is last
 values=$(echo get cloud-init/datasources | chroot $INSTALLER_ROOT debconf-communicate | sed 's/^0 //;s/NoCloud, //;s/None/NoCloud, None/')
@@ -73,11 +74,7 @@ printf "%s\t%s\t%s\t%s\n" \
 chroot $INSTALLER_ROOT dpkg-reconfigure --frontend=noninteractive cloud-init
 
 if [ `dpkg --print-architecture` = s390x ]; then
-	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey openssh-server
-	rm $INSTALLER_ROOT/etc/netplan/00-installer-config.yaml
-else
-	# Don't let cloud-init run in the live session.
-	touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
+	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
 fi
 chroot $INSTALLER_ROOT apt-get clean
 
