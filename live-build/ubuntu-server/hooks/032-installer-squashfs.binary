@@ -50,14 +50,6 @@ JobRunningTimeoutSec=0s
 Wants=subiquity_config.mount
 EOF
 
-AUTOINSTALL_DEVICE_UNIT='dev-disk-by\x2dlabel-autoinstall.device'
-mkdir -p "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d"
-cat > "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d/override.conf" <<EOF
-[Unit]
-JobRunningTimeoutSec=0s
-Wants=subiquity_autoinstall.mount
-EOF
-
 # Prepare installer layer.
 
 # Install:
@@ -87,18 +79,6 @@ snap_prepare $INSTALLER_ROOT
 snap_preseed $INSTALLER_ROOT subiquity/classic
 # Drop lxd from the installer layer preseed
 sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
-
-# Add initramfs hook to copy /autoinstall.yaml from initrd
-# /run/initrd-autoinstall.yaml
-cat <<EOF > "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
-#!/bin/sh
-case \$1 in
-prereqs) exit 0;;
-esac
-
-[ -f /autoinstall.yaml ] && cp /autoinstall.yaml /run/initrd-autoinstall.yaml
-EOF
-chmod +x "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
 
 teardown_mountpoint "$INSTALLER_ROOT"
 
