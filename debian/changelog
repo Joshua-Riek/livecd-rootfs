@@ -1,6 +1,7 @@
 livecd-rootfs (2.648) UNRELEASED; urgency=medium
 
-  * Enable cloud-init in live server installer live session.
+  * Enable cloud-init in live server installer live session on all
+    architectures.
   * Remove code for old design for getting autoinstall.yaml.
   * Add runcmd to extract autoinstall.yaml from user-data.
 
