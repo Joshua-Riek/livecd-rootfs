@@ -1,11 +1,11 @@
-livecd-rootfs (2.648) UNRELEASED; urgency=medium
+livecd-rootfs (2.648) focal; urgency=medium
 
   * Enable cloud-init in live server installer live session on all
     architectures.
   * Remove code for old design for getting autoinstall.yaml.
   * Add runcmd to extract autoinstall.yaml from user-data.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 03 Mar 2020 15:09:01 +0100
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 04 Mar 2020 16:10:35 +0100
 
 livecd-rootfs (2.647) focal; urgency=medium
 
