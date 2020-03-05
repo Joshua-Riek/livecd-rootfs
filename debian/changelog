@@ -1,3 +1,9 @@
+livecd-rootfs (2.649) UNRELEASED; urgency=medium
+
+  * Fix autoinstall-extracting runcmd in the case no user-data is passed.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 05 Mar 2020 15:35:17 +0100
+
 livecd-rootfs (2.648) focal; urgency=medium
 
   * Enable cloud-init in live server installer live session on all
