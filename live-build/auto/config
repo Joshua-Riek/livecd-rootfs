@@ -414,9 +414,15 @@ case $IMAGEFORMAT in
 			# classic images
 
 			# Certain models have different names but are built from the same source gadget tree
+			BRANCH=18
 			case $MODEL in
 				pi-arm64|pi3-arm64)
-					MODEL=pi3 ;;
+					MODEL=pi
+					BRANCH=18-arm64
+					;;
+				pi)
+					BRANCH=18-armhf
+					;;
 			esac
 
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
@@ -425,7 +431,7 @@ case $IMAGEFORMAT in
 			# We need to look in two places for the gadget tree:
 			# - Launchpad hosted gadgets will be in the snap-gadget repo
 			# - Github hosted gadgets are mirrored into a github-mirror repo
-			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/snap-$MODEL -b classic config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b classic config/$PREFIX-gadget
+			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/snap-$MODEL -b $BRANCH config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b $BRANCH config/$PREFIX-gadget
 
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 			echo "SUITE=$SUITE" >> config/common

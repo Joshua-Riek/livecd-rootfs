@@ -1,3 +1,11 @@
+livecd-rootfs (2.651) UNRELEASED; urgency=medium
+
+  * Switch to using the generic pi gadget repo for classic builds. Use the
+    generic branches instead of the 'classic' one as well, as this should now
+    work for both core and classic.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 06 Mar 2020 11:52:30 +0100
+
 livecd-rootfs (2.650) focal; urgency=medium
 
   * Support generating a .disk/info file via ubuntu-image from the passed-in
