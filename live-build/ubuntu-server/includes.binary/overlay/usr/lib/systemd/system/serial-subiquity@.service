@@ -1,7 +1,7 @@
 [Unit]
 Description=Subiquity, the installer for Ubuntu Server %I
 BindsTo=dev-%i.device
-After=dev-%i.device systemd-user-sessions.service plymouth-quit-wait.service
+After=dev-%i.device systemd-user-sessions.service plymouth-quit-wait.service cloud-final.service snapd.seeded.service
 After=rc-local.service
 ConditionPathExists=!/run/subiquity/complete
 StartLimitInterval=0
