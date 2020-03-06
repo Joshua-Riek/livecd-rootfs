@@ -1,4 +1,4 @@
-livecd-rootfs (2.650) UNRELEASED; urgency=medium
+livecd-rootfs (2.650) focal; urgency=medium
 
   * Support generating a .disk/info file via ubuntu-image from the passed-in
     datestamp parameter (using the $NOW environment variable).
