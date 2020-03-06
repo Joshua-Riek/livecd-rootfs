@@ -99,10 +99,19 @@ setup_sourceslist(){
         "${mountpoint}/etc/apt/sources.list"
     sed -i "s#http://security.ubuntu.com/ubuntu#${LB_PARENT_MIRROR_CHROOT}#g" \
         "${mountpoint}/etc/apt/sources.list"
+
+    sha256sum "${mountpoint}/etc/apt/sources.list" > sources.list.sha
 }
 
 recover_sourceslist(){
     # Remove the build environment apt mirror from the image
+
+    # Check that the sources.list has not changed.  If it has changed then the
+    # binary hook has modified the file that will be discarded.  If the build
+    # fails here the binary hook needs to alter sources.list.tmp and regenerate
+    # sources.list.sha
+    sha256sum --check sources.list.sha
+
     mv sources.list.tmp "${mountpoint}/etc/apt/sources.list"
 }
 
