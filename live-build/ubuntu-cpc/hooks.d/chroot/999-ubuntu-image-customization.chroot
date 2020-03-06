@@ -20,4 +20,18 @@ datasource:
   NoCloud:
     fs_label: system-boot
 EOF
+    mkdir -p /etc/systemd/system/cloud-init-local.service.d
+    cat << EOF > /etc/systemd/system/cloud-init-local.service.d/mount-seed.conf
+# Ensure our customized seed location is mounted prior to execution
+
+[Unit]
+RequiresMountsFor=/boot/firmware
+EOF
+    mkdir -p /etc/systemd/system/cloud-config.service.d
+    cat << EOF > /etc/systemd/system/cloud-config.service.d/getty-wait.conf
+# Wait for cloud-init to finish (creating users, etc.) before running getty
+
+[Unit]
+Before=getty.target
+EOF
 fi

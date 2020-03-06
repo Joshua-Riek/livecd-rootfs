@@ -1,0 +1,8 @@
+#! /bin/sh -ex
+
+# live-build "helpfully" removes /etc/apt/preferences.d/* so we put a
+# copy somewhere it won't touch it.
+
+if [ -n "$(ls -A /etc/apt/preferences.d)" ]; then
+    cp -a /etc/apt/preferences.d /etc/apt/preferences.d.save
+fi

@@ -314,6 +314,12 @@ EOF
 		undivert_grub chroot
 	fi
 
+	if [ -d chroot/etc/apt/preferences.d.save ]; then
+		# https://twitter.com/infinite_scream
+		mv chroot/etc/apt/preferences.d.save/* chroot/etc/apt/preferences.d/
+		rmdir chroot/etc/apt/preferences.d.save
+	fi
+
 	# Let all configuration non multi-layered project here.
 	# If those are moving to a multi-layer layout, this needs to be
 	# done in chroot hooks.
@@ -600,7 +606,7 @@ case $PROJECT:${SUBPROJECT:-} in
         linux_package="linux-image-$devarch"
         case $ARCH in
             amd64)
-              linux_package="linux-signed-image-generic"
+              linux_package="linux-image-generic"
               ;;
             arm64)
               if [ "$devarch" = "dragonboard" ]; then
@@ -813,10 +819,14 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	if [ -z "$LB_LINUX_FLAVOURS" ] || [ "$LB_LINUX_FLAVOURS" = "none" ]; then
 		continue
 	fi
-	if [ "$FLAVOUR" = "virtual" ]; then
-		# The virtual kernel is named generic in /boot
-		FLAVOUR="generic"
-	fi
+	case $FLAVOUR in
+		virtual)
+			FLAVOUR="generic"
+			;;
+		oem-*)
+			FLAVOUR="oem"
+			;;
+	esac
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
 		if [ -e "binary/$INITFS/vmlinuz" ]; then
@@ -861,7 +871,7 @@ if [ "$NUMFLAVOURS" = 1 ] && [ "$LB_LINUX_FLAVOURS" != "none" ]; then
 fi
 
 case $SUBARCH in
-	raspi2|raspi3)
+	raspi|raspi2)
 		# copy the kernel and initrd to a predictable directory for
 		# ubuntu-image consumption.  In some cases, like in pi2/3
 		# u-boot, the bootloader needs to contain the kernel and initrd,

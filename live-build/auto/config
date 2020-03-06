@@ -280,7 +280,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi3|imx6)
+				raspi|imx6)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -326,10 +326,14 @@ case $IMAGEFORMAT in
 				MODEL=pc-i386 ;;
 			arm64+snapdragon)
 				MODEL=dragonboard ;;
+			armhf+raspi)
+				MODEL=pi ;;
 			armhf+raspi2)
 				MODEL=pi2 ;;
 			armhf+raspi3)
 				MODEL=pi3 ;;
+			arm64+raspi)
+				MODEL=pi-arm64 ;;
 			arm64+raspi3)
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
@@ -371,10 +375,22 @@ case $IMAGEFORMAT in
 					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				*)
+					UBUNTU_IMAGE_ARGS="--image-size 10G"
 					# Ubuntu Core 20
-					# XXX: Currently uc20 assertions do not support global
-					#  channel overrides.
-					MODEL="ubuntu-core-20-${MODEL#pc-}"
+					# Currently uc20 assertions do not support global
+					# channel overrides, instead we have per-channel models
+					case $CHANNEL in
+						stable)
+							MODEL="ubuntu-core-20-${MODEL#pc-}"
+							;;
+						candidate|beta|edge|dangerous)
+							MODEL="ubuntu-core-20-${MODEL#pc-}-${CHANNEL}"
+							;;
+						*)
+							echo "Unknown CHANNEL ${CHANNEL} specification for ${SUITE}"
+							exit 1
+							;;
+					esac
 					;;
 			esac
 
@@ -399,7 +415,7 @@ case $IMAGEFORMAT in
 
 			# Certain models have different names but are built from the same source gadget tree
 			case $MODEL in
-				pi3-arm64)
+				pi-arm64|pi3-arm64)
 					MODEL=pi3 ;;
 			esac
 
@@ -559,7 +575,7 @@ case $PROJECT in
 				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop
 				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
-                KERNEL_FLAVOURS='generic oem'
+                KERNEL_FLAVOURS='generic oem-20.04'
 				;;
 		esac
 		;;
@@ -568,9 +584,6 @@ case $PROJECT in
 		add_task install minimal standard
 		add_task install kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
 		;;
@@ -597,9 +610,6 @@ case $PROJECT in
 	edubuntu|edubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe'
 		;;
 
@@ -607,9 +617,6 @@ case $PROJECT in
 		add_task install minimal standard xubuntu-desktop
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
@@ -624,18 +631,12 @@ case $PROJECT in
 	mythbuntu)
 		add_task install minimal standard mythbuntu-desktop
 		LIVE_TASK='mythbuntu-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	lubuntu)
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
 			amd64|i386)	KERNEL_FLAVOURS=generic ;;
@@ -645,27 +646,18 @@ case $PROJECT in
 	ubuntu-gnome)
 		add_task install minimal standard ubuntu-gnome-desktop
 		LIVE_TASK='ubuntu-gnome-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe'
 		;;
 
 	ubuntu-budgie)
 		add_task install minimal standard ubuntu-budgie-desktop
 		LIVE_TASK='ubuntu-budgie-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe'
 		;;
 
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
@@ -681,9 +673,6 @@ case $PROJECT in
 		add_task install minimal standard ubuntukylin-desktop
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntukylin-live'
-		case $ARCH in
-			amd64)	add_package live linux-signed-generic ;;
-		esac
 		COMPONENTS='main restricted universe'
 		;;
 
@@ -917,7 +906,8 @@ case $ARCH in
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools wpasupplicant
 				BINARY_REMOVE_LINUX=false
 				;;
-			raspi3)
+			raspi)
+				# Generic Raspberry Pi images
 				COMPONENTS='main restricted universe multiverse'
 				KERNEL_FLAVOURS=raspi2
 				add_package install linux-firmware-raspi2 u-boot-rpi flash-kernel u-boot-tools wpasupplicant
@@ -1022,7 +1012,7 @@ EOF
 esac
 
 case $ARCH+$SUBARCH in
-	armhf+raspi2|armhf+raspi3|arm64+raspi3)
+	armhf+raspi2|armhf+raspi|arm64+raspi)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF
 #!/bin/sh -ex
 mkdir -p /boot/firmware
@@ -1100,6 +1090,19 @@ if [ $PROJECT = ubuntu-server ] && [ "${SUBPROJECT:-}" != live ]; then
 	cat > config/hooks/100-remove-fstab.chroot <<EOF
 #! /bin/sh
 rm -f /etc/fstab
+EOF
+fi
+
+if [ $PROJECT != ubuntu-cpc ]; then
+	cat > config/hooks/100-preserve-apt-prefs.chroot <<\EOF
+#! /bin/sh -ex
+
+# live-build "helpfully" removes /etc/apt/preferences.d/* so we put a
+# copy somewhere it won't touch it.
+
+if [ -n "$(ls -A /etc/apt/preferences.d)" ]; then
+    cp -a /etc/apt/preferences.d /etc/apt/preferences.d.save
+fi
 EOF
 fi
 

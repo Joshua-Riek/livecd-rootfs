@@ -35,7 +35,7 @@ mkdir -p "$INSTALLER_ROOT" "$OVERLAY_ROOT"
 # Create an installer squashfs layer
 mount_overlay "$FILESYSTEM_ROOT/" "$OVERLAY_ROOT/" "$INSTALLER_ROOT/"
 
-setup_mountpoint binary/boot/squashfs.dir
+setup_mountpoint "$INSTALLER_ROOT"
 
 # Override JobRunningTimeoutSec to 0s on the .device unit that
 # subiquity_config.mount depends on to avoid a 5s delay on switching
@@ -50,20 +50,21 @@ JobRunningTimeoutSec=0s
 Wants=subiquity_config.mount
 EOF
 
-AUTOINSTALL_DEVICE_UNIT='dev-disk-by\x2dlabel-autoinstall.device'
-mkdir -p "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d"
-cat > "$INSTALLER_ROOT/etc/systemd/system/$AUTOINSTALL_DEVICE_UNIT.d/override.conf" <<EOF
-[Unit]
-JobRunningTimeoutSec=0s
-Wants=subiquity_autoinstall.mount
-EOF
-
 # Prepare installer layer.
 
-# Install casper for live session magic.
-chroot $INSTALLER_ROOT apt-get -y install lupin-casper
-# Install linux-firmware for kernel to upload into hardware.
-chroot $INSTALLER_ROOT apt-get -y install linux-firmware
+# Install:
+#   1. linux-firmware for kernel to upload into hardware.
+#   2. casper for live session magic.
+#   3. openssh-server to enable the "ssh into live session" feature
+chroot $INSTALLER_ROOT apt-get -y install linux-firmware lupin-casper openssh-server
+
+# Make sure NoCloud is last
+values=$(echo get cloud-init/datasources | chroot $INSTALLER_ROOT debconf-communicate | sed 's/^0 //;s/NoCloud, //;s/None/NoCloud, None/')
+printf "%s\t%s\t%s\t%s\n" \
+   cloud-init cloud-init/datasources multiselect  "$values" |
+      chroot $INSTALLER_ROOT debconf-set-selections
+chroot $INSTALLER_ROOT dpkg-reconfigure --frontend=noninteractive cloud-init
+
 if [ `dpkg --print-architecture` = s390x ]; then
 	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
 fi
@@ -73,26 +74,11 @@ chroot $INSTALLER_ROOT apt-get clean
 # "helpful" casper script that mounts any swap partitions it finds.
 rm -f $INSTALLER_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
 
-# Don't let cloud-init run in the live session.
-touch $INSTALLER_ROOT/etc/cloud/cloud-init.disabled
-
 # Preseed subiquity into installer layer
 snap_prepare $INSTALLER_ROOT
 snap_preseed $INSTALLER_ROOT subiquity/classic
 # Drop lxd from the installer layer preseed
 sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
-
-# Add initramfs hook to copy /autoinstall.yaml from initrd
-# /run/initrd-autoinstall.yaml
-cat <<EOF > "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
-#!/bin/sh
-case \$1 in
-prereqs) exit 0;;
-esac
-
-[ -f /autoinstall.yaml ] && cp /autoinstall.yaml /run/initrd-autoinstall.yaml
-EOF
-chmod +x "$INSTALLER_ROOT"/etc/initramfs-tools/scripts/init-bottom/copy-autoinstall
 
 teardown_mountpoint "$INSTALLER_ROOT"
 

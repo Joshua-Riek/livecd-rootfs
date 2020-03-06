@@ -1,9 +1,129 @@
-livecd-rootfs (2.635) UNRELEASED; urgency=medium
+livecd-rootfs (2.650) UNRELEASED; urgency=medium
 
   * Support generating a .disk/info file via ubuntu-image from the passed-in
     datestamp parameter (using the $NOW environment variable).
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 13 Dec 2019 18:12:12 +0100
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 06 Mar 2020 11:12:12 +0100
+
+livecd-rootfs (2.649) focal; urgency=medium
+
+  * Fix autoinstall-extracting runcmd in the case no user-data is passed.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 05 Mar 2020 15:36:25 +0100
+
+livecd-rootfs (2.648) focal; urgency=medium
+
+  * Enable cloud-init in live server installer live session on all
+    architectures.
+  * Remove code for old design for getting autoinstall.yaml.
+  * Add runcmd to extract autoinstall.yaml from user-data.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 04 Mar 2020 16:10:35 +0100
+
+livecd-rootfs (2.647) focal; urgency=medium
+
+  * Address snap base regression after snap-tool removal
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 25 Feb 2020 16:15:48 -0600
+
+livecd-rootfs (2.646) focal; urgency=medium
+
+  * Pass --verbose to `snap info` so that it includes the base.
+
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 24 Feb 2020 11:22:21 +0000
+
+livecd-rootfs (2.645) focal; urgency=medium
+
+  [ Robert C Jennings ]
+  * Use snap cli rather than custom snap-tool
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 21 Feb 2020 13:02:43 -0800
+
+livecd-rootfs (2.644) focal; urgency=medium
+
+  * Rename the raspi3 SUBARCH to raspi, as we generate universal generic pi
+    images since long.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 21 Feb 2020 12:37:02 +0100
+
+livecd-rootfs (2.643) focal; urgency=medium
+
+  * subiquity:
+    - drop ds-identify policy, not needed with improved cloud config
+    - drop disabling network, doesn't work with ip=
+    - fixup setting up the INSTALLER_ROOT mountpoint
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 10 Feb 2020 23:50:16 +0000
+
+livecd-rootfs (2.642) focal; urgency=medium
+
+  * Set uc20 image size to 10G.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 10 Feb 2020 12:43:44 +0000
+
+livecd-rootfs (2.641) focal; urgency=medium
+
+  * Configure a better nocloud datasource for subiquity cloud-init.
+  * Encode CHANNEL specification in the UC20 model names.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 07 Feb 2020 22:18:11 +0000
+
+livecd-rootfs (2.640) focal; urgency=medium
+
+  * Although the request flavour to install is oem-20.04, it really is
+    called just oem on disk. Override the flavour name from oem-20.04 to
+    oem when renaming built artefacts. This also means that ubuntu-cdimage
+    needs to simply download 'oem' vmlinuz+initrd pairs, not 'oem-20.04'.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 30 Jan 2020 11:52:32 +0000
+
+livecd-rootfs (2.639) focal; urgency=medium
+
+  * On s390x subiquity:
+    - enable cloud-init
+    - make cloud-init handle the default/baked in networking configuration
+    - install and enable openssh-server for the installation only
+    - provide cloud.cfg that generates random installer user password
+    - disable subiquity on sclp_line0 line based console
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 29 Jan 2020 14:16:09 +0000
+
+livecd-rootfs (2.638) focal; urgency=medium
+
+  * Install oem-20.04 kernel flavour on Ubuntu Desktop builds.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 28 Jan 2020 15:06:02 +0000
+
+livecd-rootfs (2.637) focal; urgency=medium
+
+  * Ensure seed partition is mounted on no-cloud images which use system-boot
+    as their seed (LP: #1860046)
+  * Have getty wait for cloud-init to complete to ensure that the default
+    user exists before presenting a login prompt
+
+ -- Dave Jones <dave.jones@canonical.com>  Fri, 24 Jan 2020 15:17:56 +0000
+
+livecd-rootfs (2.636) focal; urgency=medium
+
+  * Stop trying to install linux-oem. It's dropped, but us trying to install
+    it is causing Ubuntu images to fail to build. It is due to be replaced by
+    linux-oem-20.04 (currently built from linux-...-5.4). But that is stuck in
+    focal-proposed at the minute, so there is nothing to transition to until
+    it migrates.
+  * Drop linux-signed-generic for flavours too - follow up from 2.630 which
+    handled this for Ubuntu. (LP: #1859146)
+  * Ditto for ubuntu-core:system-image - move from linux-signed-image-generic
+    to linux-image-generic.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Fri, 10 Jan 2020 12:11:02 +0000
+
+livecd-rootfs (2.635) focal; urgency=medium
+
+  * Preserve apt preferences created by any package we install (i.e.
+    ubuntu-advantage-tools) against live-build's attempt to delete them.
+    (LP: #1855354)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Sat, 14 Dec 2019 21:00:45 +1300
 
 livecd-rootfs (2.634) focal; urgency=medium
 

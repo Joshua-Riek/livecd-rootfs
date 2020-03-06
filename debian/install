@@ -4,4 +4,3 @@ get-ppa-fingerprint usr/share/livecd-rootfs
 minimize-manual usr/share/livecd-rootfs
 magic-proxy usr/share/livecd-rootfs
 lp-in-release usr/share/livecd-rootfs
-snap-tool usr/share/livecd-rootfs
