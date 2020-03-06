@@ -1,3 +1,10 @@
+livecd-rootfs (2.651) UNRELEASED; urgency=medium
+
+  * Do not start subiquity until cloud-final and snapd.seeded have
+    completed.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 06 Mar 2020 13:38:35 +0100
+
 livecd-rootfs (2.650) focal; urgency=medium
 
   * Support generating a .disk/info file via ubuntu-image from the passed-in
