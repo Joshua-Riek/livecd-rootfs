@@ -1,4 +1,4 @@
-livecd-rootfs (2.652) UNRELEASED; urgency=medium
+livecd-rootfs (2.652) focal; urgency=medium
 
   * Switch to using the generic pi gadget repo for classic builds. Use the
     generic branches instead of the 'classic' one as well, as this should now
