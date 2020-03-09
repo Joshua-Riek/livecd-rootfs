@@ -1,3 +1,10 @@
+livecd-rootfs (2.653) UNRELEASED; urgency=medium
+
+  * Stop trying to extract autoinstall config during boot, subiquity will do
+    it instead.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 09 Mar 2020 22:31:06 +1300
+
 livecd-rootfs (2.652) focal; urgency=medium
 
   * Switch to using the generic pi gadget repo for classic builds. Use the
