@@ -1,3 +1,11 @@
+livecd-rootfs (2.652) UNRELEASED; urgency=medium
+
+  * Switch to using the generic pi gadget repo for classic builds. Use the
+    generic branches instead of the 'classic' one as well, as this should now
+    work for both core and classic.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 09 Mar 2020 09:52:30 +0100
+
 livecd-rootfs (2.651) focal; urgency=medium
 
   * Do not start subiquity until cloud-final and snapd.seeded have
