@@ -1,9 +1,9 @@
-livecd-rootfs (2.653) UNRELEASED; urgency=medium
+livecd-rootfs (2.653) focal; urgency=medium
 
   * Stop trying to extract autoinstall config during boot, subiquity will do
     it instead.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 09 Mar 2020 22:31:06 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 11 Mar 2020 09:56:22 +1300
 
 livecd-rootfs (2.652) focal; urgency=medium
 
