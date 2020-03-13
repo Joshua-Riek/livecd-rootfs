@@ -581,7 +581,12 @@ case $PROJECT in
 				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop
 				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
-                KERNEL_FLAVOURS='generic oem-20.04'
+				KERNEL_FLAVOURS='generic'
+				case $ARCH in
+					amd64)
+						KERNEL_FLAVOURS='generic oem-20.04'
+						;;
+				esac
 				;;
 		esac
 		;;

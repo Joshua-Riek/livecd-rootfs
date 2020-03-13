@@ -1,3 +1,10 @@
+livecd-rootfs (2.654) UNRELEASED; urgency=medium
+
+  * Only install oem-20.04 kernel flavour on amd64, as it doesn't exist on
+    other arches.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 13 Mar 2020 20:17:46 +0000
+
 livecd-rootfs (2.653) focal; urgency=medium
 
   * Stop trying to extract autoinstall config during boot, subiquity will do
