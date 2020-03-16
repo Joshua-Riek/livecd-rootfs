@@ -1,3 +1,11 @@
+livecd-rootfs (2.655) UNRELEASED; urgency=medium
+
+  * minimized: reinstall packages one by one, instead of all of them
+    together, as otherwise apt fails to immediately configure libc6:amd64
+    & libgcc-s1. LP: #1867607
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 16 Mar 2020 10:41:41 +0000
+
 livecd-rootfs (2.654) focal; urgency=medium
 
   * Only install oem-20.04 kernel flavour on amd64, as it doesn't exist on
