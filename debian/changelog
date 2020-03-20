@@ -1,3 +1,9 @@
+livecd-rootfs (2.656) UNRELEASED; urgency=medium
+
+  * Call udevadm settle before kpartx -d.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Sat, 21 Mar 2020 00:07:43 +1300
+
 livecd-rootfs (2.655) focal; urgency=medium
 
   * minimized: reinstall packages one by one, instead of all of them
