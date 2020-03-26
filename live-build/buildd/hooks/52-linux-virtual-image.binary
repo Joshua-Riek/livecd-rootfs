@@ -36,9 +36,16 @@ cleanup_linux_virtual() {
 }
 trap cleanup_linux_virtual EXIT
 
-# Install dependencies
+# The base image is built with packages from the release pocket;
+# however, we want the latest from updates and security. Those
+# pockets are already enabled, we just need to perform an upgrade
+# to pull in the latest packages.
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     update --assume-yes
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    dist-upgrade --assume-yes
+
+# Install dependencies
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     install -y lsb-release locales initramfs-tools busybox-initramfs \
                udev dbus netplan.io cloud-init openssh-server sudo snapd
