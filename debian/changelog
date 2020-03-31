@@ -1,3 +1,10 @@
+livecd-rootfs (2.656) focal; urgency=medium
+
+  [ David Krauser ]
+  * Safely set /etc/resolv.conf to an empty file in buildd images
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 31 Mar 2020 09:56:13 -0500
+
 livecd-rootfs (2.655) focal; urgency=medium
 
   * minimized: reinstall packages one by one, instead of all of them
