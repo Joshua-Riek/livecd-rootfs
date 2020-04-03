@@ -1,9 +1,9 @@
-livecd-rootfs (2.657) UNRELEASED; urgency=medium
+livecd-rootfs (2.657) focal; urgency=medium
 
   * server: networkd applies the first sorted matching network file, thus
     prefix 'all' fallback networks with 'zz-'.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 03 Apr 2020 12:57:07 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 03 Apr 2020 13:02:56 +0100
 
 livecd-rootfs (2.656) focal; urgency=medium
 
