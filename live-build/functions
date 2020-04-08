@@ -87,14 +87,19 @@ mount_image() {
     return 0
 }
 
-setup_sourceslist(){
+setup_sourceslist_to_use_lb_parent_mirror_chroot(){
     # Use the build environment apt mirror during the build,
     # for both archive and security.
     # live-build does this in the chroot (lb_chroot_archives)
     # but not for the binary hooks
+    #
+    # To restore the sourceslist back to the original, call
+    # recover_sourceslist
 
+    mountpoint="${1}"
+    MOUNTPOINT_BACKUP_SOURCES_LIST="sources.list.tmp"
     . config/bootstrap  # For the LB_MIRROR_* variables
-    cp -a "${mountpoint}/etc/apt/sources.list" sources.list.tmp
+    cp -a "${mountpoint}/etc/apt/sources.list" "${MOUNTPOINT_BACKUP_SOURCES_LIST}"
     sed -i "s#http://archive.ubuntu.com/ubuntu#${LB_PARENT_MIRROR_CHROOT}#g" \
         "${mountpoint}/etc/apt/sources.list"
     sed -i "s#http://security.ubuntu.com/ubuntu#${LB_PARENT_MIRROR_CHROOT}#g" \
@@ -110,9 +115,12 @@ recover_sourceslist(){
     # binary hook has modified the file that will be discarded.  If the build
     # fails here the binary hook needs to alter sources.list.tmp and regenerate
     # sources.list.sha
+
+    mountpoint="${1}"
     sha256sum --check sources.list.sha
 
-    mv sources.list.tmp "${mountpoint}/etc/apt/sources.list"
+    mv "${MOUNTPOINT_BACKUP_SOURCES_LIST}" "${mountpoint}/etc/apt/sources.list"
+    unset MOUNTPOINT_BACKUP_SOURCES_LIST
 }
 
 setup_mountpoint() {
@@ -137,7 +145,7 @@ setup_mountpoint() {
     cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
     mv "$mountpoint/etc/nsswitch.conf" nsswitch.conf.tmp
     sed 's/systemd//g' nsswitch.conf.tmp > "$mountpoint/etc/nsswitch.conf"
-    setup_sourceslist "${mountpoint}"
+    setup_sourceslist_to_use_lb_parent_mirror_chroot "${mountpoint}"
     chroot "$mountpoint" apt-get update
 
 }
