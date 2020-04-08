@@ -1,4 +1,4 @@
-livecd-rootfs (2.658) UNRELEASED; urgency=medium
+livecd-rootfs (2.658) focal; urgency=medium
 
   * Remove some deprecated raspi2 special-casing, switch the main universal
     raspi SUBARCH to use the raspi KERNEL_FLAVOUR now that the kernel packages
