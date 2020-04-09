@@ -541,11 +541,7 @@ EOF
     echo -n "    file: " >> $seed_yaml
     (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
 
-    # If $core_snap is the empty string then SNAP itself *may be* a core snap,
-    # and we run some post-processing logic.
-    if [ -z "$core_snap" ]; then
-        _snap_post_process $CHROOT_ROOT $SNAP_NAME
-    fi
+    _snap_post_process $CHROOT_ROOT $SNAP_NAME
 }
 
 snap_prepare_assertions() {
