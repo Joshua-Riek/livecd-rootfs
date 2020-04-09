@@ -1,3 +1,11 @@
+livecd-rootfs (2.659) UNRELEASED; urgency=medium
+
+  * Remove dependencies on qemu-utils and snapd on riscv64, we don't have
+    those yet, but at least we can be on parity with i386 livecd-rootfs
+    already.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 09 Apr 2020 17:04:57 +0100
+
 livecd-rootfs (2.658) focal; urgency=medium
 
   * Remove some deprecated raspi2 special-casing, switch the main universal
