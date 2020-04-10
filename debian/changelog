@@ -1,3 +1,9 @@
+livecd-rootfs (2.659) focal; urgency=medium
+
+  * Fix logic to ensure snapd is seeded in core18-only images (LP: #1871919)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Thu, 09 Apr 2020 14:16:40 -0500
+
 livecd-rootfs (2.658) focal; urgency=medium
 
   * Remove some deprecated raspi2 special-casing, switch the main universal

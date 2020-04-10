@@ -541,11 +541,7 @@ EOF
     echo -n "    file: " >> $seed_yaml
     (cd $snaps_dir; ls -1 ${SNAP_NAME}_*.snap) >> $seed_yaml
 
-    # If $core_snap is the empty string then SNAP itself *may be* a core snap,
-    # and we run some post-processing logic.
-    if [ -z "$core_snap" ]; then
-        _snap_post_process $CHROOT_ROOT $SNAP_NAME
-    fi
+    _snap_post_process $CHROOT_ROOT $SNAP_NAME
 }
 
 snap_prepare_assertions() {
@@ -624,12 +620,6 @@ snap_prepare() {
     local CUSTOM_BRAND_MODEL=${2:-generic:generic-classic}
 
     snap_prepare_assertions "$CHROOT_ROOT" "$CUSTOM_BRAND_MODEL"
-
-    # ubuntu-cpc:minimized has its own special snap handling
-    if [ "$PROJECT:${SUBPROJECT:-}" != ubuntu-cpc:minimized ]; then
-        # Download the core snap
-        _snap_preseed "$CHROOT_ROOT" core stable
-    fi
 }
 
 snap_preseed() {
