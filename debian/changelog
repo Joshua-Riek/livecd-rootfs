@@ -1,3 +1,9 @@
+livecd-rootfs (2.662) UNRELEASED; urgency=medium
+
+  * Switch Ubuntu desktop to only hwe-20.04 kernel flavour.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 15 Apr 2020 13:11:35 +0100
+
 livecd-rootfs (2.660) focal; urgency=medium
 
   * Remove dependencies on qemu-utils and snapd on riscv64, we don't have

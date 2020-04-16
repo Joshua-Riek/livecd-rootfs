@@ -820,7 +820,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		continue
 	fi
 	case $FLAVOUR in
-		virtual)
+		virtual|generic-hwe-*)
 			FLAVOUR="generic"
 			;;
 		oem-*)
