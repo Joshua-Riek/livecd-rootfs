@@ -1,8 +1,8 @@
-livecd-rootfs (2.662) UNRELEASED; urgency=medium
+livecd-rootfs (2.661) focal; urgency=medium
 
   * Switch Ubuntu desktop to only hwe-20.04 kernel flavour.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 15 Apr 2020 13:11:35 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 16 Apr 2020 01:30:36 +0100
 
 livecd-rootfs (2.660) focal; urgency=medium
 
