@@ -1,4 +1,4 @@
-livecd-rootfs (2.663) UNRELEASED; urgency=medium
+livecd-rootfs (2.663) focal; urgency=medium
 
   * Run snap info on the downloaded snap, rather than against the
     store. First of all snap info doesn't have --channel argument, thus
@@ -6,7 +6,7 @@ livecd-rootfs (2.663) UNRELEASED; urgency=medium
     snap might be visible too. Thus seed the base of the snap revision we
     dowanloaded, rather than some random one from the store.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 17 Apr 2020 00:00:52 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 17 Apr 2020 00:10:41 +0100
 
 livecd-rootfs (2.662) focal; urgency=medium
 
