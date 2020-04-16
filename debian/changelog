@@ -1,3 +1,13 @@
+livecd-rootfs (2.663) UNRELEASED; urgency=medium
+
+  * Run snap info on the downloaded snap, rather than against the
+    store. First of all snap info doesn't have --channel argument, thus
+    queries the wrong channel, and depening on the cohort, a different
+    snap might be visible too. Thus seed the base of the snap revision we
+    dowanloaded, rather than some random one from the store.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 17 Apr 2020 00:00:52 +0100
+
 livecd-rootfs (2.662) focal; urgency=medium
 
   * Print subiquity ssh login details on s390x line based consoles.

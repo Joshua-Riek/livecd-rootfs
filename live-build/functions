@@ -482,34 +482,6 @@ _snap_preseed() {
         return
     fi
 
-    # Pre-seed snap's base
-    case $SNAP_NAME in
-        snapd)
-            # snapd is self-contained, ignore base
-            ;;
-        core|core[0-9][0-9])
-            # core and core## are self-contained, ignore base
-            ;;
-        *)
-            # Determine which core snap is needed
-            local snap_info
-
-            snap_info=$(snap info --verbose "${SNAP_NAME}")
-
-            if [ $? -ne 0 ]; then
-                echo "Failed to retrieve base of $SNAP_NAME!"
-                exit 1
-            fi
-
-            local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
-
-            # If snap info does not list a base use 'core'
-            core_snap=${core_snap:-core}
-
-            _snap_preseed $CHROOT_ROOT $core_snap stable
-            ;;
-    esac
-
     sh -c "
         set -x;
         cd \"$CHROOT_ROOT/var/lib/snapd/seed\";
@@ -527,6 +499,35 @@ _snap_preseed() {
 
     mv -v $seed_dir/*.assert $assertions_dir
     mv -v $seed_dir/*.snap $snaps_dir
+
+    # Pre-seed snap's base
+    case $SNAP_NAME in
+        snapd)
+            # snapd is self-contained, ignore base
+            ;;
+        core|core[0-9][0-9])
+            # core and core## are self-contained, ignore base
+            ;;
+        *)
+            # Determine which core snap is needed
+            local snap_info
+
+            # snap info doesn't have --channel, so must run agains the downloaded snap
+            snap_info=$(snap info --verbose ${snaps_dir}/${SNAP_NAME}_[0-9]*.snap)
+
+            if [ $? -ne 0 ]; then
+                echo "Failed to retrieve base of $SNAP_NAME!"
+                exit 1
+            fi
+
+            local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
+
+            # If snap info does not list a base use 'core'
+            core_snap=${core_snap:-core}
+
+            _snap_preseed $CHROOT_ROOT $core_snap stable
+            ;;
+    esac
 
     # Add the snap to the seed.yaml
     ! [ -e $seed_yaml ] && echo "snaps:" > $seed_yaml
