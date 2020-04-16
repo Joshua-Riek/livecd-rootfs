@@ -66,7 +66,9 @@ printf "%s\t%s\t%s\t%s\n" \
 chroot $INSTALLER_ROOT dpkg-reconfigure --frontend=noninteractive cloud-init
 
 if [ `dpkg --print-architecture` = s390x ]; then
-	chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
+    chroot $INSTALLER_ROOT apt-get -y install s390-tools-zkey
+    # because z/VM x3270 is just ttyS0
+    cp -r $INSTALLER_ROOT/usr/lib/systemd/system/serial-getty@sclp_line0.service.d $INSTALLER_ROOT/usr/lib/systemd/system/serial-getty@ttyS0.service.d
 fi
 chroot $INSTALLER_ROOT apt-get clean
 

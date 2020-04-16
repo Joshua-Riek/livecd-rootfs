@@ -1,3 +1,9 @@
+livecd-rootfs (2.662) UNRELEASED; urgency=medium
+
+  * Print subiquity ssh login details on s390x line based consoles.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 16 Apr 2020 23:53:32 +0100
+
 livecd-rootfs (2.661) focal; urgency=medium
 
   * Switch Ubuntu desktop to only hwe-20.04 kernel flavour.
