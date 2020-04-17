@@ -1,8 +1,9 @@
-livecd-rootfs (2.664) UNRELEASED; urgency=medium
+livecd-rootfs (2.664) focal; urgency=medium
 
+  [ Patrick Viafore ]
   * Increase Vagrant disk size from 10G to 40G (LP: #1580596)
 
- -- Patrick Viafore <patrick.viafore@canonical.com>  Fri, 17 Apr 2020 09:49:04 -0500
+ -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 17 Apr 2020 11:03:18 -0500
 
 livecd-rootfs (2.663) focal; urgency=medium
 
