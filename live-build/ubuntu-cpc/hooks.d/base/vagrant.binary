@@ -97,7 +97,7 @@ distro=$(chroot chroot lsb_release --id --short | tr [:upper:] [:lower:])
 # Get the VMDK in place
 prefix="${distro}-${suite}-${version}-cloudimg"
 vmdk_f="${box_d}/${prefix}.vmdk"
-create_vmdk ${derivative_img} ${vmdk_f}
+create_vmdk ${derivative_img} ${vmdk_f} 40960
 
 ####################################
 # Create the ConfigDrive
