@@ -4,8 +4,10 @@ livecd-rootfs (2.664ubuntu1) UNRELEASED; urgency=medium
     (LP: #1875430)
   * ubuntu-image: fix focal+ pi images for armhf to use pi-armhf model name.
     (LP: #1876358)
+  * ubuntu-image: drop ubuntu-image dep on riscv64, as not installable yet.
+    (LP: #1876359)
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 01 May 2020 19:51:57 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 01 May 2020 19:56:14 +0100
 
 livecd-rootfs (2.664) focal; urgency=medium
 
