@@ -383,6 +383,9 @@ case $IMAGEFORMAT in
 					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				*)
+					if [ "${MODEL}" = "pi" ]; then
+						MODEL=pi-armhf
+					fi
 					# Ubuntu Core 20
 					# Currently uc20 assertions do not support global
 					# channel overrides, instead we have per-channel models
