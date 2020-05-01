@@ -1,4 +1,4 @@
-livecd-rootfs (2.664ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.665) groovy; urgency=medium
 
   * Bump only the UC20 pc image to 8GB, and keep Pi images as small as possible.
     (LP: #1875430)
@@ -7,7 +7,7 @@ livecd-rootfs (2.664ubuntu1) UNRELEASED; urgency=medium
   * ubuntu-image: drop ubuntu-image dep on riscv64, as not installable yet.
     (LP: #1876359)
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 01 May 2020 19:56:14 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 01 May 2020 20:00:00 +0100
 
 livecd-rootfs (2.664) focal; urgency=medium
 
