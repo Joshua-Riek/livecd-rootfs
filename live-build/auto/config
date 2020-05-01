@@ -359,8 +359,16 @@ case $IMAGEFORMAT in
 			CHANNEL="${CHANNEL:-edge}"
 			case $MODEL in
 				pc-amd64|pc-i386)
-					[ -z "${SUBARCH:-}" ] \
-					&& UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
+					if [ -z "${SUBARCH:-}" ]; then
+					case $SUITE in
+						xenial|bionic)
+							UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
+							;;
+						*)
+							UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 8G"
+							;;
+					esac
+					fi
 					;;
 				*) ;;
 			esac
@@ -375,7 +383,6 @@ case $IMAGEFORMAT in
 					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				*)
-					UBUNTU_IMAGE_ARGS="--image-size 10G"
 					# Ubuntu Core 20
 					# Currently uc20 assertions do not support global
 					# channel overrides, instead we have per-channel models
