@@ -1,3 +1,12 @@
+livecd-rootfs (2.689) UNRELEASED; urgency=medium
+
+    [ Patrick Viafore ]
+  * Replace archive.ubuntu.com and security.ubuntu.com with launchpad
+    mirrors. This is only done inside a build context, and the original
+    sources.list file is restored at the end of the build
+
+ -- Patrick Viafore <patrick.viafore@canonical.com>  Mon, 21 Sep 2020 12:08:11 -0500
+
 livecd-rootfs (2.688) groovy; urgency=medium
 
   * ubuntu-cpc: Fix spelling in vagrant file

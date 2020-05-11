@@ -87,7 +87,7 @@ mount_image() {
     return 0
 }
 
-setup_sourceslist_to_use_lb_parent_mirror_chroot(){
+use_lp_archives_in_sourceslist(){
     # Use the build environment apt mirror during the build,
     # for both archive and security.
     # live-build does this in the chroot (lb_chroot_archives)
@@ -145,7 +145,7 @@ setup_mountpoint() {
     cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
     mv "$mountpoint/etc/nsswitch.conf" nsswitch.conf.tmp
     sed 's/systemd//g' nsswitch.conf.tmp > "$mountpoint/etc/nsswitch.conf"
-    setup_sourceslist_to_use_lb_parent_mirror_chroot "${mountpoint}"
+    use_lp_archives_in_sourceslist "${mountpoint}"
     chroot "$mountpoint" apt-get update
 
 }
