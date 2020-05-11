@@ -57,7 +57,6 @@ CHANGED_FILE_SUFFIX=.replaced-by-desktop-img-build
 
 # use vsock transport
 sed -i${CHANGED_FILE_SUFFIX} -e 's/port=3389/port=vsock:\/\/-1:3389/g' "${scratch_d}/etc/xrdp/xrdp.ini"
-sed -i${CHANGED_FILE_SUFFIX} -e 's/use_vsock=false/use_vsock=true/g' "${scratch_d}/etc/xrdp/xrdp.ini"
 # use rdp security.
 sed -i${CHANGED_FILE_SUFFIX} -e 's/security_layer=negotiate/security_layer=rdp/g' "${scratch_d}/etc/xrdp/xrdp.ini"
 # remove encryption validation.
