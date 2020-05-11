@@ -17,6 +17,7 @@ lxd_arches = {
     "powerpc": "ppc",
     "ppc64el": "ppc64le",
     "s390x": "s390x",
+    "riscv64": "riscv64",
     }
 
 
