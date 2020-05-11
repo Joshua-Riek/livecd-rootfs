@@ -74,6 +74,9 @@ exec /etc/xrdp/startwm.sh
 EOF
 chmod a+x "${scratch_d}/etc/xrdp/startubuntu.sh"
 
+# set to use the system Window manager
+sed -i${CHANGED_FILE_SUFFIX} -e 's/EnableUserWindowManager=true/EnableUserWindowManager=0/g' "${scratch_d}/etc/xrdp/sesman.ini"
+
 # use the script to setup the ubuntu session
 sed -i${CHANGED_FILE_SUFFIX} -e 's/startwm/startubuntu/g' "${scratch_d}/etc/xrdp/sesman.ini"
 
