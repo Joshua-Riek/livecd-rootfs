@@ -14,18 +14,12 @@ clean_loops() {
     local kpartx_stdout
 
     if [ -n "${backing_img}" ]; then
-        # sync before removing loop to avoid "Device or resource busy" errors
+        # If something just finished writing to the device or a
+        # partition (e.g. the zerofree in umount_partition) udev might
+        # still be processing the device.
+        udevadm settle
         sync
-        kpartx_ret=""
-        kpartx_stdout=$(kpartx -v -d "${backing_img}") || kpartx_ret=$?
-        echo "$kpartx_stdout"
-        if [ -n "$kpartx_ret" ]; then
-            if echo "$kpartx_stdout" | grep -q "loop deleted"; then
-                echo "Suppressing kpartx returning error (#860894)"
-            else
-                exit $kpartx_ret
-            fi
-        fi
+        kpartx -v -d "${backing_img}"
         unset backing_img
     fi
 
