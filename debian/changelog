@@ -1,3 +1,17 @@
+livecd-rootfs (2.666) groovy; urgency=medium
+
+  [ Balint Reczey ]
+  * debian/gbp.conf: Add minimal configuration for branch and tag naming
+
+  [ Michael Hudson-Doyle ]
+  * Call udevadm settle before kpartx -d
+
+  [ Dimitri John Ledkov ]
+  * Fixup indentation
+  * make-lxd-metadata: add riscv64 lxd architecture tag
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 12 May 2020 12:29:16 +0100
+
 livecd-rootfs (2.665) groovy; urgency=medium
 
   * Bump only the UC20 pc image to 8GB, and keep Pi images as small as possible.
