@@ -1,3 +1,10 @@
+livecd-rootfs (2.667) groovy; urgency=medium
+
+  * Revert of initramfs package removal in KVM image
+    (LP: #1875400)
+
+ -- Phil Roche <phil.roche@canonical.com>  Mon, 18 May 2020 17:03:20 +0100
+
 livecd-rootfs (2.666) groovy; urgency=medium
 
   [ Balint Reczey ]

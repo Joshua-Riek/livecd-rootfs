@@ -49,10 +49,6 @@ replace_kernel ${mount_d} "linux-kvm"
 chroot "${mount_d}" update-grub
 undivert_grub "${mount_d}"
 
-# Remove initramfs for kvm image
-env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
-    purge -y initramfs-tools busybox-initramfs
-
 env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" rm \
     -rf /boot/initrd.img-* /boot/initrd.img
 
