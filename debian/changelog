@@ -1,3 +1,10 @@
+livecd-rootfs (2.668) UNRELEASED; urgency=medium
+
+  * Enable overrides of UC20 grade dangerous channels - as this is possible.
+    (LP: #1879350)
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 25 May 2020 16:40:27 +0200
+
 livecd-rootfs (2.667) groovy; urgency=medium
 
   * Revert of initramfs package removal in KVM image

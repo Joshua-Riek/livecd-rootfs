@@ -396,6 +396,15 @@ case $IMAGEFORMAT in
 						candidate|beta|edge|dangerous)
 							MODEL="ubuntu-core-20-${MODEL#pc-}-${CHANNEL}"
 							;;
+						dangerous-*)
+							# That being said, the dangerous grade *does*
+							# support channel overrides, so we can use the
+							# dangerous model assertion and override the channel
+							# freely.
+							MODEL="ubuntu-core-20-${MODEL#pc-}-dangerous"
+							CHANNEL=${CHANNEL#dangerous-}
+							UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
+							;;
 						*)
 							echo "Unknown CHANNEL ${CHANNEL} specification for ${SUITE}"
 							exit 1
