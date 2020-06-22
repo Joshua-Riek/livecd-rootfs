@@ -55,8 +55,8 @@ EOF
 
 CHANGED_FILE_SUFFIX=.replaced-by-desktop-img-build
 
-# use vsock transport.
-sed -i${CHANGED_FILE_SUFFIX} -e 's/use_vsock=false/use_vsock=true/g' "${scratch_d}/etc/xrdp/xrdp.ini"
+# use vsock transport
+sed -i${CHANGED_FILE_SUFFIX} -e 's/port=3389/port=vsock:\/\/-1:3389/g' "${scratch_d}/etc/xrdp/xrdp.ini"
 # use rdp security.
 sed -i${CHANGED_FILE_SUFFIX} -e 's/security_layer=negotiate/security_layer=rdp/g' "${scratch_d}/etc/xrdp/xrdp.ini"
 # remove encryption validation.
@@ -73,6 +73,9 @@ export XDG_CURRENT_DESKTOP=ubuntu:GNOME
 exec /etc/xrdp/startwm.sh
 EOF
 chmod a+x "${scratch_d}/etc/xrdp/startubuntu.sh"
+
+# set to use the system Window manager
+sed -i${CHANGED_FILE_SUFFIX} -e 's/EnableUserWindowManager=true/EnableUserWindowManager=0/g' "${scratch_d}/etc/xrdp/sesman.ini"
 
 # use the script to setup the ubuntu session
 sed -i${CHANGED_FILE_SUFFIX} -e 's/startwm/startubuntu/g' "${scratch_d}/etc/xrdp/sesman.ini"
@@ -97,6 +100,15 @@ Identity=unix-user:*
 Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
 ResultAny=no
 ResultInactive=no
+ResultActive=yes
+EOF
+
+cat >/etc/polkit-1/localauthority/50-local.d/46-allow-update-repo.pkla <<EOF
+[Allow Package Management all Users]
+Identity=unix-user:*
+Action=org.freedesktop.packagekit.system-sources-refresh
+ResultAny=yes
+ResultInactive=yes
 ResultActive=yes
 EOF
 
