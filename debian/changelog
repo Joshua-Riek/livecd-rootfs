@@ -1,7 +1,12 @@
 livecd-rootfs (2.668) UNRELEASED; urgency=medium
 
+  [ Łukasz 'sil2100' Zemczak ]
   * Enable overrides of UC20 grade dangerous channels - as this is possible.
     (LP: #1879350)
+
+  [ Patrick Wu ]
+  * live-build/ubuntu/hooks/040-hyperv-desktop-images.binary: fix issues
+    with Hyper-V xrdp support.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 25 May 2020 16:40:27 +0200
 
