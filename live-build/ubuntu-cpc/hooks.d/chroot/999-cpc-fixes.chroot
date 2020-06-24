@@ -116,8 +116,8 @@ fi
 
 
 case $arch in
-	# ARM, ppc and s390 images are special
-	armhf|arm64|powerpc|ppc64el|s390x)
+	# ARM, ppc, riscv64 and s390x images are special
+	armhf|arm64|powerpc|ppc64el|s390x|riscv64)
 		exit 0
 		;;
 esac
