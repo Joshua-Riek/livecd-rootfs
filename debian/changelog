@@ -1,3 +1,9 @@
+livecd-rootfs (2.669) groovy; urgency=medium
+
+  * chroot: disable amd64 codepath on riscv64
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 25 Jun 2020 18:02:51 +0100
+
 livecd-rootfs (2.668) groovy; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
