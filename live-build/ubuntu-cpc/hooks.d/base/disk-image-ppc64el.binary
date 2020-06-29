@@ -35,19 +35,15 @@ install_grub() {
     chroot mountpoint apt-get -qqy remove --purge grub-legacy-ec2
 
     # set the kernel commandline to use hvc0
-    mkdir -p mountpoint/etc/default/grub.d
-    cat << EOF > mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
-${IMAGE_STR}
+    CONSOLE="console=hvc0 earlyprintk"
+    # Append to the existing GRUB_CMDLINE_LINUX_DEFAULT line
+    if [ ! -f mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg ]; then
+        echo "Expected to find an existing grub config override"
+        exit 1
+    fi
+    sed -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=/{s/=\"\"/=\"$CONSOLES$itemNum\"/;t;s/\"$/ $CONSOLES$itemNum&/;}" \
+        mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg
 
-# Set the recordfail timeout
-GRUB_RECORDFAIL_TIMEOUT=0
-
-# Do not wait on grub prompt
-GRUB_TIMEOUT=0
-
-# Set the default commandline
-GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk"
-EOF
     prep_partition="/dev/mapper${loop_device///dev/}p2"
     chroot mountpoint grub-install "${prep_partition}" \
         --no-nvram \
