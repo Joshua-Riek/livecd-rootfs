@@ -73,14 +73,6 @@ install_grub() {
     efi_boot_dir="/boot/efi/EFI/BOOT"
     chroot mountpoint mkdir -p "${efi_boot_dir}"
 
-    if [ -n "$partuuid" ]; then
-        # FIXME: code duplicated between disk-image.binary
-        # and disk-image-uefi.binary.  We want to fix this to not
-        # have initramfs-tools installed at all on these images.
-        echo "partuuid found for root device; omitting initrd"
-        echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid.cfg
-    fi
-
     chroot mountpoint apt-get -y update
 
     # UEFI GRUB modules are meant to be used equally by Secure Boot and
@@ -153,8 +145,6 @@ disk_image=binary/boot/disk-uefi.ext4
 create_empty_disk_image "${disk_image}"
 create_partitions "${disk_image}"
 mount_image "${disk_image}" 1
-
-partuuid=$(blkid -s PARTUUID -o value "$rootfs_dev_mapper")
 
 # Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"

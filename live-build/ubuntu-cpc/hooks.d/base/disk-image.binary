@@ -73,8 +73,6 @@ create_empty_partition "${disk_image}" "$ROOTPART" "$ROOTPART_START" -1 ext2 "$R
 
 mount_image "${disk_image}" "$ROOTPART"
 
-partuuid=$(blkid -s PARTUUID -o value "$rootfs_dev_mapper")
-
 # Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
@@ -122,15 +120,6 @@ if [ "${should_install_grub}" -eq 1 ]; then
         ${loop_device}
 
     rm mountpoint/tmp/device.map
-
-	if [ -n "$partuuid" ]; then
-		echo "partuuid found for root device; forcing it in Grub"
-		mkdir -p mountpoint/etc/default/grub.d
-		echo "GRUB_FORCE_PARTUUID=$partuuid" >> mountpoint/etc/default/grub.d/40-force-partuuid.cfg
-		divert_grub mountpoint
-		chroot mountpoint update-grub
-		undivert_grub mountpoint
-	fi
 fi
 
 if [ "$ARCH" = "s390x" ]; then
