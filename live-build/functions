@@ -924,4 +924,20 @@ replace_kernel () {
         install --assume-yes "${new_kernel}" 
     env DEBIAN_FRONTEND=noninteractive chroot "${mountpoint}" apt-get \
         autoremove --purge --assume-yes
+
+    # If running a custom kernel, we should try to boot without an initramfs
+    # We do this by setting GRUB_FORCE_PARTUUID, which forces initramfs-less boot
+    partuuid=$(blkid -s PARTUUID -o value $(findmnt -n -o SOURCE --target "${mountpoint}"))
+    if [ -n "${partuuid}" ]; then
+        echo "Force booting without an initramfs..."
+        mkdir -p "${mountpoint}/etc/default/grub.d"
+        cat << EOF >> "${mountpoint}/etc/default/grub.d/40-force-partuuid.cfg"
+# Force boot without an initramfs by setting GRUB_FORCE_PARTUUID
+# Remove this line to enable boot with an initramfs
+GRUB_FORCE_PARTUUID=${partuuid}
+EOF
+        divert_grub "${mountpoint}"
+        chroot "${mountpoint}" update-grub
+        undivert_grub "${mountpoint}"
+    fi
 }
