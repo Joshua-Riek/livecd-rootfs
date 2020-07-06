@@ -1,3 +1,10 @@
+livecd-rootfs (2.670) UNRELEASED; urgency=medium
+
+  * Boot with an initramfs by default in cloud images, except when
+    using a non-generic kernel.
+
+ -- David Krauser <david.krauser@canonical>  Mon, 06 Jul 2020 17:25:20 -0400
+
 livecd-rootfs (2.669) groovy; urgency=medium
 
   * chroot: disable amd64 codepath on riscv64
