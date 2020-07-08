@@ -39,6 +39,9 @@ trap cleanup_linux_virtual EXIT
 # Install dependencies
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     update --assume-yes
+# Perform a dist-upgrade to pull in package updates
+env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
+    dist-upgrade --assume-yes
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     install -y lsb-release locales initramfs-tools busybox-initramfs \
                udev dbus netplan.io cloud-init openssh-server sudo snapd
