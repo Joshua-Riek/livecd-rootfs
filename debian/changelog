@@ -1,3 +1,9 @@
+livecd-rootfs (2.670) groovy; urgency=medium
+
+  * snap_preseed: support channel specification with snap name (LP: #1882374)
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 09 Jul 2020 18:34:43 +0100
+
 livecd-rootfs (2.669) groovy; urgency=medium
 
   * chroot: disable amd64 codepath on riscv64
