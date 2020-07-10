@@ -49,9 +49,6 @@ replace_kernel ${mount_d} "linux-kvm"
 chroot "${mount_d}" update-grub
 undivert_grub "${mount_d}"
 
-env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" rm \
-    -rf /boot/initrd.img-* /boot/initrd.img
-
 # Remove indices 
 env DEBIAN_FRONTEND=noninteractive chroot "${mount_d}" apt-get \
     clean
