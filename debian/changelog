@@ -1,3 +1,9 @@
+livecd-rootfs (2.671) groovy; urgency=medium
+
+  * Fix-up seeding snaps with tracks.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 10 Jul 2020 01:55:47 +0100
+
 livecd-rootfs (2.670) groovy; urgency=medium
 
   * snap_preseed: support channel specification with snap name (LP: #1882374)

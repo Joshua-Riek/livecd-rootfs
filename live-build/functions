@@ -634,9 +634,9 @@ snap_preseed() {
     # $2 can be in the form of snap_name/classic=track/risk/branch
     local SNAP=$2
     # strip CHANNEL specification
-    local SNAP_NAME=${SNAP%=*}
+    SNAP=${SNAP%=*}
     # strip /classic confinement
-    SNAP_NAME=${SNAP_NAME%/*}
+    local SNAP_NAME=${SNAP%/*}
     # Seed from the specified channel (e.g. core18 latest/stable)
     # Or Channel endcoded in the snap name (e.g. lxd=4.0/stable/ubuntu-20.04)
     # Or Ubuntu policy default channel latest/stable/ubuntu-$(release_ver)
@@ -651,6 +651,11 @@ snap_preseed() {
                 ;;
         esac
     fi
+
+    # At this point:
+    # SNAP_NAME is just the snap name
+    # SNAP is either $SNAP_NAME or $SNAP_NAME/classic for classic confined
+    # CHANNEL is the channel
 
     if [ ! -e "$CHROOT_ROOT/var/lib/snapd/seed/assertions/model" ]; then
         echo "ERROR: Snap model assertion not present, snap_prepare must be called"
