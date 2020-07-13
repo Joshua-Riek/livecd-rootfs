@@ -640,7 +640,7 @@ snap_preseed() {
     # Seed from the specified channel (e.g. core18 latest/stable)
     # Or Channel endcoded in the snap name (e.g. lxd=4.0/stable/ubuntu-20.04)
     # Or Ubuntu policy default channel latest/stable/ubuntu-$(release_ver)
-    local CHANNEL=$3
+    local CHANNEL=${3:-}
     if [ -z "$CHANNEL" ]; then
         case $2 in
             *=*)
