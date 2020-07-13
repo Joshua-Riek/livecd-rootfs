@@ -84,8 +84,7 @@ install_grub() {
             efi_target=arm-efi
             ;;
         amd64)
-            chroot mountpoint apt-get install -qqy grub-pc
-            chroot mountpoint apt-get install -qqy grub-efi-amd64-signed shim-signed
+            chroot mountpoint apt-get install -qqy grub-pc shim-signed
             efi_target=x86_64-efi
             ;;
     esac
