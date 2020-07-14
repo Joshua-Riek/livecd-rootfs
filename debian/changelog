@@ -1,3 +1,9 @@
+livecd-rootfs (2.673) UNRELEASED; urgency=medium
+
+  * Fix an unbound variable in scripts/functions. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 14 Jul 2020 14:56:55 +1200
+
 livecd-rootfs (2.672) groovy; urgency=medium
 
   [ David Krauser ]
