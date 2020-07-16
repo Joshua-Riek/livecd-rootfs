@@ -1,8 +1,9 @@
-livecd-rootfs (2.674) UNRELEASED; urgency=medium
+livecd-rootfs (2.674) groovy; urgency=medium
 
+  [ David Krauser ]
   * Fix broken minimal cloud image boot on amd64
 
- -- David Krauser <david.krauser@canonical.com>  Thu, 16 Jul 2020 17:24:19 -0400
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 16 Jul 2020 15:40:15 -0700
 
 livecd-rootfs (2.673) groovy; urgency=medium
 
