@@ -779,20 +779,14 @@ case $PROJECT in
 		;;
 
 	ubuntu-cpc)
+		KERNEL_FLAVOURS=virtual
+
 		if [ "${SUBPROJECT:-}" = minimized ]; then
 			add_task install cloud-image
 			add_package install sudo lxd-installer
-			# linux-kvm currently only exists for amd64, so fall back to the
-			# virtual flavour for other architectures
-			if [ "$ARCH" = "amd64" ]; then
-				KERNEL_FLAVOURS=kvm
-			else
-				KERNEL_FLAVOURS=virtual
-			fi
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
-			KERNEL_FLAVOURS=virtual
 		        case $ARCH in
 				armhf|arm64|ppc64el|powerpc)
 					add_task install server

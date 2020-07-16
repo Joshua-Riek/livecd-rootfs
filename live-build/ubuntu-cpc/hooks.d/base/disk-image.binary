@@ -122,6 +122,12 @@ if [ "${should_install_grub}" -eq 1 ]; then
     rm mountpoint/tmp/device.map
 fi
 
+# Use the linux-kvm kernel for minimal images where available
+# linux-kvm currently only exists for amd64
+if [ "${SUBPROJECT:-}" = "minimized" ] && [ "$ARCH" = "amd64" ]; then
+    replace_kernel mountpoint linux-kvm
+fi
+
 if [ "$ARCH" = "s390x" ]; then
     # Do ZIPL install bits
     chroot mountpoint apt-get -qqy install s390-tools sysconfig-hardware

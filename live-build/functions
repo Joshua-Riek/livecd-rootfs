@@ -947,6 +947,12 @@ replace_kernel () {
 
     # If running a custom kernel, we should try to boot without an initramfs
     # We do this by setting GRUB_FORCE_PARTUUID, which forces initramfs-less boot
+    force_boot_without_initramfs ${mountpoint}
+}
+
+force_boot_without_initramfs() {
+    mountpoint=$1
+
     partuuid=$(blkid -s PARTUUID -o value $(findmnt -n -o SOURCE --target "${mountpoint}"))
     if [ -n "${partuuid}" ]; then
         echo "Force booting without an initramfs..."

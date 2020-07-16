@@ -94,15 +94,6 @@ install_grub() {
             ;;
     esac
 
-    # This call to rewrite the debian package manifest is added here to capture
-    # grub-efi packages that otherwise would not make it into the base
-    # manifest. filesystem.packages is moved into place via symlinking to
-    # livecd.ubuntu-cpc.manifest by live-build/auto/build after lb_binary runs
-    # and at that time snaps are added to the manifest (create-manifest is
-    # not called here as it calls snap-seed-parse, resulting in duplicate
-    # snap listings)
-    chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
-
     chroot mountpoint grub-install "${loop_device}" \
         --boot-directory=/boot \
         --efi-directory=/boot/efi \
@@ -125,6 +116,21 @@ install_grub() {
         # it means that we just run this simple command and we're done
         chroot mountpoint grub-install --target=i386-pc "${loop_device}"
     fi
+
+    # Use the linux-kvm kernel for minimal images where available
+    # linux-kvm currently only exists for amd64
+    if [ "${SUBPROJECT:-}" = "minimized" ] && [ "$ARCH" = "amd64" ]; then
+        replace_kernel mountpoint linux-kvm
+    fi
+
+    # This call to rewrite the debian package manifest is added here to capture
+    # grub-efi packages that otherwise would not make it into the base
+    # manifest. filesystem.packages is moved into place via symlinking to
+    # livecd.ubuntu-cpc.manifest by live-build/auto/build after lb_binary runs
+    # and at that time snaps are added to the manifest (create-manifest is
+    # not called here as it calls snap-seed-parse, resulting in duplicate
+    # snap listings)
+    chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
 
     divert_grub mountpoint
     chroot mountpoint update-grub
