@@ -21,10 +21,9 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
+. config/binary
 . config/functions
 . config/common
-# somehow i don't have LB_DISTRIBUTION set ?!
-. config/bootstrap
 
 FILESYSTEM_ROOT=binary/boot/squashfs.dir
 INSTALLER_ROOT=binary/boot/installer.squashfs.dir
@@ -83,6 +82,12 @@ snap_preseed $INSTALLER_ROOT subiquity/classic
 sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
 
 teardown_mountpoint "$INSTALLER_ROOT"
+
+# Drop core/lxd/snapd that got copied up from base layer, due to
+# snap-preseed tool doing --reset & speedup
+find $OVERLAY_ROOT/var/lib/snapd/ -name 'core*.snap' -delete
+find $OVERLAY_ROOT/var/lib/snapd/ -name 'snapd_*.snap' -delete
+find $OVERLAY_ROOT/var/lib/snapd/ -name 'lxd_*.snap' -delete
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 
