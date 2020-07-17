@@ -123,6 +123,7 @@ preinstall_snaps() {
 	mount --bind /proc chroot/proc
 	# Provide more up to date apparmor features, matching target kernel
 	mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic chroot/sys/kernel/security/apparmor/features
+	mount -o bind /usr/share/livecd-rootfs/live-build/seccomp/generic.actions_avail chroot/proc/sys/kernel/seccomp/actions_avail
 
 	snap_validate_seed chroot
 
