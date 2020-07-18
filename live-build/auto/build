@@ -119,7 +119,8 @@ preinstall_snaps() {
 	fi
 
 	mount --rbind /dev chroot/dev
-	mount --rbind /sys chroot/sys
+	mount --bind /sys chroot/sys
+	mount --bind /sys/kernel/security chroot/sys/kernel/security
 	mount --bind /proc chroot/proc
 	# Provide more up to date apparmor features, matching target kernel
 	mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic chroot/sys/kernel/security/apparmor/features
