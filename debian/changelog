@@ -1,3 +1,9 @@
+livecd-rootfs (2.677) groovy; urgency=medium
+
+  * Avoid rbind /sys for chroot snap pre-seeding (cgroups fail to unmount)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Sat, 18 Jul 2020 16:51:05 -0500
+
 livecd-rootfs (2.676) groovy; urgency=medium
 
   * apparmor: Add generic v5.4 kernel apparmor features
