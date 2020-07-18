@@ -1,3 +1,13 @@
+livecd-rootfs (2.676) groovy; urgency=medium
+
+  * apparmor: Add generic v5.4 kernel apparmor features
+  * apparmor: mount more up-to-date apparmor features in the chroot.
+  * seccomp: add more up-to-date seccomp actions
+  * seccomp: mount more up-to-date seccomp features
+  * apparmor: compile all profiles
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Sat, 18 Jul 2020 01:17:54 +0100
+
 livecd-rootfs (2.675) groovy; urgency=medium
 
   [ Robert C Jennings ]
