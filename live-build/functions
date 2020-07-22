@@ -962,6 +962,32 @@ replace_kernel () {
     force_boot_without_initramfs ${mountpoint}
 }
 
+track_initramfs_boot_fallback() {
+    mountpoint=$1
+    cat <<END > "${mountpoint}/etc/grub.d/01_track_initrdless_boot_fallback"
+#! /bin/sh
+# ${IMAGE_STR}
+# This will detect if we attempt to boot with an initramfs and fail.
+# In the case of a failure, initrdless_boot_fallback_triggered is set to
+# a non-zero value in the grubenv. This value can be checked after boot
+# by looking in /boot/grub/grubenv or by using the grub-editenv list command.
+set -e
+END
+    cat <<"END" >> "${mountpoint}/etc/grub.d/01_track_initrdless_boot_fallback"
+cat <<"EOF"
+if [ -n "${have_grubenv}" ]; then
+  if [ -n "${initrdfail}" ]; then
+    set initrdless_boot_fallback_triggered="${initrdfail}"
+  else
+    set initrdless_boot_fallback_triggered=0
+  fi
+  save_env initrdless_boot_fallback_triggered
+fi
+EOF
+END
+    chmod +x "${mountpoint}/etc/grub.d/01_track_initrdless_boot_fallback"
+}
+
 force_boot_without_initramfs() {
     mountpoint=$1
 

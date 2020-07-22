@@ -133,6 +133,7 @@ install_grub() {
     chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
 
     divert_grub mountpoint
+    track_initramfs_boot_fallback mountpoint
     chroot mountpoint update-grub
     replace_grub_root_with_label mountpoint
     undivert_grub mountpoint
