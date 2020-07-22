@@ -40,7 +40,7 @@ trap cleanup_hyperv EXIT
 # Perform customisations
 
 chroot "${scratch_d}" apt-get update -y
-chroot "${scratch_d}" apt-get -y install xrdp linux-tools-virtual linux-cloud-tools-virtual
+chroot "${scratch_d}" apt-get -y install xrdp linux-azure linux-tools-azure linux-cloud-tools-azure
 
 cat > ${scratch_d}/etc/modules-load.d/hyperv.conf << EOF
 ${IMAGE_STR}
