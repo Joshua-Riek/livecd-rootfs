@@ -1,3 +1,9 @@
+livecd-rootfs (2.678) UNRELEASED; urgency=medium
+
+  * Add mechanism to detect initrdless boot fallback
+
+ -- David Krauser <david.krauser@canonical.com>  Wed, 22 Jul 2020 14:43:09 -0400
+
 livecd-rootfs (2.677) groovy; urgency=medium
 
   * Avoid rbind /sys for chroot snap pre-seeding (cgroups fail to unmount)

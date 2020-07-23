@@ -119,6 +119,11 @@ if [ "${should_install_grub}" -eq 1 ]; then
         --device-map=/tmp/device.map \
         ${loop_device}
 
+    divert_grub mountpoint
+    track_initramfs_boot_fallback mountpoint
+    chroot mountpoint update-grub
+    undivert_grub mountpoint
+
     rm mountpoint/tmp/device.map
 fi
 
