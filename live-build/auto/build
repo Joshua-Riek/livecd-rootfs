@@ -106,33 +106,17 @@ fi
 Setup_cleanup
 
 preinstall_snaps() {
-	lb chroot_resolv install
+	setup_mountpoint chroot
+
 	snap_prepare chroot
 
 	for snap in "$@"; do
 		SNAP_NO_VALIDATE_SEED=1 snap_preseed chroot "${snap}"
 	done
 
-	if [ ! -c /dev/mem ]; then
-		mknod -m 660 /dev/mem c 1 1
-		chown root:kmem /dev/mem
-	fi
-
-	mount --rbind /dev chroot/dev
-	mount --bind /sys chroot/sys
-	mount --bind /sys/kernel/security chroot/sys/kernel/security
-	mount --bind /proc chroot/proc
-	# Provide more up to date apparmor features, matching target kernel
-	mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic chroot/sys/kernel/security/apparmor/features
-	mount -o bind /usr/share/livecd-rootfs/live-build/seccomp/generic.actions_avail chroot/proc/sys/kernel/seccomp/actions_avail
-
 	snap_validate_seed chroot
 
-	umount --recursive chroot/proc
-	umount --recursive chroot/sys
-	umount --recursive chroot/dev
-
-	lb chroot_resolv remove
+	teardown_mountpoint chroot
 }
 
 rm -f binary.success
