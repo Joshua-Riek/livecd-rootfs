@@ -107,6 +107,8 @@ setup_mountpoint() {
     mount -t tmpfs none "$mountpoint/var/cache/apt"
     mv "$mountpoint/etc/resolv.conf" resolv.conf.tmp
     cp /etc/resolv.conf "$mountpoint/etc/resolv.conf"
+    mv "$mountpoint/etc/nsswitch.conf" nsswitch.conf.tmp
+    sed 's/systemd//g' nsswitch.conf.tmp > "$mountpoint/etc/nsswitch.conf"
     chroot "$mountpoint" apt-get update
 
 }
@@ -124,6 +126,7 @@ teardown_mountpoint() {
         umount $submount
     done
     mv resolv.conf.tmp "$mountpoint/etc/resolv.conf"
+    mv nsswitch.conf.tmp "$mountpoint/etc/nsswitch.conf"
 }
 
 mount_partition() {
