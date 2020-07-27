@@ -1,8 +1,13 @@
-livecd-rootfs (2.678) UNRELEASED; urgency=medium
+livecd-rootfs (2.678) groovy; urgency=medium
 
+  [ David Krauser ]
   * Add mechanism to detect initrdless boot fallback
 
- -- David Krauser <david.krauser@canonical.com>  Wed, 22 Jul 2020 14:43:09 -0400
+  [ Dimitri John Ledkov ]
+  * auto/build: use setup|teardown_mountpoint to reduce duplication
+  * functions: provide nss_systemd-less nsswitch.conf in chroots.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 24 Jul 2020 21:08:07 +0100
 
 livecd-rootfs (2.677) groovy; urgency=medium
 
