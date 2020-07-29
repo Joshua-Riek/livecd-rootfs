@@ -872,7 +872,7 @@ if [ "$PROJECT:${SUBPROJECT:-}" = ubuntu-cpc:minimized ]; then
 	# build if we see such a snap.
 	for snap in `cat config/seeded-snaps`; do
 		case $snap in
-			lxd)
+			lxd | lxd=*)
 				;;
 			*)
 				echo "Unexpected seeded snap for ubuntu-cpc:minimized build: $snap"
