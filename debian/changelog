@@ -1,3 +1,10 @@
+livecd-rootfs (2.679) groovy; urgency=medium
+
+  *  Handle seeded lxd snap with channel name for ubuntu-cpc:minimized
+     (LP: #1889470)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Wed, 29 Jul 2020 14:55:57 -0500
+
 livecd-rootfs (2.678) groovy; urgency=medium
 
   [ David Krauser ]
