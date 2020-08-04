@@ -1,4 +1,4 @@
-livecd-rootfs (2.680) UNRELEASED; urgency=medium
+livecd-rootfs (2.680) groovy; urgency=medium
 
   [ Cody Shepherd ]
   * Add dist-upgrade to bootable-buildd hook to ensure the built image
@@ -6,7 +6,7 @@ livecd-rootfs (2.680) UNRELEASED; urgency=medium
   * Don't explicitly install grub-efi-amd64-signed, it's a dependency of
     shim-signed.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 04 Aug 2020 12:29:00 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 04 Aug 2020 12:30:34 -0700
 
 livecd-rootfs (2.679) groovy; urgency=medium
 
