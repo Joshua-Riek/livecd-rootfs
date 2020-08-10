@@ -1,3 +1,10 @@
+livecd-rootfs (2.681) UNRELEASED; urgency=medium
+
+  [ Patrick Wu ]
+  * Use the Azure kernel for the HyperV gallery images.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Aug 2020 14:52:18 -0700
+
 livecd-rootfs (2.680) groovy; urgency=medium
 
   [ Cody Shepherd ]
