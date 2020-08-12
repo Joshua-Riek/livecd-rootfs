@@ -1,3 +1,9 @@
+livecd-rootfs (2.682) groovy; urgency=medium
+
+  * ubuntu-cpc: Disable boot splash in all cloud images (LP: #1725358)
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Wed, 12 Aug 2020 04:52:22 -0500
+
 livecd-rootfs (2.681) groovy; urgency=medium
 
   [ Patrick Wu ]
