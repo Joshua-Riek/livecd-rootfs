@@ -35,7 +35,7 @@ install_grub() {
     chroot mountpoint apt-get -qqy remove --purge grub-legacy-ec2
 
     # set the kernel commandline to use hvc0
-    CONSOLE="console=hvc0 earlyprintk"
+    CONSOLES="console=hvc0 earlyprintk"
     # Append to the existing GRUB_CMDLINE_LINUX_DEFAULT line
     if [ ! -f mountpoint/etc/default/grub.d/50-cloudimg-settings.cfg ]; then
         echo "Expected to find an existing grub config override"
