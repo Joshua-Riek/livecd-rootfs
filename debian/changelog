@@ -1,3 +1,9 @@
+livecd-rootfs (2.684) groovy; urgency=medium
+
+  * ubuntu-cpc: Fix ppc64el grub console update
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Wed, 12 Aug 2020 13:40:42 -0500
+
 livecd-rootfs (2.683) groovy; urgency=medium
 
   * Revert the removal of fstab from squashfs images, which has had knock-on
