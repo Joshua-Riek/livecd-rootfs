@@ -8,15 +8,14 @@ if [ -n "$SUBARCH" ]; then
 	exit 0
 fi
 
-. config/functions
-
 # This is the directory created by create-root-dir.binary
 rootfs_dir=rootfs.dir
 
 squashfs_f="$PWD/livecd.ubuntu-cpc.squashfs"
 
 cp $rootfs_dir.manifest $squashfs_f.manifest
-# fstab is omitted from the squashfs
-grep -v '^/etc/fstab$' $rootfs_dir.filelist >$squashfs_f.filelist
+cp $rootfs_dir.filelist $squashfs_f.filelist
 
-create_squashfs $rootfs_dir $squashfs_f
+(cd $rootfs_dir &&
+      mksquashfs . $squashfs_f \
+        -no-progress -xattrs -comp xz )

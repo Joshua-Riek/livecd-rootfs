@@ -35,7 +35,6 @@ mkdir -p config
 cp -af /usr/share/livecd-rootfs/live-build/functions config/functions
 cp -af /usr/share/livecd-rootfs/live-build/lb_*_layered config/
 cp -af /usr/share/livecd-rootfs/live-build/snap-seed-parse.py config/snap-seed-parse
-cp -af /usr/share/livecd-rootfs/live-build/squashfs-exclude-files config/
 
 mkdir -p config/package-lists
 

@@ -30,4 +30,6 @@ squashfs_f_manifest="${squashfs_f}.manifest"
 
 create_manifest "binary/boot/squashfs.dir" "${squashfs_f_manifest}"
 
-create_squashfs "binary/boot/squashfs.dir/" ${squashfs_f}
+(cd "binary/boot/squashfs.dir/" &&
+      mksquashfs . ${squashfs_f} \
+        -no-progress -xattrs -comp xz )
