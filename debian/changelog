@@ -1,3 +1,10 @@
+livecd-rootfs (2.683) UNRELEASED; urgency=medium
+
+  * Revert the removal of fstab from squashfs images, which has had knock-on
+    effects and breaks MAAS (ref bug #1890803)
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Aug 2020 08:52:10 -0700
+
 livecd-rootfs (2.682) groovy; urgency=medium
 
   * ubuntu-cpc: Disable boot splash in all cloud images (LP: #1725358)
