@@ -112,26 +112,8 @@ if [ "${SUBPROJECT:-}" = minimized ]; then
 	_xchroot "${rootd}" apt clean
 fi
 
-# for Quantal and later, use /etc/default/grub.d functionality
-# rather than modifying the grub configuration itself.
-# This avoids the mess of having to do dpkg stuff
-# LP: 1179940
-mkdir -p "${rootd}/etc/default/grub.d"
-cat << EOF > "${rootd}/etc/default/grub.d/50-cloudimg-settings.cfg"
-# Cloud Image specific Grub settings for Generic Cloud Images
-${CLOUD_IMG_STR}
-
-# Set the recordfail timeout
-GRUB_RECORDFAIL_TIMEOUT=0
-
-# Do not wait on grub prompt
-GRUB_TIMEOUT=0
-
-# Drop 'quiet' and 'splash' for cloud images
-GRUB_CMDLINE_LINUX_DEFAULT=""
-EOF
-
 #### END COMMON ARCH FUNCTIONS
+
 
 case $arch in
 	# ARM, ppc, riscv64 and s390x images are special
@@ -205,15 +187,23 @@ fi
 psuedo_grub_probe > "${gprobe}"
 chmod 755 "${gprobe}"
 
+# for Quantal and later, use /etc/default/grub.d functionality
+# rather than modifying the grub configuration itself.
+# This avoids the mess of having to do dpkg stuff
+# LP: 1179940
+mkdir -p "${rootd}/etc/default/grub.d"
+cat << EOF > "${rootd}/etc/default/grub.d/50-cloudimg-settings.cfg"
+# Cloud Image specific Grub settings for Generic Cloud Images
+${CLOUD_IMG_STR}
 
-# Set the consoles on the default grub commandline
-CONSOLES="console=tty1 console=ttyS0"
-# Append to the existing GRUB_CMDLINE_LINUX_DEFAULT line
-sed -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=/{s/=\"\"/=\"$CONSOLES$itemNum\"/;t;s/\"$/ $CONSOLES$itemNum&/;}" \
-    "${rootd}/etc/default/grub.d/50-cloudimg-settings.cfg"
+# Set the recordfail timeout
+GRUB_RECORDFAIL_TIMEOUT=0
 
-# Append the terminal console setting to the cloud grub config
-cat << EOF >> "${rootd}/etc/default/grub.d/50-cloudimg-settings.cfg"
+# Do not wait on grub prompt
+GRUB_TIMEOUT=0
+
+# Set the default commandline
+GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"
 
 # Set the grub console type
 GRUB_TERMINAL=console
