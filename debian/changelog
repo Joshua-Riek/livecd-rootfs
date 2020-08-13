@@ -1,3 +1,10 @@
+livecd-rootfs (2.686) UNRELEASED; urgency=medium
+
+  [ Dan Streetman ]
+  * use python3-launchpadlib directly instead of python3-software-properties
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 13 Aug 2020 12:17:27 -0700
+
 livecd-rootfs (2.685) groovy; urgency=medium
 
   * Revert 'ubuntu-cpc: Disable boot splash in all cloud images
