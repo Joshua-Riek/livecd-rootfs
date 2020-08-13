@@ -2,9 +2,8 @@
 
 from __future__ import print_function
 
+from launchpadlib.launchpad import Launchpad
 from optparse import OptionParser
-
-from softwareproperties import ppa
 
 
 parser = OptionParser(usage="%prog OWNER/NAME")
@@ -12,6 +11,5 @@ _, args = parser.parse_args()
 if not args:
     parser.error("must provide a PPA owner/name")
 owner_name, ppa_name = args[0].split("/", 1)
-owner_name = "~%s" % owner_name
-ppa_info = ppa.get_ppa_info_from_lp(owner_name, ppa_name)
-print(ppa_info["signing_key_fingerprint"])
+lp = Launchpad.login_anonymously('livecd-rootfs')
+print(lp.people(owner_name).getPPAByName(name=ppa_name).signing_key_fingerprint)
