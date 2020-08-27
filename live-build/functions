@@ -289,6 +289,17 @@ create_vmdk() {
     rm -rf ${scratch_d}
 }
 
+create_squashfs() {
+    local config_dir rootfs_dir squashfs_file
+    rootfs_dir="$1"
+    squashfs_file="$2"
+    config_dir="$PWD/config"
+    (cd $rootfs_dir &&
+        mksquashfs . $squashfs_file -no-progress -xattrs -comp xz \
+            -ef "$config_dir/squashfs-exclude-files")
+
+}
+
 create_derivative() {
     # arg1 is the disk type
     # arg2 is the new name

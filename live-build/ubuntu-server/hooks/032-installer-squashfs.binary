@@ -91,6 +91,4 @@ find $OVERLAY_ROOT/var/lib/snapd/ -name 'lxd_*.snap' -delete
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 
-(cd "$OVERLAY_ROOT/" &&
-      mksquashfs . ${squashfs_f} \
-        -no-progress -xattrs -comp xz )
+create_squashfs "$OVERLAY_ROOT/" ${squashfs_f}
