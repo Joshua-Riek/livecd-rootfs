@@ -1,3 +1,10 @@
+livecd-rootfs (2.685) groovy; urgency=medium
+
+  * Revert 'ubuntu-cpc: Disable boot splash in all cloud images
+            (LP: #1725358)'
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Wed, 12 Aug 2020 16:52:05 -0500
+
 livecd-rootfs (2.684) groovy; urgency=medium
 
   * ubuntu-cpc: Fix ppc64el grub console update
