@@ -1,9 +1,9 @@
-livecd-rootfs (2.687) UNRELEASED; urgency=medium
+livecd-rootfs (2.687) groovy; urgency=medium
 
-  [ Stanislav German-Evtushenko <giner> ]
+  [ Stanislav German-Evtushenko <giner> / John Chittum ]
   * Send Vagrant serial connection to NULL. (LP: #1874453)  
 
- -- John Chittum <john.chittum@canonical.com>  Thu, 27 Aug 2020 14:48:36 -0500
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 15 Sep 2020 15:25:19 -0500
 
 livecd-rootfs (2.686) groovy; urgency=medium
 
