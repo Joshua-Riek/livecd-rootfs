@@ -161,9 +161,9 @@ Vagrant.configure("2") do |config|
     # Ubuntu cloud images, by default, enable console=ttyS0. This enables serial consoles to
     # connect to the images. With the change related to LP #1777827, removing a serial
     # file logger, Vagrant image boot times increased and now run greater than 5 minutes
-    # Creating a console log file is not an expected defaul behavior for vagrant boxes.
+    # Creating a console log file is not an expected default behavior for vagrant boxes.
     # As a workaround, we create a console connection to File:NULL. LP #1874453
-    # This is overwriteable in user files to write to a local file
+    # This is overrideable in user files to write to a local file
   end
 end
 EOF
