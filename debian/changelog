@@ -1,4 +1,4 @@
-livecd-rootfs (2.688) UNRELEASED; urgency=medium
+livecd-rootfs (2.688) groovy; urgency=medium
 
   * ubuntu-cpc: Fix spelling in vagrant file
 
