@@ -1,3 +1,12 @@
+livecd-rootfs (2.695) UNRELEASED; urgency=medium
+
+  * buildd: produce kernel and initrd as separate artifacts
+  * buildd: call update-initramfs for all installed kernels
+    We only have one kernel installed, so we don't need to
+    specify an explicit version.
+
+ -- David Krauser <david.krauser@canonical.com>  Tue, 20 Oct 2020 15:00:38 -0400
+
 livecd-rootfs (2.694) groovy; urgency=medium
 
   * Add the pi desktop oem user to the adm and sudo groups, as that is needed
