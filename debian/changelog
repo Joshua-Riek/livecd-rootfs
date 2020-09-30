@@ -1,4 +1,4 @@
-livecd-rootfs (2.689) UNRELEASED; urgency=medium
+livecd-rootfs (2.689) groovy; urgency=medium
 
   * ubuntu-cpc: remove explicit install of virtualbox-guest-utils.
     LP: #1895862
