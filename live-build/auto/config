@@ -445,6 +445,11 @@ case $IMAGEFORMAT in
 					;;
 			esac
 
+			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
+				BRANCH="desktop"
+			fi
+
+			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${SUBPROJECT:+ --subproject \"$SUBPROJECT\"}"
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
 			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
 
@@ -472,6 +477,7 @@ case $IMAGEFORMAT in
 		# Currently the IMAGEFORMAT none format is used only for ubuntu-image
 		# targeted image builds which, currently, only target physical devices.
 		OPTS="${OPTS:+$OPTS }--chroot-filesystem $IMAGEFORMAT"
+		PREINSTALLED=true
 		;;
 	*)
 		case $PROJECT in
@@ -519,7 +525,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 			add_package live oem-config-gtk ubiquity-frontend-gtk
 			add_package live ubiquity-slideshow-ubuntu
 			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
-				add_package live language-pack-en-base
+				add_package live language-pack-en-base oem-config-slideshow-ubuntu
 			fi
 			;;
 		*)
@@ -597,6 +603,21 @@ case $PROJECT in
 				remove_packages_from_seed_regexp minimal.standard desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
 				remove_packages_from_seed_regexp minimal.standard desktop-default-languages ''  # none (if no default langpack is selected)
 				;;
+
+			desktop-preinstalled)
+				add_task install minimal standard cloud-image
+				if [ "$SUBARCH" = "raspi" ]; then
+					add_task install desktop-raspi
+				fi
+				# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
+				#  for existing raspi preinstalled images
+				OPTS="${OPTS:+$OPTS }--initramfs=none"
+				OPTS="${OPTS:+$OPTS }--system=normal"
+				OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+				OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+				OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+				;;
+
 			*)
 				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop
