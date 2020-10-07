@@ -1,4 +1,4 @@
-livecd-rootfs (2.690) UNRELEASED; urgency=medium
+livecd-rootfs (2.690) groovy; urgency=medium
 
   * Add initial support for the Ubuntu Desktop Raspberry Pi image.
 
