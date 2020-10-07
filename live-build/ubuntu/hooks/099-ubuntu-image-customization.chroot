@@ -11,8 +11,6 @@ if [ "$IMAGEFORMAT" == "none"]; then
         touch /var/log/syslog
         chown syslog:adm /var/log/syslog
 
-        sed -i "s|#WaylandEnable=false|#WaylandEnable=false\nInitialSetupEnable=false|" "/etc/gdm3/custom.conf"
-
         # Create the oem user account
         /usr/sbin/useradd -d /home/oem -m -N -u 29999 oem
 
