@@ -1,3 +1,10 @@
+livecd-rootfs (2.689) groovy; urgency=medium
+
+  * ubuntu-cpc: remove explicit install of virtualbox-guest-utils.
+    LP: #1895862
+
+ -- John Chittum <john.chittum@canonical.com>  Tue, 29 Sep 2020 12:59:23 -0500
+
 livecd-rootfs (2.688) groovy; urgency=medium
 
   * ubuntu-cpc: Fix spelling in vagrant file

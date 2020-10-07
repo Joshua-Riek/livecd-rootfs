@@ -58,12 +58,6 @@ cleanup_vagrant() {
 }
 trap cleanup_vagrant EXIT
 
-chroot ${mount_d} apt-get update
-# virtualbox-guest-utils Recommends: virtualbox-guest-x11, which we want to
-# avoid pulling into a cloud image.
-chroot ${mount_d} apt-get install --no-install-recommends -y virtualbox-guest-utils
-chroot ${mount_d} apt-get clean
-
 # Create and setup users inside the image.
 # Vagrant users expect a "vagrant" user with a "vagrant" username.
 # See https://www.vagrantup.com/docs/boxes/base.html
