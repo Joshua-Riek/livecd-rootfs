@@ -607,7 +607,7 @@ case $PROJECT in
 			desktop-preinstalled)
 				add_task install minimal standard cloud-image
 				if [ "$SUBARCH" = "raspi" ]; then
-					add_task install desktop-raspi
+					add_task install ubuntu-desktop-raspi
 				fi
 				# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
 				#  for existing raspi preinstalled images
