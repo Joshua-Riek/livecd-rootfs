@@ -1,3 +1,10 @@
+livecd-rootfs (2.691) groovy; urgency=medium
+
+  * Remove 68-del-part-nodes.rules from installer squashfs to work around it
+    breaking curtin. (LP: #1893818)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 15 Oct 2020 08:56:11 +1300
+
 livecd-rootfs (2.690) groovy; urgency=medium
 
   * Add initial support for the Ubuntu Desktop Raspberry Pi image.
