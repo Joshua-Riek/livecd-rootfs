@@ -21,7 +21,7 @@ if [ "$IMAGEFORMAT" == "none" ]; then
         echo "LABEL=writable    /     ext4    defaults,x-systemd.growfs    0 0" >>/etc/fstab
 
         # Create a 1GB swapfile
-        dd if=/dev/zero of=/swapfile bs=1M count=1024
+        dd if=/dev/zero of=/swapfile bs=1G count=1
         chmod 0600 /swapfile
         mkswap /swapfile
 
