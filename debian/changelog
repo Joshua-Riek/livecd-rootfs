@@ -6,6 +6,10 @@ livecd-rootfs (2.693) groovy; urgency=medium
 
 livecd-rootfs (2.692) groovy; urgency=medium
 
+  [ John Chittum ]
+  * Ensure vmtools version entered into vmdk header (LP: #1893898)
+
+  [ Łukasz 'sil2100' Zemczak ]
   * Create a 1GB swapfile for the raspi desktop images. 
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 15 Oct 2020 11:23:47 +0200

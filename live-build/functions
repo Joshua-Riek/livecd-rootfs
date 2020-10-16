@@ -237,6 +237,12 @@ modify_vmdk_header() {
     # Extract the vmdk header for manipulation
     dd if="${vmdk_name}" of="${descriptor}" bs=1 skip=512 count=1024
 
+    # cat header so we are aware of the original descriptor for debugging
+    cat $descriptor
+
+    # trim null bytes to treat as standard text file
+    tr -d '\000' < $descriptor > $newdescriptor
+
     # The sed lines below is where the magic is. Specifically:
     #   ddb.toolsVersion: sets the open-vm-tools so that VMware shows
     #       the tooling as current
@@ -248,15 +254,37 @@ modify_vmdk_header() {
     #   remove the comments from vmdk-stream-converter which causes
     #       VirtualBox and others to fail VMDK validation
 
-    sed -e 's|# Description file.*|# Disk DescriptorFile|' \
-        -e '/# Believe this is random*/d' \
-        -e '/# Indicates no parent/d' \
-        -e '/# The Disk Data Base/d' \
-        -e 's|ddb.comment.*|ddb.toolsVersion = "2147483647"|' \
-            "${descriptor}" > "${newdescriptor}"
+    sed -i -e 's|# Description file.*|# Disk DescriptorFile|' \
+           -e '/# Believe this is random*/d' \
+           -e '/# Indicates no parent/d' \
+           -e '/# The Disk Data Base/d' \
+           -e '/ddb.comment*/d' \
+        $newdescriptor
+    
+    # grep for removal of the ddb.comment line to ensure removal
+    if grep -q "ddb.comment" $newdescriptor; then
+        echo "ddb.comment exists and will cause Virtualbox failures"; exit 1
+    fi
 
-    # The header is cannot be bigger than 1024
-    expr $(stat --format=%s ${newdescriptor}) \< 1024 > /dev/null 2>&1 || {
+    # add newline to newdescriptor
+    echo "" >> $newdescriptor
+
+    # add tools version
+    echo -n 'ddb.toolsVersion = "2147483647"' >> $newdescriptor
+
+    # check ddb.toolsVersion in descriptor, otherwise image will fail
+    grep -q 'ddb.toolsVersion' $newdescriptor || {
+        echo 'failed to write version. Descriptor invalid'; exit 1;
+    }
+
+    # diff original descriptor and new descriptor for debugging
+    diff --text $descriptor $newdescriptor | cat
+
+    # reset newdescriptor to be 1024
+    truncate --no-create --size=1K $newdescriptor
+
+    # The header must be 1024 or less
+    expr $(stat --format=%s ${newdescriptor}) \< 1025 > /dev/null 2>&1 || {
         echo "descriptor is too large, VMDK will be invalid!"; exit 1; }
 
     # Overwrite the vmdk header with our new, modified one
