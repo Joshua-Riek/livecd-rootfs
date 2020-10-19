@@ -1,4 +1,4 @@
-livecd-rootfs (2.692) UNRELEASED; urgency=medium
+livecd-rootfs (2.692) groovy; urgency=medium
 
   * Create a 1GB swapfile for the raspi desktop images. 
 
