@@ -434,17 +434,13 @@ case $IMAGEFORMAT in
 			# classic images
 
 			# Certain models have different names but are built from the same source gadget tree
-			BRANCH=18
 			case $MODEL in
 				pi-arm64|pi3-arm64)
 					MODEL=pi
-					BRANCH=18-arm64
-					;;
-				pi)
-					BRANCH=18-armhf
 					;;
 			esac
 
+			BRANCH="classic"
 			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
 				BRANCH="desktop"
 			fi
