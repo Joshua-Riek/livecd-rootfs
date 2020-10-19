@@ -1,3 +1,9 @@
+livecd-rootfs (2.693) UNRELEASED; urgency=medium
+
+  * Build classic raspi server images by default from the 'classic' branch now.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 19 Oct 2020 12:58:15 +0200
+
 livecd-rootfs (2.692) groovy; urgency=medium
 
   * Create a 1GB swapfile for the raspi desktop images. 
