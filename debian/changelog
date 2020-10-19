@@ -1,4 +1,4 @@
-livecd-rootfs (2.693) UNRELEASED; urgency=medium
+livecd-rootfs (2.693) groovy; urgency=medium
 
   * Build classic raspi server images by default from the 'classic' branch now.
 
