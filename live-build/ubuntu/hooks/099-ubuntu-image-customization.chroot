@@ -12,7 +12,7 @@ if [ "$IMAGEFORMAT" == "none" ]; then
         chown syslog:adm /var/log/syslog
 
         # Create the oem user account
-        /usr/sbin/useradd -d /home/oem -m -N -u 29999 oem
+        /usr/sbin/useradd -d /home/oem -G adm,sudo -m -N -u 29999 oem
 
         /usr/sbin/oem-config-prepare --quiet
         touch "/var/lib/oem-config/run"
