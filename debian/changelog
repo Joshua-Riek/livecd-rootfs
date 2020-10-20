@@ -1,4 +1,4 @@
-livecd-rootfs (2.694) UNRELEASED; urgency=medium
+livecd-rootfs (2.694) groovy; urgency=medium
 
   * Add the pi desktop oem user to the adm and sudo groups, as that is needed
     for wifi configuration.
