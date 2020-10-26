@@ -35,6 +35,7 @@ cp -a rootfs.dir $rootfs_dir
 setup_mountpoint $rootfs_dir
 
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get -y -qq install ubuntu-wsl
+env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get autoremove --purge --assume-yes
 
 create_manifest $rootfs_dir livecd.ubuntu-cpc.wsl.rootfs.manifest
 teardown_mountpoint $rootfs_dir

@@ -89,10 +89,12 @@ install_grub() {
             efi_target=arm-efi
             ;;
         amd64)
-            chroot mountpoint apt-get install -qqy grub-efi-amd64-signed shim-signed
+            chroot mountpoint apt-get install -qqy shim-signed
             efi_target=x86_64-efi
             ;;
     esac
+
+    chroot mountpoint apt-get autoremove --purge --assume-yes
 
     chroot mountpoint grub-install "${loop_device}" \
         --boot-directory=/boot \

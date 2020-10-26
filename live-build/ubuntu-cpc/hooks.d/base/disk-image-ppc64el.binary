@@ -33,6 +33,7 @@ install_grub() {
     chroot mountpoint apt-get -qqy update
     chroot mountpoint apt-get -qqy install grub-ieee1275
     chroot mountpoint apt-get -qqy remove --purge grub-legacy-ec2
+    chroot mountpoint apt-get autoremove --purge --assume-yes
 
     # set the kernel commandline to use hvc0
     mkdir -p mountpoint/etc/default/grub.d
