@@ -1,4 +1,4 @@
-livecd-rootfs (2.694ubuntu1) hirsute; urgency=medium
+livecd-rootfs (2.695) hirsute; urgency=medium
 
   * Install only shim-signed to prevent shipping conflicting, autoremovable
     packages
