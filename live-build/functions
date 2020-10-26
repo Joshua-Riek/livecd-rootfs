@@ -236,7 +236,7 @@ modify_vmdk_header() {
 
     # Extract the vmdk header for manipulation
     dd if="${vmdk_name}" of="${descriptor}" bs=1 skip=512 count=1024
-
+    echo "Cat'ing original descriptor to console for debugging."
     # cat header so we are aware of the original descriptor for debugging
     cat $descriptor
 
@@ -249,15 +249,10 @@ modify_vmdk_header() {
     # add required tools version
     echo -n 'ddb.toolsVersion = "2147483647"' >> $newdescriptor
 
-    # check ddb.toolsVersion in descriptor, otherwise image will fail
-    if ! grep -q 'ddb.toolsVersion' $newdescriptor; then 
-        echo 'failed to write version. Descriptor invalid'; \
-        exit 1
-    fi
-
     # diff original descriptor and new descriptor for debugging
     # diff exits 1 if difference. pipefail not set so piping diff
     # to cat prints diff and swallows exit 1
+    echo "Printing diff of original and new descriptors."
     diff --text $descriptor $newdescriptor | cat
 
 
