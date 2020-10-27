@@ -604,14 +604,16 @@ case $PROJECT in
 				add_task install minimal standard ubuntu-desktop
 				if [ "$SUBARCH" = "raspi" ]; then
 					add_task install ubuntu-desktop-raspi
+					# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
+					#  for existing raspi preinstalled images
+					# XXX: I would prefer to use --hdd-label=desktop-rootfs like 040-hyperv-desktop-images.binary
+					OPTS="${OPTS:+$OPTS }--initramfs=none"
+					OPTS="${OPTS:+$OPTS }--system=normal"
+					OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+					OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+					OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 				fi
-				# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
-				#  for existing raspi preinstalled images
-				OPTS="${OPTS:+$OPTS }--initramfs=none"
-				OPTS="${OPTS:+$OPTS }--system=normal"
-				OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
-				OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
-				OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+				## Otherwise HYPERV image options.... *crickets* see the hyperv hook
 				;;
 
 			*)
