@@ -601,7 +601,7 @@ case $PROJECT in
 				;;
 
 			desktop-preinstalled)
-				add_task install minimal standard
+				add_task install minimal standard ubuntu-desktop
 				if [ "$SUBARCH" = "raspi" ]; then
 					add_task install ubuntu-desktop-raspi
 				fi
