@@ -1,3 +1,10 @@
+livecd-rootfs (2.696) hirsute; urgency=medium
+
+  * auto/config: seed ubuntu-desktop when building hyperv image LP: #392910
+  * auto/config: scope ubuntu:desktop-preinstalled:raspi image options LP: #392910
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 28 Oct 2020 10:36:29 +0000
+
 livecd-rootfs (2.695) hirsute; urgency=medium
 
   * Install only shim-signed to prevent shipping conflicting, autoremovable
