@@ -1,3 +1,9 @@
+livecd-rootfs (2.697) UNRELEASED; urgency=medium
+
+  * Ensure vmtools version entered into vmdk header (LP: #1893898)
+
+ -- John Chittum <john.chittum@canonical.com>  Mon, 19 Oct 2020 10:52:54 -0500
+
 livecd-rootfs (2.696) hirsute; urgency=medium
 
   * auto/config: seed ubuntu-desktop when building hyperv image LP: #1901846
