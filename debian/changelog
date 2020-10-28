@@ -1,8 +1,9 @@
-livecd-rootfs (2.697) UNRELEASED; urgency=medium
+livecd-rootfs (2.697) hirsute; urgency=medium
 
+  [ John Chittum ]
   * Ensure vmtools version entered into vmdk header (LP: #1893898)
 
- -- John Chittum <john.chittum@canonical.com>  Mon, 19 Oct 2020 10:52:54 -0500
+ -- Robert C Jennings <robert.jennings@canonical.com>  Wed, 28 Oct 2020 12:02:04 -0500
 
 livecd-rootfs (2.696) hirsute; urgency=medium
 
