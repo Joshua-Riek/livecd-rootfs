@@ -1,3 +1,10 @@
+livecd-rootfs (2.699) UNRELEASED; urgency=medium
+
+  * hyper-v hook: Fix writing of pkla file out to correct scratch directory
+    for image build.
+
+ -- Jinming Wu, Patrick <me@patrickwu.space>  Tue, 03 Nov 2020 10:10:03 +0000
+
 livecd-rootfs (2.698) hirsute; urgency=medium
 
   * amd64: always install grub-pc with shim-signed (LP: #1901906)
