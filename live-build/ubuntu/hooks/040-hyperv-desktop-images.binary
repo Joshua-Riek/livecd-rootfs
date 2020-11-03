@@ -103,7 +103,7 @@ ResultInactive=no
 ResultActive=yes
 EOF
 
-cat >/etc/polkit-1/localauthority/50-local.d/46-allow-update-repo.pkla <<EOF
+cat >${scratch_d}/etc/polkit-1/localauthority/50-local.d/46-allow-update-repo.pkla <<EOF
 [Allow Package Management all Users]
 Identity=unix-user:*
 Action=org.freedesktop.packagekit.system-sources-refresh
