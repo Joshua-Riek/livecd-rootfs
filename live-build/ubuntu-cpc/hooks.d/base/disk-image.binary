@@ -27,7 +27,7 @@ case $ARCH:$SUBARCH in
 		BOOTPART_END=138M
 		BOOT_MOUNTPOINT=/boot/firmware
 		;;
-	amd64:*|arm64:*|armhf:*|riscv64:*)
+	arm64:*|armhf:*|riscv64:*)
 		echo "We only create EFI images for $ARCH."
 		exit 0
 		;;
