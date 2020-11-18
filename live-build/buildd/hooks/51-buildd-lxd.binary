@@ -3,12 +3,16 @@
 set -e
 
 . config/bootstrap
+. config/functions
 
 TMPDIR="$(mktemp -d)"
 config/make-lxd-metadata "${LB_DISTRIBUTION%-*}" "$ARCH" \
 	>"$TMPDIR/metadata.yaml"
 tar --numeric-owner -cf "livecd.$PROJECT.lxd.tar" -C "$TMPDIR" metadata.yaml
 rm -rf "$TMPDIR"
+
+create_manifest chroot "livecd.$PROJECT.lxd.tar.manifest"
+
 # When using the combined metadata/rootfs form, the rootfs must be under
 # rootfs/ rather than under chroot-autobuild/.
 tar --transform='s,^chroot,rootfs,' --sort=name --numeric-owner \

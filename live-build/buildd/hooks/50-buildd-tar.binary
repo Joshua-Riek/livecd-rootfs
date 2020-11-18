@@ -4,6 +4,10 @@
 # ourselves.
 set -e
 
+. config/functions
+
+create_manifest chroot "livecd.$PROJECT.rootfs.tar.gz.manifest"
+
 # gzip was chosen for fastest decompression speed: it decompresses buildd
 # chroots about twice as fast as xz and about five times as fast as bzip2.
 tar --transform='s,^chroot,chroot-autobuild,' --sort=name --numeric-owner \
