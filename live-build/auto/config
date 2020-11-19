@@ -218,7 +218,7 @@ remove_packages_from_seed_regexp() {
 	if [ -z "${seed_regexp}" ]; then
 		pass="${1}.no-${2}"
 		_register_pass "$pass"
-		subtract_package_lists ${2} "" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+		subtract_package_lists ${2} "desktop-minimal" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
 		return
 	fi
 
