@@ -56,8 +56,11 @@ chroot "$mount_d" update-grub
 undivert_grub "$mount_d"
 
 # Update initramfs image
-chroot "$mount_d" \
-    sh -c 'update-initramfs -c -v -k $(ls /boot/vmlinuz*generic | sed 1q | cut -d- -f2-3)'
+chroot "$mount_d" update-initramfs -c -v -k all
+
+# extract kernel and initrd
+cp $mount_d/boot/initrd.img-* livecd.$PROJECT.initrd-generic
+cp $mount_d/boot/vmlinuz-* livecd.$PROJECT.vmlinuz-generic
 
 # Cleanup
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \

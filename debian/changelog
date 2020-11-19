@@ -1,3 +1,12 @@
+livecd-rootfs (2.700) UNRELEASED; urgency=medium
+
+  * buildd: produce kernel and initrd as separate artifacts
+  * buildd: call update-initramfs for all installed kernels
+    We only have one kernel installed, so we don't need to
+    specify an explicit version.
+
+ -- David Krauser <david.krauser@canonical.com>  Tue, 20 Oct 2020 15:00:38 -0400
+
 livecd-rootfs (2.699) hirsute; urgency=medium
 
   * hyper-v hook: Fix writing of pkla file out to correct scratch directory
