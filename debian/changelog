@@ -1,9 +1,15 @@
 livecd-rootfs (2.700) UNRELEASED; urgency=medium
 
+  [ David Krauser ]
   * buildd: produce kernel and initrd as separate artifacts
   * buildd: call update-initramfs for all installed kernels
     We only have one kernel installed, so we don't need to
     specify an explicit version.
+
+  [ Patrick Viafore ]
+  * Replace archive.ubuntu.com and security.ubuntu.com with launchpad
+    mirrors. This is only done inside a build context, and the original
+    sources.list file is restored at the end of the build
 
  -- David Krauser <david.krauser@canonical.com>  Tue, 20 Oct 2020 15:00:38 -0400
 
