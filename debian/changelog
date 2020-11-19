@@ -1,17 +1,33 @@
-livecd-rootfs (2.700) UNRELEASED; urgency=medium
+livecd-rootfs (2.700) hirsute; urgency=medium
 
   [ David Krauser ]
   * buildd: produce kernel and initrd as separate artifacts
   * buildd: call update-initramfs for all installed kernels
     We only have one kernel installed, so we don't need to
     specify an explicit version.
+  * Include -security and -updates packages in bootable buildd images
+  * Produce buildd kernel and initrd as separate artifacts
 
   [ Patrick Viafore ]
   * Replace archive.ubuntu.com and security.ubuntu.com with launchpad
     mirrors. This is only done inside a build context, and the original
     sources.list file is restored at the end of the build
 
- -- David Krauser <david.krauser@canonical.com>  Tue, 20 Oct 2020 15:00:38 -0400
+  [ Robert C Jennings ]
+  * Use build env archive mirror in binary hooks
+  * Ensure a binary hook has not changed the temporary sources.list
+
+  [ Dimitri John Ledkov ]
+  * disk-image.binary: actually skip building MBR image on EFI platforms.
+  * disk-image.binary: skip building MBR image on riscv64.
+  * disk-image.binary: however still build MBR image on amd64.
+  * disk-image-uefi.binary: enable secureboot on the arm64 image.
+  * disk-image-uefi.binary: build riscv64 image without a bootloader.
+
+  [ Sebastien Bacher ]
+  * During the layered build generate the right content for no languages
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 19 Nov 2020 17:43:47 +0000
 
 livecd-rootfs (2.699) hirsute; urgency=medium
 
