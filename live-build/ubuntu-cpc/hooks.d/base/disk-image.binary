@@ -19,10 +19,6 @@ case $ARCH:$SUBARCH in
 		echo "POWER disk images are handled separately"
 		exit 0
 		;;
-	amd64|arm64|armhf)
-		echo "We only create EFI images for $ARCH."
-		exit 0
-		;;
 	armhf:raspi2)
 		# matches the size of the snappy image
 		IMAGE_SIZE=$((4*1000*1000*1000))
@@ -30,6 +26,10 @@ case $ARCH:$SUBARCH in
 		BOOTPART_START=8192s
 		BOOTPART_END=138M
 		BOOT_MOUNTPOINT=/boot/firmware
+		;;
+	arm64:*|armhf:*|riscv64:*)
+		echo "We only create EFI images for $ARCH."
+		exit 0
 		;;
 	*)
 		;;

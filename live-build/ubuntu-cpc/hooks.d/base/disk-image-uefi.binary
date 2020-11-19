@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 case $ARCH in
-    amd64|arm64|armhf)
+    amd64|arm64|armhf|riscv64)
         ;;
     *)
         echo "We don't create EFI images for $ARCH."
@@ -34,6 +34,15 @@ create_partitions() {
                 --new=15:0:204800 \
                 --typecode=15:ef00 \
                 --new=1:
+            ;;
+        riscv64)
+            # same as arm64/armhf, but set bit 2 legacy bios bootable
+            # on the first partition for uboot
+            sgdisk "${disk_image}" \
+                --new=15:0:204800 \
+                --typecode=15:ef00 \
+                --new=1: \
+                --attributes=1:set:2
             ;;
         amd64)
             sgdisk "${disk_image}" \
@@ -81,7 +90,7 @@ install_grub() {
     # please file a bug against grub2 to include the affected module.
     case $ARCH in
         arm64)
-            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm64 grub-efi-arm64-bin
+            chroot mountpoint apt-get -qqy install --no-install-recommends shim-signed grub-efi-arm64-signed
             efi_target=arm64-efi
             ;;
         armhf)
@@ -91,6 +100,22 @@ install_grub() {
         amd64)
             chroot mountpoint apt-get install -qqy grub-pc shim-signed
             efi_target=x86_64-efi
+            ;;
+        riscv64)
+            # TODO does not exist yet on riscv64
+            chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+            efi_target=riscv64-efi
+
+            chroot mountpoint u-boot-update
+
+            ## TODO remove below once we have grub-efi-riscv64
+            rm mountpoint/tmp/device.map
+            umount mountpoint/boot/efi
+            mount
+            umount_partition mountpoint
+            rmdir mountpoint
+            return
+            ##
             ;;
     esac
 
