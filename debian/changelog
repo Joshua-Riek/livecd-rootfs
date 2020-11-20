@@ -1,3 +1,10 @@
+livecd-rootfs (2.701) hirsute; urgency=medium
+
+  [ Cody Shepherd ]
+  * buildd: Create manifests for buildd tarballs
+
+ -- Robert C Jennings <robert.jennings@canonical.com>  Fri, 20 Nov 2020 14:55:21 -0600
+
 livecd-rootfs (2.700) hirsute; urgency=medium
 
   [ David Krauser ]
