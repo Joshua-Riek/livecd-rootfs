@@ -11,7 +11,7 @@ config/make-lxd-metadata "${LB_DISTRIBUTION%-*}" "$ARCH" \
 tar --numeric-owner -cf "livecd.$PROJECT.lxd.tar" -C "$TMPDIR" metadata.yaml
 rm -rf "$TMPDIR"
 
-create_manifest chroot "livecd.$PROJECT.lxd.tar.manifest"
+create_manifest chroot "livecd.$PROJECT.lxd.manifest"
 
 # When using the combined metadata/rootfs form, the rootfs must be under
 # rootfs/ rather than under chroot-autobuild/.
