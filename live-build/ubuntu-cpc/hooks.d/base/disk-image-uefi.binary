@@ -122,6 +122,34 @@ install_grub() {
 
             dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot-spl.bin of=$loader1
             dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot.itb of=$loader2
+
+            # Provide nocloud datasource
+            # Allow interactive login on baremetal SiFive board,
+            # without a cloud datasource.
+            mkdir -p mountpoint/var/lib/cloud/seed/nocloud
+            touch mountpoint/var/lib/cloud/seed/nocloud/meta-data
+            cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud/user-data
+#cloud-config
+chpasswd:
+    expire: false
+    list:
+        - ubuntu:ubuntu
+EOF
+            cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud/network-data
+# This is the initial network config.
+# It can be overwritten by cloud-init.
+network:
+    version: 2
+    ethernets:
+        zz-all-en:
+            match:
+                name: "en*"
+            dhcp4: true
+        zz-all-eth:
+            match:
+                name: "eth*"
+            dhcp4: true
+EOF
             ## TODO remove below once we have grub-efi-riscv64
             rm mountpoint/tmp/device.map
             umount mountpoint/boot/efi
