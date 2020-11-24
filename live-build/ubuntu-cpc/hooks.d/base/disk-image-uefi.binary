@@ -39,9 +39,16 @@ create_partitions() {
             # same as arm64/armhf, but set bit 2 legacy bios bootable
             # on the first partition for uboot
             sgdisk "${disk_image}" \
-                --new=15:0:204800 \
+                --set-alignment=2 \
+                --new=13:34:2081 \
+                --change-name=13:loader1 \
+                --typecode=13:5B193300-FC78-40CD-8002-E86C45580B47 \
+                --new=14:2082:10273 \
+                --change-name=14:loader2 \
+                --typecode=14:2E54B353-1271-4842-806F-E436D6AF6985 \
+                --new=15::+106M\
                 --typecode=15:ef00 \
-                --new=1: \
+                --new=1:: \
                 --attributes=1:set:2
             ;;
         amd64)
@@ -103,11 +110,18 @@ install_grub() {
             ;;
         riscv64)
             # TODO does not exist yet on riscv64
-            chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+            chroot mountpoint apt-get install -qqy u-boot-menu u-boot-sifive #grub-efi-riscv64
             efi_target=riscv64-efi
 
             chroot mountpoint u-boot-update
 
+            # FSBL, which gets U-Boot SPL
+            loader1="/dev/mapper${loop_device///dev/}p13"
+            # The real U-Boot
+            loader2="/dev/mapper${loop_device///dev/}p14"
+
+            dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot-spl.bin of=$loader1
+            dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot.itb of=$loader2
             ## TODO remove below once we have grub-efi-riscv64
             rm mountpoint/tmp/device.map
             umount mountpoint/boot/efi
