@@ -208,9 +208,21 @@ create_chroot_pass () {
 	lb chroot_install-packages ${pass} ${*}
 	lb_chroot_remove_packages ${pass} ${*}
 
+	lb chroot_sysfs remove ${*}
+	lb chroot_proc remove ${*}
+	lb chroot_devpts remove ${*}
+
+	setup_mountpoint chroot
+
 	# Snap management
 	lb_chroot_snap_lists ${pass} ${*}
 	lb_chroot_install_snaps ${pass} ${*}
+
+	teardown_mountpoint chroot
+
+	lb chroot_devpts install ${*}
+	lb chroot_proc install ${*}
+	lb chroot_sysfs install ${*}
 
 	configure_network_manager
 
