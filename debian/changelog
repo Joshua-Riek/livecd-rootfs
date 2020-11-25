@@ -1,3 +1,17 @@
+livecd-rootfs (2.702) hirsute; urgency=medium
+
+  [ Sebastien Bacher ]
+  * Use the target realpath to do the unmounting
+  * Correctly set the environment needed by snapd in layered
+
+  [ Dimitri John Ledkov ]
+  * get-ppa-fingerprint: use production instance with latest api.
+  * disk-image-uefi: riscv64 add u-boot spl (LP: #1905274)
+  * disk-image-uefi: riscv64 add ubuntu:ubuntu login, without expiry.
+  * rebuild with the correct version of 2.701 changes.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 24 Nov 2020 18:41:34 +0000
+
 livecd-rootfs (2.701) hirsute; urgency=medium
 
   [ Cody Shepherd ]
