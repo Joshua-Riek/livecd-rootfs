@@ -819,6 +819,11 @@ case $PROJECT in
 			arm64)
 				add_package install flash-kernel
 				;;
+			riscv64)
+				if [ -n "$SUBARCH" ]; then
+					KERNEL_FLAVOURS=generic
+				fi
+				;;
 		esac
 		OPTS="${OPTS:+$OPTS }--system=normal"
 		OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"

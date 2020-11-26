@@ -989,6 +989,19 @@ is_live_layer () {
     return 1
 }
 
+setup_cidata() {
+    local cidata_dev=$1
+    local mountpoint=$(mktemp -d)
+    mkfs.vfat -F 32 -n CIDATA ${cidata_dev}
+    mount ${cidata_dev} ${mountpoint}
+    cp /usr/share/livecd-rootfs/live-build/cidata/* ${mountpoint}
+    cat >>${mountpoint}/meta-data.sample <<END
+#instance-id: iid-$(openssl rand -hex 8)
+
+END
+    umount ${mountpoint}
+}
+
 replace_kernel () { 
     mountpoint=$1
     new_kernel=$2

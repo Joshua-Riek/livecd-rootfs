@@ -1,0 +1,52 @@
+# NB! This is a sample, copy to "network-config" and mofiy to take effect
+# NB! Also see user-data.sample and meta-data.sample
+
+# This file contains a netplan-compatible configuration which cloud-init will
+# apply on first-boot (note: it will *not* update the config after the first
+# boot). Please refer to the cloud-init documentation and the netplan reference
+# for full details:
+#
+# https://cloudinit.readthedocs.io/en/latest/topics/network-config.html
+# https://cloudinit.readthedocs.io/en/latest/topics/network-config-format-v2.html
+# https://netplan.io/reference
+#
+# Please note that the YAML format employed by this file is sensitive to
+# differences in whitespace; if you are editing this file in an editor (like
+# Notepad) which uses literal tabs, take care to only use spaces for
+# indentation. See the following link for more details:
+#
+# https://en.wikipedia.org/wiki/YAML
+#
+#
+# The image has stock nocloud-net configuration that will attemp dhcp
+# v4 on all ethernet devices, similar to zz-all-en / zz-all-eth
+# stanzas below. Hence this file is optional.
+#
+#version: 2
+#ethernets:
+#  zz-all-en:
+#    match:
+#      name: "en*"
+#    dhcp4: true
+#    optional: true
+#  zz-all-eth:
+#    match:
+#      name: "eth*"
+#    dhcp4: true
+#    optional: true
+#wifis:
+#  wlan0:
+#    dhcp4: true
+#    optional: true
+#    access-points:
+#      myhomewifi:
+#        password: "S3kr1t"
+#      myworkwifi:
+#        password: "correct battery horse staple"
+#      workssid:
+#        auth:
+#          key-management: eap
+#          method: peap
+#          identity: "me@example.com"
+#          password: "passw0rd"
+#          ca-certificate: /etc/my_ca.pem

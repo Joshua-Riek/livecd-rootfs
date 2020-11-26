@@ -7,6 +7,10 @@ case $ARCH:$SUBARCH in
 		xz -T4 -c binary/boot/disk.ext4 > livecd.ubuntu-cpc.disk1.img.xz
 	        exit 0
 		;;
+	riscv64:*)
+		xz -T4 -c binary/boot/disk-uefi.ext4 > livecd.ubuntu-cpc.disk1.img.xz
+	        exit 0
+		;;
 esac
 
 . config/functions

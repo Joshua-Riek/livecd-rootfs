@@ -1,0 +1,8 @@
+# NB! This is a sample, copy to "meta-data" and mofiy to take effect
+# NB! Also see user-data.sample and network-config.sample
+
+# This is the meta-data configuration file for cloud-init. Typically this just
+# contains the instance_id. Please refer to the cloud-init documentation for
+# more information:
+#
+# https://cloudinit.readthedocs.io/
