@@ -365,9 +365,6 @@ case $IMAGEFORMAT in
 							xenial|bionic)
 								UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
 								;;
-							*)
-								UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 8G"
-								;;
 						esac
 					fi
 					;;
