@@ -1,3 +1,9 @@
+livecd-rootfs (2.704) hirsute; urgency=medium
+
+  * riscv64: build preinstalled riscv64 image with uboot SPL and CIDATA.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 01 Dec 2020 17:16:03 +0000
+
 livecd-rootfs (2.703) hirsute; urgency=medium
 
   * Do not hard-code the UC20 amd64 image size as now ubuntu-image should be
