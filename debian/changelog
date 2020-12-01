@@ -1,4 +1,4 @@
-livecd-rootfs (2.703) UNRELEASED; urgency=medium
+livecd-rootfs (2.703) hirsute; urgency=medium
 
   * Do not hard-code the UC20 amd64 image size as now ubuntu-image should be
     able to properly calculate the needed size itself (LP: #1905990).
