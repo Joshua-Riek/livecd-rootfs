@@ -1,3 +1,9 @@
+livecd-rootfs (2.705) hirsute; urgency=medium
+
+  * config: on hirsute build UC22 images
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 02 Dec 2020 11:05:55 +0000
+
 livecd-rootfs (2.704) hirsute; urgency=medium
 
   * riscv64: build preinstalled riscv64 image with uboot SPL and CIDATA.
