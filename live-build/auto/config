@@ -361,11 +361,8 @@ case $IMAGEFORMAT in
 			case $MODEL in
 				pc-amd64|pc-i386)
 					if [ -z "${SUBARCH:-}" ]; then
-						case $SUITE in
-							xenial|bionic)
-								UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
-								;;
-						esac
+						# This is to make sure there's enough writable space
+						UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
 					fi
 					;;
 				*) ;;
