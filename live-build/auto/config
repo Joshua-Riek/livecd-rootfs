@@ -587,6 +587,7 @@ case $PROJECT in
 		case ${SUBPROJECT:-} in
 			canary)
 				PASSES_TO_LAYERS="true"
+				KERNEL_FLAVOURS='generic-hwe-20.04'
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_task minimal.standard.live ubuntu-live
