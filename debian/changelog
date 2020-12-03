@@ -1,11 +1,15 @@
-livecd-rootfs (2.706) UNRELEASED; urgency=medium
+livecd-rootfs (2.706) hirsute; urgency=medium
 
+  [ Łukasz 'sil2100' Zemczak ]
   * As per discussion, we might want to keep the UC20 images a bit bigger than
     what's defined via the gadget/rootfs contents, to make sure writable is
     comfortably big enough. Use the same hard-coded value as for UC16 and UC18.
     (LP: #1905990)
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 03 Dec 2020 12:02:32 +0100
+  [ Dimitri John Ledkov ]
+  * riscv64: fixup subarch build, unbound variable
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 03 Dec 2020 16:18:21 +0000
 
 livecd-rootfs (2.705) hirsute; urgency=medium
 
