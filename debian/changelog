@@ -1,4 +1,4 @@
-livecd-rootfs (2.706ubuntu1) hirsute; urgency=medium
+livecd-rootfs (2.707) hirsute; urgency=medium
 
   * qcow2-image: unbreak builds without subarch.
 
