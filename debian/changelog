@@ -1,3 +1,9 @@
+livecd-rootfs (2.706ubuntu1) hirsute; urgency=medium
+
+  * qcow2-image: unbreak builds without subarch.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Sat, 05 Dec 2020 15:17:46 +0000
+
 livecd-rootfs (2.706) hirsute; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
