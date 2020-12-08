@@ -152,7 +152,7 @@ install_grub() {
                 mkdir -p mountpoint/var/lib/cloud/seed/nocloud-net
                 cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud-net/meta-data
 instance-id: iid-$(openssl rand -hex 8)
-END
+EOF
                 cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud-net/user-data
 #cloud-config
 chpasswd:
