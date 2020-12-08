@@ -1,3 +1,9 @@
+livecd-rootfs (2.708) hirsute; urgency=medium
+
+  * disk-image-uefi: fix riscv64 subarch user-data.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 08 Dec 2020 09:15:36 +0000
+
 livecd-rootfs (2.707) hirsute; urgency=medium
 
   * qcow2-image: unbreak builds without subarch.
