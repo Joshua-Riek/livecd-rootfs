@@ -1,3 +1,15 @@
+livecd-rootfs (2.709) hirsute; urgency=medium
+
+  [ Sebastien Bacher ]
+  * Desktop is using the hwe kernel, do the same on canary
+
+  [ Iain Lane ]
+  * auto/config: Install pi-bluetooth for raspi images.
+    These are in restricted, and so cannot be depended on by the
+    metapackages which are in main.
+
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 04 Jan 2021 10:38:15 +0000
+
 livecd-rootfs (2.708) hirsute; urgency=medium
 
   * disk-image-uefi: fix riscv64 subarch user-data.
