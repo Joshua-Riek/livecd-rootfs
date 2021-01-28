@@ -94,7 +94,7 @@ create_and_mount_uefi_partition() {
     mount "${uefi_dev}" "$mountpoint"/boot/efi
 
     cat << EOF >> "mountpoint/etc/fstab"
-LABEL=UEFI	/boot/efi	vfat	defaults	0 0
+LABEL=UEFI	/boot/efi	vfat	defaults	0 1
 EOF
 }
 
@@ -195,18 +195,8 @@ EOF
         --boot-directory=/boot \
         --efi-directory=/boot/efi \
         --target=${efi_target} \
-        --removable \
         --uefi-secure-boot \
         --no-nvram
-
-    if [ -f mountpoint/boot/efi/EFI/BOOT/grub.cfg ]; then
-        sed -i "s| root| root hd0,gpt1|" mountpoint/boot/efi/EFI/BOOT/grub.cfg
-        sed -i "1i${IMAGE_STR}" mountpoint/boot/efi/EFI/BOOT/grub.cfg
-        # For some reason the grub disk is looking for /boot/grub/grub.cfg on
-        # part 15....
-        chroot mountpoint mkdir -p /boot/efi/boot/grub
-        chroot mountpoint cp /boot/efi/EFI/BOOT/grub.cfg /boot/efi/boot/grub
-    fi
 
     if [ "$ARCH" = "amd64" ]; then
         # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
