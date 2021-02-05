@@ -1,3 +1,11 @@
+livecd-rootfs (2.711) hirsute; urgency=medium
+
+  * Perform fsck on all rootfs. (LP: #1912835)
+  * functions: stop removing systemd-detect-virt unconditionally in undivert_grub
+    (LP: #1902260)
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 05 Feb 2021 12:48:44 +0000
+
 livecd-rootfs (2.710) hirsute; urgency=medium
 
   * esp: install grub in ubuntu bootloader id path, instead of removable.
