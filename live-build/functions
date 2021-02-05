@@ -417,7 +417,9 @@ undivert_grub() {
 		--divert /etc/grub.d/30_os-prober.dpkg-divert \
 		--rename /etc/grub.d/30_os-prober
 
-	rm "$CHROOT_ROOT"/usr/bin/systemd-detect-virt
+	if grep -q "^exit 1$" "$CHROOT_ROOT"/usr/bin/systemd-detect-virt; then
+		rm "$CHROOT_ROOT"/usr/bin/systemd-detect-virt
+	fi
 	chroot "$CHROOT_ROOT" dpkg-divert --remove --local \
 		--rename /usr/bin/systemd-detect-virt
 }
