@@ -72,7 +72,7 @@ if [ -n "${root_fs_label}" ]; then
    sed -i "s,^[^#${bl}]*\([${bl}]*/[${bl}].*\),${lstr}\1," "${rootd}/etc/fstab"
 fi
 cat > /etc/fstab << EOM
-LABEL=cloudimg-rootfs	/	 ext4	defaults	0 0
+LABEL=cloudimg-rootfs	/	 ext4	defaults	0 1
 EOM
 
 # for quantal and newer, add /etc/overlayroot.local.conf

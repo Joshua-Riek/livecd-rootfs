@@ -48,7 +48,7 @@ hv_sock
 EOF
 
 cat << EOF >> "${scratch_d}/etc/fstab"
-LABEL=$FS_LABEL	/		ext4	defaults	0 0
+LABEL=$FS_LABEL	/		ext4	defaults	0 1
 EOF
 
 # Customise xrdp
