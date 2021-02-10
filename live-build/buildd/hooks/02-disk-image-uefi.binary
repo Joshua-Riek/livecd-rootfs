@@ -121,6 +121,16 @@ install_grub() {
         chroot mountpoint grub-install --target=i386-pc "${loop_device}"
     fi
 
+    cat > mountpoint/etc/default/grub.d/50-builddimg-settings.cfg << EOF
+GRUB_DEFAULT=0
+GRUB_HIDDEN_TIMEOUT=0.1
+GRUB_HIDDEN_TIMEOUT_QUIET=true
+GRUB_TIMEOUT=0.1
+GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0"
+GRUB_RECORDFAIL_TIMEOUT=0
+GRUB_TERMINAL=console
+EOF
+
     divert_grub mountpoint
     chroot mountpoint update-grub
     replace_grub_root_with_label mountpoint
