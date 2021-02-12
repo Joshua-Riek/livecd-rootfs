@@ -51,7 +51,8 @@ env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
 # Install dependencies
 env DEBIAN_FRONTEND=noninteractive chroot "$mount_d" apt-get \
     install -y lsb-release locales initramfs-tools busybox-initramfs \
-               udev dbus netplan.io cloud-init openssh-server sudo snapd
+               udev dbus netplan.io cloud-init openssh-server sudo snapd \
+               lxd-agent-loader
 
 # Install a kernel
 divert_grub "$mount_d"
