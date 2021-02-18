@@ -94,7 +94,7 @@ create_and_mount_uefi_partition() {
     mount "${uefi_dev}" "$mountpoint"/boot/efi
 
     cat << EOF >> "mountpoint/etc/fstab"
-LABEL=UEFI	/boot/efi	vfat	defaults	0 1
+LABEL=UEFI	/boot/efi	vfat	umask=0077	0 1
 EOF
 }
 
