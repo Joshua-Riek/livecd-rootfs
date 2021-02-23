@@ -1,10 +1,11 @@
-livecd-rootfs (2.712) UNRELEASED; urgency=medium
+livecd-rootfs (2.712) hirsute; urgency=medium
 
+  [ Cody Shepherd ]
   * Add grub config to produce console output and install lxd-agent loader
     to allow buildd vm images to work in lxd without requirement for manual
     installation (LP: #1915571)
 
- -- Cody Shepherd <cody.shepherd@canonical.com>  Fri, 12 Feb 2021 13:28:21 -0800
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 23 Feb 2021 14:32:19 -0600
 
 livecd-rootfs (2.711) hirsute; urgency=medium
 
