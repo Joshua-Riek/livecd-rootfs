@@ -50,7 +50,7 @@ create_empty_partition() {
     parted_prefix="parted $disk --script --"
     ${parted_prefix} mkpart primary "$type" "$start" "$end"
     if [ -n "$bootable" ]; then
-        ${parted_prefix} set "$part" B
+        ${parted_prefix} set "$part" boot
     fi
     ${parted_prefix} print
     ${parted_prefix} align-check opt "$part"
