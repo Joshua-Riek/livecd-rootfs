@@ -1,4 +1,4 @@
-livecd-rootfs (2.713) UNRELEASED; urgency=medium
+livecd-rootfs (2.713) hirsute; urgency=medium
 
   * Use the full name of the 'boot' flag in parted calls as it's not good
     practice to rely on the shortened, ambiguous version.
