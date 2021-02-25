@@ -1,8 +1,8 @@
-livecd-rootfs (2.714) UNRELEASED; urgency=medium
+livecd-rootfs (2.714) hirsute; urgency=medium
 
   * Suppress cloud-init output during boot of live server ISO.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 25 Feb 2021 15:26:01 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 26 Feb 2021 09:57:21 +1300
 
 livecd-rootfs (2.713) hirsute; urgency=medium
 
