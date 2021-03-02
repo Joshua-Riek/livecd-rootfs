@@ -1,9 +1,10 @@
 livecd-rootfs (2.715) hirsute; urgency=medium
 
+  [ Gauthier Jolly ]
   * ubuntu-cpc: change mount options in fstab to be align with defaults
     (LP: #1902103, LP: #1881006)
 
- -- Gauthier <gauthier.jolly@canonical.com>  Tue, 02 Mar 2021 14:17:39 +0000
+ -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 02 Mar 2021 11:40:56 -0600
 
 livecd-rootfs (2.714) hirsute; urgency=medium
 
