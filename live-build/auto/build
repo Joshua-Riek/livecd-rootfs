@@ -68,6 +68,7 @@ if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
         -m owner ! --uid-owner daemon -j REDIRECT --to 8080
 
     # Run proxy as "daemon" to avoid infinite loop.
+    LB_PARENT_MIRROR_BOOTSTRAP=$LB_PARENT_MIRROR_BOOTSTRAP \
     /usr/share/livecd-rootfs/magic-proxy \
         --address="127.0.0.1" \
         --port=8080 \
