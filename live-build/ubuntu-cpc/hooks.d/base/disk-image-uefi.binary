@@ -136,13 +136,17 @@ install_grub() {
             chroot mountpoint u-boot-update
 
             if [ -n "${SUBARCH:-}" ]; then
+                u_boot_arch="${SUBARCH}"
+                if [ "${u_boot_arch}" = "hifive" ]; then
+                    u_boot_arch=sifive_fu540
+                fi
                 chroot mountpoint apt-get install -qqy u-boot-sifive
                 # FSBL, which gets U-Boot SPL
                 loader1="/dev/mapper${loop_device///dev/}p13"
                 # The real U-Boot
                 loader2="/dev/mapper${loop_device///dev/}p14"
-                dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot-spl.bin of=$loader1
-                dd if=mountpoint/usr/lib/u-boot/sifive_fu540/u-boot.itb of=$loader2
+                dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
+                dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
                 # Provide end-user modifyable CIDATA
                 cidata_dev="/dev/mapper${loop_device///dev/}p12"
                 setup_cidata "${cidata_dev}"
