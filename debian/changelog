@@ -1,9 +1,9 @@
-livecd-rootfs (2.717) UNRELEASED; urgency=medium
+livecd-rootfs (2.717) hirsute; urgency=medium
 
   * riscv64: generalise slightly how preinstalled server images are built,
     to allow using subarch to pick u-boot binaries to install.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 10 Mar 2021 14:16:23 +0000
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 11 Mar 2021 17:08:56 +0000
 
 livecd-rootfs (2.716) hirsute; urgency=medium
 
