@@ -1,3 +1,11 @@
+livecd-rootfs (2.718) UNRELEASED; urgency=medium
+
+  * Do not have cloud-init set the installer user's password to something
+    random during boot, as cloud-init now hides the value it was set to much
+    better. Instead, subiquity will reset the password itself.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 24 Mar 2021 14:04:44 +1300
+
 livecd-rootfs (2.717) hirsute; urgency=medium
 
   * riscv64: generalise slightly how preinstalled server images are built,
