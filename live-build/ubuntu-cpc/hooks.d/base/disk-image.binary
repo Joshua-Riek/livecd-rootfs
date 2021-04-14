@@ -31,6 +31,10 @@ case $ARCH:$SUBARCH in
 		echo "We only create EFI images for $ARCH."
 		exit 0
 		;;
+        amd64:generic)
+		echo "We only create EFI images for $SUBARCH."
+		exit 0
+		;;
 	*)
 		;;
 esac
