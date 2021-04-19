@@ -1,4 +1,4 @@
-livecd-rootfs (2.719) UNRELEASED; urgency=medium
+livecd-rootfs (2.719) hirsute; urgency=medium
 
   * Our raspi server images should have used the raspi-server seed in hirsute,
     but we forgot to enable it. As it's release week and doing such invasive
