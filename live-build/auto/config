@@ -947,7 +947,7 @@ case $ARCH in
 			raspi)
 				# Generic Raspberry Pi images
 				COMPONENTS='main restricted universe multiverse'
-				add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi flash-kernel u-boot-tools wpasupplicant
+				add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi flash-kernel u-boot-tools wpasupplicant ubuntu-raspi-settings
 				BINARY_REMOVE_LINUX=false
 				;;
 			imx6)
