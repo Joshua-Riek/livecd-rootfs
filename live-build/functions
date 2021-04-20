@@ -833,7 +833,7 @@ clean_debian_chroot() {
     rm -f chroot/var/cache/debconf/*-old chroot/var/lib/dpkg/*-old
     Chroot chroot apt clean
     # For the docker images we remove even more stuff.
-    if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ]; then
+    if [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-base:minimized" ] || [ "${PROJECT}:${SUBPROJECT:-}" = "ubuntu-oci:minimized" ]; then
         # Remove apt lists (that are currently removed downstream
         # anyway)
         rm -rf chroot/var/lib/apt/lists/*
