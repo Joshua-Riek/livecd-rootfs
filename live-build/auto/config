@@ -281,7 +281,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi|imx6)
+				raspi)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -339,8 +339,6 @@ case $IMAGEFORMAT in
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
-			armhf+imx6)
-				MODEL=nitrogen6x ;;
 			*)
 				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
 				exit 1
@@ -948,12 +946,6 @@ case $ARCH in
 				# Generic Raspberry Pi images
 				COMPONENTS='main restricted universe multiverse'
 				add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi flash-kernel u-boot-tools wpasupplicant ubuntu-raspi-settings
-				BINARY_REMOVE_LINUX=false
-				;;
-			imx6)
-				COMPONENTS='main restricted universe multiverse'
-				KERNEL_FLAVOURS=generic
-				add_package install flash-kernel u-boot-tools wpasupplicant
 				BINARY_REMOVE_LINUX=false
 				;;
 
