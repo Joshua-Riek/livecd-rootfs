@@ -1,3 +1,10 @@
+livecd-rootfs (2.720) UNRELEASED; urgency=medium
+
+  * Simplify how serial-getty@.service is customized in the live server
+    installer environment.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 21 Apr 2021 11:37:17 +1200
+
 livecd-rootfs (2.719) hirsute; urgency=medium
 
   * Our raspi server images should have used the raspi-server seed in hirsute,
