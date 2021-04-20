@@ -812,15 +812,18 @@ case $PROJECT in
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
-		case $ARCH in
-			armhf)
+		case "$ARCH+${SUBARCH:-}" in
+			*+raspi)
+				add_task install ubuntu-server-raspi
+				;;
+			armhf*)
 				KERNEL_FLAVOURS=generic-lpae
 				add_package install flash-kernel
 				;;
-			arm64)
+			arm64*)
 				add_package install flash-kernel
 				;;
-			riscv64)
+			riscv64*)
 				if [ -n "$SUBARCH" ]; then
 					KERNEL_FLAVOURS=generic
 				fi
@@ -938,18 +941,16 @@ case $PROJECT in
 		;;
 esac
 
-case $ARCH in
-	armhf|arm64)
-		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
-		case $SUBARCH in
-			raspi)
-				# Generic Raspberry Pi images
-				COMPONENTS='main restricted universe multiverse'
-				add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi flash-kernel u-boot-tools wpasupplicant ubuntu-raspi-settings
-				BINARY_REMOVE_LINUX=false
-				;;
-
-		esac
+case "$ARCH+${SUBARCH:-}" in
+	arm*+raspi)
+		# Common configuration for all Raspberry Pi image variants (server,
+		# desktop etc.)
+		KERNEL_FLAVOURS="$SUBARCH"
+		COMPONENTS='main restricted universe multiverse'
+		# Most Pi-specific package installation is handled via the seeds in the
+		# per-project/subproject cases above
+		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tool
+		BINARY_REMOVE_LINUX=false
 		;;
 esac
 
