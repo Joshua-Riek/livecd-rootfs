@@ -906,6 +906,62 @@ EOF
 fi
 }
 
+configure_oci() {
+    # configure a chroot to be a OCI/docker container
+    # theses changes are taken from the current Dockerfile modifications done
+    # at https://github.com/tianon/docker-brew-ubuntu-core/blob/master/update.sh
+
+    local chroot=$1
+
+    echo "==== Configuring OCI ===="
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L40-L48
+    echo '#!/bin/sh' > ${chroot}/usr/sbin/policy-rc.d
+    echo 'exit 101' >> ${chroot}/usr/sbin/policy-rc.d
+    Chroot ${chroot} "chmod +x /usr/sbin/policy-rc.d"
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L54-L56
+    Chroot ${chroot} "dpkg-divert --local --rename --add /sbin/initctl"
+    cp -a ${chroot}/usr/sbin/policy-rc.d ${chroot}/sbin/initctl
+    sed -i 's/^exit.*/exit 0/' ${chroot}/sbin/initctl
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L71-L78
+    echo 'force-unsafe-io' > ${chroot}/etc/dpkg/dpkg.cfg.d/docker-apt-speedup
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L85-L105
+    echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' > ${chroot}/etc/apt/apt.conf.d/docker-clean
+
+    echo 'APT::Update::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' >> ${chroot}/etc/apt/apt.conf.d/docker-clean
+
+    echo 'Dir::Cache::pkgcache ""; Dir::Cache::srcpkgcache "";' >> ${chroot}/etc/apt/apt.conf.d/docker-clean
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L109-L115
+    echo 'Acquire::Languages "none";' > ${chroot}/etc/apt/apt.conf.d/docker-no-languages
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L118-L130
+    echo 'Acquire::GzipIndexes "true"; Acquire::CompressionTypes::Order:: "gz";' > ${chroot}/etc/apt/apt.conf.d/docker-gzip-indexes
+
+    # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L134-L151
+    echo 'Apt::AutoRemove::SuggestsImportant "false";' > ${chroot}/etc/apt/apt.conf.d/docker-autoremove-suggests
+
+    # delete all the apt list files since they're big and get stale quickly
+    rm -rf ${chroot}/var/lib/apt/lists/*
+
+    # verify that the APT lists files do not exist
+    Chroot chroot "apt-get indextargets" > indextargets.out
+    [ ! -s indextargets.out ]
+    rm indextargets.out
+    # (see https://bugs.launchpad.net/cloud-images/+bug/1699913)
+
+    # make systemd-detect-virt return "docker"
+    # See: https://github.com/systemd/systemd/blob/aa0c34279ee40bce2f9681b496922dedbadfca19/src/basic/virt.c#L434
+    mkdir -p ${chroot}/run/systemd
+    echo 'docker' > ${chroot}/run/systemd/container
+
+    rm -rf ${chroot}/var/cache/apt/*.bin
+    echo "==== Configuring OCI done ===="
+}
+
 configure_network_manager() {
     # If the image pre-installs network-manager, let it manage all devices by
     # default. Installing NM on an existing system only manages wifi and wwan via

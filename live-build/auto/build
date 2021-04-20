@@ -441,6 +441,10 @@ serial: $BUILDSTAMP
 EOF
 		fi
 
+		if [ "$PROJECT" = "ubuntu-oci" ]; then
+		    configure_oci chroot
+		fi
+
 		configure_network_manager
 
 		echo "===== Checking size of /usr/share/doc ====="
