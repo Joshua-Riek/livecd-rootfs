@@ -1,3 +1,11 @@
+livecd-rootfs (2.720) UNRELEASED; urgency=medium
+
+  * Start using the ubuntu-server-raspi seeds for preinstalled raspi server
+    images, similarly to how it's done for desktop-preinstalled images.
+  * Drop the unused imx6 support.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 20 Apr 2021 11:15:49 +0200
+
 livecd-rootfs (2.719) hirsute; urgency=medium
 
   * Our raspi server images should have used the raspi-server seed in hirsute,
