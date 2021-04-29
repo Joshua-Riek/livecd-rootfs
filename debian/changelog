@@ -1,3 +1,13 @@
+livecd-rootfs (2.719) hirsute; urgency=medium
+
+  * Our raspi server images should have used the raspi-server seed in hirsute,
+    but we forgot to enable it. As it's release week and doing such invasive
+    changes to our Pi images is risky, let's add the dependency on
+    ubuntu-raspi-settings (which is seeded) to fix USB ethernet devices and
+    GPIO permissions (LP: #1922266).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 19 Apr 2021 22:54:03 +0200
+
 livecd-rootfs (2.718) hirsute; urgency=medium
 
   * Do not have cloud-init set the installer user's password to something
