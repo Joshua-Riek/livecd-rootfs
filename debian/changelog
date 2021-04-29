@@ -1,3 +1,11 @@
+livecd-rootfs (2.720) UNRELEASED; urgency=medium
+
+  [ Thomas Bechtold ]
+  * Add a new ubuntu-oci project that contains the customizations currently
+    performed downstream for the official Ubuntu images on dockerhub.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 30 Apr 2021 11:43:39 +1200
+
 livecd-rootfs (2.719) hirsute; urgency=medium
 
   * Our raspi server images should have used the raspi-server seed in hirsute,

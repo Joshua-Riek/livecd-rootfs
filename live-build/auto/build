@@ -245,7 +245,7 @@ if  [ "$(dpkg-divert --truename /usr/bin/man)" = "/usr/bin/man.REAL" ]; then
 fi
 EOF
 
-                if [ "$PROJECT" != "ubuntu-base" ]; then
+                if [ "$PROJECT" != "ubuntu-base" ] && [ "$PROJECT" != "ubuntu-oci" ]; then
                     	# ubuntu-minimal is too much for a docker container (it contains
                     	# systemd and other things)
 	                cat >> chroot/usr/local/sbin/unminimize <<'EOF'
@@ -439,6 +439,10 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 build_name: $BUILD_NAME
 serial: $BUILDSTAMP
 EOF
+		fi
+
+		if [ "$PROJECT" = "ubuntu-oci" ]; then
+		    configure_oci chroot
 		fi
 
 		configure_network_manager

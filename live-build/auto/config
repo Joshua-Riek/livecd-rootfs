@@ -514,7 +514,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-cpc)
+		ubuntu-core|ubuntu-base|ubuntu-oci|base|ubuntu-cpc)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -796,6 +796,10 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
+	ubuntu-oci)
+		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+		;;
+
 	ubuntu-cpc)
 		KERNEL_FLAVOURS=virtual
 
@@ -962,7 +966,7 @@ case $ARCH in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*)
+	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -1029,7 +1033,7 @@ echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
 case $PROJECT in
-  ubuntu-cpc|ubuntu-core|ubuntu-base|base)
+  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|base)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
     # not want this group in projects that are effectively just chroots
     ;;
