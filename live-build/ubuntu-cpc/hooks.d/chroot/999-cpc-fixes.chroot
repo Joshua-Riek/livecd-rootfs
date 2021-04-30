@@ -117,7 +117,7 @@ fi
 
 case $arch in
 	# ARM, ppc, riscv64 and s390x images are special
-	armhf|arm64|powerpc|ppc64el|s390x|riscv64)
+	powerpc|ppc64el|s390x|riscv64)
 		exit 0
 		;;
 esac
@@ -208,17 +208,20 @@ GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"
 # Set the grub console type
 GRUB_TERMINAL=console
 EOF
-_xchroot "${rootd}" update-grub2
 
-# since this is a disk image, we technically don't need to install all the
-# grub modules, as the image itself is not bootable. This makes for a small
-# disk image
-_xchroot "${rootd}" update-grub
+# Sometimes grub is not installed yet (i.e. uefi arm images). Overall
+# it is odd that we run this out of chroot hooks, instead of binary
+# hooks. I wonder if we can move all of this to disk-image hooks.
+if [ -x "${rootd}/usr/sbin/update-grub" ]; then
+    _xchroot "${rootd}" update-grub
+fi
 
 # reconfigure grub so that upgrades to grub-pc do not force a debconf config
 # changed prompt (LP: #1009294).  This re-runs update-grub
-_xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
-    dpkg-reconfigure grub-pc
+if [ -n "`_xchroot "${rootd}" dpkg-query -W grub-pc 2>/dev/null`" ]; then
+    _xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
+             dpkg-reconfigure grub-pc
+fi
 
 grub2cfg="${rootd}/boot/grub/grub.cfg"
 [ ! -f "${grub2cfg}" ] ||
