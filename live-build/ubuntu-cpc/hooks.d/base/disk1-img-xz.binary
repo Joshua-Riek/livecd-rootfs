@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+
+. config/functions
+. config/binary
+
+if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" != "1" ]; then
+    echo ".disk1.img.xz preinstalled image requested to be built"
+    echo "but the build is not generated with hardcoded password"
+    echo "the build is missconfigured"
+    exit 1
+fi
+
+if [ -f binary/boot/disk-uefi.ext4 ]; then
+    xz -T4 -c binary/boot/disk-uefi.ext4 > livecd.ubuntu-cpc.disk1.img.xz
+elif [ -f binary/boot/disk.ext4 ]; then
+    xz -T4 -c binary/boot/disk.ext4 > livecd.ubuntu-cpc.disk1.img.xz
+fi

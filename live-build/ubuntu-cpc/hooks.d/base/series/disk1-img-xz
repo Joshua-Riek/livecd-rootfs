@@ -1,0 +1,3 @@
+depends disk-image
+base/disk1-img-xz.binary
+provides livecd.ubuntu-cpc.disk1.img.xz
