@@ -35,6 +35,18 @@ run_iptables () {
     kver="${kver#*.}"
     kver_minor="${kver%%.*}"
 
+
+    # LP: #1917920
+    # I'm seeing issues after iptables got upgraded from 1.8.5 to
+    # 1.8.7 Somehow installing our nat rule doesn't get activated, and
+    # no networking is happening at all.
+
+    # But somehow calling both iptables -S makes things start working.
+    # Maybe no default chains are installed in our network namespace?!
+    # Or 1.8.7 is somehow broken?
+    iptables -v -t nat -S
+    iptables-legacy -v -t nat -S
+
     if [ "$kver_major" -lt 4 ] || \
        ([ "$kver_major" = 4 ] && [ "$kver_minor" -lt 15 ]); then
         iptables-legacy "$@"
@@ -52,10 +64,11 @@ if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
     apt-get -qyy install iptables
 
     # Redirect all outgoing traffic to port 80 to proxy instead.
-    run_iptables -t nat -A OUTPUT -p tcp --dport 80 \
+    run_iptables -v -t nat -A OUTPUT -p tcp --dport 80 \
         -m owner ! --uid-owner daemon -j REDIRECT --to 8080
 
     # Run proxy as "daemon" to avoid infinite loop.
+    LB_PARENT_MIRROR_BOOTSTRAP=$LB_PARENT_MIRROR_BOOTSTRAP \
     /usr/share/livecd-rootfs/magic-proxy \
         --address="127.0.0.1" \
         --port=8080 \
@@ -65,6 +78,9 @@ if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
         --pid-file=config/magic-proxy.pid \
         --background \
         --setsid
+
+    # Quick check that magic proxy & iptables chains are working
+    timeout 3m apt-get update
 fi
 
 # Link output files somewhere launchpad-buildd will be able to find them.
