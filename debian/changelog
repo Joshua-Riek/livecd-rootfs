@@ -1,9 +1,38 @@
-livecd-rootfs (2.720) UNRELEASED; urgency=medium
+livecd-rootfs (2.722) UNRELEASED; urgency=medium
 
   * Simplify how getty services are customized / overriden in the live server
     installer environment. (LP: #1888497)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 21 Apr 2021 11:37:17 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 06 May 2021 10:27:51 +1200
+
+livecd-rootfs (2.721) impish; urgency=medium
+
+  [ Dimitri John Ledkov ]
+  * 999-cpc-fixes: enable more code on grub2 armhf & arm64 (LP: #1925780)
+  * Add support for generic preinstalled images. LP: #1923832
+  * Change iptables calls, to query rules and quickly check that
+    connectivity works after transparent proxy has been installed. LP:
+    #1917920
+  * magic-proxy: replace http.client with urllib calls
+  * buildd: Re-enable merged /usr by default, as it is now required
+
+  [ Michael Hudson-Doyle ]
+  * remove the workaround for bug #1893818
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Start using the ubuntu-server-raspi seeds for preinstalled raspi server
+    images, similarly to how it's done for desktop-preinstalled images.
+  * Drop the unused imx6 support.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 May 2021 19:08:21 +0100
+
+livecd-rootfs (2.720) impish; urgency=medium
+
+  [ Thomas Bechtold ]
+  * Add a new ubuntu-oci project that contains the customizations currently
+    performed downstream for the official Ubuntu images on dockerhub.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 30 Apr 2021 11:48:32 +1200
 
 livecd-rootfs (2.719) hirsute; urgency=medium
 

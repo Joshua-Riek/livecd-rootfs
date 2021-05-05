@@ -281,7 +281,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi|imx6)
+				raspi)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -291,6 +291,19 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 			;;
 		ubuntu-server:live)
 			IMAGEFORMAT=plain
+			;;
+	esac
+fi
+
+# Configure preinstalled ubuntu-cpc images with included password
+# one also must request disk1-img-xz image format
+if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
+	case $ARCH:$SUBARCH in
+		armhf:raspi2|riscv64:sifive_*|*:generic)
+			IMAGE_HAS_HARDCODED_PASSWORD=1
+			if [ -z "${IMAGE_TARGETS:-}" ]; then
+				export IMAGE_TARGETS="disk1-img-xz"
+			fi
 			;;
 	esac
 fi
@@ -339,8 +352,6 @@ case $IMAGEFORMAT in
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
-			armhf+imx6)
-				MODEL=nitrogen6x ;;
 			*)
 				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
 				exit 1
@@ -514,7 +525,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|base|ubuntu-cpc)
+		ubuntu-core|ubuntu-base|ubuntu-oci|base|ubuntu-cpc)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -796,6 +807,10 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
+	ubuntu-oci)
+		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+		;;
+
 	ubuntu-cpc)
 		KERNEL_FLAVOURS=virtual
 
@@ -814,15 +829,26 @@ case $PROJECT in
 
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
-		case $ARCH in
-			armhf)
+		case "$ARCH+${SUBARCH:-}" in
+			*+raspi)
+				add_task install ubuntu-server-raspi
+				;;
+			armhf*)
 				KERNEL_FLAVOURS=generic-lpae
 				add_package install flash-kernel
 				;;
-			arm64)
+			arm64*)
 				add_package install flash-kernel
+				if [ "${SUBARCH:-}" = "generic" ]; then
+					KERNEL_FLAVOURS=generic
+				fi
 				;;
-			riscv64)
+			amd64)
+				if [ "${SUBARCH:-}" = "generic" ]; then
+					KERNEL_FLAVOURS=generic
+				fi
+				;;
+			riscv64*)
 				if [ -n "$SUBARCH" ]; then
 					KERNEL_FLAVOURS=generic
 				fi
@@ -940,29 +966,21 @@ case $PROJECT in
 		;;
 esac
 
-case $ARCH in
-	armhf|arm64)
-		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
-		case $SUBARCH in
-			raspi)
-				# Generic Raspberry Pi images
-				COMPONENTS='main restricted universe multiverse'
-				add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi flash-kernel u-boot-tools wpasupplicant ubuntu-raspi-settings
-				BINARY_REMOVE_LINUX=false
-				;;
-			imx6)
-				COMPONENTS='main restricted universe multiverse'
-				KERNEL_FLAVOURS=generic
-				add_package install flash-kernel u-boot-tools wpasupplicant
-				BINARY_REMOVE_LINUX=false
-				;;
-
-		esac
+case "$ARCH+${SUBARCH:-}" in
+	arm*+raspi)
+		# Common configuration for all Raspberry Pi image variants (server,
+		# desktop etc.)
+		KERNEL_FLAVOURS="$SUBARCH"
+		COMPONENTS='main restricted universe multiverse'
+		# Most Pi-specific package installation is handled via the seeds in the
+		# per-project/subproject cases above
+		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tool
+		BINARY_REMOVE_LINUX=false
 		;;
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*)
+	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -1028,8 +1046,15 @@ echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
 
+if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
+	echo IMAGE_HAS_HARDCODED_PASSWORD=1 >> config/binary
+	if [ -n "${IMAGE_TARGETS:-}" ]; then
+		echo "IMAGE_TARGETS=\"${IMAGE_TARGETS:-}\"" >> config/binary
+	fi
+fi
+
 case $PROJECT in
-  ubuntu-cpc|ubuntu-core|ubuntu-base|base)
+  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|base)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
     # not want this group in projects that are effectively just chroots
     ;;
@@ -1225,11 +1250,6 @@ esac
 case $SUBPROJECT in
 	buildd)
 		cp -af /usr/share/livecd-rootfs/live-build/buildd/* config/
-
-		# Disable merged /usr to avoid building packages with
-		# hardcoded paths that assume it.
-		echo 'DEBOOTSTRAP_OPTIONS="$DEBOOTSTRAP_OPTIONS --no-merged-usr"' \
-			>> config/common
 		;;
 esac
 

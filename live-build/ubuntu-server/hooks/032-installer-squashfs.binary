@@ -75,11 +75,6 @@ chroot $INSTALLER_ROOT apt-get clean
 # "helpful" casper script that mounts any swap partitions it finds.
 rm -f $INSTALLER_ROOT/usr/share/initramfs-tools/scripts/casper-bottom/*swap
 
-# For bug #1893818 "Several blockprobe errors if trying to install the
-# groovy daily live on LPAR", remove a udev rule that removes
-# partition nodes for multipathed disks that breaks the installer.
-rm -f $INSTALLER_ROOT/lib/udev/rules.d/68-del-part-nodes.rules
-
 # Preseed subiquity into installer layer
 snap_prepare $INSTALLER_ROOT
 snap_preseed $INSTALLER_ROOT subiquity/classic

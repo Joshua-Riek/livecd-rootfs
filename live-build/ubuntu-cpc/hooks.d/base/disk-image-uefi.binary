@@ -21,8 +21,11 @@ case ${PROJECT:-} in
         ;;
 esac
 
-if [ "$ARCH" = "riscv64" ] && [ -n "${SUBARCH:-}" ]; then
-    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2), due to linux-generic instead of virtual
+# Change image size for preinstalled generic images & all preinstalled riscv64 images
+if [ -n "${SUBARCH:-}" ]; then
+    if [ "${SUBARCH:-}" = "generic" ] || [ "$ARCH" = "riscv64" ]; then
+        IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2), due to linux-generic instead of virtual
+fi
 fi
 
 . config/binary
@@ -34,10 +37,20 @@ create_partitions() {
     sgdisk "${disk_image}" --zap-all
     case $ARCH in
         arm64|armhf)
-            sgdisk "${disk_image}" \
-                --new=15:0:204800 \
-                --typecode=15:ef00 \
-                --new=1:
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                sgdisk "${disk_image}" \
+                       --new=15:0:204800 \
+                       --typecode=15:ef00 \
+                       --attributes=15:set:2 \
+                       --new=14::+4M \
+                       --change-name=14:CIDATA \
+                       --new=1:
+            else
+                sgdisk "${disk_image}" \
+                       --new=15:0:204800 \
+                       --typecode=15:ef00 \
+                       --new=1:
+            fi
             ;;
         riscv64)
             # same as arm64/armhf, but set bit 2 legacy bios bootable
@@ -72,13 +85,25 @@ create_partitions() {
             fi
             ;;
         amd64)
-            sgdisk "${disk_image}" \
-                --new=14::+4M \
-                --new=15::+106M \
-                --new=1::
-            sgdisk "${disk_image}" \
-                -t 14:ef02 \
-                -t 15:ef00
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                sgdisk "${disk_image}" \
+                       --new=14::+4M \
+                       --typecode=14:ef02 \
+                       --attributes=14:set:2 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --new=13::+4M \
+                       --change-name=13:CIDATA \
+                       --new=1::
+            else
+                sgdisk "${disk_image}" \
+                       --new=14::+4M \
+                       --new=15::+106M \
+                       --new=1::
+                sgdisk "${disk_image}" \
+                       -t 14:ef02 \
+                       -t 15:ef00
+            fi
             ;;
     esac
     sgdisk "${disk_image}" \
@@ -119,14 +144,38 @@ install_grub() {
         arm64)
             chroot mountpoint apt-get -qqy install --no-install-recommends shim-signed grub-efi-arm64-signed
             efi_target=arm64-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="/dev/mapper${loop_device///dev/}p14"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
             ;;
         armhf)
             chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm grub-efi-arm-bin
             efi_target=arm-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="/dev/mapper${loop_device///dev/}p14"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
             ;;
         amd64)
             chroot mountpoint apt-get install -qqy grub-pc shim-signed
             efi_target=x86_64-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="/dev/mapper${loop_device///dev/}p13"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
             ;;
         riscv64)
             # TODO grub-efi-riscv64 does not exist yet on riscv64
@@ -153,34 +202,7 @@ install_grub() {
                 # Provide stock nocloud datasource
                 # Allow interactive login on baremetal SiFive board,
                 # without a cloud datasource.
-                mkdir -p mountpoint/var/lib/cloud/seed/nocloud-net
-                cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud-net/meta-data
-instance-id: iid-$(openssl rand -hex 8)
-EOF
-                cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud-net/user-data
-#cloud-config
-chpasswd:
-    expire: True
-    list:
-        - ubuntu:ubuntu
-ssh_pwauth: True
-EOF
-                cat <<EOF >mountpoint/var/lib/cloud/seed/nocloud-net/network-config
-# This is the initial network config.
-# It can be overwritten by cloud-init.
-version: 2
-ethernets:
-  zz-all-en:
-    match:
-      name: "en*"
-    dhcp4: true
-    optional: true
-  zz-all-eth:
-    match:
-      name: "eth*"
-    dhcp4: true
-    optional: true
-EOF
+                setup_cinocloud mountpoint
             fi
             ## TODO remove below once we have grub-efi-riscv64
             rm mountpoint/tmp/device.map

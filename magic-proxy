@@ -68,6 +68,45 @@ class LPInReleaseCacheError(LPInReleaseBaseError):
 class LPInReleaseProxyError(LPInReleaseBaseError):
     pass
 
+IN_LP = "http://ftpmaster.internal/ubuntu" in os.environ.get("LB_PARENT_MIRROR_BOOTSTRAP", "")
+
+# We cannot proxy & rewrite https requests Thus apt will talk to us
+# over http But we must upgrade to https for private-ppas, outside of
+# launchpad hence use this helper to re-write urls.
+def get_uri(host, path):
+    if host in ("private-ppa.launchpad.net", "private-ppa.buildd"):
+        if IN_LP:
+            return "http://private-ppa.buildd" + path
+        else:
+            return "https://private-ppa.launchpad.net" + path
+    # TODO add split mirror handling for ftpmaster.internal =>
+    # (ports|archive).ubuntu.com
+    return "http://" + host + path
+
+def initialize_auth():
+    auth_handler = urllib.request.HTTPBasicAuthHandler()
+    with open('/etc/apt/sources.list') as f:
+        for line in f.readlines():
+            for word in line.split():
+                if not word.startswith('http'):
+                    continue
+                parse=urllib.parse.urlparse(word)
+                if not parse.username:
+                    continue
+                if parse.hostname not in ("private-ppa.launchpad.net", "private-ppa.buildd"):
+                    continue
+                auth_handler.add_password(
+                    "Token Required", "https://private-ppa.launchpad.net" + parse.path,
+                    parse.username, parse.password)
+                auth_handler.add_password(
+                    "Token Required", "http://private-ppa.buildd" + parse.path,
+                    parse.username, parse.password)
+                print("add password for", parse.path)
+    opener = urllib.request.build_opener(auth_handler)
+    urllib.request.install_opener(opener)
+
+initialize_auth()
+
 class InRelease:
     """This class represents an InRelease file."""
 
@@ -97,7 +136,8 @@ class InRelease:
         this is set explicitly to correspond to the Last-Modified header spat
         out by the Web server.
         """
-        self.mirror = mirror
+        parsed = urllib.parse.urlparse(mirror)
+        self.mirror = get_uri(parsed.hostname, parsed.path)
         self.suite  = suite
         self.data   = data
         self.dict   = {}
@@ -363,7 +403,7 @@ class LPInReleaseCache:
         suite."""
         with self._lock:
             url_obj = urllib.parse.urlparse(mirror)
-            address = url_obj.hostname + url_obj.path.rstrip("/")
+            address = url_obj.scheme + url_obj.hostname + url_obj.path.rstrip("/")
 
             inrel_by_hash = self._data\
                 .get(address, {})\
@@ -403,7 +443,8 @@ class LPInReleaseIndex:
         which case all look-ups will first go to the cache and only cache
         misses will result in requests to the Web server.
         """
-        self._mirror = mirror
+        parsed = urllib.parse.urlparse(mirror)
+        self._mirror = get_uri(parsed.hostname, parsed.path)
         self._suite  = suite
         self._cache  = cache
 
@@ -528,7 +569,8 @@ class LPInReleaseIndex:
                 return [inrel.hash for inrel in cache_entry]
 
         try:
-            with urllib.request.urlopen(self._base_url) as response:
+            request=urllib.request.Request(self._base_url)
+            with urllib.request.urlopen(request) as response:
                 content_encoding = self._guess_content_encoding_for_response(
                         response)
 
@@ -744,6 +786,23 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         """Process a GET request."""
         self.__get_request()
 
+    def sanitize_requestline(self):
+        requestline = []
+        for word in self.requestline.split():
+            if word.startswith('http'):
+                parse = urllib.parse.urlparse(word)
+                parse = urllib.parse.ParseResult(
+                    parse.scheme,
+                    parse.hostname, # not netloc, to sanitize username/password
+                    parse.path,
+                    parse.params,
+                    parse.query,
+                    parse.fragment)
+                requestline.append(urllib.parse.urlunparse(parse))
+            else:
+                requestline.append(word)
+        self.requestline = ' '.join(requestline)
+
     def __get_request(self, verb="GET"):
         """Pass all requests on to the destination server 1:1 except when the
         target is an InRelease file or a resource listed in an InRelease files.
@@ -756,15 +815,18 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         happening here, the client does not know that what it receives is not
         exactly what it requested."""
 
-        host, path = self.__get_host_path()
+        uri = self.headers.get("host") + self.path
+        parsed = urllib.parse.urlparse(uri)
+
+        self.sanitize_requestline()
 
         m = re.match(
             r"^(?P<base>.*?)/dists/(?P<suite>[^/]+)/(?P<target>.*)$",
-            path
+            parsed.path
         )
 
         if m:
-            mirror = "http://" + host + m.group("base")
+            mirror = get_uri(parsed.hostname, m.group("base"))
             base   = m.group("base")
             suite  = m.group("suite")
             target = m.group("target")
@@ -775,50 +837,49 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     self.server.snapshot_stamp)
 
             if inrelease is None:
-                self.__send_error(404, "No InRelease file found for given "
-                                       "mirror, suite and timestamp.")
+                self.log_message(
+                    "InRelease not found for {}/{}".format(parsed.hostname, parsed.path))
+                self.send_error(404, "No InRelease file found for given "
+                                "mirror, suite and timestamp.")
                 return
+
+            hash_ = None
 
             if target == "InRelease":
-                # If target is InRelease, send back contents directly.
-                data = inrelease.data.encode("utf-8")
-
-                self.log_message(
-                    "Inject InRelease '{}'".format(inrelease.hash))
-
-                self.send_response(200)
-                self.send_header("Content-Length", len(data))
-                self.end_headers()
-
-                if verb == "GET":
-                    self.wfile.write(data)
-
-                return
+                hash_ = inrelease.hash
             else:
-                # If target hash is listed, then redirect to by-hash URL.
                 hash_ = inrelease.get_hash_for(target)
 
-                if hash_:
-                    self.log_message(
-                        "Inject {} for {}".format(hash_, target))
+            if hash_:
+                self.log_message(
+                    "Inject {} for {}".format(hash_, target))
 
-                    target_path = target.rsplit("/", 1)[0]
+                target_path = target.rsplit("/", 1)[0]
 
-                    path = "{}/dists/{}/{}/by-hash/SHA256/{}"\
-                            .format(base, suite, target_path, hash_)
+                uri = "{}/dists/{}/by-hash/SHA256/{}"\
+                    .format(mirror, suite, hash_)
+            else:
+                uri = get_uri(parsed.hostname, parsed.path)
 
+        ## use requests such that authentication via password database happens
+        ## reuse all the headers that we got asked to provide
         try:
-            client = http.client.HTTPConnection(host)
-            client.request(verb, path)
-        except Exception as e:
-            self.log_error("Failed to retrieve http://{}{}: {}"
-                    .format(host, path, str(e)))
-            return
+            with urllib.request.urlopen(
+                urllib.request.Request(
+                    uri,
+                    method=verb,
+                    headers=self.headers)) as response:
+                self.__send_response(response)
+        except urllib.error.HTTPError as e:
+            if e.code not in (304,):
+                self.log_message(
+                    "urlopen() failed for {} with {}".format(uri, e.reason))
+            self.__send_response(e)
+        except urllib.error.URLError as e:
+            self.log_message(
+                "urlopen() failed for {} with {}".format(uri, e.reason))
+            self.send_error(501, e.reason)
 
-        try:
-            self.__send_response(client.getresponse())
-        except Exception as e:
-            self.log_error("Error delivering response: {}".format(str(e)))
 
     def __get_host_path(self):
         """Figure out the host to contact and the path of the resource that is
@@ -831,20 +892,26 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
     def __send_response(self, response):
         """Pass on upstream response headers and body to the client."""
-        self.send_response(response.status)
+        if hasattr(response, "status"):
+            status = response.status
+        elif hassattr(response, "code"):
+            status = response.code
+        elif hasattr(response, "getstatus"):
+            status = response.getstatus()
 
-        for name, value in response.getheaders():
+        if hasattr(response, "headers"):
+            headers = response.headers
+        elif hasattr(response, "info"):
+            headers = response.info()
+
+        self.send_response(status)
+
+        for name, value in headers.items():
             self.send_header(name, value)
 
         self.end_headers()
-        shutil.copyfileobj(response, self.wfile)
-
-    def __send_error(self, status, message):
-        """Return an HTTP error status and a message in the response body."""
-        self.send_response(status)
-        self.send_header("Content-Type", "text/plain; charset=utf-8")
-        self.end_headers()
-        self.wfile.write(message.encode("utf-8"))
+        if hasattr(response, "read"):
+            shutil.copyfileobj(response, self.wfile)
 
 
 class MagicHTTPProxy(socketserver.ThreadingMixIn, http.server.HTTPServer):
