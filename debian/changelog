@@ -1,4 +1,4 @@
-livecd-rootfs (2.721) UNRELEASED; urgency=medium
+livecd-rootfs (2.721) impish; urgency=medium
 
   [ Dimitri John Ledkov ]
   * 999-cpc-fixes: enable more code on grub2 armhf & arm64 (LP: #1925780)
@@ -17,7 +17,7 @@ livecd-rootfs (2.721) UNRELEASED; urgency=medium
     images, similarly to how it's done for desktop-preinstalled images.
   * Drop the unused imx6 support.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 May 2021 11:42:27 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 May 2021 19:08:21 +0100
 
 livecd-rootfs (2.720) impish; urgency=medium
 
