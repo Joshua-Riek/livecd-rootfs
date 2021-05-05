@@ -1,3 +1,10 @@
+livecd-rootfs (2.721) UNRELEASED; urgency=medium
+
+  * Remove the workaround for bug #1919420 as subiquity now contains a version
+    of curtin that has the necessary fix.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 05 May 2021 13:53:25 +1200
+
 livecd-rootfs (2.720) impish; urgency=medium
 
   [ Thomas Bechtold ]
