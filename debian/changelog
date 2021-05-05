@@ -1,3 +1,15 @@
+livecd-rootfs (2.721) UNRELEASED; urgency=medium
+
+  * 999-cpc-fixes: enable more code on grub2 armhf & arm64 (LP: #1925780)
+  * Add support for generic preinstalled images. LP: #1923832
+  * Change iptables calls, to query rules and quickly check that
+    connectivity works after transparent proxy has been installed. LP:
+    #1917920
+  * magic-proxy: replace http.client with urllib calls
+  * buildd: Re-enable merged /usr by default, as it is now required
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 May 2021 11:39:16 +0100
+
 livecd-rootfs (2.720) impish; urgency=medium
 
   [ Thomas Bechtold ]
