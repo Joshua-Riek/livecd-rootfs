@@ -12,6 +12,11 @@ livecd-rootfs (2.721) UNRELEASED; urgency=medium
   [ Michael Hudson-Doyle ]
   * remove the workaround for bug #1893818
 
+  [ Łukasz 'sil2100' Zemczak ]
+  * Start using the ubuntu-server-raspi seeds for preinstalled raspi server
+    images, similarly to how it's done for desktop-preinstalled images.
+  * Drop the unused imx6 support.
+
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 05 May 2021 11:42:27 +0100
 
 livecd-rootfs (2.720) impish; urgency=medium
