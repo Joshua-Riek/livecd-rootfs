@@ -1,3 +1,10 @@
+livecd-rootfs (2.722) UNRELEASED; urgency=medium
+
+  * Simplify how getty services are customized / overriden in the live server
+    installer environment. (LP: #1888497)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 06 May 2021 10:27:51 +1200
+
 livecd-rootfs (2.721) impish; urgency=medium
 
   [ Dimitri John Ledkov ]
