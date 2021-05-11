@@ -588,7 +588,7 @@ esac
 if ! [ -e config/germinate-output/structure ]; then
         echo "Running germinate..."
         (cd config/germinate-output && germinate --no-rdepends --no-installer \
-                -S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
+                -S $SEEDMIRROR -m $MIRROR -d $SUITE,$SUITE-updates -s $SEED \
                 ${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
 fi
 
