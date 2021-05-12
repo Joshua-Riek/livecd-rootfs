@@ -525,7 +525,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-base|ubuntu-oci|base|ubuntu-cpc)
+		ubuntu-base|ubuntu-oci|ubuntu-cpc)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -730,10 +730,6 @@ case $PROJECT in
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntukylin-live'
 		COMPONENTS='main restricted universe'
-		;;
-
-	base)
-		add_task install minimal standard
 		;;
 
 	ubuntu-server)
@@ -1000,7 +996,7 @@ if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
 fi
 
 case $PROJECT in
-  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|base)
+  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
     # not want this group in projects that are effectively just chroots
     ;;

@@ -1,8 +1,13 @@
 livecd-rootfs (2.723) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Drop code for the 'ubuntu-core' project when not using
     image_format: ubuntu-image, as this is obsolete and not used to build
     core* snaps in recent series.
+
+  [ Michael Hudson-Doyle ]
+  * Remove all references to the "base" project, which has not been
+    built since 16.04 release day.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 11 May 2021 17:08:24 -0700
 
