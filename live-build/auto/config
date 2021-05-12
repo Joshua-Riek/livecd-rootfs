@@ -525,7 +525,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-core|ubuntu-base|ubuntu-oci|base|ubuntu-cpc)
+		ubuntu-base|ubuntu-oci|base|ubuntu-cpc)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -747,60 +747,6 @@ case $PROJECT in
 		esac
 		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
-		;;
-
-	ubuntu-core)
-		OPTS="${OPTS:+$OPTS }--apt-recommends false"
-
-		# some workarounds because the seeds are not quite
-		# corrent at the moment
-		add_package install dbus
-		add_package install isc-dhcp-client
-		add_package install libpam-systemd
-		add_package install ppp
-		add_package install watchdog
-		# no Task: header yet
-		add_package install snapd
-		add_package install ubuntu-core-snapd-units
-		add_package install nplan
-                # we want all arches to have u-boot-tools
-                add_package install u-boot-tools
-
-		# no minimal as we want to be really minimal
-		#add_task install minimal
-		add_task install ubuntu-core
-
-                # more packages are pulled in via the seed.
-                # (important to remember when comparing to the
-                #  livecd-rootfs from ppa:snappy-dev/image)
-
-		case $ARCH in
-			i386)
-				# efi support can go once the task
-				# header is available for grub-efi-ia32-bin
-				add_package install grub-efi-ia32-bin
-				;;
-		esac
-
-		# generic kernel etc
-		KERNEL_FLAVOURS=none
-		case $ARCH in
-			i386)
-				add_package install grub-pc
-				;;
-			amd64)
-				add_package install grub-pc
-				add_package install shim-signed
-				;;
-		esac
-		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-
-		# contains the framework definition
-		add_package install ubuntu-core-libs
-
-		# universe needed for 'system-image-cli' and multiverse for firmware
-		COMPONENTS='main restricted universe multiverse'
-		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
 	ubuntu-base)
@@ -1213,7 +1159,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-core:system-image|ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
+	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
