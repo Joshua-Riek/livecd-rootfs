@@ -13,7 +13,6 @@ fi
 # Listed subprojects can be combined with other projects as well,
 # but this list gives reasonable coverage.
 ALL_TRIPLETS="
- base::
  edubuntu::
  edubuntu-dvd::
  kubuntu::
