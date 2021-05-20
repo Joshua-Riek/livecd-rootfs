@@ -1,4 +1,4 @@
-livecd-rootfs (2.723) UNRELEASED; urgency=medium
+livecd-rootfs (2.723) impish; urgency=medium
 
   [ Steve Langasek ]
   * Drop code for the 'ubuntu-core' project when not using
