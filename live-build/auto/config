@@ -186,6 +186,24 @@ remove_package ()
 	done
 }
 
+add_snap ()
+{
+	# Adds a pass named pass_name composed of snaps to install
+	# $1 pass
+	# $@ list of snaps
+
+	local pass="$1"
+	shift
+	local pkg
+
+	_check_immutable_passes_to_layers
+	_register_pass "$pass"
+
+	for pkg; do
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.snaplist.chroot_$pass.full"
+	done
+}
+
 add_packages_from_seed_regexp () {
 	# Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
 	# $1 base pass
@@ -603,6 +621,7 @@ case $PROJECT in
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_task minimal.standard.live ubuntu-live
 				add_package minimal.standard.live lupin-casper
+				add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
 				# LANG PASS for minimal and standard
 				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
