@@ -1,4 +1,4 @@
-livecd-rootfs (2.724) UNRELEASED; urgency=medium
+livecd-rootfs (2.724) impish; urgency=medium
 
   * Use the server-raspi task name instead of ubuntu-server-raspi. It's still
     a mystery to me why ubuntu-desktop-raspi works as expected but the server
