@@ -1,3 +1,11 @@
+livecd-rootfs (2.725) UNRELEASED; urgency=medium
+
+  * Revert previous change. I was too impatient and didn't wait long enough
+    after performing some seed changes. The tasks are now correct and we can
+    go back to using ubuntu-server-raspi once again.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 15 Jun 2021 09:44:21 +0200
+
 livecd-rootfs (2.724) impish; urgency=medium
 
   * Use the server-raspi task name instead of ubuntu-server-raspi. It's still

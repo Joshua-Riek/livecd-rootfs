@@ -792,7 +792,7 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
 		case "$ARCH+${SUBARCH:-}" in
 			*+raspi)
-				add_task install server-raspi
+				add_task install ubuntu-server-raspi
 				;;
 			armhf*)
 				KERNEL_FLAVOURS=generic-lpae
