@@ -1,4 +1,4 @@
-livecd-rootfs (2.725) UNRELEASED; urgency=medium
+livecd-rootfs (2.725) impish; urgency=medium
 
   * Revert previous change. I was too impatient and didn't wait long enough
     after performing some seed changes. The tasks are now correct and we can
