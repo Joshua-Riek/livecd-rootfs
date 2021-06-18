@@ -1,9 +1,9 @@
-livecd-rootfs (2.726) UNRELEASED; urgency=medium
+livecd-rootfs (2.726) impish; urgency=medium
 
   * Fix overriding of ExecStart in
     serial-getty@sclp_line0.service.d/subiquity-serial.conf.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 26 May 2021 11:32:32 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Sat, 19 Jun 2021 11:44:33 +1200
 
 livecd-rootfs (2.725) impish; urgency=medium
 
