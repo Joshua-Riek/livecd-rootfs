@@ -1,3 +1,13 @@
+livecd-rootfs (2.727) UNRELEASED; urgency=medium
+
+  * (LP: #1895104) Image hangs during boot after deploying 
+    groovy-server-cloudimg-amd64.ova, and the upgrading the ESXi hardware 
+    version. Adding a serial port rectifies this - so this code change 
+    simply adds a serial port to the OVF template (so there is a serial port as
+    default). 
+
+ -- Chloé 'kajiya' Smith <chloe.smith@canonical.com>  Mon, 21 Jun 2021 21:27:36 +0100
+
 livecd-rootfs (2.726) impish; urgency=medium
 
   * Fix overriding of ExecStart in
