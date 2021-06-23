@@ -83,11 +83,14 @@ sed -i -e'N;/name: lxd/,+2d' $INSTALLER_ROOT/var/lib/snapd/seed/seed.yaml
 
 teardown_mountpoint "$INSTALLER_ROOT"
 
-# Drop core/lxd/snapd that got copied up from base layer, due to
+# Drop any snaps that got copied up from base layer, due to
 # snap-preseed tool doing --reset & speedup
-find $OVERLAY_ROOT/var/lib/snapd/ -name 'core*.snap' -delete
-find $OVERLAY_ROOT/var/lib/snapd/ -name 'snapd_*.snap' -delete
-find $OVERLAY_ROOT/var/lib/snapd/ -name 'lxd_*.snap' -delete
+for snap in $(cd $OVERLAY_ROOT/; find var/lib/snapd/ -name '*.snap'); do
+    if [ -f $FILESYSTEM_ROOT/$snap ]; then
+        echo "removing $snap from overlay as already present in base layer"
+        rm $OVERLAY_ROOT/$snap
+    fi
+done
 
 squashfs_f="${PWD}/livecd.${PROJECT}.installer.squashfs"
 

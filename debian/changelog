@@ -1,3 +1,10 @@
+livecd-rootfs (2.727) UNRELEASED; urgency=medium
+
+  * Remove assumption in 032-installer-squashfs.binary that all core snaps
+    needed for subiquity are already in the filesystem layer. (LP: #1933352)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 24 Jun 2021 10:29:05 +1200
+
 livecd-rootfs (2.726) impish; urgency=medium
 
   * Fix overriding of ExecStart in
