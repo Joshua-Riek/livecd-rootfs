@@ -819,6 +819,10 @@ case $PROJECT in
 			amd64)
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
+				elif [ "${SUBARCH:-}" = "iotg" ]; then
+					KERNEL_FLAVOURS=image-intel
+					COMPONENTS='main restricted universe'
+					OPTS="${OPTS:+$OPTS }--initramfs=none"
 				fi
 				;;
 			riscv64*)
