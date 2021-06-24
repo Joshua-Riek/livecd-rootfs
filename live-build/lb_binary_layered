@@ -121,9 +121,7 @@ build_layered_squashfs () {
 		cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
 	fi
 
-	(cd "overlay.${pass}/" &&
-		mksquashfs . ${squashfs_f} \
-		-no-progress -xattrs -comp xz )
+	create_squashfs "overlay.${pass}" ${squashfs_f}
 
 	if [ -n "$lowerdirs" ]; then
 		umount chroot
