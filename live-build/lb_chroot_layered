@@ -191,13 +191,7 @@ create_chroot_pass () {
 	lb chroot_resolv install ${*}
 	lb chroot_hostname install ${*}
 	lb chroot_apt install ${*}
-	# Note: this triggers an upgrade + dist-ugprade; which may impact sublayers with more
-	# diff content than desired. So only running this on root pass.
-	# Only configure universe on root passes
-	if $(is_root_layer $pass); then
-		lb chroot_archives chroot install ${*}
-		configure_universe
-	fi
+	lb chroot_archives chroot install ${*}
 
 	# Customizing chroot
 	lb chroot_linux-image ${*}
@@ -247,14 +241,7 @@ create_chroot_pass () {
 
 	lb chroot_hooks ${*}
 
-	# Run chroot_hacks only on root layers.
-	# chroot_hacks changes the mode of boot/initrd*. The side effect in
-	# layered mode is to create an initrd on each layer with a significant
-	# impact on image size (+30MB per layer). This is an issue even with
-	# update-initramfs disabled.
-	if $(is_live_layer $pass); then
-		lb chroot_hacks ${*}
-	fi
+	lb chroot_hacks ${*}
 
 	lb chroot_interactive ${*}
 
@@ -264,10 +251,8 @@ create_chroot_pass () {
 
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
-	# Deconfiguring chroot
-	if $(is_root_layer $pass); then
-		lb chroot_archives chroot remove ${*}
-	fi
+	lb chroot_archives chroot remove ${*}
+	configure_universe
 	lb chroot_apt remove ${*}
 	lb chroot_hostname remove ${*}
 	lb chroot_resolv remove ${*}
