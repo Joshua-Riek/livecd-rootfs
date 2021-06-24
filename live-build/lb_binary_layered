@@ -66,7 +66,7 @@ build_layered_squashfs () {
 		return
 	fi
 
-	rm -f .build/binary_chroot
+	rm -f .build/binary_chroot .build/binary_hooks
 
 	mkdir -p "$overlay_dir/"
 	lowerdirs=$(get_lowerdirs_for_pass $pass)
