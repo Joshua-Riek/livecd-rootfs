@@ -154,11 +154,11 @@ create_chroot_pass () {
 	# Only get some function executed on root passes
 	# Copy bootstrap on root layers
 	if $(is_root_layer $pass); then
-		rm -f .build/chroot_linux-image .build/chroot_preseed .build/chroot_hacks
+		rm -f .build/chroot_linux-image .build/chroot_preseed
 		cp -a chroot.bootstrap/ "$overlay_dir/"
 	fi
 	# Others have to be executed on every pass
-	rm -f .build/chroot_early_hooks .build/chroot_hooks .build/chroot_interactive
+	rm -f .build/chroot_early_hooks .build/chroot_hooks .build/chroot_interactive .build/chroot_hacks
 
 	mkdir -p "$overlay_dir/"
 	lowerdirs=$(get_lowerdirs_for_pass $pass)
