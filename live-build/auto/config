@@ -1012,8 +1012,8 @@ PASSES=$(_sanitize_passes "$PASSES")
 LIVE_PASSES=${LIVE_PASSES:-$(_get_live_passes "$PASSES")}
 
 if [ -n "$PASSES" ] && [ -z "$LIVE_PASSES" ]; then
-	Echo_warning "Multi-layered mode is enabled, but we didn't find any live pass." \
-	             "Either set \$LIVE_PASSES or add a pass ending with '.live'."
+	echo "W: Multi-layered mode is enabled, but we didn't find any live pass." \
+	     "Either set \$LIVE_PASSES or add a pass ending with '.live'."
 fi
 
 echo "LB_CHROOT_HOOKS=\"$CHROOT_HOOKS\"" >> config/chroot
