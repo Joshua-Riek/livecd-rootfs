@@ -1,3 +1,10 @@
+livecd-rootfs (2.728) UNRELEASED; urgency=medium
+
+  * Make sure the process that prints SSH connection info on s390x has its
+    output connected to the console. (LP: #1933523)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 30 Jun 2021 09:59:07 +1200
+
 livecd-rootfs (2.727) impish; urgency=medium
 
   * Remove assumption in 032-installer-squashfs.binary that all core snaps
