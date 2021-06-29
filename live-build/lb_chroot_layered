@@ -131,7 +131,7 @@ reduce_pass_size () {
 			continue
 		fi
 		# Files are strictly identical between the 2 passes (only mod or access times differs). No need for unused delta.
-		Echo_message "reduce_pass_size: '$f' is strictly identical between $parent and $pass. Removing."
+		Echo_message "reduce_pass_size: '%s' is strictly identical between %s and %s. Removing." "$f" "$pass" "$parent"
 		rm "$pass_dir/$f"
 	done
 
@@ -143,7 +143,7 @@ create_chroot_pass () {
 	local pass=$1
 	shift 1 # restore ${*}
 
-	Echo_message "lb_chroot_layered: treating pass $pass"
+	Echo_message "lb_chroot_layered: treating pass %s" "$pass"
 
 	# We have already treated that pass just return.
 	local overlay_dir="overlay.${pass}"
