@@ -158,7 +158,7 @@ create_chroot_pass () {
 		cp -a chroot.bootstrap/ "$overlay_dir/"
 	fi
 	# Others have to be executed on every pass
-	rm -f .build/chroot_early_hooks .build/chroot_hooks .build/chroot_interactive .build/chroot_hacks
+	rm -f .build/chroot_early_hooks .build/chroot_hooks .build/chroot_interactive
 
 	mkdir -p "$overlay_dir/"
 	lowerdirs=$(get_lowerdirs_for_pass $pass)
@@ -241,7 +241,25 @@ create_chroot_pass () {
 
 	lb chroot_hooks ${*}
 
-	lb chroot_hacks ${*}
+	# Run chroot_hacks only on live layers.  chroot_hacks is what repacks
+	# the initrd in a full casperized mode. We don't want to do that for
+	# each and every layer, just for the live layers (which
+	# lb_binary_layered will call lb binary_linux-image on).
+	if $(is_live_layer $pass); then
+		rm -f .build/chroot_hacks
+		lb chroot_hacks ${*}
+	else
+		# chroot_hacks also removes some cruft, which is appropriate for
+		# any layer so we copy and paste that bit here.
+		rm -f chroot/boot/initrd*bak*
+		rm -f chroot/etc/apt/trusted.gpg~
+		rm -f chroot/etc/group- chroot/etc/passwd-
+		rm -f chroot/etc/gshadow- chroot/etc/shadow-
+		rm -f chroot/var/cache/debconf/*-old
+		rm -f chroot/var/lib/dpkg/*-old
+		rm -f chroot/var/log/apt/term.log
+		rm -f chroot/etc/adjtime
+	fi
 
 	lb chroot_interactive ${*}
 
