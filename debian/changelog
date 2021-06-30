@@ -4,6 +4,10 @@ livecd-rootfs (2.728) UNRELEASED; urgency=medium
   * Remove the customized final message from the live server cloud-init config
     as it is no longer displayed.
 
+  [ Michael Hudson-Doyle ]
+  * Make sure the process that prints SSH connection info on s390x has
+    its output connected to the console. (LP: #1933523)
+
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 30 Jun 2021 11:08:18 +1200
 
 livecd-rootfs (2.727) impish; urgency=medium
