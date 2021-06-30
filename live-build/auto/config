@@ -299,7 +299,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi)
+				raspi|intel-iotg)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -632,20 +632,32 @@ case $PROJECT in
 
 			desktop-preinstalled)
 				add_task install minimal standard ubuntu-desktop
-				if [ "$SUBARCH" = "raspi" ]; then
-					add_task install ubuntu-desktop-raspi
-					# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
-					#  for existing raspi preinstalled images
-					# XXX: I would prefer to use --hdd-label=desktop-rootfs like 040-hyperv-desktop-images.binary
-					OPTS="${OPTS:+$OPTS }--initramfs=none"
-					OPTS="${OPTS:+$OPTS }--system=normal"
-					OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
-					OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
-					OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
-				fi
-				## Otherwise HYPERV image options.... *crickets* see the hyperv hook
+				case $SUBARCH in
+					raspi)
+						add_task install ubuntu-desktop-raspi
+						# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
+						#  for existing raspi preinstalled images
+						# XXX: I would prefer to use --hdd-label=desktop-rootfs like 040-hyperv-desktop-images.binary
+						OPTS="${OPTS:+$OPTS }--initramfs=none"
+						OPTS="${OPTS:+$OPTS }--system=normal"
+						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+						;;
+					intel-iotg)
+						KERNEL_FLAVOURS='image-intel'
+						COMPONENTS='main restricted universe'
+						OPTS="${OPTS:+$OPTS }--initramfs=none"
+						OPTS="${OPTS:+$OPTS }--system=normal"
+						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+						;;
+					*)
+						## Otherwise HYPERV image options.... *crickets* see the hyperv hook
+						;;
+				esac
 				;;
-
 			*)
 				LIVE_TASK='ubuntu-live'
 				add_task install minimal standard ubuntu-desktop
@@ -807,6 +819,10 @@ case $PROJECT in
 			amd64)
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
+				elif [ "${SUBARCH:-}" = "intel-iotg" ]; then
+					KERNEL_FLAVOURS=image-intel
+					COMPONENTS='main restricted universe'
+					OPTS="${OPTS:+$OPTS }--initramfs=none"
 				fi
 				;;
 			riscv64*)
@@ -959,6 +975,14 @@ case $PROJECT in
 	# if any flavours want to strip .pyc files from their live images, add them here
 	_)
 		add_chroot_hook remove-python-py
+		;;
+	amd64)
+		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
+		case $SUBARCH in
+			intel-iotg)
+				COMPONENTS='main restricted universe'
+				KERNEL_FLAVOURS='image-intel'
+		esac
 		;;
 esac
 
