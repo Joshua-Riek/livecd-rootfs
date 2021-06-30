@@ -299,7 +299,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
 			case $SUBARCH in
-				raspi|iotg)
+				raspi|intel-iotg)
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -644,7 +644,7 @@ case $PROJECT in
 						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
 						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 						;;
-					iotg)
+					intel-iotg)
 						KERNEL_FLAVOURS='image-intel'
 						COMPONENTS='main restricted universe'
 						OPTS="${OPTS:+$OPTS }--initramfs=none"
@@ -819,7 +819,7 @@ case $PROJECT in
 			amd64)
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
-				elif [ "${SUBARCH:-}" = "iotg" ]; then
+				elif [ "${SUBARCH:-}" = "intel-iotg" ]; then
 					KERNEL_FLAVOURS=image-intel
 					COMPONENTS='main restricted universe'
 					OPTS="${OPTS:+$OPTS }--initramfs=none"
@@ -979,7 +979,7 @@ case $PROJECT in
 	amd64)
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
-			iotg)
+			intel-iotg)
 				COMPONENTS='main restricted universe'
 				KERNEL_FLAVOURS='image-intel'
 		esac
