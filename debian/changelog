@@ -1,4 +1,4 @@
-livecd-rootfs (2.728) UNRELEASED; urgency=medium
+livecd-rootfs (2.728) impish; urgency=medium
 
   [ Dan Bungert ]
   * Remove the customized final message from the live server cloud-init config
@@ -12,7 +12,7 @@ livecd-rootfs (2.728) UNRELEASED; urgency=medium
   * Add a subarch of intel-iotg which is used for creating images with a
     kernel optimized for Intel IOT devices.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 30 Jun 2021 11:08:18 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 01 Jul 2021 11:00:08 +1200
 
 livecd-rootfs (2.727) impish; urgency=medium
 
