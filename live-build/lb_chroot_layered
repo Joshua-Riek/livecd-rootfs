@@ -191,7 +191,12 @@ create_chroot_pass () {
 	lb chroot_resolv install ${*}
 	lb chroot_hostname install ${*}
 	lb chroot_apt install ${*}
-	lb chroot_archives chroot install ${*}
+	# Note: this triggers an upgrade + dist-ugprade; which may impact sublayers with more
+	# diff content than desired. So only running this on root pass.
+	# Only configure universe on root passes
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot install ${*}
+	fi
 
 	# Customizing chroot
 	lb chroot_linux-image ${*}
@@ -269,8 +274,11 @@ create_chroot_pass () {
 
 	Chroot chroot "dpkg-query -W" > chroot.packages.${pass}
 
-	lb chroot_archives chroot remove ${*}
-	configure_universe
+	# Deconfiguring chroot
+	if $(is_root_layer $pass); then
+		lb chroot_archives chroot remove ${*}
+		configure_universe
+	fi
 	lb chroot_apt remove ${*}
 	lb chroot_hostname remove ${*}
 	lb chroot_resolv remove ${*}
