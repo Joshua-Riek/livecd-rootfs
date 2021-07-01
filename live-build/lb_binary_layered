@@ -66,7 +66,7 @@ build_layered_squashfs () {
 		return
 	fi
 
-	rm -f .build/binary_chroot
+	rm -f .build/binary_chroot .build/binary_hooks
 
 	mkdir -p "$overlay_dir/"
 	lowerdirs=$(get_lowerdirs_for_pass $pass)
@@ -92,38 +92,53 @@ build_layered_squashfs () {
 		rm -f chroot/boot/initrd.img-* chroot/boot/vmlinu{x,z}-*
 	fi
 
-	# Full manifest until that PASS
-	squashfs_f_manifest="${base}.manifest"
-	create_manifest "chroot" "${squashfs_f_manifest}.full"
+        make_squashfs=yes
+        ppass="${pass}"
+        while :; do
+            for nsp in ${NO_SQUASHFS_PASSES}; do
+                if [ "${ppass}" = "${nsp}" ]; then
+                    make_squashfs=no
+                    break 2
+                fi
+            done
+            ppass="$(get_parent_pass "${ppass}")"
+            if [ -z "${ppass}" ]; then
+                break
+            fi
+        done
 
-	# Delta manifest
-	diff -NU0 ${PWD}/livecd.${PROJECT}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+        if [ $make_squashfs = yes ]; then
+		# Full manifest until that PASS
+		squashfs_f_manifest="${base}.manifest"
+		create_manifest "chroot" "${squashfs_f_manifest}.full"
 
-	squashfs_f_size="${base}.size"
-	du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
+		# Delta manifest
+		diff -NU0 ${PWD}/livecd.${PROJECT}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
 
-	# We take first live pass for "global" ISO properties (used by installers and checkers):
-	# Prepare initrd + kernel
-	# Main manifest and size files
-	prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
-	if [ ! -e "${prefix}.manifest" ] && $(is_live_layer "$pass"); then
-		totalsize=$(cat ${squashfs_f_size})
-		curpass="$pass"
-		while :; do
-			curpass=$(get_parent_pass $curpass)
-			# We climbed up the tree to the root layer, we are done
-			[ -z "$curpass" ] && break
+		squashfs_f_size="${base}.size"
+		du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
 
-			totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
-		done
-		echo ${totalsize} > "${prefix}.size"
+		# We take first live pass for "global" ISO properties (used by installers and checkers):
+		# Prepare initrd + kernel
+		# Main manifest and size files
+		prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+		if [ ! -e "${prefix}.manifest" ] && $(is_live_layer "$pass"); then
+			totalsize=$(cat ${squashfs_f_size})
+			curpass="$pass"
+			while :; do
+				curpass=$(get_parent_pass $curpass)
+				# We climbed up the tree to the root layer, we are done
+				[ -z "$curpass" ] && break
 
-		cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
+				totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
+			done
+			echo ${totalsize} > "${prefix}.size"
+
+			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
+		fi
+
+		create_squashfs "overlay.${pass}/" ${squashfs_f}
 	fi
-
-	(cd "overlay.${pass}/" &&
-		mksquashfs . ${squashfs_f} \
-		-no-progress -xattrs -comp xz )
 
 	if [ -n "$lowerdirs" ]; then
 		umount chroot

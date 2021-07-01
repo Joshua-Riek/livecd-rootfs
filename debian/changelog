@@ -1,3 +1,10 @@
+livecd-rootfs (2.729) UNRELEASED; urgency=medium
+
+  * Fix a few things found while porting the liver server ISO builds to
+    layers.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Jun 2021 10:35:47 +1200
+
 livecd-rootfs (2.728) impish; urgency=medium
 
   [ Dan Bungert ]
