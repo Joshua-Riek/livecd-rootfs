@@ -84,24 +84,32 @@
         <rasd:ResourceSubType>VirtualSCSI</rasd:ResourceSubType>
         <rasd:ResourceType>6</rasd:ResourceType>
       </Item>
+      <Item ovf:required="false">
+        <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+        <rasd:ElementName>serial0</rasd:ElementName>
+        <rasd:InstanceID>4</rasd:InstanceID>
+        <rasd:ResourceSubType>vmware.serialport.device</rasd:ResourceSubType>
+        <rasd:ResourceType>21</rasd:ResourceType>
+        <vmw:Config ovf:required="false" vmw:key="yieldOnPoll" vmw:value="false" />
+      </Item>
       <Item>
         <rasd:Address>1</rasd:Address>
         <rasd:Description>IDE Controller</rasd:Description>
         <rasd:ElementName>VirtualIDEController 1</rasd:ElementName>
-        <rasd:InstanceID>4</rasd:InstanceID>
+        <rasd:InstanceID>5</rasd:InstanceID>
         <rasd:ResourceType>5</rasd:ResourceType>
       </Item>
       <Item>
         <rasd:Address>0</rasd:Address>
         <rasd:Description>IDE Controller</rasd:Description>
         <rasd:ElementName>VirtualIDEController 0</rasd:ElementName>
-        <rasd:InstanceID>5</rasd:InstanceID>
+        <rasd:InstanceID>6</rasd:InstanceID>
         <rasd:ResourceType>5</rasd:ResourceType>
       </Item>
       <Item ovf:required="false">
         <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
         <rasd:ElementName>VirtualVideoCard</rasd:ElementName>
-        <rasd:InstanceID>6</rasd:InstanceID>
+        <rasd:InstanceID>7</rasd:InstanceID>
         <rasd:ResourceType>24</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="enable3DSupport" vmw:value="false"/>
         <vmw:Config ovf:required="false" vmw:key="enableMPTSupport" vmw:value="false"/>
@@ -112,7 +120,7 @@
       <Item ovf:required="false">
         <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
         <rasd:ElementName>VirtualVMCIDevice</rasd:ElementName>
-        <rasd:InstanceID>7</rasd:InstanceID>
+        <rasd:InstanceID>8</rasd:InstanceID>
         <rasd:ResourceSubType>vmware.vmci</rasd:ResourceSubType>
         <rasd:ResourceType>1</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="allowUnrestrictedCommunication" vmw:value="false"/>
@@ -121,8 +129,8 @@
         <rasd:AddressOnParent>0</rasd:AddressOnParent>
         <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
         <rasd:ElementName>CD-ROM 1</rasd:ElementName>
-        <rasd:InstanceID>8</rasd:InstanceID>
-        <rasd:Parent>4</rasd:Parent>
+        <rasd:InstanceID>9</rasd:InstanceID>
+        <rasd:Parent>3</rasd:Parent>
         <rasd:ResourceSubType>vmware.cdrom.remotepassthrough</rasd:ResourceSubType>
         <rasd:ResourceType>15</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="backing.exclusive" vmw:value="false"/>
@@ -131,7 +139,7 @@
         <rasd:AddressOnParent>0</rasd:AddressOnParent>
         <rasd:ElementName>Hard Disk 1</rasd:ElementName>
         <rasd:HostResource>ovf:/disk/vmdisk1</rasd:HostResource>
-        <rasd:InstanceID>9</rasd:InstanceID>
+        <rasd:InstanceID>10</rasd:InstanceID>
         <rasd:Parent>3</rasd:Parent>
         <rasd:ResourceType>17</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="backing.writeThrough" vmw:value="false"/>
@@ -141,7 +149,7 @@
         <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
         <rasd:Description>Floppy Drive</rasd:Description>
         <rasd:ElementName>Floppy 1</rasd:ElementName>
-        <rasd:InstanceID>10</rasd:InstanceID>
+        <rasd:InstanceID>11</rasd:InstanceID>
         <rasd:ResourceSubType>vmware.floppy.remotedevice</rasd:ResourceSubType>
         <rasd:ResourceType>14</rasd:ResourceType>
       </Item>
@@ -151,7 +159,7 @@
         <rasd:Connection>VM Network</rasd:Connection>
         <rasd:Description>VmxNet3 ethernet adapter on &quot;VM Network&quot;</rasd:Description>
         <rasd:ElementName>Ethernet 1</rasd:ElementName>
-        <rasd:InstanceID>11</rasd:InstanceID>
+        <rasd:InstanceID>12</rasd:InstanceID>
         <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
         <rasd:ResourceType>10</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>

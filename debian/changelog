@@ -1,7 +1,14 @@
 livecd-rootfs (2.729) UNRELEASED; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Fix a few things found while porting the liver server ISO builds to
     layers.
+
+  [ Chloé 'kajiya' Smith ]
+  * Image hangs during boot after deploying groovy-server-cloudimg-amd64.ova,
+    and the upgrading the ESXi hardware version. Adding a serial port
+    rectifies this - so this code change simply adds a serial port to the OVF
+    template (so there is a serial port as default). (LP: #1895104)
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Jun 2021 10:35:47 +1200
 
