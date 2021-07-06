@@ -764,12 +764,41 @@ case $PROJECT in
 		;;
 
 	ubuntu-server)
-		add_task install minimal
 		case ${SUBPROJECT:-} in
 			live)
-				add_task install standard
-				add_task install server
-				add_package install cloud-init
+				PASSES_TO_LAYERS=true
+				add_task ubuntu-server minimal standard server
+				# add_task really should do this itself but for now...
+				snap_from_seed server config/package-lists/livecd-rootfs.snaplist.chroot_ubuntu-server.full
+				add_package ubuntu-server cloud-init
+
+				add_package ubuntu-server.installer linux-firmware lupin-casper openssh-server
+				add_snap ubuntu-server.installer subiquity/classic
+				if [ $ARCH = s390x ]; then
+					add_package ubuntu-server.installer s390-tools-zkey
+				fi
+
+				variants='ga'
+
+				for variant in $variants; do
+					if [ "$variant" = "ga" ]; then
+						kernel_metapkg=linux-generic
+						flavor=generic
+					elif [ "$variant" = "hwe" ]; then
+						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
+						flavor=generic-hwe
+					else
+						echo "bogus variant: $variant"
+						exit 1
+					fi
+
+					add_package ubuntu-server.installer.$flavor $kernel_metapkg
+					LIVE_PASSES="${LIVE_PASSES:+$LIVE_PASSES }ubuntu-server.installer.$flavor"
+				done
+				;;
+			*)
+				echo "no thanks"
+				exit 1
 				;;
 		esac
 		COMPONENTS='main'
