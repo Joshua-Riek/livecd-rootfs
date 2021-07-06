@@ -130,6 +130,14 @@ reduce_pass_size () {
 		if ! diff --brief --no-dereference "$pass_dir/$f" "$parent_pass_dir/$f" >/dev/null; then
 			continue
 		fi
+		p=$(dirname $f)
+		while [ "$p" != . ]; do
+			if [ -n "$(getfattr -n trusted.overlay.opaque -h --only-values -- "$pass_dir/$p" 2>/dev/null)" ]; then
+				Echo_message "reduce_pass_size: '%s' would be removed from overlay but for trusted.overlay.opaque on '%s'" "$f" "$p"
+				continue 2
+			fi
+			p=$(dirname $p)
+		done
 		# Files are strictly identical between the 2 passes (only mod or access times differs). No need for unused delta.
 		Echo_message "reduce_pass_size: '%s' is strictly identical between %s and %s. Removing." "$f" "$pass" "$parent"
 		rm "$pass_dir/$f"
