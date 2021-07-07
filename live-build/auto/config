@@ -778,6 +778,12 @@ case $PROJECT in
 					add_package ubuntu-server.installer s390-tools-zkey
 				fi
 
+				# Live server ISOs for LTS point releases past .2 offer both
+				# the GA and HWE kernels (in separate layers) so this code is
+				# written generically to support both even though a lot of the
+				# time only one kernel is offered.
+
+				# variants='ga hwe'
 				variants='ga'
 
 				for variant in $variants; do
@@ -797,7 +803,7 @@ case $PROJECT in
 				done
 				;;
 			*)
-				echo "no thanks"
+				echo "unrecognized subproject for server: '$SUBPROJECT'"
 				exit 1
 				;;
 		esac

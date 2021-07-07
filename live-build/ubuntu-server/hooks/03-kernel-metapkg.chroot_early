@@ -4,14 +4,14 @@
 case $PASS in
     ubuntu-server.installer.*)
         flavor=${PASS##*.}
-	if [ "$flavor" = "generic" ]; then
-		kernel_metapkg=linux-generic
-	elif [ "$flavor" = "generic-hwe" ]; then
-		kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
-	else
-		echo "bogus flavor: $flavor"
-		exit 1
-	fi
+        if [ "$flavor" = "generic" ]; then
+            kernel_metapkg=linux-generic
+        elif [ "$flavor" = "generic-hwe" ]; then
+            kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
+        else
+            echo "bogus flavor: $flavor"
+            exit 1
+        fi
         ;;
     *)
         exit 0

@@ -132,6 +132,17 @@ reduce_pass_size () {
 		fi
 		p=$(dirname $f)
 		while [ "$p" != . ]; do
+			# As explained in the overlayfs documentation
+			# https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#whiteouts-and-opaque-directories
+			# an xattr of trusted.overlay.opaque indicates an 'opaque' directory
+			# that was deleted from the overlay. Removing files from within the
+			# directory, even if identical with one in the lower layer, will result
+			# in it going missing from the combined filesystem.
+			#
+			# It would be possible to be more clever, e.g. if the two directories
+			# are still similar, we could the delete the attribute and convert any
+			# still-needed deletions to whiteouts but it doesn't seem worth it in
+			# the cases seen so far.
 			if [ -n "$(getfattr -n trusted.overlay.opaque -h --only-values -- "$pass_dir/$p" 2>/dev/null)" ]; then
 				Echo_message "reduce_pass_size: '%s' would be removed from overlay but for trusted.overlay.opaque on '%s'" "$f" "$p"
 				continue 2
