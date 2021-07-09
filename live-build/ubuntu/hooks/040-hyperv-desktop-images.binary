@@ -136,5 +136,8 @@ qemu-img convert -O vhdx "$raw_img" "$vhd_img"
 rm "$raw_img"
 
 apt-get install -y zip
+
+create_manifest chroot "$vhd_img.zip.manifest"
+
 zip "$vhd_img.zip" "$vhd_img"
 rm "$vhd_img"
