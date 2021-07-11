@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+# vi: ts=4 noexpandtab
+
+if [ "${PASS}" != "ubuntu-server.installer" ]; then
+    exit 0
+fi
+
+# Make sure NoCloud is last
+values=$(echo get cloud-init/datasources | debconf-communicate | sed 's/^0 //;s/NoCloud, //;s/None/NoCloud, None/')
+printf "%s\t%s\t%s\t%s\n" \
+   cloud-init cloud-init/datasources multiselect  "$values" | debconf-set-selections
+dpkg-reconfigure --frontend=noninteractive cloud-init
+
+if [ `dpkg --print-architecture` = s390x ]; then
+    # because z/VM x3270 is just ttyS0
+    cp -r /usr/lib/systemd/system/serial-getty@sclp_line0.service.d /usr/lib/systemd/system/serial-getty@ttyS0.service.d
+fi

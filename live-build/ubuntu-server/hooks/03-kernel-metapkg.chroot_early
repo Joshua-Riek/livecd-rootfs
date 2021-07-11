@@ -1,0 +1,37 @@
+#!/bin/bash -ex
+# vi: ts=4 noexpandtab
+
+case $PASS in
+    ubuntu-server.installer.*)
+        flavor=${PASS##*.}
+        if [ "$flavor" = "generic" ]; then
+            kernel_metapkg=linux-generic
+        elif [ "$flavor" = "generic-hwe" ]; then
+            kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
+        else
+            echo "bogus flavor: $flavor"
+            exit 1
+        fi
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+cat <<EOF > /etc/initramfs-tools/scripts/init-bottom/live-server
+#!/bin/sh
+case \$1 in
+prereqs) exit 0;;
+esac
+
+echo ${kernel_metapkg} > /run/kernel-meta-package
+EOF
+chmod +x /etc/initramfs-tools/scripts/init-bottom/live-server
+
+cat <<EOF > /etc/initramfs-tools/conf.d/casperize.conf
+export CASPER_GENERATE_UUID=1
+EOF
+
+cat <<EOF > /etc/initramfs-tools/conf.d/default-layer.conf
+LAYERFS_PATH=${PASS}.squashfs
+EOF

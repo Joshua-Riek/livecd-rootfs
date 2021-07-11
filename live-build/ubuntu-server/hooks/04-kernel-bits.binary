@@ -1,0 +1,16 @@
+#!/bin/bash -eux
+# vi: ts=4 noexpandtab
+
+case $PASS in
+    ubuntu-server.installer.*)
+        flavor=${PASS##*.}
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+# Fish out generated kernel image and initrd
+mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-$flavor
+mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-$flavor
+chmod a+r ${PWD}/livecd.${PROJECT}.initrd-$flavor ${PWD}/livecd.${PROJECT}.kernel-$flavor

@@ -1,5 +1,5 @@
 [Mount]
-What=/cdrom/casper/filesystem.squashfs
+What=/cdrom/casper/ubuntu-server.squashfs
 Where=/media/filesystem
 Type=squashfs
 Options=ro
