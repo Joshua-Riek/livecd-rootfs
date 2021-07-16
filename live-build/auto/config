@@ -625,7 +625,6 @@ case $PROJECT in
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_task minimal.standard.live ubuntu-live
-				add_package minimal.standard.live lupin-casper
 				add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
 				# LANG PASS for minimal and standard
