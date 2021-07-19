@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 # vi: ts=4 noexpandtab
 
-if [ "${PASS}" != "ubuntu-server.installer" ]; then
+if [ "${PASS}" != "ubuntu-server-minimal.ubuntu-server.installer" ]; then
     exit 0
 fi
 
