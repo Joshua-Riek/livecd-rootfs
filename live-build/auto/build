@@ -169,7 +169,10 @@ Expire-Date: 0
 		rm -f chroot/etc/localtime chroot/etc/timezone
 	fi
 
-	if [ "${SUBPROJECT:-}" = minimized ]; then
+	if [ "${SUBPROJECT:-}" = minimized ] || [ "${PROJECT}" = "ubuntu-server" ]; then
+		# ubuntu-server has a minimized base layer so needs
+		# minimizations applied to the chroot
+
 		# set up dpkg filters to skip installing docs on minimized system
 		mkdir -p chroot/etc/dpkg/dpkg.cfg.d
 		cat > chroot/etc/dpkg/dpkg.cfg.d/excludes <<EOF
@@ -278,7 +281,7 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
 fi
 EOF
 fi
-		if [ "$PROJECT" = "ubuntu-cpc" ]; then
+		if [ "$PROJECT" = "ubuntu-cpc" ] || [ "$PROJECT" = "ubuntu-server" ]; then
 			cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
 echo "Removing lxd installer package..."
