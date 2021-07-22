@@ -1,0 +1,5 @@
+[Mount]
+What=/cdrom/casper/ubuntu-server-minimal.ubuntu-server.squashfs
+Where=/media/full
+Type=squashfs
+Options=ro
