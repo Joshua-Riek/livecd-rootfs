@@ -1,9 +1,9 @@
-livecd-rootfs (2.730) UNRELEASED; urgency=medium
+livecd-rootfs (2.730) impish; urgency=medium
 
   * Rename subarch of intel-iotg to intel-iot, add support for intel-iot
     models.
 
- -- Brian Murray <brian@ubuntu.com>  Mon, 26 Jul 2021 11:54:28 -0700
+ -- Brian Murray <brian@ubuntu.com>  Mon, 26 Jul 2021 11:55:42 -0700
 
 livecd-rootfs (2.729) impish; urgency=medium
 
