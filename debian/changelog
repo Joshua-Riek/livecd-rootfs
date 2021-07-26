@@ -1,3 +1,10 @@
+livecd-rootfs (2.731) UNRELEASED; urgency=medium
+
+  [ Jason C. McDonald ]
+  * Generate manifest for HyperV desktop image
+
+ -- Jason C. McDonald <codemouse92@outlook.com>  Wed, 14 Jul 2021 06:25:36 -0700
+
 livecd-rootfs (2.730) impish; urgency=medium
 
   * Rename subarch of intel-iotg to intel-iot, add support for intel-iot
