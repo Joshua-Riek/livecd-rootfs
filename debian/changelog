@@ -1,3 +1,10 @@
+livecd-rootfs (2.732) UNRELEASED; urgency=medium
+
+  * lb_chroot_layered: fix quoting when searching for
+    trusted.overlay.opaque
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 30 Jul 2021 11:56:01 +1200
+
 livecd-rootfs (2.731) impish; urgency=medium
 
   [ Jason C. McDonald ]
