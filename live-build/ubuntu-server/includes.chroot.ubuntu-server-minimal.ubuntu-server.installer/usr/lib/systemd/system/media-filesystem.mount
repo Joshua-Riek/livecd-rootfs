@@ -1,9 +1,0 @@
-[Unit]
-Requires=media-full.mount media-minimal.mount
-After=media-full.mount media-minimal.mount
-
-[Mount]
-What=/cdrom/casper/ubuntu-server-minimal.ubuntu-server.squashfs
-Where=/media/filesystem
-Type=overlay
-Options=ro,lowerdir=/media/full:/media/minimal
