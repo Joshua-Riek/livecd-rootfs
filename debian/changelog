@@ -3,7 +3,11 @@ livecd-rootfs (2.731) UNRELEASED; urgency=medium
   [ Jason C. McDonald ]
   * Generate manifest for HyperV desktop image
 
- -- Jason C. McDonald <codemouse92@outlook.com>  Wed, 14 Jul 2021 06:25:36 -0700
+  [ Łukasz 'sil2100' Zemczak ]
+  * Fix sharing of the /dev tree to make sure we can safely umount the chroot
+    when needed. This fixes local non-livefs-builder image builds.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 28 Jul 2021 22:01:56 +0200
 
 livecd-rootfs (2.730) impish; urgency=medium
 
