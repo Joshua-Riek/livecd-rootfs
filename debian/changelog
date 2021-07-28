@@ -1,4 +1,4 @@
-livecd-rootfs (2.731) UNRELEASED; urgency=medium
+livecd-rootfs (2.731) impish; urgency=medium
 
   [ Jason C. McDonald ]
   * Generate manifest for HyperV desktop image
