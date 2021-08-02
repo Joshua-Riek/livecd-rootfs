@@ -132,7 +132,6 @@ setup_mountpoint() {
     fi
 
     mount --rbind /dev "$mountpoint/dev"
-    mount --make-rslave "$mountpoint/dev"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mount securityfs -t securityfs "$mountpoint/sys/kernel/security"
