@@ -1,4 +1,4 @@
-livecd-rootfs (2.732) UNRELEASED; urgency=medium
+livecd-rootfs (2.732) impish; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * lb_chroot_layered: fix quoting when searching for
