@@ -2,7 +2,7 @@
 # vi: ts=4 noexpandtab
 
 case $PASS in
-    ubuntu-server.installer.*)
+    ubuntu-server-minimal.ubuntu-server.installer.*)
         flavor=${PASS##*.}
         if [ "$flavor" = "generic" ]; then
             kernel_metapkg=linux-generic
@@ -18,6 +18,14 @@ case $PASS in
         ;;
 esac
 
+# Add a script to record which kernel meta-package to use and to set
+# up the /media/filesystem mount that subiquity currently depends
+# on. It would be cleaner to do this mount in a systemd mount unit but
+# that doesn't work because we mask the cdrom mount to avoid strange
+# issues with the handover from the initrd to systemd in the live
+# session. In any case, subiquity will sooner or later not require
+# this mount to be here at all and then we can delete these mount commands.
+
 cat <<EOF > /etc/initramfs-tools/scripts/init-bottom/live-server
 #!/bin/sh
 case \$1 in
@@ -25,6 +33,11 @@ prereqs) exit 0;;
 esac
 
 echo ${kernel_metapkg} > /run/kernel-meta-package
+
+mkdir -p \${rootmnt}/media/filesystem \${rootmnt}/media/full \${rootmnt}/media/minimal
+mount -o ro -t squashfs \${rootmnt}/cdrom/casper/ubuntu-server-minimal.squashfs \${rootmnt}/media/minimal
+mount -o ro -t squashfs \${rootmnt}/cdrom/casper/ubuntu-server-minimal.ubuntu-server.squashfs \${rootmnt}/media/full
+mount -o ro,lowerdir=\${rootmnt}/media/full:\${rootmnt}/media/minimal -t overlay overlay \${rootmnt}/media/filesystem
 EOF
 chmod +x /etc/initramfs-tools/scripts/init-bottom/live-server
 

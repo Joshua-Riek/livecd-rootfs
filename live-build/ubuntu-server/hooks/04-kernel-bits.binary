@@ -2,7 +2,7 @@
 # vi: ts=4 noexpandtab
 
 case $PASS in
-    ubuntu-server.installer.*)
+    ubuntu-server-minimal.ubuntu-server.installer.*)
         flavor=${PASS##*.}
         ;;
     *)

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -ex
+
+case ${PASS} in
+    ubuntu-server-minimal.ubuntu-server)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+# The unminimize script will try to install the lxd snap. We can't
+# do that at this stage so just neuter the snap command (the snap
+# will get properly seeded by generic machinery).
+dpkg-divert --add --divert /usr/bin/snap.REAL --rename /usr/bin/snap
+ln -s /bin/true /usr/bin/snap
+yes | /usr/local/sbin/unminimize
+rm /usr/bin/snap
+dpkg-divert --remove --rename /usr/bin/snap

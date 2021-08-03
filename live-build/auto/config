@@ -772,16 +772,19 @@ case $PROJECT in
 	ubuntu-server)
 		case ${SUBPROJECT:-} in
 			live)
+				OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 				PASSES_TO_LAYERS=true
-				add_task ubuntu-server minimal standard server
+				add_task ubuntu-server-minimal server-minimal
+				add_package ubuntu-server-minimal lxd-installer
+				add_task ubuntu-server-minimal.ubuntu-server minimal standard server
 				# add_task really should do this itself but for now...
-				snap_from_seed server config/package-lists/livecd-rootfs.snaplist.chroot_ubuntu-server.full
-				add_package ubuntu-server cloud-init
+				snap_from_seed server config/package-lists/livecd-rootfs.snaplist.chroot_ubuntu-server-minimal.ubuntu-server.full
+				add_package ubuntu-server-minimal.ubuntu-server cloud-init
 
-				add_package ubuntu-server.installer linux-firmware lupin-casper openssh-server
-				add_snap ubuntu-server.installer subiquity/classic
+				add_package ubuntu-server-minimal.ubuntu-server.installer linux-firmware lupin-casper openssh-server
+				add_snap ubuntu-server-minimal.ubuntu-server.installer subiquity/classic
 				if [ $ARCH = s390x ]; then
-					add_package ubuntu-server.installer s390-tools-zkey
+					add_package ubuntu-server-minimal.ubuntu-server.installer s390-tools-zkey
 				fi
 
 				# Live server ISOs for LTS point releases past .2 offer both
@@ -804,8 +807,8 @@ case $PROJECT in
 						exit 1
 					fi
 
-					add_package ubuntu-server.installer.$flavor $kernel_metapkg
-					LIVE_PASSES="${LIVE_PASSES:+$LIVE_PASSES }ubuntu-server.installer.$flavor"
+					add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor $kernel_metapkg
+					LIVE_PASSES="${LIVE_PASSES:+$LIVE_PASSES }ubuntu-server-minimal.ubuntu-server.installer.$flavor"
 				done
 				;;
 			*)
