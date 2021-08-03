@@ -772,6 +772,7 @@ case $PROJECT in
 	ubuntu-server)
 		case ${SUBPROJECT:-} in
 			live)
+				OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 				PASSES_TO_LAYERS=true
 				add_task ubuntu-server-minimal server-minimal
 				add_package ubuntu-server-minimal lxd-installer
