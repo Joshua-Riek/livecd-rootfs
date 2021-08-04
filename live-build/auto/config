@@ -352,7 +352,7 @@ case $IMAGEFORMAT in
 	ubuntu-image)
 		UBUNTU_IMAGE_ARGS=""
 		case "$ARCH+${SUBARCH:-}" in
-			intel-iot)
+			amd64+intel-iot)
 				MODEL=intel-iot ;;
 			amd64+*)
 				MODEL=pc-amd64 ;;
