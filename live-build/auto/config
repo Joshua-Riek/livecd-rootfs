@@ -204,46 +204,67 @@ add_snap ()
 	done
 }
 
-add_packages_from_seed_regexp () {
-	# Creates one or more passes, depending on base_pass_name, from any seeds matching seed_regexp.
+derive_language_layers () {
+	# create special layers for each default language
+	#
 	# $1 base pass
-	# $2 seeds (regexp)
-	local pass
-
+	# $2 base seed (without any languages)
+	# $3 default language seed
+	# e.g.:
+	#    derive_language_layers minimal desktop-minimal desktop-minimal-default-languages
+	#    derive_language_layers minimal.standard desktop desktop-default-languages
+	#
+	# The way this works is perhaps a little counterintuitive.
+	#
+	# The first goal here is that the installed system should contain
+	# language support for the language the user selected.  One way to do
+	# this using layers would be to have a layer that contained no
+	# language support and a derived layer for each (default) language. So
+	# something like:
+	#
+	#    filesystem.squashfs    (contains no language support)
+	#    filesystem.en.squashfs (contains English language support)
+	#    filesystem.fr.squashfs (contains French language support)
+	#    ...
+	#
+	# Then if the user selects French as their language, we just copy
+	# filesystem.fr.squashfs to the target system.
+	#
+	# But we want the live session to support these languages too and
+	# simply adding all the language support to the live layer would mean
+	# we'd have the each language's support files on the ISO twice (once
+	# in filesystem.$LANG.squashfs and once in filesystem.live.squashfs).
+	#
+	# So what is done instead is that we add support for all the default
+	# languages to the base layer and then create derived layers that
+	# _remove_ support for all languages but the desired language and
+	# because file removals are cheap to represent in overlays, this all
+	# ends up taking way less space, and filesystem.live.squashfs gets
+	# support for all languages from the base layer.  We also create a
+	# layer than has support for all languages removed, which can be used
+	# for the base of an install for a non-default language.
+	local pass base_pass=$1 no_lang_seed=$2 def_lang_seed=$3
 	_check_immutable_passes_to_layers
-	_check_layers_only_API "add_packages_from_seed_regexp"
+	_check_layers_only_API "derive_language_layers"
 
-	for seed in $(ls config/germinate-output/|grep -P "$2"); do
-		pass=${1}.${seed}
-		_register_pass "$pass"
-		list_packages_from_seed ${seed} >> config/package-lists/livecd-rootfs.list.chroot_$pass
-	done
-}
+	pass=$base_pass.no-languages
+	_register_pass ${pass}
+	# Remove all packages from the default language seed that are not in
+	# the no_lang_seed from the no-languages layer.
+	subtract_package_lists ${def_lang_seed} ${no_lang_seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_${pass}
 
-remove_packages_from_seed_regexp() {
-	# Creates one or more passes, based on base_pass_name, from any seed matching seed_regexp.
-	# This package list is a list of packages to remove (and included in a previous dependent
-	# pass then), resulting from base_seed - {current_seed_match_from_regexp}.
-	# $1 base pass
-	# $2 base seed
-	# $3 seeds to remove from base seed (regexp). If empty, a no-<base-seed> sublayer is generated.
-	local pass
+	# We assume any seed name of the form ${no_lang_seed}-${foo} where
+	# ${foo} is only two or three characters long is a default language
+	# seed.
+	seed_regex="${no_lang_seed}"'-[^-.]{2,3}$'
 
-	_check_immutable_passes_to_layers
-	_check_layers_only_API "remove_packages_from_seed_regexp"
-
-	local seed_regexp="$3"
-	if [ -z "${seed_regexp}" ]; then
-		pass="${1}.no-${2}"
-		_register_pass "$pass"
-		subtract_package_lists ${2} "desktop-minimal" >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
-		return
-	fi
-
-	for seed in $(ls config/germinate-output/|grep -P "$seed_regexp"); do
-	   pass="${1}.${seed}"
-	   _register_pass "$pass"
-	   subtract_package_lists ${2} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+	for seed in $(ls config/germinate-output | grep -E "${seed_regex}"); do
+		lang=$(echo "${seed}" | grep -oE '[^-.]{2,3}$')
+		pass="${1}.${lang}"
+		_register_pass ${pass}
+		# Remove packages from the default language seed that are not
+		# in the language specific seed from the language specific layer.
+		subtract_package_lists ${def_lang_seed} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
 	done
 }
 
@@ -629,11 +650,8 @@ case $PROJECT in
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
-				# LANG PASS for minimal and standard
-				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages '^desktop-minimal-(?!default-languages)[^.]+$'
-				remove_packages_from_seed_regexp minimal desktop-minimal-default-languages ''  # none (if no default langpack is selected)
-				remove_packages_from_seed_regexp minimal.standard desktop-default-languages '^desktop-(?!default-languages|minimal|common)[^.]+$'
-				remove_packages_from_seed_regexp minimal.standard desktop-default-languages ''  # none (if no default langpack is selected)
+				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages
+				derive_language_layers minimal.standard desktop desktop-default-languages
 				;;
 
 			desktop-preinstalled)
