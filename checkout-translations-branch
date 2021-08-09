@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -eux
+
+branch=$1
+target="$(readlink -f "${2}")"
+
+tmpdir="$(mktemp -d)"
+cd "${tmpdir}"
+
+cleanup () {
+    rm -rf "${tmpdir}"
+}
+
+trap cleanup EXIT
+
+mkdir -p $target
+
+bzr branch $branch checkout
+for po in checkout/*.po; do
+    msgfmt "${po}" -o "${target}/$(basename "${po}" .po).mo"
+done
