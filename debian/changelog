@@ -1,3 +1,9 @@
+livecd-rootfs (2.734) UNRELEASED; urgency=medium
+
+  * Create source catalogs for the installable live server layers.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 03 Aug 2021 16:34:57 +1200
+
 livecd-rootfs (2.733) impish; urgency=medium
 
   [ Michael Hudson-Doyle ]

@@ -1,0 +1,8 @@
+name: "Ubuntu Server"
+description: >-
+  The default install contains a curated set of packages that provide
+  a comfortable experience for operating your server.
+id: ubuntu-server
+default: yes
+type: fsimage-layered
+variant: server
