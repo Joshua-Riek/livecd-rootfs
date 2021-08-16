@@ -1,4 +1,4 @@
-livecd-rootfs (2.733) UNRELEASED; urgency=medium
+livecd-rootfs (2.733) impish; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * Add a minimal server layer underneath the full server layer. Continue to
@@ -8,7 +8,7 @@ livecd-rootfs (2.733) UNRELEASED; urgency=medium
   [ Brian Murray ]
   * Check for SUBARCH and ARCH when setting the intel-iot model. (LP: #1938338)
 
- -- Brian Murray <brian@ubuntu.com>  Mon, 16 Aug 2021 12:04:42 -0700
+ -- Brian Murray <brian@ubuntu.com>  Mon, 16 Aug 2021 12:22:25 -0700
 
 livecd-rootfs (2.732) impish; urgency=medium
 
