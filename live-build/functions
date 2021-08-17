@@ -548,7 +548,7 @@ _snap_preseed() {
     sh -c "
         set -x;
         cd \"$CHROOT_ROOT/var/lib/snapd/seed\";
-        SNAPPY_STORE_NO_CDN=1 snap download \
+        UBUNTU_STORE_ARCH=$ARCH SNAPPY_STORE_NO_CDN=1 snap download \
             --cohort="${COHORT_KEY:-}" \
             --channel=\"$CHANNEL\" \"$SNAP_NAME\"" || snap_download_failed=1
     if [ $snap_download_failed = 1 ] ; then
