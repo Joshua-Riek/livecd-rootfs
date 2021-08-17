@@ -810,6 +810,10 @@ case $PROJECT in
 					add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor $kernel_metapkg
 					LIVE_PASSES="${LIVE_PASSES:+$LIVE_PASSES }ubuntu-server-minimal.ubuntu-server.installer.$flavor"
 				done
+
+				/usr/share/livecd-rootfs/checkout-translations-branch \
+					lp:~canonical-foundations/subiquity/translations-export \
+					config/catalog-translations
 				;;
 			*)
 				echo "unrecognized subproject for server: '$SUBPROJECT'"

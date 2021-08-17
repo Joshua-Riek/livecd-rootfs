@@ -1,0 +1,7 @@
+name: "Ubuntu Server (minimized)"
+description: >-
+  This version has been customized to have a small runtime footprint
+  in environments where humans are not expected to log in.
+id: ubuntu-server-minimal
+type: fsimage
+variant: server

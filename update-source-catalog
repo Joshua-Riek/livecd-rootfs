@@ -1,0 +1,65 @@
+#!/usr/bin/python3
+
+import argparse
+import gettext
+import glob
+import os
+import sys
+import yaml
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--output', required=True)
+parser.add_argument('--size', required=True)
+parser.add_argument('--squashfs', required=True)
+parser.add_argument('--translations', required=True)
+parser.add_argument('--template', required=True)
+
+opts = parser.parse_args(sys.argv[1:])
+
+if os.path.exists(opts.output):
+    with open(opts.output) as fp:
+        output = yaml.safe_load(fp)
+else:
+    output = []
+
+
+with open(opts.template) as fp:
+    template = yaml.safe_load(fp)
+
+
+template['size'] = int(opts.size)
+template['path'] = opts.squashfs
+
+en_name = template['name']
+en_description = template['description']
+
+template['name'] = {'en': en_name}
+template['description'] = {'en': en_description}
+
+for mo in glob.glob(os.path.join(opts.translations, '*.mo')):
+    with open(mo, 'rb') as fp:
+        t = gettext.GNUTranslations(fp=fp)
+    t_name = t.gettext(en_name)
+    if t_name != en_name:
+        lang = os.path.splitext(os.path.basename(mo))[0]
+        template['name'][lang] = t_name
+    t_description = t.gettext(en_description)
+    if t_description != en_description:
+        lang = os.path.splitext(os.path.basedescription(mo))[0]
+        template['description'][lang] = t_description
+
+output.append(template)
+
+default_count = 0
+for entry in output:
+    if entry.get('default', False):
+        default_count += 1
+
+
+if default_count > 1:
+    print("Too many defaults in source catalog!")
+    sys.exit(1)
+
+
+with open(opts.output, 'w') as fp:
+    yaml.dump(output, fp)
