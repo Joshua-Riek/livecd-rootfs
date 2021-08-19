@@ -140,10 +140,13 @@ build_layered_squashfs () {
 		create_squashfs "overlay.${pass}/" ${squashfs_f}
 
 		if [ -f config/$pass.catalog-in.yaml ]; then
-			    /usr/share/livecd-rootfs/update-source-catalog --output livecd.${PROJECT}.install-sources.yaml \
-				    --template config/$pass.catalog-in.yaml \
-				    --size $(du -B 1 -s chroot/ | cut -f1) --squashfs ${pass}.squashfs \
-				    --translations config/catalog-translations
+			echo "Expanding catalog entry template for $pass"
+			/usr/share/livecd-rootfs/update-source-catalog --output livecd.${PROJECT}.install-sources.yaml \
+				--template config/$pass.catalog-in.yaml \
+				--size $(du -B 1 -s chroot/ | cut -f1) --squashfs ${pass}.squashfs \
+				--translations config/catalog-translations
+		else
+			echo "No catalog entry template for $pass"
 		fi
 	fi
 
