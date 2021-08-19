@@ -1,3 +1,9 @@
+livecd-rootfs (2.735) UNRELEASED; urgency=medium
+
+  * Get source catalog translations from subiquity git, as brz is in universe.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 20 Aug 2021 09:20:44 +1200
+
 livecd-rootfs (2.734) impish; urgency=medium
 
   [ Ethan Hsieh ]

@@ -812,8 +812,7 @@ case $PROJECT in
 				done
 
 				/usr/share/livecd-rootfs/checkout-translations-branch \
-					lp:~canonical-foundations/subiquity/translations-export \
-					config/catalog-translations
+					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 			*)
 				echo "unrecognized subproject for server: '$SUBPROJECT'"

@@ -3,7 +3,8 @@
 set -eux
 
 branch=$1
-target="$(readlink -f "${2}")"
+dir=$2
+target="$(readlink -f "${3}")"
 
 tmpdir="$(mktemp -d)"
 cd "${tmpdir}"
@@ -16,7 +17,7 @@ trap cleanup EXIT
 
 mkdir -p $target
 
-bzr branch $branch checkout
-for po in checkout/*.po; do
+git clone $branch checkout
+for po in checkout/$dir/*.po; do
     msgfmt "${po}" -o "${target}/$(basename "${po}" .po).mo"
 done
