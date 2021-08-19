@@ -1,4 +1,4 @@
-livecd-rootfs (2.734) UNRELEASED; urgency=medium
+livecd-rootfs (2.734) impish; urgency=medium
 
   [ Ethan Hsieh ]
   * Download snap packages with correct architecture.
@@ -6,7 +6,7 @@ livecd-rootfs (2.734) UNRELEASED; urgency=medium
   [ Michael Hudson-Doyle ]
   * Create source catalogs for the installable live server layers.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 17 Aug 2021 12:03:17 +0200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 19 Aug 2021 16:49:26 +1200
 
 livecd-rootfs (2.733) impish; urgency=medium
 
