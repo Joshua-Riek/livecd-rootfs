@@ -1,10 +1,10 @@
-livecd-rootfs (2.736) UNRELEASED; urgency=medium
+livecd-rootfs (2.736) impish; urgency=medium
 
   * Change the per language layers in the desktop canary build to have more
     regular names (and make their implementation better documented and
     hopefully more comprehensible).
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 03 Aug 2021 16:34:57 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 30 Aug 2021 15:30:37 +1200
 
 livecd-rootfs (2.735) impish; urgency=medium
 
