@@ -652,6 +652,25 @@ case $PROJECT in
 
 				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages
 				derive_language_layers minimal.standard desktop desktop-default-languages
+				cat <<-EOF > config/minimal.catalog-in.yaml
+					name: "Ubuntu Desktop (minimized)"
+					description: >-
+					  A minimal but usable Ubuntu Desktop.
+					id: ubuntu-desktop-minimal
+					type: fsimage
+					variant: desktop
+				EOF
+				cat <<-EOF > config/minimal.standard.catalog-in.yaml
+					name: "Ubuntu Desktop"
+					description: >-
+					  A full featured Ubuntu Desktop.
+					id: ubuntu-desktop
+					type: fsimage
+					variant: desktop
+					default: yes
+				EOF
+				/usr/share/livecd-rootfs/checkout-translations-branch \
+					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 
 			desktop-preinstalled)

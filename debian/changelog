@@ -1,3 +1,9 @@
+livecd-rootfs (2.737) UNRELEASED; urgency=medium
+
+  * Generate source catalogs for the desktop canary build.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 13 Sep 2021 09:52:06 +1200
+
 livecd-rootfs (2.736) impish; urgency=medium
 
   * Change the per language layers in the desktop canary build to have more
