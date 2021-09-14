@@ -1,6 +1,7 @@
 livecd-rootfs (2.737) UNRELEASED; urgency=medium
 
   * Generate source catalogs for the desktop canary build.
+  * Check for duplicate ids in update-source-catalog.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 13 Sep 2021 09:52:06 +1200
 

@@ -51,15 +51,19 @@ for mo in glob.glob(os.path.join(opts.translations, '*.mo')):
 output.append(template)
 
 default_count = 0
+ids = set()
 for entry in output:
     if entry.get('default', False):
         default_count += 1
+    ids.add(entry['id'])
 
 
 if default_count > 1:
     print("Too many defaults in source catalog!")
     sys.exit(1)
 
+if len(ids) != len(output):
+    print("Non unique ids in %s!" % output)
 
 with open(opts.output, 'w') as fp:
     yaml.dump(output, fp)
