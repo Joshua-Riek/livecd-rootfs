@@ -1,4 +1,4 @@
-livecd-rootfs (2.737ubuntu1) impish; urgency=medium
+livecd-rootfs (2.738) impish; urgency=medium
 
   [ Thomas Bechtold ]
   * Keep changelogs for native deb pkgs in minimized builds.  LP: #1943114.
