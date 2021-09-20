@@ -204,12 +204,28 @@ add_snap ()
 	done
 }
 
+get_seeded_languages () {
+	# We assume any seed name of the form ${no_lang_seed}-${foo} where
+	# ${foo} is only two or three characters long is a default language
+	# seed.
+	langs=''
+	for no_lang_seed in "$@"; do
+		seed_regex="${no_lang_seed}"'-[^-.]{2,3}$'
+		for seed in $(ls config/germinate-output | grep -E "${seed_regex}"); do
+			lang=$(echo "${seed}" | grep -oE '[^-.]{2,3}$')
+			langs="$langs $lang"
+		done
+	done
+	echo $langs | tr ' ' '\n' | sort -u | tr '\n' ' '
+}
+
 derive_language_layers () {
 	# create special layers for each default language
 	#
 	# $1 base pass
 	# $2 base seed (without any languages)
 	# $3 default language seed
+	# $4 space separated list of default languages
 	# e.g.:
 	#    derive_language_layers minimal desktop-minimal desktop-minimal-default-languages
 	#    derive_language_layers minimal.standard desktop desktop-default-languages
@@ -243,29 +259,26 @@ derive_language_layers () {
 	# support for all languages from the base layer.  We also create a
 	# layer than has support for all languages removed, which can be used
 	# for the base of an install for a non-default language.
-	local pass base_pass=$1 no_lang_seed=$2 def_lang_seed=$3
+	local pass base_pass=$1 no_lang_seed=$2 def_lang_seed=$3 langs=$4
 	_check_immutable_passes_to_layers
 	_check_layers_only_API "derive_language_layers"
 
-	pass=$base_pass.no-languages
-	_register_pass ${pass}
-	# Remove all packages from the default language seed that are not in
-	# the no_lang_seed from the no-languages layer.
-	subtract_package_lists ${def_lang_seed} ${no_lang_seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_${pass}
-
-	# We assume any seed name of the form ${no_lang_seed}-${foo} where
-	# ${foo} is only two or three characters long is a default language
-	# seed.
-	seed_regex="${no_lang_seed}"'-[^-.]{2,3}$'
-
-	for seed in $(ls config/germinate-output | grep -E "${seed_regex}"); do
-		lang=$(echo "${seed}" | grep -oE '[^-.]{2,3}$')
-		pass="${1}.${lang}"
+	for lang in $langs; do
+		pass="${base_pass}.${lang}"
 		_register_pass ${pass}
 		# Remove packages from the default language seed that are not
 		# in the language specific seed from the language specific layer.
-		subtract_package_lists ${def_lang_seed} ${seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
+		# I find this expression helps a little to make this make sense:
+		#  ((base) + (en fr de)) - (  (en fr de)   - (fr)) ==        (base + fr)
+		# `layer will all langs'   `def_lang_seed'  `lang'    `what we want to install'
+		subtract_package_lists ${def_lang_seed} ${no_lang_seed}-${lang} >> config/package-lists/livecd-rootfs.removal-list.chroot_$pass
 	done
+
+	no_lang_pass=$base_pass.no-languages
+	_register_pass ${no_lang_pass}
+	# Remove all packages from the default language seed that are not in
+	# the no_lang_seed from the no-languages layer.
+	subtract_package_lists ${def_lang_seed} ${no_lang_seed} >> config/package-lists/livecd-rootfs.removal-list.chroot_${no_lang_pass}
 }
 
 add_chroot_hook ()
@@ -650,8 +663,10 @@ case $PROJECT in
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
-				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages
-				derive_language_layers minimal.standard desktop desktop-default-languages
+				seeded_langs="$(get_seeded_languages desktop-minimal desktop)"
+				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
+				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
+				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
 				cat <<-EOF > config/minimal.catalog-in.yaml
 					name: "Ubuntu Desktop (minimized)"
 					description: >-
@@ -659,6 +674,7 @@ case $PROJECT in
 					id: ubuntu-desktop-minimal
 					type: fsimage
 					variant: desktop
+					locale_support: langpack
 				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
@@ -667,6 +683,7 @@ case $PROJECT in
 					id: ubuntu-desktop
 					type: fsimage
 					variant: desktop
+					locale_support: langpack
 					default: yes
 				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \

@@ -141,10 +141,14 @@ build_layered_squashfs () {
 
 		if [ -f config/$pass.catalog-in.yaml ]; then
 			echo "Expanding catalog entry template for $pass"
-			/usr/share/livecd-rootfs/update-source-catalog --output livecd.${PROJECT}.install-sources.yaml \
+			usc_opts="--output livecd.${PROJECT}.install-sources.yaml \
 				--template config/$pass.catalog-in.yaml \
 				--size $(du -B 1 -s chroot/ | cut -f1) --squashfs ${pass}.squashfs \
-				--translations config/catalog-translations
+				--translations config/catalog-translations"
+			if [ -f config/seeded-languages ]; then
+				usc_opts="$usc_opts --langs $(cat config/seeded-languages)"
+			fi
+			/usr/share/livecd-rootfs/update-source-catalog $usc_opts
 		else
 			echo "No catalog entry template for $pass"
 		fi

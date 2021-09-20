@@ -6,3 +6,4 @@ id: ubuntu-server
 default: yes
 type: fsimage-layered
 variant: server
+locale_support: locale-only

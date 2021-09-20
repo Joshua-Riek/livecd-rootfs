@@ -13,6 +13,7 @@ parser.add_argument('--size', required=True)
 parser.add_argument('--squashfs', required=True)
 parser.add_argument('--translations', required=True)
 parser.add_argument('--template', required=True)
+parser.add_argument('--langs', default=None)
 
 opts = parser.parse_args(sys.argv[1:])
 
@@ -47,6 +48,8 @@ for mo in glob.glob(os.path.join(opts.translations, '*.mo')):
     if t_description != en_description:
         lang = os.path.splitext(os.path.basedescription(mo))[0]
         template['description'][lang] = t_description
+    if opts.langs is not None:
+        template['preinstalled_langs'] = opts.langs.split(',')
 
 output.append(template)
 
