@@ -1,3 +1,10 @@
+livecd-rootfs (2.737ubuntu1) UNRELEASED; urgency=medium
+
+  [ Thomas Bechtold ]
+  * Keep changelogs for native deb pkgs in minimized builds.  LP: #1943114.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 20 Sep 2021 09:39:49 -0700
+
 livecd-rootfs (2.737) impish; urgency=medium
 
   * Generate source catalogs for the desktop canary build.
