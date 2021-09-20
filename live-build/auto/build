@@ -188,8 +188,8 @@ path-exclude=/usr/share/doc/*
 # ... except copyright files ...
 path-include=/usr/share/doc/*/copyright
 
-# ... and Debian changelogs
-path-include=/usr/share/doc/*/changelog.Debian.*
+# ... and Debian changelogs for native & non-native packages
+path-include=/usr/share/doc/*/changelog.*
 EOF
 
 		# Remove docs installed by bootstrap
