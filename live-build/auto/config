@@ -657,7 +657,7 @@ case $PROJECT in
 					description: >-
 					  A minimal but usable Ubuntu Desktop.
 					id: ubuntu-desktop-minimal
-					type: fsimage
+					type: fsimage-layered
 					variant: desktop
 				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
@@ -665,7 +665,7 @@ case $PROJECT in
 					description: >-
 					  A full featured Ubuntu Desktop.
 					id: ubuntu-desktop
-					type: fsimage
+					type: fsimage-layered
 					variant: desktop
 					default: yes
 				EOF
