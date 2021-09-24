@@ -814,8 +814,14 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         It is important to understand that there is no status 3xx HTTP redirect
         happening here, the client does not know that what it receives is not
         exactly what it requested."""
+        host = self.headers.get("host")
 
-        uri = self.headers.get("host") + self.path
+        # the host does not start with http(s):// which result in urlparse
+        # to not detect the host & path correctly (LP:#1944906)
+        if not host.startswith("http"):
+            host = "http://{}".format(host)
+        uri = host + self.path
+
         parsed = urllib.parse.urlparse(uri)
 
         self.sanitize_requestline()
