@@ -5,3 +5,4 @@ description: >-
 id: ubuntu-server-minimal
 type: fsimage
 variant: server
+locale_support: none
