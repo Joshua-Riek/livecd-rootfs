@@ -1,3 +1,10 @@
+livecd-rootfs (2.739) UNRELEASED; urgency=medium
+
+  [ Daniel Bungert ]
+  * Correct the 'type' in the source catalog entries for the desktop ISOs.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 27 Sep 2021 09:39:31 +1300
+
 livecd-rootfs (2.738) impish; urgency=medium
 
   [ Thomas Bechtold ]
