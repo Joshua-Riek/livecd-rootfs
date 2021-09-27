@@ -1,3 +1,10 @@
+livecd-rootfs (2.740) UNRELEASED; urgency=medium
+
+  [ Thomas Bechtold ]
+  * magic-proxy: fix TypeError when trying to call get_uri() LP:#1944906
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 27 Sep 2021 08:35:02 -0700
+
 livecd-rootfs (2.739) impish; urgency=medium
 
   [ Daniel Bungert ]
