@@ -138,6 +138,8 @@ setup_mountpoint() {
     # Provide more up to date apparmor features, matching target kernel
     mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic "$mountpoint/sys/kernel/security/apparmor/features/"
     mount -o bind /usr/share/livecd-rootfs/live-build/seccomp/generic.actions_avail "$mountpoint/proc/sys/kernel/seccomp/actions_avail"
+    # cgroup2 mount for LP: 1944004
+    mount -t cgroup2 none "$mountpoint/sys/fs/cgroup"
     mount -t tmpfs none "$mountpoint/tmp"
     mount -t tmpfs none "$mountpoint/var/lib/apt"
     mount -t tmpfs none "$mountpoint/var/cache/apt"
