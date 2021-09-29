@@ -917,7 +917,7 @@ case $PROJECT in
 					KERNEL_FLAVOURS=generic
 				fi
 				;;
-			amd64)
+			amd64*)
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
 				elif [ "${SUBARCH:-}" = "intel-iot" ]; then
