@@ -654,6 +654,7 @@ case $PROJECT in
 
 		case ${SUBPROJECT:-} in
 			canary)
+				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
 				KERNEL_FLAVOURS='generic-hwe-20.04'
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
