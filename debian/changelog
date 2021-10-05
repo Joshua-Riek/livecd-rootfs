@@ -1,6 +1,10 @@
 livecd-rootfs (2.742) UNRELEASED; urgency=medium
 
+  [ Brian Murray ]
   * Properly check ARCH when setting the intel-iot model.
+
+  [ Sebastien Bacher ]
+  * Enable universe sources on the desktop canary image.  LP: #1945831
 
  -- Brian Murray <brian@ubuntu.com>  Wed, 29 Sep 2021 16:33:49 -0700
 
