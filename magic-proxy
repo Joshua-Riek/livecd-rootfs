@@ -883,8 +883,10 @@ class ProxyingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             self.__send_response(e)
         except urllib.error.URLError as e:
             self.log_message(
-                "urlopen() failed for {} with {}".format(uri, e.reason))
-            self.send_error(501, e.reason)
+                "urlopen() failed for {} with {}".format(uri, str(e.reason)))
+            # URLError.reason can either be a string or another Exception
+            # So do convert it to a string before sending the error (LP: #1946520)
+            self.send_error(501, str(e.reason))
 
 
     def __get_host_path(self):
