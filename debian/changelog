@@ -1,3 +1,12 @@
+livecd-rootfs (2.744) jammy; urgency=medium
+
+  * Install desired already seeded snap in wsl.
+    As wsl is an image target of ubuntu-cpc, the base seed is hardcoded to
+    ubuntu-server instead of wsl one. For now, add it, as for the other
+    cpc images, in hooks.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Fri, 05 Nov 2021 10:23:24 +0100
+
 livecd-rootfs (2.743) jammy; urgency=medium
 
   * magic-proxy: fix exception handling for URLError. LP: #1946520
