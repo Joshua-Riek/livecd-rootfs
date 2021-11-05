@@ -37,6 +37,13 @@ setup_mountpoint $rootfs_dir
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get -y -qq install ubuntu-wsl
 env DEBIAN_FRONTEND=noninteractive chroot $rootfs_dir apt-get autoremove --purge --assume-yes
 
+# Install snap manually for now as config on cpc always assume the same base seed for every flavors
+env UBUNTU_STORE_ARCH=${ARCH:-} SNAPPY_STORE_NO_CDN=1 chroot $rootfs_dir snap download --target-directory=/var/lib/snapd/snaps core20
+env UBUNTU_STORE_ARCH=${ARCH:-} SNAPPY_STORE_NO_CDN=1 chroot $rootfs_dir snap download --target-directory=/var/lib/snapd/snaps gtk-common-themes
+env UBUNTU_STORE_ARCH=${ARCH:-} SNAPPY_STORE_NO_CDN=1 chroot $rootfs_dir snap download --target-directory=/var/lib/snapd/snaps --channel=latest/edge ubuntu-desktop-installer
+
+
+
 create_manifest $rootfs_dir livecd.ubuntu-cpc.wsl.rootfs.manifest
 teardown_mountpoint $rootfs_dir
 
