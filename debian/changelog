@@ -1,9 +1,9 @@
-livecd-rootfs (2.745) UNRELEASED; urgency=medium
+livecd-rootfs (2.745) jammy; urgency=medium
 
   [ Erich Eickmeyer ]
   * Remove fonts and publishing tasks from ubuntustudio DVD
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 08 Nov 2021 13:43:27 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 08 Nov 2021 13:43:53 -0800
 
 livecd-rootfs (2.744) jammy; urgency=medium
 
