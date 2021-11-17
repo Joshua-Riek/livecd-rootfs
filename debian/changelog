@@ -1,10 +1,10 @@
-livecd-rootfs (2.745ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (2.746) jammy; urgency=medium
 
   * Add the capability to build an ISO image for the Intel IoT project.
     Additionally, stop using universe with the project given that the kernel
     is now in main.
 
- -- Brian Murray <brian@ubuntu.com>  Tue, 16 Nov 2021 16:56:36 -0800
+ -- Brian Murray <brian@ubuntu.com>  Tue, 16 Nov 2021 17:00:57 -0800
 
 livecd-rootfs (2.745) jammy; urgency=medium
 
