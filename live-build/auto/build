@@ -576,6 +576,9 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		oem-*)
 			FLAVOUR="oem"
 			;;
+		image-intel)
+			FLAVOUR="intel"
+			;;
 	esac
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then
