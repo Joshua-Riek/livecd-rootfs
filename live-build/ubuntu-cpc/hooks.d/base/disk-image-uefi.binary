@@ -21,6 +21,10 @@ case ${PROJECT:-} in
         ;;
 esac
 
+if [ "$ARCH" = "armhf" ]; then
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Jammy armhf need more then the default 2.2G
+fi
+
 # Change image size for preinstalled generic images & all preinstalled riscv64 images
 if [ -n "${SUBARCH:-}" ]; then
     if [ "${SUBARCH:-}" = "generic" ] || [ "$ARCH" = "riscv64" ]; then

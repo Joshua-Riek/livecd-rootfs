@@ -1,3 +1,11 @@
+livecd-rootfs (2.747) jammy; urgency=medium
+
+  * ubuntu-cpc/hooks.d/base/disk-image-uefi.binary: Bump UEFI disk image
+    size for armhf to 3.5 GB.
+    Current builds are failing because the disk size is not big enough.
+
+ -- Thomas Bechtold <thomas.bechtold@canonical.com>  Tue, 23 Nov 2021 10:15:18 +0100
+
 livecd-rootfs (2.746) jammy; urgency=medium
 
   * Add the capability to build an ISO image for the Intel IoT project.
