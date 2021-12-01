@@ -69,6 +69,26 @@ create_partitions() {
                        --typecode=15:ef00 \
                        --new=1:: \
                        --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "nezha" ]; then
+                # Nezha D1 board
+                sgdisk "${disk_image}" \
+                       --set-alignment=2 \
+                       --new=13:256:25575 \
+                       --change-name=13:loader1 \
+                       --typecode=13:B161E8AB-7D4B-4DB4-821C-4120A0554A35 \
+                       --new=16:25576:32799 \
+                       --change-name=16:loader2b \
+                       --typecode=16:F79E76D9-AC98-418B-8F31-E17EA24FF07C \
+                       --new=14:32800:43007 \
+                       --change-name=14:loader2 \
+                       --typecode=14:F4FA3898-3478-4941-887D-FCEC4E9E3C05 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --change-name=15:ESP \
+                       --new=12::+4M \
+                       --change-name=12:CIDATA \
+                       --new=1:: \
+                       --attributes=1:set:2
             else
                 # preinstalled server, currently FU540
                 # FU740 too in the future
