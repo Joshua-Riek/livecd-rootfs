@@ -1,10 +1,10 @@
-livecd-rootfs (2.748) UNRELEASED; urgency=medium
+livecd-rootfs (2.748) jammy; urgency=medium
 
   * live-build/ubuntu-cpc/hooks.d/base/ovf/ubuntu-ova-v1-vmdk.tmpl: do not
     automatically allocate serial0 as it causes a hang when upgrading.
     (LP: #1895104)
 
- -- Brian Murray <brian@ubuntu.com>  Wed, 15 Dec 2021 10:07:05 -0800
+ -- Brian Murray <brian@ubuntu.com>  Wed, 15 Dec 2021 10:09:44 -0800
 
 livecd-rootfs (2.747) jammy; urgency=medium
 
