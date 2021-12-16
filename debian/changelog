@@ -1,4 +1,4 @@
-livecd-rootfs (2.749) UNRELEASED; urgency=medium
+livecd-rootfs (2.749) jammy; urgency=medium
 
   [ Heinrich Schuchardt ]
   * riscv64: ensure reasonable partition alignment (LP: #1952916).
