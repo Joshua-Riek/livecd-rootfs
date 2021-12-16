@@ -1,3 +1,10 @@
+livecd-rootfs (2.749) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv64: ensure reasonable partition alignment (LP: #1952916).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 16 Dec 2021 12:25:11 +0100
+
 livecd-rootfs (2.748) jammy; urgency=medium
 
   * live-build/ubuntu-cpc/hooks.d/base/ovf/ubuntu-ova-v1-vmdk.tmpl: do not
