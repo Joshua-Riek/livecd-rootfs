@@ -77,7 +77,7 @@ create_partitions() {
                        --new=13:34:2081 \
                        --change-name=13:loader1 \
                        --typecode=13:5B193300-FC78-40CD-8002-E86C45580B47 \
-                       --new=14:2082:10273 \
+                       --new=14:2082:10239 \
                        --change-name=14:loader2 \
                        --typecode=14:2E54B353-1271-4842-806F-E436D6AF6985 \
                        --new=15::+106M \
