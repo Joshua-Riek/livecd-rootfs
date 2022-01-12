@@ -592,12 +592,16 @@ _snap_preseed() {
                 exit 1
             fi
 
-            local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
+            local snap_type=$(echo "$snap_info" | awk '/^type:/ { print $2 }')
 
-            # If snap info does not list a base use 'core'
-            core_snap=${core_snap:-core}
+            if [ "$snap_type" != base ]; then
+                local core_snap=$(echo "$snap_info" | grep '^base:' | awk '{print $2}')
 
-            _snap_preseed $CHROOT_ROOT $core_snap stable
+                # If snap info does not list a base use 'core'
+                core_snap=${core_snap:-core}
+
+                _snap_preseed $CHROOT_ROOT $core_snap stable
+            fi
             ;;
     esac
 
