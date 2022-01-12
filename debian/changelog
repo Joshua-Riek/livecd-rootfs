@@ -1,4 +1,4 @@
-livecd-rootfs (2.750) UNRELEASED; urgency=medium
+livecd-rootfs (2.750) jammy; urgency=medium
 
   * Do not look for a base snap on snaps of type base, because recursive
     dependencies are not allowed for snaps.  LP: #1957123.
@@ -7,7 +7,7 @@ livecd-rootfs (2.750) UNRELEASED; urgency=medium
     should never require snaps that depend on an Ubuntu 16.04 runtime, this
     indicates a misconfiguration that will bloat the install.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 11 Jan 2022 15:38:05 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 11 Jan 2022 17:34:37 -0800
 
 livecd-rootfs (2.749) jammy; urgency=medium
 
