@@ -1,3 +1,10 @@
+livecd-rootfs (2.751) jammy; urgency=medium
+
+  * Revert patch for unmounting in local builds as it is causing autopkgtest
+    regressions
+
+ -- William 'jawn-smith' Wilson <jawn-smith@ubuntu.com>  Wed, 12 Jan 2022 13:43:24 -0600
+
 livecd-rootfs (2.750) jammy; urgency=medium
 
   * Do not look for a base snap on snaps of type base, because recursive
