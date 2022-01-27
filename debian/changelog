@@ -1,3 +1,10 @@
+livecd-rootfs (2.752) UNRELEASED; urgency=medium
+
+  * Remove references to archive.canonical.com, which is no longer used and
+    should not be included in the default sources.list.  LP: #1959343.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 27 Jan 2022 14:26:22 -0800
+
 livecd-rootfs (2.751) jammy; urgency=medium
 
   * Revert patch for unmounting in local builds as it is causing autopkgtest
