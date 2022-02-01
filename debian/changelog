@@ -1,3 +1,12 @@
+livecd-rootfs (2.753) UNRELEASED; urgency=medium
+
+  * Disable compression and "hash table hardening" for journald in the
+    live installer environment as these features make the journal unreadable
+    using the systemd libraries from 20.04 that are included in the subiquity
+    snap. (LP: #1953744)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 01 Feb 2022 16:10:28 +1300
+
 livecd-rootfs (2.752) jammy; urgency=medium
 
   * Remove references to archive.canonical.com, which is no longer used and
