@@ -957,7 +957,14 @@ case $PROJECT in
 				;;
 			riscv64*)
 				if [ -n "$SUBARCH" ]; then
-					KERNEL_FLAVOURS=generic
+					case "${SUBARCH:-}" in
+						nezha)
+							KERNEL_FLAVOURS=allwinner
+							;;
+						*)
+							KERNEL_FLAVOURS=generic
+							;;
+					esac
 				fi
 				;;
 		esac

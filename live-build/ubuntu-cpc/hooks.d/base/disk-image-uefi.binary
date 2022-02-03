@@ -209,25 +209,48 @@ install_grub() {
             chroot mountpoint u-boot-update
 
             if [ -n "${SUBARCH:-}" ]; then
-                u_boot_arch="${SUBARCH}"
-                if [ "${u_boot_arch}" = "hifive" ]; then
-                    u_boot_arch=sifive_fu540
-                fi
-                chroot mountpoint apt-get install -qqy u-boot-sifive
-                # FSBL, which gets U-Boot SPL
-                loader1="/dev/mapper${loop_device///dev/}p13"
-                # The real U-Boot
-                loader2="/dev/mapper${loop_device///dev/}p14"
-                dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
-                dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
-                # Provide end-user modifyable CIDATA
-                cidata_dev="/dev/mapper${loop_device///dev/}p12"
-                setup_cidata "${cidata_dev}"
-                # Provide stock nocloud datasource
-                # Allow interactive login on baremetal SiFive board,
-                # without a cloud datasource.
-                setup_cinocloud mountpoint
+                case "${SUBARCH}" in
+                    "nezha")
+                        echo "Installing U-Boot for Nezha board" &1>2
+                        chroot mountpoint apt-get install -qqy nezha-boot0
+                        # FSBL, which gets U-Boot SPL
+                        loader1="/dev/mapper${loop_device///dev/}p13"
+                        dd if=mountpoint/usr/lib/u-boot/nezha/boot0_sdcard_sun20iw1p1.bin of=$loader1
+                        # The real U-Boot
+                        chroot mountpoint apt-get install -qqy u-boot-nezha
+                        loader2="/dev/mapper${loop_device///dev/}p14"
+                        dd if=mountpoint/usr/lib/u-boot/nezha/u-boot.toc1 of=$loader2
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        ;;
+                    *)
+                        u_boot_arch="${SUBARCH}"
+                        if [ "${u_boot_arch}" = "hifive" ]; then
+                            u_boot_arch=sifive_fu540
+                        fi
+                        chroot mountpoint apt-get install -qqy u-boot-sifive
+                        # FSBL, which gets U-Boot SPL
+                        loader1="/dev/mapper${loop_device///dev/}p13"
+                        # The real U-Boot
+                        loader2="/dev/mapper${loop_device///dev/}p14"
+                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
+                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        ;;
+                esac
             fi
+
             ## TODO remove below once we have grub-efi-riscv64
             rm mountpoint/tmp/device.map
             umount mountpoint/boot/efi
