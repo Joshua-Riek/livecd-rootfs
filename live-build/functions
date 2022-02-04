@@ -947,6 +947,9 @@ configure_oci() {
     # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L134-L151
     echo 'Apt::AutoRemove::SuggestsImportant "false";' > ${chroot}/etc/apt/apt.conf.d/docker-autoremove-suggests
 
+    # https://bugs.launchpad.net/cloud-images/+bug/1810451
+    echo 'APT::Periodic::Enable "0";' > ${chroot}/etc/apt/apt.conf.d/docker-disable-periodic-update
+
     # delete all the apt list files since they're big and get stale quickly
     rm -rf ${chroot}/var/lib/apt/lists/*
 
