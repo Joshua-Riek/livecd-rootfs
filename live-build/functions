@@ -1141,7 +1141,7 @@ if [ -n "${have_grubenv}" ]; then
   if [ -n "${initrdfail}" ]; then
     set initrdless_boot_fallback_triggered="${initrdfail}"
   else
-    set initrdless_boot_fallback_triggered=0
+    unset initrdless_boot_fallback_triggered
   fi
   save_env initrdless_boot_fallback_triggered
 fi
