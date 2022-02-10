@@ -1,4 +1,4 @@
-livecd-rootfs (2.755) UNRELEASED; urgency=medium
+livecd-rootfs (2.755) jammy; urgency=medium
 
   [ Brian Murray ]
   * Add the casper package instead of the lupin-casper package as the
@@ -8,7 +8,7 @@ livecd-rootfs (2.755) UNRELEASED; urgency=medium
   [ John Chittum ]
   *  Add sleep due to e2fsck error in umount_partition. LP: #1960537
 
- -- Brian Murray <brian@ubuntu.com>  Wed, 09 Feb 2022 15:37:23 -0800
+ -- Brian Murray <brian@ubuntu.com>  Thu, 10 Feb 2022 13:54:42 -0800
 
 livecd-rootfs (2.754) jammy; urgency=medium
 
