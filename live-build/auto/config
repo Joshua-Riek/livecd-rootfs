@@ -548,11 +548,11 @@ case $IMAGEFORMAT in
 				;;
 			ubuntu)
 				if [ "$SUBPROJECT" != "canary" ]; then
-					add_package live lupin-casper
+					add_package live casper
 				fi
 				;;
 			*)
-				add_package live lupin-casper
+				add_package live casper
 				;;
 		esac
 		;;
@@ -840,7 +840,7 @@ case $PROJECT in
 				snap_from_seed server config/package-lists/livecd-rootfs.snaplist.chroot_ubuntu-server-minimal.ubuntu-server.full
 				add_package ubuntu-server-minimal.ubuntu-server cloud-init
 
-				add_package ubuntu-server-minimal.ubuntu-server.installer linux-firmware lupin-casper openssh-server
+				add_package ubuntu-server-minimal.ubuntu-server.installer linux-firmware casper openssh-server
 				add_snap ubuntu-server-minimal.ubuntu-server.installer subiquity/classic
 				if [ $ARCH = s390x ]; then
 					add_package ubuntu-server-minimal.ubuntu-server.installer s390-tools-zkey
