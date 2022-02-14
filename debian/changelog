@@ -1,3 +1,11 @@
+livecd-rootfs (2.756) UNRELEASED; urgency=medium
+
+  * Unset `initrdless_boot_fallback_triggered` in /boot/grub/grubenv instead
+    of setting it to 0 when the fallback is not triggered to prevent integrity
+    monitoring errors on GCE. (LP: #1960564)
+
+ -- Ivan Kapelyukhin <ivan.kapelyukhin@canonical.com>  Thu, 10 Feb 2022 23:45:57 +0100
+
 livecd-rootfs (2.755) jammy; urgency=medium
 
   [ Brian Murray ]
