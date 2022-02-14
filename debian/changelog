@@ -1,4 +1,4 @@
-livecd-rootfs (2.756) UNRELEASED; urgency=medium
+livecd-rootfs (2.756) jammy; urgency=medium
 
   * Unset `initrdless_boot_fallback_triggered` in /boot/grub/grubenv instead
     of setting it to 0 when the fallback is not triggered to prevent integrity
