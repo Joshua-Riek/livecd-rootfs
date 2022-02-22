@@ -1,3 +1,11 @@
+livecd-rootfs (2.757) jammy; urgency=medium
+
+  * Fix holes in swapfiles on pre-installed desktop images. Instead of
+    pre-allocating the swapfile in the image, allocate it on first boot and
+    use a systemd .swap unit to activate it (LP: #1961047)
+
+ -- Dave Jones <dave.jones@canonical.com>  Tue, 22 Feb 2022 00:45:03 +0000
+
 livecd-rootfs (2.756) jammy; urgency=medium
 
   * Unset `initrdless_boot_fallback_triggered` in /boot/grub/grubenv instead
