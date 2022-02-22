@@ -1,3 +1,11 @@
+livecd-rootfs (2.757) UNRELEASED; urgency=medium
+
+  * Use the 'classic' branch of the pi gadget for both classic and desktop
+    pi images by specifying the gadget make target during the gadget priming
+    phase.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 22 Feb 2022 11:33:28 +0100
+
 livecd-rootfs (2.756) jammy; urgency=medium
 
   * Unset `initrdless_boot_fallback_triggered` in /boot/grub/grubenv instead
