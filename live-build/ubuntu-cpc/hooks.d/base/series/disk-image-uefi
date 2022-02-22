@@ -1,6 +1,4 @@
-depends disk-image-uefi
-base/disk-image.binary
-base/disk-image-ppc64el.binary
+base/disk-image-uefi.binary
 provides livecd.ubuntu-cpc.ext4
 provides livecd.ubuntu-cpc.initrd-generic
 provides livecd.ubuntu-cpc.initrd-generic-lpae
