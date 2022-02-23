@@ -1,4 +1,4 @@
-livecd-rootfs (2.757) jammy; urgency=medium
+livecd-rootfs (2.757) UNRELEASED; urgency=medium
 
   * Fix holes in swapfiles on pre-installed desktop images. Instead of
     pre-allocating the swapfile in the image, allocate it on first boot and
