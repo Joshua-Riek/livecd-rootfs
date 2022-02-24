@@ -8,12 +8,6 @@ echo "Building on $(hostname --fqdn)"
 SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
-		*.0c3.net)
-			case $ARCH in
-				i386|amd64)	MIRROR=http://mirrors.0c3.net/ubuntu/ ;;
-				*)		MIRROR=http://mirrors.0c3.net/ubuntu-ports/ ;;
-			esac
-			;;
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
 					SEEDMIRROR=http://archive-team.internal/seeds/
 					;;
