@@ -595,8 +595,13 @@ _snap_preseed() {
                 # If snap info does not list a base the default is 'core'
                 # which is now an error to use.
                 if [ -z "$core_snap" ]; then
-                    echo "Legacy snap with no base declaration found, refusing to install 'core' snap"
-                    exit 1
+		    if [ -z "$ALLOW_CORE_SNAP" ]; then
+			echo "Legacy snap with no base declaration found, refusing to install 'core' snap"
+			exit 1
+		    else
+			echo "Legacy snap with no base declaration found, but \$ALLOW_CORE_SNAP set. continue (but FIX YOUR SNAPS!)"
+			core_snap=${core_snap:-core}
+		    fi
                 fi
 
                 _snap_preseed $CHROOT_ROOT $core_snap stable
