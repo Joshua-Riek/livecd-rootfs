@@ -1,4 +1,4 @@
-livecd-rootfs (2.759) UNRELEASED; urgency=medium
+livecd-rootfs (2.759) jammy; urgency=medium
 
   * Optionally (when ALLOW_CORE_SNAP env var is set) allow to install core
     snap. Still needed by some CPC projects. (LP: #1964303)
