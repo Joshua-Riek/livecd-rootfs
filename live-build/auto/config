@@ -331,7 +331,7 @@ _get_live_passes ()
 
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
-		ubuntu-cpc:*|ubuntu:desktop-preinstalled)
+		ubuntu-cpc:*|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
 			case $SUBARCH in
 				raspi|intel-iot)
 					IMAGEFORMAT=ubuntu-image
@@ -548,6 +548,8 @@ case $IMAGEFORMAT in
 		case $PROJECT in
 			ubuntu-server)
 				;;
+			ubuntu-wsl)
+				;;
 			ubuntu)
 				if [ "$SUBPROJECT" != "canary" ]; then
 					add_package live casper
@@ -584,7 +586,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-base|ubuntu-oci|ubuntu-cpc)
+		ubuntu-base|ubuntu-oci|ubuntu-cpc|ubuntu-wsl)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -892,6 +894,13 @@ case $PROJECT in
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
+	ubuntu-wsl)
+		add_task install minimal standard ubuntu-wsl
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		KERNEL_FLAVOURS=none
+		BINARY_REMOVE_LINUX=false
+		;;
+
 	ubuntu-cpc)
 		KERNEL_FLAVOURS=virtual
 
@@ -988,6 +997,9 @@ esac
 case $PROJECT:${SUBPROJECT:-} in
 	ubuntu:*|kubuntu*:*|lubuntu*:*|xubuntu*:*|ubuntu-mate*:*|ubuntustudio*:*|ubuntukylin*:*|ubuntu-budgie*:*)
 		BASE_SEED='desktop'
+		;;
+	ubuntu-wsl:*)
+		BASE_SEED='wsl'
 		;;
 	ubuntu-cpc:*)
 		BASE_SEED='server'
@@ -1151,7 +1163,7 @@ if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
 fi
 
 case $PROJECT in
-  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci)
+  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|ubuntu-wsl)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
     # not want this group in projects that are effectively just chroots
     ;;
@@ -1310,7 +1322,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled)
+	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in

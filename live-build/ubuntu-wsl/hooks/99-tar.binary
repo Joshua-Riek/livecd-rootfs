@@ -1,0 +1,24 @@
+#!/bin/bash -eux
+# vi: ts=4 expandtab
+#
+# Generate the compressed root directory for WSL manually.
+# Type "plain" unfortunately does not execute lb_binary_* helpers.
+
+case $ARCH in
+    amd64|arm64)
+        ;;
+    *)
+        echo "WSL root tarballs are not generated for $ARCH."
+        exit 0;;
+esac
+
+# The reason not using just tar .. -C chroot . is that using '.' was found
+# not working once and checking if using the simpler command is safe needs
+# verification of the app installation on all Windows 10 builds we support
+# with WSL.
+cd chroot
+tar --xattrs --sort=name -czf ../livecd.ubuntu-wsl.rootfs.tar.gz *
+cd ..
+
+# Remove initial ext4-formatted fs
+rm -f binary/boot/filesystem.ext4
