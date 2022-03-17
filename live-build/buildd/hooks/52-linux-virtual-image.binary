@@ -5,7 +5,7 @@
 #
 
 case $ARCH in
-    amd64)
+    amd64|arm64)
         ;;
     *)
         echo "We don't build bootable Buildd images for $ARCH."
