@@ -1,3 +1,11 @@
+livecd-rootfs (2.760) jammy; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  [ Didier Roche ]
+  * Create a separate WSL image than CPC so it can be managed independently.
+
+ -- Jean-Baptiste Lallement <jean-baptiste.lallement@ubuntu.com>  Mon, 14 Mar 2022 11:30:41 +0100
+
 livecd-rootfs (2.759) jammy; urgency=medium
 
   * Optionally (when ALLOW_CORE_SNAP env var is set) allow to install core
