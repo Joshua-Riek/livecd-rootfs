@@ -12,6 +12,10 @@ case $ARCH in
         exit 0;;
 esac
 
+## remove attributes not supported by WSL's tar
+setfattr -x system.posix_acl_access chroot/var/log/journal
+setfattr -x system.posix_acl_default chroot/var/log/journal
+
 # The reason not using just tar .. -C chroot . is that using '.' was found
 # not working once and checking if using the simpler command is safe needs
 # verification of the app installation on all Windows 10 builds we support
