@@ -89,6 +89,19 @@ create_partitions() {
                        --change-name=12:CIDATA \
                        --new=1:: \
                        --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "visionfive" ]; then
+                # VisionFive
+                sgdisk "${disk_image}" \
+                        --set-alignment=2 \
+                        --new=15::+106M \
+                        --typecode=15:ef00 \
+                        --change-name=15:ESP \
+                        --new=12::+4M \
+                        --change-name=12:CIDATA \
+                        --new=3::+1M \
+                        --change-name=3:uEnv \
+                        --new=1:: \
+                        --attributes=1:set:2
             else
                 # preinstalled server, currently FU540
                 # FU740 too in the future
@@ -203,15 +216,14 @@ install_grub() {
             ;;
         riscv64)
             # TODO grub-efi-riscv64 does not exist yet on riscv64
-            chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
-            efi_target=riscv64-efi
-
-            chroot mountpoint u-boot-update
-
             if [ -n "${SUBARCH:-}" ]; then
                 case "${SUBARCH}" in
                     "nezha")
                         echo "Installing U-Boot for Nezha board" &1>2
+                        chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        efi_target=riscv64-efi
+                        chroot mountpoint u-boot-update
+
                         chroot mountpoint apt-get install -qqy nezha-boot0
                         # FSBL, which gets U-Boot SPL
                         loader1="/dev/mapper${loop_device///dev/}p13"
@@ -220,6 +232,53 @@ install_grub() {
                         chroot mountpoint apt-get install -qqy u-boot-nezha
                         loader2="/dev/mapper${loop_device///dev/}p14"
                         dd if=mountpoint/usr/lib/u-boot/nezha/u-boot.toc1 of=$loader2
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        ;;
+                    "visionfive")
+                        echo "Installing GRUB for VisionFive board" &1>2
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        chroot mountpoint bash -c "echo 'StarFive VisionFive V1' > /etc/flash-kernel/machine"
+                        chroot mountpoint apt-get install -qqy grub-efi-riscv64 flash-kernel
+                        efi_target=riscv64-efi
+
+                        # factory u-boot requires a p3 partition with /boot/uEnv.txt file
+                        uenv_dev="/dev/mapper${loop_device///dev/}p3"
+                        mkfs.ext4 "${uenv_dev}"
+                        uenv_mnt_dir=`mktemp -d uenvXXX`
+                        mount "${uenv_dev}" "${uenv_mnt_dir}"
+                        mkdir -p "${uenv_mnt_dir}"/boot
+
+                        cat <<'EOF' >${uenv_mnt_dir}/boot/uEnv.txt
+scriptaddr=0x88100000
+script_offset_f=0x1fff000
+script_size_f=0x1000
+
+kernel_addr_r=0x84000000
+kernel_comp_addr_r=0x90000000
+kernel_comp_size=0x10000000
+
+fdt_addr_r=0x88000000
+ramdisk_addr_r=0x88300000
+
+bootcmd=load mmc 0:f ${kernel_addr_r} /EFI/ubuntu/grubriscv64.efi; bootefi ${kernel_addr_r}
+bootcmd_mmc0=devnum=0; run mmc_boot
+
+ipaddr=192.168.120.200
+netmask=255.255.255.0
+EOF
+
+                        umount "${uenv_mnt_dir}"
+                        rmdir "${uenv_mnt_dir}"
                         # Provide end-user modifyable CIDATA
                         cidata_dev="/dev/mapper${loop_device///dev/}p12"
                         setup_cidata "${cidata_dev}"
@@ -251,14 +310,16 @@ install_grub() {
                 esac
             fi
 
-            ## TODO remove below once we have grub-efi-riscv64
-            rm mountpoint/tmp/device.map
-            umount mountpoint/boot/efi
-            mount
-            umount_partition mountpoint
-            rmdir mountpoint
-            return
-            ##
+            if [ "${SUBARCH}" != "visionfive" ]; then
+                ## TODO remove below once we have grub-efi-riscv64
+                rm mountpoint/tmp/device.map
+                umount mountpoint/boot/efi
+                mount
+                umount_partition mountpoint
+                rmdir mountpoint
+                return
+                ##
+            fi
             ;;
     esac
 
