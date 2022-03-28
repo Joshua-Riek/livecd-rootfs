@@ -1,3 +1,9 @@
+livecd-rootfs (2.762) UNRELEASED; urgency=medium
+
+  * auto/config: drop support for 0c3.net domain, now obsolete.
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Mon, 28 Mar 2022 11:51:44 +0100
+
 livecd-rootfs (2.761) jammy; urgency=medium
 
   [ Jean-Baptiste Lallement ]
