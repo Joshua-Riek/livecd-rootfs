@@ -1,8 +1,8 @@
-livecd-rootfs (2.763) UNRELEASED; urgency=medium
+livecd-rootfs (2.763) jammy; urgency=medium
 
   * auto/config: upgrade from hwe-20.04 to hwe-22.04 variant.
 
- -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Wed, 06 Apr 2022 14:55:04 +0100
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Wed, 06 Apr 2022 15:09:47 +0100
 
 livecd-rootfs (2.762) jammy; urgency=medium
 
