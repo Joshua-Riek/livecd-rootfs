@@ -1,7 +1,14 @@
+livecd-rootfs (2.763) UNRELEASED; urgency=medium
+
+  * auto/config: upgrade from hwe-20.04 to hwe-22.04 variant.
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Wed, 06 Apr 2022 14:55:04 +0100
+
 livecd-rootfs (2.762) jammy; urgency=medium
 
   [ Dimitri John Ledkov ]
   * auto/config: drop support for 0c3.net domain, now obsolete.
+
 
   [ Jean-Baptiste Lallement ]
   * wsl: Create missing groups in chroot
