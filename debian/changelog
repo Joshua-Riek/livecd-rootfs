@@ -1,3 +1,10 @@
+livecd-rootfs (2.764) jammy; urgency=medium
+
+  [ Michał Sawicz ]
+  * Add arm64 buildd bootable image. (LP: #1966636)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Mon, 11 Apr 2022 23:02:30 +0530
+
 livecd-rootfs (2.763) jammy; urgency=medium
 
   * auto/config: upgrade from hwe-20.04 to hwe-22.04 variant.
