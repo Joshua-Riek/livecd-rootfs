@@ -58,6 +58,18 @@ cleanup_vagrant() {
 }
 trap cleanup_vagrant EXIT
 
+
+##########################
+### Vagrant User Setup
+### Create ed25519 ssh key
+### the default insecure key is rsa, and that is disabled in Jammy forward
+### https://github.com/hashicorp/vagrant/tree/main/keys
+##########################
+
+ssh-keygen -t ed25519 -C "ubuntu_vagrant_insecure_key" -b 4096 -f ${box_d}/vagrant_insecure_key
+
+pub_key=$(cat ${box_d}/vagrant_insecure_key.pub)
+
 # Create and setup users inside the image.
 # Vagrant users expect a "vagrant" user with a "vagrant" username.
 # See https://www.vagrantup.com/docs/boxes/base.html
@@ -70,12 +82,12 @@ cat << EOF > ${mount_d}/etc/sudoers.d/vagrant
 vagrant ALL=(ALL) NOPASSWD:ALL
 EOF
 
-# Add the insecure vagrant pubkey to the vagrant user, as is expected by the
+# Add an insecure vagrant pubkey to the vagrant user, as is expected by the
 # vagrant ecosystem (https://www.vagrantup.com/docs/boxes/base.html)
 chroot ${mount_d} chmod 0440 /etc/sudoers.d/vagrant
 chroot ${mount_d} mkdir -p /home/vagrant/.ssh
 cat << EOF > ${mount_d}/home/vagrant/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+${pub_key}
 EOF
 chroot ${mount_d} chown -R vagrant:vagrant /home/vagrant/.ssh
 chroot ${mount_d} chmod 700 /home/vagrant/.ssh
@@ -130,7 +142,6 @@ genisoimage \
 create_vmdk ${seed_d}/seed.iso ${cdrom_vmdk_f} 10
 
 ### END Create ConfigDrive
-##########################
 
 ##########################
 # VAGRANT meta-data
@@ -145,6 +156,8 @@ load include_vagrantfile if File.exist?(include_vagrantfile)
 
 Vagrant.configure("2") do |config|
   config.vm.base_mac = "${macaddr}"
+  # Set to use our vagrant_insecure_key. Path is relative to Vagrantfile
+  config.ssh.private_key_path = File.join(File.expand_path(File.dirname(__FILE__)), "vagrant_insecure_key")
 
   config.vm.provider "virtualbox" do |vb|
      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
@@ -233,6 +246,8 @@ tar -C ${box_d} \
     -cf ${cur_d}/livecd.ubuntu-cpc.vagrant.box \
     box.ovf \
     Vagrantfile \
+    vagrant_insecure_key \
+    vagrant_insecure_key.pub \
     metadata.json \
     ${prefix}.mf \
     ${vmdk_f##*/} \
