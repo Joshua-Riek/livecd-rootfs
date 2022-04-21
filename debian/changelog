@@ -1,3 +1,9 @@
+livecd-rootfs (2.765) UNRELEASED; urgency=medium
+
+  * vagrant: use ed25519 insecure key (LP: #1969664) 
+
+ -- jchittum <john.chittum@canonical.com>  Thu, 21 Apr 2022 09:28:26 -0500
+
 livecd-rootfs (2.764) jammy; urgency=medium
 
   [ Michał Sawicz ]
