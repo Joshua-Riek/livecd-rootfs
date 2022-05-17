@@ -1,3 +1,10 @@
+livecd-rootfs (2.764.1) jammy; urgency=medium
+
+  * live-build/ubuntu-cpc/hooks.d/base/ovf/ubuntu-ova-v1-vmdk.tmpl:
+    Revert OVF cd-rom controller to be IDE for VMWare (LP: #1970795)
+
+ -- Simon Poirier <simon.poirier@canonical.com>  Thu, 16 Jun 2022 19:34:03 -0400
+
 livecd-rootfs (2.764) jammy; urgency=medium
 
   [ Michał Sawicz ]
