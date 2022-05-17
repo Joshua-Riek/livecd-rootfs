@@ -1,3 +1,10 @@
+livecd-rootfs (2.766) kinetic; urgency=medium
+
+  * live-build/ubuntu-cpc/hooks.d/base/ovf/ubuntu-ova-v1-vmdk.tmpl:
+    Revert OVF cd-rom controller to be IDE for VMWare (LP: #1970795)
+
+ -- Simon Poirier <simon.poirier@canonical.com>  Sat, 11 Jun 2022 13:11:30 -0400
+
 livecd-rootfs (2.765) kinetic; urgency=medium
 
   [ Michael Hudson-Doyle ]
