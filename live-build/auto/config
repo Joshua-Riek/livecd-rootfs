@@ -305,7 +305,7 @@ _sanitize_passes ()
 		# if root pass, no parent to find
 		[ -z "$parent" ] && continue
 		if [ $(echo "$passes"|grep -cE "^$parent\$") -ne 1 ]; then
-			echo "ERROR: '$parent' is required by '$pass' but is missing. Registered passes are:\n$passes"
+			echo "ERROR: '$parent' is required by '$pass' but is missing. Registered passes are:\n$passes" >&2
 			exit 1
 		fi
 	done

@@ -2,6 +2,7 @@ livecd-rootfs (2.765) UNRELEASED; urgency=medium
 
   * auto/config: preserve germinate-output directory when removing config to
     speed up local iteration.
+  * auto/config: Emit error message to stderr in _sanitize_passes.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 24 May 2022 12:42:10 +1200
 
