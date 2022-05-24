@@ -2,6 +2,9 @@
 # vi: ts=4 noexpandtab
 
 case $PASS in
+    ubuntu-server-minimal.ubuntu-server.installer.*.*)
+        exit 0
+        ;;
     ubuntu-server-minimal.ubuntu-server.installer.*)
         flavor=${PASS##*.}
         if [ "$flavor" = "generic" ]; then

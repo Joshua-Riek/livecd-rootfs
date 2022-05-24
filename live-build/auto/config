@@ -874,6 +874,18 @@ case $PROJECT in
 					add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor $kernel_metapkg
 					LIVE_PASSES="${LIVE_PASSES:+$LIVE_PASSES }ubuntu-server-minimal.ubuntu-server.installer.$flavor"
 				done
+				case $ARCH in
+					amd64)
+						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot grub-pc shim-signed pxelinux
+						;;
+					arm64)
+						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot shim-signed
+						;;
+					*)
+						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot
+						;;
+				esac
+				NO_SQUASHFS_PASSES=ubuntu-server-minimal.ubuntu-server.installer.generic.netboot
 
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations
