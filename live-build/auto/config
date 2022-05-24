@@ -1,7 +1,14 @@
 #! /bin/sh
 set -e
 
-rm -rf config
+if [ -e config/germinate-output ]; then
+            mv -T config/germinate-output germ-tmp
+            rm -rf config
+            mkdir config
+            mv -T germ-tmp config/germinate-output
+else
+        rm -rf config
+fi
 
 echo "Building on $(hostname --fqdn)"
 
