@@ -1,11 +1,15 @@
-livecd-rootfs (2.765) UNRELEASED; urgency=medium
+livecd-rootfs (2.765) kinetic; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * auto/config: preserve germinate-output directory when removing config to
     speed up local iteration.
   * auto/config: Emit error message to stderr in _sanitize_passes.
   * Produce a tarball of artifacts for netbooting during live-server build.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 24 May 2022 12:42:10 +1200
+  [ John Chittum ]
+  * vagrant: use ed25519 insecure key (LP: #1969664) 
+
+ -- John Chittum <john.chittum@canonical.com>  Thu, 26 May 2022 09:28:26 -0500
 
 livecd-rootfs (2.764) jammy; urgency=medium
 
