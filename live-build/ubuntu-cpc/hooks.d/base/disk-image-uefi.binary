@@ -220,9 +220,14 @@ install_grub() {
                 case "${SUBARCH}" in
                     "nezha")
                         echo "Installing U-Boot for Nezha board" &1>2
-                        chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
+                        chroot mountpoint apt-get install -qqy grub-efi-riscv64 flash-kernel
                         efi_target=riscv64-efi
-                        chroot mountpoint u-boot-update
 
                         chroot mountpoint apt-get install -qqy nezha-boot0
                         # FSBL, which gets U-Boot SPL
@@ -239,6 +244,13 @@ install_grub() {
                         # Allow interactive login on baremetal SiFive board,
                         # without a cloud datasource.
                         setup_cinocloud mountpoint
+
+                        # u-boot-nezha will boot using UEFI if it does not find
+                        # any extlinux.conf or boot.scr: but flash-kernel will
+                        # install a boot.scr if it believes it did not boot in
+                        # EFI mode, so make sure we don't leave a boot.scr
+                        # behind.
+                        chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "visionfive")
                         echo "Installing GRUB for VisionFive board" &1>2
@@ -310,7 +322,7 @@ EOF
                 esac
             fi
 
-            if [ "${SUBARCH}" != "visionfive" ]; then
+            if [ "${SUBARCH}" != "visionfive" && "${SUBARCH}" != "nezha" ]; then
                 ## TODO remove below once we have grub-efi-riscv64
                 rm mountpoint/tmp/device.map
                 umount mountpoint/boot/efi
