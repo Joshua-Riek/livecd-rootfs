@@ -40,7 +40,7 @@ case $ARCH in
         cat > tarball/x86_64-efi/grub.cfg.in <<EOF
 menuentry "Install Ubuntu Server" {
         set gfxpayload=keep
-        linux   amd64/linux url=#ISOURL# ip=dhcp ---
+        linux   amd64/linux iso-url=#ISOURL# ip=dhcp ---
         initrd  amd64/initrd
 }
 EOF
@@ -49,7 +49,7 @@ DEFAULT install
 LABEL install
   KERNEL amd64/linux
   INITRD amd64/initrd
-  APPEND root=/dev/ram0 ramdisk_size=1500000 ip=dhcp url=#ISOURL# ---
+  APPEND root=/dev/ram0 ramdisk_size=1500000 ip=dhcp iso-url=#ISOURL# ---
 EOF
         ;;
 
@@ -61,7 +61,7 @@ EOF
         cat > tarball/arm64-efi/grub.cfg.in <<EOF
 menuentry "Install Ubuntu Server" {
         set gfxpayload=keep
-        linux   arm64/linux url=#ISOURL# ip=dhcp ---
+        linux   arm64/linux iso-url=#ISOURL# ip=dhcp ---
         initrd  arm64/initrd
 }
 EOF
@@ -90,7 +90,7 @@ parmfile.ubuntu 0x00010480
 initrd.ubuntu 0x01000000
 EOF
         cat > tarball/s390x/parmfile.ubuntu.in <<EOF
-url=#ISOURL# ---
+iso-url=#ISOURL# ---
 EOF
         perl -e "print pack('N', 0x1000000)" > tarball/s390x/initrd.off
         perl -e "print pack('N', -s 'tarball/s390x/initrd.ubuntu')" > tarball/s390x/initrd.siz
@@ -99,7 +99,7 @@ DEFAULT install
 LABEL install
   KERNEL amd64/linux.ubuntu
   INITRD amd64/initrd.ubuntu
-  APPEND ip=dhcp url=#ISOURL# ---
+  APPEND ip=dhcp iso-url=#ISOURL# ---
 EOF
         cat > tarball/dpm.cfg.in <<EOF
 PROMPT 1
@@ -108,7 +108,7 @@ TIMEOUT 1
 LABEL install
   kernel=amd64/linux.ubuntu
   initrd=amd64/initrd.ubuntu
-  append=ip=dhcp url=#ISOURL# ---
+  append=ip=dhcp iso-url=#ISOURL# ---
 EOF
         ;;
 esac
