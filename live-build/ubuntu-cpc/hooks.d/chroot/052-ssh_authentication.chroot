@@ -1,3 +1,5 @@
 #!/bin/bash
 
-sed -i "s|#PasswordAuthentication yes|PasswordAuthentication no|g" /etc/ssh/sshd_config
+cat << EOF >> "/etc/ssh/sshd_config.d/10-cloudimg-settings.conf"
+PasswordAuthentication no
+EOF
