@@ -1,6 +1,7 @@
 livecd-rootfs (2.765.1) UNRELEASED; urgency=medium
 
   * Switch the intel-iot images to use the linux-intel-iotg kernel instead.
+    (LP: #1980065)
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 10 Jun 2022 11:14:36 +0200
 
