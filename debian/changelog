@@ -1,7 +1,7 @@
-livecd-rootfs (2.766) UNRELEASED; urgency=medium
+livecd-rootfs (2.766) kinetic; urgency=medium
 
-  * Do not modify /etc/ssh/sshd_config for ubuntu-cpc
-    project builds (LP: #1968873)
+  * Do not modify /etc/ssh/sshd_config for ubuntu-cpc project
+    builds. (LP: #1968873)
 
  -- Thomas Bechtold <thomas.bechtold@canonical.com>  Tue, 28 Jun 2022 13:29:05 +0200
 
