@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.3) jammy; urgency=medium
+
+  * Do not modify /etc/ssh/sshd_config for ubuntu-cpc
+    project builds (LP: #1968873)
+
+ -- Thomas Bechtold <thomas.bechtold@canonical.com>  Thu, 30 Jun 2022 19:26:04 +0200
+
 livecd-rootfs (2.765.2) jammy; urgency=medium
 
   * Switch the intel-iot images to use the linux-intel-iotg kernel instead.
