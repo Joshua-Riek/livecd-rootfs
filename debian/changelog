@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.2) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.2) jammy; urgency=medium
 
   * Switch the intel-iot images to use the linux-intel-iotg kernel instead.
     (LP: #1980065)
