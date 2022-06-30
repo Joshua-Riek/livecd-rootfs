@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.2) UNRELEASED; urgency=medium
+
+  * Switch the intel-iot images to use the linux-intel-iotg kernel instead.
+    (LP: #1980065)
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 30 Jun 2022 17:26:04 +0200
+
 livecd-rootfs (2.764.1) jammy; urgency=medium
 
   * live-build/ubuntu-cpc/hooks.d/base/ovf/ubuntu-ova-v1-vmdk.tmpl:
