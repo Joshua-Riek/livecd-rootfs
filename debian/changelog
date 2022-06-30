@@ -1,9 +1,9 @@
-livecd-rootfs (2.768) UNRELEASED; urgency=medium
+livecd-rootfs (2.768) kinetic; urgency=medium
 
   * Use the new iso-url= parameter in the bootloader configs in the netboot
     tarballs.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 20 Jun 2022 21:52:58 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 30 Jun 2022 14:37:53 +1200
 
 livecd-rootfs (2.767) kinetic; urgency=medium
 
