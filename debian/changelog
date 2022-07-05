@@ -1,3 +1,9 @@
+livecd-rootfs (2.769) UNRELEASED; urgency=medium
+
+  * Add support for the VisionFive and the Nezha boards
+
+ -- Alexandre Ghiti <alexandre.ghiti@canonical.com>  Tue, 05 Jul 2022 10:55:44 +0200
+
 livecd-rootfs (2.768) kinetic; urgency=medium
 
   * Use the new iso-url= parameter in the bootloader configs in the netboot
