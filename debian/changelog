@@ -1,6 +1,8 @@
 livecd-rootfs (2.765.5) UNRELEASED; urgency=medium
 
   * Add support for the VisionFive and the Nezha boards
+  * Set FK_FORCE_CONTAINER for RISC-V images build to force flash-kernel
+    to run in a container.
 
  -- Alexandre Ghiti <alexandre.ghiti@canonical.com>  Tue, 05 Jul 2022 10:55:44 +0200
 
