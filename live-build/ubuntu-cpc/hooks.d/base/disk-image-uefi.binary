@@ -326,7 +326,7 @@ EOF
                 esac
             fi
 
-            if [ "${SUBARCH}" != "visionfive" && "${SUBARCH}" != "nezha" ]; then
+            if [ "${SUBARCH}" != "visionfive" ] && [ "${SUBARCH}" != "nezha" ]; then
                 ## TODO remove below once we have grub-efi-riscv64
                 rm mountpoint/tmp/device.map
                 umount mountpoint/boot/efi
