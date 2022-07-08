@@ -230,7 +230,7 @@ install_grub() {
                         # This explains why we install flash-kernel here.
                         chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
-                        chroot mountpoint apt-get install -qqy grub-efi-riscv64 flash-kernel
+                        chroot mountpoint bash -c 'FK_FORCE_CONTAINER=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
 
                         chroot mountpoint apt-get install -qqy nezha-boot0
@@ -264,7 +264,7 @@ install_grub() {
                         # This explains why we install flash-kernel here.
                         chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'StarFive VisionFive V1' > /etc/flash-kernel/machine"
-                        chroot mountpoint apt-get install -qqy grub-efi-riscv64 flash-kernel
+                        chroot mountpoint bash -c 'FK_FORCE_CONTAINER=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
 
                         # factory u-boot requires a p3 partition with /boot/uEnv.txt file
