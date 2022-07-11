@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.4) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.4) jammy; urgency=medium
 
   * Revert "don't modify ssh_config for ubuntu-cpc projects (LP:1968873)"
     This change triggered a bug in cloud-init (see LP:1968873).
