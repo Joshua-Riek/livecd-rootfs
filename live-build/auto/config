@@ -345,7 +345,7 @@ fi
 # one also must request disk1-img-xz image format
 if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
 	case $ARCH:$SUBARCH in
-		armhf:raspi2|riscv64:sifive_*|riscv64:nezha|riscv64:visionfive|*:generic)
+		armhf:raspi2|riscv64:sifive_*|riscv64:nezha|riscv64:visionfive|riscv64:licheerv|*:generic)
 			IMAGE_HAS_HARDCODED_PASSWORD=1
 			if [ -z "${IMAGE_TARGETS:-}" ]; then
 				export IMAGE_TARGETS="disk1-img-xz"
@@ -939,7 +939,7 @@ case $PROJECT in
 			riscv64*)
 				if [ -n "$SUBARCH" ]; then
 					case "${SUBARCH:-}" in
-						nezha)
+						nezha|licheerv)
 							KERNEL_FLAVOURS=allwinner
 							;;
 						visionfive)

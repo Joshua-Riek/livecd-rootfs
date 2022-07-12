@@ -73,8 +73,8 @@ create_partitions() {
                        --typecode=15:ef00 \
                        --new=1:: \
                        --attributes=1:set:2
-            elif [ "${SUBARCH:-}" = "nezha" ]; then
-                # Nezha D1 board
+            elif [ "${SUBARCH:-}" = "nezha" ] || [ "${SUBARCH:-}" = "licheerv" ]; then
+                # Nezha/LicheeRV D1 boards
                 sgdisk "${disk_image}" \
                        --set-alignment=2 \
                        --new=13:256:25575 \
@@ -223,25 +223,35 @@ install_grub() {
             if [ -n "${SUBARCH:-}" ]; then
                 # Per-device images
                 case "${SUBARCH}" in
-                    "nezha")
-                        echo "Installing U-Boot for Nezha board" &1>2
+                    "nezha"|"licheerv")
+                        echo "Installing U-Boot for ${SUBARCH} board" &1>2
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
                         # This explains why we install flash-kernel here.
                         chroot mountpoint mkdir -p /etc/flash-kernel/
-                        chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
+                        if [ "$SUBARCH" = "nezha" ]; then
+                            chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
+                        elif [ "$SUBARCH" = "licheerv" ]; then
+                            chroot mountpoint bash -c "echo 'Sipeed Lichee RV Dock' > /etc/flash-kernel/machine"
+                            # cryptsetup-initramfs is a large contributor of the initrd size: we have to
+                            # remove it for the LicheeRV board, otherwise it fails to boot. cryptsetup-initramfs
+                            # needs to embed plymouth (and then the drm/gpu stuff) for interacting with the user
+                            # to decrypt the rootfs (passphrase key).
+                            chroot mountpoint bash -c "apt remove -qqy cryptsetup-initramfs"
+                        fi
                         chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
 
+                        # nezha-boot0 is actually compatible with the LicheeRV boards (and probably other D1-based boards)
                         chroot mountpoint apt-get install -qqy nezha-boot0
                         # FSBL, which gets U-Boot SPL
                         loader1="/dev/mapper${loop_device///dev/}p13"
                         dd if=mountpoint/usr/lib/u-boot/nezha/boot0_sdcard_sun20iw1p1.bin of=$loader1
                         # The real U-Boot
-                        chroot mountpoint apt-get install -qqy u-boot-nezha
+                        chroot mountpoint apt-get install -qqy u-boot-${SUBARCH}
                         loader2="/dev/mapper${loop_device///dev/}p14"
-                        dd if=mountpoint/usr/lib/u-boot/nezha/u-boot.toc1 of=$loader2
+                        dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot.toc1 of=$loader2
                         # Provide end-user modifyable CIDATA
                         cidata_dev="/dev/mapper${loop_device///dev/}p12"
                         setup_cidata "${cidata_dev}"
@@ -250,7 +260,7 @@ install_grub() {
                         # without a cloud datasource.
                         setup_cinocloud mountpoint
 
-                        # u-boot-nezha will boot using UEFI if it does not find
+                        # u-boot-${SUBARCH} will boot using UEFI if it does not find
                         # any extlinux.conf or boot.scr: but flash-kernel will
                         # install a boot.scr if it believes it did not boot in
                         # EFI mode, so make sure we don't leave a boot.scr
@@ -336,7 +346,7 @@ EOF
                 chroot mountpoint u-boot-update
             fi
 
-            if [ "${SUBARCH:-}" != "visionfive" ] && [ "${SUBARCH:-}" != "nezha" ]; then
+            if [ "${SUBARCH:-}" != "visionfive" ] && [ "${SUBARCH:-}" != "nezha" ] && [ "${SUBARCH:-}" != "licheerv" ]; then
                 ## TODO remove below once we have grub-efi-riscv64 for the platforms
                 rm mountpoint/tmp/device.map
                 umount mountpoint/boot/efi
