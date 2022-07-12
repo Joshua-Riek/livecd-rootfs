@@ -20,49 +20,49 @@ mkdir -p tarball/$ARCH
 case $ARCH in
     s390x)
         cp $INITRD tarball/$ARCH/initrd.ubuntu
-        cp $KERNEL tarball/$ARCH/kernel.ubuntu
+        cp $KERNEL tarball/$ARCH/linux.ubuntu
         ;;
 
     *)
         cp $INITRD tarball/$ARCH/initrd
-        cp $KERNEL tarball/$ARCH/kernel
+        cp $KERNEL tarball/$ARCH/linux
         ;;
 esac
 
 case $ARCH in
     amd64)
-        mv chroot/usr/lib/PXELINUX/pxelinux.0                          tarball/pxelinux.0
-        mv chroot/usr/lib/syslinux/modules/bios/ldlinux.c32            tarball/ldlinux.c32
-        mv chroot/usr/lib/shim/shimx64.efi                             tarball/bootx64.efi
-        mv chroot/usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed tarball/grubx64.efi
+        mv chroot/usr/lib/PXELINUX/pxelinux.0                          tarball/amd64/pxelinux.0
+        mv chroot/usr/lib/syslinux/modules/bios/ldlinux.c32            tarball/amd64/ldlinux.c32
+        mv chroot/usr/lib/shim/shimx64.efi.signed                      tarball/amd64/bootx64.efi
+        mv chroot/usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed tarball/amd64/grubx64.efi
 
-        mkdir tarball/x86_64-efi tarball/pxelinux.cfg
-        cat > tarball/x86_64-efi/grub.cfg.in <<EOF
+        mkdir tarball/amd64/grub tarball/amd64/pxelinux.cfg
+        cat > tarball/amd64/grub/grub.cfg.in <<EOF
 menuentry "Install Ubuntu Server" {
         set gfxpayload=keep
-        linux   amd64/linux iso-url=#ISOURL# ip=dhcp ---
-        initrd  amd64/initrd
+        linux   linux iso-url=#ISOURL# ip=dhcp ---
+        initrd  initrd
 }
 EOF
-        cat > tarball/pxelinux.cfg/default.in <<EOF
+        cat > tarball/amd64/pxelinux.cfg/default.in <<EOF
 DEFAULT install
 LABEL install
-  KERNEL amd64/linux
-  INITRD amd64/initrd
+  KERNEL linux
+  INITRD initrd
   APPEND root=/dev/ram0 ramdisk_size=1500000 ip=dhcp iso-url=#ISOURL# ---
 EOF
         ;;
 
     arm64)
-        mv chroot/usr/lib/shim/shimaa64.efi                            tarball/bootaa64.efi
-        mv chroot/usr/lib/grub/arm64-efi-signed/grubnetaa64.efi.signed tarball/grubaa64.efi
+        mv chroot/usr/lib/shim/shimaa64.efi.signed                     tarball/arm64/bootaa64.efi
+        mv chroot/usr/lib/grub/arm64-efi-signed/grubnetaa64.efi.signed tarball/arm64/grubaa64.efi
 
-        mkdir tarball/arm64-efi
-        cat > tarball/arm64-efi/grub.cfg.in <<EOF
+        mkdir tarball/arm64/grub
+        cat > tarball/arm64/grub/grub.cfg.in <<EOF
 menuentry "Install Ubuntu Server" {
         set gfxpayload=keep
-        linux   arm64/linux iso-url=#ISOURL# ip=dhcp ---
-        initrd  arm64/initrd
+        linux   linux iso-url=#ISOURL# ip=dhcp ---
+        initrd  initrd
 }
 EOF
         ;;
@@ -83,7 +83,7 @@ EOF
 EOF
         cat > tarball/s390x/ubuntu.ins <<EOF
 * Ubuntu for IBM Z (default kernel)
-kernel.ubuntu 0x00000000
+linux.ubuntu 0x00000000
 initrd.off 0x0001040c
 initrd.siz 0x00010414
 parmfile.ubuntu 0x00010480
@@ -94,20 +94,20 @@ iso-url=#ISOURL# ---
 EOF
         perl -e "print pack('N', 0x1000000)" > tarball/s390x/initrd.off
         perl -e "print pack('N', -s 'tarball/s390x/initrd.ubuntu')" > tarball/s390x/initrd.siz
-        cat > tarball/s390x-kvm.cfg.in <<EOF
+        cat > tarball/s390x/kvm.cfg.in <<EOF
 DEFAULT install
 LABEL install
-  KERNEL amd64/linux.ubuntu
-  INITRD amd64/initrd.ubuntu
+  KERNEL linux.ubuntu
+  INITRD initrd.ubuntu
   APPEND ip=dhcp iso-url=#ISOURL# ---
 EOF
-        cat > tarball/dpm.cfg.in <<EOF
+        cat > tarball/s390x/dpm.cfg.in <<EOF
 PROMPT 1
 DEFAULT install
 TIMEOUT 1
 LABEL install
-  kernel=amd64/linux.ubuntu
-  initrd=amd64/initrd.ubuntu
+  kernel=linux.ubuntu
+  initrd=initrd.ubuntu
   append=ip=dhcp iso-url=#ISOURL# ---
 EOF
         ;;

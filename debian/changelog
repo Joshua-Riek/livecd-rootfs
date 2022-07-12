@@ -1,8 +1,17 @@
 livecd-rootfs (2.771) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Drop support for building i386 images aside from the launchpad builder
     images.
   * Remove fwupd from the cloud images.  LP: #1981109.
+
+  [ Michael Hudson-Doyle ]
+  * Fix some issues with the netboot tarballs:
+    - Include the signed shim (oops).
+    - Make the kernel path on disk and in the bootloader config match (more
+      oops).
+    - Make paths more architecture dependent as the code in grubnetXXX.efi to
+      probe a platform dependent path first doesn't work.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 25 Jul 2022 12:49:28 -0700
 
