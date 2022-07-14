@@ -1,4 +1,4 @@
-livecd-rootfs (2.769) UNRELEASED; urgency=medium
+livecd-rootfs (2.769) kinetic; urgency=medium
 
   [ Alexandre Ghiti ]
   * Add support for the VisionFive and the Nezha boards (LP: #1980935)
