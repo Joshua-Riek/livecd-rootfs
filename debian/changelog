@@ -7,7 +7,7 @@ livecd-rootfs (2.769) UNRELEASED; urgency=medium
 
   [ Thomas Bechtold ]
   * Revert "don't modify ssh_config for ubuntu-cpc projects (LP:1968873)"
-    This change triggered a bug in cloud-init (see LP:1968873).
+    This change triggered a bug in cloud-init (see LP: #1968873).
 
  -- Thomas Bechtold <thomas.bechtold@canonical.com>  Mon, 11 Jul 2022 14:10:52 +0200
 
