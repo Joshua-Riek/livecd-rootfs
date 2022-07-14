@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.5) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.5) jammy; urgency=medium
 
   * Add support for the VisionFive and the Nezha boards (LP: #1980935)
   * Set FK_FORCE_CONTAINER for RISC-V images build to force flash-kernel
