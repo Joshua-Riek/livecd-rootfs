@@ -2,6 +2,8 @@ livecd-rootfs (2.769) UNRELEASED; urgency=medium
 
   [ Alexandre Ghiti ]
   * Add support for the VisionFive and the Nezha boards
+  * Set FK_FORCE_CONTAINER for RISC-V images build to force flash-kernel
+    to run in a container.
 
   [ Thomas Bechtold ]
   * Revert "don't modify ssh_config for ubuntu-cpc projects (LP:1968873)"
