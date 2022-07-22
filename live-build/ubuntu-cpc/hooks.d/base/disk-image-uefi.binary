@@ -304,6 +304,9 @@ EOF
                         setup_cinocloud mountpoint
                         ;;
                     *)
+                        chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        efi_target=riscv64-efi
+                        chroot mountpoint u-boot-update
                         u_boot_arch="${SUBARCH}"
                         if [ "${u_boot_arch}" = "hifive" ]; then
                             u_boot_arch=sifive_fu540
