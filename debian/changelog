@@ -1,4 +1,4 @@
-livecd-rootfs (2.770) UNRELEASED; urgency=medium
+livecd-rootfs (2.770) kinetic; urgency=medium
 
   [ Alexandre Ghiti ]
   * Fix SiFive Unmatched build. While merging the VisionFive support, we
