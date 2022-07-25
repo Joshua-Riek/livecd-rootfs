@@ -91,6 +91,11 @@ if [ -L "${rootd}/boot/initrd.img" ] && [ ! -e "${rootd}/boot/initrd.img" ]; the
 	rm "${rootd}/boot/initrd.img"
 fi
 
+# Recommends of ubuntu-server that should not be included in cloud images by
+# default
+_xchroot "$rootd" env DEBIAN_FRONTEND=noninteractive \
+	apt-get -y autoremove --purge fwupd
+
 if [ "${SUBPROJECT:-}" = minimized ]; then
 	# Remove various packages that we don't want in the minimized images.
 	# Some of these are tools that don't make sense by default

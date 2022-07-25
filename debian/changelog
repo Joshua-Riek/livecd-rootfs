@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.12) UNRELEASED; urgency=medium
+
+  * Remove fwupd from the cloud images.  LP: #1981109.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 18 Nov 2022 14:50:52 -0800
+
 livecd-rootfs (2.765.11) jammy; urgency=medium
 
   * Rename FK_FORCE_CONTAINER into FK_FORCE as its role was extended to also
