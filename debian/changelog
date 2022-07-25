@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.6) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.6) jammy; urgency=medium
 
   [ Alexandre Ghiti ]
   * Fix SiFive Unmatched build. While merging the VisionFive support, we
