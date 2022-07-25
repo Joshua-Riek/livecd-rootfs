@@ -641,26 +641,6 @@ case $SUBARCH in
 		;;
 esac
 
-# LTSP chroot building (only in 32bit and for Edubuntu (DVD))
-case $PROJECT in
-	edubuntu-dvd)
-		if [ "$ARCH" = i386 ]; then
-			echo "Building LTSP chroot"
-			ltsp-build-client --base $(pwd) --mirror $LB_PARENT_MIRROR_BOOTSTRAP --arch $ARCH --dist $LB_PARENT_DISTRIBUTION --chroot ltsp-live --late-packages ldm-edubuntu-theme,plymouth-theme-edubuntu --purge-chroot --skipimage
-			mkdir -p images
-			mksquashfs ltsp-live images/ltsp-live.img -e cdrom
-			rm -Rf ltsp-live
-			if [ -f images/ltsp-live.img ]; then
-				mv images/ltsp-live.img livecd.$PROJECT-ltsp.squashfs
-				chmod 0644 livecd.$PROJECT-ltsp.squashfs
-				rmdir --ignore-fail-on-non-empty images
-			else
-				echo "LTSP: Unable to build the chroot, see above for details."
-			fi
-		fi
-		;;
-esac
-
 if [ -f "config/magic-proxy.pid" ]; then
     kill -TERM $(cat config/magic-proxy.pid)
     rm -f config/magic-proxy.pid

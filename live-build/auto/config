@@ -391,8 +391,6 @@ case $IMAGEFORMAT in
 				MODEL=intel-iot ;;
 			amd64+*)
 				MODEL=pc-amd64 ;;
-			i386+*)
-				MODEL=pc-i386 ;;
 			arm64+snapdragon)
 				MODEL=dragonboard ;;
 			armhf+raspi)
@@ -425,7 +423,7 @@ case $IMAGEFORMAT in
 
 			CHANNEL="${CHANNEL:-edge}"
 			case $MODEL in
-				pc-amd64|pc-i386)
+				pc-amd64)
 					if [ -z "${SUBARCH:-}" ]; then
 						# This is to make sure there's enough writable space
 						UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
@@ -776,7 +774,7 @@ case $PROJECT in
 		LIVE_TASK='xubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+			amd64)	KERNEL_FLAVOURS=generic ;;
 		esac
 		;;
 
@@ -796,7 +794,7 @@ case $PROJECT in
 		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+			amd64)	KERNEL_FLAVOURS=generic ;;
 		esac
 		;;
 
@@ -822,7 +820,7 @@ case $PROJECT in
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=lowlatency ;;
+			amd64)	KERNEL_FLAVOURS=lowlatency ;;
 		esac
 		;;
 
