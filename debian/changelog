@@ -2,6 +2,7 @@ livecd-rootfs (2.771) UNRELEASED; urgency=medium
 
   * Drop support for building i386 images aside from the launchpad builder
     images.
+  * Remove fwupd from the cloud images.  LP: #1981109.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 25 Jul 2022 12:49:28 -0700
 
