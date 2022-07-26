@@ -989,6 +989,16 @@ network:
   version: 2
   renderer: NetworkManager
 EOF
+
+        # inform cloud-init of the same (LP: #1982855)
+        mkdir -p chroot/etc/cloud/cloud.cfg.d
+        cat <<EOF > chroot/etc/cloud/cloud.cfg.d/99-installer-use-networkmanager.cfg
+# Let NetworkManager manage all devices on this system
+system_info:
+  network:
+    renderers: ['network-manager']
+    activators: ['network-manager']
+EOF
     else
         echo "==== NetworkManager not installed ===="
     fi
