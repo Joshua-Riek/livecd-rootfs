@@ -1095,6 +1095,10 @@ case "$ARCH+${SUBARCH:-}" in
 		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
 		;;
+	riscv*+*)
+		# We'll add wpasupplicant to the seeds when we work on RISC-V seeds.
+		add_package install wpasupplicant
+		;;
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
