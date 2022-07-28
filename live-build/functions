@@ -370,7 +370,7 @@ create_derivative() {
 convert_to_qcow2() {
     src="$1"
     destination="$2"
-    qemu-img convert -c -O qcow2 -o compat=0.10 "$src" "$destination"
+    qemu-img convert -c -O qcow2 "$src" "$destination"
     qemu-img info "$destination"
 }
 
