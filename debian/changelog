@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.7) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.7) jammy; urgency=medium
 
   * Install wpasupplicant by default as for now, most of the RISC-V boards
     embed a Wifi chipset (LP: #1983008)
