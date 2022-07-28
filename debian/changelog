@@ -1,4 +1,4 @@
-livecd-rootfs (2.771) UNRELEASED; urgency=medium
+livecd-rootfs (2.771) kinetic; urgency=medium
 
   [ Steve Langasek ]
   * Drop support for building i386 images aside from the launchpad builder
