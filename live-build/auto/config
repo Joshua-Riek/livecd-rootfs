@@ -1084,7 +1084,7 @@ case $PROJECT in
 		;;
 esac
 
-case "$ARCH+${SUBARCH:-}" in
+case "$ARCH${SUBARCH:++$SUBARCH}" in
 	arm*+raspi)
 		# Common configuration for all Raspberry Pi image variants (server,
 		# desktop etc.)
