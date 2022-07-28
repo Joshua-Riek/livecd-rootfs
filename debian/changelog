@@ -13,6 +13,10 @@ livecd-rootfs (2.771) UNRELEASED; urgency=medium
     - Make paths more architecture dependent as the code in grubnetXXX.efi to
       probe a platform dependent path first doesn't work.
 
+  [ Alexandre Ghiti ]
+  * Install wpasupplicant by default as for now, most of the RISC-V boards
+    embed a Wifi chipset (LP: #1983008)
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 25 Jul 2022 12:49:28 -0700
 
 livecd-rootfs (2.770) kinetic; urgency=medium
