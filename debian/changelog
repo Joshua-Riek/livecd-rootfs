@@ -1,3 +1,11 @@
+livecd-rootfs (2.772) UNRELEASED; urgency=medium
+
+  * When converting images to qcow2 stop using the traditional image format
+    and switch to using the default image format which will include zero
+    clusters and allow efficient copy-on-read for sparse images.
+
+ -- Brian Murray <brian@ubuntu.com>  Thu, 28 Jul 2022 14:01:10 -0700
+
 livecd-rootfs (2.771) kinetic; urgency=medium
 
   [ Steve Langasek ]
