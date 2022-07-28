@@ -1067,7 +1067,7 @@ case $PROJECT in
 		;;
 esac
 
-case "$ARCH+${SUBARCH:-}" in
+case "$ARCH${SUBARCH:++$SUBARCH}" in
 	arm*+raspi)
 		# Common configuration for all Raspberry Pi image variants (server,
 		# desktop etc.)
@@ -1077,6 +1077,10 @@ case "$ARCH+${SUBARCH:-}" in
 		# per-project/subproject cases above
 		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
+		;;
+	riscv*+*)
+		# We'll add wpasupplicant to the seeds when we work on RISC-V seeds.
+		add_package install wpasupplicant
 		;;
 esac
 
