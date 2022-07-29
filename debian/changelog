@@ -1,3 +1,11 @@
+livecd-rootfs (2.773) UNRELEASED; urgency=medium
+
+  * When adding the new RISC-V platforms, some of the generic non-SUBARCH code
+    went missing and some invalid assumptions have been made, causing cloud
+    images to fail building. This upload fixes these.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 29 Jul 2022 18:05:09 +0200
+
 livecd-rootfs (2.772) kinetic; urgency=medium
 
   * When converting images to qcow2 stop using the traditional image format
