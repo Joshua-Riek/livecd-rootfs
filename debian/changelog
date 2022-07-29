@@ -1,4 +1,4 @@
-livecd-rootfs (2.773) UNRELEASED; urgency=medium
+livecd-rootfs (2.773) kinetic; urgency=medium
 
   * When adding the new RISC-V platforms, some of the generic non-SUBARCH code
     went missing and some invalid assumptions have been made, causing cloud
