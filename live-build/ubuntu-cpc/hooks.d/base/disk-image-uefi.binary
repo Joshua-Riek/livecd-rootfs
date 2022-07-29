@@ -219,8 +219,9 @@ install_grub() {
             fi
             ;;
         riscv64)
-            # TODO grub-efi-riscv64 does not exist yet on riscv64
+            # TODO grub-efi-riscv64 exists, but is not used by all the images yet
             if [ -n "${SUBARCH:-}" ]; then
+                # Per-device images
                 case "${SUBARCH}" in
                     "nezha")
                         echo "Installing U-Boot for Nezha board" &1>2
@@ -327,10 +328,16 @@ EOF
                         setup_cinocloud mountpoint
                         ;;
                 esac
+            else
+                # Other images e.g. cloud images
+                chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                efi_target=riscv64-efi
+
+                chroot mountpoint u-boot-update
             fi
 
-            if [ "${SUBARCH}" != "visionfive" ] && [ "${SUBARCH}" != "nezha" ]; then
-                ## TODO remove below once we have grub-efi-riscv64
+            if [ "${SUBARCH:-}" != "visionfive" ] && [ "${SUBARCH:-}" != "nezha" ]; then
+                ## TODO remove below once we have grub-efi-riscv64 for the platforms
                 rm mountpoint/tmp/device.map
                 umount mountpoint/boot/efi
                 mount
