@@ -1,3 +1,9 @@
+livecd-rootfs (2.774) UNRELEASED; urgency=medium
+
+  * Inform cloud-init when network manager is in use.  (LP: #1982855)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 01 Aug 2022 14:59:17 -0600
+
 livecd-rootfs (2.773) kinetic; urgency=medium
 
   * When adding the new RISC-V platforms, some of the generic non-SUBARCH code
