@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.8) jammy; urgency=medium
+
+  * Manually blacklist DKMS modules for Ubuntu Studio builds (LP: #1983521).
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 03 Aug 2022 18:46:23 -0500
+
 livecd-rootfs (2.765.7) jammy; urgency=medium
 
   * Install wpasupplicant by default as for now, most of the RISC-V boards
