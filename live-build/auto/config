@@ -1306,8 +1306,8 @@ env DEBIAN_FRONTEND=noninteractive \
        apt-get -y autoremove --purge v4l2loopback-dkms v4l2loopback-utils
 
 EOF
+	chmod +x config/hooks/100-ubuntustudio-dkms.chroot
 fi
-chmod +x config/hooks/100-ubuntustudio-dkms.chroot
 
 if $BINARY_REMOVE_LINUX; then
 	cat > config/binary_rootfs/excludes << EOF
