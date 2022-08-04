@@ -1,9 +1,9 @@
-livecd-rootfs (2.765.10) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.10) jammy; urgency=medium
 
   * The ubuntustudio dkms hook is only created when we're building
     ubuntustudio, so only chmod it when it exists.  LP: #1983521.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 04 Aug 2022 12:10:37 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 04 Aug 2022 12:11:52 -0700
 
 livecd-rootfs (2.765.9) jammy; urgency=medium
 
