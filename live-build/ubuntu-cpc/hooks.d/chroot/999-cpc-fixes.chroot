@@ -93,8 +93,13 @@ fi
 
 # Recommends of ubuntu-server that should not be included in cloud images by
 # default
+# unfortunately because we are currently installing ubuntu-server as a task,
+# all of the recursive dependencies are marked as manually installed and are
+# not subject to autoremoval.  There is discussion of us stopping the use of
+# tasks in livecd-rootfs but in the meantime, we have to also explicitly
+# remove the packages providing the services
 _xchroot "$rootd" env DEBIAN_FRONTEND=noninteractive \
-	apt-get -y autoremove --purge fwupd
+	apt-get -y autoremove --purge fwupd modemmanager udisks2
 
 if [ "${SUBPROJECT:-}" = minimized ]; then
 	# Remove various packages that we don't want in the minimized images.
