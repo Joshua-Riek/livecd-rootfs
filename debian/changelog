@@ -1,3 +1,12 @@
+livecd-rootfs (2.774) UNRELEASED; urgency=medium
+
+  * Remove modemmanager and udisks2 from cloud images in addition to fwupd.
+    The use of tasks at install means all packages are marked manually
+    installed in the apt database, so removing fwupd does not remove its
+    dependencies.  LP: #1981109.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 04 Aug 2022 11:20:51 -0700
+
 livecd-rootfs (2.773) kinetic; urgency=medium
 
   * When adding the new RISC-V platforms, some of the generic non-SUBARCH code
