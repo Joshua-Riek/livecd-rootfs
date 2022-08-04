@@ -1,3 +1,11 @@
+livecd-rootfs (2.765.9) UNRELEASED; urgency=medium
+
+  * When adding the new RISC-V platforms, some of the generic non-SUBARCH code
+    went missing and some invalid assumptions have been made, causing cloud
+    images to fail building. This upload fixes these (LP: #1983599).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 04 Aug 2022 17:15:03 +0200
+
 livecd-rootfs (2.765.8) jammy; urgency=medium
 
   * Manually blacklist DKMS modules for Ubuntu Studio builds (LP: #1983521).
