@@ -582,6 +582,10 @@ if [ "$PREINSTALLED" = "true" ]; then
 			add_package live oem-config-gtk ubiquity-frontend-gtk
 			add_package live ubiquity-slideshow-ubuntu-mate
 			;;
+		ubuntu-unity)
+			add_package live oem-config-gtk ubiquity-frontend-gtk
+			add_package live ubiquity-slideshow-ubuntu
+			;;
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
@@ -627,6 +631,9 @@ case $PROJECT in
                 ;;
         ubuntu-mate*)
                 SEED=ubuntu-mate.$SUITE
+                ;;
+        ubuntu-unity*)
+                SEED=ubuntu-unity.$SUITE
                 ;;
         lubuntu*)
                 SEED=lubuntu.$SUITE
@@ -813,6 +820,12 @@ case $PROJECT in
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
+		COMPONENTS='main restricted universe multiverse'
+		;;
+
+	ubuntu-unity)
+		add_task install minimal standard
+		add_package install ubuntu-unity-desktop
 		COMPONENTS='main restricted universe multiverse'
 		;;
 

@@ -20,6 +20,7 @@ ALL_TRIPLETS="
  kubuntu-dvd::
  kubuntu-plasma5::
  lubuntu::
+ ubuntu-unity::
  mythbuntu::
  ubuntu::
  ubuntu:canary:
