@@ -1,9 +1,9 @@
-livecd-rootfs (2.775) UNRELEASED; urgency=medium
+livecd-rootfs (2.775) kinetic; urgency=medium
 
   [ Rudra Saraswat ]
   * Add ubuntu-unity flavor support.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 31 Aug 2022 13:34:20 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 31 Aug 2022 13:34:53 -0700
 
 livecd-rootfs (2.774) kinetic; urgency=medium
 
