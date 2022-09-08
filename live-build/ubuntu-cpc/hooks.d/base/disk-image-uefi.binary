@@ -292,7 +292,8 @@ install_grub() {
                         loader1="/dev/mapper${loop_device///dev/}p13"
                         dd if=mountpoint/usr/lib/u-boot/nezha/boot0_sdcard_sun20iw1p1.bin of=$loader1
                         # The real U-Boot
-                        chroot mountpoint apt-get install -qqy u-boot-${SUBARCH}
+                        # u-boot-nezha actually contains both the LicheeRV and the Nezha boards support
+                        chroot mountpoint apt-get install -qqy u-boot-nezha
                         loader2="/dev/mapper${loop_device///dev/}p14"
                         dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot.toc1 of=$loader2
                         # Provide end-user modifyable CIDATA
