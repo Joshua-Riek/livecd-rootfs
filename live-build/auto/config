@@ -824,8 +824,8 @@ case $PROJECT in
 		;;
 
 	ubuntu-unity)
-		add_task install minimal standard
-		add_package install ubuntu-unity-desktop
+		add_task install minimal standard ubuntu-unity-desktop
+		LIVE_TASK='ubuntu-unity-live'
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
