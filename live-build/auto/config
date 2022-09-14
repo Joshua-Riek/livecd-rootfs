@@ -825,7 +825,11 @@ case $PROJECT in
 
 	ubuntu-unity)
 		add_task install minimal standard ubuntu-unity-desktop
-		LIVE_TASK='ubuntu-unity-live'
+		add_package live metacity ubiquity-frontend-gtk
+		add_package live ubiquity-ubuntu-artwork ubiquity-slideshow-ubuntu
+		add_package live a11y-profile-manager
+		add_package live gparted cifs-utils
+		add_package live memtest86+
 		COMPONENTS='main restricted universe multiverse'
 		;;
 
