@@ -825,7 +825,9 @@ case $PROJECT in
 
 	ubuntu-unity)
 		add_task install minimal standard
-		add_package install ubuntu-unity-desktop # temporarily as seed is not up to date in universe
+		add_package install ubuntu-unity-desktop
+		# XXX: Adding live packages manually temporarily until we have
+		#  the live task for ubuntu-unity set up properly.
 		add_package live metacity ubiquity-frontend-gtk
 		add_package live ubiquity-ubuntu-artwork ubiquity-slideshow-ubuntu
 		add_package live a11y-profile-manager
