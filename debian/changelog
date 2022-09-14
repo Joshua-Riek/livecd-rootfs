@@ -1,4 +1,4 @@
-livecd-rootfs (2.777) UNRELEASED; urgency=medium
+livecd-rootfs (2.777) kinetic; urgency=medium
 
   [ Rudra Saraswat ]
   * Add live packages to Ubuntu Unity config.
