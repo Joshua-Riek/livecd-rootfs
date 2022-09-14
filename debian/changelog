@@ -1,9 +1,16 @@
-livecd-rootfs (2.777) kinetic; urgency=medium
+livecd-rootfs (2.778) kinetic; urgency=medium
 
   [ Rudra Saraswat ]
   * Add live packages to Ubuntu Unity config.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 14 Sep 2022 16:11:10 +0200
+
+livecd-rootfs (2.777) kinetic; urgency=medium
+
+  * Rename FK_FORCE_CONTAINER into FK_FORCE as its role was extended to also
+    support chroot (LP: #1989194).
+
+ -- Alexandre Ghiti <alexandre.ghiti@canonical.com>  Thu, 08 Sep 2022 16:25:36 +0200
 
 livecd-rootfs (2.776) kinetic; urgency=medium
 
