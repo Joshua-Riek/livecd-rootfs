@@ -1,3 +1,11 @@
+livecd-rootfs (2.779) kinetic; urgency=medium
+
+  * ubuntu-cpc/hooks.d/base/disk-image-uefi.binary: Bump UEFI disk image
+    size for amd64 to 3.5 GB.
+    Current builds are failing because the disk size is not big enough.
+
+ -- Ivan Kapelyukhin <ivan.kapelyukhin@canonical.com>  Wed, 14 Sep 2022 18:55:20 +0200
+
 livecd-rootfs (2.778) kinetic; urgency=medium
 
   [ Rudra Saraswat ]
