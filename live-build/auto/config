@@ -652,6 +652,29 @@ case $PROJECT in
                 ;;
 esac
 
+case $PROJECT in
+	ubuntu-server)
+		COMPONENTS='main'
+		;;
+	kubuntu|kubuntu-dvd|kubuntu-active|kubuntu-plasma5|edubuntu|edubuntu-dvd|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
+		COMPONENTS='main restricted universe'
+		;;
+	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
+		COMPONENTS='main restricted universe multiverse'
+		;;
+esac
+
+case $SUBPROJECT in
+	buildd)
+		COMPONENTS='main restricted universe multiverse'
+		;;
+esac
+case "$ARCH${SUBARCH:++$SUBARCH}" in
+	arm*+raspi)
+		COMPONENTS='main restricted universe multiverse'
+		;;
+esac
+
 if ! [ -e config/germinate-output/structure ]; then
         echo "Running germinate..."
         (cd config/germinate-output && germinate --no-rdepends --no-installer \
@@ -717,7 +740,6 @@ case $PROJECT in
 						;;
 					intel-iot)
 						KERNEL_FLAVOURS='image-intel'
-						COMPONENTS='main restricted'
 						OPTS="${OPTS:+$OPTS }--initramfs=none"
 						OPTS="${OPTS:+$OPTS }--system=normal"
 						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
@@ -736,7 +758,6 @@ case $PROJECT in
 				KERNEL_FLAVOURS='generic-hwe-22.04'
 				if [ "$SUBARCH" = "intel-iot" ]; then
 					KERNEL_FLAVOURS='image-intel'
-					COMPONENTS='main restricted'
 				fi
 				;;
 		esac
@@ -746,14 +767,12 @@ case $PROJECT in
 		add_task install minimal standard
 		add_task install kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
-		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
 	kubuntu-active)
 		add_task install minimal standard kubuntu-active
 		LIVE_TASK='kubuntu-active-live'
-		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
@@ -765,21 +784,18 @@ case $PROJECT in
 		# get away with this as long as kubuntu-desktop and
 		# kubuntu-plasma5-desktop don't grow too far apart.
 		LIVE_TASK='kubuntu-live'
-		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
 	edubuntu|edubuntu-dvd)
 		add_task install minimal standard ubuntu-desktop edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'
-		COMPONENTS='main restricted universe'
 		;;
 
 	xubuntu)
 		add_task install minimal standard xubuntu-desktop
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
-		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=generic ;;
 		esac
@@ -793,13 +809,11 @@ case $PROJECT in
 	mythbuntu)
 		add_task install minimal standard mythbuntu-desktop
 		LIVE_TASK='mythbuntu-live'
-		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	lubuntu)
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
-		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=generic ;;
 		esac
@@ -808,19 +822,16 @@ case $PROJECT in
 	ubuntu-gnome)
 		add_task install minimal standard ubuntu-gnome-desktop
 		LIVE_TASK='ubuntu-gnome-live'
-		COMPONENTS='main restricted universe'
 		;;
 
 	ubuntu-budgie)
 		add_task install minimal standard ubuntu-budgie-desktop
 		LIVE_TASK='ubuntu-budgie-live'
-		COMPONENTS='main restricted universe'
 		;;
 
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
-		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	ubuntu-unity)
@@ -833,12 +844,10 @@ case $PROJECT in
 		add_package live a11y-profile-manager
 		add_package live gparted cifs-utils
 		add_package live memtest86+
-		COMPONENTS='main restricted universe multiverse'
 		;;
 
 	ubuntustudio-dvd)
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
-		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=lowlatency ;;
 		esac
@@ -848,7 +857,6 @@ case $PROJECT in
 		add_task install minimal standard ubuntukylin-desktop
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntukylin-live'
-		COMPONENTS='main restricted universe'
 		;;
 
 	ubuntu-server)
@@ -913,7 +921,6 @@ case $PROJECT in
 				exit 1
 				;;
 		esac
-		COMPONENTS='main'
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
@@ -969,7 +976,6 @@ case $PROJECT in
 					KERNEL_FLAVOURS=generic
 				elif [ "${SUBARCH:-}" = "intel-iot" ]; then
 					KERNEL_FLAVOURS=image-intel
-					COMPONENTS='main restricted'
 					OPTS="${OPTS:+$OPTS }--initramfs=none"
 				fi
 				;;
@@ -1004,7 +1010,6 @@ esac
 case $SUBPROJECT in
 	buildd)
 		OPTS="${OPTS:+$OPTS }--archive-areas main"
-		COMPONENTS='main restricted universe multiverse'
 		OPTS="${OPTS:+$OPTS }--apt-recommends false"
 		OPTS="${OPTS:+$OPTS }--apt-secure false"
 		OPTS="${OPTS:+$OPTS }--parent-mirror-binary ${MIRROR}"
@@ -1109,7 +1114,6 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		# Common configuration for all Raspberry Pi image variants (server,
 		# desktop etc.)
 		KERNEL_FLAVOURS="$SUBARCH"
-		COMPONENTS='main restricted universe multiverse'
 		# Most Pi-specific package installation is handled via the seeds in the
 		# per-project/subproject cases above
 		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tools
@@ -1145,7 +1149,6 @@ case $PROJECT in
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
 			intel-iot)
-				COMPONENTS='main restricted'
 				KERNEL_FLAVOURS='image-intel'
 				;;
 		esac
