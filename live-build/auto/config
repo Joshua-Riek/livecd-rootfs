@@ -669,9 +669,12 @@ esac
 
 if ! [ -e config/germinate-output/structure ]; then
         echo "Running germinate..."
+        if [ -n "$COMPONENTS" ]; then
+		GERMINATE_ARG="-c $(echo $COMPONENTS | sed -e's/ \+/,/g')"
+	fi
         (cd config/germinate-output && germinate --no-rdepends --no-installer \
                 -S $SEEDMIRROR -m $MIRROR -d $SUITE -s $SEED \
-                ${COMPONENTS:+-c "$COMPONENTS"} -a $ARCH)
+                $GERMINATE_ARG -a $ARCH)
 fi
 
 case $PROJECT in
