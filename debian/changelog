@@ -1,4 +1,4 @@
-livecd-rootfs (2.781) UNRELEASED; urgency=medium
+livecd-rootfs (2.781) kinetic; urgency=medium
 
   * Drop override of components for raspi images.  The reference to
     multiverse is historic, all firmware is now in restricted where it
@@ -10,7 +10,7 @@ livecd-rootfs (2.781) UNRELEASED; urgency=medium
   * Fix passing of components to germinate commandline (how did this ever
     work?)
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Sep 2022 13:26:30 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Sep 2022 16:47:49 -0700
 
 livecd-rootfs (2.780) kinetic; urgency=medium
 
