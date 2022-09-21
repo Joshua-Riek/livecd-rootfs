@@ -432,7 +432,7 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release
 			mv config/gnupg/Release.asc \
 				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release.gpg
-			apt-key --keyring chroot/etc/apt/trusted.gpg add config/gnupg/pubring.gpg
+			cp config/gnupg/pubring.gpg chroot/etc/apt/trusted.gpg.d/livecd-rootfs.gpg
 			find chroot/var/lib/preinstalled-pool/ -name Packages | xargs rm
 
 			Chroot chroot "apt-get update"

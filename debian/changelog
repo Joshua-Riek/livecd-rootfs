@@ -4,6 +4,7 @@ livecd-rootfs (2.781) UNRELEASED; urgency=medium
     multiverse is historic, all firmware is now in restricted where it
     should be; and raspi images should not categorically include universe,
     they should follow the per-flavor rules.
+  * Drop use of deprecated apt-key.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 21 Sep 2022 13:26:30 -0700
 
