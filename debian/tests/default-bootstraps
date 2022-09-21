@@ -13,10 +13,7 @@ fi
 # Listed subprojects can be combined with other projects as well,
 # but this list gives reasonable coverage.
 ALL_TRIPLETS="
- edubuntu::
- edubuntu-dvd::
  kubuntu::
- kubuntu-active::
  kubuntu-dvd::
  kubuntu-plasma5::
  lubuntu::

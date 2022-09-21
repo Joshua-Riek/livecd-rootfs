@@ -620,9 +620,6 @@ fi
 
 mkdir -p config/germinate-output
 case $PROJECT in
-        kubuntu-active*)
-                SEED=kubuntu-active.$SUITE
-                ;;
         kubuntu*)
                 SEED=kubuntu.$SUITE
                 ;;
@@ -656,7 +653,7 @@ case $PROJECT in
 	ubuntu-server)
 		COMPONENTS='main'
 		;;
-	kubuntu|kubuntu-dvd|kubuntu-active|kubuntu-plasma5|edubuntu|edubuntu-dvd|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
+	kubuntu|kubuntu-dvd|kubuntu-plasma5|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
 	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
@@ -765,12 +762,6 @@ case $PROJECT in
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
-	kubuntu-active)
-		add_task install minimal standard kubuntu-active
-		LIVE_TASK='kubuntu-active-live'
-		add_chroot_hook remove-gnome-icon-cache
-		;;
-
 	kubuntu-plasma5)
 		add_task install minimal standard
 		add_package install kubuntu-plasma5-desktop
@@ -780,11 +771,6 @@ case $PROJECT in
 		# kubuntu-plasma5-desktop don't grow too far apart.
 		LIVE_TASK='kubuntu-live'
 		add_chroot_hook remove-gnome-icon-cache
-		;;
-
-	edubuntu|edubuntu-dvd)
-		add_task install minimal standard ubuntu-desktop edubuntu-desktop-gnome
-		LIVE_TASK='edubuntu-live'
 		;;
 
 	xubuntu)
