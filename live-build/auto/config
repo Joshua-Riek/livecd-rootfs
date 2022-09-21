@@ -669,11 +669,6 @@ case $SUBPROJECT in
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
-case "$ARCH${SUBARCH:++$SUBARCH}" in
-	arm*+raspi)
-		COMPONENTS='main restricted universe multiverse'
-		;;
-esac
 
 if ! [ -e config/germinate-output/structure ]; then
         echo "Running germinate..."
