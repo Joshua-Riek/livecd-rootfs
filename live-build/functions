@@ -766,56 +766,6 @@ snap_validate_seed() {
     fi
 }
 
-snap_from_seed() {
-    local base_seed=$1
-    local out=$2
-    local all_snaps
-    local seeds_expanded
-
-    seeds_expanded=$(inheritance ${base_seed})
-    for seed in ${seeds_expanded}; do
-        echo "snap: considering ${seed}"
-        file=config/germinate-output/${seed}.snaps
-        [ -e "${file}" ] || continue
-        # extract the first column (snap package name) from germinate's output
-        # translate the human-readable "foo (classic)" into a
-        # more machine readable "foo/classic"
-        seed_snaps=$(sed -rn '1,/-----/d;/-----/,$d; s/(.*) \|.*/\1/; s, \(classic\),/classic,; p' "${file}")
-        for snap in ${seed_snaps}; do
-            echo "snap: found ${snap}"
-            all_snaps="${all_snaps:+${all_snaps} }${snap}"
-        done
-    done
-    if [ -n "${all_snaps}" ]; then
-        echo "${all_snaps}" > $out
-    fi
-}
-
-seed_from_task ()
-{
-    # Retrieve the name of the seed from a task name
-    local task=$1
-    local seed
-    local seedfile
-    local seedfiles
-
-    seedfile="$(grep -lE "^Task-Key: +${task}\$" config/germinate-output/*seedtext|head -1)"
-    if [ -n "$seedfile" ]; then
-        basename $seedfile .seedtext
-        return
-    fi
-
-    seedfiles="$(grep -lE "^Task-Per-Derivative: *1\$" config/germinate-output/*seedtext)"
-    if [ -n "$seedfiles" ]; then
-        for seed in $(echo $seedfiles | xargs basename -s .seedtext); do
-            if [ ${PROJECT}-${seed} = $task ]; then
-                echo ${seed}
-                return
-            fi
-        done
-    fi
-}
-
 list_packages_from_seed () {
     # Store all packages for a given seed, including its seed dependency
     # $1: Name of the seed to expand to a package list
