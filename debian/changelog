@@ -1,9 +1,9 @@
-livecd-rootfs (2.782) UNRELEASED; urgency=medium
+livecd-rootfs (2.782) kinetic; urgency=medium
 
   * Default to using 'desktop' for the base seed so we don't have another
     place we have to extend the list for each new flavor (ubuntu-unity)
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 22 Sep 2022 15:36:25 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 22 Sep 2022 15:36:51 -0700
 
 livecd-rootfs (2.781) kinetic; urgency=medium
 
