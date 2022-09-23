@@ -1,4 +1,4 @@
-livecd-rootfs (2.783) UNRELEASED; urgency=medium
+livecd-rootfs (2.783) kinetic; urgency=medium
 
   [ Alexandre Ghiti ]
   * Support for the LicheeRV Dock and Microchip icicle.
