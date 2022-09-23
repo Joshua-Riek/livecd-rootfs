@@ -1,3 +1,10 @@
+livecd-rootfs (2.783) UNRELEASED; urgency=medium
+
+  [ Alexandre Ghiti ]
+  * Support for the LicheeRV Dock and Microchip icicle.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 23 Sep 2022 12:02:03 +0200
+
 livecd-rootfs (2.782) kinetic; urgency=medium
 
   * Default to using 'desktop' for the base seed so we don't have another
