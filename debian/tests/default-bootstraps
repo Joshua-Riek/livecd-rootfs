@@ -37,7 +37,7 @@ ALL_TRIPLETS="
  ubuntu-mate-desktop::
  ubuntu-mate-live::
  ubuntu-netbook::
- ubuntu-server::
+ ubuntu-server:live:ubuntu-server
  xubuntu::"
 
 if [ -z "$SELECTED_TRIPLETS" ]; then

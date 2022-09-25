@@ -1,6 +1,8 @@
 livecd-rootfs (2.784) UNRELEASED; urgency=medium
 
   * Don't set a desktop base seed for ubuntu-base or ubuntu-core.
+  * autopkgtest now references ubuntu-server:live, the only ubuntu-server we
+    still build.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 25 Sep 2022 01:40:22 -0700
 
