@@ -1,9 +1,9 @@
-livecd-rootfs (2.785) UNRELEASED; urgency=medium
+livecd-rootfs (2.785) kinetic; urgency=medium
 
   * Disable the snap-preseed calls in the interest of getting images built for
     the 22.10 beta. (LP: #1990884)
 
- -- Brian Murray <brian@ubuntu.com>  Mon, 26 Sep 2022 15:53:21 -0700
+ -- Brian Murray <brian@ubuntu.com>  Mon, 26 Sep 2022 15:55:26 -0700
 
 livecd-rootfs (2.784) kinetic; urgency=medium
 
