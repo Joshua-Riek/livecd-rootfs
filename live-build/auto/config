@@ -1102,7 +1102,7 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		KERNEL_FLAVOURS="$SUBARCH"
 		# Most Pi-specific package installation is handled via the seeds in the
 		# per-project/subproject cases above
-		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tools
+		add_package install linux-firmware-raspi pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
 		;;
 	riscv*+*)
