@@ -1,8 +1,8 @@
-livecd-rootfs (2.786) UNRELEASED; urgency=medium
+livecd-rootfs (2.786) kinetic; urgency=medium
 
   * linux-firmware-raspi2 is now the package known as linux-firmware-raspi.
 
- -- Brian Murray <brian@ubuntu.com>  Tue, 27 Sep 2022 13:49:27 -0700
+ -- Brian Murray <brian@ubuntu.com>  Tue, 27 Sep 2022 13:51:05 -0700
 
 livecd-rootfs (2.785) kinetic; urgency=medium
 
