@@ -462,7 +462,12 @@ EOF
 		fi
 
 		if [ "$PROJECT" = "ubuntu-oci" ]; then
-		    configure_oci chroot
+			if [ -n "$BUILDSTAMP" ]; then
+				configure_oci chroot "$BUILDSTAMP"
+			else
+				echo "The \$BUILDSTAMP variable is empty"
+				exit 1
+			fi
 		fi
 
 		configure_network_manager
