@@ -1036,6 +1036,8 @@ case $PROJECT:${SUBPROJECT:-} in
 		;;
 	ubuntu-base:*|ubuntu-core:*)
 		;;
+	ubuntu-oci:*)
+		;;
 	*)
 		BASE_SEED='desktop'
 		;;
