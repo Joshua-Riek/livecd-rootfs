@@ -762,9 +762,8 @@ snap_validate_seed() {
 
     if [ -e "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml" ]; then
         snap debug validate-seed "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml"
-        # 2022-09-26 snap-preseed is hanging with the latest firefox snap LP: #1990884
-        # /usr/lib/snapd/snap-preseed --reset $(realpath "${CHROOT_ROOT}")
-        # /usr/lib/snapd/snap-preseed $(realpath "${CHROOT_ROOT}")
+        /usr/lib/snapd/snap-preseed --reset $(realpath "${CHROOT_ROOT}")
+        /usr/lib/snapd/snap-preseed $(realpath "${CHROOT_ROOT}")
         chroot "${CHROOT_ROOT}" apparmor_parser --skip-read-cache --write-cache --skip-kernel-load --verbose  -j `nproc` /etc/apparmor.d
     fi
 }
