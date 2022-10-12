@@ -1,4 +1,4 @@
-livecd-rootfs (2.788) UNRELEASED; urgency=medium
+livecd-rootfs (2.788) kinetic; urgency=medium
 
   * riscv: Remove the default installation of the Wifi driver for the LicheeRV
     board as the package is in universe, and only install its dependencies
