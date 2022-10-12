@@ -1108,11 +1108,6 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		BINARY_REMOVE_LINUX=false
 		;;
 	riscv*+*)
-		if [ "${SUBARCH:-}" = "licheerv" ]; then
-			# The wifi driver of the licheerv is an out-of-tree driver so install
-			# the corresponding dkms driver.
-			add_package install licheerv-rtl8723ds-dkms
-		fi
 		# We'll add wpasupplicant to the seeds when we work on RISC-V seeds.
 		add_package install wpasupplicant
 		;;
