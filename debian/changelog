@@ -1,3 +1,9 @@
+livecd-rootfs (2.789) kinetic; urgency=medium
+
+  * re-enable snap preseed (LP: #1991011) 
+
+ -- jchittum <john.chittum@canononical.com>  Thu, 13 Oct 2022 12:41:23 -0500
+
 livecd-rootfs (2.788) kinetic; urgency=medium
 
   * riscv: Remove the default installation of the Wifi driver for the LicheeRV
