@@ -1,3 +1,10 @@
+livecd-rootfs (2.789) kinetic; urgency=medium
+
+  * riscv: reduce the size of the intird for Nezha and LicheeRV
+  * fix invalid redirects
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Thu, 13 Oct 2022 05:38:01 +0200
+
 livecd-rootfs (2.788) kinetic; urgency=medium
 
   * riscv: Remove the default installation of the Wifi driver for the LicheeRV
