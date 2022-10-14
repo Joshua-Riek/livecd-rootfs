@@ -1,3 +1,10 @@
+livecd-rootfs (2.790) UNRELEASED; urgency=medium
+
+  * riscv: reduce the size of the intird for Nezha and LicheeRV
+  * fix invalid redirects
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Thu, 13 Oct 2022 15:38:01 +0200
+
 livecd-rootfs (2.789) kinetic; urgency=medium
 
   * re-enable snap preseed (LP: #1991011) 

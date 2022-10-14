@@ -242,7 +242,7 @@ install_grub() {
                 # Per-device images
                 case "${SUBARCH}" in
                     "icicle")
-                        echo "Installing GRUB for ${SUBARCH} board" &1>2
+                        echo "Installing GRUB for ${SUBARCH} board"
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
@@ -271,7 +271,12 @@ install_grub() {
                         chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "nezha"|"licheerv")
-                        echo "Installing U-Boot for ${SUBARCH} board" &1>2
+                        local my_d=$(dirname $(readlink -f ${0}))
+                        echo "Reducing initramfs size for ${SUBARCH} board"
+                        mkdir -p mountpoint/etc/initramfs-tools/conf.d/
+                        cp ${my_d}/initramfs-tools/modules_list.conf mountpoint/etc/initramfs-tools/conf.d/
+                        chroot mountpoint update-initramfs -c -v -k all
+                        echo "Installing U-Boot for ${SUBARCH} board"
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
@@ -316,7 +321,7 @@ install_grub() {
                         chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "visionfive")
-                        echo "Installing GRUB for VisionFive board" &1>2
+                        echo "Installing GRUB for VisionFive board"
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
