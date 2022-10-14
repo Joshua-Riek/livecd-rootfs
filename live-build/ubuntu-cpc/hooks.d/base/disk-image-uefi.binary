@@ -270,7 +270,7 @@ install_grub() {
                         local my_d=$(dirname $(readlink -f ${0}))
                         echo "Reducing initramfs size for ${SUBARCH} board"
                         mkdir -p mountpoint/etc/initramfs-tools/conf.d/
-                        cp ${my_d}/initramfs-tools/modules_list.conf mountpoint/etc/initramfs-tools/conf.d/
+                        cp ${my_d}/riscv64/initramfs-tools/modules_list.conf mountpoint/etc/initramfs-tools/conf.d/
                         chroot mountpoint update-initramfs -c -v -k all
                         echo "Installing U-Boot for ${SUBARCH} board"
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
