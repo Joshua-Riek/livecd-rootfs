@@ -236,6 +236,10 @@ install_grub() {
             # TODO grub-efi-riscv64 exists, but is not used by all the images yet
             if [ -n "${SUBARCH:-}" ]; then
                 # Per-device images
+                local my_d=$(dirname $(readlink -f ${0}))
+                echo "Adjusting GRUB defaults for ${ARCH}"
+                mkdir -p mountpoint/etc/default/grub.d/
+                cp ${my_d}/riscv64/grub/cmdline.cfg mountpoint/etc/default/grub.d/
                 case "${SUBARCH}" in
                     "icicle")
                         echo "Installing GRUB for ${SUBARCH} board"
@@ -267,7 +271,6 @@ install_grub() {
                         chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "nezha"|"licheerv")
-                        local my_d=$(dirname $(readlink -f ${0}))
                         echo "Reducing initramfs size for ${SUBARCH} board"
                         mkdir -p mountpoint/etc/initramfs-tools/conf.d/
                         cp ${my_d}/riscv64/initramfs-tools/modules_list.conf mountpoint/etc/initramfs-tools/conf.d/
