@@ -249,7 +249,7 @@ install_grub() {
                         # This explains why we install flash-kernel here.
                         chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'Microchip PolarFire-SoC Icicle Kit' > /etc/flash-kernel/machine"
-                        chroot mountpoint bash -c 'FK_FORCE_CONTAINER=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
                         # The real U-Boot
                         chroot mountpoint apt-get install -qqy u-boot-microchip

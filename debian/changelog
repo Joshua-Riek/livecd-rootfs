@@ -1,3 +1,9 @@
+livecd-rootfs (2.791) UNRELEASED; urgency=medium
+
+  * Finish the rename of FK_FORCE_CONTAINER into FK_FORCE. (LP: #1989194)
+
+ -- Brian Murray <brian@ubuntu.com>  Mon, 17 Oct 2022 13:01:01 -0700
+
 livecd-rootfs (2.790) kinetic; urgency=medium
 
   * riscv: reduce the size of the intird for Nezha and LicheeRV
