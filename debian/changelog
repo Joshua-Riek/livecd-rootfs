@@ -1,4 +1,4 @@
-livecd-rootfs (2.790) UNRELEASED; urgency=medium
+livecd-rootfs (2.790) kinetic; urgency=medium
 
   * riscv: reduce the size of the intird for Nezha and LicheeRV
   * fix invalid redirects
