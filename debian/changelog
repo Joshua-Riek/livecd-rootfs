@@ -1,4 +1,4 @@
-livecd-rootfs (2.791) UNRELEASED; urgency=medium
+livecd-rootfs (2.791) kinetic; urgency=medium
 
   [ Brian Murray ]
   * Finish the rename of FK_FORCE_CONTAINER into FK_FORCE. (LP: #1989194)
@@ -6,7 +6,7 @@ livecd-rootfs (2.791) UNRELEASED; urgency=medium
   [ Simon Poirier ]
   * update apparmor feature overlay match the target kernel (LP: #1993204)
 
- -- Brian Murray <brian@ubuntu.com>  Mon, 17 Oct 2022 13:01:01 -0700
+ -- Brian Murray <brian@ubuntu.com>  Mon, 17 Oct 2022 13:08:52 -0700
 
 livecd-rootfs (2.790) kinetic; urgency=medium
 
