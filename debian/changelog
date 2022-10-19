@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.11) jammy; urgency=medium
+
+  * Rename FK_FORCE_CONTAINER into FK_FORCE as its role was extended to also
+    support chroot (LP: #1989194).
+
+ -- William 'jawn-smith' Wilson <jawn-smith@ubuntu.com>  Fri, 07 Oct 2022 09:49:30 -0500
+
 livecd-rootfs (2.765.10) jammy; urgency=medium
 
   * The ubuntustudio dkms hook is only created when we're building
