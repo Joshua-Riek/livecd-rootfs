@@ -986,7 +986,10 @@ EOF
     mkdir -p ${chroot}/run/systemd
     echo 'docker' > ${chroot}/run/systemd/container
 
+    # Create Ubuntu user
+    Chroot ${chroot} useradd ubuntu -U -u 1000 --comment Ubuntu --groups adm,audio,cdrom,dialout,dip,floppy,plugdev,sudo,video --shell /bin/bash -m
     rm -rf ${chroot}/var/cache/apt/*.bin
+
     echo "==== Configuring OCI done ===="
 }
 
