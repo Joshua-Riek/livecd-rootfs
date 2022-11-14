@@ -1,3 +1,14 @@
+livecd-rootfs (2.792) lunar; urgency=medium
+
+  [ Samir Akarioh ]
+  * feat: Add metadata on ubuntu-oci image.
+  * feat: Add Ubuntu user.
+
+  [ Utkarsh Gupta ]
+  * Remove whitespaces.
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Mon, 14 Nov 2022 15:26:30 +0530
+
 livecd-rootfs (2.791) kinetic; urgency=medium
 
   [ Brian Murray ]
