@@ -1,3 +1,11 @@
+livecd-rootfs (2.793) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv64: use efi=debug earlycon. RISC-V boards tend to boot slowly. We
+    should provide progress information when booting.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 16 Nov 2022 13:25:46 +0100
+
 livecd-rootfs (2.792) lunar; urgency=medium
 
   [ Samir Akarioh ]
