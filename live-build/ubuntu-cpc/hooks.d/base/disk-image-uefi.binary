@@ -25,13 +25,8 @@ case ${PROJECT:-}:${SUBPROJECT:-} in
         ;;
 esac
 
-if [ "$ARCH" = "amd64" ]; then
-    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Kinetic amd64 need more then the default 2.2G
-fi
-
-if [ "$ARCH" = "armhf" ]; then
-    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Jammy armhf need more then the default 2.2G
-fi
+# 4G (4*1024**3)
+IMAGE_SIZE=4294967296
 
 # Change image size for preinstalled generic images
 if [ -n "${SUBARCH:-}" ]; then
@@ -55,7 +50,7 @@ create_partitions() {
         arm64|armhf)
             if [ "${SUBARCH:-}" = "generic" ]; then
                 sgdisk "${disk_image}" \
-                       --new=15:0:204800 \
+                       --new=15:0:+2G \
                        --typecode=15:ef00 \
                        --attributes=15:set:2 \
                        --new=14::+4M \
@@ -63,7 +58,7 @@ create_partitions() {
                        --new=1:
             else
                 sgdisk "${disk_image}" \
-                       --new=15:0:204800 \
+                       --new=15:0:+2G \
                        --typecode=15:ef00 \
                        --new=1:
             fi
@@ -77,7 +72,7 @@ create_partitions() {
                 # cloud-image
                 sgdisk "${disk_image}" \
                        --set-alignment=2 \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --typecode=15:ef00 \
                        --new=1:: \
                        --attributes=1:set:2
@@ -97,7 +92,7 @@ create_partitions() {
                        --change-name=14:loader2 \
                        --typecode=14:F4FA3898-3478-4941-887D-FCEC4E9E3C05 \
                        --attributes=14:set:0 \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --typecode=15:ef00 \
                        --change-name=15:ESP \
                        --new=12::+4M \
@@ -112,7 +107,7 @@ create_partitions() {
                        --change-name=13:loader \
                        --typecode=13:ef02 \
                        --attributes=13:set:0 \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --typecode=15:ef00 \
                        --change-name=15:ESP \
                        --new=12::+4M \
@@ -123,7 +118,7 @@ create_partitions() {
                 # VisionFive
                 sgdisk "${disk_image}" \
                         --set-alignment=2 \
-                        --new=15::+106M \
+                        --new=15::+2G \
                         --typecode=15:ef00 \
                         --change-name=15:ESP \
                         --new=12::+4M \
@@ -162,7 +157,7 @@ create_partitions() {
                        --change-name=14:loader2 \
                        --typecode=14:2E54B353-1271-4842-806F-E436D6AF6985 \
                        --attributes=14:set:0 \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --typecode=15:ef00 \
                        --new=12::+4M \
                        --change-name=12:CIDATA \
@@ -176,7 +171,7 @@ create_partitions() {
                        --new=14::+4M \
                        --typecode=14:ef02 \
                        --attributes=14:set:2 \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --typecode=15:ef00 \
                        --new=13::+4M \
                        --change-name=13:CIDATA \
@@ -184,7 +179,7 @@ create_partitions() {
             else
                 sgdisk "${disk_image}" \
                        --new=14::+4M \
-                       --new=15::+106M \
+                       --new=15::+2G \
                        --new=1::
                 sgdisk "${disk_image}" \
                        -t 14:ef02 \
@@ -201,11 +196,19 @@ create_and_mount_uefi_partition() {
     mountpoint="$1"
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
 
-    mkdir -p "${mountpoint}"/boot/efi
-    mount "${uefi_dev}" "$mountpoint"/boot/efi
+    mkdir -p "${mountpoint}"/boot/
+    mount "${uefi_dev}" "$mountpoint"/boot/
 
-    cat << EOF >> "mountpoint/etc/fstab"
-LABEL=UEFI	/boot/efi	vfat	umask=0077	0 1
+    mkdir "$mountpoint/boot/efi"
+    mount --bind "$mountpoint/boot" "$mountpoint/boot/efi"
+}
+
+configure_chroot() {
+    mountpoint="$1"
+
+    cat << EOF >> "$mountpoint"/etc/fstab
+LABEL=UEFI      /boot   vfat    umask=0077      0 1
+/boot   /boot/efi       vfat    umask=0077,bind 0 0
 EOF
 }
 
@@ -213,7 +216,8 @@ install_grub() {
     mkdir mountpoint
     mount_partition "${rootfs_dev_mapper}" mountpoint
 
-    create_and_mount_uefi_partition mountpoint
+    mount "${uefi_dev}" mountpoint/boot/
+    mount --bind mountpoint/boot mountpoint/boot/efi
 
     echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
     mkdir -p mountpoint/etc/default/grub.d
@@ -517,16 +521,26 @@ EOF
 
 disk_image=binary/boot/disk-uefi.ext4
 
+# create the disk
 create_empty_disk_image "${disk_image}"
 create_partitions "${disk_image}"
 mount_image "${disk_image}" 1
 
-# Copy the chroot in to the disk
+# create and mount the rootfs partition
 make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
 mount "${rootfs_dev_mapper}" mountpoint
-cp -a chroot/* mountpoint/
-umount mountpoint
+
+# create and mount the ESP
+create_and_mount_uefi_partition mountpoint
+
+# Copy the chroot into the disk
+cp -a chroot/* mountpoint
+
+configure_chroot mountpoint
+
+# cleanup the mount
+umount -R mountpoint
 rmdir mountpoint
 
 install_grub
