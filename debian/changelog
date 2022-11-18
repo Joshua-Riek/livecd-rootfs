@@ -1,6 +1,7 @@
 livecd-rootfs (2.765.12) UNRELEASED; urgency=medium
 
-  * Remove fwupd from the cloud images.  LP: #1981109.
+  * Remove fwupd, modemmanager, and udisks2 from the cloud images.
+    LP: #1981109.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 18 Nov 2022 14:50:52 -0800
 
