@@ -1,3 +1,14 @@
+livecd-rootfs (2.765.13) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * Backporting patches to support new RISC-V platforms (LP: #1997233)
+  * Add support for the LicheeRV board (SUBARCH=licheerv)
+  * Add support for the PolarFire Icicle Kit board (SUBARCH=icicle)
+  * Reduce initrd size for Nezha and LicheeRV boards
+  * Use efi=debug earlycon on kernel command line
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 21 Nov 2022 11:18:14 +0100
+
 livecd-rootfs (2.765.12) jammy; urgency=medium
 
   * Remove fwupd, modemmanager, and udisks2 from the cloud images.
