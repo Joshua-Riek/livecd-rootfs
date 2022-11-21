@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.13) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.13) jammy; urgency=medium
 
   [ Heinrich Schuchardt ]
   * Backporting patches to support new RISC-V platforms (LP: #1997233)
