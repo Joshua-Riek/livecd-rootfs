@@ -20,7 +20,7 @@ ALL_TRIPLETS="
  ubuntu-unity::
  mythbuntu::
  ubuntu::
- ubuntu:canary:
+ ubuntu:legacy:
  ubuntu-base::
  ubuntu-base:buildd:
  ubuntu-budgie::

@@ -527,7 +527,7 @@ for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 done
 
 # we don't need a manifest-remove for a layered-aware installer
-if [ "$PROJECT" = "ubuntu" ] && [ "$SUBPROJECT" = "canary" ]; then
+if [ "$PROJECT" = "ubuntu" ] && [ "$SUBPROJECT" != "legacy" ]; then
 	rm -f livecd.${PROJECT}-manifest-remove
 	rm -f config/manifest-minimal-remove
 fi

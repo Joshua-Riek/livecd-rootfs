@@ -550,7 +550,7 @@ case $IMAGEFORMAT in
 			ubuntu-wsl)
 				;;
 			ubuntu)
-				if [ "$SUBPROJECT" != "canary" ]; then
+				if [ "$SUBPROJECT" = "legacy" ]; then
 					add_package live casper
 				fi
 				;;
@@ -681,7 +681,43 @@ case $PROJECT in
 	ubuntu|ubuntu-dvd)
 
 		case ${SUBPROJECT:-} in
-			canary)
+			legacy)
+				LIVE_TASK='ubuntu-live'
+				add_task install minimal standard ubuntu-desktop
+				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
+				KERNEL_FLAVOURS='generic-hwe-22.04'
+				if [ "$SUBARCH" = "intel-iot" ]; then
+					KERNEL_FLAVOURS='image-intel'
+				fi
+				;;
+			desktop-preinstalled)
+				add_task install minimal standard ubuntu-desktop
+				case $SUBARCH in
+					raspi)
+						add_task install ubuntu-desktop-raspi
+						# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
+						#  for existing raspi preinstalled images
+						# XXX: I would prefer to use --hdd-label=desktop-rootfs like 040-hyperv-desktop-images.binary
+						OPTS="${OPTS:+$OPTS }--initramfs=none"
+						OPTS="${OPTS:+$OPTS }--system=normal"
+						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+						;;
+					intel-iot)
+						KERNEL_FLAVOURS='image-intel'
+						OPTS="${OPTS:+$OPTS }--initramfs=none"
+						OPTS="${OPTS:+$OPTS }--system=normal"
+						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
+						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
+						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
+						;;
+					*)
+						## Otherwise HYPERV image options.... *crickets* see the hyperv hook
+						;;
+				esac
+				;;
+			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
 				KERNEL_FLAVOURS='generic-hwe-22.04'
@@ -717,43 +753,6 @@ case $PROJECT in
 				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations
-				;;
-
-			desktop-preinstalled)
-				add_task install minimal standard ubuntu-desktop
-				case $SUBARCH in
-					raspi)
-						add_task install ubuntu-desktop-raspi
-						# XXX: Are those actually needed? I see we use those for ubuntu-cpc, which is the project
-						#  for existing raspi preinstalled images
-						# XXX: I would prefer to use --hdd-label=desktop-rootfs like 040-hyperv-desktop-images.binary
-						OPTS="${OPTS:+$OPTS }--initramfs=none"
-						OPTS="${OPTS:+$OPTS }--system=normal"
-						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
-						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
-						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
-						;;
-					intel-iot)
-						KERNEL_FLAVOURS='image-intel'
-						OPTS="${OPTS:+$OPTS }--initramfs=none"
-						OPTS="${OPTS:+$OPTS }--system=normal"
-						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
-						OPTS="${OPTS:+$OPTS }--ext-resize-blocks=536870912 --ext-block-size=4096"
-						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
-						;;
-					*)
-						## Otherwise HYPERV image options.... *crickets* see the hyperv hook
-						;;
-				esac
-				;;
-			*)
-				LIVE_TASK='ubuntu-live'
-				add_task install minimal standard ubuntu-desktop
-				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
-				KERNEL_FLAVOURS='generic-hwe-22.04'
-				if [ "$SUBARCH" = "intel-iot" ]; then
-					KERNEL_FLAVOURS='image-intel'
-				fi
 				;;
 		esac
 		;;
