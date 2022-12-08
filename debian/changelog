@@ -1,4 +1,4 @@
-livecd-rootfs (2.794) UNRELEASED; urgency=medium
+livecd-rootfs (2.794) lunar; urgency=medium
 
   [ Sebastien Bacher ]
   * Change the desktop build to let canary be the default.
