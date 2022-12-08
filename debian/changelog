@@ -1,3 +1,12 @@
+livecd-rootfs (2.794) UNRELEASED; urgency=medium
+
+  [ Sebastien Bacher ]
+  * Change the desktop build to let canary be the default.
+    Make canary images the default Ubuntu desktop images, while switching
+    the old desktop to a 'legacy' flavor instead.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 08 Dec 2022 15:33:05 +0100
+
 livecd-rootfs (2.793) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]
