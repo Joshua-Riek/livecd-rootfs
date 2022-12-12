@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.14) jammy; urgency=medium
+
+  [ Samir Akarioh ]
+  * feat: Add metadata on ubuntu-oci image. (LP: #1998229)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Mon, 12 Dec 2022 15:30:56 +0530
+
 livecd-rootfs (2.765.13) jammy; urgency=medium
 
   [ Heinrich Schuchardt ]
