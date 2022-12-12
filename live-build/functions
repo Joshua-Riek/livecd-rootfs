@@ -937,8 +937,7 @@ configure_oci() {
     Chroot ${chroot} "chmod +x /usr/sbin/policy-rc.d"
 
 
-    # Inject a build stamp into the image 
-    
+    # Inject a build stamp into the image
     mkdir -p ${chroot}/etc/cloud
     cat > ${chroot}/etc/cloud/build.info << EOF
 serial: $serial
