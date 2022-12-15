@@ -89,6 +89,10 @@ PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
+	# TODO: eventually, this should be handled by a single ubuntu-image
+	#  call without having to do a conditional on ubuntu-core/classic.
+	#  We could already do that, but then we'd still have to do the
+	#  compressing for the core images.
 	if [ "$PROJECT" = "ubuntu-core" ]; then
 		env SNAPPY_STORE_NO_CDN=1 \
 		ubuntu-image snap $UBUNTU_IMAGE_ARGS \
@@ -100,20 +104,18 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		xz -0 -T4 "$PREFIX".img
 		mv output/seed.manifest "$PREFIX".manifest
 	else
-		# First we need to build the gadget tree
-		make -C "config/$PREFIX-gadget" \
-			ARCH=$ARCH SERIES=$SUITE $GADGET_TARGET
+		env SNAPPY_STORE_NO_CDN=1 \
 		ubuntu-image classic $UBUNTU_IMAGE_ARGS \
-			-s $SUITE -p $PROJECT -a $ARCH --subarch $SUBARCH \
-			-O output config/$PREFIX-gadget/install
-		# XXX: currently we only have one image generated, but really
-		#  we should be supporting more than one for models that
-		#  define those.
-		mv output/*.img "$PREFIX".img
-		xz -0 -T4 "$PREFIX".img
-		# Also link the output image to a filename that cdimage expects
-		ln "$PREFIX".img.xz livecd.ubuntu-cpc.disk1.img.xz
-		mv output/filesystem.manifest "$PREFIX".manifest
+			-O output "$PREFIX".yaml
+		# Since the output of the ubuntu-image call can vary based on what
+		# kind of an image we build, the safest bet is to 'export' all the
+		# artifacts from the output directory. The image definition file
+		# should be what defines what is expected, so that we don't have
+		# to tweak livecd-rootfs everytime a different type of artifact
+		# is needed.
+		for artifact in output/*; do
+			mv $artifact $PREFIX.$(basename $artifact)
+		done
 	fi
 
 	exit 0

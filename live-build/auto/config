@@ -333,8 +333,10 @@ _get_live_passes ()
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
-			case $SUBARCH in
-				raspi|intel-iot)
+			case $ARCH+${SUBARCH:-} in
+				*+raspi|riscv64+?*)
+					# All raspi and RISC-V images that *have* a SUBARCH will now
+					# use ubuntu-image.
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -342,21 +344,11 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 					;;
 			esac
 			;;
+		ubuntu-base:*)
+			IMAGEFORMAT=ubuntu-image
+			;;
 		ubuntu-server:live)
 			IMAGEFORMAT=plain
-			;;
-	esac
-fi
-
-# Configure preinstalled ubuntu-cpc images with included password
-# one also must request disk1-img-xz image format
-if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
-	case $ARCH:$SUBARCH in
-		armhf:raspi2|riscv64:sifive_*|riscv64:nezha|riscv64:visionfive|riscv64:licheerv|riscv64:icicle|*:generic)
-			IMAGE_HAS_HARDCODED_PASSWORD=1
-			if [ -z "${IMAGE_TARGETS:-}" ]; then
-				export IMAGE_TARGETS="disk1-img-xz"
-			fi
 			;;
 	esac
 fi
@@ -496,37 +488,13 @@ case $IMAGEFORMAT in
 		else
 			# classic images
 
-			# Certain models have different names but are built from the same source gadget tree
-			case $MODEL in
-				pi-arm64|pi3-arm64)
-					MODEL=pi
-					;;
-				intel-iot)
-					MODEL=pc
-					;;
-			esac
+			DEFINITION="$PROJECT-$MODEL.yaml"
 
-			GADGET_TARGET="server"
-			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
-				GADGET_TARGET="desktop"
-			fi
-
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${SUBPROJECT:+ --subproject \"$SUBPROJECT\"}"
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
-
-			# We need to look in two places for the gadget tree:
-			# - Launchpad hosted gadgets will be in the snap-gadget repo
-			# - Github hosted gadgets are mirrored into a github-mirror repo
-			BRANCH="classic"
-			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/snap-$MODEL -b $BRANCH config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b $BRANCH config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror-$ARCH -b $BRANCH config/$PREFIX-gadget
-
-			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
-			echo "SUITE=$SUITE" >> config/common
-			echo "GADGET_TARGET=$GADGET_TARGET" >> config/common
-			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
-
-			echo "Configured ubuntu-image for the following gadget model: $MODEL"
+			git clone git://git.launchpad.net/ubuntu-images -b $SERIES image-definitions
+			cp image-definitions/$DEFINITION "$PREFIX".yaml
+			echo "Configured ubuntu-image for the following image-definition:"
+			cat "$PREFIX".yaml
+			echo "----------------------------------------------------------"
 		fi
 
 		# Save the model name used for building, mostly for any model-specific hook execution
