@@ -89,12 +89,13 @@ PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
+	export SNAPPY_STORE_NO_CDN=1
+
 	# TODO: eventually, this should be handled by a single ubuntu-image
 	#  call without having to do a conditional on ubuntu-core/classic.
 	#  We could already do that, but then we'd still have to do the
 	#  compressing for the core images.
 	if [ "$PROJECT" = "ubuntu-core" ]; then
-		env SNAPPY_STORE_NO_CDN=1 \
 		ubuntu-image snap $UBUNTU_IMAGE_ARGS \
 			-O output "$PREFIX".model-assertion
 		# XXX: currently we only have one image generated, but really
@@ -104,7 +105,6 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		xz -0 -T4 "$PREFIX".img
 		mv output/seed.manifest "$PREFIX".manifest
 	else
-		env SNAPPY_STORE_NO_CDN=1 \
 		ubuntu-image classic $UBUNTU_IMAGE_ARGS \
 			-O output "$PREFIX".yaml
 		# Since the output of the ubuntu-image call can vary based on what
