@@ -1,10 +1,10 @@
-livecd-rootfs (2.795) UNRELEASED; urgency=medium
+livecd-rootfs (2.795) lunar; urgency=medium
 
   * Don't depend on python3-launchpadlib on i386.  This breaks ppa-enabled
     builds on i386, but avoids pulling in a large dependency tree that's
     not otherwise needed on i386.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 05 Jan 2023 22:06:19 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 05 Jan 2023 22:07:17 -0800
 
 livecd-rootfs (2.794) lunar; urgency=medium
 
