@@ -39,7 +39,7 @@ ALL_TRIPLETS="
  ubuntu-netbook::
  ubuntu-server:live:ubuntu-server
  xubuntu::
- xubuntu-core::"
+ xubuntu-minimal::"
 
 if [ -z "$SELECTED_TRIPLETS" ]; then
     SELECTED_TRIPLETS="

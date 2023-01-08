@@ -656,7 +656,7 @@ case $PROJECT in
 	kubuntu|kubuntu-dvd|kubuntu-plasma5|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
-	xubuntu|xubuntu-core|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
+	xubuntu|xubuntu-minimal|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
@@ -784,7 +784,7 @@ case $PROJECT in
 		esac
 		;;
 
-	xubuntu-core)
+	xubuntu-minimal)
 		add_task install minimal standard xubuntu-core
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
