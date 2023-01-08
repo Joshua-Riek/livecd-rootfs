@@ -656,7 +656,7 @@ case $PROJECT in
 	kubuntu|kubuntu-dvd|kubuntu-plasma5|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
-	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
+	xubuntu|xubuntu-core|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
@@ -777,6 +777,15 @@ case $PROJECT in
 
 	xubuntu)
 		add_task install minimal standard xubuntu-desktop
+		add_package install xterm
+		LIVE_TASK='xubuntu-live'
+		case $ARCH in
+			amd64)	KERNEL_FLAVOURS=generic ;;
+		esac
+		;;
+
+	xubuntu-core)
+		add_task install minimal standard xubuntu-core
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		case $ARCH in
