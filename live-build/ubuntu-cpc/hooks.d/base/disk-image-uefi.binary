@@ -298,16 +298,12 @@ install_grub() {
                         chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
 
-                        # nezha-boot0 is actually compatible with the LicheeRV boards (and probably other D1-based boards)
-                        chroot mountpoint apt-get install -qqy nezha-boot0
-                        # FSBL, which gets U-Boot SPL
-                        loader1="/dev/mapper${loop_device///dev/}p13"
-                        dd if=mountpoint/usr/lib/u-boot/nezha/boot0_sdcard_sun20iw1p1.bin of=$loader1
-                        # The real U-Boot
-                        # u-boot-nezha actually contains both the LicheeRV and the Nezha boards support
+                        # u-boot-nezha supports both the LicheeRV and the Nezha D1.
                         chroot mountpoint apt-get install -qqy u-boot-nezha
-                        loader2="/dev/mapper${loop_device///dev/}p14"
-                        dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot.toc1 of=$loader2
+                        # Since version 2022.10 U-Boot SPL and U-Boot are installed onto the same partition.
+                        # Package nezha-boot0 is not needed anymore.
+                        loader1="/dev/mapper${loop_device///dev/}p13"
+                        dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot-sunxi-with-spl.bin of=$loader1
                         # Provide end-user modifyable CIDATA
                         cidata_dev="/dev/mapper${loop_device///dev/}p12"
                         setup_cidata "${cidata_dev}"
