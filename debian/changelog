@@ -1,3 +1,12 @@
+livecd-rootfs (2.796) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv64: adjust U-Boot installation for Nezha D1 and LicheeRV. Since
+    version 2022.10 U-Boot SPL and U-Boot are installed onto the same
+    partition. Package nezha-boot0 is not needed anymore.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 09 Jan 2023 14:10:22 +0100
+
 livecd-rootfs (2.795) lunar; urgency=medium
 
   * Don't depend on python3-launchpadlib on i386.  This breaks ppa-enabled
