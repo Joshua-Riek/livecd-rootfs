@@ -1,4 +1,4 @@
-livecd-rootfs (2.796) UNRELEASED; urgency=medium
+livecd-rootfs (2.796) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]
   * riscv64: adjust U-Boot installation for Nezha D1 and LicheeRV. Since
