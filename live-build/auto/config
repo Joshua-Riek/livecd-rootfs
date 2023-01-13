@@ -785,7 +785,7 @@ case $PROJECT in
 		;;
 
 	xubuntu-minimal)
-		add_task install minimal standard xubuntu-core
+		add_task install minimal standard xubuntu-desktop-minimal
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		case $ARCH in
