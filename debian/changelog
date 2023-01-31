@@ -1,3 +1,11 @@
+livecd-rootfs (2.818) UNRELEASED; urgency=medium
+
+  * raspi: drop mkswap.service and swapfile.swap units in
+    099-ubuntu-image-customization.chroot in favour of units provided by
+    ubuntu-raspi-settings-desktop
+
+ -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
+
 livecd-rootfs (2.817) lunar; urgency=medium
 
   [ John Chittum ]
