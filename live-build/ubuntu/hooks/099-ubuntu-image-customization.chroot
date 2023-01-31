@@ -51,35 +51,5 @@ if [ "$IMAGEFORMAT" == "none" ]; then
         }
         ' /etc/fstab > /etc/fstab.new
         mv /etc/fstab.new /etc/fstab
-
-        # Add units for a 1GiB swapfile, generated on first boot
-        cat << EOF > /lib/systemd/system/mkswap.service
-[Unit]
-Description=Create the default swapfile
-DefaultDependencies=no
-Requires=local-fs.target
-After=local-fs.target
-Before=swapfile.swap
-ConditionPathExists=!/swapfile
-
-[Service]
-Type=oneshot
-ExecStartPre=fallocate -l 1GiB /swapfile
-ExecStartPre=chmod 600 /swapfile
-ExecStart=mkswap /swapfile
-
-[Install]
-WantedBy=swap.target
-EOF
-        cat << EOF > /lib/systemd/system/swapfile.swap
-[Unit]
-Description=The default swapfile
-
-[Swap]
-What=/swapfile
-EOF
-        mkdir -p /lib/systemd/system/swap.target.wants
-        ln -s ../mkswap.service /lib/systemd/system/swap.target.wants/
-        ln -s ../swapfile.swap /lib/systemd/system/swap.target.wants/
     fi
 fi
