@@ -736,6 +736,7 @@ case $PROJECT in
 		LIVE_TASK='kubuntu-live'
 		COMPONENTS='main restricted universe'
 		add_chroot_hook remove-gnome-icon-cache
+		KERNEL_FLAVOURS='generic-hwe-22.04'
 		;;
 
 	kubuntu-active)
@@ -769,7 +770,7 @@ case $PROJECT in
 		LIVE_TASK='xubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+			amd64|i386)	KERNEL_FLAVOURS='generic-hwe-22.04' ;;
 		esac
 		;;
 
@@ -789,7 +790,7 @@ case $PROJECT in
 		LIVE_TASK='lubuntu-live'
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=generic ;;
+			amd64|i386)	KERNEL_FLAVOURS='generic-hwe-22.04' ;;
 		esac
 		;;
 
@@ -803,19 +804,21 @@ case $PROJECT in
 		add_task install minimal standard ubuntu-budgie-desktop
 		LIVE_TASK='ubuntu-budgie-live'
 		COMPONENTS='main restricted universe'
+		KERNEL_FLAVOURS='generic-hwe-22.04'
 		;;
 
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
 		COMPONENTS='main restricted universe multiverse'
+		KERNEL_FLAVOURS='generic-hwe-22.04'
 		;;
 
 	ubuntustudio-dvd)
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		COMPONENTS='main restricted universe multiverse'
 		case $ARCH in
-			amd64|i386)	KERNEL_FLAVOURS=lowlatency ;;
+			amd64|i386)	KERNEL_FLAVOURS='lowlatency-hwe-22.04' ;;
 		esac
 		;;
 
@@ -824,6 +827,7 @@ case $PROJECT in
 		add_package install ubuntukylin-default-settings
 		LIVE_TASK='ubuntukylin-live'
 		COMPONENTS='main restricted universe'
+		KERNEL_FLAVOURS='generic-hwe-22.04'
 		;;
 
 	ubuntu-server)

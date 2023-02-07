@@ -1,6 +1,8 @@
 livecd-rootfs (2.765.15) UNRELEASED; urgency=medium
 
   * Enable the hwe kernel variant for 22.04.2 (LP: #2006481).
+    - Add it to the server images besides the ga kernel.
+    - Switch hwe as default for all desktop flavors.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 07 Feb 2023 14:57:00 +0100
 
