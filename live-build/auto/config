@@ -849,8 +849,7 @@ case $PROJECT in
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
 
-				# variants='ga hwe'
-				variants='ga'
+				variants='ga hwe'
 
 				for variant in $variants; do
 					if [ "$variant" = "ga" ]; then
