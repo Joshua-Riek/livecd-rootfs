@@ -370,6 +370,8 @@ EOF
                     *)
                         cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        mkdir -p mountpoint/etc/u-boot-menu/conf.d/
+                        cp ${my_d}/riscv64/u-boot-menu/*.conf mountpoint/etc/u-boot-menu/conf.d/
                         efi_target=riscv64-efi
                         chroot mountpoint u-boot-update
                         u_boot_arch="${SUBARCH}"
