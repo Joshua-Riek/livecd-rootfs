@@ -776,7 +776,14 @@ case $PROJECT in
 		;;
 
 	xubuntu)
-		add_task install minimal standard xubuntu-desktop
+		case ${SUBPROJECT:-} in
+			minimal)
+				add_task install minimal standard xubuntu-desktop-minimal
+				;;
+			*)
+				add_task install minimal standard xubuntu-desktop
+				;;
+		esac
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		case $ARCH in
