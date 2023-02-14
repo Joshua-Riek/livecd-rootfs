@@ -1,8 +1,8 @@
-livecd-rootfs (2.798) UNRELEASED; urgency=medium
+livecd-rootfs (2.798) lunar; urgency=medium
 
   * Add xubuntu minimal subproject.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 13 Feb 2023 21:07:00 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 13 Feb 2023 21:07:27 -0800
 
 livecd-rootfs (2.797) lunar; urgency=medium
 
