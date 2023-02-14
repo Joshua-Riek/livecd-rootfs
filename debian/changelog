@@ -1,3 +1,9 @@
+livecd-rootfs (2.798) UNRELEASED; urgency=medium
+
+  * Add xubuntu minimal subproject.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 13 Feb 2023 21:07:00 -0800
+
 livecd-rootfs (2.797) lunar; urgency=medium
 
   * Drop dependency on rsync, not used in a very long time and lets us drop
