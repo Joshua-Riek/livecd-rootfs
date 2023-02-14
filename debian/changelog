@@ -1,3 +1,9 @@
+livecd-rootfs (2.799) UNRELEASED; urgency=medium
+
+  * Reintroduce edubuntu.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 14 Feb 2023 15:55:28 -0800
+
 livecd-rootfs (2.798) lunar; urgency=medium
 
   * Add xubuntu minimal subproject.
