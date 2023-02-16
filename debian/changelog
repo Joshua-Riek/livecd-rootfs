@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.16) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.16) jammy; urgency=medium
 
   * Properly handle the lowlatency hwe kernel flavour.
 
