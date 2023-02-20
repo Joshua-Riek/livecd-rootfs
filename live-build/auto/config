@@ -928,7 +928,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-wsl)
-		add_task install minimal standard ubuntu-wsl
+		add_task install minimal ubuntu-wsl
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
