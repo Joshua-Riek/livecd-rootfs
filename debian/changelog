@@ -1,3 +1,11 @@
+livecd-rootfs (2.800) lunar; urgency=medium
+
+  * WSL: do not depend on standard anymore.
+    Evolve the seed to only ship the specific part useful to WSL users. This
+    allows to trim down the image size.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 20 Feb 2023 11:59:25 +0100
+
 livecd-rootfs (2.799) lunar; urgency=medium
 
   * Reintroduce edubuntu.
