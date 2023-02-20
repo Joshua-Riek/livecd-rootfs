@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.17) UNRELEASED; urgency=medium
+
+  * Do not offer the hwe kernel for RISC-V server-live images (LP: #2007863).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 20 Feb 2023 17:18:37 +0100
+
 livecd-rootfs (2.765.16) jammy; urgency=medium
 
   * Properly handle the lowlatency hwe kernel flavour.

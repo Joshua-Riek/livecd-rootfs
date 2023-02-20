@@ -853,7 +853,12 @@ case $PROJECT in
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
 
-				variants='ga hwe'
+				if [ $ARCH = riscv64 ]; then
+					# However, for RISC-V we only offer one kernel
+					variants='ga'
+				else
+					variants='ga hwe'
+				fi
 
 				for variant in $variants; do
 					if [ "$variant" = "ga" ]; then
