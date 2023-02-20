@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.17) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.17) jammy; urgency=medium
 
   * Do not offer the hwe kernel for RISC-V server-live images (LP: #2007863).
 
