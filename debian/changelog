@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.18) UNRELEASED; urgency=medium
+
+  * Terrible hack workaround for clearing out the non-offline apt cache for
+    desktop related images. 
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 22 Feb 2023 23:57:38 +0100
+
 livecd-rootfs (2.765.17) jammy; urgency=medium
 
   * Do not offer the hwe kernel for RISC-V server-live images (LP: #2007863).
