@@ -488,7 +488,7 @@ EOF
 	#  that might take a moment, for now, for flavors that are generally
 	#  affected by this, we manually clear out the archive-related Packages
 	#  files in the cache.
-	case $PROJECT; in
+	case $PROJECT in
 		ubuntu|xubuntu|kubuntu|ubuntu-budgie|ubuntukylin|ubuntu-mate)
 			rm -f chroot/var/lib/apt/lists/*ubuntu.com*_Packages
 			;;
