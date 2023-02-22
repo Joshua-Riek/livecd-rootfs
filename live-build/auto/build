@@ -490,7 +490,7 @@ EOF
 	#  files in the cache.
 	case $PROJECT; in
 		ubuntu|xubuntu|kubuntu|ubuntu-budgie|ubuntukylin|ubuntu-mate)
-			rm -f /var/lib/apt/lists/*ubuntu.com*_Packages
+			rm -f chroot/var/lib/apt/lists/*ubuntu.com*_Packages
 			;;
 	esac
 
