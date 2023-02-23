@@ -1,3 +1,11 @@
+livecd-rootfs (2.801) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * RISC-V: avoid soft lockup Radeon GPUs. With Radeon GPUs and kernel 5.19 a
+    soft lockup was observed. Increase the watchdog threshold.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Feb 2023 16:28:00 +0100
+
 livecd-rootfs (2.800) lunar; urgency=medium
 
   * WSL: do not depend on standard anymore.
