@@ -4,7 +4,10 @@ livecd-rootfs (2.801) UNRELEASED; urgency=medium
   * RISC-V: avoid soft lockup Radeon GPUs. With Radeon GPUs and kernel 5.19 a
     soft lockup was observed. Increase the watchdog threshold.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Feb 2023 16:28:00 +0100
+  [ Łukasz 'sil2100' Zemczak ]
+  * Add ubuntucinnamon to the supported flavours.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Feb 2023 19:31:12 +0100
 
 livecd-rootfs (2.800) lunar; urgency=medium
 

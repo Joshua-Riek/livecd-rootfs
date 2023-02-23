@@ -27,6 +27,7 @@ ALL_TRIPLETS="
  ubuntu-budgie::
  ubuntu-budgie-desktop::
  ubuntu-budgie-live::
+ ubuntucinnamon::
  ubuntu-core:system-image:ubuntu-core
  ubuntu-cpc::ubuntu-cpc
  ubuntu-cpc:minimized:ubuntu-cpc

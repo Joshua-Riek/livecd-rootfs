@@ -653,7 +653,7 @@ case $PROJECT in
 	ubuntu-server)
 		COMPONENTS='main'
 		;;
-	kubuntu|kubuntu-dvd|kubuntu-plasma5|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
+	kubuntu|kubuntu-dvd|kubuntu-plasma5|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
 		COMPONENTS='main restricted universe'
 		;;
 	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
@@ -778,6 +778,11 @@ case $PROJECT in
 	edubuntu)
 		add_task install minimal standard ubuntu-minimal edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'
+		;;
+
+	ubuntucinnamon)
+		add_task install minimal standard ubuntucinnamon-desktop
+		LIVE_TASK='ubuntucinnamon-live'
 		;;
 
 	xubuntu)
