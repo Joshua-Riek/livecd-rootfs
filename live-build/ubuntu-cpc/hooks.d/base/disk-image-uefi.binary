@@ -243,10 +243,11 @@ install_grub() {
                 local my_d=$(dirname $(readlink -f ${0}))
                 echo "Adjusting GRUB defaults for ${ARCH}"
                 mkdir -p mountpoint/etc/default/grub.d/
-                cp ${my_d}/riscv64/grub/cmdline.cfg mountpoint/etc/default/grub.d/
+                cp ${my_d}/riscv64/grub/10_cmdline.cfg mountpoint/etc/default/grub.d/
                 case "${SUBARCH}" in
                     "icicle")
                         echo "Installing GRUB for ${SUBARCH} board"
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
@@ -367,7 +368,10 @@ EOF
                         setup_cinocloud mountpoint
                         ;;
                     *)
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        mkdir -p mountpoint/etc/u-boot-menu/conf.d/
+                        cp ${my_d}/riscv64/u-boot-menu/*.conf mountpoint/etc/u-boot-menu/conf.d/
                         efi_target=riscv64-efi
                         chroot mountpoint u-boot-update
                         u_boot_arch="${SUBARCH}"
