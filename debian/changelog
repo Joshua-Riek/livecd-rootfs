@@ -7,7 +7,10 @@ livecd-rootfs (2.801) UNRELEASED; urgency=medium
   [ Łukasz 'sil2100' Zemczak ]
   * Add ubuntucinnamon to the supported flavours.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Feb 2023 19:31:12 +0100
+  [ Dimitri John Ledkov ]
+  * ubuntu-cpc: set default ext4 mount option commit=30 (LP: #2006511)
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Fri, 24 Feb 2023 12:01:52 +0000
 
 livecd-rootfs (2.800) lunar; urgency=medium
 
