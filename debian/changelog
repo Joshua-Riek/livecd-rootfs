@@ -1,4 +1,4 @@
-livecd-rootfs (2.801) UNRELEASED; urgency=medium
+livecd-rootfs (2.801) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]
   * RISC-V: avoid soft lockup Radeon GPUs. With Radeon GPUs and kernel 5.19 a
@@ -13,7 +13,7 @@ livecd-rootfs (2.801) UNRELEASED; urgency=medium
   * ubuntu-cpc: set default ext4 mount option commit=30 (LP: #2006511).
   * Cherry-pick jammy point release fixes.
 
- -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Fri, 24 Feb 2023 12:01:52 +0000
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Fri, 24 Feb 2023 12:20:04 +0000
 
 livecd-rootfs (2.800) lunar; urgency=medium
 
