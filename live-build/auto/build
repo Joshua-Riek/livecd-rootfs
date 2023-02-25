@@ -327,6 +327,16 @@ EOF
                 chmod +x chroot/usr/bin/man
 	fi
 
+	if [ "${SUBPROJECT:-}" != minimized ] \
+	   && [ "${PROJECT}" != "ubuntu-server" ]
+	then
+		# debootstrap doesn't handle Recommends and fixing this is
+		# non-trivial, so install missing Recommends here
+		echo "Installing any missing recommends"
+		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+			apt-get -y --fix-policy install"
+	fi
+
 	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb chroot_layered "$@"
 	else

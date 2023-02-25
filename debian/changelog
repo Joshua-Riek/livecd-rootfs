@@ -1,3 +1,13 @@
+livecd-rootfs (2.802) UNRELEASED; urgency=medium
+
+  * Address the fact that debootstrap doesn't follow Recommends and as a
+    result we're missing several Recommends that should be installed by
+    default and are on upgrades but not on new installs.  This is not
+    applied to minimized images, which don't follow Recommends; but does get
+    separately applied to the ubuntu-server full squashfs.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 17:46:47 -0800
+
 livecd-rootfs (2.801) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]
