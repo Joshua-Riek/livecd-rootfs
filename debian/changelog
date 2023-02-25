@@ -1,3 +1,9 @@
+livecd-rootfs (2.803) UNRELEASED; urgency=medium
+
+  * Fix wrong task name for xubuntu-minimal.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 20:56:48 -0800
+
 livecd-rootfs (2.802) lunar; urgency=medium
 
   * Address the fact that debootstrap doesn't follow Recommends and as a
