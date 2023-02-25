@@ -1,10 +1,10 @@
-livecd-rootfs (2.803) UNRELEASED; urgency=medium
+livecd-rootfs (2.803) lunar; urgency=medium
 
   * Fix wrong task name for xubuntu-minimal.
   * Fix edubuntu build: ubuntu-minimal is not a task and minimal is already
     declared.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 20:56:48 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 21:05:48 -0800
 
 livecd-rootfs (2.802) lunar; urgency=medium
 
