@@ -776,7 +776,7 @@ case $PROJECT in
 		;;
 
 	edubuntu)
-		add_task install minimal standard ubuntu-minimal edubuntu-desktop-gnome
+		add_task install minimal standard edubuntu-desktop-gnome
 		LIVE_TASK='edubuntu-live'
 		;;
 
