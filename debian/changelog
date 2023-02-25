@@ -1,9 +1,9 @@
-livecd-rootfs (2.804) UNRELEASED; urgency=medium
+livecd-rootfs (2.804) lunar; urgency=medium
 
   * Clarified with Erich that edubuntu should install ubuntu-desktop-minimal
     task.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 21:11:28 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 21:11:56 -0800
 
 livecd-rootfs (2.803) lunar; urgency=medium
 
