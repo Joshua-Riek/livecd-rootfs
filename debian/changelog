@@ -1,8 +1,8 @@
-livecd-rootfs (2.805) UNRELEASED; urgency=medium
+livecd-rootfs (2.805) lunar; urgency=medium
 
   * riscv64: set attribute required partition for firmware.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 27 Feb 2023 21:47:59 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 27 Feb 2023 21:49:27 +1300
 
 livecd-rootfs (2.804) lunar; urgency=medium
 
