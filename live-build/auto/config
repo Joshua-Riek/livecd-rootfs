@@ -1054,6 +1054,8 @@ case $PROJECT:${SUBPROJECT:-} in
 		;;
 	ubuntu-oci:*)
 		;;
+	xubuntu:minimal)
+		;;
 	*)
 		BASE_SEED='desktop'
 		;;
