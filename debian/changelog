@@ -1,3 +1,10 @@
+livecd-rootfs (2.806) UNRELEASED; urgency=medium
+
+  [ Sean Davis ]
+  * Remove snap base seed for xubuntu:minimal
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 28 Feb 2023 07:59:49 -0800
+
 livecd-rootfs (2.805) lunar; urgency=medium
 
   * riscv64: set attribute required partition for firmware.
