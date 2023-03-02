@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.19) jammy; urgency=medium
+
+  * auto/config: Add support for ubuntu core arm64 generic images (LP: #2009067)
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Thu, 02 Mar 2023 18:21:06 +0000
+
 livecd-rootfs (2.765.18) jammy; urgency=medium
 
   * Terrible hack workaround for clearing out the non-offline apt cache for
