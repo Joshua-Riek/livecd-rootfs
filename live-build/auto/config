@@ -405,6 +405,8 @@ case $IMAGEFORMAT in
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
+			arm64+*)
+				MODEL=pc-arm64 ;;
 			*)
 				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
 				exit 1
@@ -423,7 +425,7 @@ case $IMAGEFORMAT in
 
 			CHANNEL="${CHANNEL:-edge}"
 			case $MODEL in
-				pc-amd64)
+				pc-amd64|pc-arm64)
 					if [ -z "${SUBARCH:-}" ]; then
 						# This is to make sure there's enough writable space
 						UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
