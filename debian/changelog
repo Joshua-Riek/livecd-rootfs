@@ -1,4 +1,4 @@
-livecd-rootfs (2.808) UNRELEASED; urgency=medium
+livecd-rootfs (2.808) lunar; urgency=medium
 
   * Add ubuntucinnamon to the seed-determination switch-case.
 
