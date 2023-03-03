@@ -646,6 +646,9 @@ case $PROJECT in
         ubuntustudio*)
                 SEED=ubuntustudio.$SUITE
                 ;;
+        ubuntucinnamon*)
+                SEED=ubuntucinnamon.$SUITE
+                ;;
         *)
                 SEED=ubuntu.$SUITE
                 ;;

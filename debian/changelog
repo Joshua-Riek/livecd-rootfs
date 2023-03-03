@@ -1,3 +1,9 @@
+livecd-rootfs (2.808) UNRELEASED; urgency=medium
+
+  * Add ubuntucinnamon to the seed-determination switch-case.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 03 Mar 2023 15:07:06 +0100
+
 livecd-rootfs (2.807) lunar; urgency=medium
 
   * auto/config: Add support for ubuntu core arm64 generic images (LP: #2009067)
