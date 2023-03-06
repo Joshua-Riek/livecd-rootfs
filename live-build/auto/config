@@ -786,7 +786,11 @@ case $PROJECT in
 		;;
 
 	ubuntucinnamon)
-		add_task install minimal standard ubuntucinnamon-desktop
+		add_task install minimal standard
+		# The ubuntucinnamon task is not yet baked into the archive,
+		# but using the metapackage directly should be as good, if not
+		# better.
+		add_package install ubuntucinnamon-desktop
 		LIVE_TASK='ubuntucinnamon-live'
 		;;
 

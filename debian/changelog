@@ -1,3 +1,11 @@
+livecd-rootfs (2.809) UNRELEASED; urgency=medium
+
+  * Do not use the ubuntucinnamon-desktop task for cinnamon builds, it doesn't
+    seem to be present in the archive yet. Use the metapackage instead, which
+    seems like a better way forward anyway.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 06 Mar 2023 11:27:02 +0100
+
 livecd-rootfs (2.808) lunar; urgency=medium
 
   * Add ubuntucinnamon to the seed-determination switch-case.
