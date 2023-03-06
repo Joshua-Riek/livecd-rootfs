@@ -2,7 +2,8 @@ livecd-rootfs (2.809) UNRELEASED; urgency=medium
 
   * Do not use the ubuntucinnamon-desktop task for cinnamon builds, it doesn't
     seem to be present in the archive yet. Use the metapackage instead, which
-    seems like a better way forward anyway.
+    seems like a better way forward anyway. For the live task, temporarily use
+    a hard-coded list of packages.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 06 Mar 2023 11:27:02 +0100
 
