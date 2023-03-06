@@ -1,4 +1,4 @@
-livecd-rootfs (2.809) UNRELEASED; urgency=medium
+livecd-rootfs (2.809) lunar; urgency=medium
 
   * Do not use the ubuntucinnamon-desktop task for cinnamon builds, it doesn't
     seem to be present in the archive yet. Use the metapackage instead, which
