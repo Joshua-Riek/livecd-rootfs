@@ -796,6 +796,7 @@ case $PROJECT in
 		add_package live zfsutils-linux zfs-initramfs zsys
 		add_package live sssd realmd adcli
 		add_package live gparted cifs-utils
+		KERNEL_FLAVOURS=generic
 		;;
 
 	xubuntu)

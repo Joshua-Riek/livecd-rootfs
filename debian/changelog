@@ -4,6 +4,7 @@ livecd-rootfs (2.809) UNRELEASED; urgency=medium
     seem to be present in the archive yet. Use the metapackage instead, which
     seems like a better way forward anyway. For the live task, temporarily use
     a hard-coded list of packages.
+  * Explicitly define the kernel flavor for ubuntucinnamon.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 06 Mar 2023 11:27:02 +0100
 
