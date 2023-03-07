@@ -1,4 +1,4 @@
-livecd-rootfs (2.810) UNRELEASED; urgency=medium
+livecd-rootfs (2.810) lunar; urgency=medium
 
   * Add ubuntu-mini-iso build project.
 
