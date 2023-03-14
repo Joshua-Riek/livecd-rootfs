@@ -1,4 +1,4 @@
-livecd-rootfs (2.812) UNRELEASED; urgency=medium
+livecd-rootfs (2.812) lunar; urgency=medium
 
   * Inform cloud-init when network manager is in use.  (LP: #1982855)
 
