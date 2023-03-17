@@ -897,7 +897,7 @@ case $PROJECT in
 				# the GA and HWE kernels (in separate layers) so this code is
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
-				case ${SUBARCH-} in
+				case ${SUBARCH:-} in
 					intel-iot)
 						variants='intel'
 						;;
