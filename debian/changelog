@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.20) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.20) jammy; urgency=medium
 
   * Enable building intel-iot live-server images (LP: #1980067).
 
