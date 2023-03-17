@@ -855,12 +855,18 @@ case $PROJECT in
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
 
-				if [ $ARCH = riscv64 ]; then
-					# However, for RISC-V we only offer one kernel
-					variants='ga'
-				else
-					variants='ga hwe'
-				fi
+				case "$ARCH+${SUBARCH:-}" in
+					amd64+intel-iot)
+						variants='intel'
+						;;
+					riscv64*)
+						# However, for RISC-V we only offer one kernel
+						variants='ga'
+						;;
+					*)
+						variants='ga hwe'
+						;;
+				esac
 
 				for variant in $variants; do
 					if [ "$variant" = "ga" ]; then
@@ -869,6 +875,9 @@ case $PROJECT in
 					elif [ "$variant" = "hwe" ]; then
 						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 						flavor=generic-hwe
+					elif [ "$variant" = "intel" ]; then
+						kernel_metapkg=linux-intel-iotg
+						flavor=intel-iotg
 					else
 						echo "bogus variant: $variant"
 						exit 1
