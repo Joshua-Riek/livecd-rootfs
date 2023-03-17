@@ -607,6 +607,9 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		image-intel)
 			FLAVOUR="intel"
 			;;
+		intel-iotg*)
+			FLAVOUR="intel-iotg"
+			;;
 	esac
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"
 	if [ -z "$KVERS" ]; then

@@ -694,7 +694,7 @@ case $PROJECT in
 				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
 				KERNEL_FLAVOURS='generic-hwe-22.04'
 				if [ "$SUBARCH" = "intel-iot" ]; then
-					KERNEL_FLAVOURS='image-intel'
+					KERNEL_FLAVOURS='intel-iotg'
 				fi
 				;;
 			desktop-preinstalled)
@@ -712,7 +712,7 @@ case $PROJECT in
 						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 						;;
 					intel-iot)
-						KERNEL_FLAVOURS='image-intel'
+						KERNEL_FLAVOURS='intel-iotg'
 						OPTS="${OPTS:+$OPTS }--initramfs=none"
 						OPTS="${OPTS:+$OPTS }--system=normal"
 						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
@@ -1010,7 +1010,7 @@ case $PROJECT in
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
 				elif [ "${SUBARCH:-}" = "intel-iot" ]; then
-					KERNEL_FLAVOURS=image-intel
+					KERNEL_FLAVOURS=intel-iotg
 					OPTS="${OPTS:+$OPTS }--initramfs=none"
 				fi
 				;;
@@ -1196,7 +1196,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
 			intel-iot)
-				KERNEL_FLAVOURS='image-intel'
+				KERNEL_FLAVOURS='intel-iotg'
 				;;
 		esac
 		;;
