@@ -897,9 +897,15 @@ case $PROJECT in
 				# the GA and HWE kernels (in separate layers) so this code is
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
-
-				# variants='ga hwe'
-				variants='ga'
+				case ${SUBARCH-} in
+					intel-iot)
+						variants='intel'
+						;;
+					*)
+						# variants='ga hwe'
+						variants='ga'
+						;;
+				esac
 
 				for variant in $variants; do
 					if [ "$variant" = "ga" ]; then
@@ -908,6 +914,9 @@ case $PROJECT in
 					elif [ "$variant" = "hwe" ]; then
 						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 						flavor=generic-hwe
+					elif [ "$variant" = "intel" ]; then
+						kernel_metapkg=linux-intel-iotg
+						flavor=intel-iotg
 					else
 						echo "bogus variant: $variant"
 						exit 1

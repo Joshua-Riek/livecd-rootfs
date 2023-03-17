@@ -3,6 +3,8 @@ livecd-rootfs (2.813) UNRELEASED; urgency=medium
   * Make sure that for devel we also use the right intel-iot kernel flavor
     for the images. We don't build any for this series, but it's good to have
     parity in the devel branch.
+  * Add support for building intel-iot server images. Not used in lunar, but
+    adding to keep devel up-to-date with changes.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 17 Mar 2023 11:53:09 +0100
 
