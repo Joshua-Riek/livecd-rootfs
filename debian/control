@@ -40,7 +40,7 @@ Depends: ${misc:Depends},
          u-boot-tools [armhf arm64],
          ubuntu-image [!i386 !riscv64],
          python3-vmdkstream [amd64 i386],
-         xorriso,
+         xorriso [!i386],
          xz-utils,
          zerofree
 Breaks: ubuntu-defaults-builder (<< 0.32)
