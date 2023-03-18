@@ -1,4 +1,4 @@
-livecd-rootfs (2.813) UNRELEASED; urgency=medium
+livecd-rootfs (2.813) lunar; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Make sure that for devel we also use the right intel-iot kernel flavor
@@ -10,7 +10,7 @@ livecd-rootfs (2.813) UNRELEASED; urgency=medium
   [ Steve Langasek ]
   * No new dependencies on i386 (xorriso).
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 17 Mar 2023 11:53:09 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 18 Mar 2023 08:25:03 -0700
 
 livecd-rootfs (2.812) lunar; urgency=medium
 
