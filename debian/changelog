@@ -1,3 +1,11 @@
+livecd-rootfs (2.814) lunar; urgency=medium
+
+  * Adjust journald settings for live-server for compatibility with Subiquity.
+    With a move to core22 we can turn zstd back on, but the new compact flag
+    needs to be off. (LP: #2006985)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 20 Mar 2023 15:00:52 -0600
+
 livecd-rootfs (2.813) lunar; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
