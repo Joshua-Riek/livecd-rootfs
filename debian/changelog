@@ -1,3 +1,9 @@
+livecd-rootfs (2.815) UNRELEASED; urgency=medium
+
+  * revert ipc change. kernel 6.2 will have the correct setting 
+
+ -- jchittum <john.chittum@canononical.com>  Tue, 21 Mar 2023 14:05:16 -0500
+
 livecd-rootfs (2.814) lunar; urgency=medium
 
   * Adjust journald settings for live-server for compatibility with Subiquity.
