@@ -1,4 +1,4 @@
-livecd-rootfs (2.815) UNRELEASED; urgency=medium
+livecd-rootfs (2.815) lunar; urgency=medium
 
   [ Dan Bungert ]
   * debian/control: depend on zstd to fix unmkinitramfs failure.
