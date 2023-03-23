@@ -42,7 +42,8 @@ Depends: ${misc:Depends},
          python3-vmdkstream [amd64 i386],
          xorriso [!i386],
          xz-utils,
-         zerofree
+         zerofree,
+         zstd
 Breaks: ubuntu-defaults-builder (<< 0.32)
 Description: construction script for the livecd rootfs
  livecd-rootfs provides the script used to create the root filesystem

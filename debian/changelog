@@ -1,3 +1,16 @@
+livecd-rootfs (2.815) UNRELEASED; urgency=medium
+
+  [ Dan Bungert ]
+  * debian/control: depend on zstd to test unmkinitramfs failure.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Change the mini-iso livefs artifact name from .mini-iso.iso to .iso to be
+    more compatible with existing cdimage machinery.
+  * Rename variables accessed in the mini-iso to the equivalents exported to
+    binary hooks.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Mar 2023 10:43:29 +0100
+
 livecd-rootfs (2.814) lunar; urgency=medium
 
   * Adjust journald settings for live-server for compatibility with Subiquity.
