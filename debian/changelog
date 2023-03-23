@@ -1,7 +1,7 @@
 livecd-rootfs (2.815) UNRELEASED; urgency=medium
 
   [ Dan Bungert ]
-  * debian/control: depend on zstd to test unmkinitramfs failure.
+  * debian/control: depend on zstd to fix unmkinitramfs failure.
 
   [ Łukasz 'sil2100' Zemczak ]
   * Change the mini-iso livefs artifact name from .mini-iso.iso to .iso to be
