@@ -1,3 +1,12 @@
+livecd-rootfs (2.816) lunar; urgency=medium
+
+  [ Chad Smith ]
+  * Replace cloud-init.service on NetworkManager images to address an ordering
+    cycle interfering with autoinstall with ubuntu-desktop-installer.
+    (LP: #2008952)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 24 Mar 2023 18:35:46 -0600
+
 livecd-rootfs (2.815) lunar; urgency=medium
 
   [ Dan Bungert ]
