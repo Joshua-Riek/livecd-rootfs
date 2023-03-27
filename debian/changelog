@@ -1,8 +1,9 @@
-livecd-rootfs (2.817) UNRELEASED; urgency=medium
+livecd-rootfs (2.817) lunar; urgency=medium
 
+  [ John Chittum ]
   * revert ipc change. kernel 6.2 will have the correct setting 
 
- -- jchittum <john.chittum@canononical.com>  Tue, 21 Mar 2023 14:05:16 -0500
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 27 Mar 2023 12:11:06 -0700
 
 livecd-rootfs (2.816) lunar; urgency=medium
 
