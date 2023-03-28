@@ -17,12 +17,10 @@ if [ "$IMAGEFORMAT" == "none" ]; then
         /usr/sbin/oem-config-prepare --quiet
         touch "/var/lib/oem-config/run"
 
-        # Update the fstab to include the "discard" option, and
-        # "x-systemd.growfs" to ensure the root partition is expanded on first
-        # boot
+        # Update the fstab to include the "discard" option
         awk \
             -v root_fs_label="writable" \
-            -v root_fs_options="discard,x-systemd.growfs" \
+            -v root_fs_options="discard" \
             '
         BEGIN { OFS="\t"; count=0; }
 
