@@ -5,6 +5,8 @@ livecd-rootfs (2.818) UNRELEASED; urgency=medium
     ubuntu-raspi-settings-desktop
   * raspi: drop 01-network-manager-all.yaml in favour of configuration
     provided by ubuntu-raspi-settings-desktop
+  * raspi: drop growfs option from fstab in favour of growroot-almost
+    service provided by ubuntu-raspi-settings-desktop
 
  -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
 
