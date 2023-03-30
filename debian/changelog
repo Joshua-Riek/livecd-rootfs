@@ -1,5 +1,6 @@
 livecd-rootfs (2.818) UNRELEASED; urgency=medium
 
+  [ Dave Jones ]
   * raspi: drop mkswap.service and swapfile.swap units in
     099-ubuntu-image-customization.chroot in favour of units provided by
     ubuntu-raspi-settings-desktop
@@ -7,6 +8,9 @@ livecd-rootfs (2.818) UNRELEASED; urgency=medium
     provided by ubuntu-raspi-settings-desktop
   * raspi: drop growfs option from fstab in favour of growroot-almost
     service provided by ubuntu-raspi-settings-desktop
+
+  [ William 'jawn-smith' Wilson ]
+  * Skip oem-config setup in hooks if the oem user already exists.
 
  -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
 
