@@ -9,7 +9,11 @@ case $ARCH in
         ;;
 esac
 
-case ${PROJECT:-} in
+case ${PROJECT:-}:${SUBPROJECT:-} in
+    *:canary)
+        echo "We don't create EFI images for canary."
+        exit 0
+        ;;
     ubuntu)
         IMAGE_STR="# DESKTOP_IMG: This file was created/modified by the Desktop Image build process"
         FS_LABEL="desktop-rootfs"

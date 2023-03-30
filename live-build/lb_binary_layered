@@ -116,7 +116,9 @@ build_layered_squashfs () {
 		create_manifest "chroot" "${squashfs_f_manifest}.full"
 
 		# Delta manifest
-		diff -NU0 ${PWD}/livecd.${PROJECT_FULL}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+		diff -NU0 ${PWD}/livecd.${PROJECT_FULL}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest || true
+		echo "Delta manifest:"
+		cat $squashfs_f_manifest
 
 		squashfs_f_size="${base}.size"
 		du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"

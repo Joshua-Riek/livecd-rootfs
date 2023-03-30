@@ -1,0 +1,26 @@
+#! /bin/sh
+
+case $PASS in
+    minimal.standard.live)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+case ${SUBPROJECT:-} in
+    canary)
+        ;;
+    *)
+        echo "We don't run canary hooks for this project."
+        exit 0
+        ;;
+esac
+
+cat <<EOF > /etc/initramfs-tools/conf.d/casperize.conf
+export CASPER_GENERATE_UUID=1
+EOF
+
+cat <<EOF > /etc/initramfs-tools/conf.d/default-layer.conf
+LAYERFS_PATH=${PASS}.squashfs
+EOF
