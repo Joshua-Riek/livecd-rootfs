@@ -12,6 +12,9 @@ livecd-rootfs (2.818) UNRELEASED; urgency=medium
   [ William 'jawn-smith' Wilson ]
   * Skip oem-config setup in hooks if the oem user already exists.
 
+  [ Steve Langasek ]
+  * Update URL to point to ubuntu-archive-team.ubuntu.com.
+
  -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
 
 livecd-rootfs (2.817) lunar; urgency=medium

@@ -12,7 +12,7 @@ fi
 
 echo "Building on $(hostname --fqdn)"
 
-SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
+SEEDMIRROR=https://ubuntu-archive-team.ubuntu.com/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
