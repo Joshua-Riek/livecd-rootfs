@@ -37,11 +37,9 @@ for entry in output:
         if 'variations' not in template:
             print("Non unique id in source catalog but no variations!")
             sys.exit(1)
-        if 'variations' not in entry:
-            entry['variations'] = {}
         for k, variation in template['variations'].items():
             variation['size'] = int(opts.size)
-        entry['variations'].update(template['variations'])
+        entry.setdefault('variations', {}).update(template['variations'])
         break
 else:
     # No entry with this id found, so add a new one.

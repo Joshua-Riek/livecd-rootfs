@@ -756,6 +756,7 @@ case $PROJECT in
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package minimal.standard.enhanced-secureboot cryptsetup
 				# now let's create the neccessary catalog files
+				# TODO: make sure that we handle locale_support: langpack correctly
 				cat <<-EOF > config/minimal.catalog-in.yaml
 					name: "Ubuntu Desktop (minimized)"
 					description: >-
@@ -763,7 +764,7 @@ case $PROJECT in
 					id: ubuntu-desktop-minimal
 					type: fsimage-layered
 					variant: desktop
-					locale_support: langpack
+					locale_support: none
 				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
@@ -772,7 +773,7 @@ case $PROJECT in
 					id: ubuntu-desktop
 					type: fsimage-layered
 					variant: desktop
-					locale_support: langpack
+					locale_support: none
 					default: yes
 				EOF
 				cat <<-EOF > config/minimal.standard.classic.catalog-in.yaml
