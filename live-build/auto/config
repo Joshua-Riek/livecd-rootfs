@@ -334,9 +334,8 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
 			case $ARCH+${SUBARCH:-} in
-				*+raspi|riscv64+?*)
-					# All raspi and RISC-V images that *have* a SUBARCH will now
-					# use ubuntu-image.
+				*+raspi)
+					# All raspi images use ubuntu-image.
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
