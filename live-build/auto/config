@@ -343,9 +343,6 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 					;;
 			esac
 			;;
-		ubuntu-base:*)
-			IMAGEFORMAT=ubuntu-image
-			;;
 		ubuntu-server:live|ubuntu-mini-iso:)
 			IMAGEFORMAT=plain
 			;;
