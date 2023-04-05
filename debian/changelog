@@ -1,4 +1,4 @@
-livecd-rootfs (2.818) UNRELEASED; urgency=medium
+livecd-rootfs (2.818) lunar; urgency=medium
 
   [ Dave Jones ]
   * raspi: drop mkswap.service and swapfile.swap units in
