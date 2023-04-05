@@ -1,3 +1,13 @@
+livecd-rootfs (2.819) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * Add image for StarFive VisionFive 2.
+
+  [ Steve Langasek ]
+  * Update URL to point to ubuntu-archive-team.ubuntu.com.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 05 Apr 2023 18:01:07 +0200
+
 livecd-rootfs (2.818) lunar; urgency=medium
 
   [ Dave Jones ]
@@ -12,13 +22,7 @@ livecd-rootfs (2.818) lunar; urgency=medium
   [ William 'jawn-smith' Wilson ]
   * Skip oem-config setup in hooks if the oem user already exists.
 
-  [ Steve Langasek ]
-  * Update URL to point to ubuntu-archive-team.ubuntu.com.
-
-  [ Heinrich Schuchardt ]
-  * Add image for StarFive VisionFive 2.
-
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 05 Apr 2023 17:21:21 +0200
+ -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
 
 livecd-rootfs (2.817) lunar; urgency=medium
 
