@@ -1,4 +1,4 @@
-livecd-rootfs (2.819) UNRELEASED; urgency=medium
+livecd-rootfs (2.819) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]
   * Add image for StarFive VisionFive 2.
