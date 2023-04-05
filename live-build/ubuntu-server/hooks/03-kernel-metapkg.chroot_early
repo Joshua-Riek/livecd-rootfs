@@ -11,6 +11,8 @@ case $PASS in
             kernel_metapkg=linux-generic
         elif [ "$flavor" = "generic-hwe" ]; then
             kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
+        elif [ "$flavor" = "intel-iotg" ]; then
+            kernel_metapkg=linux-intel-iotg
         else
             echo "bogus flavor: $flavor"
             exit 1

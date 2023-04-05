@@ -56,9 +56,12 @@ build_layered_squashfs () {
 
 	Echo_message "lb_binary_layered: treating pass $pass"
 
+	# Per convention, we include the subarch name next to the project
+	PROJECT_FULL=$PROJECT${SUBARCH:+-$SUBARCH}
+
 	# Building squashfs filesystem & manifest
 	local overlay_dir="overlay.${pass}"
-	base="${PWD}/livecd.${PROJECT}.${pass}"
+	base="${PWD}/livecd.${PROJECT_FULL}.${pass}"
 	squashfs_f="${base}.squashfs"
 
 	# We have already treated that pass
@@ -113,7 +116,7 @@ build_layered_squashfs () {
 		create_manifest "chroot" "${squashfs_f_manifest}.full"
 
 		# Delta manifest
-		diff -NU0 ${PWD}/livecd.${PROJECT}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
+		diff -NU0 ${PWD}/livecd.${PROJECT_FULL}.$(get_parent_pass $pass).manifest.full ${squashfs_f_manifest}.full|grep -v ^@ > $squashfs_f_manifest
 
 		squashfs_f_size="${base}.size"
 		du -B 1 -s "overlay.${pass}/" | cut -f1 > "${squashfs_f_size}"
@@ -121,7 +124,7 @@ build_layered_squashfs () {
 		# We take first live pass for "global" ISO properties (used by installers and checkers):
 		# Prepare initrd + kernel
 		# Main manifest and size files
-		prefix="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
+		prefix="livecd.$PROJECT_FULL"
 		if [ ! -e "${prefix}.manifest" ] && $(is_live_layer "$pass"); then
 			totalsize=$(cat ${squashfs_f_size})
 			curpass="$pass"
@@ -130,7 +133,7 @@ build_layered_squashfs () {
 				# We climbed up the tree to the root layer, we are done
 				[ -z "$curpass" ] && break
 
-				totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT}.${curpass}.size"))
+				totalsize=$(expr $totalsize + $(cat "${PWD}/livecd.${PROJECT_FULL}.${curpass}.size"))
 			done
 			echo ${totalsize} > "${prefix}.size"
 
@@ -141,7 +144,7 @@ build_layered_squashfs () {
 
 		if [ -f config/$pass.catalog-in.yaml ]; then
 			echo "Expanding catalog entry template for $pass"
-			usc_opts="--output livecd.${PROJECT}.install-sources.yaml \
+			usc_opts="--output livecd.${PROJECT_FULL}.install-sources.yaml \
 				--template config/$pass.catalog-in.yaml \
 				--size $(du -B 1 -s chroot/ | cut -f1) --squashfs ${pass}.squashfs \
 				--translations config/catalog-translations"
@@ -168,9 +171,9 @@ do
 done
 
 # Ubiquity-compatible removal manifest for ISO not using a layered-aware installer
-if [ -n "$(ls livecd.${PROJECT}.*install.live.manifest.full 2>/dev/null)" ] && \
-   [ -n "$(ls livecd.${PROJECT}.*install.manifest.full 2>/dev/null)" ]; then
-	echo "$(diff livecd.${PROJECT}.*install.live.manifest.full livecd.${PROJECT}.*install.manifest.full | awk '/^< / { print $2 }')" > livecd.${PROJECT}-manifest-remove
+if [ -n "$(ls livecd.${PROJECT_FULL}.*install.live.manifest.full 2>/dev/null)" ] && \
+   [ -n "$(ls livecd.${PROJECT_FULL}.*install.manifest.full 2>/dev/null)" ]; then
+	echo "$(diff livecd.${PROJECT_FULL}.*install.live.manifest.full livecd.${PROJECT_FULL}.*install.manifest.full | awk '/^< / { print $2 }')" > livecd.${PROJECT_FULL}-manifest-remove
 fi
 
 chmod 644 *.squashfs *.manifest* *.size

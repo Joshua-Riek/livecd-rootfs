@@ -18,3 +18,10 @@ ln -s /bin/true /usr/bin/snap
 yes | /usr/local/sbin/unminimize
 rm /usr/bin/snap
 dpkg-divert --remove --rename /usr/bin/snap
+
+# Fix up missing recommends.  Other non-layered flavors handle this in
+# live-build/auto/build, but we need to do it here.  Also, there are
+# additional recommends missing from server-minimal that wouldn't be
+# corrected by a fix to debootstrap to handle Recommends.
+echo "Installing any missing recommends"
+env DEBIAN_FRONTEND=noninteractive apt-get -y --fix-policy install

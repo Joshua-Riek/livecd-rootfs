@@ -12,7 +12,7 @@ fi
 
 echo "Building on $(hostname --fqdn)"
 
-SEEDMIRROR=http://people.canonical.com/~ubuntu-archive/seeds/
+SEEDMIRROR=https://ubuntu-archive-team.ubuntu.com/seeds/
 if [ -z "$MIRROR" ]; then
 	case $(hostname --fqdn) in
 		*.ubuntu.com)		MIRROR=http://ftpmaster.internal/ubuntu/
@@ -346,8 +346,28 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 		ubuntu-base:*)
 			IMAGEFORMAT=ubuntu-image
 			;;
-		ubuntu-server:live)
+		ubuntu-server:live|ubuntu-mini-iso:)
 			IMAGEFORMAT=plain
+			;;
+	esac
+fi
+
+# Configure preinstalled ubuntu-cpc images with included password
+# one also must request disk1-img-xz image format
+if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
+	case $ARCH:$SUBARCH in
+		armhf:raspi2 | \
+		riscv64:icicle | \
+		riscv64:nezha | \
+		riscv64:licheerv | \
+		riscv64:sifive_* | \
+		riscv64:visionfive | \
+		riscv64:visionfive2 | \
+		*:generic)
+			IMAGE_HAS_HARDCODED_PASSWORD=1
+			if [ -z "${IMAGE_TARGETS:-}" ]; then
+				export IMAGE_TARGETS="disk1-img-xz"
+			fi
 			;;
 	esac
 fi
@@ -367,6 +387,8 @@ case $IMAGEFORMAT in
 		case $PROJECT:${SUBPROJECT:-} in
 			ubuntu-server:live)
 	                        touch config/universe-enabled
+				;;
+			ubuntu-mini-iso:)
 				;;
 			*)
 				PREINSTALLED=true
@@ -396,6 +418,8 @@ case $IMAGEFORMAT in
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
+			arm64+*)
+				MODEL=pc-arm64 ;;
 			*)
 				echo "Model $ARCH+${SUBARCH:-} unknown to livecd-rootfs" >&2
 				exit 1
@@ -414,7 +438,7 @@ case $IMAGEFORMAT in
 
 			CHANNEL="${CHANNEL:-edge}"
 			case $MODEL in
-				pc-amd64)
+				pc-amd64|pc-arm64)
 					if [ -z "${SUBARCH:-}" ]; then
 						# This is to make sure there's enough writable space
 						UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --image-size 3700M"
@@ -556,7 +580,7 @@ if [ "$PREINSTALLED" = "true" ]; then
 		ubuntu-server)
 			add_package live oem-config-debconf ubiquity-frontend-debconf
 			;;
-		ubuntu-base|ubuntu-oci|ubuntu-cpc|ubuntu-wsl)
+		ubuntu-base|ubuntu-oci|ubuntu-cpc|ubuntu-wsl|ubuntu-mini-iso)
 			;;
 		ubuntu)
 			add_package live oem-config-gtk ubiquity-frontend-gtk
@@ -611,16 +635,19 @@ case $PROJECT in
         ubuntustudio*)
                 SEED=ubuntustudio.$SUITE
                 ;;
+        ubuntucinnamon*)
+                SEED=ubuntucinnamon.$SUITE
+                ;;
         *)
                 SEED=ubuntu.$SUITE
                 ;;
 esac
 
 case $PROJECT in
-	ubuntu-server)
+	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	kubuntu|kubuntu-dvd|kubuntu-plasma5|ubuntu-gnome|ubuntu-budgie|ubuntukylin)
+	kubuntu|kubuntu-dvd|kubuntu-plasma5|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
 		COMPONENTS='main restricted universe'
 		;;
 	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
@@ -654,7 +681,7 @@ case $PROJECT in
 				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
 				KERNEL_FLAVOURS='generic-hwe-22.04'
 				if [ "$SUBARCH" = "intel-iot" ]; then
-					KERNEL_FLAVOURS='image-intel'
+					KERNEL_FLAVOURS='intel-iotg'
 				fi
 				;;
 			desktop-preinstalled)
@@ -672,7 +699,7 @@ case $PROJECT in
 						OPTS="${OPTS:+$OPTS }--ext-fudge-factor=15"
 						;;
 					intel-iot)
-						KERNEL_FLAVOURS='image-intel'
+						KERNEL_FLAVOURS='intel-iotg'
 						OPTS="${OPTS:+$OPTS }--initramfs=none"
 						OPTS="${OPTS:+$OPTS }--system=normal"
 						OPTS="${OPTS:+$OPTS }--hdd-label=cloudimg-rootfs"
@@ -742,8 +769,34 @@ case $PROJECT in
 		add_chroot_hook remove-gnome-icon-cache
 		;;
 
+	edubuntu)
+		add_task install minimal standard ubuntu-desktop-minimal edubuntu-desktop-gnome
+		LIVE_TASK='edubuntu-live'
+		;;
+
+	ubuntucinnamon)
+		add_task install minimal standard
+		add_package install ubuntucinnamon-desktop
+		# XXX: Adding live packages manually temporarily until we have
+		#  the live task for ubuntucinnamon set up properly.
+		add_package live ubiquity-frontend-gtk
+		add_package live ubiquity-ubuntu-artwork ubiquity-slideshow-ubuntu
+		add_package live gtk-im-libthai ibus-hangul ibus-mozc ibus-unikey
+		add_package live zfsutils-linux zfs-initramfs zsys
+		add_package live sssd realmd adcli
+		add_package live gparted cifs-utils
+		KERNEL_FLAVOURS=generic
+		;;
+
 	xubuntu)
-		add_task install minimal standard xubuntu-desktop
+		case ${SUBPROJECT:-} in
+			minimal)
+				add_task install minimal standard xubuntu-minimal
+				;;
+			*)
+				add_task install minimal standard xubuntu-desktop
+				;;
+		esac
 		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		case $ARCH in
@@ -831,9 +884,15 @@ case $PROJECT in
 				# the GA and HWE kernels (in separate layers) so this code is
 				# written generically to support both even though a lot of the
 				# time only one kernel is offered.
-
-				# variants='ga hwe'
-				variants='ga'
+				case ${SUBARCH:-} in
+					intel-iot)
+						variants='intel'
+						;;
+					*)
+						# variants='ga hwe'
+						variants='ga'
+						;;
+				esac
 
 				for variant in $variants; do
 					if [ "$variant" = "ga" ]; then
@@ -842,6 +901,9 @@ case $PROJECT in
 					elif [ "$variant" = "hwe" ]; then
 						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 						flavor=generic-hwe
+					elif [ "$variant" = "intel" ]; then
+						kernel_metapkg=linux-intel-iotg
+						flavor=intel-iotg
 					else
 						echo "bogus variant: $variant"
 						exit 1
@@ -874,6 +936,25 @@ case $PROJECT in
 		PREINSTALL_POOL_SEEDS='server-ship'
 		;;
 
+	ubuntu-mini-iso)
+		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+
+		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+		KERNEL_FLAVOURS=none
+		BINARY_REMOVE_LINUX=false
+
+		add_package install mini-iso-tools openssl ca-certificates isc-dhcp-client linux-generic
+		case $ARCH in
+			amd64)
+				add_package install cd-boot-images-amd64
+				;;
+			*)
+				echo "unexpected architecture for $PROJECT: '$ARCH'"
+				exit 1
+				;;
+		esac
+		;;
+
 	ubuntu-base)
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
@@ -883,7 +964,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-wsl)
-		add_task install minimal standard ubuntu-wsl
+		add_task install minimal ubuntu-wsl
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
@@ -925,7 +1006,7 @@ case $PROJECT in
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
 				elif [ "${SUBARCH:-}" = "intel-iot" ]; then
-					KERNEL_FLAVOURS=image-intel
+					KERNEL_FLAVOURS=intel-iotg
 					OPTS="${OPTS:+$OPTS }--initramfs=none"
 				fi
 				;;
@@ -1000,9 +1081,11 @@ case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-server:live)
 		BASE_SEED='server'
 		;;
-	ubuntu-base:*|ubuntu-core:*)
+	ubuntu-base:*|ubuntu-core:*|ubuntu-mini-iso:)
 		;;
 	ubuntu-oci:*)
+		;;
+	xubuntu:minimal)
 		;;
 	*)
 		BASE_SEED='desktop'
@@ -1109,7 +1192,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
 		case $SUBARCH in
 			intel-iot)
-				KERNEL_FLAVOURS='image-intel'
+				KERNEL_FLAVOURS='intel-iotg'
 				;;
 		esac
 		;;
@@ -1171,7 +1254,7 @@ if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
 fi
 
 case $PROJECT in
-  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|ubuntu-wsl)
+  ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|ubuntu-wsl|ubuntu-mini-iso)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
     # not want this group in projects that are effectively just chroots
     ;;
@@ -1330,7 +1413,7 @@ EOF
 		fi
 		;;
 
-	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
+	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled|ubuntu-wsl:*|ubuntu-mini-iso:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in

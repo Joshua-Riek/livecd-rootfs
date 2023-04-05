@@ -1,0 +1,79 @@
+#!/bin/sh
+
+set -eu
+
+case $ARCH in
+    amd64)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+. config/binary
+
+KERNEL=chroot/boot/vmlinuz
+INITRD=chroot/boot/initrd.img
+
+mkdir -p "chroot/etc/initramfs-tools/conf.d"
+cat > chroot/etc/initramfs-tools/conf.d/casperize.conf <<EOF
+export CASPER_GENERATE_UUID=1
+EOF
+
+chroot chroot update-initramfs -u
+
+case $ARCH in
+    amd64)
+        mkdir -p "ubuntu-mini-iso/amd64"
+        cp -a chroot/usr/share/cd-boot-images-amd64/tree ubuntu-mini-iso/amd64/tree
+        cp -a chroot/usr/share/cd-boot-images-amd64/images ubuntu-mini-iso/amd64/images
+        mkdir -p "ubuntu-mini-iso/amd64/tree/casper"
+        cp "$KERNEL" ubuntu-mini-iso/amd64/tree/casper/vmlinuz
+        cp "$INITRD" ubuntu-mini-iso/amd64/tree/casper/initrd
+        mkdir -p "ubuntu-mini-iso/amd64/tree/boot/grub"
+        cat > ubuntu-mini-iso/amd64/tree/boot/grub/grub.cfg <<EOF
+menuentry "Choose an Ubuntu version to install" {
+        set gfxpayload=keep
+        linux /casper/vmlinuz iso-chooser-menu ip=dhcp ---
+        initrd /casper/initrd
+}
+EOF
+        ;;
+esac
+
+mkdir -p ubuntu-mini-iso/$ARCH/tree/.disk
+
+touch ubuntu-mini-iso/$ARCH/tree/.disk/base_installable
+
+tmpdir=$(mktemp -d)
+unmkinitramfs $INITRD $tmpdir
+if [ -e "$tmpdir/main/conf/uuid.conf" ]; then
+    uuid_conf="$tmpdir/main/conf/uuid.conf"
+elif [ -e "$tmpdir/conf/uuid.conf" ]; then
+    uuid_conf="$tmpdir/conf/uuid.conf"
+else
+    echo "uuid.conf not found"
+    exit 1
+fi
+cp "$uuid_conf" ubuntu-mini-iso/$ARCH/tree/.disk/casper-uuid-generic
+rm -fr $tmpdir
+
+cat > ubuntu-mini-iso/$ARCH/tree/.disk/cd_type <<EOF
+full_cd/single
+EOF
+
+version=$(distro-info --fullname --series=$LB_DISTRIBUTION \
+          | sed s'/^Ubuntu/ubuntu-mini-iso/')
+
+cat > ubuntu-mini-iso/$ARCH/tree/.disk/info <<EOF
+$version - $ARCH ($BUILDSTAMP)
+EOF
+
+dest="${PWD}/livecd.${PROJECT}.iso"
+xorriso="$(cat chroot/usr/share/cd-boot-images-amd64/xorriso-cmd.txt)"
+
+cd ubuntu-mini-iso/$ARCH
+$xorriso -o $dest
+cd ../..
+
+rm -rf ubuntu-mini-iso

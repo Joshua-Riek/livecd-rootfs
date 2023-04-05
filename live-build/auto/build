@@ -330,6 +330,16 @@ EOF
                 chmod +x chroot/usr/bin/man
 	fi
 
+	if [ "${SUBPROJECT:-}" != minimized ] \
+	   && [ "${PROJECT}" != "ubuntu-server" ]
+	then
+		# debootstrap doesn't handle Recommends and fixing this is
+		# non-trivial, so install missing Recommends here
+		echo "Installing any missing recommends"
+		Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+			apt-get -y --fix-policy install"
+	fi
+
 	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb chroot_layered "$@"
 	else
@@ -485,6 +495,18 @@ EOF
 		clean_debian_chroot
 	fi
 
+	# XXX: Terrible last-minute hack to work-around issue LP: #2008082 !
+	#  This basically needs to be done better, we simply need to make sure
+	#  that we don't update the cache after lb cleans up. Since identifying
+	#  that might take a moment, for now, for flavors that are generally
+	#  affected by this, we manually clear out the archive-related Packages
+	#  files in the cache.
+	case $PROJECT in
+		ubuntu|xubuntu|kubuntu|ubuntu-budgie|ubuntukylin|ubuntu-mate)
+			rm -f chroot/var/lib/apt/lists/*ubuntu.com*_Packages
+			;;
+	esac
+
 	if [ -n "${PASSES}" ]; then
 		PATH="config/:$PATH" lb binary_layered "$@"
 	else
@@ -587,6 +609,9 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 			;;
 		image-intel)
 			FLAVOUR="intel"
+			;;
+		intel-iotg*)
+			FLAVOUR="intel-iotg"
 			;;
 	esac
 	KVERS="$( (cd "binary/$INITFS"; ls vmlinu?-* 2>/dev/null || true) | (fgrep -v .efi || true) | sed -n "s/^vmlinu.-\\([^-]*-[^-]*-$FLAVOUR\\)$/\\1/p" )"

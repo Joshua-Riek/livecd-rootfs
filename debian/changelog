@@ -1,3 +1,221 @@
+livecd-rootfs (2.819) lunar; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * Add image for StarFive VisionFive 2.
+
+  [ Steve Langasek ]
+  * Update URL to point to ubuntu-archive-team.ubuntu.com.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 05 Apr 2023 18:01:07 +0200
+
+livecd-rootfs (2.818) lunar; urgency=medium
+
+  [ Dave Jones ]
+  * raspi: drop mkswap.service and swapfile.swap units in
+    099-ubuntu-image-customization.chroot in favour of units provided by
+    ubuntu-raspi-settings-desktop
+  * raspi: drop 01-network-manager-all.yaml in favour of configuration
+    provided by ubuntu-raspi-settings-desktop
+  * raspi: drop growfs option from fstab in favour of growroot-almost
+    service provided by ubuntu-raspi-settings-desktop
+
+  [ William 'jawn-smith' Wilson ]
+  * Skip oem-config setup in hooks if the oem user already exists.
+
+ -- Dave Jones <dave.jones@canonical.com>  Tue, 28 Mar 2023 14:38:55 +0100
+
+livecd-rootfs (2.817) lunar; urgency=medium
+
+  [ John Chittum ]
+  * revert ipc change. kernel 6.2 will have the correct setting 
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 27 Mar 2023 12:11:06 -0700
+
+livecd-rootfs (2.816) lunar; urgency=medium
+
+  [ Chad Smith ]
+  * Replace cloud-init.service on NetworkManager images to address an ordering
+    cycle interfering with autoinstall with ubuntu-desktop-installer.
+    (LP: #2008952)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 24 Mar 2023 18:35:46 -0600
+
+livecd-rootfs (2.815) lunar; urgency=medium
+
+  [ Dan Bungert ]
+  * debian/control: depend on zstd to fix unmkinitramfs failure.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Change the mini-iso livefs artifact name from .mini-iso.iso to .iso to be
+    more compatible with existing cdimage machinery.
+  * Rename variables accessed in the mini-iso to the equivalents exported to
+    binary hooks.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 23 Mar 2023 10:43:29 +0100
+
+livecd-rootfs (2.814) lunar; urgency=medium
+
+  * Adjust journald settings for live-server for compatibility with Subiquity.
+    With a move to core22 we can turn zstd back on, but the new compact flag
+    needs to be off. (LP: #2006985)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 20 Mar 2023 15:00:52 -0600
+
+livecd-rootfs (2.813) lunar; urgency=medium
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Make sure that for devel we also use the right intel-iot kernel flavor
+    for the images. We don't build any for this series, but it's good to have
+    parity in the devel branch.
+  * Add support for building intel-iot server images. Not used in lunar, but
+    adding to keep devel up-to-date with changes.
+
+  [ Steve Langasek ]
+  * No new dependencies on i386 (xorriso).
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 18 Mar 2023 08:25:03 -0700
+
+livecd-rootfs (2.812) lunar; urgency=medium
+
+  * Inform cloud-init when network manager is in use.  (LP: #1982855)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 09 Mar 2023 14:59:17 -0600
+
+livecd-rootfs (2.811) lunar; urgency=medium
+
+  [ John Chittum ]
+  * fix: remove ipc from apparmor features in 6.1
+  * open 2.810 release
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Thu, 09 Mar 2023 18:10:05 +0000
+
+livecd-rootfs (2.810) lunar; urgency=medium
+
+  * Add ubuntu-mini-iso build project.
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 06 Mar 2023 08:17:11 -0700
+
+livecd-rootfs (2.809) lunar; urgency=medium
+
+  * Do not use the ubuntucinnamon-desktop task for cinnamon builds, it doesn't
+    seem to be present in the archive yet. Use the metapackage instead, which
+    seems like a better way forward anyway. For the live task, temporarily use
+    a hard-coded list of packages.
+  * Explicitly define the kernel flavor for ubuntucinnamon.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 06 Mar 2023 11:27:02 +0100
+
+livecd-rootfs (2.808) lunar; urgency=medium
+
+  * Add ubuntucinnamon to the seed-determination switch-case.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 03 Mar 2023 15:07:06 +0100
+
+livecd-rootfs (2.807) lunar; urgency=medium
+
+  * auto/config: Add support for ubuntu core arm64 generic images (LP: #2009067)
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Thu, 02 Mar 2023 18:18:18 +0000
+
+livecd-rootfs (2.806) lunar; urgency=medium
+
+  [ Sean Davis ]
+  * Remove snap base seed for xubuntu:minimal
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 28 Feb 2023 08:00:08 -0800
+
+livecd-rootfs (2.805) lunar; urgency=medium
+
+  * riscv64: set attribute required partition for firmware.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 27 Feb 2023 21:49:27 +1300
+
+livecd-rootfs (2.804) lunar; urgency=medium
+
+  * Clarified with Erich that edubuntu should install ubuntu-desktop-minimal
+    task.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 21:11:56 -0800
+
+livecd-rootfs (2.803) lunar; urgency=medium
+
+  * Fix wrong task name for xubuntu-minimal.
+  * Fix edubuntu build: ubuntu-minimal is not a task and minimal is already
+    declared.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 21:05:48 -0800
+
+livecd-rootfs (2.802) lunar; urgency=medium
+
+  * Address the fact that debootstrap doesn't follow Recommends and as a
+    result we're missing several Recommends that should be installed by
+    default and are on upgrades but not on new installs.  This is not
+    applied to minimized images, which don't follow Recommends; but does get
+    separately applied to the ubuntu-server full squashfs.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 24 Feb 2023 17:47:54 -0800
+
+livecd-rootfs (2.801) lunar; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * RISC-V: avoid soft lockup Radeon GPUs. With Radeon GPUs and kernel 5.19 a
+    soft lockup was observed. Increase the watchdog threshold.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Add ubuntucinnamon to the supported flavours.
+  * Terrible hack workaround for clearing out the non-offline apt cache
+    for desktop related images.
+
+  [ Dimitri John Ledkov ]
+  * ubuntu-cpc: set default ext4 mount option commit=30 (LP: #2006511).
+  * Cherry-pick jammy point release fixes.
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Fri, 24 Feb 2023 12:20:04 +0000
+
+livecd-rootfs (2.800) lunar; urgency=medium
+
+  * WSL: do not depend on standard anymore.
+    Evolve the seed to only ship the specific part useful to WSL users. This
+    allows to trim down the image size.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 20 Feb 2023 11:59:25 +0100
+
+livecd-rootfs (2.799) lunar; urgency=medium
+
+  * Reintroduce edubuntu.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 14 Feb 2023 15:55:41 -0800
+
+livecd-rootfs (2.798) lunar; urgency=medium
+
+  * Add xubuntu minimal subproject.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 13 Feb 2023 21:07:27 -0800
+
+livecd-rootfs (2.797) lunar; urgency=medium
+
+  * Drop dependency on rsync, not used in a very long time and lets us drop
+    rsync on i386.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 01 Feb 2023 07:44:33 -0800
+
+livecd-rootfs (2.796) lunar; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv64: adjust U-Boot installation for Nezha D1 and LicheeRV. Since
+    version 2022.10 U-Boot SPL and U-Boot are installed onto the same
+    partition. Package nezha-boot0 is not needed anymore.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 09 Jan 2023 14:10:22 +0100
+
+livecd-rootfs (2.795) lunar; urgency=medium
+
+  * Don't depend on python3-launchpadlib on i386.  This breaks ppa-enabled
+    builds on i386, but avoids pulling in a large dependency tree that's
+    not otherwise needed on i386.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 05 Jan 2023 22:07:17 -0800
+
 livecd-rootfs (2.794) lunar; urgency=medium
 
   [ Sebastien Bacher ]
