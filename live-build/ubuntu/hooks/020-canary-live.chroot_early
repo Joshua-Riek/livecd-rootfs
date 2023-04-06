@@ -1,5 +1,7 @@
 #! /bin/sh
 
+set -eu
+
 case $PASS in
     minimal.standard.live)
         ;;
