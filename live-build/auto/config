@@ -521,6 +521,7 @@ case $IMAGEFORMAT in
 
 		# Save the model name used for building, mostly for any model-specific hook execution
 		echo "MODEL=$MODEL" >> config/common
+		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 		# Fake finished configuration for lb build
 		mkdir -p .build
 		touch .build/config
