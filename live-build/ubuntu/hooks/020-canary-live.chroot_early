@@ -8,6 +8,8 @@ case $PASS in
         ;;
 esac
 
+. /root/config/chroot
+
 case ${SUBPROJECT:-} in
     canary)
         ;;
