@@ -90,7 +90,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
 	export SNAPPY_STORE_NO_CDN=1
-	snap install --classic --channel=candidate/latest ubuntu-image
+	snap install --classic --channel=candidate ubuntu-image
 
 	# TODO: eventually, this should be handled by a single ubuntu-image
 	#  call without having to do a conditional on ubuntu-core/classic.
