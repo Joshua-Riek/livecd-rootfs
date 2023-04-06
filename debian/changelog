@@ -1,4 +1,4 @@
-livecd-rootfs (2.820) UNRELEASED; urgency=medium
+livecd-rootfs (2.820) lunar; urgency=medium
 
   * Initial implementation of canary image builds for 23.04.
 
