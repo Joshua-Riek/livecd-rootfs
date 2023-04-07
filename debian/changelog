@@ -8,7 +8,11 @@ livecd-rootfs (2.821) lunar; urgency=medium
     to control all netplan config written and apply to the ephemeral boot
     as generated from /etc/netplan/*. (LP: #2015605)
 
- -- Chad Smith <chad.smith@canonical.com>  Fri, 07 Apr 2023 16:48:58 -0600
+  [ Dan Bungert ]
+  * d/control: fix uninstallability of livecd-rootfs due to rsync not being on
+    i386.
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 07 Apr 2023 17:24:28 -0600
 
 livecd-rootfs (2.820) lunar; urgency=medium
 
