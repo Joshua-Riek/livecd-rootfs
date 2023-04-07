@@ -1008,17 +1008,18 @@ network:
   version: 2
   renderer: NetworkManager
 EOF
+        # Do not limit cloud-init renderers to network-manager as suggested
+        # in LP: #1982855 because subiquity needs to render full networking
+        # in ephemeral boot time when autoinstall.network is provided.
+        # Neither subiquity nor netplan is aware of /etc/NetworkManager config
+        # artifacts emmitted by cloud-init. It's best if cloud-init reports
+        # network config directly to /etc/netplan with the configured netplan
+        # backend: NetworkManager per 01-network-manager-all.yaml above.
 
-        # inform cloud-init of the same (LP: #1982855)
-        mkdir -p chroot/etc/cloud/cloud.cfg.d
-        cat <<EOF > chroot/etc/cloud/cloud.cfg.d/99-installer-use-networkmanager.cfg
-${AUTOMATION_HEADER}
-# Let NetworkManager manage all devices on this system
-system_info:
-  network:
-    renderers: ['network-manager']
-    activators: ['network-manager']
-EOF
+        # cloud-init's default renderer discovery will prefer netplan.
+        # Any time subiquity needs to write and apply network config
+        # it disables all previous network config in /etc/netplan so
+        # any previous 50-cloud-init.yaml will be rendered inert.
 
         # Position cloud-init.service After=NetworkManager.service.
         # (LP: #2008952).
