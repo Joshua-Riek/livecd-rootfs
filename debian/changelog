@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.21) UNRELEASED; urgency=medium
+
+  * add multiple kernel apparmor feature sets for snap preseeding (LP: 2015596).
+
+ -- jchittum <john.chittum@canonical.com>  Fri, 07 Apr 2023 14:45:10 -0500
+
 livecd-rootfs (2.765.20) jammy; urgency=medium
 
   * Enable building intel-iot live-server images (LP: #1980067).
