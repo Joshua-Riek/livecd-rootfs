@@ -1,4 +1,4 @@
-livecd-rootfs (2.821) UNRELEASED; urgency=medium
+livecd-rootfs (2.821) lunar; urgency=medium
 
   [ Chad Smith ]
   * desktop livecd: allow cloud-init to write netplan config instead of
