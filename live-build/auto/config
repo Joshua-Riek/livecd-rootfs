@@ -859,6 +859,9 @@ case $PROJECT in
 					amd64+intel-iot)
 						variants='intel'
 						;;
+					arm64+tegra)
+						variants='tegra'
+						;;
 					riscv64*)
 						# However, for RISC-V we only offer one kernel
 						variants='ga'
@@ -878,6 +881,9 @@ case $PROJECT in
 					elif [ "$variant" = "intel" ]; then
 						kernel_metapkg=linux-intel-iotg
 						flavor=intel-iotg
+					elif [ "$variant" = "tegra" ]; then
+						kernel_metapkg=linux-nvidia-tegra
+						flavor=nvidia-tegra
 					else
 						echo "bogus variant: $variant"
 						exit 1
@@ -1096,6 +1102,12 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		# per-project/subproject cases above
 		add_package install linux-firmware-raspi2 pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
+		;;
+	arm64+tegra)
+		# Common configuration for all NVIDIA Tegra image variants (server,
+		# desktop etc.)
+		KERNEL_FLAVOURS="nvidia-$SUBARCH"
+		COMPONENTS='main restricted universe multiverse'
 		;;
 	riscv*+*)
 		# We'll add wpasupplicant to the seeds when we work on RISC-V seeds.
