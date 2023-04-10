@@ -455,7 +455,7 @@ EOF
 
             if [ "${SUBARCH:-}" != "nezha" ] && \
                [ "${SUBARCH:-}" != "licheerv" ] && \
-               [ "${SUBARCH:-}" != "icicle" ] \
+               [ "${SUBARCH:-}" != "icicle" ] && \
                [ "${SUBARCH:-}" != "visionfive" ] && \
                [ "${SUBARCH:-}" != "visionfive2" ]; then
                 ## TODO remove below once we have grub-efi-riscv64 for the platforms
