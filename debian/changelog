@@ -1,3 +1,10 @@
+livecd-rootfs (2.822) UNRELEASED; urgency=medium
+
+  * riscv64: fix conditional check in install-grub to correctly check if
+    platform supports grub-efi-64, or exit func. (LP: #2015750)
+
+ -- jchittum <john.chittum@canonical.com>  Mon, 10 Apr 2023 07:34:21 -0500
+
 livecd-rootfs (2.821) lunar; urgency=medium
 
   [ Chad Smith ]
