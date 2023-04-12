@@ -1,3 +1,9 @@
+livecd-rootfs (2.823) UNRELEASED; urgency=medium
+
+  * Update infinite_scream URL to mastodon
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Apr 2023 09:37:47 -0700
+
 livecd-rootfs (2.822) lunar; urgency=medium
 
   [ jchittum ]

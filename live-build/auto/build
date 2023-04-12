@@ -348,7 +348,7 @@ EOF
 	fi
 
 	if [ -d chroot/etc/apt/preferences.d.save ]; then
-		# https://twitter.com/infinite_scream
+		# https://mastodon.social/@scream@botsin.space
 		mv chroot/etc/apt/preferences.d.save/* chroot/etc/apt/preferences.d/
 		rmdir chroot/etc/apt/preferences.d.save
 	fi
