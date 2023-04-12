@@ -1476,6 +1476,14 @@ deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed $LB_PARENT_ARCHIVE_AREAS
 EOF
 	cp -a config/archives/proposed.list.chroot \
 	      config/archives/proposed.list.binary
+
+	mkdir -p config/chroot_apt/
+	cat > config/chroot_apt/proposed.pref <<EOF
+# override for NotAutomatic: yes
+Package: *
+Pin: release a=*-proposed
+Pin-Priority: 500
+EOF
 fi
 
 case $PROJECT:${SUBPROJECT:-} in
