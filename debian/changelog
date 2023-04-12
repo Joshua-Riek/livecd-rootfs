@@ -1,10 +1,10 @@
-livecd-rootfs (2.823) UNRELEASED; urgency=medium
+livecd-rootfs (2.823) lunar; urgency=medium
 
   * Update infinite_scream URL to mastodon
   * Make PROPOSED=1 builds work with NotAutomatic (lunar and later).
     LP: #2016022.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Apr 2023 09:37:47 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Apr 2023 10:40:56 -0700
 
 livecd-rootfs (2.822) lunar; urgency=medium
 
