@@ -19,9 +19,6 @@ case ${SUBPROJECT:-} in
         ;;
 esac
 
-/usr/lib/snapd/snap-preseed --reset $(realpath "chroot")
-rm -rf chroot/var/lib/snapd/seed/*
-
 # env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2304-amd64 > config/classic-model.model
 cat <<EOF > config/classic-model.model
 type: model

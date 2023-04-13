@@ -1,3 +1,10 @@
+livecd-rootfs (2.826) UNRELEASED; urgency=medium
+
+  * Now that we moved the seeding for canary into further layers, a resed of
+    the preseeding is not required.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 14:46:43 +0200
+
 livecd-rootfs (2.825) lunar; urgency=medium
 
   * For canary images, actually consider moving the seed listed snaps from
