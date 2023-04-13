@@ -1,4 +1,4 @@
-livecd-rootfs (2.824) UNRELEASED; urgency=medium
+livecd-rootfs (2.824) lunar; urgency=medium
 
   * Fix build failures of desktop raspi images due to canary hooks
     interfering.
