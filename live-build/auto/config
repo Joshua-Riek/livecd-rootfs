@@ -745,10 +745,16 @@ case $PROJECT in
 				add_package minimal cloud-init
 				# the standard layer, contains all base common packages for later layers (we're splitting out the snaps)
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
-				# the classic layer, basically only contains snaps from the standard tasks
+				# the classic layer, basically only contains snaps from the standard and minimal tasks
 				add_pass minimal.standard.classic
-				mv config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.full \
-					config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.classic.full
+				if [ -e "config/package-lists/livecd-rootfs.snaplist.chroot_minimal.full" ]; then
+					cat config/package-lists/livecd-rootfs.snaplist.chroot_minimal.full >>config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.classic.full
+					rm config/package-lists/livecd-rootfs.snaplist.chroot_minimal.full
+				fi
+				if [ -e "config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.full" ]; then
+					cat config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.full >>config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.classic.full
+					rm config/package-lists/livecd-rootfs.snaplist.chroot_minimal.standard.full
+				fi
 				# the live layer, contains all packages for the live session installer
 				# TODO: we should probably add the kernel per KERNEL_FLAVOURS
 				add_package minimal.standard.live linux-generic casper lvm2 mdadm
