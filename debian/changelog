@@ -1,3 +1,10 @@
+livecd-rootfs (2.827) UNRELEASED; urgency=medium
+
+  * Fix netboot tarball generation code to properly handle the recent change
+    of shim to use alternatives (and the path becoming a symlink).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 19:28:46 +0200
+
 livecd-rootfs (2.826) lunar; urgency=medium
 
   * Now that we moved the seeding for canary into further layers, a resed of
