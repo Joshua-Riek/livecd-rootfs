@@ -1,4 +1,4 @@
-livecd-rootfs (2.825) UNRELEASED; urgency=medium
+livecd-rootfs (2.825) lunar; urgency=medium
 
   * For canary images, actually consider moving the seed listed snaps from
     both minimal and standard layers to the classic layer.
