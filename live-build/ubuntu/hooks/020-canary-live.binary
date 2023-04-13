@@ -2,7 +2,7 @@
 
 set -eux
 
-case $PASS in
+case ${PASS:-} in
     minimal.standard.live)
         ;;
     *)

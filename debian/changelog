@@ -1,3 +1,10 @@
+livecd-rootfs (2.824) UNRELEASED; urgency=medium
+
+  * Fix build failures of desktop raspi images due to canary hooks
+    interfering.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 09:43:58 +0200
+
 livecd-rootfs (2.823) lunar; urgency=medium
 
   * Update infinite_scream URL to mastodon
