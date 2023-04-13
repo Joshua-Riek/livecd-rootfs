@@ -1,4 +1,4 @@
-livecd-rootfs (2.827) UNRELEASED; urgency=medium
+livecd-rootfs (2.827) lunar; urgency=medium
 
   * Fix netboot tarball generation code to properly handle the recent change
     of shim to use alternatives (and the path becoming a symlink).
