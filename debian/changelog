@@ -1,4 +1,4 @@
-livecd-rootfs (2.826) UNRELEASED; urgency=medium
+livecd-rootfs (2.826) lunar; urgency=medium
 
   * Now that we moved the seeding for canary into further layers, a resed of
     the preseeding is not required.
