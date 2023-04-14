@@ -1,3 +1,10 @@
+livecd-rootfs (2.828) UNRELEASED; urgency=medium
+
+  * 099-ubuntu-image-customization.chroot: Remove redundant creation of oem
+    user and oem-config-prepare (LP: #2016285)
+
+ -- Dave Jones <dave.jones@canonical.com>  Fri, 14 Apr 2023 09:48:31 +0100
+
 livecd-rootfs (2.827) lunar; urgency=medium
 
   * Fix netboot tarball generation code to properly handle the recent change
