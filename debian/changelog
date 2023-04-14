@@ -1,4 +1,4 @@
-livecd-rootfs (2.828) UNRELEASED; urgency=medium
+livecd-rootfs (2.828) lunar; urgency=medium
 
   * 099-ubuntu-image-customization.chroot: Remove redundant creation of oem
     user and oem-config-prepare (LP: #2016285)
