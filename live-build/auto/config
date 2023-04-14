@@ -969,6 +969,9 @@ case $PROJECT in
 					intel-iot)
 						variants='intel'
 						;;
+					tegra)
+						variants='tegra'
+						;;
 					*)
 						# variants='ga hwe'
 						variants='ga'
@@ -985,6 +988,9 @@ case $PROJECT in
 					elif [ "$variant" = "intel" ]; then
 						kernel_metapkg=linux-intel-iotg
 						flavor=intel-iotg
+					elif [ "$variant" = "tegra" ]; then
+						kernel_metapkg=linux-nvidia-tegra
+						flavor=nvidia-tegra
 					else
 						echo "bogus variant: $variant"
 						exit 1
@@ -1236,6 +1242,11 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		# per-project/subproject cases above
 		add_package install linux-firmware-raspi pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
+		;;
+	arm64+tegra)
+		# Common configuration for all NVIDIA Tegra image variants (server,
+		# desktop etc.)
+		KERNEL_FLAVOURS="nvidia-$SUBARCH"
 		;;
 	riscv*+*)
 		if [ "${SUBARCH:-}" = "licheerv" ]; then
