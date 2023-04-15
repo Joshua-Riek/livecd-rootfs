@@ -12,16 +12,13 @@ loop_raw=
 backing_img=
 
 clean_loops() {
-    local kpartx_ret
-    local kpartx_stdout
-
     if [ -n "${backing_img}" ]; then
         # If something just finished writing to the device or a
         # partition (e.g. the zerofree in umount_partition) udev might
         # still be processing the device.
         udevadm settle
         sync
-        kpartx -v -d "${backing_img}"
+        losetup -v -d "${backing_img}"
         unset backing_img
     fi
 
@@ -65,18 +62,15 @@ mount_image() {
     trap clean_loops EXIT
     backing_img="$1"
     local rootpart="$2"
-    kpartx_mapping="$(kpartx -s -v -a ${backing_img})"
+    loop_device=$(losetup --show -f -P -v ${backing_img})
 
-    # Find the loop device
-    loop_p1="$(echo -e ${kpartx_mapping} | head -n1 | awk '{print$3}')"
-    loop_device="/dev/${loop_p1%p[0-9]*}"
     if [ ! -b ${loop_device} ]; then
         echo "unable to find loop device for ${backing_img}"
         exit 1
     fi
 
     # Find the rootfs location
-    rootfs_dev_mapper="/dev/mapper/${loop_p1%%[0-9]}${rootpart}"
+    rootfs_dev_mapper="/dev/mapper/${loop_device}p${rootpart}"
     if [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
         exit 1
