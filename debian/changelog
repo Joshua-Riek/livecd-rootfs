@@ -3,6 +3,10 @@ livecd-rootfs (2.829) UNRELEASED; urgency=medium
   [ Loïc Minier ]
   * Initial support for NVIDIA Tegra.  LP: #2015644.
 
+  [ Steve Langasek ]
+  * Use losetup instead of kpartx to try to resolve race conditions in
+    riscv64 image builds.
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 14 Apr 2023 16:44:32 -0700
 
 livecd-rootfs (2.828) lunar; urgency=medium
