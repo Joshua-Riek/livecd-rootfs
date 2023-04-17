@@ -1,3 +1,9 @@
+livecd-rootfs (2.831) UNRELEASED; urgency=medium
+
+  * Use the correct path for the loop device.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 16:11:40 -0700
+
 livecd-rootfs (2.830) lunar; urgency=medium
 
   * Call losetup -d properly.
