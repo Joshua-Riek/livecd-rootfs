@@ -1,8 +1,8 @@
-livecd-rootfs (2.830) UNRELEASED; urgency=medium
+livecd-rootfs (2.830) lunar; urgency=medium
 
   * Call losetup -d properly.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 12:22:06 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 12:22:19 -0700
 
 livecd-rootfs (2.829) lunar; urgency=medium
 
