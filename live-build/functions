@@ -12,13 +12,13 @@ loop_raw=
 backing_img=
 
 clean_loops() {
-    if [ -n "${backing_img}" ]; then
+    if [ -n "${loop_device}" ]; then
         # If something just finished writing to the device or a
         # partition (e.g. the zerofree in umount_partition) udev might
         # still be processing the device.
         udevadm settle
         sync
-        losetup -v -d "${backing_img}"
+        losetup -v -d "${loop_device}"
         unset backing_img
     fi
 
