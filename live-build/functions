@@ -207,7 +207,7 @@ mount_disk_image() {
     mount_image ${disk_image} 1
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
-    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    local uefi_dev="${loop_device}p15"
     if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
         mount "${uefi_dev}" $mountpoint/boot/efi
     fi
@@ -248,7 +248,7 @@ umount_partition() {
 umount_disk_image() {
     mountpoint="$1"
 
-    local uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    local uefi_dev="${loop_device}p15"
     if [ -e "$mountpoint/boot/efi" -a -b "$uefi_dev" ]; then
 	# zero fill free space in UEFI partition
 	cat < /dev/zero > "$mountpoint/boot/efi/bloat_file" 2> /dev/null || true

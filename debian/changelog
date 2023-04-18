@@ -1,3 +1,9 @@
+livecd-rootfs (2.832) UNRELEASED; urgency=medium
+
+  * Clean up some remaining references to /dev/mapper.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 18:49:47 -0700
+
 livecd-rootfs (2.831) lunar; urgency=medium
 
   * Use the correct path for the loop device.
