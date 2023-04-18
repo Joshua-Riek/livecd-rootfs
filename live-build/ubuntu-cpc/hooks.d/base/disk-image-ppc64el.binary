@@ -49,7 +49,7 @@ GRUB_TIMEOUT=0
 # Set the default commandline
 GRUB_CMDLINE_LINUX_DEFAULT="console=hvc0 earlyprintk"
 EOF
-    prep_partition="${loop_device}p2"
+    prep_partition="/dev/mapper${loop_device///dev/}p2"
     chroot mountpoint grub-install "${prep_partition}" \
         --no-nvram \
         --boot-directory=/boot \
