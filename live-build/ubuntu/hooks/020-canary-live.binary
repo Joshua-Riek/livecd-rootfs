@@ -19,13 +19,13 @@ case ${SUBPROJECT:-} in
         ;;
 esac
 
-# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-server-installer-classic-2304-amd64 > config/classic-model-installer.model
+# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-installer-classic-2304-amd64 > config/classic-model-installer.model
 cat <<EOF > config/classic-model-installer.model
 type: model
 authority-id: canonical
 series: 16
 brand-id: canonical
-model: ubuntu-server-installer-classic-2304-amd64
+model: ubuntu-installer-classic-2304-amd64
 architecture: amd64
 base: core22
 classic: true
@@ -45,22 +45,22 @@ snaps:
   -
     classic: true
     default-channel: latest/stable/canary-23.04
-    id: ba2aj8guta0zSRlT3QM5aJNAUXPlBtf9
-    name: subiquity
+    id: rQm0TtMOYOtEslvEXgxQDhgy1JNn38Wz
+    name: ubuntu-desktop-installer
     type: app
 timestamp: 2023-03-19T12:00:00.0Z
 sign-key-sha3-384: 9tydnLa6MTJ-jaQTFUXEwHl1yRx7ZS4K5cyFDhYDcPzhS7uyEkDxdUjg9g08BtNn
 
-AcLBXAQAAQoABgUCZCT4iAAKCRDgT5vottzAEkmPD/46nms8edTFkoiiH/SjAdyo8MW2FhR3tW03
-CyH1NQwrNJtHiqb7EcWQHDPexM3Wxvwj2iPN04IWlGugge7Fw12AmhVsYYCnCjYjDL8uBa9ixBj3
-kghOsFlVbDBk+f5tLmNGNncQfPbV6TvywK9a+2zgVEdRdLlmNeorX3b7P0woCIWg9wEikX+vcLi/
-q1GvWtI4Gb/rAIN+/OaD4DFgbJSUdSaayGX90hbNtvsZc0K7KPTeNlF0IGKg72yvqBGDX/0m2IDb
-6HozMxGg7xcq+WwHU3hucBNqw6kWKKDd1gzZJICrJf9kLEZ7GoGa8Oj9eET+bp2KYVHzjNzHvQbd
-v4odCG3Wn7m5ogpPmt/mUoTOhVtY/RNGnk46eHAFHuFcPAjR1BnIfLLmh4EmEnkIboTrlBKFgHMW
-ddFSOFYonboYu7R9Gad3J+9VD5IyyNqJNpCrEqLfw81QaFz1+KM00XD+wns2+ZqnI90a6olXcmUH
-t1Fv0QIDNCG0x8Lf+My/gJycNCEbUj+TA6xOL9NH0EFU6myKyR74sC5tlMZPMN2RKdZglOZUnkyC
-lpuhRVI3fcNZL2sVGwmvoKUDj7QaLrETpCUqDXMzNw73NOS3zA8+gQr/X438KpEFscszS1g+FtJ4
-LVOcgLrDw/S61ciBuOBeOaskqZdZ4xYmm1wKMzecXg==
+AcLBXAQAAQoABgUCZCT4iAAKCRDgT5vottzAEtZbD/sGNgbOV4nv6XXPaY1mR8qGoZ+rTYzk0KuE
+Ql6fbVIpkAYdTZhiR6JW+YvEQleL4pRAZIGgdyHIhlQpkjcjWgouzwJCBwL7eGhKMxguUefrxGYc
+l+1/lx9JsE3N+FEWk/Q1LprbekoDLQwrNm9d0XC2zcrX10O9v3O1Nl7eCor/tQ10lj6D/uzKKuQD
+6J3NQm2rY6HUGwcvEXErm/A64vKr6OS/Vd2BLLi2tWptMxvux4xAADuyeJQwWBUvnv/oVm+KnEad
+KlzBVLHJPH1CDCgJy79d21J4kq7+17uipNC9uCJI3Ljd+0+pdiboEt2vvURYnaLyEiMtfzQzoYEH
+5WuXcTheLkt0d57ZwU/8G65qcMPXEyRd2A7lYWbsoslKaZ2ITpMCG6PEBT0riwsXoR4JuPma6CB+
+76tZDekCVg1Kie20lRkdt80c3mDMMBZ/F1Rry6O4VuiOxVW4ji4p3mkC/lDKdAERGkCXozQKwRQZ
+TwpcnIbyyvMPddxP37sJImXKVVuPvD5paTNxnPirgm0jYyID2u5UILozEXT109k4ijrl9TbZutjQ
+oPijs/y+KJ4DbdrmiwwWCxQZcx2T5GG4HB38eIsnmEWTyml02lOL9sWq6qKuk95a3DhF+Q02+zkG
+c3kEHr8kcSEkJtgwre/RjjlvGYhur1rZ4i0G6gGBLw==
 EOF
 
 env SNAPPY_STORE_NO_CDN=1 snap prepare-image --classic config/classic-model-installer.model chroot
