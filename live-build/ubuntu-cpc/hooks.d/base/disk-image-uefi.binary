@@ -197,7 +197,7 @@ create_partitions() {
 }
 
 create_and_mount_uefi_partition() {
-    uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    uefi_dev="${loop_device}p15"
     mountpoint="$1"
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
 
@@ -234,7 +234,7 @@ install_grub() {
                 # Server preinstalled image
                 # Setup cidata sample data & nocloud fallback
                 # Allows login on first boot with or without metadata
-                cidata_dev="/dev/mapper${loop_device///dev/}p14"
+                cidata_dev="${loop_device}p14"
                 setup_cidata "${cidata_dev}"
                 setup_cinocloud mountpoint
             fi
@@ -246,7 +246,7 @@ install_grub() {
                 # Server preinstalled image
                 # Setup cidata sample data & nocloud fallback
                 # Allows login on first boot with or without metadata
-                cidata_dev="/dev/mapper${loop_device///dev/}p14"
+                cidata_dev="${loop_device}p14"
                 setup_cidata "${cidata_dev}"
                 setup_cinocloud mountpoint
             fi
@@ -258,7 +258,7 @@ install_grub() {
                 # Server preinstalled image
                 # Setup cidata sample data & nocloud fallback
                 # Allows login on first boot with or without metadata
-                cidata_dev="/dev/mapper${loop_device///dev/}p13"
+                cidata_dev="${loop_device}p13"
                 setup_cidata "${cidata_dev}"
                 setup_cinocloud mountpoint
             fi
@@ -285,10 +285,10 @@ install_grub() {
                         efi_target=riscv64-efi
                         # The real U-Boot
                         chroot mountpoint apt-get install -qqy u-boot-microchip
-                        loader="/dev/mapper${loop_device///dev/}p13"
+                        loader="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/microchip_icicle/u-boot.payload of=$loader
                         # Provide end-user modifyable CIDATA
-                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        cidata_dev="${loop_device}p12"
                         setup_cidata "${cidata_dev}"
                         # Provide stock nocloud datasource
                         # Allow interactive login on baremetal board,
@@ -330,10 +330,10 @@ install_grub() {
                         chroot mountpoint apt-get install -qqy u-boot-nezha
                         # Since version 2022.10 U-Boot SPL and U-Boot are installed onto the same partition.
                         # Package nezha-boot0 is not needed anymore.
-                        loader1="/dev/mapper${loop_device///dev/}p13"
+                        loader1="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot-sunxi-with-spl.bin of=$loader1
                         # Provide end-user modifyable CIDATA
-                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        cidata_dev="${loop_device}p12"
                         setup_cidata "${cidata_dev}"
                         # Provide stock nocloud datasource
                         # Allow interactive login on baremetal SiFive board,
@@ -359,7 +359,7 @@ install_grub() {
                         efi_target=riscv64-efi
 
                         # factory u-boot requires a p3 partition with /boot/uEnv.txt file
-                        uenv_dev="/dev/mapper${loop_device///dev/}p3"
+                        uenv_dev="${loop_device}p3"
                         mkfs.ext4 "${uenv_dev}"
                         uenv_mnt_dir=`mktemp -d uenvXXX`
                         mount "${uenv_dev}" "${uenv_mnt_dir}"
@@ -387,7 +387,7 @@ EOF
                         umount "${uenv_mnt_dir}"
                         rmdir "${uenv_mnt_dir}"
                         # Provide end-user modifyable CIDATA
-                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        cidata_dev="${loop_device}p12"
                         setup_cidata "${cidata_dev}"
                         # Provide stock nocloud datasource
                         # Allow interactive login on baremetal SiFive board,
@@ -406,7 +406,7 @@ EOF
                         chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                         efi_target=riscv64-efi
                         # Provide end-user modifyable CIDATA
-                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        cidata_dev="${loop_device}p12"
                         setup_cidata "${cidata_dev}"
                         # Provide stock nocloud datasource
                         # Allow interactive login on baremetal board,
@@ -431,13 +431,13 @@ EOF
                         fi
                         chroot mountpoint apt-get install -qqy u-boot-sifive
                         # FSBL, which gets U-Boot SPL
-                        loader1="/dev/mapper${loop_device///dev/}p13"
+                        loader1="${loop_device}p13"
                         # The real U-Boot
-                        loader2="/dev/mapper${loop_device///dev/}p14"
+                        loader2="${loop_device}p14"
                         dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
                         dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
                         # Provide end-user modifyable CIDATA
-                        cidata_dev="/dev/mapper${loop_device///dev/}p12"
+                        cidata_dev="${loop_device}p12"
                         setup_cidata "${cidata_dev}"
                         # Provide stock nocloud datasource
                         # Allow interactive login on baremetal SiFive board,

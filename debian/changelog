@@ -1,8 +1,5 @@
 livecd-rootfs (2.833) UNRELEASED; urgency=medium
 
-  * Revert all the losetup related changes introduced in versions between
-    2.829 and 2.832. Those are not quite good for lunar due to CPC
-    incompatibilities.
   * Add ubuntucinnamon, ubuntu-unity and edubuntu to the workaround for the
     invalid apt cache issue we encountered during all of our previous
     releases.

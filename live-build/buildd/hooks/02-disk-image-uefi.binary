@@ -41,7 +41,7 @@ create_partitions() {
 }
 
 create_and_mount_uefi_partition() {
-    uefi_dev="/dev/mapper${loop_device///dev/}p15"
+    uefi_dev="${loop_device}p15"
     mountpoint="$1"
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
 
