@@ -1,4 +1,4 @@
-livecd-rootfs (2.833) UNRELEASED; urgency=medium
+livecd-rootfs (2.833) mantic; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Add ubuntucinnamon, ubuntu-unity and edubuntu to the workaround for the
@@ -10,7 +10,7 @@ livecd-rootfs (2.833) UNRELEASED; urgency=medium
   * Try to use udevadm settle after losetup to resolve race in riscv64 image
     builds.
 
- -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 26 Apr 2023 13:36:30 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 08 May 2023 15:47:08 -0700
 
 livecd-rootfs (2.832) lunar; urgency=medium
 
