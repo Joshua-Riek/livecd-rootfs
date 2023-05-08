@@ -64,6 +64,8 @@ mount_image() {
     local rootpart="$2"
     loop_device=$(losetup --show -f -P -v ${backing_img})
 
+    udevadm settle
+
     if [ ! -b ${loop_device} ]; then
         echo "unable to find loop device for ${backing_img}"
         exit 1
