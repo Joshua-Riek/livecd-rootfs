@@ -1,8 +1,8 @@
-livecd-rootfs (2.835) UNRELEASED; urgency=medium
+livecd-rootfs (2.835) mantic; urgency=medium
 
   * canary: fix the lookup location for 'enhanced-secureboot-desktop'
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Wed, 10 May 2023 07:30:05 -0600
+ -- Dan Bungert <daniel.bungert@canonical.com>  Wed, 10 May 2023 16:01:02 -0600
 
 livecd-rootfs (2.834) mantic; urgency=medium
 
