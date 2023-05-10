@@ -108,6 +108,6 @@ WiXM9CPKCZv/Es3uOp/ke0wWL7v0MZhzUJ+QhOtTNg==
 EOF
 
 env SNAPPY_STORE_NO_CDN=1 snap prepare-image --classic config/classic-model.model chroot
-mv chroot/system-seed/systems/* chroot/system-seed/systems/classic
+mv chroot/system-seed/systems/* chroot/system-seed/systems/enhanced-secureboot-desktop
 rsync -a chroot/system-seed/ chroot/var/lib/snapd/seed
 rm -rf chroot/system-seed/
