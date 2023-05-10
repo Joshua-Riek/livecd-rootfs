@@ -1,8 +1,8 @@
-livecd-rootfs (2.834) UNRELEASED; urgency=medium
+livecd-rootfs (2.834) mantic; urgency=medium
 
   * Use the correct seed base for edubuntu.  LP: #2019060.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 09 May 2023 19:06:28 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 09 May 2023 19:06:50 -0700
 
 livecd-rootfs (2.833) mantic; urgency=medium
 
