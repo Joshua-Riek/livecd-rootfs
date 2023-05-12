@@ -1,8 +1,8 @@
-livecd-rootfs (2.836) UNRELEASED; urgency=medium
+livecd-rootfs (2.836) mantic; urgency=medium
 
   * canary: include cryptsetup in the live layer
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 11 May 2023 17:53:56 -0600
+ -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 11 May 2023 19:16:18 -0600
 
 livecd-rootfs (2.835) mantic; urgency=medium
 
