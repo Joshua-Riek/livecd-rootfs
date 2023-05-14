@@ -1,11 +1,11 @@
-livecd-rootfs (2.837) UNRELEASED; urgency=medium
+livecd-rootfs (2.837) mantic; urgency=medium
 
   * auto/config: Rewrite add_task to use a Python script that cribs the logic
     from lp:ubuntu-archive-publishing's generate_extra_overrides.py. This
     means we can avoid some dubious hacks around seeding snaps and no longer
     depend on the Task headers in the archive. (LP: #2019265)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 23 Sep 2022 10:58:29 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 15 May 2023 09:36:29 +1200
 
 livecd-rootfs (2.836) mantic; urgency=medium
 
