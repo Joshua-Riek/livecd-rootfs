@@ -847,8 +847,7 @@ case $PROJECT in
 		;;
 
 	ubuntucinnamon)
-		add_task install minimal standard
-		add_package install ubuntucinnamon-desktop
+		add_task install minimal standard ubuntucinnamon-desktop
 		# XXX: Adding live packages manually temporarily until we have
 		#  the live task for ubuntucinnamon set up properly.
 		add_package live ubiquity-frontend-gtk
@@ -910,8 +909,7 @@ case $PROJECT in
 		;;
 
 	ubuntu-unity)
-		add_task install minimal standard
-		add_package install ubuntu-unity-desktop
+		add_task install minimal standard ubuntu-unity-desktop
 		# XXX: Adding live packages manually temporarily until we have
 		#  the live task for ubuntu-unity set up properly.
 		add_package live metacity ubiquity-frontend-gtk

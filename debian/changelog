@@ -1,3 +1,12 @@
+livecd-rootfs (2.840) UNRELEASED; urgency=medium
+
+  * auto/config: switch ubuntucinnamon and ubuntu-unity builds to use add_task
+    to get their desktop packages. Previously most (all?) flavour builds got
+    the snaps from that flavour's "desktop" seed implicitly added, but now an
+    explicit add_task is needed.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 18 May 2023 09:25:38 +1200
+
 livecd-rootfs (2.839) mantic; urgency=medium
 
   * Drop use of --removable flag to grub-install from
