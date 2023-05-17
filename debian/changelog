@@ -4,6 +4,10 @@ livecd-rootfs (2.840) UNRELEASED; urgency=medium
     to get their desktop packages. Previously most (all?) flavour builds got
     the snaps from that flavour's "desktop" seed implicitly added, but now an
     explicit add_task is needed.
+  * auto/config: alter check for unexpectedly seeded snaps in
+    ubuntu-cpc:minimized build. As the build no longer implicitly seeds the
+    snaps from the server seed, we can just assert no snaps are seeded. This
+    fixes an autopkgtest regression but also cleaner.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 18 May 2023 09:25:38 +1200
 

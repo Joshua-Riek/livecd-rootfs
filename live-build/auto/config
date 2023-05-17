@@ -1170,22 +1170,15 @@ case $PROJECT:${SUBPROJECT:-} in
 esac
 
 if [ "$PROJECT:${SUBPROJECT:-}" = ubuntu-cpc:minimized ]; then
-	# We install a lxc script that installs the snap when invoked. We don't
-	# want any other snaps to come in without due consideration, so fail the
-	# build if we see such a snap.
-	for snap in `cat config/seeded-snaps`; do
-		case $snap in
-			lxd | lxd=*)
-				;;
-			*)
-				echo "Unexpected seeded snap for ubuntu-cpc:minimized build: $snap"
-				exit 1
-				;;
-		esac
-	done
+	# We install a lxc script that installs the snap when invoked and
+	# don't want any other snaps.
+	if [ -s config/seeded-snaps ]; then
+		echo "Unexpected seeded snaps for ubuntu-cpc:minimized build:"
+		cat config/seeded-snaps
+		exit 1
+	fi
 
-	# Truncate but don't delete to a) prevent any snaps from being seeded,
-	# while at the same time b) triggering initialization of assertions.
+	# Create an empty file to trigger initialization of assertions.
 	truncate --size 0 config/seeded-snaps
 fi
 
