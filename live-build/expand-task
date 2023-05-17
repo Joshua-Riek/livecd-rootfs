@@ -35,25 +35,6 @@ def parseTaskHeaders(seedtext):
             task_headers[key.lower()] = value.strip()
     return task_headers
 
-
-def getTaskName(task_headers, flavour, seedname, primary_flavour):
-    """Work out the name of the Task to be generated from this seed.
-
-    If there is a Task-Name header, it wins; otherwise, seeds with a
-    Task-Per-Derivative header are honoured for all flavours and put in
-    an appropriate namespace, while other seeds are only honoured for
-    the first flavour and have archive-global names.
-    """
-    if "name" in task_headers:
-        return task_headers["name"]
-    elif "per-derivative" in task_headers:
-        return "%s-%s" % (flavour, seedname)
-    elif primary_flavour:
-        return seedname
-    else:
-        return None
-
-
 def getTaskSeeds(task_headers, seedname):
     """Return the list of seeds used to generate a task from this seed.
 
@@ -66,13 +47,31 @@ def getTaskSeeds(task_headers, seedname):
     return sorted(scan_seeds)
 # end copy/paste from ubuntu-archive-publishing's generate_extra_overrides.
 
+# This is not quite the same as the one in generate_extra_overrides,
+# because for seeds that do not have flavour specific names, the Task
+# override is only generated for the Ubuntu flavour rather than
+# redundantly doing it for each flavour.
+def getTaskName(task_headers, flavour, seedname):
+    """Work out the name of the Task to be generated from this seed.
+
+    If there is a Task-Name header, it wins; otherwise, seeds with a
+    Task-Per-Derivative get put in an appropriate namespace. Other seeds
+    have a task name that matches the seed name.
+    """
+    if "name" in task_headers:
+        return task_headers["name"]
+    elif "per-derivative" in task_headers:
+        return "%s-%s" % (flavour, seedname)
+    else:
+        return seedname
+
 
 for seedtext in glob.glob(f'{args.output_dir}/*.seedtext'):
     hs = parseTaskHeaders(open(seedtext))
     if not hs:
         continue
     seedname = os.path.splitext(os.path.basename(seedtext))[0]
-    tn = getTaskName(hs, args.flavour, seedname, args.flavour == 'ubuntu')
+    tn = getTaskName(hs, args.flavour, seedname)
     if tn != args.task:
         continue
     for seed in getTaskSeeds(hs, seedname):

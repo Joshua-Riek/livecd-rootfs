@@ -2,6 +2,8 @@ livecd-rootfs (2.838) UNRELEASED; urgency=medium
 
   * auto/config: Set FLAVOUR appropriately for flavours added since the
     expand-task branch was created.
+  * live-build/expand-task: Fix expansion of tasks with non-flavour specific
+    name (e.g. "minimal") when building a non-Ubuntu flavour.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 May 2023 13:24:43 +1200
 
