@@ -620,6 +620,9 @@ fi
 
 mkdir -p config/germinate-output
 case $PROJECT in
+        edubuntu*)
+                FLAVOUR=edubuntu
+                ;;
         kubuntu*)
                 FLAVOUR=kubuntu
                 ;;
@@ -645,7 +648,7 @@ case $PROJECT in
                 FLAVOUR=ubuntustudio
                 ;;
         ubuntucinnamon*)
-                SEED=ubuntucinnamon.$SUITE
+                FLAVOUR=ubuntucinnamon
                 ;;
         *)
                 FLAVOUR=ubuntu
