@@ -1,4 +1,4 @@
-livecd-rootfs (2.838) UNRELEASED; urgency=medium
+livecd-rootfs (2.838) mantic; urgency=medium
 
   * auto/config: Set FLAVOUR appropriately for flavours added since the
     expand-task branch was created.
@@ -10,7 +10,7 @@ livecd-rootfs (2.838) UNRELEASED; urgency=medium
     edubuntu-desktop-gnome task already.
   * live-build/expand-task: handle seeding of classic snaps correctly.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 May 2023 13:24:43 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 May 2023 15:53:50 +1200
 
 livecd-rootfs (2.837) mantic; urgency=medium
 
