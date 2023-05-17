@@ -8,6 +8,7 @@ livecd-rootfs (2.838) UNRELEASED; urgency=medium
     Cross flavour task references do not work with the approach expand-task
     takes, and the ubuntu-desktop-minimal package is part of the
     edubuntu-desktop-gnome task already.
+  * live-build/expand-task: handle seeding of classic snaps correctly.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 May 2023 13:24:43 +1200
 

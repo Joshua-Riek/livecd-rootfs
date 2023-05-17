@@ -77,7 +77,10 @@ for seedtext in glob.glob(f'{args.output_dir}/*.seedtext'):
     for seed in getTaskSeeds(hs, seedname):
         for line in open(f'{args.output_dir}/{seed}{ext}'):
             if re.match('^[a-z0-9]', line):
-                print(line.split()[0])
+                name = line.split()[0]
+                if args.what == 'snaps' and '(classic)' in line:
+                    name += '/classic'
+                print(name)
     break
 else:
     raise Exception("did not find task %r" % (args.task,))
