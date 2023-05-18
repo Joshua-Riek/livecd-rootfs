@@ -1162,7 +1162,7 @@ case $PROJECT:${SUBPROJECT:-} in
 	xubuntu:minimal)
 		;;
         edubuntu:*)
-		BASE_SEED='desktop'
+		BASE_SEED='desktop-gnome'
 		;;
 	*)
 		BASE_SEED='desktop'
