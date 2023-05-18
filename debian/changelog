@@ -1,8 +1,8 @@
-livecd-rootfs (2.841) UNRELEASED; urgency=medium
+livecd-rootfs (2.841) mantic; urgency=medium
 
   * The base seed for edubuntu is desktop-gnome, not desktop.  LP: #2019060.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 17 May 2023 23:48:12 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 17 May 2023 23:50:57 -0700
 
 livecd-rootfs (2.840) mantic; urgency=medium
 
