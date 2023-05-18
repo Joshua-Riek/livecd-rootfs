@@ -11,7 +11,8 @@ livecd-rootfs (2.765.22) UNRELEASED; urgency=medium
 livecd-rootfs (2.765.21) jammy; urgency=medium
 
   [ jchittum ]
-  * add multiple kernel apparmor feature sets for snap preseeding (LP: 2015596).
+  * add multiple kernel apparmor feature sets for snap preseeding
+    (LP: #2015596).
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Apr 2023 08:05:35 -0700
 
