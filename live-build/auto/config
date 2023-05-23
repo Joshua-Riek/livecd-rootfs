@@ -506,7 +506,9 @@ case $IMAGEFORMAT in
 			[ "$IMAGE_PROJECT" = "ubuntu-cpc" ] && IMAGE_PROJECT="ubuntu-server"
 			DEFINITION="$IMAGE_PROJECT-$MODEL.yaml"
 
-			git clone git://git.launchpad.net/ubuntu-images -b $SUITE image-definitions
+			LB_UBUNTU_IMAGES_REPO="${LB_UBUNTU_IMAGES_REPO:-git://git.launchpad.net/ubuntu-images}"
+			LB_UBUNTU_IMAGES_BRANCH="${LB_UBUNTU_IMAGES_BRANCH:-$SUITE}"
+			git clone "$LB_UBUNTU_IMAGES_REPO" -b "$LB_UBUNTU_IMAGES_BRANCH" image-definitions
 			cp image-definitions/$DEFINITION "$PREFIX".yaml
 			echo "Configured ubuntu-image for the following image-definition:"
 			cat "$PREFIX".yaml
