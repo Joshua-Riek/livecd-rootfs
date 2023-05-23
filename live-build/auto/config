@@ -409,6 +409,8 @@ case $IMAGEFORMAT in
 				MODEL=pi3-arm64 ;;
 			armhf+cm3)
 				MODEL=cm3 ;;
+			arm64+tegra)
+				MODEL=tegra ;;
 			arm64+*)
 				MODEL=pc-arm64 ;;
 			*)
