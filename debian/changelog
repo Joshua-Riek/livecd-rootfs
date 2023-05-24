@@ -1,4 +1,4 @@
-livecd-rootfs (2.842) UNRELEASED; urgency=medium
+livecd-rootfs (2.842) mantic; urgency=medium
 
   * Revert once again the kpartx->losetup changes as those are causing
     constant build failures for RISC-V images. This clearly needs some more
