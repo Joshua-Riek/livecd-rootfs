@@ -910,7 +910,7 @@ case $PROJECT in
 				PASSES_TO_LAYERS="true"
 				KERNEL_FLAVOURS='generic-hwe-22.04'
 				add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
-				add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-language
+				add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
 				add_task minimal.standard.live ubuntu-budgie-live
 				add_package minimal cloud-init
 				remove_package minimal.standard.live ubiquity-frontend-gtk
