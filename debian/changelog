@@ -3,6 +3,8 @@ livecd-rootfs (2.843) UNRELEASED; urgency=medium
   * Unconditionally enable i386 in the chroot for Ubuntu Desktop; the new
     installer doesn't handle enabling this at install time, and late
     enablement also misses us some recommends.
+  * Restore losetup code, the necessary launchpad-buildd changes were being
+    deployed just as this revert landed.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 16:51:13 -0700
 
