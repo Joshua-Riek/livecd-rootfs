@@ -19,3 +19,10 @@ EOF
 cat <<EOF > /etc/initramfs-tools/conf.d/default-layer.conf
 LAYERFS_PATH=${PASS}.squashfs
 EOF
+
+if [ "$(dpkg --print-architecture)" = amd64 ]; then
+    echo "I: Enabling amd64 multiarch support on amd64"
+    dpkg --add-architecture i386
+
+    apt-get -y update
+fi
