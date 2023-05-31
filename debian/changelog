@@ -1,4 +1,4 @@
-livecd-rootfs (2.845) UNRELEASED; urgency=medium
+livecd-rootfs (2.845) mantic; urgency=medium
 
   * Add the mtools dependency for ubuntu-image.
 
