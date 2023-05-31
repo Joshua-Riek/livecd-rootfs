@@ -1,4 +1,4 @@
-livecd-rootfs (2.844) UNRELEASED; urgency=medium
+livecd-rootfs (2.844) mantic; urgency=medium
 
   * Switch to use ubuntu-image 3.0 for our raspberry pi mantic images.
 
