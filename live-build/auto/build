@@ -115,8 +115,14 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		# to tweak livecd-rootfs everytime a different type of artifact
 		# is needed.
 		for artifact in output/*; do
-			mv $artifact $PREFIX.$(basename $artifact)
+			# We want to be dynamic, and want to support even
+			# two-part extensions.
+			filename=$(basename $artifact)
+			noversion=$(echo $filename | sed 's/[0-9][0-9]\.[0-9][0-9]//')
+			extension=${noversion#*.}
+			mv $artifact "$PREFIX".$extension
 		done
+		[ -f $PREFIX.img ] && xz -0 -T4 "$PREFIX".img
 	fi
 
 	exit 0
