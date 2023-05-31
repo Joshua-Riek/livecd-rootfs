@@ -90,7 +90,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
 	export SNAPPY_STORE_NO_CDN=1
-	snap install --classic --channel=candidate ubuntu-image
+	snap install --classic ubuntu-image
 
 	# TODO: eventually, this should be handled by a single ubuntu-image
 	#  call without having to do a conditional on ubuntu-core/classic.
@@ -106,7 +106,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		xz -0 -T4 "$PREFIX".img
 		mv output/seed.manifest "$PREFIX".manifest
 	else
-		ubuntu-image classic $UBUNTU_IMAGE_ARGS \
+		ubuntu-image classic --verbose $UBUNTU_IMAGE_ARGS \
 			-O output "$PREFIX".yaml
 		# Since the output of the ubuntu-image call can vary based on what
 		# kind of an image we build, the safest bet is to 'export' all the
