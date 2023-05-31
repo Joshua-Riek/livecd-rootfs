@@ -1,3 +1,9 @@
+livecd-rootfs (2.845) UNRELEASED; urgency=medium
+
+  * Add the mtools dependency for ubuntu-image.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 31 May 2023 17:08:44 +0200
+
 livecd-rootfs (2.844) mantic; urgency=medium
 
   * Switch to use ubuntu-image 3.0 for our raspberry pi mantic images.
