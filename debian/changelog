@@ -1,3 +1,208 @@
+livecd-rootfs (2.843) mantic; urgency=medium
+
+  * Unconditionally enable i386 in the chroot for Ubuntu Desktop; the new
+    installer doesn't handle enabling this at install time, and late
+    enablement also misses us some recommends.
+  * Restore losetup code, the necessary launchpad-buildd changes were being
+    deployed just as this revert landed.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 26 May 2023 13:51:18 -0700
+
+livecd-rootfs (2.842) mantic; urgency=medium
+
+  * Revert once again the kpartx->losetup changes as those are causing
+    constant build failures for RISC-V images. This clearly needs some more
+    investigation before proceeding. This means that we're back to using
+    kpartx for loop device setup.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 24 May 2023 11:07:21 +0200
+
+livecd-rootfs (2.841) mantic; urgency=medium
+
+  * The base seed for edubuntu is desktop-gnome, not desktop.  LP: #2019060.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 17 May 2023 23:50:57 -0700
+
+livecd-rootfs (2.840) mantic; urgency=medium
+
+  * auto/config: switch ubuntucinnamon and ubuntu-unity builds to use add_task
+    to get their desktop packages. Previously most (all?) flavour builds got
+    the snaps from that flavour's "desktop" seed implicitly added, but now an
+    explicit add_task is needed.
+  * auto/config: alter check for unexpectedly seeded snaps in
+    ubuntu-cpc:minimized build. As the build no longer implicitly seeds the
+    snaps from the server seed, we can just assert no snaps are seeded. This
+    fixes an autopkgtest regression but also cleaner.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 18 May 2023 11:33:59 +1200
+
+livecd-rootfs (2.839) mantic; urgency=medium
+
+  * Drop use of --removable flag to grub-install from
+    live-build/buildd/hooks/02-disk-image-uefi.binary, to match the cloud
+    images (7c760864fdcb278ca37396f06f5e3f297428d63d).  This fixes
+    bootloader updates in the buildd images, but also fixes compatibility
+    with using devtmpfs for losetup. 
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 17 May 2023 09:27:56 -0700
+
+livecd-rootfs (2.838) mantic; urgency=medium
+
+  * auto/config: Set FLAVOUR appropriately for flavours added since the
+    expand-task branch was created.
+  * live-build/expand-task: Fix expansion of tasks with non-flavour specific
+    name (e.g. "minimal") when building a non-Ubuntu flavour.
+  * auto/config: Do not include the ubuntu-desktop-minimal task in edubuntu.
+    Cross flavour task references do not work with the approach expand-task
+    takes, and the ubuntu-desktop-minimal package is part of the
+    edubuntu-desktop-gnome task already.
+  * live-build/expand-task: handle seeding of classic snaps correctly.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 17 May 2023 15:53:50 +1200
+
+livecd-rootfs (2.837) mantic; urgency=medium
+
+  * auto/config: Rewrite add_task to use a Python script that cribs the logic
+    from lp:ubuntu-archive-publishing's generate_extra_overrides.py. This
+    means we can avoid some dubious hacks around seeding snaps and no longer
+    depend on the Task headers in the archive. (LP: #2019265)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 15 May 2023 09:36:29 +1200
+
+livecd-rootfs (2.836) mantic; urgency=medium
+
+  * canary: include cryptsetup in the live layer
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 11 May 2023 19:16:18 -0600
+
+livecd-rootfs (2.835) mantic; urgency=medium
+
+  * canary: fix the lookup location for 'enhanced-secureboot-desktop'
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Wed, 10 May 2023 16:01:02 -0600
+
+livecd-rootfs (2.834) mantic; urgency=medium
+
+  * Use the correct seed base for edubuntu.  LP: #2019060.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 09 May 2023 19:06:50 -0700
+
+livecd-rootfs (2.833) mantic; urgency=medium
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Add ubuntucinnamon, ubuntu-unity and edubuntu to the workaround for the
+    invalid apt cache issue we encountered during all of our previous
+    releases.
+  * Switch to use the desktop model for the installer for the canary images.
+
+  [ Steve Langasek ]
+  * Try to use udevadm settle after losetup to resolve race in riscv64 image
+    builds.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 08 May 2023 15:47:08 -0700
+
+livecd-rootfs (2.832) lunar; urgency=medium
+
+  * Clean up some remaining references to /dev/mapper.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 18:50:18 -0700
+
+livecd-rootfs (2.831) lunar; urgency=medium
+
+  * Use the correct path for the loop device.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 16:11:52 -0700
+
+livecd-rootfs (2.830) lunar; urgency=medium
+
+  * Call losetup -d properly.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 12:22:19 -0700
+
+livecd-rootfs (2.829) lunar; urgency=medium
+
+  [ Loïc Minier ]
+  * Initial support for NVIDIA Tegra.  LP: #2015644.
+
+  [ Steve Langasek ]
+  * Use losetup instead of kpartx to try to resolve race conditions in
+    riscv64 image builds.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 17 Apr 2023 08:22:21 -0700
+
+livecd-rootfs (2.828) lunar; urgency=medium
+
+  * 099-ubuntu-image-customization.chroot: Remove redundant creation of oem
+    user and oem-config-prepare (LP: #2016285)
+
+ -- Dave Jones <dave.jones@canonical.com>  Fri, 14 Apr 2023 09:48:31 +0100
+
+livecd-rootfs (2.827) lunar; urgency=medium
+
+  * Fix netboot tarball generation code to properly handle the recent change
+    of shim to use alternatives (and the path becoming a symlink).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 19:28:46 +0200
+
+livecd-rootfs (2.826) lunar; urgency=medium
+
+  * Now that we moved the seeding for canary into further layers, a resed of
+    the preseeding is not required.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 14:46:43 +0200
+
+livecd-rootfs (2.825) lunar; urgency=medium
+
+  * For canary images, actually consider moving the seed listed snaps from
+    both minimal and standard layers to the classic layer.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 11:46:37 +0200
+
+livecd-rootfs (2.824) lunar; urgency=medium
+
+  * Fix build failures of desktop raspi images due to canary hooks
+    interfering.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 13 Apr 2023 09:43:58 +0200
+
+livecd-rootfs (2.823) lunar; urgency=medium
+
+  * Update infinite_scream URL to mastodon
+  * Make PROPOSED=1 builds work with NotAutomatic (lunar and later).
+    LP: #2016022.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 12 Apr 2023 10:40:56 -0700
+
+livecd-rootfs (2.822) lunar; urgency=medium
+
+  [ jchittum ]
+  * riscv64: fix conditional check in install-grub to correctly check if
+    platform supports grub-efi-64, or exit func. (LP: #2015750)
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 10 Apr 2023 08:37:30 -0700
+
+livecd-rootfs (2.821) lunar; urgency=medium
+
+  [ Chad Smith ]
+  * desktop livecd: allow cloud-init to write netplan config instead of
+    directly to /etc/NetworkManager because ubuntu-desktop-installer
+    will write netplan config in ephemeral boot stage when
+    autoinstall.network is provided. This allows ubuntu-desktop-installer
+    to control all netplan config written and apply to the ephemeral boot
+    as generated from /etc/netplan/*. (LP: #2015605)
+
+  [ Dan Bungert ]
+  * d/control: fix uninstallability of livecd-rootfs due to rsync not being on
+    i386.
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 07 Apr 2023 17:24:28 -0600
+
+livecd-rootfs (2.820) lunar; urgency=medium
+
+  * Initial implementation of canary image builds for 23.04.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 05 Apr 2023 20:50:35 +0200
+
 livecd-rootfs (2.819) lunar; urgency=medium
 
   [ Heinrich Schuchardt ]

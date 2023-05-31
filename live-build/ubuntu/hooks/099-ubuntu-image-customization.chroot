@@ -18,11 +18,6 @@ if [ "$IMAGEFORMAT" == "none" ]; then
                 touch "/var/lib/oem-config/run"
         fi
 
-        /usr/sbin/useradd -d /home/oem -G adm,sudo -m -N -u 29999 oem
-
-        /usr/sbin/oem-config-prepare --quiet
-        touch "/var/lib/oem-config/run"
-
         # Update the fstab to include the "discard" option
         awk \
             -v root_fs_label="writable" \

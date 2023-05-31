@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+
+import argparse
+import glob
+import os
+import re
+
+p = argparse.ArgumentParser()
+p.add_argument('output_dir')
+p.add_argument('flavour')
+p.add_argument('task')
+p.add_argument('what', choices=['packages', 'snaps'])
+args = p.parse_args()
+
+if args.what == 'snaps':
+    ext = '.snaps'
+else:
+    ext = ''
+
+
+# begin copy/paste from ubuntu-archive-publishing's generate_extra_overrides.
+def parseTaskHeaders(seedtext):
+    """Parse a seed for Task headers.
+
+    seedtext is a file-like object.  Return a dictionary of Task headers,
+    with keys canonicalised to lower-case.
+    """
+    task_headers = {}
+    task_header_regex = re.compile(
+        r"task-(.*?):(.*)", flags=re.IGNORECASE)
+    for line in seedtext:
+        match = task_header_regex.match(line)
+        if match is not None:
+            key, value = match.groups()
+            task_headers[key.lower()] = value.strip()
+    return task_headers
+
+def getTaskSeeds(task_headers, seedname):
+    """Return the list of seeds used to generate a task from this seed.
+
+    The list of packages in this task comes from this seed plus any
+    other seeds listed in a Task-Seeds header.
+    """
+    scan_seeds = set([seedname])
+    if "seeds" in task_headers:
+        scan_seeds.update(task_headers["seeds"].split())
+    return sorted(scan_seeds)
+# end copy/paste from ubuntu-archive-publishing's generate_extra_overrides.
+
+# This is not quite the same as the one in generate_extra_overrides,
+# because for seeds that do not have flavour specific names, the Task
+# override is only generated for the Ubuntu flavour rather than
+# redundantly doing it for each flavour.
+def getTaskName(task_headers, flavour, seedname):
+    """Work out the name of the Task to be generated from this seed.
+
+    If there is a Task-Name header, it wins; otherwise, seeds with a
+    Task-Per-Derivative get put in an appropriate namespace. Other seeds
+    have a task name that matches the seed name.
+    """
+    if "name" in task_headers:
+        return task_headers["name"]
+    elif "per-derivative" in task_headers:
+        return "%s-%s" % (flavour, seedname)
+    else:
+        return seedname
+
+
+for seedtext in glob.glob(f'{args.output_dir}/*.seedtext'):
+    hs = parseTaskHeaders(open(seedtext))
+    if not hs:
+        continue
+    seedname = os.path.splitext(os.path.basename(seedtext))[0]
+    tn = getTaskName(hs, args.flavour, seedname)
+    if tn != args.task:
+        continue
+    for seed in getTaskSeeds(hs, seedname):
+        for line in open(f'{args.output_dir}/{seed}{ext}'):
+            if re.match('^[a-z0-9]', line):
+                name = line.split()[0]
+                if args.what == 'snaps' and '(classic)' in line:
+                    name += '/classic'
+                print(name)
+    break
+else:
+    raise Exception("did not find task %r" % (args.task,))

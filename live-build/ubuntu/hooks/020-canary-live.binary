@@ -1,0 +1,96 @@
+#! /bin/sh
+
+set -eux
+
+case ${PASS:-} in
+    minimal.standard.live)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+case ${SUBPROJECT:-} in
+    canary)
+        ;;
+    *)
+        echo "We don't run canary hooks for this project."
+        exit 0
+        ;;
+esac
+
+# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-installer-classic-2304-amd64 > config/classic-model-installer.model
+cat <<EOF > config/classic-model-installer.model
+type: model
+authority-id: canonical
+series: 16
+brand-id: canonical
+model: ubuntu-installer-classic-2304-amd64
+architecture: amd64
+base: core22
+classic: true
+distribution: ubuntu
+grade: signed
+snaps:
+  -
+    default-channel: latest/stable
+    id: amcUKQILKXHHTlmSa7NMdnXSx02dNeeT
+    name: core22
+    type: base
+  -
+    default-channel: latest/stable
+    id: PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4
+    name: snapd
+    type: snapd
+  -
+    classic: true
+    default-channel: latest/stable/canary-23.04
+    id: rQm0TtMOYOtEslvEXgxQDhgy1JNn38Wz
+    name: ubuntu-desktop-installer
+    type: app
+timestamp: 2023-03-19T12:00:00.0Z
+sign-key-sha3-384: 9tydnLa6MTJ-jaQTFUXEwHl1yRx7ZS4K5cyFDhYDcPzhS7uyEkDxdUjg9g08BtNn
+
+AcLBXAQAAQoABgUCZCT4iAAKCRDgT5vottzAEtZbD/sGNgbOV4nv6XXPaY1mR8qGoZ+rTYzk0KuE
+Ql6fbVIpkAYdTZhiR6JW+YvEQleL4pRAZIGgdyHIhlQpkjcjWgouzwJCBwL7eGhKMxguUefrxGYc
+l+1/lx9JsE3N+FEWk/Q1LprbekoDLQwrNm9d0XC2zcrX10O9v3O1Nl7eCor/tQ10lj6D/uzKKuQD
+6J3NQm2rY6HUGwcvEXErm/A64vKr6OS/Vd2BLLi2tWptMxvux4xAADuyeJQwWBUvnv/oVm+KnEad
+KlzBVLHJPH1CDCgJy79d21J4kq7+17uipNC9uCJI3Ljd+0+pdiboEt2vvURYnaLyEiMtfzQzoYEH
+5WuXcTheLkt0d57ZwU/8G65qcMPXEyRd2A7lYWbsoslKaZ2ITpMCG6PEBT0riwsXoR4JuPma6CB+
+76tZDekCVg1Kie20lRkdt80c3mDMMBZ/F1Rry6O4VuiOxVW4ji4p3mkC/lDKdAERGkCXozQKwRQZ
+TwpcnIbyyvMPddxP37sJImXKVVuPvD5paTNxnPirgm0jYyID2u5UILozEXT109k4ijrl9TbZutjQ
+oPijs/y+KJ4DbdrmiwwWCxQZcx2T5GG4HB38eIsnmEWTyml02lOL9sWq6qKuk95a3DhF+Q02+zkG
+c3kEHr8kcSEkJtgwre/RjjlvGYhur1rZ4i0G6gGBLw==
+EOF
+
+env SNAPPY_STORE_NO_CDN=1 snap prepare-image --classic config/classic-model-installer.model chroot
+mv chroot/system-seed/systems/* chroot/system-seed/systems/classic-installer
+rsync -a chroot/system-seed/ chroot/var/lib/snapd/seed
+rm -rf chroot/system-seed/
+
+cat <<EOF  > chroot/var/lib/snapd/modeenv
+mode=run
+recovery_system=classic-installer
+EOF
+
+# Temporary while we still use the subiquity TUI for the live system
+cat > chroot/usr/lib/systemd/user/subiquity-tui.service  << EOF
+[Unit]
+Description=subiquity tui
+PartOf=graphical-session.target
+After=graphical-session.target
+
+# Never run in GDM
+Conflicts=gnome-session@gnome-login.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/gnome-terminal --wait -- sudo sh -c 'echo waiting for snapd; snap wait system seed.loaded; sleep 5; snap run subiquity'
+Restart=no
+EOF
+mkdir chroot/etc/systemd/user/graphical-session.target.wants/
+ln -vs /usr/lib/systemd/user/subiquity-tui.service chroot/etc/systemd/user/graphical-session.target.wants/
+
+mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic
+mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic
+chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic ${PWD}/livecd.${PROJECT}.kernel-generic

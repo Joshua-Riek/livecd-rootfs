@@ -33,7 +33,12 @@ case $ARCH in
     amd64)
         mv chroot/usr/lib/PXELINUX/pxelinux.0                          tarball/amd64/pxelinux.0
         mv chroot/usr/lib/syslinux/modules/bios/ldlinux.c32            tarball/amd64/ldlinux.c32
-        mv chroot/usr/lib/shim/shimx64.efi.signed                      tarball/amd64/bootx64.efi
+	# For shim we're now using alternatives
+        if [ -e chroot/usr/lib/shim/shimx64.efi.signed.latest ]; then
+            mv chroot/usr/lib/shim/shimx64.efi.signed.latest           tarball/amd64/bootx64.efi
+        else
+            mv chroot/usr/lib/shim/shimx64.efi.signed                  tarball/amd64/bootx64.efi
+        fi
         mv chroot/usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed tarball/amd64/grubx64.efi
 
         mkdir tarball/amd64/grub tarball/amd64/pxelinux.cfg
@@ -54,7 +59,12 @@ EOF
         ;;
 
     arm64)
-        mv chroot/usr/lib/shim/shimaa64.efi.signed                     tarball/arm64/bootaa64.efi
+	# For shim we're now using alternatives
+        if [ -e chroot/usr/lib/shim/shimaa64.efi.signed.latest ]; then
+            mv chroot/usr/lib/shim/shimaa64.efi.signed.latest          tarball/arm64/bootaa64.efi
+        else
+            mv chroot/usr/lib/shim/shimaa64.efi.signed                 tarball/arm64/bootaa64.efi
+        fi
         mv chroot/usr/lib/grub/arm64-efi-signed/grubnetaa64.efi.signed tarball/arm64/grubaa64.efi
 
         mkdir tarball/arm64/grub

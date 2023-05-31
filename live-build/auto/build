@@ -351,7 +351,7 @@ EOF
 	fi
 
 	if [ -d chroot/etc/apt/preferences.d.save ]; then
-		# https://twitter.com/infinite_scream
+		# https://mastodon.social/@scream@botsin.space
 		mv chroot/etc/apt/preferences.d.save/* chroot/etc/apt/preferences.d/
 		rmdir chroot/etc/apt/preferences.d.save
 	fi
@@ -502,7 +502,7 @@ EOF
 	#  affected by this, we manually clear out the archive-related Packages
 	#  files in the cache.
 	case $PROJECT in
-		ubuntu|xubuntu|kubuntu|ubuntu-budgie|ubuntukylin|ubuntu-mate)
+		ubuntu|xubuntu|kubuntu|ubuntu-budgie|ubuntukylin|ubuntu-mate|ubuntucinnamon|ubuntu-unity|edubuntu)
 			rm -f chroot/var/lib/apt/lists/*ubuntu.com*_Packages
 			;;
 	esac
