@@ -1,4 +1,4 @@
-livecd-rootfs (2.846) UNRELEASED; urgency=medium
+livecd-rootfs (2.846) mantic; urgency=medium
 
   * Make the newly added mtools dependency arch-specific as it's not
     installable on i386, causing migration issues.
