@@ -1,3 +1,10 @@
+livecd-rootfs (2.846) UNRELEASED; urgency=medium
+
+  * Make the newly added mtools dependency arch-specific as it's not
+    installable on i386, causing migration issues.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 01 Jun 2023 11:40:52 +0200
+
 livecd-rootfs (2.845) mantic; urgency=medium
 
   * Add the mtools dependency for ubuntu-image.
