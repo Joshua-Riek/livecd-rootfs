@@ -1,3 +1,12 @@
+livecd-rootfs (2.847) UNRELEASED; urgency=medium
+
+  * canary images: add boot-managed-by-snapd preinstalled by default on the
+    enhanced-secureboot layer. This will make sure that all canary installs
+    will not allow installing non-snap kernels and bootloader packages (as
+    this could break their systems).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 05 Jun 2023 16:57:58 +0200
+
 livecd-rootfs (2.846) mantic; urgency=medium
 
   * Make the newly added mtools dependency arch-specific as it's not
