@@ -1,4 +1,4 @@
-livecd-rootfs (2.847) UNRELEASED; urgency=medium
+livecd-rootfs (2.847) mantic; urgency=medium
 
   * canary images: add boot-managed-by-snapd preinstalled by default on the
     enhanced-secureboot layer. This will make sure that all canary installs
