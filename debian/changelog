@@ -1,4 +1,4 @@
-livecd-rootfs (2.848) UNRELEASED; urgency=medium
+livecd-rootfs (2.848) mantic; urgency=medium
 
   * Migrate default Ubuntu Budgie image builds to their new
     ubuntu-budgie-installer, mirroring what has been done for Ubuntu. At the
