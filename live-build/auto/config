@@ -894,7 +894,7 @@ case $PROJECT in
 				add_task minimal.standard.live ubuntu-budgie-live
 				add_package minimal cloud-init
 				remove_package minimal.standard.live ubiquity-frontend-gtk
-				add_snap minimal.standard.live ubuntu-budgie-desktop-installer/classic
+				add_snap minimal.standard.live ubuntu-budgie-installer/classic
 
 				seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
