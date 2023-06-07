@@ -322,8 +322,9 @@ _get_live_passes ()
 if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
-			case $SUBARCH in
-				raspi|intel-iot)
+			case $ARCH+${SUBARCH:-} in
+				*+raspi)
+					# All raspi images use ubuntu-image.
 					IMAGEFORMAT=ubuntu-image
 					;;
 				*)
@@ -496,41 +497,20 @@ case $IMAGEFORMAT in
 		else
 			# classic images
 
-			# Certain models have different names but are built from the same source gadget tree
-			case $MODEL in
-				pi-arm64|pi3-arm64)
-					MODEL=pi
-					;;
-				intel-iot)
-					MODEL=pc
-					;;
-			esac
+			IMAGE_PROJECT=$PROJECT
+			[ "$IMAGE_PROJECT" = "ubuntu-cpc" ] && IMAGE_PROJECT="ubuntu-server"
+			DEFINITION="$IMAGE_PROJECT-$MODEL.yaml"
 
-			GADGET_TARGET="server"
-			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
-				GADGET_TARGET="desktop"
-			fi
-
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${SUBPROJECT:+ --subproject \"$SUBPROJECT\"}"
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${PROPOSED:+ --with-proposed}"
-			UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS${EXTRA_PPAS:+ --extra-ppas \"$EXTRA_PPAS\"}"
-
-			# We need to look in two places for the gadget tree:
-			# - Launchpad hosted gadgets will be in the snap-gadget repo
-			# - Github hosted gadgets are mirrored into a github-mirror repo
-			BRANCH="classic"
-			git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/snap-$MODEL -b $BRANCH config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror -b $BRANCH config/$PREFIX-gadget || git clone git://git.launchpad.net/~canonical-foundations/snap-$MODEL/+git/github-mirror-$ARCH -b $BRANCH config/$PREFIX-gadget
-
-			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
-			echo "SUITE=$SUITE" >> config/common
-			echo "GADGET_TARGET=$GADGET_TARGET" >> config/common
-			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common
-
-			echo "Configured ubuntu-image for the following gadget model: $MODEL"
+			git clone git://git.launchpad.net/ubuntu-images -b $SUITE image-definitions
+			cp image-definitions/$DEFINITION "$PREFIX".yaml
+			echo "Configured ubuntu-image for the following image-definition:"
+			cat "$PREFIX".yaml
+			echo "----------------------------------------------------------"
 		fi
 
 		# Save the model name used for building, mostly for any model-specific hook execution
 		echo "MODEL=$MODEL" >> config/common
+		echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 		# Fake finished configuration for lb build
 		mkdir -p .build
 		touch .build/config
@@ -745,7 +725,7 @@ case $PROJECT in
 				add_package minimal.standard.live linux-generic casper lvm2 mdadm cryptsetup
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
-				add_package minimal.standard.enhanced-secureboot cryptsetup
+				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 				# now let's create the neccessary catalog files
 				# TODO: make sure that we handle locale_support: langpack correctly
 				cat <<-EOF > config/minimal.catalog-in.yaml

@@ -1,3 +1,41 @@
+livecd-rootfs (2.847) mantic; urgency=medium
+
+  * canary images: add boot-managed-by-snapd preinstalled by default on the
+    enhanced-secureboot layer. This will make sure that all canary installs
+    will not allow installing non-snap kernels and bootloader packages (as
+    this could break their systems).
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 05 Jun 2023 16:57:58 +0200
+
+livecd-rootfs (2.846) mantic; urgency=medium
+
+  * Make the newly added mtools dependency arch-specific as it's not
+    installable on i386, causing migration issues.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 01 Jun 2023 11:40:52 +0200
+
+livecd-rootfs (2.845) mantic; urgency=medium
+
+  * Add the mtools dependency for ubuntu-image.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 31 May 2023 17:08:44 +0200
+
+livecd-rootfs (2.844) mantic; urgency=medium
+
+  * Switch to use ubuntu-image 3.0 for our raspberry pi mantic images.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 31 May 2023 15:15:09 +0200
+
+livecd-rootfs (2.843) mantic; urgency=medium
+
+  * Unconditionally enable i386 in the chroot for Ubuntu Desktop; the new
+    installer doesn't handle enabling this at install time, and late
+    enablement also misses us some recommends.
+  * Restore losetup code, the necessary launchpad-buildd changes were being
+    deployed just as this revert landed.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 26 May 2023 13:51:18 -0700
+
 livecd-rootfs (2.842) mantic; urgency=medium
 
   * Revert once again the kpartx->losetup changes as those are causing
