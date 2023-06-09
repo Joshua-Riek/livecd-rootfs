@@ -332,6 +332,11 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 					# All raspi images use ubuntu-image.
 					IMAGEFORMAT=ubuntu-image
 					;;
+				arm64+tegra|arm64+tegra-igx)
+					# Pre-installed Tegra images use
+					# ubuntu-image
+					IMAGEFORMAT=ubuntu-image
+					;;
 				*)
 					IMAGEFORMAT=ext4
 					;;
