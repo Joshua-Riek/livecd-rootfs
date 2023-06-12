@@ -107,7 +107,12 @@ Ekm0W8qT4AT0GSk5CY8kx+UvCn6FLxMuv8xjWoX3OLcQx31yO6Uy6c2LN6nSlovDghKP5V1KvlKl
 WiXM9CPKCZv/Es3uOp/ke0wWL7v0MZhzUJ+QhOtTNg==
 EOF
 
-env SNAPPY_STORE_NO_CDN=1 snap prepare-image --classic config/classic-model.model chroot
+channel=""
+if [ -n "$CHANNEL" ]; then
+    channel="--channel $CHANNEL"
+fi
+env SNAPPY_STORE_NO_CDN=1 snap prepare-image \
+    --classic config/classic-model.model $channel chroot
 mv chroot/system-seed/systems/* chroot/system-seed/systems/enhanced-secureboot-desktop
 rsync -a chroot/system-seed/ chroot/var/lib/snapd/seed
 rm -rf chroot/system-seed/

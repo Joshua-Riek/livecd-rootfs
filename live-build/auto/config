@@ -189,8 +189,13 @@ add_snap ()
 	_check_immutable_passes_to_layers
 	_register_pass "$pass"
 
+	local channel=""
+	if [ -n "$CHANNEL" ] ; then
+		channel="=$CHANNEL"
+	fi
+
 	for pkg; do
-		echo "$pkg" >> "config/package-lists/livecd-rootfs.snaplist.chroot_$pass.full"
+		echo "$pkg$channel" >> "config/package-lists/livecd-rootfs.snaplist.chroot_$pass.full"
 	done
 }
 
@@ -1339,6 +1344,7 @@ echo "LB_BINARY_HOOKS=\"$BINARY_HOOKS\"" >> config/binary
 echo "BUILDSTAMP=\"$NOW\"" >> config/binary
 echo "SUBPROJECT=\"${SUBPROJECT:-}\"" >> config/binary
 echo "LB_DISTRIBUTION=\"$SUITE\"" >> config/binary
+echo "CHANNEL=\"${CHANNEL:-}\"" >> config/binary
 
 if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
 	echo IMAGE_HAS_HARDCODED_PASSWORD=1 >> config/binary
