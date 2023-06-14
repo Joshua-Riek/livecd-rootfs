@@ -1,3 +1,10 @@
+livecd-rootfs (2.890) mantic; urgency=medium
+
+  * Allow choosing installer channels with the CHANNEL variable for
+    subiquity-based installer ISOs.
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 16 Jun 2023 09:12:08 -0600
+
 livecd-rootfs (2.849) mantic; urgency=medium
 
   [ Gauthier Jolly ]
