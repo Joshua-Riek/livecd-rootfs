@@ -1,8 +1,9 @@
-livecd-rootfs (2.849) UNRELEASED; urgency=medium
+livecd-rootfs (2.849) mantic; urgency=medium
 
+  [ Gauthier Jolly ]
   * ubuntu-cpc: mount ESP on /boot and bind mount /boot on /boot/efi
 
- -- Gauthier Jolly <gauthier.jolly@canonical.com>  Tue, 13 Jun 2023 10:49:14 +0200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 15 Jun 2023 12:18:47 -0700
 
 livecd-rootfs (2.848) mantic; urgency=medium
 
