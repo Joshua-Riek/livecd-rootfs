@@ -1,3 +1,13 @@
+livecd-rootfs (2.900) UNRELEASED; urgency=medium
+
+  * Add ubuntu-oem build project:
+    - auto/config: Make ubuntu-oem project available, and runs make-hooks like
+      ubuntu-cpc.
+    - live-build/ubuntu-oem: Create the directory for ubuntu-oem project, and
+      link make-hooks from ubuntu-cpc into it.
+
+ -- Yao Wei (魏銘廷) <yao.wei@canonical.com>  Wed, 12 Jul 2023 11:01:07 +0800
+
 livecd-rootfs (2.899) mantic; urgency=medium
 
   * ubuntu-cpc: Revert mount ESP on /boot and bind mount /boot on /boot/efi

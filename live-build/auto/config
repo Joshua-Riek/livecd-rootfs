@@ -550,6 +550,8 @@ case $IMAGEFORMAT in
 					add_package live casper
 				fi
 				;;
+			ubuntu-oem)
+				;;
 			*)
 				add_package live casper
 				;;
@@ -808,6 +810,30 @@ case $PROJECT in
 					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 		esac
+		;;
+
+	ubuntu-oem)
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		#KERNEL_FLAVOURS='oem-22.04'
+		KERNEL_FLAVOURS='generic-hwe-22.04'
+		add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+		add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
+		add_task minimal.standard.live ubuntu-live
+		add_package minimal cloud-init
+		remove_package minimal.standard.live ubiquity-frontend-gtk
+		add_snap minimal.standard.live ubuntu-desktop-installer/classic
+
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
+			name: "Ubuntu Desktop for OEM"
+			description: >-
+			  Ubuntu Desktop for OEM preinstallation.
+			id: ubuntu-desktop-oem
+			type: fsimage-layered
+			variant: desktop
+			locale_support: none
+			default: yes
+		EOF
 		;;
 
 	kubuntu|kubuntu-dvd)
@@ -1529,7 +1555,8 @@ EOF
 		fi
 		;;
 
-	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled|ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:canary)
+	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
+		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:canary|ubuntu-oem:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
@@ -1545,7 +1572,7 @@ EOF
 			esac
 		done
 
-		if [ "$PROJECT" = "ubuntu-cpc" ]; then
+		if [ "$PROJECT" = "ubuntu-cpc" ] || [ "$PROJECT" = "ubuntu-oem" ] ; then
 			case ${IMAGE_TARGETS:-} in
 				"")
 					config/hooks.d/make-hooks --hooks-dir config/hooks all
