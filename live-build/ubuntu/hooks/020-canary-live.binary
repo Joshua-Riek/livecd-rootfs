@@ -19,6 +19,8 @@ case ${SUBPROJECT:-} in
         ;;
 esac
 
+. config/binary
+
 # env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-installer-classic-2304-amd64 > config/classic-model-installer.model
 cat <<EOF > config/classic-model-installer.model
 type: model
@@ -64,7 +66,7 @@ c3kEHr8kcSEkJtgwre/RjjlvGYhur1rZ4i0G6gGBLw==
 EOF
 
 channel=""
-if [ -n "$CHANNEL" ]; then
+if [ -n "${CHANNEL:-}" ]; then
     channel="--channel $CHANNEL"
 fi
 env SNAPPY_STORE_NO_CDN=1 snap prepare-image \
