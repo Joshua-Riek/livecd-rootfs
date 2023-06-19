@@ -1,4 +1,4 @@
-livecd-rootfs (2.891) UNRELEASED; urgency=medium
+livecd-rootfs (2.891) mantic; urgency=medium
 
   * Follow up fix to the CHANNEL handling for subiquity images: make sure that
     we include config/binary, as that's where CHANNEL is passed over.
