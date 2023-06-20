@@ -271,36 +271,20 @@ install_grub() {
                 echo "Adjusting GRUB defaults for ${ARCH}"
                 mkdir -p mountpoint/etc/default/grub.d/
                 cp ${my_d}/riscv64/grub/10_cmdline.cfg mountpoint/etc/default/grub.d/
+                echo "Installing GRUB for ${SUBARCH} board"
+                mkdir -p mountpoint/etc/flash-kernel/
                 case "${SUBARCH}" in
                     "icicle")
-                        echo "Installing GRUB for ${SUBARCH} board"
                         cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
                         # This explains why we install flash-kernel here.
-                        chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'Microchip PolarFire-SoC Icicle Kit' > /etc/flash-kernel/machine"
-                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
-                        efi_target=riscv64-efi
                         # The real U-Boot
                         chroot mountpoint apt-get install -qqy u-boot-microchip
                         loader="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/microchip_icicle/u-boot.payload of=$loader
-                        # Provide end-user modifyable CIDATA
-                        cidata_dev="${loop_device}p12"
-                        setup_cidata "${cidata_dev}"
-                        # Provide stock nocloud datasource
-                        # Allow interactive login on baremetal board,
-                        # without a cloud datasource.
-                        setup_cinocloud mountpoint
-
-                        # u-boot-microchip will boot using UEFI if it does not find
-                        # any extlinux.conf or boot.scr: but flash-kernel will
-                        # install a boot.scr if it believes it did not boot in
-                        # EFI mode, so make sure we don't leave a boot.scr
-                        # behind.
-                        chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "nezha"|"licheerv")
                         echo "Reducing initramfs size for ${SUBARCH} board"
@@ -312,7 +296,6 @@ install_grub() {
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
                         # This explains why we install flash-kernel here.
-                        chroot mountpoint mkdir -p /etc/flash-kernel/
                         if [ "$SUBARCH" = "nezha" ]; then
                             chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
                         elif [ "$SUBARCH" = "licheerv" ]; then
@@ -323,41 +306,19 @@ install_grub() {
                             # to decrypt the rootfs (passphrase key).
                             chroot mountpoint bash -c "apt remove -qqy cryptsetup-initramfs"
                         fi
-                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
-                        efi_target=riscv64-efi
-
                         # u-boot-nezha supports both the LicheeRV and the Nezha D1.
                         chroot mountpoint apt-get install -qqy u-boot-nezha
                         # Since version 2022.10 U-Boot SPL and U-Boot are installed onto the same partition.
                         # Package nezha-boot0 is not needed anymore.
                         loader1="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot-sunxi-with-spl.bin of=$loader1
-                        # Provide end-user modifyable CIDATA
-                        cidata_dev="${loop_device}p12"
-                        setup_cidata "${cidata_dev}"
-                        # Provide stock nocloud datasource
-                        # Allow interactive login on baremetal SiFive board,
-                        # without a cloud datasource.
-                        setup_cinocloud mountpoint
-
-                        # u-boot-${SUBARCH} will boot using UEFI if it does not find
-                        # any extlinux.conf or boot.scr: but flash-kernel will
-                        # install a boot.scr if it believes it did not boot in
-                        # EFI mode, so make sure we don't leave a boot.scr
-                        # behind.
-                        chroot mountpoint rm -f /boot/boot.scr
                         ;;
                     "visionfive")
-                        echo "Installing GRUB for VisionFive board"
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
                         # This explains why we install flash-kernel here.
-                        chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'StarFive VisionFive V1' > /etc/flash-kernel/machine"
-                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
-                        efi_target=riscv64-efi
-
                         # factory u-boot requires a p3 partition with /boot/uEnv.txt file
                         uenv_dev="${loop_device}p3"
                         mkfs.ext4 "${uenv_dev}"
@@ -386,86 +347,48 @@ EOF
 
                         umount "${uenv_mnt_dir}"
                         rmdir "${uenv_mnt_dir}"
-                        # Provide end-user modifyable CIDATA
-                        cidata_dev="${loop_device}p12"
-                        setup_cidata "${cidata_dev}"
-                        # Provide stock nocloud datasource
-                        # Allow interactive login on baremetal SiFive board,
-                        # without a cloud datasource.
-                        setup_cinocloud mountpoint
                         ;;
                     "visionfive2")
-                        echo "Installing GRUB for ${SUBARCH} board"
                         cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
                         # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
                         # This explains why we install flash-kernel here.
-                        chroot mountpoint mkdir -p /etc/flash-kernel/
                         chroot mountpoint bash -c "echo 'StarFive VisionFive 2 v1.3B' > /etc/flash-kernel/machine"
-                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
-                        efi_target=riscv64-efi
-                        # Provide end-user modifyable CIDATA
-                        cidata_dev="${loop_device}p12"
-                        setup_cidata "${cidata_dev}"
-                        # Provide stock nocloud datasource
-                        # Allow interactive login on baremetal board,
-                        # without a cloud datasource.
-                        setup_cinocloud mountpoint
-                        # Flash-kernel creates boot.scr if it believes we did
-                        # not boot in UEFi mode. Remove it so that we can boot
-                        # via GRUB.
-                        chroot mountpoint rm -f /boot/boot.scr
+                        ;;
+		    "sifive_unmatched")
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
+                        chroot mountpoint bash -c "echo 'SiFive HiFive Unmatched A00' > /etc/flash-kernel/machine"
+                        chroot mountpoint apt-get install -qqy u-boot-sifive
+                        # U-Boot SPL
+                        loader1="${loop_device}p13"
+                        # Main U-Boot
+                        loader2="${loop_device}p14"
+                        dd if=mountpoint/usr/lib/u-boot/sifive_unmatched/u-boot-spl.bin of=$loader1
+                        dd if=mountpoint/usr/lib/u-boot/sifive_unmatched/u-boot.itb of=$loader2
                         ;;
                     *)
-                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
-                        echo "Installing u-boot-menu for ${SUBARCH} board"
-                        chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
-                        mkdir -p mountpoint/etc/u-boot-menu/conf.d/
-                        cp ${my_d}/riscv64/u-boot-menu/*.conf mountpoint/etc/u-boot-menu/conf.d/
-                        efi_target=riscv64-efi
-                        chroot mountpoint u-boot-update
-                        u_boot_arch="${SUBARCH}"
-                        if [ "${u_boot_arch}" = "hifive" ]; then
-                            u_boot_arch=sifive_fu540
-                        fi
-                        chroot mountpoint apt-get install -qqy u-boot-sifive
-                        # FSBL, which gets U-Boot SPL
-                        loader1="${loop_device}p13"
-                        # The real U-Boot
-                        loader2="${loop_device}p14"
-                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
-                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
-                        # Provide end-user modifyable CIDATA
-                        cidata_dev="${loop_device}p12"
-                        setup_cidata "${cidata_dev}"
-                        # Provide stock nocloud datasource
-                        # Allow interactive login on baremetal SiFive board,
-                        # without a cloud datasource.
-                        setup_cinocloud mountpoint
-                        ;;
                 esac
+                chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                efi_target=riscv64-efi
+                # Provide end-user modifyable CIDATA
+                cidata_dev="${loop_device}p12"
+                setup_cidata "${cidata_dev}"
+                # Provide stock nocloud datasource
+                # Allow interactive login without a cloud datasource.
+                setup_cinocloud mountpoint
+                # u-boot-${SUBARCH} will boot using UEFI if it does not find
+                # any extlinux.conf or boot.scr: but flash-kernel will
+                # install a boot.scr if it believes it did not boot in
+                # EFI mode, so make sure we don't leave a boot.scr
+                # behind.
+                chroot mountpoint rm -f /boot/boot.scr
             else
                 # Other images e.g. cloud images
                 chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
                 efi_target=riscv64-efi
 
                 chroot mountpoint u-boot-update
-            fi
-
-            if [ "${SUBARCH:-}" != "nezha" ] && \
-               [ "${SUBARCH:-}" != "licheerv" ] && \
-               [ "${SUBARCH:-}" != "icicle" ] && \
-               [ "${SUBARCH:-}" != "visionfive" ] && \
-               [ "${SUBARCH:-}" != "visionfive2" ]; then
-                ## TODO remove below once we have grub-efi-riscv64 for the platforms
-                rm mountpoint/tmp/device.map
-                umount mountpoint/boot/efi
-                mount
-                umount_partition mountpoint
-                rmdir mountpoint
-                return
-                ##
             fi
             ;;
     esac
