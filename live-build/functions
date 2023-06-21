@@ -1110,7 +1110,7 @@ END
 }
 
 setup_cinocloud() {
-    if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" != "1" ] || [ "${IMAGE_TARGETS:-}" != "disk1-img-xz" ]; then
+    if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" != "1" ] || ( [ "${IMAGE_TARGETS:-}" != "disk1-img-xz" ] && [ "${IMAGE_TARGETS:-}" != "disk-image-non-cloud" ] ); then
         echo "unexpected attempt to add a hardcoded password to an image"
         exit 1
     fi

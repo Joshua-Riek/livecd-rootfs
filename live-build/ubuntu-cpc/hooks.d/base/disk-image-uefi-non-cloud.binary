@@ -1,0 +1,535 @@
+#!/bin/bash -eux
+
+case $ARCH in
+    amd64|arm64|armhf|riscv64)
+        ;;
+    *)
+        echo "We don't create EFI images for $ARCH."
+        exit 0
+        ;;
+esac
+
+case ${PROJECT:-}:${SUBPROJECT:-} in
+    *:canary)
+        echo "We don't create EFI images for canary."
+        exit 0
+        ;;
+    ubuntu)
+        IMAGE_STR="# DESKTOP_IMG: This file was created/modified by the Desktop Image build process"
+        FS_LABEL="desktop-rootfs"
+        IMAGE_SIZE=12884901888 # 12G
+        ;;
+    *)
+        IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
+        FS_LABEL="cloudimg-rootfs"
+        ;;
+esac
+
+if [ "$ARCH" = "amd64" ]; then
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Kinetic amd64 need more then the default 2.2G
+fi
+
+if [ "$ARCH" = "armhf" ]; then
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Jammy armhf need more then the default 2.2G
+fi
+
+# Change image size for preinstalled generic images
+if [ -n "${SUBARCH:-}" ]; then
+    if [ "${SUBARCH:-}" = "generic" ]; then
+        IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2), due to linux-generic instead of virtual
+fi
+fi
+
+if [ "$ARCH" = "riscv64" ]; then
+    IMAGE_SIZE=4831838208 # bump to 4.5G (4608*1024**2); initrd creation fails with "No space left" with 3.5G
+fi
+
+. config/binary
+
+. config/functions
+
+create_partitions() {
+    disk_image="$1"
+    sgdisk "${disk_image}" --zap-all
+    case $ARCH in
+        arm64|armhf)
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                sgdisk "${disk_image}" \
+                       --new=15:0:204800 \
+                       --typecode=15:ef00 \
+                       --attributes=15:set:2 \
+                       --new=14::+4M \
+                       --change-name=14:CIDATA \
+                       --new=1:
+            else
+                sgdisk "${disk_image}" \
+                       --new=15:0:204800 \
+                       --typecode=15:ef00 \
+                       --new=1:
+            fi
+            ;;
+        riscv64)
+            # same as arm64/armhf, but set bit 2 legacy bios bootable
+            # on the first partition for uboot
+            # and have two loader partitions of uboot SPL & real one
+            # and have CIDATA partition for preinstalled image
+            if [ -z "${SUBARCH:-}" ]; then
+                # cloud-image
+                sgdisk "${disk_image}" \
+                       --set-alignment=2 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --new=1:: \
+                       --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "nezha" ] || [ "${SUBARCH:-}" = "licheerv" ]; then
+                # Nezha/LicheeRV D1 boards
+                sgdisk "${disk_image}" \
+                       --set-alignment=2 \
+                       --new=13:256:25575 \
+                       --change-name=13:loader1 \
+                       --typecode=13:B161E8AB-7D4B-4DB4-821C-4120A0554A35 \
+                       --attributes=13:set:0 \
+                       --new=16:25576:32799 \
+                       --change-name=16:loader2b \
+                       --typecode=16:F79E76D9-AC98-418B-8F31-E17EA24FF07C \
+                       --attributes=16:set:0 \
+                       --new=14:32800:43007 \
+                       --change-name=14:loader2 \
+                       --typecode=14:F4FA3898-3478-4941-887D-FCEC4E9E3C05 \
+                       --attributes=14:set:0 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --change-name=15:ESP \
+                       --new=12::+4M \
+                       --change-name=12:CIDATA \
+                       --new=1:: \
+                       --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "icicle" ]; then
+                # Microchip Icicle Kit
+                sgdisk "${disk_image}" \
+                       --set-alignment=2 \
+                       --new=13:256:25575 \
+                       --change-name=13:loader \
+                       --typecode=13:ef02 \
+                       --attributes=13:set:0 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --change-name=15:ESP \
+                       --new=12::+4M \
+                       --change-name=12:CIDATA \
+                       --new=1:: \
+                       --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "visionfive" ]; then
+                # VisionFive
+                sgdisk "${disk_image}" \
+                        --set-alignment=2 \
+                        --new=15::+106M \
+                        --typecode=15:ef00 \
+                        --change-name=15:ESP \
+                        --new=12::+4M \
+                        --change-name=12:CIDATA \
+                        --new=3::+1M \
+                        --change-name=3:uEnv \
+                        --new=1:: \
+                        --attributes=1:set:2
+            elif [ "${SUBARCH:-}" = "visionfive2" ]; then
+                # VisionFive 2
+                sgdisk "${disk_image}" \
+                        --set-alignment=4096 \
+			--new=13:4096:8191 \
+                        --typecode=13:2E54B353-1271-4842-806F-E436D6AF6985 \
+                        --change-name=13:loader1 \
+			--new=2:8192:16383 \
+                        --typecode=2:7a097280-70d2-44bc-886c-ff5ffbb7b098 \
+                        --change-name=2:loader2 \
+                        --new=12:16384:24575 \
+                        --change-name=12:CIDATA \
+                        --new=15:24576:229375 \
+                        --typecode=15:ef00 \
+                        --change-name=15:ESP \
+                        --new=1:229376: \
+                        --attributes=1:set:2
+            else
+                # preinstalled server, currently FU540
+                # FU740 too in the future
+                sgdisk "${disk_image}" \
+                       --set-alignment=2 \
+                       --new=13:34:2081 \
+                       --change-name=13:loader1 \
+                       --typecode=13:5B193300-FC78-40CD-8002-E86C45580B47 \
+                       --attributes=13:set:0 \
+                       --new=14:2082:10239 \
+                       --change-name=14:loader2 \
+                       --typecode=14:2E54B353-1271-4842-806F-E436D6AF6985 \
+                       --attributes=14:set:0 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --new=12::+4M \
+                       --change-name=12:CIDATA \
+                       --new=1:: \
+                       --attributes=1:set:2
+            fi
+            ;;
+        amd64)
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                sgdisk "${disk_image}" \
+                       --new=14::+4M \
+                       --typecode=14:ef02 \
+                       --attributes=14:set:2 \
+                       --new=15::+106M \
+                       --typecode=15:ef00 \
+                       --new=13::+4M \
+                       --change-name=13:CIDATA \
+                       --new=1::
+            else
+                sgdisk "${disk_image}" \
+                       --new=14::+4M \
+                       --new=15::+106M \
+                       --new=1::
+                sgdisk "${disk_image}" \
+                       -t 14:ef02 \
+                       -t 15:ef00
+            fi
+            ;;
+    esac
+    sgdisk "${disk_image}" \
+        --print
+}
+
+create_and_mount_uefi_partition() {
+    uefi_dev="${loop_device}p15"
+    mountpoint="$1"
+    mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
+
+    mkdir -p "${mountpoint}"/boot/efi
+    mount "${uefi_dev}" "$mountpoint"/boot/efi
+
+    cat << EOF >> "mountpoint/etc/fstab"
+LABEL=UEFI	/boot/efi	vfat	umask=0077	0 1
+EOF
+}
+
+install_grub() {
+    mkdir mountpoint
+    mount_partition "${rootfs_dev_mapper}" mountpoint
+
+    create_and_mount_uefi_partition mountpoint
+
+    echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
+    mkdir -p mountpoint/etc/default/grub.d
+    efi_boot_dir="/boot/efi/EFI/BOOT"
+    chroot mountpoint mkdir -p "${efi_boot_dir}"
+
+    chroot mountpoint apt-get -y update
+
+    # UEFI GRUB modules are meant to be used equally by Secure Boot and
+    # non-Secure Boot systems. If you need an extra module not already
+    # provided or run into "Secure Boot policy forbids loading X" problems,
+    # please file a bug against grub2 to include the affected module.
+    case $ARCH in
+        arm64)
+            chroot mountpoint apt-get -qqy install --no-install-recommends shim-signed grub-efi-arm64-signed
+            efi_target=arm64-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="${loop_device}p14"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
+            ;;
+        armhf)
+            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm grub-efi-arm-bin
+            efi_target=arm-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="${loop_device}p14"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
+            ;;
+        amd64)
+            chroot mountpoint apt-get install -qqy grub-pc shim-signed
+            efi_target=x86_64-efi
+            if [ "${SUBARCH:-}" = "generic" ]; then
+                # Server preinstalled image
+                # Setup cidata sample data & nocloud fallback
+                # Allows login on first boot with or without metadata
+                cidata_dev="${loop_device}p13"
+                setup_cidata "${cidata_dev}"
+                setup_cinocloud mountpoint
+            fi
+            ;;
+        riscv64)
+            # TODO grub-efi-riscv64 exists, but is not used by all the images yet
+            if [ -n "${SUBARCH:-}" ]; then
+                # Per-device images
+                local my_d=$(dirname $(readlink -f ${0}))
+                echo "Adjusting GRUB defaults for ${ARCH}"
+                mkdir -p mountpoint/etc/default/grub.d/
+                cp ${my_d}/riscv64/grub/10_cmdline.cfg mountpoint/etc/default/grub.d/
+                case "${SUBARCH}" in
+                    "icicle")
+                        echo "Installing GRUB for ${SUBARCH} board"
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        chroot mountpoint bash -c "echo 'Microchip PolarFire-SoC Icicle Kit' > /etc/flash-kernel/machine"
+                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                        efi_target=riscv64-efi
+                        # The real U-Boot
+                        chroot mountpoint apt-get install -qqy u-boot-microchip
+                        loader="${loop_device}p13"
+                        dd if=mountpoint/usr/lib/u-boot/microchip_icicle/u-boot.payload of=$loader
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="${loop_device}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+
+                        # u-boot-microchip will boot using UEFI if it does not find
+                        # any extlinux.conf or boot.scr: but flash-kernel will
+                        # install a boot.scr if it believes it did not boot in
+                        # EFI mode, so make sure we don't leave a boot.scr
+                        # behind.
+                        chroot mountpoint rm -f /boot/boot.scr
+                        ;;
+                    "nezha"|"licheerv")
+                        echo "Reducing initramfs size for ${SUBARCH} board"
+                        mkdir -p mountpoint/etc/initramfs-tools/conf.d/
+                        cp ${my_d}/riscv64/initramfs-tools/modules_list.conf mountpoint/etc/initramfs-tools/conf.d/
+                        chroot mountpoint update-initramfs -c -v -k all
+                        echo "Installing U-Boot for ${SUBARCH} board"
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        if [ "$SUBARCH" = "nezha" ]; then
+                            chroot mountpoint bash -c "echo 'Allwinner D1 Nezha' > /etc/flash-kernel/machine"
+                        elif [ "$SUBARCH" = "licheerv" ]; then
+                            chroot mountpoint bash -c "echo 'Sipeed Lichee RV Dock' > /etc/flash-kernel/machine"
+                            # cryptsetup-initramfs is a large contributor of the initrd size: we have to
+                            # remove it for the LicheeRV board, otherwise it fails to boot. cryptsetup-initramfs
+                            # needs to embed plymouth (and then the drm/gpu stuff) for interacting with the user
+                            # to decrypt the rootfs (passphrase key).
+                            chroot mountpoint bash -c "apt remove -qqy cryptsetup-initramfs"
+                        fi
+                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                        efi_target=riscv64-efi
+
+                        # u-boot-nezha supports both the LicheeRV and the Nezha D1.
+                        chroot mountpoint apt-get install -qqy u-boot-nezha
+                        # Since version 2022.10 U-Boot SPL and U-Boot are installed onto the same partition.
+                        # Package nezha-boot0 is not needed anymore.
+                        loader1="${loop_device}p13"
+                        dd if=mountpoint/usr/lib/u-boot/${SUBARCH}/u-boot-sunxi-with-spl.bin of=$loader1
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="${loop_device}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+
+                        # u-boot-${SUBARCH} will boot using UEFI if it does not find
+                        # any extlinux.conf or boot.scr: but flash-kernel will
+                        # install a boot.scr if it believes it did not boot in
+                        # EFI mode, so make sure we don't leave a boot.scr
+                        # behind.
+                        chroot mountpoint rm -f /boot/boot.scr
+                        ;;
+                    "visionfive")
+                        echo "Installing GRUB for VisionFive board"
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        chroot mountpoint bash -c "echo 'StarFive VisionFive V1' > /etc/flash-kernel/machine"
+                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                        efi_target=riscv64-efi
+
+                        # factory u-boot requires a p3 partition with /boot/uEnv.txt file
+                        uenv_dev="${loop_device}p3"
+                        mkfs.ext4 "${uenv_dev}"
+                        uenv_mnt_dir=`mktemp -d uenvXXX`
+                        mount "${uenv_dev}" "${uenv_mnt_dir}"
+                        mkdir -p "${uenv_mnt_dir}"/boot
+
+                        cat <<'EOF' >${uenv_mnt_dir}/boot/uEnv.txt
+scriptaddr=0x88100000
+script_offset_f=0x1fff000
+script_size_f=0x1000
+
+kernel_addr_r=0x84000000
+kernel_comp_addr_r=0x90000000
+kernel_comp_size=0x10000000
+
+fdt_addr_r=0x88000000
+ramdisk_addr_r=0x88300000
+
+bootcmd=load mmc 0:f ${kernel_addr_r} /EFI/ubuntu/grubriscv64.efi; bootefi ${kernel_addr_r}
+bootcmd_mmc0=devnum=0; run mmc_boot
+
+ipaddr=192.168.120.200
+netmask=255.255.255.0
+EOF
+
+                        umount "${uenv_mnt_dir}"
+                        rmdir "${uenv_mnt_dir}"
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="${loop_device}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        ;;
+                    "visionfive2")
+                        echo "Installing GRUB for ${SUBARCH} board"
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint mkdir -p /etc/flash-kernel/
+                        chroot mountpoint bash -c "echo 'StarFive VisionFive 2 v1.3B' > /etc/flash-kernel/machine"
+                        chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
+                        efi_target=riscv64-efi
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="${loop_device}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        # Flash-kernel creates boot.scr if it believes we did
+                        # not boot in UEFi mode. Remove it so that we can boot
+                        # via GRUB.
+                        chroot mountpoint rm -f /boot/boot.scr
+                        ;;
+                    *)
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
+                        echo "Installing u-boot-menu for ${SUBARCH} board"
+                        chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                        mkdir -p mountpoint/etc/u-boot-menu/conf.d/
+                        cp ${my_d}/riscv64/u-boot-menu/*.conf mountpoint/etc/u-boot-menu/conf.d/
+                        efi_target=riscv64-efi
+                        chroot mountpoint u-boot-update
+                        u_boot_arch="${SUBARCH}"
+                        if [ "${u_boot_arch}" = "hifive" ]; then
+                            u_boot_arch=sifive_fu540
+                        fi
+                        chroot mountpoint apt-get install -qqy u-boot-sifive
+                        # FSBL, which gets U-Boot SPL
+                        loader1="${loop_device}p13"
+                        # The real U-Boot
+                        loader2="${loop_device}p14"
+                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot-spl.bin of=$loader1
+                        dd if=mountpoint/usr/lib/u-boot/${u_boot_arch}/u-boot.itb of=$loader2
+                        # Provide end-user modifyable CIDATA
+                        cidata_dev="${loop_device}p12"
+                        setup_cidata "${cidata_dev}"
+                        # Provide stock nocloud datasource
+                        # Allow interactive login on baremetal SiFive board,
+                        # without a cloud datasource.
+                        setup_cinocloud mountpoint
+                        ;;
+                esac
+            else
+                # Other images e.g. cloud images
+                chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                efi_target=riscv64-efi
+
+                chroot mountpoint u-boot-update
+            fi
+
+            if [ "${SUBARCH:-}" != "nezha" ] && \
+               [ "${SUBARCH:-}" != "licheerv" ] && \
+               [ "${SUBARCH:-}" != "icicle" ] && \
+               [ "${SUBARCH:-}" != "visionfive" ] && \
+               [ "${SUBARCH:-}" != "visionfive2" ]; then
+                ## TODO remove below once we have grub-efi-riscv64 for the platforms
+                rm mountpoint/tmp/device.map
+                umount mountpoint/boot/efi
+                mount
+                umount_partition mountpoint
+                rmdir mountpoint
+                return
+                ##
+            fi
+            ;;
+    esac
+
+    chroot mountpoint apt-get autoremove --purge --assume-yes
+
+    chroot mountpoint grub-install "${loop_device}" \
+        --boot-directory=/boot \
+        --efi-directory=/boot/efi \
+        --target=${efi_target} \
+        --uefi-secure-boot \
+        --no-nvram
+
+    if [ "$ARCH" = "amd64" ]; then
+        # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
+        # it means that we just run this simple command and we're done
+        chroot mountpoint grub-install --target=i386-pc "${loop_device}"
+    fi
+
+    # Use the linux-kvm kernel for minimal images where available
+    # linux-kvm currently only exists for amd64
+    if [ "${SUBPROJECT:-}" = "minimized" ] && [ "$ARCH" = "amd64" ]; then
+        replace_kernel mountpoint linux-kvm
+    fi
+
+    # This call to rewrite the debian package manifest is added here to capture
+    # grub-efi packages that otherwise would not make it into the base
+    # manifest. filesystem.packages is moved into place via symlinking to
+    # livecd.ubuntu-cpc.manifest by live-build/auto/build after lb_binary runs
+    # and at that time snaps are added to the manifest (create-manifest is
+    # not called here as it calls snap-seed-parse, resulting in duplicate
+    # snap listings)
+    chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
+
+    divert_grub mountpoint
+    track_initramfs_boot_fallback mountpoint
+    chroot mountpoint update-grub
+    replace_grub_root_with_label mountpoint
+    undivert_grub mountpoint
+
+    chroot mountpoint apt-get -y clean
+
+    rm mountpoint/tmp/device.map
+    umount mountpoint/boot/efi
+    mount
+    umount_partition mountpoint
+    rmdir mountpoint
+}
+
+disk_image=binary/boot/disk-uefi.ext4
+
+create_empty_disk_image "${disk_image}"
+create_partitions "${disk_image}"
+mount_image "${disk_image}" 1
+
+# Copy the chroot in to the disk
+make_ext4_partition "${rootfs_dev_mapper}"
+mkdir mountpoint
+mount "${rootfs_dev_mapper}" mountpoint
+cp -a chroot/* mountpoint/
+umount mountpoint
+rmdir mountpoint
+
+install_grub
+
+clean_loops
+trap - EXIT
