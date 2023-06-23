@@ -1,3 +1,9 @@
+livecd-rootfs (2.891ubuntu1) UNRELEASED; urgency=medium
+
+  * ubuntu-cpc: install grub-efi on riscv images
+
+ -- Gauthier Jolly <gauthier.jolly@canonical.com>  Fri, 23 Jun 2023 13:26:12 +0200
+
 livecd-rootfs (2.891) mantic; urgency=medium
 
   * Follow up fix to the CHANNEL handling for subiquity images: make sure that
