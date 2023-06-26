@@ -357,7 +357,7 @@ if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
 		*:generic)
 			IMAGE_HAS_HARDCODED_PASSWORD=1
 			if [ -z "${IMAGE_TARGETS:-}" ]; then
-				export IMAGE_TARGETS="disk1-img-xz"
+				export IMAGE_TARGETS="disk-image-non-cloud"
 			fi
 			;;
 	esac
