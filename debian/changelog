@@ -1,3 +1,10 @@
+livecd-rootfs (2.892) UNRELEASED; urgency=medium
+
+  [ Gauthier Jolly ]
+  * ubuntu-cpc: fix images for hardware devices
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 26 Jun 2023 16:48:19 +0200
+
 livecd-rootfs (2.891) mantic; urgency=medium
 
   * Follow up fix to the CHANNEL handling for subiquity images: make sure that
