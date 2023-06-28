@@ -264,7 +264,6 @@ install_grub() {
             fi
             ;;
         riscv64)
-            # TODO grub-efi-riscv64 exists, but is not used by all the images yet
             if [ -n "${SUBARCH:-}" ]; then
                 # Per-device images
                 local my_d=$(dirname $(readlink -f ${0}))
@@ -367,7 +366,6 @@ EOF
                         dd if=mountpoint/usr/lib/u-boot/sifive_unmatched/u-boot-spl.bin of=$loader1
                         dd if=mountpoint/usr/lib/u-boot/sifive_unmatched/u-boot.itb of=$loader2
                         ;;
-                    *)
                 esac
                 chroot mountpoint bash -c 'FK_FORCE=yes apt-get install -qqy grub-efi-riscv64 flash-kernel'
                 efi_target=riscv64-efi
@@ -385,7 +383,7 @@ EOF
                 chroot mountpoint rm -f /boot/boot.scr
             else
                 # Other images e.g. cloud images
-                chroot mountpoint apt-get install -qqy u-boot-menu #grub-efi-riscv64
+                chroot mountpoint apt-get install -qqy u-boot-menu grub-efi-riscv64
                 efi_target=riscv64-efi
 
                 chroot mountpoint u-boot-update
