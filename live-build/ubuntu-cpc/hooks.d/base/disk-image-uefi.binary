@@ -485,10 +485,9 @@ EOF
         chroot mountpoint grub-install --target=i386-pc "${loop_device}"
     fi
 
-    # Use the linux-kvm kernel for minimal images where available
-    # linux-kvm currently only exists for amd64
-    if [ "${SUBPROJECT:-}" = "minimized" ] && [ "$ARCH" = "amd64" ]; then
-        replace_kernel mountpoint linux-kvm
+    # Use initrdless boot for minimal images
+    if [ "${SUBPROJECT:-}" = "minimized" ]; then
+        force_boot_without_initramfs ${mountpoint}
     fi
 
     # This call to rewrite the debian package manifest is added here to capture
