@@ -411,6 +411,8 @@ case $IMAGEFORMAT in
 				MODEL=cm3 ;;
 			arm64+tegra)
 				MODEL=tegra ;;
+			arm64+tegra-igx)
+				MODEL=tegra-igx ;;
 			arm64+*)
 				MODEL=pc-arm64 ;;
 			*)
@@ -990,6 +992,9 @@ case $PROJECT in
 					tegra)
 						variants='tegra'
 						;;
+					tegra-igx)
+						variants='tegra-igx'
+						;;
 					*)
 						# variants='ga hwe'
 						variants='ga'
@@ -1009,6 +1014,9 @@ case $PROJECT in
 					elif [ "$variant" = "tegra" ]; then
 						kernel_metapkg=linux-nvidia-tegra
 						flavor=nvidia-tegra
+					elif [ "$variant" = "tegra-igx" ]; then
+						kernel_metapkg=linux-nvidia-tegra-igx
+						flavor=nvidia-tegra-igx
 					else
 						echo "bogus variant: $variant"
 						exit 1
@@ -1254,9 +1262,9 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		add_package install linux-firmware-raspi pi-bluetooth u-boot-rpi u-boot-tools
 		BINARY_REMOVE_LINUX=false
 		;;
-	arm64+tegra)
-		# Common configuration for all NVIDIA Tegra image variants (server,
-		# desktop etc.)
+	arm64+tegra|arm64+tegra-igx)
+		# Common configuration for all NVIDIA Tegra image variants
+		# (server, desktop etc.)
 		KERNEL_FLAVOURS="nvidia-$SUBARCH"
 		;;
 	riscv*+*)

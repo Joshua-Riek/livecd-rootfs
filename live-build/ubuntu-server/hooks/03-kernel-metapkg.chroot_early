@@ -15,6 +15,8 @@ case $PASS in
             kernel_metapkg=linux-intel-iotg
         elif [ "$flavor" = "nvidia-tegra" ]; then
             kernel_metapkg=linux-nvidia-tegra
+        elif [ "$flavor" = "nvidia-tegra-igx" ]; then
+            kernel_metapkg=linux-nvidia-tegra-igx
         else
             echo "bogus flavor: $flavor"
             exit 1
