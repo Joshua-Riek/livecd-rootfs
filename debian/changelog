@@ -2,6 +2,7 @@ livecd-rootfs (2.892) UNRELEASED; urgency=medium
 
   [ Gauthier Jolly ]
   * ubuntu-cpc: fix images for hardware devices
+  * ubuntu-cpc: install grub-efi on riscv images
 
   [ Heinrich Schuchardt ]
   * RISC-V: use GRUB on Unmatched board. Simplify the code.
