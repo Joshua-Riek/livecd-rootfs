@@ -107,7 +107,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		mv output/seed.manifest "$PREFIX".manifest
 	else
 		/snap/bin/ubuntu-image classic --verbose $UBUNTU_IMAGE_ARGS \
-			-O output "$PREFIX".yaml
+			-O output "$IMAGE_DEFINITION"
 		# Since the output of the ubuntu-image call can vary based on what
 		# kind of an image we build, the safest bet is to 'export' all the
 		# artifacts from the output directory. The image definition file
