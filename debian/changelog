@@ -1,3 +1,23 @@
+livecd-rootfs (2.893) mantic; urgency=medium
+
+  * Add various overrides to make it to develop image definitions:
+    - LB_UBUNTU_IMAGES_REPO and LB_UBUNTU_IMAGES_BRANCH can be used
+      to override the default repository and branch used for official
+      images.
+    - LB_UBUNTU_IMAGE_CHANNEL can be used to install the ubuntu-image
+      snap from another channel than stable (e.g. edge, or a track, or a
+      hotfix branch).
+  * config/build: don't make a copy of the image definition, but rather
+    pass the path to the .yaml file; no functional impact, but could be
+    used to implement support for locating overrides once ubuntu-image
+    knows how to use relative pathnames.
+  * Extend Tegra support to support pre-installed Server images using the
+    usual cpc project and ubuntu-image.
+  * Add support for tegra-igx subarch, much like tegra but with a different
+    kernel flavor.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 28 Jun 2023 10:09:04 +0000
+
 livecd-rootfs (2.892) mantic; urgency=medium
 
   [ Gauthier Jolly ]
