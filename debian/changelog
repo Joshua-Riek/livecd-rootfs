@@ -1,4 +1,4 @@
-livecd-rootfs (2.892) UNRELEASED; urgency=medium
+livecd-rootfs (2.892) mantic; urgency=medium
 
   [ Gauthier Jolly ]
   * ubuntu-cpc: fix images for hardware devices
