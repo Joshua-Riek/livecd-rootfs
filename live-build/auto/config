@@ -1131,9 +1131,6 @@ case $PROJECT in
 			riscv64*)
 				if [ -n "$SUBARCH" ]; then
 					case "${SUBARCH:-}" in
-						nezha|licheerv)
-							KERNEL_FLAVOURS=allwinner
-							;;
 						visionfive)
 							KERNEL_FLAVOURS=starfive
 							;;
