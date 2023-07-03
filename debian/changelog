@@ -1,4 +1,4 @@
-livecd-rootfs (2.894) UNRELEASED; urgency=medium
+livecd-rootfs (2.894) mantic; urgency=medium
 
   [ Heinrich Schuchardt ]
   * RISC-V: sunset allwinner kernel flavour. The Nezha D1 and LicheRV Dock now
