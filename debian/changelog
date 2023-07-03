@@ -1,3 +1,11 @@
+livecd-rootfs (2.894) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * RISC-V: sunset allwinner kernel flavour. The Nezha D1 and LicheRV Dock now
+    use the generic kernel.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 03 Jul 2023 16:32:25 +0200
+
 livecd-rootfs (2.893) mantic; urgency=medium
 
   * Add various overrides to make it to develop image definitions:
