@@ -1,3 +1,11 @@
+livecd-rootfs (2.896) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu/hooks/033-disk-image-uefi.binary: update to point at
+    ubuntu-cpc/hooks.d/base/disk-image-uefi-non-cloud.binary, fixing canary
+    build.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 05 Jul 2023 10:12:21 +1200
+
 livecd-rootfs (2.895) mantic; urgency=medium
 
   * live-build/ubuntu-cpc/hooks.d/base/disk-image-uefi.binary: should now
