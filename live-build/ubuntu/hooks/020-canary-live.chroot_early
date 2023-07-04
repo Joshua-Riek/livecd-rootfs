@@ -10,7 +10,14 @@ case ${PASS:-} in
         ;;
 esac
 
-# TODO: Make sure this is only executed for canary builds
+# TODO: Make sure this is only executed for canary builds (in a way
+# other then relying on the fact that these hooks are only copied for
+# an ubuntu:canary build)
+
+# As described in LP: #2025339, an initrd built from a jammy userspace
+# (which is what we use for canary builds currently) cannot fsck a
+# mantic root filesystem created with the default options.
+sed -i -e 's/,orphan_file//' /etc/mke2fs.conf
 
 cat <<EOF > /etc/initramfs-tools/conf.d/casperize.conf
 export CASPER_GENERATE_UUID=1

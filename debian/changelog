@@ -3,6 +3,9 @@ livecd-rootfs (2.896) UNRELEASED; urgency=medium
   * live-build/ubuntu/hooks/033-disk-image-uefi.binary: update to point at
     ubuntu-cpc/hooks.d/base/disk-image-uefi-non-cloud.binary, fixing canary
     build.
+  * Disable the orphan_file ext4 feature in the canary live environment so
+    that the installed system can be handled by the e2fsck in the extant
+    kernel snap (cf. bug 2025339).
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 05 Jul 2023 10:12:21 +1200
 
