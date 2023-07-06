@@ -124,21 +124,6 @@ fi
 
 #### END COMMON ARCH FUNCTIONS
 
-# For everything except s390x, disable kernel and initramfs symlinks
-case $arch in
-   # On s390x the sipl.conf is static right now with just two boot options.
-   s390x)
-      exit 0
-      ;;
-esac
-
-find "${rootd}/boot" -type l -exec rm {} \;
-kernel_img_conf="${rootd}/etc/kernel-img.conf"
-if grep -q '^do_symlinks = ' "$kernel_img_conf" 2> /dev/null; then
-    sed -i 's/^do_symlinks = .*$/do_symlinks = no/g' "$kernel_img_conf"
-else
-    echo "do_symlinks = no" >> "$kernel_img_conf"
-fi
 
 case $arch in
 	# ARM, ppc, riscv64 and s390x images are special
