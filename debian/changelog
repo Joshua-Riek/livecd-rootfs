@@ -1,4 +1,4 @@
-livecd-rootfs (2.897) UNRELEASED; urgency=medium
+livecd-rootfs (2.897) mantic; urgency=medium
 
   [ Heinrich Schuchardt ]
   * RISC-V: handle kernel flavour allwinner. Package linux-allwinner has a
