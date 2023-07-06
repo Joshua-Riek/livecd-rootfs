@@ -794,19 +794,10 @@ case $PROJECT in
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
 				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
 				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
-				cat <<-EOF > config/minimal.catalog-in.yaml
-					name: "Ubuntu Desktop (minimized)"
-					description: >-
-					  A minimal but usable Ubuntu Desktop.
-					id: ubuntu-desktop-minimal
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
 					description: >-
-					  A full featured Ubuntu Desktop.
+					  Ubuntu Desktop.
 					id: ubuntu-desktop
 					type: fsimage-layered
 					variant: desktop
