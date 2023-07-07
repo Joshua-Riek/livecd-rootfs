@@ -767,7 +767,10 @@ snap_validate_seed() {
             # a snap pre-seeding issue can occur, where the incorrect apparmor features are reported
             # basic copy of a directory structure overriding the "generic" feature set
             # which is tied to the LTS kernel
-            cp -R --verbose /usr/share/livecd-rootfs/live-build/apparmor/${kern_major_min}/* /usr/share/livecd-rootfs/live-build/apparmor/generic/
+
+            # Bind kernel apparmor directory to feature directory for snap preseeding
+            umount "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+            mount --bind /usr/share/livecd-rootfs/live-build/apparmor/${kern_major_min} "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
         fi
     fi
 
@@ -777,6 +780,14 @@ snap_validate_seed() {
         /usr/lib/snapd/snap-preseed $(realpath "${CHROOT_ROOT}")
         chroot "${CHROOT_ROOT}" apparmor_parser --skip-read-cache --write-cache --skip-kernel-load --verbose  -j `nproc` /etc/apparmor.d
     fi
+
+    # Unmount kernel specific apparmor feature
+    # mount generic apparmor feature again (cleanup)
+    if [ -d /build/config/hooks.d/extra/apparmor/${kern_major_min} ]; then
+        umount "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+        mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+    fi
+
 }
 
 snap_from_seed() {
