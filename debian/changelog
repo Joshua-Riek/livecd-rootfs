@@ -1,3 +1,11 @@
+livecd-rootfs (2.898) mantic; urgency=medium
+
+  * Remove the catalog entry for the Ubuntu desktop minimal installation,
+    we are removing the option from the desktop installer and making the
+    content of the default installation closer from minimal instead.
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 07 Jul 2023 07:39:38 +0200
+
 livecd-rootfs (2.897) mantic; urgency=medium
 
   [ Heinrich Schuchardt ]
