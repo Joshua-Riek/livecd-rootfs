@@ -756,12 +756,34 @@ snap_preseed() {
 snap_validate_seed() {
     local CHROOT_ROOT=$1
 
+    if [ -e ${CHROOT_ROOT}/boot/vmlinuz ]; then
+        local kern_major_min=$(readlink --canonicalize --no-newline ${CHROOT_ROOT}/boot/vmlinuz | grep  --extended-regexp --only-matching --max-count 1 '[0-9]+\.[0-9]+')
+        if [ -d /usr/share/livecd-rootfs/live-build/apparmor/${kern_major_min} ]; then
+            # if an Ubuntu version has different kernel apparmor features between LTS and HWE kernels
+            # a snap pre-seeding issue can occur, where the incorrect apparmor features are reported
+            # basic copy of a directory structure overriding the "generic" feature set
+            # which is tied to the LTS kernel
+
+            # Bind kernel apparmor directory to feature directory for snap preseeding
+            umount "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+            mount --bind /usr/share/livecd-rootfs/live-build/apparmor/${kern_major_min} "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+        fi
+    fi
+
     if [ -e "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml" ]; then
         snap debug validate-seed "${CHROOT_ROOT}/var/lib/snapd/seed/seed.yaml"
         /usr/lib/snapd/snap-preseed --reset $(realpath "${CHROOT_ROOT}")
         /usr/lib/snapd/snap-preseed $(realpath "${CHROOT_ROOT}")
         chroot "${CHROOT_ROOT}" apparmor_parser --skip-read-cache --write-cache --skip-kernel-load --verbose  -j `nproc` /etc/apparmor.d
     fi
+
+    # Unmount kernel specific apparmor feature
+    # mount generic apparmor feature again (cleanup)
+    if [ -d /build/config/hooks.d/extra/apparmor/${kern_major_min} ]; then
+        umount "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+        mount -o bind /usr/share/livecd-rootfs/live-build/apparmor/generic "${CHROOT_ROOT}/sys/kernel/security/apparmor/features/"
+    fi
+
 }
 
 list_packages_from_seed () {
