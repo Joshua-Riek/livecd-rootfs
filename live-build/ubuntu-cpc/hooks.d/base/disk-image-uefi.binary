@@ -12,8 +12,13 @@ esac
 IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 FS_LABEL="cloudimg-rootfs"
 
-# 4G (4*1024**3)
-IMAGE_SIZE=4294967296
+if [ "$ARCH" = "amd64" ]; then
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Kinetic amd64 need more then the default 2.2G
+fi
+
+if [ "$ARCH" = "armhf" ]; then
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Jammy armhf need more then the default 2.2G
+fi
 
 if [ "$ARCH" = "riscv64" ]; then
     IMAGE_SIZE=4831838208 # bump to 4.5G (4608*1024**2); initrd creation fails with "No space left" with 3.5G
@@ -29,14 +34,14 @@ create_partitions() {
     case $ARCH in
         arm64|armhf)
             sgdisk "${disk_image}" \
-                   --new=15:0:+2G \
+                   --new=15:0:204800 \
                    --typecode=15:ef00 \
                    --new=1:
             ;;
         riscv64)
             sgdisk "${disk_image}" \
                    --set-alignment=2 \
-                   --new=15::+2G \
+                   --new=15::+106M \
                    --typecode=15:ef00 \
                    --new=1:: \
                    --attributes=1:set:2
@@ -44,7 +49,7 @@ create_partitions() {
         amd64)
             sgdisk "${disk_image}" \
                    --new=14::+4M \
-                   --new=15::+2G \
+                   --new=15::+106M \
                    --new=1::
             sgdisk "${disk_image}" \
                    -t 14:ef02 \
@@ -60,19 +65,11 @@ create_and_mount_uefi_partition() {
     mountpoint="$1"
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
 
-    mkdir -p "${mountpoint}"/boot/
-    mount "${uefi_dev}" "$mountpoint"/boot/
+    mkdir -p "${mountpoint}"/boot/efi
+    mount "${uefi_dev}" "$mountpoint"/boot/efi
 
-    mkdir "$mountpoint/boot/efi"
-    mount --bind "$mountpoint/boot" "$mountpoint/boot/efi"
-}
-
-configure_chroot() {
-    mountpoint="$1"
-
-    cat << EOF >> "$mountpoint"/etc/fstab
-LABEL=UEFI      /boot   vfat    umask=0077      0 1
-/boot   /boot/efi       vfat    umask=0077,bind 0 0
+    cat << EOF >> "mountpoint/etc/fstab"
+LABEL=UEFI	/boot/efi	vfat	umask=0077	0 1
 EOF
 }
 
@@ -80,8 +77,7 @@ install_grub() {
     mkdir mountpoint
     mount_partition "${rootfs_dev_mapper}" mountpoint
 
-    mount "${uefi_dev}" mountpoint/boot/
-    mount --bind mountpoint/boot mountpoint/boot/efi
+    create_and_mount_uefi_partition mountpoint
 
     echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
     mkdir -p mountpoint/etc/default/grub.d
@@ -162,26 +158,16 @@ install_grub() {
 
 disk_image=binary/boot/disk-uefi.ext4
 
-# create the disk
 create_empty_disk_image "${disk_image}"
 create_partitions "${disk_image}"
 mount_image "${disk_image}" 1
 
-# create and mount the rootfs partition
+# Copy the chroot in to the disk
 make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
 mount "${rootfs_dev_mapper}" mountpoint
-
-# create and mount the ESP
-create_and_mount_uefi_partition mountpoint
-
-# Copy the chroot into the disk
-cp -a chroot/* mountpoint
-
-configure_chroot mountpoint
-
-# cleanup the mount
-umount -R mountpoint
+cp -a chroot/* mountpoint/
+umount mountpoint
 rmdir mountpoint
 
 install_grub
