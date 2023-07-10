@@ -1,4 +1,4 @@
-livecd-rootfs (2.898) mantic; urgency=medium
+livecd-rootfs (2.899) mantic; urgency=medium
 
   * ubuntu-cpc: Revert mount ESP on /boot and bind mount /boot on /boot/efi
 
