@@ -1128,7 +1128,6 @@ case $PROJECT in
 				add_task install ubuntu-server-raspi
 				;;
 			armhf*)
-				KERNEL_FLAVOURS=generic-lpae
 				add_package install flash-kernel
 				;;
 			arm64*)
