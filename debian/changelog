@@ -1,12 +1,17 @@
-livecd-rootfs (2.900) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.1) mantic; urgency=medium
 
+  [ Yao Wei (魏銘廷) ]
   * Add ubuntu-oem build project:
     - auto/config: Make ubuntu-oem project available, and runs make-hooks like
       ubuntu-cpc.
     - live-build/ubuntu-oem: Create the directory for ubuntu-oem project, and
       link make-hooks from ubuntu-cpc into it.
 
- -- Yao Wei (魏銘廷) <yao.wei@canonical.com>  Wed, 12 Jul 2023 11:01:07 +0800
+  [ Dimitri John Ledkov ]
+  * Switch armhf from generic-lpae to virtual
+  * Deprecate linux-kvm usage
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Fri, 14 Jul 2023 00:25:33 +0100
 
 livecd-rootfs (2.899) mantic; urgency=medium
 
