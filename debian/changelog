@@ -1,3 +1,18 @@
+livecd-rootfs (23.10.3) mantic; urgency=medium
+
+  * Depend on devscripts: classic ubuntu-image builds will build the gadget
+    from a repository using make, and the reference pc-gadget snap uses
+    chdist to pull the latest GRUB/shim from the proper series x pocket;
+    NB: chdist was used instead of the more convenient pull-lp-debs as
+    devscripts is in main while ubuntu-dev-tools is in universe. It's
+    inelegant for livecd-rootfs to pick up dependencies needed to build
+    gadgets, even if it's for the official ones as other gadgets might want
+    other dependencies, rather this should be expressed as part of the build
+    contract of the gadget, or livecd-rootfs should only consume pre-built
+    gadgets built in a standard way (e.g. snap build, deb build etc.).
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sun, 16 Jul 2023 10:41:31 +0000
+
 livecd-rootfs (23.10.2) mantic; urgency=medium
 
   * Fixup up two more places with kvm removal.
