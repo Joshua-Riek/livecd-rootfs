@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.4) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.4) mantic; urgency=medium
 
   * canary: use new 23.10 models for both the live and enhanced-sb layers.
 
