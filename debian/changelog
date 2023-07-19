@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.4) UNRELEASED; urgency=medium
+
+  * canary: use new 23.10 models for both the live and enhanced-sb layers.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 19 Jul 2023 11:04:51 +0200
+
 livecd-rootfs (23.10.3) mantic; urgency=medium
 
   * Depend on devscripts: classic ubuntu-image builds will build the gadget

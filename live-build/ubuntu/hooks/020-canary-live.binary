@@ -21,13 +21,13 @@ esac
 
 . config/binary
 
-# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-installer-classic-2304-amd64 > config/classic-model-installer.model
+# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-installer-classic-2310-amd64 > config/classic-model-installer.model
 cat <<EOF > config/classic-model-installer.model
 type: model
 authority-id: canonical
 series: 16
 brand-id: canonical
-model: ubuntu-installer-classic-2304-amd64
+model: ubuntu-installer-classic-2310-amd64
 architecture: amd64
 base: core22
 classic: true
@@ -46,23 +46,23 @@ snaps:
     type: snapd
   -
     classic: true
-    default-channel: latest/stable/canary-23.04
+    default-channel: latest/stable/canary-23.10
     id: rQm0TtMOYOtEslvEXgxQDhgy1JNn38Wz
     name: ubuntu-desktop-installer
     type: app
-timestamp: 2023-03-19T12:00:00.0Z
+timestamp: 2023-07-18T12:00:00.0Z
 sign-key-sha3-384: 9tydnLa6MTJ-jaQTFUXEwHl1yRx7ZS4K5cyFDhYDcPzhS7uyEkDxdUjg9g08BtNn
 
-AcLBXAQAAQoABgUCZCT4iAAKCRDgT5vottzAEtZbD/sGNgbOV4nv6XXPaY1mR8qGoZ+rTYzk0KuE
-Ql6fbVIpkAYdTZhiR6JW+YvEQleL4pRAZIGgdyHIhlQpkjcjWgouzwJCBwL7eGhKMxguUefrxGYc
-l+1/lx9JsE3N+FEWk/Q1LprbekoDLQwrNm9d0XC2zcrX10O9v3O1Nl7eCor/tQ10lj6D/uzKKuQD
-6J3NQm2rY6HUGwcvEXErm/A64vKr6OS/Vd2BLLi2tWptMxvux4xAADuyeJQwWBUvnv/oVm+KnEad
-KlzBVLHJPH1CDCgJy79d21J4kq7+17uipNC9uCJI3Ljd+0+pdiboEt2vvURYnaLyEiMtfzQzoYEH
-5WuXcTheLkt0d57ZwU/8G65qcMPXEyRd2A7lYWbsoslKaZ2ITpMCG6PEBT0riwsXoR4JuPma6CB+
-76tZDekCVg1Kie20lRkdt80c3mDMMBZ/F1Rry6O4VuiOxVW4ji4p3mkC/lDKdAERGkCXozQKwRQZ
-TwpcnIbyyvMPddxP37sJImXKVVuPvD5paTNxnPirgm0jYyID2u5UILozEXT109k4ijrl9TbZutjQ
-oPijs/y+KJ4DbdrmiwwWCxQZcx2T5GG4HB38eIsnmEWTyml02lOL9sWq6qKuk95a3DhF+Q02+zkG
-c3kEHr8kcSEkJtgwre/RjjlvGYhur1rZ4i0G6gGBLw==
+AcLBXAQAAQoABgUCZLa6iQAKCRDgT5vottzAEh+hEACxb8nNg/2yznOanHsCY69miFDHvxLf2AGB
+qeE+XJ9pyN05/JkvrDhODL0DCknFuvgo5kl+FhrS+mPdviytc3Ppm3kHSnPuwfzuO4t8PM1mRMOZ
+8djtgzbStKAzwKyYiK/pon4/Wtu1+6/tTp8Ji/pH12aRoFBub6mtQD81hC/xVxdcKz8KvzGsD5co
+H1TLfhKACVQJHZp7ErShkB6Ka6nVQy1c8/4sDPadKb2mqraIVMJmmHlYAHMfGl6f1dElheAjWXmz
+0Roz4fh4lvjM0GmYTlsmhEj10F0pdwY/C2jB+6VFBJEZax65mRjs6Jaqxa150a26sOVFcMkS0ifO
+pkB+KHrnilJ0/PyXZCoQcL65wTBEnfI0X/nzhvuE+9dXz5EUlusWeMvEhJ4QNOacCPARSd76M7QB
+gUhMrz4Vf68V6tlfbXxgoEJFoVJo4i7gymMPnZDg0uAGQFYK+SSVEO/VtLDQvwRBU80IdA0kaIsn
+afaqwYP8ACNPWpTztVYd/X6mvpdDz8MsW9pAEmJ4EN6JWcEu4ii5qXlzLK3s3HaCS5XNj+TpPEU+
+9Nh9ePmCfE+KxR0cgfTbxP3KerYSd/xQHxgMLcMAGq20+1i/FmksKD6cSNYJRoqwTPwP+D9p42wF
+3qGR3KEYbIij4hk/fZMCNzUEWt41OLLUVKm81oOixg==
 EOF
 
 channel=""

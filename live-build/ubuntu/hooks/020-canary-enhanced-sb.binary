@@ -21,13 +21,13 @@ esac
 
 . config/binary
 
-# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2304-amd64 > config/classic-model.model
+# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2310-amd64 > config/classic-model.model
 cat <<EOF > config/classic-model.model
 type: model
 authority-id: canonical
 series: 16
 brand-id: canonical
-model: ubuntu-classic-2304-amd64
+model: ubuntu-classic-2310-amd64
 architecture: amd64
 base: core22
 classic: true
@@ -35,7 +35,7 @@ distribution: ubuntu
 grade: signed
 snaps:
   -
-    default-channel: classic-23.04/stable
+    default-channel: classic-23.10/stable
     id: UqFziVZDHLSyO3TqSWgNBoAdHbLI4dAH
     name: pc
     type: gadget
@@ -94,19 +94,19 @@ snaps:
     id: IrwRHakqtzhFRHJOOPxKVPU0Kk7Erhcu
     name: snapd-desktop-integration
     type: app
-timestamp: 2023-03-19T12:00:00.0Z
+timestamp: 2023-07-18T12:00:00.0Z
 sign-key-sha3-384: 9tydnLa6MTJ-jaQTFUXEwHl1yRx7ZS4K5cyFDhYDcPzhS7uyEkDxdUjg9g08BtNn
 
-AcLBXAQAAQoABgUCZC4CDgAKCRDgT5vottzAEiFvEACU9KsUFmAcShhpIz+NRGVP6d1Z+bW1FcUf
-Cxl2UParnXR7Kv12htnw5u837MZjI3gG8kti2L2SxRcg/fy3iJLkTRBEaR/q6rY4O0fkasJUKxHh
-z6xx2jaNhsUqnplU5gba9xmmaI5AQp4yf1ktF71HAeM4OzUFrCkjXNTbf7xfkKENxuAOfsPetu5c
-6Xc8UtQymtYnjsyvtaLNoXl9vVN59nqk/sxWkwJRtYrFX+Fjt1R/ft4Fo1U7x/OeUX1qpFHSEgnR
-NPxzJQ0uzaCamXY1qu1iq6R925eah22auOQM2m/CTzOMdI3IuRAqnLsrk9HpGXz2gWKLS/UEfAlr
-OMOoV64DHnQ6k8pwjiYt4K9zNxNKK1MB9hnUBOWYb69pgqoQ2djo6codlxknANN4g3zsUH8KDHb8
-9wNEu7WuYS8JIDpdrNGB5XKo+N5+WswfqX0Oh1mtPMw+DqIA8GkxJFC452Afv7+VDQUZs5wIe7OX
-oQ5Q/u5X7WyKpqTdRi0J4/Eq61HidYOOW26Vc8MNArn1u0eabZBtHrxMOHCxu0hmsLHaXQSBljdr
-Ekm0W8qT4AT0GSk5CY8kx+UvCn6FLxMuv8xjWoX3OLcQx31yO6Uy6c2LN6nSlovDghKP5V1KvlKl
-WiXM9CPKCZv/Es3uOp/ke0wWL7v0MZhzUJ+QhOtTNg==
+AcLBXAQAAQoABgUCZLa6ewAKCRDgT5vottzAEu9jD/9dfuMX8kDWrEaaiv+3g6GB/xEuhHkVStOU
+5c+7M9wB19BQrIhKCbYnNNGLJrIJj1DDThwCK+/L43NiiuolEDaTAGbKPxw7BhCMitnX9i3fxkFm
+WaAsc667Fi9QVTb7XFKrzUiU7cwmqCI0ZjAn1fx8zXutRPISKw8fQaL8Acv80lNSWL5dyyJ1gtvC
+jMGVbD8R45pF+n8u5sNQaRweYayNv+TFAJDquGxP3Cuu0DYiO3SzsBpg8BV9siqByOshO+93DCaM
+8Vl3RFPGdY+M+kJsoI3GBHlZ3K+Hl1biVPpfm74T5DXQiLAxzs7iPgfqGC0QwRdzxHsNCETZrVAn
+PzRDiagJSQWgAB1/zUVDgHIOw52OmHrTavwK7/p983na/HhVfU0rV3vZ/Ve6XsTryoOZ6Z31ygc4
+NiAtm8z7rRSsehR3JdykrtJziaE26lph9gl3QgdSYnfOGB+IOUt/Y6jf9hcAEIXqCMVKoiL2ynlp
+G+nrcV25FfId+FDjezbfvPGe71fsjVZyL4ReQPCZRyCBujcASsn7sitZTuiZzYX8L9Uwl4baO6/a
+dRTqQ4onOgta0LnuGFoIg4ifs7OLcyZmuQUoVR8a8IwNvq9/acYZ/uoYBUwWpzkqF2i1Wc8t+zvx
+uqvrEaWLoj9oa4E+956QJLGfn+qwSNeURdfkjAoPnA==
 EOF
 
 channel=""
