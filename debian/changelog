@@ -5,6 +5,10 @@ livecd-rootfs (23.10.8) UNRELEASED; urgency=medium
     for the StarFive VisionFive 2 board. As it is larger than U-Boot we need
     to increase the size of the loader 2 partition to accommodate it.
 
+  [ Michael Hudson-Doyle ]
+  * lb_chroot_layered: use rsync to make more minimal overlay layers.
+    (LP: #2028213)
+
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 02 Aug 2023 13:12:09 +1200
 
 livecd-rootfs (23.10.7) mantic; urgency=medium
