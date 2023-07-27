@@ -1,11 +1,11 @@
-livecd-rootfs (23.10.5) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.5) mantic; urgency=medium
 
   [ Utkarsh Gupta ]
   * Use ubuntu-cloud-minimal metapackage in minimized CPC images rather than
     cloud-image task which brings in snaps that are unwanted in minimized
     builds.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jul 2023 11:01:45 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jul 2023 11:05:44 +1200
 
 livecd-rootfs (23.10.4) mantic; urgency=medium
 
