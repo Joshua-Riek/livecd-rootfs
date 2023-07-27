@@ -1109,8 +1109,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=virtual
 
 		if [ "${SUBPROJECT:-}" = minimized ]; then
-			add_task install cloud-image
-			add_package install sudo lxd-installer
+			add_package install ubuntu-cloud-minimal
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
@@ -1210,7 +1209,11 @@ case $PROJECT:${SUBPROJECT:-} in
 		BASE_SEED='wsl'
 		;;
 	ubuntu-cpc:*)
-		BASE_SEED='server'
+		# we don't preseed any snaps in minimized images, so no need to set
+		# BASE_SEED in that case.
+		if [ "${SUBPROJECT:-}" != minimized ]; then
+			BASE_SEED='server'
+		fi
 		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
