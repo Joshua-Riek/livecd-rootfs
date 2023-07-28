@@ -127,7 +127,7 @@ install_grub() {
     fi
 
     # Use initrdless boot for minimal images
-    if [ "${SUBPROJECT:-}" = "minimized" ]; then
+    if [ "${SUBPROJECT:-}" = "minimized" ] && [ "$ARCH" != "s390x" ]; then
         force_boot_without_initramfs mountpoint
     fi
 
