@@ -408,7 +408,7 @@ EOF
 
     # Use initrdless boot for minimal images
     if [ "${SUBPROJECT:-}" = "minimized" ]; then
-        force_boot_without_initramfs ${mountpoint}
+        force_boot_without_initramfs mountpoint
     fi
 
     # This call to rewrite the debian package manifest is added here to capture

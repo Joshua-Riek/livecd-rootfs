@@ -133,7 +133,7 @@ fi
 
 # Use initrdless boot for minimal images
 if [ "${SUBPROJECT:-}" = "minimized" ]; then
-    force_boot_without_initramfs ${mountpoint}
+    force_boot_without_initramfs mountpoint
 fi
 
 if [ "$ARCH" = "s390x" ]; then

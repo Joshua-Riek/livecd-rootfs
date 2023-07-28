@@ -1,3 +1,12 @@
+livecd-rootfs (23.10.6) UNRELEASED; urgency=medium
+
+  * live-build/ubuntu-cpc/hooks.d/base/disk-image-*.binary: Fix invocations of
+    force_boot_without_initramfs to pass "mountpoint" and not "${mountpoint}"
+    (which actually worked on most arches for VERY BAD reasons but fails on
+    s390x).
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jul 2023 14:40:13 +1200
+
 livecd-rootfs (23.10.5) mantic; urgency=medium
 
   [ Utkarsh Gupta ]
