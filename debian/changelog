@@ -1,7 +1,7 @@
 livecd-rootfs (23.10.9) mantic; urgency=medium
 
-  * desktop: no need to include the kernel directly, it is installed at
-    runtime (LP: #2026225)
+  * desktop, budgie: no need to include the kernel directly, it is installed
+    at runtime (LP: #2026225)
 
  -- Dan Bungert <daniel.bungert@canonical.com>  Wed, 02 Aug 2023 13:16:00 -0600
 
