@@ -1,3 +1,11 @@
+livecd-rootfs (23.10.7) UNRELEASED; urgency=medium
+
+  * Actually fix live-build/ubuntu-cpc/hooks.d/base/disk-image.binary to not
+    call force_boot_without_initramfs on s390x rather than
+    disk-image-uefi.binary which obviously would never run on s390x.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Sat, 29 Jul 2023 13:00:37 +1200
+
 livecd-rootfs (23.10.6) mantic; urgency=medium
 
   * live-build/ubuntu-cpc/hooks.d/base/disk-image-*.binary: Fix invocations of
