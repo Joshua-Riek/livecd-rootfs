@@ -139,15 +139,15 @@ create_partitions() {
 			--new=13:4096:8191 \
                         --typecode=13:2E54B353-1271-4842-806F-E436D6AF6985 \
                         --change-name=13:loader1 \
-			--new=2:8192:16383 \
+			--new=2:8192:40959 \
                         --typecode=2:7a097280-70d2-44bc-886c-ff5ffbb7b098 \
                         --change-name=2:loader2 \
-                        --new=12:16384:24575 \
+                        --new=12:40960:49151 \
                         --change-name=12:CIDATA \
-                        --new=15:24576:229375 \
+                        --new=15:49152:253951 \
                         --typecode=15:ef00 \
                         --change-name=15:ESP \
-                        --new=1:229376: \
+                        --new=1:253952: \
                         --attributes=1:set:2
             else
                 # preinstalled server, currently FU540
