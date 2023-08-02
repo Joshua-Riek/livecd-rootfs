@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.8) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.8) mantic; urgency=medium
 
   [ Heinrich Schuchardt ]
   * risc-v: increase loader2 partition for VisionFive 2. EDK II is available
@@ -9,7 +9,7 @@ livecd-rootfs (23.10.8) UNRELEASED; urgency=medium
   * lb_chroot_layered: use rsync to make more minimal overlay layers.
     (LP: #2028213)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 02 Aug 2023 13:12:09 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 02 Aug 2023 13:19:29 +1200
 
 livecd-rootfs (23.10.7) mantic; urgency=medium
 
