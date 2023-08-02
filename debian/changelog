@@ -1,3 +1,12 @@
+livecd-rootfs (23.10.8) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * risc-v: increase loader2 partition for VisionFive 2. EDK II is available
+    for the StarFive VisionFive 2 board. As it is larger than U-Boot we need
+    to increase the size of the loader 2 partition to accommodate it.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 02 Aug 2023 13:12:09 +1200
+
 livecd-rootfs (23.10.7) mantic; urgency=medium
 
   * Actually fix live-build/ubuntu-cpc/hooks.d/base/disk-image.binary to not
