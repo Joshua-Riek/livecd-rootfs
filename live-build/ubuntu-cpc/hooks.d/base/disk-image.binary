@@ -129,11 +129,11 @@ if [ "${should_install_grub}" -eq 1 ]; then
     undivert_grub mountpoint
 
     rm mountpoint/tmp/device.map
-fi
 
-# Use initrdless boot for minimal images
-if [ "${SUBPROJECT:-}" = "minimized" ]; then
-    force_boot_without_initramfs ${mountpoint}
+    # Use initrdless boot for minimal images
+    if [ "${SUBPROJECT:-}" = "minimized" ]; then
+        force_boot_without_initramfs mountpoint
+    fi
 fi
 
 if [ "$ARCH" = "s390x" ]; then

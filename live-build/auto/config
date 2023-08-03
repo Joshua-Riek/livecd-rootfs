@@ -791,7 +791,9 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS='generic-hwe-22.04'
+				OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+				KERNEL_FLAVOURS=none
+				BINARY_REMOVE_LINUX=false
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_task minimal.standard.live ubuntu-live
@@ -928,7 +930,9 @@ case $PROJECT in
 			*)
 				# By default Ubuntu Budgie now ships the new installer.
 				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS='generic-hwe-22.04'
+				OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
+				KERNEL_FLAVOURS=none
+				BINARY_REMOVE_LINUX=false
 				add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
 				add_task minimal.standard.live ubuntu-budgie-live
@@ -1116,8 +1120,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=virtual
 
 		if [ "${SUBPROJECT:-}" = minimized ]; then
-			add_task install cloud-image
-			add_package install sudo lxd-installer
+			add_package install ubuntu-cloud-minimal
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
@@ -1217,7 +1220,11 @@ case $PROJECT:${SUBPROJECT:-} in
 		BASE_SEED='wsl'
 		;;
 	ubuntu-cpc:*)
-		BASE_SEED='server'
+		# we don't preseed any snaps in minimized images, so no need to set
+		# BASE_SEED in that case.
+		if [ "${SUBPROJECT:-}" != minimized ]; then
+			BASE_SEED='server'
+		fi
 		;;
 	ubuntu-server:live)
 		BASE_SEED='server'
