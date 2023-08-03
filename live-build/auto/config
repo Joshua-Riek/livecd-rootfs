@@ -745,7 +745,7 @@ case $PROJECT in
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 
-                # language support
+				# language support
 				seeded_langs="$(get_seeded_languages desktop-minimal desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
 				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
