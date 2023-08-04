@@ -784,9 +784,7 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
-				OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-				KERNEL_FLAVOURS=none
-				BINARY_REMOVE_LINUX=false
+				KERNEL_FLAVOURS='generic-hwe-22.04'
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_task minimal.standard.live ubuntu-live
@@ -923,9 +921,7 @@ case $PROJECT in
 			*)
 				# By default Ubuntu Budgie now ships the new installer.
 				PASSES_TO_LAYERS="true"
-				OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
-				KERNEL_FLAVOURS=none
-				BINARY_REMOVE_LINUX=false
+				KERNEL_FLAVOURS='generic-hwe-22.04'
 				add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
 				add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
 				add_task minimal.standard.live ubuntu-budgie-live
