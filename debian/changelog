@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.10) mantic; urgency=medium
+
+  * Revert "desktop, budgie: no need to include the kernel directly, it is
+    installed at runtime" due to build breakage
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 03 Aug 2023 21:37:46 -0600
+
 livecd-rootfs (23.10.9) mantic; urgency=medium
 
   * desktop, budgie: no need to include the kernel directly, it is installed
