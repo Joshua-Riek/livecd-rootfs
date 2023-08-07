@@ -208,6 +208,11 @@ mount_disk_image() {
     mount_image ${disk_image} 1
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
+    local boot_dev="${loop_device}p16"
+    if [ -b ${boot_dev} -a -e $mountpoint/boot ]; then
+        mount "${boot_dev}" $mountpoint/boot
+    fi
+
     local uefi_dev="${loop_device}p15"
     if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
         mount "${uefi_dev}" $mountpoint/boot/efi
