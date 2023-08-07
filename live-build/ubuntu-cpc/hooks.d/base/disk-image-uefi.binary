@@ -36,6 +36,8 @@ create_partitions() {
             sgdisk "${disk_image}" \
                    --new=15:0:204800 \
                    --typecode=15:ef00 \
+                   --new=16::1G \
+                   --typecode=16:ea00 \
                    --new=1:
             ;;
         riscv64)
@@ -43,6 +45,8 @@ create_partitions() {
                    --set-alignment=2 \
                    --new=15::+106M \
                    --typecode=15:ef00 \
+                   --new=16::1G \
+                   --typecode=16:ea00 \
                    --new=1:: \
                    --attributes=1:set:2
             ;;
@@ -50,6 +54,8 @@ create_partitions() {
             sgdisk "${disk_image}" \
                    --new=14::+4M \
                    --new=15::+106M \
+                   --new=16::1G \
+                   --typecode=16:ea00 \
                    --new=1::
             sgdisk "${disk_image}" \
                    -t 14:ef02 \
@@ -60,15 +66,26 @@ create_partitions() {
         --print
 }
 
-create_and_mount_uefi_partition() {
+create_and_mount_boot_partitions() {
     uefi_dev="${loop_device}p15"
+    boot_dev="${loop_device}p16"
     mountpoint="$1"
+
     mkfs.vfat -F 32 -n UEFI "${uefi_dev}"
+    mkfs.ext4 -L BOOT "${boot_dev}"
+
+    # copying what was on the rootfs to the new boot partition
+    mount "${boot_dev}" "${mountpoint}"/mnt
+    mv "${mountpoint}"/boot/* "${mountpoint}"/mnt
+    umount "${boot_dev}"
+
+    mount "${boot_dev}" "${mountpoint}"/boot
 
     mkdir -p "${mountpoint}"/boot/efi
     mount "${uefi_dev}" "$mountpoint"/boot/efi
 
     cat << EOF >> "mountpoint/etc/fstab"
+LABEL=BOOT	/boot	ext4	defaults	0 2
 LABEL=UEFI	/boot/efi	vfat	umask=0077	0 1
 EOF
 }
@@ -77,7 +94,7 @@ install_grub() {
     mkdir mountpoint
     mount_partition "${rootfs_dev_mapper}" mountpoint
 
-    create_and_mount_uefi_partition mountpoint
+    create_and_mount_boot_partitions mountpoint
 
     echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
     mkdir -p mountpoint/etc/default/grub.d
@@ -149,7 +166,7 @@ install_grub() {
     chroot mountpoint apt-get -y clean
 
     rm mountpoint/tmp/device.map
-    umount mountpoint/boot/efi
+    umount -R mountpoint/boot
     mount
     umount_partition mountpoint
     rmdir mountpoint
