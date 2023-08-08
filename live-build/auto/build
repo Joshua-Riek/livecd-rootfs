@@ -369,21 +369,24 @@ EOF
 	# done in chroot hooks.
 	if [ -z "$PASSES" ]; then
 		if [ "${SUBPROJECT:-}" = minimized ]; then
-			# force removal of initramfs-tools, which we assert is not
-			# required for any minimized images but is still pulled in by
-			# default
-			# also remove landscape-common, which is heavyweight and
-			# in the server seed only to provide /etc/motd content which
-			# would only be seen by humans
-			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
-				apt-get -y purge initramfs-tools busybox-initramfs \
-					landscape-common"
-			# and if initramfs-tools was configured before our kernel,
-			# /etc/kernel/postinst.d/initramfs-tools will have created
-			# an initramfs despite the generic dpkg-divert; so remove it
-			# here.
-			rm -f chroot/boot/initrd.img-*
-
+			# ubuntu-cpc has moved to using ubuntu-cloud-minimal seed
+			# for minimized images, so don't need these purges anymore.
+			if [ "$PROJECT" != ubuntu-cpc ]; then
+				# force removal of initramfs-tools, which we assert is not
+				# required for any minimized images but is still pulled in by
+				# default
+				# also remove landscape-common, which is heavyweight and
+				# in the server seed only to provide /etc/motd content which
+				# would only be seen by humans
+				Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
+					apt-get -y purge initramfs-tools busybox-initramfs \
+						landscape-common"
+				# and if initramfs-tools was configured before our kernel,
+				# /etc/kernel/postinst.d/initramfs-tools will have created
+				# an initramfs despite the generic dpkg-divert; so remove it
+				# here.
+				rm -f chroot/boot/initrd.img-*
+			fi
 			# temporary workaround: don't remove linux-base which
 			# may have no other reverse-depends currently
 			Chroot chroot "env DEBIAN_FRONTEND=noninteractive \
