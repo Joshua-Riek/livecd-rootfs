@@ -1,6 +1,11 @@
 livecd-rootfs (23.10.11) UNRELEASED; urgency=medium
 
+  [ Łukasz 'sil2100' Zemczak ]
   * canary: enable locale support for canary layers.
+
+  [ Michael Hudson-Doyle ]
+  * Remove additional dependencies from subiquity units as they are now
+    interfering with the boot process. (LP: #2028862)
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 07 Aug 2023 11:30:43 +0200
 
