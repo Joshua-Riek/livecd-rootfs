@@ -1,3 +1,13 @@
+livecd-rootfs (23.10.12) mantic; urgency=medium
+
+  * live-build/auto/build: Avoid purging packages for ubuntu-cpc.
+    With the switch to the ubuntu-cloud-minimal seed, we
+    don't really need to purge anything now. On the contrary,
+    the purging of packages if not installed, fails with the
+    exit code of 100.
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Tue, 08 Aug 2023 15:44:42 +0530
+
 livecd-rootfs (23.10.11) mantic; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
