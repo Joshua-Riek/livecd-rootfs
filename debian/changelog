@@ -1,6 +1,8 @@
 livecd-rootfs (2.765.25) jammy; urgency=medium
 
-  * 
+  [ Michael Hudson-Doyle ]
+  * Remove additional dependencies from subiquity units as they are now
+    interfering with the boot process. (LP: #2028862)
 
  -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 28 Aug 2023 14:13:58 -0600
 
