@@ -1,3 +1,14 @@
+livecd-rootfs (23.10.14) mantic; urgency=medium
+
+  * canary
+    * fix the install of the classic variation by including dctrl-tools in the
+      live layer
+    * fix the layer for the classic variation
+    * fix language layer generation (LP: #2031027)
+    * drop minimal install source to match the other desktop image
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Tue, 15 Aug 2023 18:05:39 -0600
+
 livecd-rootfs (23.10.13) mantic; urgency=medium
 
   [ Jess Jang ]
