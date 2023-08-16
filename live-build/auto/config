@@ -748,8 +748,8 @@ case $PROJECT in
 				# language support
 				seeded_langs="$(get_seeded_languages desktop-minimal desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
-				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
+				derive_language_layers minimal.standard.classic desktop desktop-default-languages "$seeded_langs"
+				derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
 
 				# now let's create the neccessary catalog files
 				# TODO: make sure that we handle locale_support: langpack correctly
