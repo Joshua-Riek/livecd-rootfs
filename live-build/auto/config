@@ -776,7 +776,7 @@ case $PROJECT in
 					id: ubuntu-desktop
 					variations:
 					  classic:
-					    path: minimal.standard.squashfs
+					    path: minimal.standard.classic.squashfs
 				EOF
 				cat <<-EOF > config/minimal.standard.enhanced-secureboot.catalog-in.yaml
 					id: ubuntu-desktop
