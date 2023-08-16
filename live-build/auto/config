@@ -740,7 +740,7 @@ case $PROJECT in
 				fi
 				# the live layer, contains all packages for the live session installer
 				# TODO: we should probably add the kernel per KERNEL_FLAVOURS
-				add_package minimal.standard.live linux-generic casper lvm2 mdadm cryptsetup
+				add_package minimal.standard.live linux-generic casper lvm2 mdadm cryptsetup dctrl-tools
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
