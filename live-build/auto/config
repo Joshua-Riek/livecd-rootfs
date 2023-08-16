@@ -752,16 +752,6 @@ case $PROJECT in
 				derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
 
 				# now let's create the neccessary catalog files
-				# TODO: make sure that we handle locale_support: langpack correctly
-				cat <<-EOF > config/minimal.catalog-in.yaml
-					name: "Ubuntu Desktop (minimized)"
-					description: >-
-					  A minimal but usable Ubuntu Desktop.
-					id: ubuntu-desktop-minimal
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
 					description: >-
