@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.15) UNRELEASED; urgency=medium
+
+  * cpc/vagrant: fix possible autopkgtest hang on ssh-keygen
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Wed, 16 Aug 2023 12:08:57 -0600
+
 livecd-rootfs (23.10.14) mantic; urgency=medium
 
   * canary
