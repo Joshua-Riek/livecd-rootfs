@@ -1106,6 +1106,12 @@ case $PROJECT in
 		KERNEL_FLAVOURS=virtual
 
 		if [ "${SUBPROJECT:-}" = minimized ]; then
+		    # For minimized images we do not want to install any recommended packages.
+		    # We can do this by setting APT::Install-Recommends to false in apt config
+		    # or by passing --no-install-recommends to apt-get install.
+		    # Apt config is set using `APT_OPTIONS` variable in this script.
+		    # This fixes LP: #2031640
+		    APT_OPTIONS="${APT_OPTIONS:+$APT_OPTIONS }--no-install-recommends"
 			add_package install ubuntu-cloud-minimal
 		else
 			add_task install minimal standard cloud-image
