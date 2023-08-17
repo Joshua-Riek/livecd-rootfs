@@ -88,7 +88,11 @@ fi
 # previous steps may have left a dangling symlink here with
 # SUBPROJECT=minimized and that breaks lb_chroot_hacks step
 if [ -L "${rootd}/boot/initrd.img" ] && [ ! -e "${rootd}/boot/initrd.img" ]; then
-	rm "${rootd}/boot/initrd.img"
+	rm --verbose "${rootd}/boot/initrd.img"
+fi
+
+if [ -L "${rootd}/boot/initrd.img.old" ] && [ ! -e "${rootd}/boot/initrd.img.old" ]; then
+	rm --verbose "${rootd}/boot/initrd.img.old"
 fi
 
 #### END COMMON ARCH FUNCTIONS
@@ -196,8 +200,11 @@ if [ -x "${rootd}/usr/sbin/update-grub" ]; then
 fi
 
 # reconfigure grub so that upgrades to grub-pc do not force a debconf config
-# changed prompt (LP: #1009294).  This re-runs update-grub
-if [ -n "`_xchroot "${rootd}" dpkg-query -W grub-pc 2>/dev/null`" ]; then
+# changed prompt (LP: #1009294).  This re-runs update-grub. Only do so if grub-pc
+# is installed. Determine whether grub-pc is installed by checking for the
+# status of the grub-pc package. Only packages installed will result in
+# output to the dpkg-query --status command.
+if [ -n "`_xchroot "${rootd}" dpkg-query --status grub-pc 2>/dev/null`" ]; then
     _xchroot "${rootd}" env DEBIAN_FRONTEND=noninteractive \
              dpkg-reconfigure grub-pc
 fi

@@ -1,6 +1,7 @@
 livecd-rootfs (23.10.16) mantic; urgency=medium
 
   * fix: Do not install recommends for ubuntu-cpc minimized project (LP: #2031640)
+  * fix: Remove dangling symlink /boot/initrd.img.old if exists (LP: #2031640)
 
  -- Philip Roche <phil.roche@ubuntu.com>  Thu, 17 Aug 2023 11:44:23 +0100
 
