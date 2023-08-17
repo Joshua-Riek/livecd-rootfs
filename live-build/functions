@@ -708,6 +708,12 @@ snap_preseed() {
     SNAP=${SNAP%=*}
     # strip /classic confinement
     local SNAP_NAME=${SNAP%/*}
+
+    # For snap preseed to work, we need to ensure that fuse3 is installed in the chroot.
+    # fuse3 is a recommends of snapd but if this is a minimized image then recommends are not installed
+    # and preseeding will fail.
+    chroot "${CHROOT_ROOT}" apt-get install --assume-yes --no-install-recommends fuse3
+
     # Seed from the specified channel (e.g. core18 latest/stable)
     # Or Channel endcoded in the snap name (e.g. lxd=4.0/stable/ubuntu-20.04)
     # Or Ubuntu policy default channel latest/stable/ubuntu-$(release_ver)
