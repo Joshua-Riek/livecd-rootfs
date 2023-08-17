@@ -618,7 +618,11 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 	fi
 	case $FLAVOUR in
 		allwinner|virtual|generic-hwe-*)
-			FLAVOUR="generic"
+			if [ "$ARCH" = "armhf" ]; then
+				FLAVOUR="generic-lpae"
+			else
+				FLAVOUR="generic"
+			fi
 			;;
 		oem-*)
 			FLAVOUR="oem"
