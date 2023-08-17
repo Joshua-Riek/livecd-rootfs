@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.15) mantic; urgency=medium
+
+  [ Stefan Hammer ]
+  * fix(armhf): Fix armhf kernel file detection
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Thu, 17 Aug 2023 07:06:53 +0530
+
 livecd-rootfs (23.10.14) mantic; urgency=medium
 
   * canary
