@@ -1,10 +1,10 @@
-livecd-rootfs (23.10.17) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.17) mantic; urgency=medium
 
   * Merge the minimal and standard layers on the Ubuntu Desktop images
     (both daily-live and canary), now that there is no separate minimal
     install target.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 16 Aug 2023 14:19:02 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 17 Aug 2023 09:39:39 -0700
 
 livecd-rootfs (23.10.16) mantic; urgency=medium
 
