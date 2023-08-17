@@ -115,6 +115,8 @@ esac
 
 if [ "${should_install_grub}" -eq 1 ]; then
     echo "(hd0) ${loop_device}" > mountpoint/tmp/device.map
+    # install the required package to get the grub-install command
+    chroot mountpoint apt-get -qqy install --no-install-recommends grub-pc grub2-common
     chroot mountpoint grub-install ${loop_device}
     chroot mountpoint grub-bios-setup \
         --boot-image=i386-pc/boot.img \
