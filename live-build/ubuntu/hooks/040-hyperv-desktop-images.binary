@@ -3,7 +3,7 @@
 echo "Creating Hyper-V image with Desktop..."
 
 case ${SUBPROJECT:-} in
-    minimized|canary)
+    minimized|"")
         echo "We don't create minimized images for $0."
         exit 0
         ;;

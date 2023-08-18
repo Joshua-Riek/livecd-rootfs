@@ -10,14 +10,10 @@ case ${PASS:-} in
         ;;
 esac
 
-case ${SUBPROJECT:-} in
-    canary)
-        ;;
-    *)
-        echo "We don't run canary hooks for this project."
-        exit 0
-        ;;
-esac
+if [ -n "${SUBPROJECT:-}" ]; then
+    echo "We don't run Ubuntu Desktop hooks for this project."
+    exit 0
+fi
 
 . config/binary
 
