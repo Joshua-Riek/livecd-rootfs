@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.18) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.18) mantic; urgency=medium
 
   * Refresh the canary model assertions. The live model now includes all the
     snaps of the standard installation (including firefox), as we want to offer
