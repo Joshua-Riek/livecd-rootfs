@@ -5,7 +5,7 @@ livecd-rootfs (2.765.24) jammy; urgency=medium
     (LP: #2024639)
 
   [ John Chittum ]
-  * fix: 6.2 kernel missing feature. (LP: 2031943)
+  * fix: 6.2 kernel missing feature. (LP: #2031943)
 
  -- Utkarsh Gupta <utkarsh@ubuntu.com>  Sat, 19 Aug 2023 03:24:34 +0530
 
