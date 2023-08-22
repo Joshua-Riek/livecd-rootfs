@@ -8,6 +8,8 @@ livecd-rootfs (23.10.21) UNRELEASED; urgency=medium
     - Consolidate canary layers to merge 'classic' back into 'standard'
     - Reset /var/lib/snapd in the upper layers before calling snap
       prepare-image
+    - No need to use rsync in hooks now to avoid file duplication since layer
+      handling as a whole now uses rsync.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 23 Aug 2023 11:15:26 +1200
 
