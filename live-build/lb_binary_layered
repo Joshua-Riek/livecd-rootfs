@@ -142,7 +142,23 @@ build_layered_squashfs () {
 			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
 		fi
 
-		create_squashfs "overlay.${pass}/" ${squashfs_f}
+		if [ -n "$lowerdirs" ]; then
+			# Although the current chroot was created as an overlay over
+			# the previous layer, many operations can result in redundant
+			# files in the upperdir. Rather than trying to minimize the
+			# overlay by hand, we rsync the chroot into a fresh overlay,
+			# rely on rsyncs ability to avoid redundant file operations,
+			# and take _that_ overlay's upperdir as the content of the
+			# layer.
+			mkdir -p chroot-2 "$overlay_dir-2"
+			mount_overlay "$lowerdirs" "$overlay_dir-2" chroot-2
+			rsync -caXHAS --no-t --del chroot/ chroot-2/
+			umount chroot-2
+			rmdir chroot-2
+			overlay_dir="$overlay_dir-2"
+		fi
+
+		create_squashfs "${overlay_dir}" ${squashfs_f}
 
 		if [ -f config/$pass.catalog-in.yaml ]; then
 			echo "Expanding catalog entry template for $pass"

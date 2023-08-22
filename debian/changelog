@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.21) UNRELEASED; urgency=medium
+
+  * Deduplicate the layers just before creating the squashfs, to enable
+    deduplication of the result of binary hooks as well.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 23 Aug 2023 11:15:26 +1200
+
 livecd-rootfs (23.10.20) mantic; urgency=medium
 
   * Update canary model assertions to include all the regular seeded snaps,
