@@ -12,17 +12,20 @@ esac
 IMAGE_STR="# CLOUD_IMG: This file was created/modified by the Cloud Image build process"
 FS_LABEL="cloudimg-rootfs"
 
-if [ "$ARCH" = "amd64" ]; then
-    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Kinetic amd64 need more then the default 2.2G
-fi
-
-if [ "$ARCH" = "armhf" ]; then
-    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2); Since Jammy armhf need more then the default 2.2G
-fi
-
-if [ "$ARCH" = "riscv64" ]; then
-    IMAGE_SIZE=4831838208 # bump to 4.5G (4608*1024**2); initrd creation fails with "No space left" with 3.5G
-fi
+case "$ARCH" in
+  amd64|arm64|armhf)
+    # 3.5 GiB
+    # Since Kinetic amd64 need more then the default 2.2G
+    # Since Jammy armhf need more then the default 2.2G
+    # Since Mantic arm64 need more then the default 2.2G
+    IMAGE_SIZE=3758096384 # bump to 3.5G (3584*1024**2);
+    ;;
+  riscv64)
+    # 4.5 GiB
+    # initrd creation fails with "No space left" with 3.5G
+    IMAGE_SIZE=4831838208 # bump to 4.5G (4608*1024**2);
+    ;;
+esac
 
 . config/binary
 
