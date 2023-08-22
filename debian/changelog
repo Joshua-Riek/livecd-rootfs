@@ -6,6 +6,8 @@ livecd-rootfs (23.10.21) UNRELEASED; urgency=medium
   [ Steve Langasek ]
   * Deduplicate snaps between squashfs layers on classic:
     - Consolidate canary layers to merge 'classic' back into 'standard'
+    - Reset /var/lib/snapd in the upper layers before calling snap
+      prepare-image
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 23 Aug 2023 11:15:26 +1200
 

@@ -20,6 +20,7 @@ case ${SUBPROJECT:-} in
 esac
 
 . config/binary
+. config/functions
 
 # env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2310-amd64 > config/classic-model.model
 cat <<EOF > config/classic-model.model
@@ -134,6 +135,9 @@ channel=""
 if [ -n "${CHANNEL:-}" ]; then
     channel="--channel $CHANNEL"
 fi
+
+reset_snapd_state chroot
+
 env SNAPPY_STORE_NO_CDN=1 snap prepare-image \
     --classic config/classic-model.model $channel chroot
 mv chroot/system-seed/systems/* chroot/system-seed/systems/enhanced-secureboot-desktop
