@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.21) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.21) mantic; urgency=medium
 
   * Deduplicate the layers just before creating the squashfs, to enable
     deduplication of the result of binary hooks as well.
@@ -11,7 +11,7 @@ livecd-rootfs (23.10.21) UNRELEASED; urgency=medium
     - No need to use rsync in hooks now to avoid file duplication since layer
       handling as a whole now uses rsync.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 23 Aug 2023 11:15:26 +1200
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 23 Aug 2023 10:31:42 -0700
 
 livecd-rootfs (23.10.20) mantic; urgency=medium
 
