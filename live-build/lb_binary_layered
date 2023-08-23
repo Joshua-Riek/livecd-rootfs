@@ -152,7 +152,23 @@ build_layered_squashfs () {
 			# layer.
 			mkdir -p chroot-2 "$overlay_dir-2"
 			mount_overlay "$lowerdirs" "$overlay_dir-2" chroot-2
-			rsync -caXHAS --no-t --del chroot/ chroot-2/
+			# rsync takes many, many options. The subset
+			# we pass here is quite important:
+			#  -a is standard to operate in the basic way required here.
+			#  -X to preserve xattrs
+			#  -H to preserve hardlinks
+			#  -A to preserve ACLs
+			#  -S to preserve sparseness
+			#  --checksum to skip copies based on the content of the file
+			#    (rather than the default which is to skip copies based
+			#    on size + mtime)
+			#  --no-times to not copy mtimes from source to dest (we
+			#    don't care about mtime in the image and want to
+			#    deduplicate files that have indentical contents but
+			#    different mtimes)
+			#  --del because we want to remove files that have been
+			#    deleted in this layer.
+			rsync -aXHAS --checksum --no-times --del chroot/ chroot-2/
 			umount chroot-2
 			rmdir chroot-2
 			overlay_dir="$overlay_dir-2"
