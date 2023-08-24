@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.22) UNRELEASED; urgency=medium
+
+  * Undo preseeding in reset_snapd_state.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Aug 2023 11:44:57 +1200
+
 livecd-rootfs (23.10.21) mantic; urgency=medium
 
   * Deduplicate the layers just before creating the squashfs, to enable
