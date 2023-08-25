@@ -145,24 +145,6 @@ mode=run
 recovery_system=classic-installer
 EOF
 
-# Temporary while we still use the subiquity TUI for the live system
-cat > chroot/usr/lib/systemd/user/subiquity-tui.service  << EOF
-[Unit]
-Description=subiquity tui
-PartOf=graphical-session.target
-After=graphical-session.target
-
-# Never run in GDM
-Conflicts=gnome-session@gnome-login.target
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/gnome-terminal --wait -- sudo sh -c 'echo waiting for snapd; snap wait system seed.loaded; sleep 5; snap run subiquity'
-Restart=no
-EOF
-mkdir chroot/etc/systemd/user/graphical-session.target.wants/
-ln -vs /usr/lib/systemd/user/subiquity-tui.service chroot/etc/systemd/user/graphical-session.target.wants/
-
 mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic
 mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic
 chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic ${PWD}/livecd.${PROJECT}.kernel-generic
