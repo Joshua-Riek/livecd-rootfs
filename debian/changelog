@@ -1,6 +1,8 @@
 livecd-rootfs (23.10.22) UNRELEASED; urgency=medium
 
   * Undo preseeding in reset_snapd_state.
+  * update-source-catalog: work better when we want a variation to point
+    at the base layer.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Aug 2023 11:44:57 +1200
 
