@@ -47,7 +47,7 @@ else:
     if template['variations']:
         for variation in template['variations'].values():
             if variation['path'] == opts.squashfs:
-                variation['size'] == int(opts.size)
+                variation['size'] = int(opts.size)
 
     template['size'] = int(opts.size)
     template['path'] = opts.squashfs
