@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.22) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.22) mantic; urgency=medium
 
   * Undo preseeding in reset_snapd_state.
   * update-source-catalog: work better when we want a variation to point
@@ -6,7 +6,7 @@ livecd-rootfs (23.10.22) UNRELEASED; urgency=medium
   * Stop launching a gnome-terminal at startup of the canary live session.
     (LP: #2032647)
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Aug 2023 11:44:57 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Aug 2023 18:45:03 +1200
 
 livecd-rootfs (23.10.21) mantic; urgency=medium
 
