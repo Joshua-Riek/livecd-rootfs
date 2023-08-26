@@ -10,10 +10,6 @@ case ${PASS:-} in
         ;;
 esac
 
-# TODO: Make sure this is only executed for canary builds (in a way
-# other then relying on the fact that these hooks are only copied for
-# an ubuntu:canary build)
-
 cat <<EOF > /etc/initramfs-tools/conf.d/casperize.conf
 export CASPER_GENERATE_UUID=1
 EOF
