@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.23) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.23) mantic; urgency=medium
 
   * i386 foreign-arch support was added for the canary image before 23.04
     released, but by mistake it was only added to the squashfs for the live
@@ -7,7 +7,7 @@ livecd-rootfs (23.10.23) UNRELEASED; urgency=medium
     LP: #2033170.
   * Drop mke2fs.conf override, no longer needed.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 26 Aug 2023 15:05:13 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 26 Aug 2023 16:34:27 -0700
 
 livecd-rootfs (23.10.22) mantic; urgency=medium
 
