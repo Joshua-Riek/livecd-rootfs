@@ -5,6 +5,7 @@ livecd-rootfs (23.10.23) UNRELEASED; urgency=medium
     session, and not the squashfs layer used as the source for installation.
     split the chroot hooks to add this to the standard.squashfs.
     LP: #2033170.
+  * Drop mke2fs.conf override, no longer needed.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 26 Aug 2023 15:05:13 -0700
 
