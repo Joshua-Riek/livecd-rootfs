@@ -1,3 +1,13 @@
+livecd-rootfs (23.10.23) UNRELEASED; urgency=medium
+
+  * i386 foreign-arch support was added for the canary image before 23.04
+    released, but by mistake it was only added to the squashfs for the live
+    session, and not the squashfs layer used as the source for installation.
+    split the chroot hooks to add this to the standard.squashfs.
+    LP: #2033170.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 26 Aug 2023 15:05:13 -0700
+
 livecd-rootfs (23.10.22) mantic; urgency=medium
 
   * Undo preseeding in reset_snapd_state.
