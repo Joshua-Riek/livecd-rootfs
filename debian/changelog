@@ -3,6 +3,8 @@ livecd-rootfs (23.10.24) UNRELEASED; urgency=medium
   * update-source-catalog: Fix case where a variaton does not point at the
     base layer (i.e. most builds) (LP: #2033168) 
   * Configure universe sources in canary ISO. (LP: #2033109)
+  * snap-seed-parse.py: Update to allow parsing uc20-style seeds.
+    (LP: #2028984)
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 10:39:52 +1200
 
