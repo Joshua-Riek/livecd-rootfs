@@ -44,7 +44,7 @@ for entry in output:
 else:
     # No entry with this id found, so add a new one.
 
-    if template['variations']:
+    if 'variations' in template:
         for variation in template['variations'].values():
             if variation['path'] == opts.squashfs:
                 variation['size'] = int(opts.size)
