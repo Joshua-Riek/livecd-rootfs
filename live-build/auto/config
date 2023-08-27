@@ -722,6 +722,7 @@ case $PROJECT in
 				esac
 				;;
 			canary)
+				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
 				# the standard layer, contains all base common packages for later layers
 				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
