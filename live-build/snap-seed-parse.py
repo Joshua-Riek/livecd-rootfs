@@ -65,6 +65,10 @@ def make_manifest_from_seed_yaml(path):
 
 
 def look_for_uc20_model(chroot):
+    systems_dir = f"{chroot}/var/lib/snapd/seed/systems"
+    if not os.path.isdir(systems_dir):
+        log("no systems directory found")
+        return None
     modeenv = f"{chroot}/var/lib/snapd/modeenv"
     system_name = None
     if os.path.isfile(modeenv):
@@ -76,7 +80,7 @@ def look_for_uc20_model(chroot):
                     log(f"read system name {system_name!r} from modeenv")
                     break
     if system_name is None:
-        system_names = os.listdir(f"{chroot}/var/lib/snapd/seed/systems")
+        system_names = os.listdir(systems_dir)
         if len(system_names) == 0:
             log("no systems found")
             return None
