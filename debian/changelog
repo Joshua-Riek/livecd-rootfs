@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.26) UNRELEASED; urgency=medium
+
+  * Use a traditional seed.yaml style seed for the canary installer's live
+    session.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 21:29:00 +1200
+
 livecd-rootfs (23.10.25) mantic; urgency=medium
 
   * snap-seed-parse.py: fix builds with no snaps.
