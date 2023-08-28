@@ -1,3 +1,9 @@
+livecd-rootfs (2.765.25) jammy; urgency=medium
+
+  * 
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 28 Aug 2023 14:13:58 -0600
+
 livecd-rootfs (2.765.24) jammy; urgency=medium
 
   [ Jess Jang ]
