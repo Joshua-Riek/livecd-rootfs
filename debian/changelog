@@ -1,8 +1,8 @@
-livecd-rootfs (23.10.25) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.25) mantic; urgency=medium
 
   * snap-seed-parse.py: fix builds with no snaps.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 14:02:08 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 14:02:56 +1200
 
 livecd-rootfs (23.10.24) mantic; urgency=medium
 
