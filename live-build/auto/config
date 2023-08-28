@@ -731,6 +731,7 @@ case $PROJECT in
 				# TODO: we should probably add the kernel per KERNEL_FLAVOURS
 				add_package standard.live linux-generic casper lvm2 mdadm cryptsetup dctrl-tools
 				remove_package standard.live ubiquity-frontend-gtk
+				add_snap standard.live ubuntu-desktop-installer/classic
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 

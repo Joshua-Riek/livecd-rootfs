@@ -1,8 +1,12 @@
 livecd-rootfs (23.10.26) UNRELEASED; urgency=medium
 
+  [ Łukasz 'sil2100' Zemczak ]
   * Update the enhanced-sb layer model to not preinstall the printing snaps,
     per changes to seeds. Live layer model not changed as it will go away
     soon per our staged changes.
+
+  [ Michael Hudson-Doyle ]
+  * Use a traditional seed.yaml style seed for the canary installer's live
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 28 Aug 2023 12:13:38 +0200
 
