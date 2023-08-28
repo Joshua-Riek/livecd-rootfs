@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.26) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.26) mantic; urgency=medium
 
   [ Łukasz 'sil2100' Zemczak ]
   * Update the enhanced-sb layer model to not preinstall the printing snaps,
