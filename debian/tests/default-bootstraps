@@ -43,11 +43,17 @@ ALL_TRIPLETS="
  xubuntu::
  xubuntu:minimal:"
 
+ARCH=$(dpkg --print-architecture)
+
 if [ -z "$SELECTED_TRIPLETS" ]; then
     SELECTED_TRIPLETS="
  ubuntu-base::
  ubuntu-cpc::ubuntu-cpc
 "
+    if [ "$ARCH" = amd64 ]; then
+        SELECTED_TRIPLETS="$SELECTED_TRIPLETS
+ubuntu::"
+    fi
 fi
 
 live_build_rootfs() {
@@ -55,7 +61,6 @@ live_build_rootfs() {
     local SUBPROJECT_TMP=${1%:*}
     SUBPROJECT=${SUBPROJECT_TMP#*:}
     TEMPLATE=${1##*:}
-    ARCH=$(dpkg --print-architecture)
     echo "Building rootfs for project: '$PROJECT' subproject: '$SUBPROJECT' template: '$TEMPLATE' in $PWD"
     cp -a /usr/share/livecd-rootfs/live-build/auto .
     if [ -n "$TEMPLATE" ]; then
