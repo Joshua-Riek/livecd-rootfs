@@ -2,6 +2,8 @@ livecd-rootfs (23.10.27) UNRELEASED; urgency=medium
 
   * Add ubuntu to the list of targets we autopkgtest for on amd64, to ensure
     coverage of the lb_chroot_layered behavior.
+  * lb_chroot_layered: if the unmount of the chroot mountpoint fails, dump
+    mount information for debugging.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 29 Aug 2023 10:32:35 -0700
 

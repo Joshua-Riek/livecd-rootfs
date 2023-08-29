@@ -268,7 +268,13 @@ create_chroot_pass () {
 	lb chroot_devpts remove ${*}
 
 	if [ -n "$lowerdirs" ]; then
-		umount chroot
+		res=0
+		umount chroot || res=$?
+		if [ $res -ne 0 ]; then
+			Echo_message "Unmount failed, current mounts: "
+			cat /proc/$$/mounts
+			exit $res
+		fi
 		rmdir chroot
 	else
 		rm chroot
