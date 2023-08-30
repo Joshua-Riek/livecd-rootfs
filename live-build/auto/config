@@ -724,12 +724,12 @@ case $PROJECT in
 			canary)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
+				KERNEL_FLAVOURS='generic-hwe-22.04'
 				# the standard layer, contains all base common packages for later layers
 				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_package standard cloud-init
 				# the live layer, contains all packages for the live session installer
-				# TODO: we should probably add the kernel per KERNEL_FLAVOURS
-				add_package standard.live linux-generic casper lvm2 mdadm cryptsetup dctrl-tools
+				add_task standard.live ubuntu-live
 				remove_package standard.live ubiquity-frontend-gtk
 				add_snap standard.live ubuntu-desktop-installer/classic
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
