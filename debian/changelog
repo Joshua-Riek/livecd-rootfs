@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.28) UNRELEASED; urgency=medium
+
+  * canary: switch to use the live task, try to use KERNEL_FLAVOURS instead
+    of a manual kernel add_package.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 30 Aug 2023 11:57:11 +0200
+
 livecd-rootfs (23.10.27) mantic; urgency=medium
 
   * Add ubuntu to the list of targets we autopkgtest for on amd64, to ensure
