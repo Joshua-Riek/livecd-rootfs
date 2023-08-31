@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.29) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.29) mantic; urgency=medium
 
   * canary: switch to use the live task, try to use KERNEL_FLAVOURS instead
     of a manual kernel add_package.
