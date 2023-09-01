@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.30) mantic; urgency=medium
+
+  * Fix unminimize to correctly list packages. (LP: #1996489)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Sat, 02 Sep 2023 02:16:03 +0530
+
 livecd-rootfs (23.10.29) mantic; urgency=medium
 
   * canary: switch to use the live task, try to use KERNEL_FLAVOURS instead
