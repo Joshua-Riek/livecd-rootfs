@@ -1,3 +1,11 @@
+livecd-rootfs (23.10.31) mantic; urgency=medium
+
+  * fix: Create .filelist in ubuntu-cpc project binary hooks that do not use create_manifest shared function (LP: #2033751)
+    * fix: Ensure any created .filelist is symlinked with expected prefix and correct permissions
+    * fix: disk-image-non-cloud ubuntu-cpc build target now provides manifest and filelist
+
+ -- Philip Roche <phil.roche@ubuntu.com>  Fri, 01 Sep 2023 12:22:15 +0100
+
 livecd-rootfs (23.10.30) mantic; urgency=medium
 
   * fix: Sort filelists creating when building ubuntu-cpc images (LP: #2033677)
