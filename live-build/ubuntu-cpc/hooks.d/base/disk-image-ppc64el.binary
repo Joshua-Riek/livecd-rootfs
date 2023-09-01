@@ -75,6 +75,11 @@ make_ext4_partition "${rootfs_dev_mapper}"
 mkdir mountpoint
 mount "${rootfs_dev_mapper}" mountpoint
 cp -a chroot/* mountpoint/
+
+# the image has been modified from its disk-image-uefi base so the manifest and filelist should be regenerated
+chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
+(cd mountpoint && find -xdev) | sort > binary/boot/filesystem.filelist
+
 umount mountpoint
 rmdir mountpoint
 
