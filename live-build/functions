@@ -78,7 +78,8 @@ mount_image() {
 
     # Add some information to the debug logs
     echo "Mounted disk image ${backing_img} to ${rootfs_dev_mapper}"
-    blkid ${rootfs_dev_mapper}
+    blkid ${rootfs_dev_mapper} \
+    || echo "blkid failed; continuing"
 
     return 0
 }
