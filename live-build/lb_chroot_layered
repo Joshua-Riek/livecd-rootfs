@@ -131,8 +131,8 @@ create_chroot_pass () {
 	mkdir -p "$overlay_dir/"
 	lowerdirs=$(get_lowerdirs_for_pass $pass)
 	if [ -n "$lowerdirs" ]; then
-		mkdir -p chroot "${overlay_dir}-initial"
-		mount_overlay "$lowerdirs" "${overlay_dir}-initial" chroot/
+		mkdir -p chroot/
+		mount_overlay "$lowerdirs" "$overlay_dir" chroot/
 	else
 		ln -s "$overlay_dir/" chroot
 	fi
@@ -268,19 +268,14 @@ create_chroot_pass () {
 	lb chroot_devpts remove ${*}
 
 	if [ -n "$lowerdirs" ]; then
-		# Although the current chroot was created as an overlay over
-		# the previous layer, many operations can result in redundant
-		# files in the upperdir. Rather than trying to minimize the
-		# overlay by hand, we rsync the chroot into a fresh overlay,
-		# rely on rsyncs ability to avoid redundant file operations,
-		# and take _that_ overlay's upperdir as the content of the
-		# layer.
-		mkdir chroot-2
-		mount_overlay "$lowerdirs" "$overlay_dir" chroot-2/
-		rsync -aXHAS --del chroot/ chroot-2/
-		umount chroot chroot-2
-		rmdir chroot chroot-2
-		rm -rf ${overlay_dir}-initial
+		res=0
+		umount chroot || res=$?
+		if [ $res -ne 0 ]; then
+			Echo_message "Unmount failed, current mounts: "
+			cat /proc/$$/mounts
+			exit $res
+		fi
+		rmdir chroot
 	else
 		rm chroot
 	fi

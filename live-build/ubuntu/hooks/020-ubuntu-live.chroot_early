@@ -3,17 +3,12 @@
 set -eu
 
 case ${PASS:-} in
-    minimal.standard.live)
+    standard.live)
         ;;
     *)
         exit 0
         ;;
 esac
-
-# As described in LP: #2025339, an initrd built from a jammy userspace
-# (which is what we use for Ubuntu Desktop builds currently) cannot fsck a
-# mantic root filesystem created with the default options.
-sed -i -e 's/,orphan_file//' /etc/mke2fs.conf
 
 cat <<EOF > /etc/initramfs-tools/conf.d/casperize.conf
 export CASPER_GENERATE_UUID=1
@@ -22,10 +17,3 @@ EOF
 cat <<EOF > /etc/initramfs-tools/conf.d/default-layer.conf
 LAYERFS_PATH=${PASS}.squashfs
 EOF
-
-if [ "$(dpkg --print-architecture)" = amd64 ]; then
-    echo "I: Enabling amd64 multiarch support on amd64"
-    dpkg --add-architecture i386
-
-    apt-get -y update
-fi

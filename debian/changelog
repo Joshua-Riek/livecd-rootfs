@@ -1,3 +1,119 @@
+livecd-rootfs (23.10.30) mantic; urgency=medium
+
+  * Fix unminimize to correctly list packages. (LP: #1996489)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Sat, 02 Sep 2023 02:16:03 +0530
+
+livecd-rootfs (23.10.29) mantic; urgency=medium
+
+  * canary: switch to use the live task, try to use KERNEL_FLAVOURS instead
+    of a manual kernel add_package.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 31 Aug 2023 11:57:11 +0200
+
+livecd-rootfs (23.10.28) mantic; urgency=medium
+
+  * Allow stderr in the autopkgtest.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 30 Aug 2023 08:28:57 -0700
+
+livecd-rootfs (23.10.27) mantic; urgency=medium
+
+  * Add ubuntu to the list of targets we autopkgtest for on amd64, to ensure
+    coverage of the lb_chroot_layered behavior.
+  * lb_chroot_layered: if the unmount of the chroot mountpoint fails, dump
+    mount information for debugging.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 29 Aug 2023 10:39:23 -0700
+
+livecd-rootfs (23.10.26) mantic; urgency=medium
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Update the enhanced-sb layer model to not preinstall the printing snaps,
+    per changes to seeds. Live layer model not changed as it will go away
+    soon per our staged changes.
+
+  [ Michael Hudson-Doyle ]
+  * Use a traditional seed.yaml style seed for the canary installer's live
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 28 Aug 2023 12:13:38 +0200
+
+livecd-rootfs (23.10.25) mantic; urgency=medium
+
+  * snap-seed-parse.py: fix builds with no snaps.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 14:02:56 +1200
+
+livecd-rootfs (23.10.24) mantic; urgency=medium
+
+  * update-source-catalog: Fix case where a variaton does not point at the
+    base layer (i.e. most builds) (LP: #2033168) 
+  * Configure universe sources in canary ISO. (LP: #2033109)
+  * snap-seed-parse.py: Update to allow parsing uc20-style seeds.
+    (LP: #2028984)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 28 Aug 2023 12:48:53 +1200
+
+livecd-rootfs (23.10.23) mantic; urgency=medium
+
+  * i386 foreign-arch support was added for the canary image before 23.04
+    released, but by mistake it was only added to the squashfs for the live
+    session, and not the squashfs layer used as the source for installation.
+    split the chroot hooks to add this to the standard.squashfs.
+    LP: #2033170.
+  * Drop mke2fs.conf override, no longer needed.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 26 Aug 2023 16:34:27 -0700
+
+livecd-rootfs (23.10.22) mantic; urgency=medium
+
+  * Undo preseeding in reset_snapd_state.
+  * update-source-catalog: work better when we want a variation to point
+    at the base layer.
+  * Stop launching a gnome-terminal at startup of the canary live session.
+    (LP: #2032647)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 25 Aug 2023 18:45:03 +1200
+
+livecd-rootfs (23.10.21) mantic; urgency=medium
+
+  * Deduplicate the layers just before creating the squashfs, to enable
+    deduplication of the result of binary hooks as well.
+
+  [ Steve Langasek ]
+  * Deduplicate snaps between squashfs layers on classic:
+    - Consolidate canary layers to merge 'classic' back into 'standard'
+    - Reset /var/lib/snapd in the upper layers before calling snap
+      prepare-image
+    - No need to use rsync in hooks now to avoid file duplication since layer
+      handling as a whole now uses rsync.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 23 Aug 2023 10:31:42 -0700
+
+livecd-rootfs (23.10.20) mantic; urgency=medium
+
+  * Update canary model assertions to include all the regular seeded snaps,
+    using the right channels for all of them.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 22 Aug 2023 17:14:38 +0200
+
+livecd-rootfs (23.10.19) mantic; urgency=medium
+
+  * Add python3-systemd to CPC's minimized builds.
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Tue, 22 Aug 2023 14:54:57 +0530
+
+livecd-rootfs (23.10.18) mantic; urgency=medium
+
+  * Refresh the canary model assertions. The live model now includes all the
+    snaps of the standard installation (including firefox), as we want to offer
+    the same experience in the livefs as in the target installation. We also
+    track other, proper channels for the seeded snaps.
+  * Fix the 020-canary-* hooks referencing the wrong layer names after changes
+    introduced in 23.10.17.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 18 Aug 2023 17:58:54 +0200
+
 livecd-rootfs (23.10.17) mantic; urgency=medium
 
   * Merge the minimal and standard layers on the Ubuntu Desktop images

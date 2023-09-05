@@ -1230,3 +1230,15 @@ EOF
         undivert_grub "${mountpoint}"
     fi
 }
+
+# find all files under /var/lib/snapd in the target directory that aren't
+# shipped by the snapd package itself, and remove them
+reset_snapd_state() {
+    rootdir="$1"
+
+    /usr/lib/snapd/snap-preseed --reset $(realpath "$rootdir") || true
+    rm -rf "$rootdir/var/lib/snapd"
+    setup_mountpoint "$rootdir"
+    chroot "$rootdir" apt-get install --reinstall -y snapd
+    teardown_mountpoint "$rootdir"
+}

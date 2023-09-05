@@ -142,7 +142,39 @@ build_layered_squashfs () {
 			cp "${squashfs_f_manifest}.full" "${prefix}.manifest"
 		fi
 
-		create_squashfs "overlay.${pass}/" ${squashfs_f}
+		if [ -n "$lowerdirs" ]; then
+			# Although the current chroot was created as an overlay over
+			# the previous layer, many operations can result in redundant
+			# files in the upperdir. Rather than trying to minimize the
+			# overlay by hand, we rsync the chroot into a fresh overlay,
+			# rely on rsyncs ability to avoid redundant file operations,
+			# and take _that_ overlay's upperdir as the content of the
+			# layer.
+			mkdir -p chroot-2 "$overlay_dir-2"
+			mount_overlay "$lowerdirs" "$overlay_dir-2" chroot-2
+			# rsync takes many, many options. The subset
+			# we pass here is quite important:
+			#  -a is standard to operate in the basic way required here.
+			#  -X to preserve xattrs
+			#  -H to preserve hardlinks
+			#  -A to preserve ACLs
+			#  -S to preserve sparseness
+			#  --checksum to skip copies based on the content of the file
+			#    (rather than the default which is to skip copies based
+			#    on size + mtime)
+			#  --no-times to not copy mtimes from source to dest (we
+			#    don't care about mtime in the image and want to
+			#    deduplicate files that have indentical contents but
+			#    different mtimes)
+			#  --del because we want to remove files that have been
+			#    deleted in this layer.
+			rsync -aXHAS --checksum --no-times --del chroot/ chroot-2/
+			umount chroot-2
+			rmdir chroot-2
+			overlay_dir="$overlay_dir-2"
+		fi
+
+		create_squashfs "${overlay_dir}" ${squashfs_f}
 
 		if [ -f config/$pass.catalog-in.yaml ]; then
 			echo "Expanding catalog entry template for $pass"

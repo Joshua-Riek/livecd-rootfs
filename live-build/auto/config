@@ -722,27 +722,23 @@ case $PROJECT in
 				esac
 				;;
 			*)
+				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
-				# the standard layer, contains all base common packages for later layers (we're splitting out the snaps)
+				KERNEL_FLAVOURS='generic-hwe-22.04'
+				# the standard layer, contains all base common packages for later layers
 				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_package standard cloud-init
-				# the classic layer, basically only contains snaps from the standard and minimal tasks
-				add_pass standard.classic
-				if [ -e "config/package-lists/livecd-rootfs.snaplist.chroot_standard.full" ]; then
-					cat config/package-lists/livecd-rootfs.snaplist.chroot_standard.full >>config/package-lists/livecd-rootfs.snaplist.chroot_standard.classic.full
-					rm config/package-lists/livecd-rootfs.snaplist.chroot_standard.full
-				fi
 				# the live layer, contains all packages for the live session installer
-				# TODO: we should probably add the kernel per KERNEL_FLAVOURS
-				add_package standard.live linux-generic casper lvm2 mdadm cryptsetup dctrl-tools
+				add_task standard.live ubuntu-live
 				remove_package standard.live ubiquity-frontend-gtk
+				add_snap standard.live ubuntu-desktop-installer/classic
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 
 				# language support
 				seeded_langs="$(get_seeded_languages desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers standard.classic desktop desktop-default-languages "$seeded_langs"
+				derive_language_layers standard desktop desktop-default-languages "$seeded_langs"
 				derive_language_layers standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
 
 				# now let's create the neccessary catalog files
@@ -755,12 +751,9 @@ case $PROJECT in
 					variant: desktop
 					locale_support: langpack
 					default: yes
-				EOF
-				cat <<-EOF > config/standard.classic.catalog-in.yaml
-					id: ubuntu-desktop
 					variations:
-					  classic:
-					    path: standard.classic.squashfs
+					  standard:
+					    path: standard.squashfs
 				EOF
 				cat <<-EOF > config/standard.enhanced-secureboot.catalog-in.yaml
 					id: ubuntu-desktop
@@ -1076,8 +1069,15 @@ case $PROJECT in
 		    # or by passing --no-install-recommends to apt-get install.
 		    # Apt config is set using `APT_OPTIONS` variable in this script.
 		    # This fixes LP: #2031640
+		    #
+		    # We're also installing python3-systemd for now because it's needed by
+		    # ubuntu-advantage-tools. This will eventually be dropped in the next
+		    # release of u-a-t. This is being discussed and tracked at
+		    # https://github.com/canonical/ubuntu-pro-client/issues/2692.
+		    # Once python3-systemd is dropped from u-a-t, we can remove it
+		    # from here, too.
 		    APT_OPTIONS="${APT_OPTIONS:+$APT_OPTIONS }--no-install-recommends"
-			add_package install ubuntu-cloud-minimal
+			add_package install ubuntu-cloud-minimal python3-systemd
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
@@ -1272,7 +1272,7 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*|ubuntu:)
+	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
