@@ -1,0 +1,26 @@
+#! /bin/sh
+
+# Kernels are deliberately installed into the live layer for Subiquity
+# installers. This provides the ability to select a different kernel later, a
+# key function for OEM support and a general capability for Subiquity.
+
+set -eux
+
+case ${PASS:-} in
+    standard.live)
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+if [ -n "${SUBPROJECT:-}" ]; then
+    echo "We don't run Ubuntu Desktop hooks for this project."
+fi
+
+. config/binary
+. config/functions
+
+mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic-hwe
+mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic-hwe
+chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic-hwe ${PWD}/livecd.${PROJECT}.kernel-generic-hwe

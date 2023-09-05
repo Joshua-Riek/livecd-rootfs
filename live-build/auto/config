@@ -716,7 +716,6 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS='generic-hwe-22.04'
 				# the standard layer, contains all base common packages for later layers
 				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
 				add_package standard cloud-init
@@ -724,6 +723,7 @@ case $PROJECT in
 				add_task standard.live ubuntu-live
 				remove_package standard.live ubiquity-frontend-gtk
 				add_snap standard.live ubuntu-desktop-installer/classic
+				add_package standard.live linux-generic-hwe-22.04 casper
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
 				add_package standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 
@@ -1183,7 +1183,7 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*)
+	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*|ubuntu:)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
