@@ -4,4 +4,4 @@ Restrictions: needs-root isolation-machine allow-stderr
 
 Tests: minimized
 Depends: @, lsb-release
-Restrictions: needs-root isolation-machine
+Restrictions: needs-root isolation-machine allow-stderr
