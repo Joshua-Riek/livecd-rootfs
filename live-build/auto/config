@@ -976,11 +976,7 @@ case $PROJECT in
 		esac
 		;;
 
-	ubuntu-base)
-		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
-		;;
-
-	ubuntu-oci)
+	ubuntu-base|ubuntu-oci)
 		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
 		;;
 
