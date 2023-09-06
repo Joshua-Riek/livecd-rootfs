@@ -6,6 +6,8 @@ livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
   * Don't hard-code addition of xterm package on xubuntu, it's in the task
     already.
   * Drop references to ubuntu-netbook, obsolete since Ubuntu 11.04.
+  * ubuntu-unity-live task exists, use it also instead of hard-coded list of
+    packages.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 
