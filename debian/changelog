@@ -18,6 +18,9 @@ livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
   * Drop references to kubuntu-dvd, obsoleted in 2012.
   * ubuntukylin-default-settings is part of the task, don't hard-code the
     package.
+  * Remove unnecessary arch guarding of the UbuntuStudio kernel selection:
+    we only build this image on amd64 (the arch checking is from i386 days),
+    and the lowlatency kernel also exists on arm64.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 

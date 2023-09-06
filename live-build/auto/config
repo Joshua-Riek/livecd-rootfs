@@ -870,9 +870,7 @@ case $PROJECT in
 
 	ubuntustudio-dvd)
 		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
-		case $ARCH in
-			amd64)	KERNEL_FLAVOURS=lowlatency ;;
-		esac
+		KERNEL_FLAVOURS=lowlatency
 		;;
 
 	ubuntu-server)
