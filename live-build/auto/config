@@ -678,7 +678,7 @@ if ! [ -e config/germinate-output/structure ]; then
 fi
 
 case $PROJECT in
-	ubuntu|ubuntu-dvd)
+	ubuntu)
 
 		case ${SUBPROJECT:-} in
 			legacy)
@@ -1200,11 +1200,6 @@ if [ "$PREINSTALLED" != "true" ] && [ "$PASSES_TO_LAYERS" != "true" ] && [ "$LIV
 fi
 
 case $PROJECT in
-	ubuntu-dvd)
-		add_task install ubuntu-usb
-		add_task live ubuntu-usb-live
-		;;
-
 	*-dvd)
 		add_task live "$PROJECT-live"
 		;;
