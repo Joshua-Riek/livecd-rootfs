@@ -799,9 +799,9 @@ case $PROJECT in
 		LIVE_TASK='edubuntu-live'
 		;;
 
-	ubuntucinnamon)
-		add_task install minimal standard ubuntucinnamon-desktop
-		LIVE_TASK=ubuntucinnamon-live
+	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntucinnamon)
+		add_task install minimal standard ${PROJECT}-desktop
+		LIVE_TASK=${PROJECT}-live
 		;;
 
 	xubuntu)
@@ -814,16 +814,6 @@ case $PROJECT in
 				;;
 		esac
 		LIVE_TASK='xubuntu-live'
-		;;
-
-	lubuntu)
-		add_task install minimal standard lubuntu-desktop
-		LIVE_TASK='lubuntu-live'
-		;;
-
-	ubuntu-gnome|ubuntu-unity)
-		add_task install minimal standard ${PROJECT}-desktop
-		LIVE_TASK=${PROJECT}-live
 		;;
 
 	ubuntu-budgie)
