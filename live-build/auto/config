@@ -653,10 +653,10 @@ case $PROJECT in
 	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	kubuntu|kubuntu-dvd|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
+	edubuntu|kubuntu|kubuntu-dvd|ubuntu-budgie|ubuntu-gnome|ubuntucinnamon|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
-	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd)
+	lubuntu|mythbuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
