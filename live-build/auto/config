@@ -656,7 +656,7 @@ case $PROJECT in
 	kubuntu|kubuntu-dvd|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
 		COMPONENTS='main restricted universe'
 		;;
-	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
+	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
