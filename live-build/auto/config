@@ -828,9 +828,9 @@ case $PROJECT in
 		esac
 		;;
 
-	ubuntu-gnome)
-		add_task install minimal standard ubuntu-gnome-desktop
-		LIVE_TASK='ubuntu-gnome-live'
+	ubuntu-gnome|ubuntu-unity)
+		add_task install minimal standard ${PROJECT}-desktop
+		LIVE_TASK=${PROJECT}-live
 		;;
 
 	ubuntu-budgie)
@@ -883,11 +883,6 @@ case $PROJECT in
 	ubuntu-mate)
 		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
 		LIVE_TASK='ubuntu-mate-live'
-		;;
-
-	ubuntu-unity)
-		add_task install minimal standard ubuntu-unity-desktop
-		LIVE_TASK=ubuntu-unity-live
 		;;
 
 	ubuntustudio-dvd)
