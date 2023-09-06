@@ -1359,13 +1359,6 @@ EOF
 		;;
 esac
 
-if [ $PROJECT = ubuntu-server ] && [ "${SUBPROJECT:-}" != live ]; then
-	cat > config/hooks/100-remove-fstab.chroot <<EOF
-#! /bin/sh
-rm -f /etc/fstab
-EOF
-fi
-
 if [ $PROJECT != ubuntu-cpc ]; then
 	cat > config/hooks/100-preserve-apt-prefs.chroot <<\EOF
 #! /bin/sh -ex
