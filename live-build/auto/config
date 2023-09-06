@@ -657,7 +657,7 @@ case $PROJECT in
 	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	kubuntu|kubuntu-dvd|kubuntu-plasma5|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
+	kubuntu|kubuntu-dvd|edubuntu|ubuntu-gnome|ubuntu-budgie|ubuntukylin|ubuntucinnamon)
 		COMPONENTS='main restricted universe'
 		;;
 	xubuntu|mythbuntu|lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|ubuntu-unity)
@@ -794,17 +794,6 @@ case $PROJECT in
 	kubuntu|kubuntu-dvd)
 		add_task install minimal standard
 		add_task install kubuntu-desktop
-		LIVE_TASK='kubuntu-live'
-		add_chroot_hook remove-gnome-icon-cache
-		;;
-
-	kubuntu-plasma5)
-		add_task install minimal standard
-		add_package install kubuntu-plasma5-desktop
-		# Technically cheating, but PPAs don't have tasks and the
-		# live seed doesn't have a corresponding metapackage.  We'll
-		# get away with this as long as kubuntu-desktop and
-		# kubuntu-plasma5-desktop don't grow too far apart.
 		LIVE_TASK='kubuntu-live'
 		add_chroot_hook remove-gnome-icon-cache
 		;;

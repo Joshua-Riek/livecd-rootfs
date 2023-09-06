@@ -16,7 +16,6 @@ ALL_TRIPLETS="
  edubuntu::
  kubuntu::
  kubuntu-dvd::
- kubuntu-plasma5::
  lubuntu::
  ubuntu-unity::
  mythbuntu::
