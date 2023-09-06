@@ -818,7 +818,6 @@ case $PROJECT in
 				add_task install minimal standard xubuntu-desktop
 				;;
 		esac
-		add_package install xterm
 		LIVE_TASK='xubuntu-live'
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=generic ;;
