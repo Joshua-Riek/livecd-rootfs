@@ -721,7 +721,7 @@ case $PROJECT in
 						;;
 				esac
 				;;
-			canary)
+			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
 				KERNEL_FLAVOURS='generic-hwe-22.04'
@@ -761,32 +761,6 @@ case $PROJECT in
 					  enhanced-secureboot:
 					    path: standard.enhanced-secureboot.squashfs
 					    snapd_system_label: enhanced-secureboot-desktop
-				EOF
-				/usr/share/livecd-rootfs/checkout-translations-branch \
-					https://git.launchpad.net/subiquity po config/catalog-translations
-				;;
-			*)
-				touch config/universe-enabled
-				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS='generic-hwe-22.04'
-				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
-				add_task standard.live ubuntu-live
-				add_package standard cloud-init
-				remove_package standard.live ubiquity-frontend-gtk
-				add_snap standard.live ubuntu-desktop-installer/classic
-
-				seeded_langs="$(get_seeded_languages desktop)"
-				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers standard desktop desktop-default-languages "$seeded_langs"
-				cat <<-EOF > config/standard.catalog-in.yaml
-					name: "Ubuntu Desktop"
-					description: >-
-					  Ubuntu Desktop.
-					id: ubuntu-desktop
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-					default: yes
 				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations
@@ -1552,7 +1526,7 @@ EOF
 		;;
 
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
-		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:canary|ubuntu-oem:*)
+		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in

@@ -10,8 +10,8 @@ case $ARCH in
 esac
 
 case ${PROJECT:-}:${SUBPROJECT:-} in
-    *:canary)
-        echo "We don't create EFI images for canary."
+    ubuntu:)
+        echo "We don't create EFI images for Ubuntu Desktop."
         exit 0
         ;;
     ubuntu)

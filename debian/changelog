@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.32) UNRELEASED; urgency=medium
+
+  * Make the hybrid canary images the default for Ubuntu.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 06 Sep 2023 18:21:34 +0200
+
 livecd-rootfs (23.10.31) mantic; urgency=medium
 
   * blkid is unreliable in mount_image(), but this blkid call is only here
