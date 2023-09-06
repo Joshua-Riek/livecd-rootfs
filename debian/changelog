@@ -10,6 +10,7 @@ livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
     packages.
   * live-build/auto/config: various refactors to eliminate code duplication
   * Drop references to ubuntu-dvd, obsolete since precise.
+  * Drop references to mythbuntu, obsolete after xenial.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 

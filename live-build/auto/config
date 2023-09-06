@@ -656,7 +656,7 @@ case $PROJECT in
 	edubuntu|kubuntu|kubuntu-dvd|ubuntu-budgie|ubuntu-gnome|ubuntucinnamon|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
-	lubuntu|mythbuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
+	lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac
@@ -818,11 +818,6 @@ case $PROJECT in
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=generic ;;
 		esac
-		;;
-
-	mythbuntu)
-		add_task install minimal standard mythbuntu-desktop
-		LIVE_TASK='mythbuntu-live'
 		;;
 
 	lubuntu)
