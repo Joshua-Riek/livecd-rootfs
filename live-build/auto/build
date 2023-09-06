@@ -292,6 +292,18 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
     DEBIAN_FRONTEND=noninteractive apt-get install -y landscape-common
 fi
 EOF
+
+                if [ "$PROJECT" = "ubuntu-cpc" ]; then
+                  # we'd like to transform a minimized image to a base image
+                  # when unminimize is run.
+                  cat >> chroot/usr/local/sbin/unminimize <<'EOF'
+
+# even if ubuntu-server is installed, we should re-install it with --fix-policy --install-recommends
+# to ensure all the Recommends of dependencies of ubuntu-server are installed, which aids in transforming
+# this minimized image to an equivalent base image.
+DEBIAN_FRONTEND=noninteractive apt-get --reinstall --fix-policy --install-recommends install -y ubuntu-server
+EOF
+
 fi
 		if [ "$PROJECT" = "ubuntu-cpc" ] || [ "$PROJECT" = "ubuntu-server" ]; then
 			cat >> chroot/usr/local/sbin/unminimize <<'EOF'
