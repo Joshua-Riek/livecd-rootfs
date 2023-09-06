@@ -802,7 +802,6 @@ case $PROJECT in
 	ubuntucinnamon)
 		add_task install minimal standard ubuntucinnamon-desktop
 		LIVE_TASK=ubuntucinnamon-live
-		KERNEL_FLAVOURS=generic
 		;;
 
 	xubuntu)
@@ -815,17 +814,11 @@ case $PROJECT in
 				;;
 		esac
 		LIVE_TASK='xubuntu-live'
-		case $ARCH in
-			amd64)	KERNEL_FLAVOURS=generic ;;
-		esac
 		;;
 
 	lubuntu)
 		add_task install minimal standard lubuntu-desktop
 		LIVE_TASK='lubuntu-live'
-		case $ARCH in
-			amd64)	KERNEL_FLAVOURS=generic ;;
-		esac
 		;;
 
 	ubuntu-gnome|ubuntu-unity)
