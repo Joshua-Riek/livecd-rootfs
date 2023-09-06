@@ -1,6 +1,8 @@
 livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
 
   * Drop references to kubuntu-plasma5, obsolete since wily
+  * ubuntucinnamon-live task has existed for a while now, use it instead of
+    hard-coded list of packages.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 

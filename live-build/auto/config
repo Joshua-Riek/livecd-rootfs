@@ -805,14 +805,7 @@ case $PROJECT in
 
 	ubuntucinnamon)
 		add_task install minimal standard ubuntucinnamon-desktop
-		# XXX: Adding live packages manually temporarily until we have
-		#  the live task for ubuntucinnamon set up properly.
-		add_package live ubiquity-frontend-gtk
-		add_package live ubiquity-ubuntu-artwork ubiquity-slideshow-ubuntu
-		add_package live gtk-im-libthai ibus-hangul ibus-mozc ibus-unikey
-		add_package live zfsutils-linux zfs-initramfs zsys
-		add_package live sssd realmd adcli
-		add_package live gparted cifs-utils
+		LIVE_TASK=ubuntucinnamon-live
 		KERNEL_FLAVOURS=generic
 		;;
 
