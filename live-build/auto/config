@@ -1113,11 +1113,8 @@ case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-server:live)
 		BASE_SEED='server'
 		;;
-	ubuntu-base:*|ubuntu-core:*|ubuntu-mini-iso:)
-		;;
-	ubuntu-oci:*)
-		;;
-	xubuntu:minimal)
+	ubuntu-base:*|ubuntu-core:*|ubuntu-mini-iso:|ubuntu-oci:*|\
+        xubuntu:minimal)
 		;;
         edubuntu:*)
 		BASE_SEED='desktop-gnome'
