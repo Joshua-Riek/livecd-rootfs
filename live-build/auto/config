@@ -799,7 +799,7 @@ case $PROJECT in
 		LIVE_TASK='edubuntu-live'
 		;;
 
-	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntucinnamon)
+	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntucinnamon|ubuntukylin)
 		add_task install minimal standard ${PROJECT}-desktop
 		LIVE_TASK=${PROJECT}-live
 		;;
@@ -873,12 +873,6 @@ case $PROJECT in
 		case $ARCH in
 			amd64)	KERNEL_FLAVOURS=lowlatency ;;
 		esac
-		;;
-
-	ubuntukylin)
-		add_task install minimal standard ubuntukylin-desktop
-		add_package install ubuntukylin-default-settings
-		LIVE_TASK='ubuntukylin-live'
 		;;
 
 	ubuntu-server)

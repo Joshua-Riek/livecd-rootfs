@@ -16,6 +16,8 @@ livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
   * generic is the default kernel flavor in live-build on Ubuntu; remove
     hard-coded cargo-culting of this setting.
   * Drop references to kubuntu-dvd, obsoleted in 2012.
+  * ubuntukylin-default-settings is part of the task, don't hard-code the
+    package.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 
