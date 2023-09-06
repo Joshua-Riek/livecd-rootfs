@@ -1210,14 +1210,6 @@ case $PROJECT in
 	_)
 		add_chroot_hook remove-python-py
 		;;
-	amd64)
-		KERNEL_FLAVOURS="${SUBARCH:-$KERNEL_FLAVOURS}"
-		case $SUBARCH in
-			intel-iot)
-				KERNEL_FLAVOURS='intel-iotg'
-				;;
-		esac
-		;;
 esac
 
 lb config noauto \
