@@ -824,11 +824,6 @@ case $PROJECT in
 		esac
 		;;
 
-	ubuntu-netbook)
-		add_task install minimal standard ubuntu-netbook
-		LIVE_TASK='netbook-live'
-		;;
-
 	mythbuntu)
 		add_task install minimal standard mythbuntu-desktop
 		LIVE_TASK='mythbuntu-live'
