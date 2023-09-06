@@ -15,6 +15,7 @@ livecd-rootfs (23.10.33) UNRELEASED; urgency=medium
     a common pattern
   * generic is the default kernel flavor in live-build on Ubuntu; remove
     hard-coded cargo-culting of this setting.
+  * Drop references to kubuntu-dvd, obsoleted in 2012.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 11:23:17 -0700
 

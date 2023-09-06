@@ -15,7 +15,6 @@ fi
 ALL_TRIPLETS="
  edubuntu::
  kubuntu::
- kubuntu-dvd::
  lubuntu::
  ubuntu-unity::
  ubuntu::

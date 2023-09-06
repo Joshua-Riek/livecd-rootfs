@@ -653,7 +653,7 @@ case $PROJECT in
 	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	edubuntu|kubuntu|kubuntu-dvd|ubuntu-budgie|ubuntu-gnome|ubuntucinnamon|ubuntukylin)
+	edubuntu|kubuntu|ubuntu-budgie|ubuntu-gnome|ubuntucinnamon|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
 	lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
@@ -787,7 +787,7 @@ case $PROJECT in
 		EOF
 		;;
 
-	kubuntu|kubuntu-dvd)
+	kubuntu)
 		add_task install minimal standard
 		add_task install kubuntu-desktop
 		LIVE_TASK='kubuntu-live'
