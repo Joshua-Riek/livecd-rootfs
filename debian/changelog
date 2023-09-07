@@ -1,5 +1,6 @@
 livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Drop (outdated, inconsistent) /etc/hosts from ubuntu-server chroot
     includes.
 
@@ -7,7 +8,11 @@ livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
   * auto/config: use the new server-live task to reduce the use of explicit
     calls to add_package and add_snap a bit.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 18:28:06 -0700
+  [ Dan Bungert ]
+  * desktop: adjust kernel to be in the live layer, to support changing which
+    kernel is installed rather than always using hwe. (LP: #2026225)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Thu, 07 Sep 2023 16:53:08 -0600
 
 livecd-rootfs (23.10.33) mantic; urgency=medium
 
