@@ -3,6 +3,10 @@ livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
   * Drop (outdated, inconsistent) /etc/hosts from ubuntu-server chroot
     includes.
 
+  [ Michael Hudson-Doyle ]
+  * auto/config: use the new server-live task to reduce the use of explicit
+    calls to add_package and add_snap a bit.
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 18:28:06 -0700
 
 livecd-rootfs (23.10.33) mantic; urgency=medium
