@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
+
+  * Drop (outdated, inconsistent) /etc/hosts from ubuntu-server chroot
+    includes.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 18:28:06 -0700
+
 livecd-rootfs (23.10.33) mantic; urgency=medium
 
   * Drop references to kubuntu-plasma5, obsolete since wily
