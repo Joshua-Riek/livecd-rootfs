@@ -97,21 +97,12 @@ install_grub() {
     # not called here as it calls snap-seed-parse, resulting in duplicate
     # snap listings)
     chroot mountpoint dpkg-query -W > binary/boot/filesystem.packages
-
-    chroot mountpoint grub-install "${loop_device}" \
-        --boot-directory=/boot \
-        --efi-directory=/boot/efi \
-        --target=${efi_target} \
-        --uefi-secure-boot \
-        --no-nvram
-
-    if [ "$ARCH" = "amd64" ]; then
-        # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
-        # it means that we just run this simple command and we're done
-        chroot mountpoint grub-install --target=i386-pc "${loop_device}"
-    fi
-
-    cat > mountpoint/etc/default/grub.d/50-builddimg-settings.cfg << EOF
+    # LP: 2034253 
+    # awaiting grub updates, we need to set the Distributor _before_ running grub-install
+    # so that the EFI bits are in the correct place
+    # buildd doesn't have `lsb_release`
+    # so adding GRUB_DISTRIBUTOR, hardcoded to Ubuntu, for buildd for now
+        cat > mountpoint/etc/default/grub.d/50-builddimg-settings.cfg << EOF
 GRUB_DEFAULT=0
 GRUB_HIDDEN_TIMEOUT=0.1
 GRUB_HIDDEN_TIMEOUT_QUIET=true
@@ -119,7 +110,21 @@ GRUB_TIMEOUT=0.1
 GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0"
 GRUB_RECORDFAIL_TIMEOUT=0
 GRUB_TERMINAL=console
+GRUB_DISTRIBUTOR=Ubuntu
 EOF
+    chroot mountpoint grub-install "${loop_device}" \
+        --boot-directory=/boot \
+        --efi-directory=/boot/efi \
+        --target=${efi_target} \
+        --uefi-secure-boot \
+        --no-nvram
+
+
+    if [ "$ARCH" = "amd64" ]; then
+        # Install the BIOS/GPT bits. Since GPT boots from the ESP partition,
+        # it means that we just run this simple command and we're done
+        chroot mountpoint grub-install --target=i386-pc "${loop_device}"
+    fi
 
     divert_grub mountpoint
     chroot mountpoint update-grub
