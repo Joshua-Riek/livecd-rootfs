@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.26) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.26) jammy; urgency=medium
 
   * Set GRUB_DISTRIBUTION in 50-builddimg-settings.cfg to ensure
     EFI is installed in the right place (LP: #2034253)
@@ -7780,7 +7780,7 @@ livecd-rootfs (0.30) gutsy; urgency=low
 
  -- Adam Conrad <adconrad@ubuntu.com>  Tue, 10 Jul 2007 10:48:04 +0100
 
-livecd-rootfs (0.29) UNRELEASED; urgency=low
+livecd-rootfs (0.29) jammy; urgency=low
 
   * Update copyright to 2006, 9 months late is better than never, right?
   * Update kernels for i386 and amd64 to reflect recent renaming.
@@ -7790,7 +7790,7 @@ livecd-rootfs (0.29) UNRELEASED; urgency=low
 
  -- Adam Conrad <adconrad@ubuntu.com>  Thu, 21 Sep 2006 10:37:09 +1000
 
-livecd-rootfs (0.28) UNRELEASED; urgency=low
+livecd-rootfs (0.28) jammy; urgency=low
 
   * Welcome to Edgy... Switch the default i386 kernel to -686, yay!
   * And when I say "edgy", I really mean it (ie: change the suite too)
@@ -7800,7 +7800,7 @@ livecd-rootfs (0.28) UNRELEASED; urgency=low
 
  -- Adam Conrad <adconrad@ubuntu.com>  Mon, 28 Aug 2006 03:40:28 +1000
 
-livecd-rootfs (0.27) UNRELEASED; urgency=low
+livecd-rootfs (0.27) jammy; urgency=low
 
   [ Adam Conrad ]
   * Copy the kernel out of the livefs as well, so we have one that matches.
