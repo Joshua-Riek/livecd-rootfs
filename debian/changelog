@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.26) UNRELEASED; urgency=medium
+
+  * Set GRUB_DISTRIBUTION in 50-builddimg-settings.cfg to ensure
+    EFI is installed in the right place (LP: #2034253)
+
+ -- jchittum <john.chittum@canonical.com>  Thu, 07 Sep 2023 13:51:33 -0500
+
 livecd-rootfs (2.765.25) jammy; urgency=medium
 
   [ Michael Hudson-Doyle ]
