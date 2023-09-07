@@ -978,11 +978,7 @@ case $PROJECT in
 				add_task ubuntu-server-minimal.ubuntu-server minimal standard server
 				add_package ubuntu-server-minimal.ubuntu-server cloud-init
 
-				add_package ubuntu-server-minimal.ubuntu-server.installer linux-firmware casper openssh-server
-				add_snap ubuntu-server-minimal.ubuntu-server.installer subiquity/classic
-				if [ $ARCH = s390x ]; then
-					add_package ubuntu-server-minimal.ubuntu-server.installer s390-tools-zkey
-				fi
+				add_task ubuntu-server-minimal.ubuntu-server.installer server-live
 
 				# Live server ISOs for LTS point releases past .2 offer both
 				# the GA and HWE kernels (in separate layers) so this code is

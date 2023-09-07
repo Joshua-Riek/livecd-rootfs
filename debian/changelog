@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.32) UNRELEASED; urgency=medium
+
+  * auto/config: use the new server-live task to reduce the use of explicit
+    calls to add_package and add_snap a bit.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Sep 2023 12:55:07 +1200
+
 livecd-rootfs (23.10.31) mantic; urgency=medium
 
   * blkid is unreliable in mount_image(), but this blkid call is only here
