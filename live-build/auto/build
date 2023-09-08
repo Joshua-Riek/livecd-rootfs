@@ -302,6 +302,11 @@ EOF
 # to ensure all the Recommends of dependencies of ubuntu-server are installed, which aids in transforming
 # this minimized image to an equivalent base image.
 DEBIAN_FRONTEND=noninteractive apt-get --reinstall --fix-policy --install-recommends install -y ubuntu-server
+
+if dpkg-query --show --showformat='${db:Status-Status}\n' linux-image-virtual 2> /dev/null | grep -q '^installed$'; then
+    echo "Installing linux-virtual for installing the headers which were stripped in a minimized image"
+    DEBIAN_FRONTEND=noninteractive apt-get install -y linux-virtual
+fi
 EOF
 
 fi
