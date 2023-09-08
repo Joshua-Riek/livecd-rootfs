@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.34) mantic; urgency=medium
 
   [ Steve Langasek ]
   * Drop (outdated, inconsistent) /etc/hosts from ubuntu-server chroot
@@ -16,7 +16,7 @@ livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
   * desktop: adjust kernel to be in the live layer, to support changing which
     kernel is installed rather than always using hwe. (LP: #2026225)
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 18:28:06 -0700
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 08 Sep 2023 08:54:13 -0600
 
 livecd-rootfs (23.10.33) mantic; urgency=medium
 
