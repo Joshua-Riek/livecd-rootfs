@@ -1,5 +1,6 @@
 livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Drop (outdated, inconsistent) /etc/hosts from ubuntu-server chroot
     includes.
 
@@ -10,6 +11,10 @@ livecd-rootfs (23.10.34) UNRELEASED; urgency=medium
   [ Dave Jones ]
   * clean up references to obsolete pi subarchs no longer built, and remove
     code that writes out /boot/firmware settings that are later clobbered
+
+  [ Dan Bungert ]
+  * desktop: adjust kernel to be in the live layer, to support changing which
+    kernel is installed rather than always using hwe. (LP: #2026225)
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 06 Sep 2023 18:28:06 -0700
 
