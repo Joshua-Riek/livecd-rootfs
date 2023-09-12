@@ -777,12 +777,23 @@ case $PROJECT in
 		PASSES_TO_LAYERS="true"
 		#KERNEL_FLAVOURS='oem-22.04'
 		KERNEL_FLAVOURS='generic-hwe-22.04'
-		add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
+		add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+		add_package minimal cloud-init
+		add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 		add_task minimal.standard.live ubuntu-live
-		add_package standard cloud-init
 		remove_package minimal.standard.live ubiquity-frontend-gtk
 		add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Ubuntu Desktop for OEM (minimal)"
+			description: >-
+			  Ubuntu Desktop (minimal) for OEM preinstallation.
+			id: ubuntu-desktop-oem-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: none
+			default: yes
+		EOF
 		cat <<-EOF > config/minimal.standard.catalog-in.yaml
 			name: "Ubuntu Desktop for OEM"
 			description: >-
@@ -791,7 +802,6 @@ case $PROJECT in
 			type: fsimage-layered
 			variant: desktop
 			locale_support: none
-			default: yes
 		EOF
 		;;
 
