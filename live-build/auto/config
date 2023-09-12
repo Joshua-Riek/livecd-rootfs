@@ -716,25 +716,38 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
+				# the minimal layer, for minimal installs
+				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
+				add_package minimal cloud-init
 				# the standard layer, contains all base common packages for later layers
-				add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
-				add_package standard cloud-init
+				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 				# the live layer, contains all packages for the live session installer
-				add_task standard.live ubuntu-live
-				remove_package standard.live ubiquity-frontend-gtk
-				add_snap standard.live ubuntu-desktop-installer/classic
-				add_package standard.live linux-generic-hwe-22.04 casper
+				add_task minimal.standard.live ubuntu-live
+				remove_package minimal.standard.live ubiquity-frontend-gtk
+				add_snap minimal.standard.live ubuntu-desktop-installer/classic
+				add_package minimal.standard.live linux-generic-hwe-22.04 casper
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
-				add_package standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
+				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 
 				# language support
 				seeded_langs="$(get_seeded_languages desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers standard desktop desktop-default-languages "$seeded_langs"
-				derive_language_layers standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
+				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
+				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
+				derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
 
 				# now let's create the neccessary catalog files
-				cat <<-EOF > config/standard.catalog-in.yaml
+				cat <<-EOF > config/minimal.catalog-in.yaml
+					name: "Ubuntu Desktop (minimized)"
+					description: >-
+					  A minimal but usable Ubuntu Desktop.
+					id: ubuntu-desktop-minimal
+					type: fsimage-layered
+					default: yes
+					variant: desktop
+					locale_support: langpack
+				EOF
+				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
 					description: >-
 					  A full featured Ubuntu Desktop.
@@ -742,16 +755,15 @@ case $PROJECT in
 					type: fsimage-layered
 					variant: desktop
 					locale_support: langpack
-					default: yes
 					variations:
 					  standard:
-					    path: standard.squashfs
+					    path: minimal.standard.squashfs
 				EOF
-				cat <<-EOF > config/standard.enhanced-secureboot.catalog-in.yaml
+				cat <<-EOF > config/minimal.standard.enhanced-secureboot.catalog-in.yaml
 					id: ubuntu-desktop
 					variations:
 					  enhanced-secureboot:
-					    path: standard.enhanced-secureboot.squashfs
+					    path: minimal.standard.enhanced-secureboot.squashfs
 					    snapd_system_label: enhanced-secureboot-desktop
 				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \
@@ -766,12 +778,12 @@ case $PROJECT in
 		#KERNEL_FLAVOURS='oem-22.04'
 		KERNEL_FLAVOURS='generic-hwe-22.04'
 		add_task standard minimal standard ubuntu-desktop ubuntu-desktop-default-languages
-		add_task standard.live ubuntu-live
+		add_task minimal.standard.live ubuntu-live
 		add_package standard cloud-init
-		remove_package standard.live ubiquity-frontend-gtk
-		add_snap standard.live ubuntu-desktop-installer/classic
+		remove_package minimal.standard.live ubiquity-frontend-gtk
+		add_snap minimal.standard.live ubuntu-desktop-installer/classic
 
-		cat <<-EOF > config/standard.catalog-in.yaml
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
 			name: "Ubuntu Desktop for OEM"
 			description: >-
 			  Ubuntu Desktop for OEM preinstallation.
