@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.35) mantic; urgency=medium
+
+  * Restore a desktop minimal layer and use if by default (ffe lp: #2034261)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 12 Sep 2023 13:12:16 +0200
+
 livecd-rootfs (23.10.34) mantic; urgency=medium
 
   [ Steve Langasek ]
