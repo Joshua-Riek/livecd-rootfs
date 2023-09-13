@@ -7,7 +7,7 @@
 set -eux
 
 case ${PASS:-} in
-    standard.live)
+    minimal.standard.live)
         ;;
     *)
         exit 0
@@ -21,6 +21,6 @@ fi
 . config/binary
 . config/functions
 
-mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic-hwe
-mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic-hwe
-chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic-hwe ${PWD}/livecd.${PROJECT}.kernel-generic-hwe
+mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic
+mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic
+chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic ${PWD}/livecd.${PROJECT}.kernel-generic

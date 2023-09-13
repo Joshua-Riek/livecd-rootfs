@@ -1,3 +1,12 @@
+livecd-rootfs (23.10.36) UNRELEASED; urgency=medium
+
+  * Since we restored the minimal layer, we also need to adjust all hook
+    conditionals to use the minimal.standard layer name instead of standard.
+  * 020-ubuntu-live.binary hook: make sure the kernel and initrd artifacts are
+    named correctly.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 13 Sep 2023 11:43:22 +0200
+
 livecd-rootfs (23.10.35) mantic; urgency=medium
 
   * Restore a desktop minimal layer and use if by default (ffe lp: #2034261)

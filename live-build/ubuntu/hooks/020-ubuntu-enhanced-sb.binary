@@ -3,7 +3,7 @@
 set -eux
 
 case ${PASS:-} in
-    standard.enhanced-secureboot)
+    minimal.standard.enhanced-secureboot)
         ;;
     *)
         exit 0

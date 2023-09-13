@@ -3,7 +3,7 @@
 set -eu
 
 case ${PASS:-} in
-    standard.live)
+    minimal.standard.live)
         ;;
     *)
         exit 0
