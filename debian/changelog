@@ -1,4 +1,4 @@
-livecd-rootfs (23.10.36) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.36) mantic; urgency=medium
 
   * Since we restored the minimal layer, we also need to adjust all hook
     conditionals to use the minimal.standard layer name instead of standard.
