@@ -1,6 +1,7 @@
 livecd-rootfs (23.10.37) mantic; urgency=medium
 
   * fix: ensure minimize-manual script uses passed in argument for all commands (LP: #2036198)
+  * fix: armhf flavour for 6.5+ kernel is now generic (LP: #2036192)
 
  -- Philip Roche <phil.roche@ubuntu.com>  Fri, 15 Sep 2023 11:58:23 +0100
 
