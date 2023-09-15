@@ -7,10 +7,10 @@
 
 set -e
 
-chroot=$1
+chroot_directory=$1
 
-auto_packages=$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot)
+auto_packages=$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot_directory)
 if [ -n "$auto_packages" ]; then
-	chroot chroot apt-mark auto $auto_packages
+	chroot $chroot_directory apt-mark auto $auto_packages
 fi
-[ -z "$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot 2> /dev/null)" ]
+[ -z "$(/usr/share/livecd-rootfs/auto-markable-pkgs $chroot_directory 2> /dev/null)" ]
