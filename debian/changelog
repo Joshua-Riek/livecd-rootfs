@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.38) mantic; urgency=medium
+
+  * desktop: construct a minimal+tpmfde catalog variation, with matching
+    layers (LP: #2036461)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 18 Sep 2023 15:48:33 -0600
+
 livecd-rootfs (23.10.37) mantic; urgency=medium
 
   * fix: ensure minimize-manual script uses passed in argument for all commands (LP: #2036198)
