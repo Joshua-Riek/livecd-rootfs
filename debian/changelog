@@ -1,10 +1,10 @@
-livecd-rootfs (23.10.39) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.39) mantic; urgency=medium
 
   * The chroot tmpfs mount should only be /var/lib/apt/lists, not
     /var/lib/apt; the latter breaks changes to /var/lib/apt/extended_states.
     LP: #2036195.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 16 Sep 2023 17:25:22 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 18 Sep 2023 15:06:23 -0700
 
 livecd-rootfs (23.10.38) mantic; urgency=medium
 
