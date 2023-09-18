@@ -5,6 +5,8 @@ set -eux
 case ${PASS:-} in
     minimal.standard.enhanced-secureboot)
         ;;
+    minimal.enhanced-secureboot)
+        ;;
     *)
         exit 0
         ;;

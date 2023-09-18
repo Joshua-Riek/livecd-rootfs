@@ -727,12 +727,14 @@ case $PROJECT in
 				add_snap minimal.standard.live ubuntu-desktop-installer/classic
 				add_package minimal.standard.live linux-generic-hwe-22.04 casper
 				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
+				add_package minimal.enhanced-secureboot cryptsetup boot-managed-by-snapd
 				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
 
 				# language support
 				seeded_langs="$(get_seeded_languages desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
 				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
+				derive_language_layers minimal.enhanced-secureboot desktop-minimal desktop-default-languages "$seeded_langs"
 				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
 				derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
 
@@ -746,6 +748,16 @@ case $PROJECT in
 					default: yes
 					variant: desktop
 					locale_support: langpack
+					variations:
+					  minimal:
+					    path: minimal.squashfs
+				EOF
+				cat <<-EOF > config/minimal.enhanced-secureboot.catalog-in.yaml
+					id: ubuntu-desktop-minimal
+					variations:
+					  minimal-enhanced-secureboot:
+					    path: minimal.enhanced-secureboot.squashfs
+					    snapd_system_label: enhanced-secureboot-desktop
 				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
