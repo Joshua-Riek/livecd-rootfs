@@ -1,10 +1,10 @@
-livecd-rootfs (23.10.41) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.41) mantic; urgency=medium
 
   * ubuntu-cpc: create a new boot partition on all UEFI cloud-images
   * ubuntu-cpc: refactor the logic to define the disk image size for UEFI
     images
 
- -- Gauthier Jolly <gauthier.jolly@canonical.com>  Thu, 14 Sep 2023 09:48:14 +0200
+ -- Gauthier Jolly <gauthier.jolly@canonical.com>  Tue, 19 Sep 2023 08:20:00 -0700
 
 livecd-rootfs (23.10.40) mantic; urgency=medium
 
