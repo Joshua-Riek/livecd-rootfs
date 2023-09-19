@@ -292,6 +292,7 @@ if dpkg-query --show --showformat='${db:Status-Status}\n' ubuntu-server 2> /dev/
     DEBIAN_FRONTEND=noninteractive apt-get install -y landscape-common
 fi
 EOF
+                fi
 
                 if [ "$PROJECT" = "ubuntu-cpc" ]; then
                   # we'd like to transform a minimized image to a base image
