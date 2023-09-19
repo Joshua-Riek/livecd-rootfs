@@ -1,6 +1,7 @@
 livecd-rootfs (23.10.42) mantic; urgency=medium
 
-  * fix: Fix the missing `fi` with the recent changes in the `unminimize` script for `ubuntu-cpc` project (LP: #2036591)
+  * fix: Fix the missing `fi` with the recent changes in the 
+    `unminimize` script for `ubuntu-cpc` project (LP: #2036591)
 
  -- Phil Roche <phil.roche@canonical.com>  Tue, 19 Sep 2023 11:30:19 +0100
  
