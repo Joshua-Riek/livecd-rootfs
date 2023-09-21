@@ -288,8 +288,9 @@ fi
 echo "Removing lxd installer package..."
 apt-get purge -y lxd-installer
 
-echo "Installing lxd from snap..."
-snap install lxd
+. /etc/os-release
+echo "Installing lxd from snap from stable/ubuntu-$VERSION_ID channel"
+snap install --channel="stable/ubuntu-$VERSION_ID" lxd
 EOF
 		fi
 		cat >> chroot/usr/local/sbin/unminimize <<'EOF'
