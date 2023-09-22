@@ -352,7 +352,7 @@ if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
 		riscv64:icicle | \
 		riscv64:nezha | \
 		riscv64:licheerv | \
-		riscv64:sifive_* | \
+		riscv64:unmatched | \
 		riscv64:visionfive | \
 		riscv64:visionfive2 | \
 		*:generic)
