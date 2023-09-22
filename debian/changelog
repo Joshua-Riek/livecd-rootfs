@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.44) UNRELEASED; urgency=medium
+
+  * Fix the subarch used in the hook to identify images for sifive
+    unmatched.  LP: #2037060.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 22 Sep 2023 01:48:25 -0700
+
 livecd-rootfs (23.10.43) mantic; urgency=medium
 
   * The unminimize script should install the lxd snap from the per-release

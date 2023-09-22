@@ -355,7 +355,7 @@ EOF
                         # This explains why we install flash-kernel here.
                         chroot mountpoint bash -c "echo 'StarFive VisionFive 2 v1.3B' > /etc/flash-kernel/machine"
                         ;;
-		    "sifive_unmatched")
+		    unmatched)
                         cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         chroot mountpoint bash -c "echo 'SiFive HiFive Unmatched A00' > /etc/flash-kernel/machine"
                         chroot mountpoint apt-get install -qqy u-boot-sifive
