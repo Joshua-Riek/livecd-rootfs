@@ -1,18 +1,17 @@
 livecd-rootfs (23.10.43) UNRELEASED; urgency=medium
 
-  [ Utkarsh Gupta ]
   * The unminimize script should install the lxd snap from the per-release
-    channel, the same as in the full image.  LP: #2036725.    
+    channel, the same as in the full image. (LP: #2036725)
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 22 Sep 2023 02:12:32 -0700
 
 livecd-rootfs (23.10.42) mantic; urgency=medium
 
-  * fix: Fix the missing `fi` with the recent changes in the 
+  * fix: Fix the missing `fi` with the recent changes in the
     `unminimize` script for `ubuntu-cpc` project (LP: #2036591)
 
  -- Phil Roche <phil.roche@canonical.com>  Tue, 19 Sep 2023 11:30:19 +0100
- 
+
 livecd-rootfs (23.10.41) mantic; urgency=medium
 
   * ubuntu-cpc: create a new boot partition on all UEFI cloud-images
@@ -180,7 +179,7 @@ livecd-rootfs (23.10.25) mantic; urgency=medium
 livecd-rootfs (23.10.24) mantic; urgency=medium
 
   * update-source-catalog: Fix case where a variaton does not point at the
-    base layer (i.e. most builds) (LP: #2033168) 
+    base layer (i.e. most builds) (LP: #2033168)
   * Configure universe sources in canary ISO. (LP: #2033109)
   * snap-seed-parse.py: Update to allow parsing uc20-style seeds.
     (LP: #2028984)
@@ -590,7 +589,7 @@ livecd-rootfs (2.839) mantic; urgency=medium
     live-build/buildd/hooks/02-disk-image-uefi.binary, to match the cloud
     images (7c760864fdcb278ca37396f06f5e3f297428d63d).  This fixes
     bootloader updates in the buildd images, but also fixes compatibility
-    with using devtmpfs for losetup. 
+    with using devtmpfs for losetup.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 17 May 2023 09:27:56 -0700
 
@@ -780,7 +779,7 @@ livecd-rootfs (2.818) lunar; urgency=medium
 livecd-rootfs (2.817) lunar; urgency=medium
 
   [ John Chittum ]
-  * revert ipc change. kernel 6.2 will have the correct setting 
+  * revert ipc change. kernel 6.2 will have the correct setting
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 27 Mar 2023 12:11:06 -0700
 
@@ -1016,7 +1015,7 @@ livecd-rootfs (2.790) kinetic; urgency=medium
 
 livecd-rootfs (2.789) kinetic; urgency=medium
 
-  * re-enable snap preseed (LP: #1991011) 
+  * re-enable snap preseed (LP: #1991011)
 
  -- jchittum <john.chittum@canononical.com>  Thu, 13 Oct 2022 12:41:23 -0500
 
@@ -1228,7 +1227,7 @@ livecd-rootfs (2.765) kinetic; urgency=medium
   * Produce a tarball of artifacts for netbooting during live-server build.
 
   [ John Chittum ]
-  * vagrant: use ed25519 insecure key (LP: #1969664) 
+  * vagrant: use ed25519 insecure key (LP: #1969664)
 
  -- John Chittum <john.chittum@canonical.com>  Thu, 26 May 2022 09:28:26 -0500
 
@@ -1428,7 +1427,7 @@ livecd-rootfs (2.742) impish; urgency=medium
 livecd-rootfs (2.741) impish; urgency=medium
 
   [ John Chittum ]
-  * mount cgroup2 type for snapd LP:#1944004 
+  * mount cgroup2 type for snapd LP:#1944004
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 29 Sep 2021 11:25:24 -0700
 
@@ -1882,7 +1881,7 @@ livecd-rootfs (2.693) groovy; urgency=medium
 
 livecd-rootfs (2.692) groovy; urgency=medium
 
-  * Create a 1GB swapfile for the raspi desktop images. 
+  * Create a 1GB swapfile for the raspi desktop images.
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 15 Oct 2020 11:23:47 +0200
 
@@ -1915,7 +1914,7 @@ livecd-rootfs (2.688) groovy; urgency=medium
 livecd-rootfs (2.687) groovy; urgency=medium
 
   [ Stanislav German-Evtushenko <giner> / John Chittum ]
-  * Send Vagrant serial connection to NULL. (LP: #1874453)  
+  * Send Vagrant serial connection to NULL. (LP: #1874453)
 
  -- Robert C Jennings <robert.jennings@canonical.com>  Tue, 15 Sep 2020 15:25:19 -0500
 
@@ -2026,7 +2025,7 @@ livecd-rootfs (2.674) groovy; urgency=medium
 
 livecd-rootfs (2.673) groovy; urgency=medium
 
-  * Fix an unbound variable in scripts/functions. 
+  * Fix an unbound variable in scripts/functions.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 14 Jul 2020 14:57:19 +1200
 
@@ -2648,7 +2647,7 @@ livecd-rootfs (2.596) eoan; urgency=medium
 livecd-rootfs (2.595) eoan; urgency=medium
 
   * Remove dangling symlink
-    /usr/lib/systemd/system/local-fs.target.wants/media-region.lower.mount. 
+    /usr/lib/systemd/system/local-fs.target.wants/media-region.lower.mount.
     It's unclear why this has just started causing build failures, but the
     symlink should have been removed in 2.592 with the rest of the MAAS
     stuff.
@@ -2692,7 +2691,7 @@ livecd-rootfs (2.590) eoan; urgency=medium
   * Drop dead wubi subproject.
   * Drop dead jasper subproject.
   * Drop old arm platforms.
-  * Drop ubuntu-desktop-next configs  
+  * Drop ubuntu-desktop-next configs
   * Drop ubuntu-desktop-next hooks
   * Drop ubuntu-touch configs
   * Drop ubuntu-touch hooks
@@ -2758,7 +2757,7 @@ livecd-rootfs (2.582) eoan; urgency=medium
 livecd-rootfs (2.581) eoan; urgency=medium
 
   * Remove device nodes later for ubuntu-base:minimized (i.e. docker) builds.
-    (LP: #1828118) 
+    (LP: #1828118)
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 08 May 2019 09:59:35 +1200
 
@@ -3173,7 +3172,7 @@ livecd-rootfs (2.542) cosmic; urgency=medium
 livecd-rootfs (2.541) cosmic; urgency=medium
 
   [ Michael Hudson-Doyle ]
-  * Remove device nodes from Docker images. (LP: #1645468) 
+  * Remove device nodes from Docker images. (LP: #1645468)
 
   [ Robert C Jennings ]
   * Add the server snap seed to the ubuntu-cpc project
@@ -3236,7 +3235,7 @@ livecd-rootfs (2.534) cosmic; urgency=medium
 livecd-rootfs (2.533) cosmic; urgency=medium
 
   [ Robert C Jennings ]
-  * ubuntu-cpc: Remove git-man for minimized images 
+  * ubuntu-cpc: Remove git-man for minimized images
   * Disable checksum generation
 
   [ Colin Watson ]
@@ -3279,7 +3278,7 @@ livecd-rootfs (2.529) cosmic; urgency=medium
   * Improvements to the ubuntu-base (i.e. Docker) build:
     - Customize the unminimize script to not install ubuntu-minimal.
     - Divert /usr/bin/man to a script that points to the unminimize script.
-    - Remove apt lists that are currently removed downstream anyway. 
+    - Remove apt lists that are currently removed downstream anyway.
       (LP: #1699913)
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Jun 2018 05:59:12 +1200
@@ -3467,7 +3466,7 @@ livecd-rootfs (2.506) bionic; urgency=medium
 
 livecd-rootfs (2.505) bionic; urgency=medium
 
-  * Move casper from filesystem.squashfs to installer.squashfs. 
+  * Move casper from filesystem.squashfs to installer.squashfs.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 23 Feb 2018 16:54:51 +1300
 
@@ -3507,7 +3506,7 @@ livecd-rootfs (2.500) bionic; urgency=medium
 livecd-rootfs (2.499) bionic; urgency=medium
 
   * live-build/auto/config: Take into account SUBPROJECT when setting seeded
-    snaps, and also make sure we can work with snaps seeded in project hooks. 
+    snaps, and also make sure we can work with snaps seeded in project hooks.
 
  -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 06 Feb 2018 23:37:32 -0500
 
@@ -3832,7 +3831,7 @@ livecd-rootfs (2.463) artful; urgency=medium
   * When SUBPROJECT environment variable is not set assume it to be ""
 
   [ Michael Hudson-Doyle ]
-  * Fix path to subiquity-loadkeys 
+  * Fix path to subiquity-loadkeys
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 29 Sep 2017 17:33:02 -0400
 
@@ -4262,7 +4261,7 @@ livecd-rootfs (2.425) yakkety; urgency=medium
     500-create-xdg-wrapper.binary, 700-classic-dir.binary:
     - Correct some syntax errors in the ubuntu-core snap hooks.
     - Create a desktop entry and some mimetype associations for xdg-open in
-      ubuntu-core. That way interacting with web, email and documentations 
+      ubuntu-core. That way interacting with web, email and documentations
       urls in a snap should do the right thing.
 
  -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 17 Aug 2016 12:11:19 +0200
@@ -4305,7 +4304,7 @@ livecd-rootfs (2.420) yakkety; urgency=medium
   [ Łukasz 'sil2100' Zemczak ]
   * Remove the ubuntu-pd project from the scripts
   * Add instead an ubuntu-touch-custom project for custom re-builds of
-    ubuntu-touch 
+    ubuntu-touch
 
   [ Oliver Grawert ]
   * sanitize the version number of the ubuntu-core snap
@@ -4941,7 +4940,7 @@ livecd-rootfs (2.350) xenial; urgency=medium
   [ Oliver Grawert ]
   * bump UID for tss user in snappy, else it matches dnsmasq and bad things
     happen
-  * fix handling of writable files in /etc/default for snappy 
+  * fix handling of writable files in /etc/default for snappy
 
   [ Ben Howard ]
   * Cloud Images: disable new NIC naming convention (LP: #1510345).
@@ -5172,7 +5171,7 @@ livecd-rootfs (2.320) wily; urgency=medium
 livecd-rootfs (2.319) wily; urgency=medium
 
   * copy set locale hook from core to desktop-next
-  
+
   [ Sergio Schvezov ]
   * removing debian packaging artifacts from the image
 
@@ -5352,7 +5351,7 @@ livecd-rootfs (2.298) vivid; urgency=low
     - shuffle install order around
   * snappy:
     + remove click-hook-framework
-    + remove /etc/init.d/grub-common 
+    + remove /etc/init.d/grub-common
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 16 Apr 2015 09:37:34 -0500
 
@@ -5695,7 +5694,7 @@ livecd-rootfs (2.267) vivid; urgency=low
   * live-build/ubuntu-core/hooks/10-remove-documentation.binary:
     - strip documentation
   * live-build/ubuntu-core/hooks/11-remove-extra-packages.chroot:
-    - remove extra packages like libicu52/libqt that are still on the 
+    - remove extra packages like libicu52/libqt that are still on the
       image because vivid system-image has a dependency on u-d-m which
       depends on libqt
   * live-build/ubuntu-core/hooks/12-add-docker-user.chroot:
@@ -5814,7 +5813,7 @@ livecd-rootfs (2.252) utopic; urgency=low
 
   [ James Hunt ]
   * Convert resolvconf hook from a chroot hook to a binary hook since lb
-    overwrites /etc/resolv.conf after the chroot hooks have run.  * 
+    overwrites /etc/resolv.conf after the chroot hooks have run.  *
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Thu, 09 Oct 2014 13:20:40 +0200
 
@@ -5840,7 +5839,7 @@ livecd-rootfs (2.249) utopic; urgency=medium
 livecd-rootfs (2.248) utopic; urgency=medium
 
   * live-build/ubuntu-core/hooks/06-handle_resolvconf.chroot: Configure
-    resolv.conf for Ubuntu Core. 
+    resolv.conf for Ubuntu Core.
   * live-build/ubuntu-core/hooks/07-configure-system-image-client.chroot:
     Configure system-image-cli's client.ini for Ubuntu Core. This can be
     dropped once bug 1373467 is fixed.
@@ -5993,7 +5992,7 @@ livecd-rootfs (2.231) utopic; urgency=medium
 livecd-rootfs (2.230) utopic; urgency=low
 
   * lp:~mvo/livecd-rootfs/ubuntu-core-system-image:
-    - install the "ubuntu-core" task and a kernel when building 
+    - install the "ubuntu-core" task and a kernel when building
       ubuntu-core with SUBPROJECT=system-image
 
  -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 28 Jul 2014 20:10:56 +0200
@@ -6224,7 +6223,7 @@ livecd-rootfs (2.200) trusty; urgency=low
 livecd-rootfs (2.199) trusty; urgency=low
 
   * make the click package installation check for proper architecture before
-    trying to install packages from the list, so that i386 touch builds do not 
+    trying to install packages from the list, so that i386 touch builds do not
     fall over with "wrong architecture" failures at the click install step.
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 26 Nov 2013 15:14:18 +0100
@@ -6411,7 +6410,7 @@ livecd-rootfs (2.173) saucy; urgency=low
 
 livecd-rootfs (2.172) saucy; urgency=low
 
-  * Reenabling click package installation hook. 
+  * Reenabling click package installation hook.
 
  -- Sergio Schvezov <sergio.schvezov@canonical.com>  Sun, 11 Aug 2013 19:03:53 -0300
 
@@ -6597,7 +6596,7 @@ livecd-rootfs (2.148) saucy; urgency=low
 
 livecd-rootfs (2.147) saucy; urgency=low
 
-  * sync ubuntu-touch customzation scripts with phablet build tree 
+  * sync ubuntu-touch customzation scripts with phablet build tree
 
  -- Oliver Grawert <ogra@ubuntu.com>  Mon, 03 Jun 2013 09:56:15 +0200
 
@@ -7351,7 +7350,7 @@ livecd-rootfs (2.48) precise; urgency=low
 
 livecd-rootfs (2.47) precise; urgency=low
 
-  * put ti-omap4-ppa into omap4 images 
+  * put ti-omap4-ppa into omap4 images
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 10 Jan 2012 12:46:20 +0100
 
@@ -7436,7 +7435,7 @@ livecd-rootfs (2.36) oneiric; urgency=low
   * BuildLiveCD: Install recommendations of ubuntu-defaults-builder.
 
   [ Oliver Grawert ]
-  * also store the size of the ac100 tarball in the initrd, since the tarball 
+  * also store the size of the ac100 tarball in the initrd, since the tarball
     changes its name several times during build we need a second criteria to not
     loop over all availiable tarballs with md5sum at install time.
 
@@ -7450,9 +7449,9 @@ livecd-rootfs (2.35) oneiric; urgency=low
 
 livecd-rootfs (2.34) oneiric; urgency=low
 
-  * drop FLASH_KERNEL_SKIP from live-build config, flash-kernel suppression is 
+  * drop FLASH_KERNEL_SKIP from live-build config, flash-kernel suppression is
     handled through a diversion already.
-  * add FLASH_KERNEL_SKIP explicitly to the post build ac100 update-initramfs 
+  * add FLASH_KERNEL_SKIP explicitly to the post build ac100 update-initramfs
     chroot call.
 
  -- Oliver Grawert <ogra@ubuntu.com>  Wed, 24 Aug 2011 14:16:55 +0200
@@ -7481,7 +7480,7 @@ livecd-rootfs (2.31) oneiric; urgency=low
 
 livecd-rootfs (2.30) oneiric; urgency=low
 
-  * provide .bootimg as a link to .bootimg-$FLAVOUR similar to the 
+  * provide .bootimg as a link to .bootimg-$FLAVOUR similar to the
     naming scheme we use for initrd and kernel files.
 
  -- Oliver Grawert <ogra@ubuntu.com>  Sat, 20 Aug 2011 10:58:30 +0200
@@ -7558,7 +7557,7 @@ livecd-rootfs (2.21) oneiric; urgency=low
 
 livecd-rootfs (2.20) oneiric; urgency=low
 
-  * make sure the right packages are installed on armel+ac100 subarch builds 
+  * make sure the right packages are installed on armel+ac100 subarch builds
 
  -- Oliver Grawert <ogra@ubuntu.com>  Tue, 09 Aug 2011 16:25:11 +0200
 
@@ -7583,7 +7582,7 @@ livecd-rootfs (2.18) oneiric; urgency=low
 
   * export LB_LINUX_FLAVOURS="none" in auto/clean, so the clean
     routine doesn't bomb out with no kernels selected.  This almost
-    certainly needs fixing in live-build, but works here for now 
+    certainly needs fixing in live-build, but works here for now
 
  -- Adam Conrad <adconrad@ubuntu.com>  Fri, 15 Jul 2011 18:21:28 -0600
 
@@ -7773,7 +7772,7 @@ livecd-rootfs (1.160) natty; urgency=critical
 livecd-rootfs (1.159) natty; urgency=low
 
   * create an empty swapfile on ext2/3 images by default, we care for use
-    or deletion on first boot, this cuts of 3min from the first boot of 
+    or deletion on first boot, this cuts of 3min from the first boot of
     preinstalled images.
 
  -- Oliver Grawert <ogra@ubuntu.com>  Wed, 23 Feb 2011 14:55:06 +0100
@@ -7786,7 +7785,7 @@ livecd-rootfs (1.158) natty; urgency=low
 
 livecd-rootfs (1.157) natty; urgency=low
 
-  * drop IGEPv2 x-loader and u-boot from livefs.sh, they are not in main 
+  * drop IGEPv2 x-loader and u-boot from livefs.sh, they are not in main
     and thus break image builds
 
  -- Oliver Grawert <ogra@ubuntu.com>  Sat, 12 Feb 2011 13:32:59 +0100
@@ -7936,7 +7935,7 @@ livecd-rootfs (1.137) maverick; urgency=low
  -- Colin Watson <cjwatson@ubuntu.com>  Wed, 21 Jul 2010 07:52:47 +0100
 
 livecd-rootfs (1.136) maverick; urgency=low
- 
+
   * One more fix; if we're asking apt to downgrade packages, we have to
     explicitly pass --force-yes.
 
@@ -8304,7 +8303,7 @@ livecd-rootfs (0.91) karmic; urgency=low
   * Remove subarch hack for ubuntu-mid, it was never used.
 
   [ Mario Limonciello ]
-  * Remove metapackage hack for mythbuntu.  Now that tasks are published for 
+  * Remove metapackage hack for mythbuntu.  Now that tasks are published for
     multiverse, it's no longer necessary.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Thu, 13 Aug 2009 22:19:26 -0500
@@ -8362,7 +8361,7 @@ livecd-rootfs (0.86) karmic; urgency=low
   * livecd.sh: Support kubuntu-netbook, drop kubuntu-kde4
 
   [ Steve Kowalik ]
-  * livecd.sh: Switch UNR to using ubuntu-netbook-remix^ and unr-live^. 
+  * livecd.sh: Switch UNR to using ubuntu-netbook-remix^ and unr-live^.
 
  -- Steve Kowalik <stevenk@ubuntu.com>  Tue, 30 Jun 2009 12:13:08 +1000
 
@@ -8457,14 +8456,14 @@ livecd-rootfs (0.75) jaunty; urgency=low
 
   [ Steve Kowalik ]
   * BuildLiveCD: Add ubuntu-netbook-remix.
-  * livecd.sh: Support ubuntu-netbook-remix. 
+  * livecd.sh: Support ubuntu-netbook-remix.
 
  -- Steve Kowalik <stevenk@ubuntu.com>  Sat, 10 Jan 2009 11:08:29 +1100
 
 livecd-rootfs (0.74) jaunty; urgency=low
 
   * For mythbuntu livefs builds, we don't have tasks yet. They will be
-    coming in a future build of Soyuz, so for now just use the 
+    coming in a future build of Soyuz, so for now just use the
     metapackages instead.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sat, 08 Nov 2008 09:49:56 -0600
