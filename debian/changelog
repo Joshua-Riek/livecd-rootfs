@@ -1,3 +1,11 @@
+livecd-rootfs (23.10.43) UNRELEASED; urgency=medium
+
+  [ Utkarsh Gupta ]
+  * The unminimize script should install the lxd snap from the per-release
+    channel, the same as in the full image.  LP: #2036725.    
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 22 Sep 2023 02:12:32 -0700
+
 livecd-rootfs (23.10.42) mantic; urgency=medium
 
   * fix: Fix the missing `fi` with the recent changes in the 
