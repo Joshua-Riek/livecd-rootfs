@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.45) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: fail immediately on unknown arch/subarch.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 22 Sep 2023 22:19:57 -0700
+
 livecd-rootfs (23.10.44) mantic; urgency=medium
 
   * Fix the subarch used in the hook to identify images for sifive
