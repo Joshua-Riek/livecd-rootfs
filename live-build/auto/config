@@ -855,6 +855,7 @@ case $PROJECT in
 
 			*)
 				# By default Ubuntu Budgie now ships the new installer.
+				touch config/universe-enabled
 				PASSES_TO_LAYERS="true"
 				KERNEL_FLAVOURS='generic-hwe-22.04'
 				add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
