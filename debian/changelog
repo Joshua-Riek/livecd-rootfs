@@ -1,3 +1,9 @@
+livecd-rootfs (23.10.45) mantic; urgency=medium
+
+  * budgie: Configure universe & multiverse sources (LP: #2036966)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 25 Sep 2023 13:57:21 -0600
+
 livecd-rootfs (23.10.44) mantic; urgency=medium
 
   * Fix the subarch used in the hook to identify images for sifive
