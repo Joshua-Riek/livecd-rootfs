@@ -106,25 +106,33 @@ install_grub() {
 
     chroot mountpoint apt-get -y update
 
+    package_install_recommends_option=""
+    # minimized cloud image policy, introduced in version 23.10.16, is to not install recommends for any package
+    # installs during build. This is to keep the image as small as possible. This also extends to
+    # the grub related packages.
+    if [ "${SUBPROJECT:-}" = minimized ]; then
+        package_install_recommends_option="--no-install-recommends"
+    fi
+
     # UEFI GRUB modules are meant to be used equally by Secure Boot and
     # non-Secure Boot systems. If you need an extra module not already
     # provided or run into "Secure Boot policy forbids loading X" problems,
     # please file a bug against grub2 to include the affected module.
     case $ARCH in
         arm64)
-            chroot mountpoint apt-get -qqy install --no-install-recommends shim-signed grub-efi-arm64-signed
+            chroot mountpoint apt-get -qqy install ${package_install_recommends_option} shim-signed grub-efi-arm64-signed
             efi_target=arm64-efi
             ;;
         armhf)
-            chroot mountpoint apt-get -qqy install --no-install-recommends grub-efi-arm grub-efi-arm-bin
+            chroot mountpoint apt-get -qqy install ${package_install_recommends_option} grub-efi-arm grub-efi-arm-bin
             efi_target=arm-efi
             ;;
         amd64)
-            chroot mountpoint apt-get install -qqy grub-pc shim-signed
+            chroot mountpoint apt-get install -qqy ${package_install_recommends_option} grub-pc shim-signed
             efi_target=x86_64-efi
             ;;
         riscv64)
-            chroot mountpoint apt-get install -qqy u-boot-menu grub-efi-riscv64
+            chroot mountpoint apt-get install -qqy ${package_install_recommends_option} u-boot-menu grub-efi-riscv64
             efi_target=riscv64-efi
 
             chroot mountpoint u-boot-update
