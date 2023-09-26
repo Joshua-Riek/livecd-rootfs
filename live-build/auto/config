@@ -6,11 +6,11 @@ case $ARCH:$SUBARCH in
 	arm64:|arm64:generic|arm64:raspi|arm64:snapdragon|\
 	arm64:tegra|arm64:tegra-igx|\
 	armhf:|armhf:raspi|\
-	i386:\
-	ppc64el:\
+	i386:|\
+	ppc64el:|\
 	riscv64:icicle|riscv64:nezha|riscv64:licheerv|riscv64:unmatched|\
 	riscv64:visionfive|riscv64:visionfive2|\
-	s390x:\
+	s390x:|\
 	*appliance*)
 		;;
 	*)
