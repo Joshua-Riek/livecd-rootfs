@@ -716,7 +716,7 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				KERNEL_FLAVOURS='generic-hwe-22.04'
-				if [ "$SUBARCH" = "X13s" ]; then
+				if [ "$SUBARCH" = "x13s" ]; then
 					KERNEL_FLAVOURS='laptop-23.10'
 				fi
 				PASSES_TO_LAYERS="true"
