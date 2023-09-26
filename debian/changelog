@@ -1,9 +1,10 @@
-livecd-rootfs (23.10.47) UNRELEASED; urgency=medium
+livecd-rootfs (23.10.47) mantic; urgency=medium
 
+  [ Phil Roche ]
   * fix: Ensure that grub/shim package installs do not install recommends for
     minimized ubuntu-cpc image builds (LP: #2037075)
 
- -- Phil Roche <phil.roche@canonical.com>  Fri, 22 Sep 2023 11:59:10 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 26 Sep 2023 15:04:09 -0700
 
 livecd-rootfs (23.10.46) UNRELEASED; urgency=medium
 
