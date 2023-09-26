@@ -8,7 +8,7 @@ case $ARCH:$SUBARCH in
 	armhf:|armhf:raspi|\
 	i386:|\
 	ppc64el:|\
-	riscv64:icicle|riscv64:nezha|riscv64:licheerv|riscv64:unmatched|\
+	riscv64:icicle|riscv64:licheerv|riscv64:nezha|riscv64:unmatched|\
 	riscv64:visionfive|riscv64:visionfive2|\
 	s390x:|\
 	*appliance*)
