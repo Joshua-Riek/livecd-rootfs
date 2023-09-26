@@ -1,3 +1,12 @@
+livecd-rootfs (23.10.46) UNRELEASED; urgency=medium
+
+  [ Simon Poirier ]
+  * Fix use of variable declared in conditional branch and used in parent
+    scope in snap_validate_seed. This would affect binary for images without
+    kernel and using "set -u". (LP: #2037338)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 26 Sep 2023 15:11:07 +1300
+
 livecd-rootfs (23.10.45) mantic; urgency=medium
 
   * budgie: Configure universe & multiverse sources (LP: #2036966)
