@@ -4,7 +4,7 @@ set -e
 case $ARCH:$SUBARCH in
 	amd64:|amd64:generic|amd64:intel-iot|\
 	arm64:|arm64:generic|arm64:raspi|arm64:snapdragon|\
-	arm64:tegra|arm64:tegra-igx|\
+	arm64:tegra|arm64:tegra-igx|arm64:x13s|\
 	armhf:|armhf:raspi|\
 	i386:|\
 	ppc64el:|\
