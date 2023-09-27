@@ -1,3 +1,10 @@
+livecd-rootfs (23.10.49) UNRELEASED; urgency=medium
+
+  * fix: arm64 flash-kernel removal from ubuntu-cpc project cloud images
+    (LP: #2037074)
+
+ -- Phil Roche <phil.roche@canonical.com>  Wed, 27 Sep 2023 11:34:05 +0100
+
 livecd-rootfs (23.10.48) mantic; urgency=medium
 
   [ Dimitri John Ledkov ]
