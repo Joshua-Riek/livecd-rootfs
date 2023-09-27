@@ -715,6 +715,10 @@ case $PROJECT in
 				;;
 			*)
 				touch config/universe-enabled
+				KERNEL_FLAVOURS='generic-hwe-22.04'
+				if [ "$SUBARCH" = "x13s" ]; then
+					KERNEL_FLAVOURS='laptop-23.10'
+				fi
 				PASSES_TO_LAYERS="true"
 				# the minimal layer, for minimal installs
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
@@ -725,18 +729,37 @@ case $PROJECT in
 				add_task minimal.standard.live ubuntu-live
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				add_snap minimal.standard.live ubuntu-desktop-installer/classic
-				add_package minimal.standard.live linux-generic-hwe-22.04 casper
-				# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
-				add_package minimal.enhanced-secureboot cryptsetup boot-managed-by-snapd
-				add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
-
+				add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
 				# language support
 				seeded_langs="$(get_seeded_languages desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
 				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
-				derive_language_layers minimal.enhanced-secureboot desktop-minimal desktop-default-languages "$seeded_langs"
 				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
-				derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
+
+				# Enchanced secureboot stuff
+				case "$ARCH" in
+				    amd64)
+					# the enhanced-secureboot layer, contains all packages for the enhanced secureboot install
+					add_package minimal.enhanced-secureboot cryptsetup boot-managed-by-snapd
+					add_package minimal.standard.enhanced-secureboot cryptsetup boot-managed-by-snapd
+					derive_language_layers minimal.enhanced-secureboot desktop-minimal desktop-default-languages "$seeded_langs"
+					derive_language_layers minimal.standard.enhanced-secureboot desktop desktop-default-languages "$seeded_langs"
+					cat <<-EOF > config/minimal.enhanced-secureboot.catalog-in.yaml
+						id: ubuntu-desktop-minimal
+						variations:
+						  minimal-enhanced-secureboot:
+						    path: minimal.enhanced-secureboot.squashfs
+						    snapd_system_label: enhanced-secureboot-desktop
+					EOF
+					cat <<-EOF > config/minimal.standard.enhanced-secureboot.catalog-in.yaml
+						id: ubuntu-desktop
+						variations:
+						  enhanced-secureboot:
+						    path: minimal.standard.enhanced-secureboot.squashfs
+						    snapd_system_label: enhanced-secureboot-desktop
+					EOF
+					;;
+				esac
 
 				# now let's create the neccessary catalog files
 				cat <<-EOF > config/minimal.catalog-in.yaml
@@ -752,13 +775,6 @@ case $PROJECT in
 					  minimal:
 					    path: minimal.squashfs
 				EOF
-				cat <<-EOF > config/minimal.enhanced-secureboot.catalog-in.yaml
-					id: ubuntu-desktop-minimal
-					variations:
-					  minimal-enhanced-secureboot:
-					    path: minimal.enhanced-secureboot.squashfs
-					    snapd_system_label: enhanced-secureboot-desktop
-				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Ubuntu Desktop"
 					description: >-
@@ -770,13 +786,6 @@ case $PROJECT in
 					variations:
 					  standard:
 					    path: minimal.standard.squashfs
-				EOF
-				cat <<-EOF > config/minimal.standard.enhanced-secureboot.catalog-in.yaml
-					id: ubuntu-desktop
-					variations:
-					  enhanced-secureboot:
-					    path: minimal.standard.enhanced-secureboot.squashfs
-					    snapd_system_label: enhanced-secureboot-desktop
 				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations
