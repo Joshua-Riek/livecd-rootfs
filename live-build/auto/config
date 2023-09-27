@@ -1048,11 +1048,7 @@ case $PROJECT in
 			*+raspi)
 				add_task install ubuntu-server-raspi
 				;;
-			armhf*)
-				add_package install flash-kernel
-				;;
 			arm64*)
-				add_package install flash-kernel
 				if [ "${SUBARCH:-}" = "generic" ]; then
 					KERNEL_FLAVOURS=generic
 				fi
