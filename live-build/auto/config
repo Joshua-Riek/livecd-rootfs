@@ -1223,7 +1223,7 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 esac
 
 case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*|ubuntu:)
+	ubuntu-server:*|ubuntu-base:*|ubuntu-oci:*)
 		OPTS="${OPTS:+$OPTS }--linux-packages=none --initramfs=none"
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
