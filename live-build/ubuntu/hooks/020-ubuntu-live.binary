@@ -21,6 +21,8 @@ fi
 . config/binary
 . config/functions
 
+PROJECT=$PROJECT${SUBARCH:+-$SUBARCH}
+
 mv chroot/boot/initrd.img-* ${PWD}/livecd.${PROJECT}.initrd-generic
 mv chroot/boot/vmlinu?-* ${PWD}/livecd.${PROJECT}.kernel-generic
 chmod a+r ${PWD}/livecd.${PROJECT}.initrd-generic ${PWD}/livecd.${PROJECT}.kernel-generic
