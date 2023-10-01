@@ -167,7 +167,6 @@ create_chroot_pass () {
 	fi
 
 	# Customizing chroot
-	lb chroot_linux-image ${*}
 	lb chroot_preseed ${*}
 	lb chroot_early_hooks ${*}
 
@@ -205,6 +204,7 @@ create_chroot_pass () {
 	# Add live packages to live layers
 	for livepass in $LIVE_PASSES; do
 		[ "$livepass" != "$pass" ] && continue
+		lb chroot_linux-image ${*}
 		lb chroot_live-packages ${*}
 		break
 	done
