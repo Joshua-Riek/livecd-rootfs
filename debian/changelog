@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.7) UNRELEASED; urgency=medium
+
+  * Remove more bits related to pre-installed desktop images (LP: #2038098)
+
+ -- Dave Jones <dave.jones@canonical.com>  Mon, 02 Oct 2023 15:46:06 +0100
+
 livecd-rootfs (24.04.6) noble; urgency=medium
 
   * Re-enable universe for pre-installed images (LP: #2044154)
