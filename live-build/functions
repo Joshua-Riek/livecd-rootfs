@@ -47,7 +47,7 @@ create_manifest() {
     if [ "$PROJECT" = ubuntu-cpc ]; then
         echo "create_manifest creating file listing."
         local target_filelist=${2%.manifest}.filelist
-        (cd "${chroot_root}" && find -xdev) > "${target_filelist}"
+        (cd "${chroot_root}" && find -xdev) | sort > "${target_filelist}"
     fi
     echo "create_manifest finished"
 }
