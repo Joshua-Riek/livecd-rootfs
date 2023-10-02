@@ -1,3 +1,12 @@
+livecd-rootfs (23.10.51) mantic; urgency=medium
+
+  [ Dimitri John Ledkov ]
+  * Add support to live-build/lb_chroot_layered to allow adding the kernel to
+    the currently required layer location, which fixes arm64+x13s and also
+    allows for removing live-build/ubuntu/hooks/020-ubuntu-live.binary.
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 02 Oct 2023 14:55:29 -0600
+
 livecd-rootfs (23.10.50) mantic; urgency=medium
 
   * live-build/ubuntu/hooks: ensure kernel artifacts named with subarch
