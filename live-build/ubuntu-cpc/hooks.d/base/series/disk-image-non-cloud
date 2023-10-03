@@ -2,3 +2,5 @@ base/disk-image-uefi-non-cloud.binary
 base/disk-image.binary
 base/disk1-img-xz.binary
 provides livecd.ubuntu-cpc.disk1.img.xz
+provides livecd.ubuntu-cpc.manifest
+provides livecd.ubuntu-cpc.filelist

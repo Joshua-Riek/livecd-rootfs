@@ -431,6 +431,10 @@ EOF
     rm mountpoint/tmp/device.map
     umount mountpoint/boot/efi
     mount
+
+    # create sorted filelist as the very last step before unmounting
+    (cd mountpoint && find -xdev) | sort > binary/boot/filesystem.filelist
+
     umount_partition mountpoint
     rmdir mountpoint
 }

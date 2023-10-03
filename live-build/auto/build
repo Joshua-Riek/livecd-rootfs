@@ -616,6 +616,14 @@ if [ -e "binary/$INITFS/filesystem.packages" ]; then
 	ln "binary/$INITFS/filesystem.packages" "$PREFIX.manifest"
 	chmod 644 "$PREFIX.manifest"
 fi
+
+# If a .filelist is present, use it as the filelist for the image by
+# symlinking with expected name and updating permissions
+if [ -e "binary/$INITFS/filesystem.filelist" ]; then
+	ln "binary/$INITFS/filesystem.filelist" "$PREFIX.filelist"
+	chmod 644 "$PREFIX.filelist"
+fi
+
 if [ -e "binary/$INITFS/filesystem.packages-remove" ]; then
 	# Not a typo, empty manifest-remove has a single LF in it. :/
 	if [ $(cat binary/$INITFS/filesystem.packages-remove | wc -c) -gt 1 ]; then

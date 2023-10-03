@@ -179,6 +179,10 @@ install_grub() {
     rm mountpoint/tmp/device.map
     umount -R mountpoint/boot
     mount
+
+    # create sorted filelist as the very last step before unmounting
+    (cd mountpoint && find -xdev) | sort > binary/boot/filesystem.filelist
+
     umount_partition mountpoint
     rmdir mountpoint
 }
