@@ -1300,6 +1300,18 @@ if [ "${IMAGE_HAS_HARDCODED_PASSWORD:-}" = "1" ]; then
 	fi
 fi
 
+# apply this hook unconditionally to remove files from the chroot that
+# are supposed to be install-specific secrets and therefore must never
+# be shipped in any image.
+# this hook should be extended if we discover any more files that are
+# supposed to be private but aren't.
+cat > config/hooks/100-too-many-secrets.chroot <<EOF
+#!/bin/sh
+
+rm -fv /etc/ssl/private/ssl-cert-snakeoil.key \
+	/etc/ssl/certs/ssl-cert-snakeoil.pem
+EOF
+
 case $PROJECT in
   ubuntu-cpc|ubuntu-core|ubuntu-base|ubuntu-oci|ubuntu-wsl|ubuntu-mini-iso)
     # ubuntu-cpc gets this added in 025-create-groups.chroot, and we do
