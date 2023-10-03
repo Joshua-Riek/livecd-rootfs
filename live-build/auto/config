@@ -804,6 +804,7 @@ case $PROJECT in
 		add_task minimal.standard.live ubuntu-live
 		remove_package minimal.standard.live ubiquity-frontend-gtk
 		add_snap minimal.standard.live ubuntu-desktop-installer/classic
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
 
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu Desktop for OEM (minimal)"
@@ -873,6 +874,7 @@ case $PROJECT in
 				add_package minimal cloud-init
 				remove_package minimal.standard.live ubiquity-frontend-gtk
 				add_snap minimal.standard.live ubuntu-budgie-installer/classic
+				add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
 
 				seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
