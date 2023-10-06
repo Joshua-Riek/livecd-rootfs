@@ -170,6 +170,16 @@ fi
 psuedo_grub_probe > "${gprobe}"
 chmod 755 "${gprobe}"
 
+case $arch in
+   armhf|arm64)
+      # QEMU virt machine provides AMBA PrimeCell UART
+      serial_console='ttyAMA0'
+      ;;
+   *)
+      serial_console='ttyS0'
+      ;;
+esac
+
 # for Quantal and later, use /etc/default/grub.d functionality
 # rather than modifying the grub configuration itself.
 # This avoids the mess of having to do dpkg stuff
@@ -186,7 +196,7 @@ GRUB_RECORDFAIL_TIMEOUT=0
 GRUB_TIMEOUT=0
 
 # Set the default commandline
-GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"
+GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=${serial_console}"
 
 # Set the grub console type
 GRUB_TERMINAL=console
