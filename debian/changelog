@@ -1,9 +1,13 @@
-livecd-rootfs (24.04.1) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.1) noble; urgency=medium
 
+  [ Steve Langasek ]
   * call ubuntu-image classic with --debug, because --verbose doesn't give
     us anything useful in the livefs build logs.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 11 Oct 2023 18:03:03 -0700
+  [ Heinrich Schuchardt ]
+  * arm: fix console parameter for ARM cloud-images
+
+ -- Paride Legovini <paride@ubuntu.com>  Wed, 25 Oct 2023 17:58:13 +0200
 
 livecd-rootfs (23.10.55) mantic; urgency=medium
 
