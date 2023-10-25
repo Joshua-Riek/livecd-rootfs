@@ -5,7 +5,7 @@ livecd-rootfs (24.04.1) noble; urgency=medium
     us anything useful in the livefs build logs.
 
   [ Heinrich Schuchardt ]
-  * arm: fix console parameter for ARM cloud-images
+  * arm: fix console parameter for ARM cloud-images (LP: #2036730)
 
  -- Paride Legovini <paride@ubuntu.com>  Wed, 25 Oct 2023 17:58:13 +0200
 
