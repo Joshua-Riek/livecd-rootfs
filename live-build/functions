@@ -768,9 +768,18 @@ snap_preseed() {
 snap_validate_seed() {
     local CHROOT_ROOT=$1
     local kern_major_min=undefined
+    local boot_filename=undefined
 
+    # ppc64el still uses /boot/vmlinux so we need to determine the boot file name as non ppc64el use /boot/vmlinuz
+    # We don't need to query the arch as we can use existence of the file to determine the boot file name. Both
+    # will never be present at the same time.
     if [ -e ${CHROOT_ROOT}/boot/vmlinuz ]; then
-        kern_major_min=$(readlink --canonicalize --no-newline ${CHROOT_ROOT}/boot/vmlinuz | grep  --extended-regexp --only-matching --max-count 1 '[0-9]+\.[0-9]+')
+        boot_filename=vmlinuz
+    elif [ -e ${CHROOT_ROOT}/boot/vmlinux ]; then
+        boot_filename=vmlinux
+    fi
+    if [ ${boot_filename} != undefined ]; then  # we have a known boot file so we can proceed with checking for features to mount
+        kern_major_min=$(readlink --canonicalize --no-newline ${CHROOT_ROOT}/boot/${boot_filename} | grep  --extended-regexp --only-matching --max-count 1 '[0-9]+\.[0-9]+')
         if [ -d /usr/share/livecd-rootfs/live-build/apparmor/${kern_major_min} ]; then
             # if an Ubuntu version has different kernel apparmor features between LTS and HWE kernels
             # a snap pre-seeding issue can occur, where the incorrect apparmor features are reported
