@@ -1,9 +1,9 @@
 livecd-rootfs (2.765.29) jammy; urgency=medium
 
-  [Steve Langasek]
+  [ Steve Langasek ]
   * The chroot tmpfs mount should only be /var/lib/apt/lists, not
     /var/lib/apt; the latter breaks changes to /var/lib/apt/extended_states.
-    LP: #2036195.
+    (LP: #2036195).
 
  -- Phil Roche <phil.roche@canonical.com>  Thu, 19 Oct 2023 18:10:20 +0100
  
