@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.30) jammy; urgency=medium
+
+  * Enable snap preseeding with ppc64el images where /boot/vmlinux is used
+    instead of /boot/vmlinuz. (LP: #2038957)
+
+ -- Philip Roche <phil.roche@canonical.com>  Fri, 27 Oct 2023 12:51:00 +0100
+
 livecd-rootfs (2.765.29) jammy; urgency=medium
 
   [ Steve Langasek ]
