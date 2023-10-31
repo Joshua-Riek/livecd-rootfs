@@ -99,7 +99,7 @@ fi
 
 
 case $arch in
-	# ARM, ppc, riscv64 and s390x images are special
+	# ppc, riscv64 and s390x images are special
 	powerpc|ppc64el|s390x|riscv64)
 		exit 0
 		;;
