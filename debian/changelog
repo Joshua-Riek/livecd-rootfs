@@ -1,6 +1,8 @@
 livecd-rootfs (24.04.3) UNRELEASED; urgency=medium
 
   * Drop the legacy images for both Ubuntu and Ubuntu Budgie.
+  * We no longer need to remove ubiquity from the Ubuntu live layer and
+    install ubuntu-desktop-installer, this is now handled via the seeds.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 04 Nov 2023 21:55:34 +0200
 
