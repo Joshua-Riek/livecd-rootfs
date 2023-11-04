@@ -675,17 +675,7 @@ fi
 
 case $PROJECT in
 	ubuntu)
-
 		case ${SUBPROJECT:-} in
-			legacy)
-				LIVE_TASK='ubuntu-live'
-				add_task install minimal standard ubuntu-desktop
-				add_task live ubuntu-desktop-minimal-default-languages ubuntu-desktop-default-languages
-				KERNEL_FLAVOURS='generic-hwe-22.04'
-				if [ "$SUBARCH" = "intel-iot" ]; then
-					KERNEL_FLAVOURS='intel-iotg'
-				fi
-				;;
 			desktop-preinstalled)
 				add_task install minimal standard ubuntu-desktop
 				case $SUBARCH in
@@ -857,52 +847,42 @@ case $PROJECT in
 		;;
 
 	ubuntu-budgie)
-		case ${SUBPROJECT:-} in
-			legacy)
-				add_task install minimal standard ubuntu-budgie-desktop
-				LIVE_TASK='ubuntu-budgie-live'
-				;;
-
-			*)
-				# By default Ubuntu Budgie now ships the new installer.
-				touch config/universe-enabled
-				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS='generic-hwe-22.04'
-				add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
-				add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
-				add_task minimal.standard.live ubuntu-budgie-live
-				add_package minimal cloud-init
-				remove_package minimal.standard.live ubiquity-frontend-gtk
-				add_snap minimal.standard.live ubuntu-budgie-installer/classic
-				add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
-
-				seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
-				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers minimal budgie-desktop-minimal budgie-desktop-minimal-default-languages "$seeded_langs"
-				derive_language_layers minimal.standard budgie-desktop budgie-desktop-default-languages "$seeded_langs"
-				cat <<-EOF > config/minimal.catalog-in.yaml
-					name: "Ubuntu Budgie Desktop (minimized)"
-					description: >-
-					  A minimal but usable Ubuntu Budgie Desktop.
-					id: ubuntu-budgie-desktop-minimal
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-				EOF
-				cat <<-EOF > config/minimal.standard.catalog-in.yaml
-					name: "Ubuntu Budgie Desktop"
-					description: >-
-					  A full featured Ubuntu Budgie Desktop.
-					id: ubuntu-budgie-desktop
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-					default: yes
-				EOF
-				/usr/share/livecd-rootfs/checkout-translations-branch \
-					https://git.launchpad.net/subiquity po config/catalog-translations
-				;;
-		esac
+		# By default Ubuntu Budgie now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS='generic-hwe-22.04'
+		add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
+		add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
+		add_task minimal.standard.live ubuntu-budgie-live
+		add_package minimal cloud-init
+		remove_package minimal.standard.live ubiquity-frontend-gtk
+		add_snap minimal.standard.live ubuntu-budgie-installer/classic
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
+		seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
+		echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
+		derive_language_layers minimal budgie-desktop-minimal budgie-desktop-minimal-default-languages "$seeded_langs"
+		derive_language_layers minimal.standard budgie-desktop budgie-desktop-default-languages "$seeded_langs"
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Ubuntu Budgie Desktop (minimized)"
+			description: >-
+			  A minimal but usable Ubuntu Budgie Desktop.
+			id: ubuntu-budgie-desktop-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+		EOF
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
+			name: "Ubuntu Budgie Desktop"
+			description: >-
+			  A full featured Ubuntu Budgie Desktop.
+			id: ubuntu-budgie-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-mate)

@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.3) UNRELEASED; urgency=medium
+
+  * Drop the legacy images for both Ubuntu and Ubuntu Budgie.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 04 Nov 2023 21:55:34 +0200
+
 livecd-rootfs (24.04.2) noble; urgency=medium
 
   * Enable snap preseeding with ppc64el images where /boot/vmlinux is used
