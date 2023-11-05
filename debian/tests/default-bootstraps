@@ -18,7 +18,6 @@ ALL_TRIPLETS="
  lubuntu::
  ubuntu-unity::
  ubuntu::
- ubuntu:legacy:
  ubuntu-base::
  ubuntu-base:buildd:
  ubuntu-budgie::

@@ -537,12 +537,8 @@ case $IMAGEFORMAT in
 		;;
 	*)
 		case $PROJECT in
-			ubuntu-server|ubuntu-wsl|ubuntu-oem)
-				;;
-			ubuntu|ubuntu-budgie)
-				if [ "$SUBPROJECT" = "legacy" ]; then
-					add_package live casper
-				fi
+			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
+			ubuntu-budgie)
 				;;
 			*)
 				add_package live casper

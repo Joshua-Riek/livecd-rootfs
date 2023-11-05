@@ -582,15 +582,13 @@ for OUTPUT in ext2 ext3 ext4 manifest manifest-remove size squashfs; do
 done
 
 # we don't need a manifest-remove for a layered-aware installer
-if [ "$SUBPROJECT" != "legacy" ]; then
-	# here we have a list of all new-installer flavors
-	case $PROJECT in
-		ubuntu|ubuntu-budgie)
-			rm -f livecd.${PROJECT}-manifest-remove
-			rm -f config/manifest-minimal-remove
-			;;
-	esac
-fi
+# here we have a list of all new-installer flavors
+case $PROJECT in
+	ubuntu|ubuntu-budgie)
+		rm -f livecd.${PROJECT}-manifest-remove
+		rm -f config/manifest-minimal-remove
+		;;
+esac
 
 if [ -e config/manifest-minimal-remove ]; then
         cp config/manifest-minimal-remove  "$PREFIX.manifest-minimal-remove"
