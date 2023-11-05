@@ -547,50 +547,6 @@ case $IMAGEFORMAT in
 		;;
 esac
 
-if [ "$PREINSTALLED" = "true" ]; then
-	# Touch a random file that we can refer back to during build,
-	# cause that's wildly hackish
-	touch config/universe-enabled
-	case $PROJECT in
-		kubuntu*)
-			add_package live oem-config-kde ubiquity-frontend-kde
-			add_package live ubiquity-slideshow-kubuntu
-			;;
-		lubuntu*)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-lubuntu
-			;;
-		xubuntu*)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-xubuntu
-			;;
-		ubuntu-mate)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-ubuntu-mate
-			;;
-		ubuntu-unity)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-ubuntu
-			;;
-		ubuntu-server)
-			add_package live oem-config-debconf ubiquity-frontend-debconf
-			;;
-		ubuntu-base|ubuntu-oci|ubuntu-cpc|ubuntu-wsl|ubuntu-mini-iso)
-			;;
-		ubuntu)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-ubuntu
-			if [ "$SUBPROJECT" = "desktop-preinstalled" ]; then
-				add_package live language-pack-en-base oem-config-slideshow-ubuntu
-			fi
-			;;
-		*)
-			add_package live oem-config-gtk ubiquity-frontend-gtk
-			add_package live ubiquity-slideshow-ubuntu
-			;;
-	esac
-fi
-
 case $BINARYFORMAT in
 	iso*|usb*)
 		BINARY_IMAGES="$BINARYFORMAT"
