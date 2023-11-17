@@ -1,9 +1,9 @@
-livecd-rootfs (24.04.5) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.5) noble; urgency=medium
 
   [ Yao Wei (魏銘廷) ]
   * ubuntu-oem: add dummy files in order not to fail make-hooks
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 17 Nov 2023 17:18:18 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 17 Nov 2023 17:20:44 +1300
 
 livecd-rootfs (24.04.4) noble; urgency=medium
 
