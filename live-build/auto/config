@@ -547,6 +547,11 @@ case $IMAGEFORMAT in
 		;;
 esac
 
+if [ "$PREINSTALLED" = "true" ]; then
+	# LP Bug: 2044154 Enable universe on pre-installed images 
+	touch config/universe-enabled
+fi
+
 case $BINARYFORMAT in
 	iso*|usb*)
 		BINARY_IMAGES="$BINARYFORMAT"
