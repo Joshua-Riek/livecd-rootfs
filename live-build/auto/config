@@ -626,8 +626,8 @@ if ! [ -e config/germinate-output/structure ]; then
 		GERMINATE_ARG="-c $(echo $COMPONENTS | sed -e's/ \+/,/g')"
 	fi
         (cd config/germinate-output && germinate --no-rdepends --no-installer \
-                -S $SEEDMIRROR -m $MIRROR -d $SUITE -s $FLAVOUR.$SUITE \
-                $GERMINATE_ARG -a $ARCH)
+                -S $SEEDMIRROR -m $MIRROR -d $SUITE,$SUITE-updates \
+                -s $FLAVOUR.$SUITE $GERMINATE_ARG -a $ARCH)
 fi
 
 case $PROJECT in
