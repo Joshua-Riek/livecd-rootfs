@@ -6,6 +6,9 @@ livecd-rootfs (24.04.7) UNRELEASED; urgency=medium
   [ Jean-Baptiste Lallement ]
   * Include -updates when calling germinate.  LP: #1921862.
 
+  [ Dan Bungert ]
+  * cpc/vagrant: fix possible autopkgtest hang on ssh-keygen
+
  -- Dave Jones <dave.jones@canonical.com>  Mon, 02 Oct 2023 15:46:06 +0100
 
 livecd-rootfs (24.04.6) noble; urgency=medium
