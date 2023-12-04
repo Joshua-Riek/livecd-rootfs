@@ -12,6 +12,10 @@ livecd-rootfs (24.04.7) UNRELEASED; urgency=medium
   [ Simon Poirier ]
   * add systemd-resolved back to buildd images.  LP: #2007419.
 
+  [ Steve Langasek ]
+  * live-build/functions: add additional debugging to mount_image() on
+    failure since we again have loop partitions failing to be block devices.
+
  -- Dave Jones <dave.jones@canonical.com>  Mon, 02 Oct 2023 15:46:06 +0100
 
 livecd-rootfs (24.04.6) noble; urgency=medium

@@ -73,6 +73,7 @@ mount_image() {
     rootfs_dev_mapper="${loop_device}p${rootpart}"
     if [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
+        ls -l ${loop_device}p*
         exit 1
     fi
 
