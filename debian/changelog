@@ -1,7 +1,7 @@
 livecd-rootfs (2.765.31) UNRELEASED; urgency=medium
 
-  * fix: add 6.5 kernel appamor features to livecd-rootfs based on
-    features of 6.5 in ubuntu/mantic. This will rolle as HWE (LP: #2037567)
+  * fix: add 6.5 kernel apparmor features to livecd-rootfs based on
+    features of 6.5 in ubuntu/mantic. This will roll as HWE. (LP: #2037567)
 
  -- jchittum <john.chittum@canonical.com>  Thu, 19 Oct 2023 07:22:41 -0500
 
