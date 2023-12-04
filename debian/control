@@ -22,6 +22,8 @@ Depends: ${misc:Depends},
          git,
          gnupg,
          grep-dctrl,
+         # only needed now for CPC sauce hooks and should be dropped
+         # when they no longer require it
          kpartx,
          live-build (>= 3.0~a57-1ubuntu31~),
          lsb-release,
