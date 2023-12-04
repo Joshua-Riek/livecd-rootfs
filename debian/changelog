@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.7) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.7) noble; urgency=medium
 
   [ Dave Jones ]
   * Remove more bits related to pre-installed desktop images (LP: #2038098)
@@ -16,7 +16,7 @@ livecd-rootfs (24.04.7) UNRELEASED; urgency=medium
   * live-build/functions: add additional debugging to mount_image() on
     failure since we again have loop partitions failing to be block devices.
 
- -- Dave Jones <dave.jones@canonical.com>  Mon, 02 Oct 2023 15:46:06 +0100
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 03 Dec 2023 21:38:27 -0800
 
 livecd-rootfs (24.04.6) noble; urgency=medium
 
