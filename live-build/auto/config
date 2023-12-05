@@ -850,9 +850,8 @@ case $PROJECT in
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=lowlatency
-		add_task minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
+		add_task standard minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		add_task standard.live ubuntustudio-live
-		add_package minimal cloud-init
 		cat <<-EOF > config/standard.catalog-in.yaml
 			name: "Ubuntu Studio Desktop"
 			description: >-
