@@ -853,9 +853,6 @@ case $PROJECT in
 		add_task minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		add_task standard.live ubuntustudio-live
 		add_package minimal cloud-init
-		remove_package standard.live ubiquity-fronted-gtk
-		add_snap standard.live ubuntustudio-system-installer/classic
-		add_package standard.live linux-$KERNEL_FLAVOURS casper
 		cat <<-EOF > config/standard.catalog-in.yaml
 			name: "Ubuntu Studio Desktop"
 			description: >-
