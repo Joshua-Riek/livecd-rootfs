@@ -538,7 +538,7 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie)
+			ubuntu-budgie|ubuntustudio)
 				;;
 			*)
 				add_package live casper
@@ -846,8 +846,32 @@ case $PROJECT in
 		;;
 
 	ubuntustudio-dvd)
-		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
+		# By default Ubuntu Studio now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=lowlatency
+		add_task install minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
+		add_task minimal.standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography desktop-default-languages
+		add_task minimal.standard.live ubuntustudio-live
+		add_package minimal cloud-init
+		remove_package minimal.standard.live ubiquity-fronten-gtk
+		add_snap minimal.standard.live ubuntustudio-system-installer/classic
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
+		seeded_langs="$(get_seeded_languages ubuntustudio-desktop)"
+		echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
+		derive_language_layers minimal.standard ubuntustudio-desktop ubuntustudio-desktop-default-languages "$seeded_langs"
+		cat <<-EOF > config/standard.catalog-in.yaml
+			name: "Ubuntu Studio Desktop"
+			description: >-
+			  A full featured Ubuntu Studio Desktop.
+			id: ubuntustudio-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-server)
