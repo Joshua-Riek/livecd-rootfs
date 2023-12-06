@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.32) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * arm: fix console parameter for ARM cloud-images (LP: #2036730)
+
+ -- Brian Murray <brian@ubuntu.com>  Mon, 04 Dec 2023 13:46:09 -0800
+
 livecd-rootfs (2.765.31) jammy; urgency=medium
 
   [ John Chittum ]
