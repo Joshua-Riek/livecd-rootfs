@@ -1,6 +1,24 @@
 #! /bin/sh
 set -e
 
+case $ARCH:$SUBARCH in
+	amd64:|amd64:generic|amd64:intel-iot|\
+	arm64:|arm64:generic|arm64:raspi|arm64:snapdragon|\
+	arm64:tegra|arm64:tegra-igx|arm64:x13s|\
+	armhf:|armhf:raspi|\
+	i386:|\
+	ppc64el:|\
+	riscv64:|riscv64:generic|riscv64:icicle|riscv64:licheerv|\
+	riscv64:nezha|riscv64:unmatched|riscv64:visionfive|riscv64:visionfive2|\
+	s390x:|\
+	*appliance*)
+		;;
+	*)
+		echo "Unknown architecture target $ARCH:$SUBARCH"
+		exit 1
+		;;
+esac
+
 if [ -e config/germinate-output ]; then
             mv -T config/germinate-output germ-tmp
             rm -rf config
