@@ -1145,12 +1145,6 @@ if [ "$PREINSTALLED" != "true" ] && [ "$PASSES_TO_LAYERS" != "true" ] && [ "$LIV
 	add_task live "$LIVE_TASK"
 fi
 
-case $PROJECT in
-	*-dvd)
-		add_task live "$PROJECT-live"
-		;;
-esac
-
 case "$ARCH${SUBARCH:++$SUBARCH}" in
 	arm*+raspi)
 		# Common configuration for all Raspberry Pi image variants (server,

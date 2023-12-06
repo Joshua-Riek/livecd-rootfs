@@ -3,6 +3,11 @@ livecd-rootfs (24.04.8) UNRELEASED; urgency=medium
   [ Erich Eickmeyer ]
   * Switch Ubuntu Studio to the new installer.
 
+  [ Steve Langasek ]
+  * Remove *-dvd glob handling for live layers; Ubuntu Studio is the only
+    remaining "DVD" flavor, and with the move to the new installer this bit
+    is also now incorrect.
+
  -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 05 Dec 2023 21:12:26 -0800
 
 livecd-rootfs (24.04.7) noble; urgency=medium
