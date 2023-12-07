@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.8) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.8) noble; urgency=medium
 
   [ Erich Eickmeyer ]
   * Switch Ubuntu Studio to the new installer.
@@ -9,7 +9,7 @@ livecd-rootfs (24.04.8) UNRELEASED; urgency=medium
     is also now incorrect.
   * live-build/auto/config: fail immediately on unknown arch/subarch.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 05 Dec 2023 21:12:26 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 07 Dec 2023 15:36:30 -0800
 
 livecd-rootfs (24.04.7) noble; urgency=medium
 
