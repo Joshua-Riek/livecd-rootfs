@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.33) UNRELEASED; urgency=medium
+
+  * Use losetup instead of kpartx to resolve race conditions in riscv64
+    image builds.  LP: #2045797.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 03 Dec 2023 22:03:36 -0800
+
 livecd-rootfs (2.765.32) jammy; urgency=medium
 
   [ Heinrich Schuchardt ]
