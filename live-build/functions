@@ -129,7 +129,8 @@ setup_mountpoint() {
         chown root:kmem /dev/mem
     fi
 
-    mount --rbind /dev "$mountpoint/dev"
+    mount dev-live -t devtmpfs "$mountpoint/dev"
+    mount devpts-live -t devpts -o nodev,nosuid "$mountpoint/dev/pts"
     mount proc-live -t proc "$mountpoint/proc"
     mount sysfs-live -t sysfs "$mountpoint/sys"
     mount securityfs -t securityfs "$mountpoint/sys/kernel/security"
