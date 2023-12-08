@@ -1,11 +1,11 @@
-livecd-rootfs (24.04.10) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.10) noble; urgency=medium
 
   * Set C.UTF-8 locale in /etc/default/locale for all images; originally
     intended to be landed in the cosmic cycle..
   * Project name for Ubuntu Studio needs to be 'ubuntustudio-dvd'
     throughout, not 'ubuntustudio'.  
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 07 Dec 2023 21:21:17 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 08 Dec 2023 15:07:41 -0800
 
 livecd-rootfs (24.04.9) noble; urgency=medium
 
