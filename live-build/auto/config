@@ -556,7 +556,7 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio)
+			ubuntu-budgie|ubuntustudio-dvd)
 				;;
 			*)
 				add_package live casper

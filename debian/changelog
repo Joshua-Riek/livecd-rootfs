@@ -2,6 +2,8 @@ livecd-rootfs (24.04.10) UNRELEASED; urgency=medium
 
   * Set C.UTF-8 locale in /etc/default/locale for all images; originally
     intended to be landed in the cosmic cycle..
+  * Project name for Ubuntu Studio needs to be 'ubuntustudio-dvd'
+    throughout, not 'ubuntustudio'.  
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 07 Dec 2023 21:21:17 -0800
 
