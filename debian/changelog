@@ -1,10 +1,10 @@
-livecd-rootfs (24.04.9) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.9) noble; urgency=medium
 
   * When building locally using the auto/build script unmounting fails.
     Instead of mounting /dev/pts per bind mount the devpts file system
     directly.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 08 Dec 2023 15:41:17 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 08 Dec 2023 15:43:04 +1300
 
 livecd-rootfs (24.04.8) noble; urgency=medium
 
