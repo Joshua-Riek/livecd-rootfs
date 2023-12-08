@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.10) UNRELEASED; urgency=medium
+
+  * Set C.UTF-8 locale in /etc/default/locale for all images; originally
+    intended to be landed in the cosmic cycle..
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 07 Dec 2023 21:21:17 -0800
+
 livecd-rootfs (24.04.9) noble; urgency=medium
 
   * When building locally using the auto/build script unmounting fails.
