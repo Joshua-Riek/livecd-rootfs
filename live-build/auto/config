@@ -556,7 +556,7 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio-dvd)
+			ubuntu-budgie|ubuntustudio-dvd|edubuntu)
 				;;
 			*)
 				add_package live casper
@@ -798,8 +798,34 @@ case $PROJECT in
 		;;
 
 	edubuntu)
-		add_task install minimal standard edubuntu-desktop-gnome
-		LIVE_TASK='edubuntu-live'
+		# By default Edubuntu now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS='generic-hwe-22.04' # not sure if cruft or not, but likely will have to be updated to 24.04
+		add_task minimal minimal standard edubuntu-desktop-gnome-minimal
+		add_task standard minimal standard edubuntu-desktop-gnome
+		add_task standard.live edubuntu-live
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Edubuntu Desktop (minimized)"
+			description: >-
+			  A minimal installation of the Edubuntu Desktop.
+			id: edubuntu-desktop-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+		EOF
+		cat <<-EOF > config/standard.catalog-in.yaml
+			name: "Edubuntu Desktop"
+			description: >-
+			  A full featured Edubuntu Desktop.
+			id: edubuntu-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntucinnamon|ubuntukylin)
