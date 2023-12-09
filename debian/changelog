@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.11) UNRELEASED; urgency=medium
+
+  * Explicitly add_package linux-$KERNEL_FLAVOURS in Ubuntu Studio.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 08 Dec 2023 18:32:31 -0800
+
 livecd-rootfs (24.04.10) noble; urgency=medium
 
   * Set C.UTF-8 locale in /etc/default/locale for all images; originally

@@ -870,6 +870,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=lowlatency
 		add_task standard minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		add_task standard.live ubuntustudio-dvd-live
+		add_package standard.live linux-$KERNEL_FLAVOURS
 		cat <<-EOF > config/standard.catalog-in.yaml
 			name: "Ubuntu Studio Desktop"
 			description: >-
