@@ -798,13 +798,14 @@ case $PROJECT in
 		;;
 
 	edubuntu)
-		# By default Edubuntu now ships the new installer.
+		# Edubuntu now ships the new installer.
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
-		KERNEL_FLAVOURS='generic-hwe-22.04' # not sure if cruft or not, but likely will have to be updated to 24.04
+		KERNEL_FLAVOURS=generic
 		add_task minimal minimal standard edubuntu-desktop-gnome-minimal
-		add_task standard minimal standard edubuntu-desktop-gnome
-		add_task standard.live edubuntu-live
+		add_task minimal.standard edubuntu-desktop-gnome
+		add_task minimal.standard.live edubuntu-live
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Edubuntu Desktop (minimized)"
 			description: >-
@@ -814,7 +815,7 @@ case $PROJECT in
 			variant: desktop
 			locale_support: langpack
 		EOF
-		cat <<-EOF > config/standard.catalog-in.yaml
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
 			name: "Edubuntu Desktop"
 			description: >-
 			  A full featured Edubuntu Desktop.
