@@ -19,14 +19,6 @@ case $ARCH:$SUBARCH in
 		echo "POWER disk images are handled separately"
 		exit 0
 		;;
-	armhf:raspi2)
-		# matches the size of the snappy image
-		IMAGE_SIZE=$((4*1000*1000*1000))
-
-		BOOTPART_START=8192s
-		BOOTPART_END=138M
-		BOOT_MOUNTPOINT=/boot/firmware
-		;;
 	arm64:*|armhf:*|riscv64:*)
 		echo "We only create EFI images for $ARCH."
 		exit 0
@@ -93,20 +85,6 @@ fi
 cp -a chroot/* mountpoint/
 
 setup_mountpoint mountpoint
-
-case $ARCH:$SUBARCH in
-	armhf:raspi2)
-		chroot mountpoint flash-kernel \
-			--machine "Raspberry Pi 2 Model B"
-		# not the best place for this, but neither flash-kernel nor
-		# u-boot have provisions for installing u-boot via maintainer
-		# script
-		${my_d}/raspi2/mkknlimg --dtok \
-			mountpoint/usr/lib/u-boot/rpi_2/u-boot.bin \
-			mountpoint/boot/firmware/uboot.bin
-		;;
-	*)	;;
-esac
 
 case $ARCH in
     amd64|i386) should_install_grub=1;;
