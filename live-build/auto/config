@@ -805,7 +805,7 @@ case $PROJECT in
 		add_task minimal minimal standard edubuntu-desktop-gnome-minimal
 		add_task minimal.standard edubuntu-desktop-gnome
 		add_task minimal.standard.live edubuntu-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Edubuntu Desktop (minimized)"
 			description: >-
