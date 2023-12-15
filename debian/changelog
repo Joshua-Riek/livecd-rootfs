@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.12) noble; urgency=medium
+
+  * Switch Edubuntu to the new installer.
+  * Add casper to minimal.standard.live seed.
+
+ -- Erich Eickmeyer <eeickmeyer@ubuntu.com>  Tue, 12 Dec 2023 12:56:37 -0800
+
 livecd-rootfs (24.04.11) noble; urgency=medium
 
   * Explicitly add_package linux-$KERNEL_FLAVOURS in Ubuntu Studio.
