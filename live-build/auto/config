@@ -5,7 +5,7 @@ case $ARCH:$SUBARCH in
 	amd64:|amd64:generic|amd64:intel-iot|\
 	arm64:|arm64:generic|arm64:raspi|arm64:snapdragon|\
 	arm64:tegra|arm64:tegra-igx|arm64:x13s|\
-	armhf:|armhf:raspi|\
+	armhf:|\
 	i386:|\
 	ppc64el:|\
 	riscv64:|riscv64:generic|riscv64:icicle|riscv64:licheerv|\
@@ -342,7 +342,7 @@ if [ -z "${IMAGEFORMAT:-}" ]; then
 	case $PROJECT:${SUBPROJECT:-} in
 		ubuntu-cpc:*|ubuntu:desktop-preinstalled|ubuntu-wsl:*)
 			case $ARCH+${SUBARCH:-} in
-				*+raspi)
+				arm64+raspi)
 					# All raspi images use ubuntu-image.
 					IMAGEFORMAT=ubuntu-image
 					;;
@@ -366,7 +366,6 @@ fi
 # one also must request disk1-img-xz image format
 if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
 	case $ARCH:$SUBARCH in
-		armhf:raspi2 | \
 		riscv64:icicle | \
 		riscv64:nezha | \
 		riscv64:licheerv | \
@@ -416,18 +415,10 @@ case $IMAGEFORMAT in
 				MODEL=pc-amd64 ;;
 			arm64+snapdragon)
 				MODEL=dragonboard ;;
-			armhf+raspi)
-				MODEL=pi ;;
-			armhf+raspi2)
-				MODEL=pi2 ;;
-			armhf+raspi3)
-				MODEL=pi3 ;;
 			arm64+raspi)
 				MODEL=pi-arm64 ;;
 			arm64+raspi3)
 				MODEL=pi3-arm64 ;;
-			armhf+cm3)
-				MODEL=cm3 ;;
 			arm64+tegra)
 				MODEL=tegra ;;
 			arm64+tegra-igx)
@@ -475,9 +466,6 @@ case $IMAGEFORMAT in
 						CORE_MAJOR=20
 					else
 						CORE_MAJOR=22
-					fi
-					if [ "${MODEL}" = "pi" ]; then
-						MODEL=pi-armhf
 					fi
 					# Ubuntu Core 2x
 					# Currently uc2x assertions do not support global
@@ -1053,7 +1041,7 @@ case $PROJECT in
 		BINARY_REMOVE_LINUX=false
 		OPTS="${OPTS:+$OPTS }--initramfs=none"
 		case "$ARCH+${SUBARCH:-}" in
-			*+raspi)
+			arm64+raspi)
 				add_task install ubuntu-server-raspi
 				;;
 			arm64*)
@@ -1192,7 +1180,7 @@ if [ "$PREINSTALLED" != "true" ] && [ "$PASSES_TO_LAYERS" != "true" ] && [ "$LIV
 fi
 
 case "$ARCH${SUBARCH:++$SUBARCH}" in
-	arm*+raspi)
+	arm64+raspi)
 		# Common configuration for all Raspberry Pi image variants (server,
 		# desktop etc.)
 		KERNEL_FLAVOURS="$SUBARCH"
@@ -1329,7 +1317,7 @@ EOF
 esac
 
 case "$ARCH+${SUBARCH:-}" in
-	*+raspi)
+	arm64+raspi)
 		cat > config/hooks/01-firmware-directory.chroot_early <<EOF
 #!/bin/sh -ex
 mkdir -p /boot/firmware
