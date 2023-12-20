@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.13) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.13) noble; urgency=medium
 
   * Drop support for building armhf+raspi images; as of noble these are
     arm64-only.
@@ -6,7 +6,7 @@ livecd-rootfs (24.04.13) UNRELEASED; urgency=medium
     from scripts/casper-bottom/61desktop_canary_tweaks that should be done
     statically at image build time, not at boot.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 08 Dec 2023 18:35:20 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Dec 2023 08:15:34 -0800
 
 livecd-rootfs (24.04.12) noble; urgency=medium
 
