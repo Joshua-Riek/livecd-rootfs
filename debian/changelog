@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.14) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.14) noble; urgency=medium
 
   * When the files we're creating in the live layer have static content,
     ship them in live-build/ubuntu/includes.chroot.minimal.standard.live
@@ -7,7 +7,7 @@ livecd-rootfs (24.04.14) UNRELEASED; urgency=medium
     fact that live-build/ubuntu/hooks/020-ubuntu-live.chroot_early was
     incorrectly writing to /root in the previous upload instead of /usr.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Dec 2023 11:26:08 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Dec 2023 11:40:02 -0800
 
 livecd-rootfs (24.04.13) noble; urgency=medium
 
