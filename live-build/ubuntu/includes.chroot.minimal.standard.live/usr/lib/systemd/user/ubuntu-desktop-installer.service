@@ -1,0 +1,15 @@
+# start the installer on session start, restore normal session on close
+
+[Unit]
+Description=Ubuntu Desktop Installer
+PartOf=graphical-session.target
+After=graphical-session.target
+
+# Never run in GDM
+Conflicts=gnome-session@gnome-login.target
+
+[Service]
+Type=oneshot
+ExecStart=/snap/bin/ubuntu-desktop-installer --try-or-install
+ExecStopPost=sh -c "gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true; gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true; gnome-extensions enable ding@rastersoft.com"
+Restart=no

@@ -1,0 +1,12 @@
+# change settings to have an 'installer only' session by default
+[org.gnome.desktop.a11y]
+always-show-universal-access-status=true
+
+# we can't unload the dock because the shell would enter the overview on login;
+# https://gitlab.gnome.org/GNOME/gnome-shell/-/merge_requests/1788
+[org.gnome.shell.extensions.dash-to-dock:ubuntu]
+dock-fixed=false
+intellihide=false
+
+[org.gnome.shell]
+disabled-extensions=['ding@rastersoft.com']
