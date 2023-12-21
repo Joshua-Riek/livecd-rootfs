@@ -107,6 +107,18 @@ _register_pass () {
 	# $1 Name of the pass
 	[ "$PASSES_TO_LAYERS" != "true" ] && return
 
+	# live-build/ubuntu/hooks/020-ubuntu-live.chroot_early assumes the
+	# layer ending in '.live' is THE live layer to use, so ensure that
+	# we only define a single layer ending in '.live'.  It principle it
+	# is not invalid to have multiple layers with .live in the name but
+	# we should not let this happen accidentally.
+	case "$PASSES $1" in
+		*.live *.live)
+			EXPLODE
+			;;
+		*)
+			;;
+	esac
 	PASSES="$PASSES $1"
 }
 

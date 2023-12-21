@@ -4,6 +4,9 @@ livecd-rootfs (24.04.15) UNRELEASED; urgency=medium
     layer ending in .live so this can be reused across flavors
   * live-build/ubuntu/hooks/020-ubuntu-live.chroot_early: check for
     glib-compile-schemas presence before calling
+  * live-build/auto/config: include a sanity check that no layered image has
+    more than one "live" layer that would cause undefined behavior with the
+    above hook.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 20 Dec 2023 19:45:34 -0800
 
