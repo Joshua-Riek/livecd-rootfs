@@ -285,12 +285,13 @@ fi
 		if [ "$PROJECT" = "ubuntu-cpc" ] || [ "$PROJECT" = "ubuntu-server" ]; then
 			cat >> chroot/usr/local/sbin/unminimize <<'EOF'
 
+# installing LXD using the lxd-installer by simply invoking it
+echo "Invoking LXD so that it can be installed by the lxd-installer's script.."
+lxd --version
+
 echo "Removing lxd installer package..."
 apt-get purge -y lxd-installer
 
-. /etc/os-release
-echo "Installing lxd from snap from stable/ubuntu-$VERSION_ID channel"
-snap install --channel="stable/ubuntu-$VERSION_ID" lxd
 EOF
 		fi
 		cat >> chroot/usr/local/sbin/unminimize <<'EOF'
