@@ -114,7 +114,8 @@ _register_pass () {
 	# we should not let this happen accidentally.
 	case "$PASSES $1" in
 		*.live *.live)
-			EXPLODE
+			echo "ERROR: only one 'live' layer allowed"
+			exit 1
 			;;
 		*)
 			;;
