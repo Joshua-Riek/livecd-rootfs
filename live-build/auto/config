@@ -113,7 +113,7 @@ _register_pass () {
 	# is not invalid to have multiple layers with .live in the name but
 	# we should not let this happen accidentally.
 	case "$PASSES $1" in
-		*.live *.live)
+		*.live\ *.live)
 			echo "ERROR: only one 'live' layer allowed"
 			exit 1
 			;;
