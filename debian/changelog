@@ -1,9 +1,13 @@
-livecd-rootfs (2.765.33) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.33) jammy; urgency=medium
 
+  [ Steve Langasek ]
   * Use losetup instead of kpartx to resolve race conditions in riscv64
     image builds.  LP: #2045797.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 03 Dec 2023 22:03:36 -0800
+  [ Utkarsh Gupta ]
+  * unminimize: Use lxd-installer to install LXD itself (LP: #2036725)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Thu, 11 Jan 2024 16:50:22 +0530
 
 livecd-rootfs (2.765.32) jammy; urgency=medium
 
