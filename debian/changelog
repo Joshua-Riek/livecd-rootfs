@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.17) noble; urgency=medium
+
+  * unminimize: Use lxd-installer to install LXD itself. (LP: #2036725)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Thu, 11 Jan 2024 15:12:53 +0530
+
 livecd-rootfs (24.04.16) noble; urgency=medium
 
   * Fix overlooked syntax error in live-build/auto/config.
