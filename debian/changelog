@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.34) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.34) jammy; urgency=medium
 
   * Remove comments in the debian/control dependencies as it was causing the
     package build to fail.
