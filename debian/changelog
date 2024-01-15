@@ -1,9 +1,16 @@
-livecd-rootfs (2.765.34) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.35) UNRELEASED; urgency=medium
 
   * For raspi preinstalled builds, use a per-series dedicated gadget branch.
     (LP: #2049373)
 
  -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 15 Jan 2024 11:32:47 +0100
+
+livecd-rootfs (2.765.34) jammy; urgency=medium
+
+  * Remove comments in the debian/control dependencies as it was causing the
+    package build to fail.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 15 Jan 2024 16:41:18 +0100
 
 livecd-rootfs (2.765.33) jammy; urgency=medium
 
