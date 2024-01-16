@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.18) UNRELEASED; urgency=medium
+
+ * update apparmor feature overlay match for target 6.6 kernel
+
+ -- Thomas Bechtold <thomas.bechtold@canonical.com>  Tue, 16 Jan 2024 13:06:37 +0100
+
 livecd-rootfs (24.04.17) noble; urgency=medium
 
   * unminimize: Use lxd-installer to install LXD itself. (LP: #2036725)
