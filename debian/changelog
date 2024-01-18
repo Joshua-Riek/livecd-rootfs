@@ -1,4 +1,4 @@
-livecd-rootfs (2.765.35) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.35) jammy; urgency=medium
 
   * For raspi preinstalled builds, use a per-series dedicated gadget branch.
     (LP: #2049373)
