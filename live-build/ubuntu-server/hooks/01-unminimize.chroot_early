@@ -10,11 +10,22 @@ case ${PASS} in
         ;;
 esac
 
-# The unminimize script will try to install the lxd snap. We can't
-# do that at this stage so just neuter the snap command (the snap
+# The unminimize script will try to install the lxd snap using the shim script
+# /usr/sbin/lxd from the lxd-installer package.
+# We can't do that at this stage so just neuter the lxd command (the snap
 # will get properly seeded by generic machinery).
-dpkg-divert --add --divert /usr/bin/snap.REAL --rename /usr/bin/snap
-ln -s /bin/true /usr/bin/snap
-yes | /usr/local/sbin/unminimize
-rm /usr/bin/snap
-dpkg-divert --remove --rename /usr/bin/snap
+if [[ -f "/usr/sbin/lxd" ]]; then
+    rm --verbose --force /usr/sbin/lxd
+    ln -s /bin/true /usr/sbin/lxd
+    yes | /usr/local/sbin/unminimize
+    # unminimize also uninstalls lxd-installer package
+    # and also removed `/usr/sbin/lxd` as a result so we don't need to restore
+else
+    # if /usr/sbin/lxd doesn't exist when lxd-installer package isn't installed so we can mock the command
+    # to avoid the unminimize script failing
+    ln -s /bin/true /usr/sbin/lxd
+    yes | /usr/local/sbin/unminimize
+    # as the lxd-installer package was not installed and thus not removed the mock
+    # /usr/sbin/lxd will still be present so we need to remove it
+    rm --verbose --force /usr/sbin/lxd
+fi
