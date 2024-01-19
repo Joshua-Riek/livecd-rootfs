@@ -1,7 +1,7 @@
-livecd-rootfs (2.765.36) UNRELEASED; urgency=medium
+livecd-rootfs (2.765.36) jammy; urgency=medium
 
-  * Use correct /etc/ssh/sshd_config.d/ filename
-    so cloud-init overrides via cloud-config works (lp:#2049860)
+  * Use correct /etc/ssh/sshd_config.d/ filename so cloud-init overrides
+    via cloud-config works. (LP: #2049860)
 
  -- Thomas Bechtold <thomas.bechtold@canonical.com>  Fri, 19 Jan 2024 09:34:04 +0100
 
