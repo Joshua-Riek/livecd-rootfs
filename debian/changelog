@@ -1,6 +1,7 @@
 livecd-rootfs (2.765.37) jammy; urgency=medium
 
-  * fix: Fix for calling unminimize if lxd-installer package not installed. (LP: #2049723)
+  * fix: Fix for calling unminimize if lxd-installer package
+    not installed. (LP: #2049723)
 
  -- Philip Roche <phil.roche@canonical.com>  Mon, 22 Jan 2024 13:26:43 +0000
  
