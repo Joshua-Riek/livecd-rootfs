@@ -4,7 +4,7 @@ set -e
 case $ARCH:$SUBARCH in
 	amd64:|amd64:generic|amd64:intel-iot|\
 	arm64:|arm64:generic|arm64:raspi|arm64:snapdragon|\
-	arm64:tegra|arm64:tegra-igx|arm64:x13s|\
+	arm64:tegra|arm64:tegra-igx|arm64:x13s|arm64:largemem|\
 	armhf:|\
 	i386:|\
 	ppc64el:|\
@@ -945,6 +945,10 @@ case $PROJECT in
 					tegra-igx)
 						variants='tegra-igx'
 						;;
+					largemem)
+						# variants='ga-64k hwe-64k'
+						variants='ga-64k'
+						;;
 					*)
 						# variants='ga hwe'
 						variants='ga'
@@ -958,6 +962,12 @@ case $PROJECT in
 					elif [ "$variant" = "hwe" ]; then
 						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 						flavor=generic-hwe
+					elif [ "$variant" = "ga-64k" ]; then
+						kernel_metapkg=linux-generic-64k
+						flavor=generic-64k
+					elif [ "$variant" = "hwe-64k" ]; then
+						kernel_metapkg=linux-generic-64k-hwe-$(lsb_release -sr)
+						flavor=generic-64k-hwe
 					elif [ "$variant" = "intel" ]; then
 						kernel_metapkg=linux-intel-iotg
 						flavor=intel-iotg

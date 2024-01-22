@@ -11,6 +11,10 @@ case $PASS in
             kernel_metapkg=linux-generic
         elif [ "$flavor" = "generic-hwe" ]; then
             kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
+        elif [ "$flavor" = "generic-64k" ]; then
+            kernel_metapkg=linux-generic-64k
+        elif [ "$flavor" = "generic-64k-hwe" ]; then
+            kernel_metapkg=linux-generic-64k-hwe-$(lsb_release -sr)
         elif [ "$flavor" = "intel-iotg" ]; then
             kernel_metapkg=linux-intel-iotg
         elif [ "$flavor" = "nvidia-tegra" ]; then
