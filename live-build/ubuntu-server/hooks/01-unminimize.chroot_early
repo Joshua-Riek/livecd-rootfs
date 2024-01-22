@@ -14,7 +14,7 @@ esac
 # /usr/sbin/lxd from the lxd-installer package.
 # We can't do that at this stage so just neuter the lxd command (the snap
 # will get properly seeded by generic machinery).
-if [[ -f "/usr/sbin/lxd" ]]; then
+if [ -f "/usr/sbin/lxd" ]; then
     rm --verbose --force /usr/sbin/lxd
     ln -s /bin/true /usr/sbin/lxd
     yes | /usr/local/sbin/unminimize
