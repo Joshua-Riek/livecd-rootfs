@@ -21,11 +21,11 @@ if [ -f "/usr/sbin/lxd" ]; then
     # unminimize also uninstalls lxd-installer package
     # and also removed `/usr/sbin/lxd` as a result so we don't need to restore
 else
-    # if /usr/sbin/lxd doesn't exist when lxd-installer package isn't installed so we can mock the command
-    # to avoid the unminimize script failing
+    # if /usr/sbin/lxd doesn't exist then lxd-installer package isn't installed.
+    # Instead, we can mock the command to avoid the unminimize script failing
     ln -s /bin/true /usr/sbin/lxd
     yes | /usr/local/sbin/unminimize
-    # as the lxd-installer package was not installed and thus not removed the mock
-    # /usr/sbin/lxd will still be present so we need to remove it
+    # as the lxd-installer package was not installed and thus not removed by `unminimize`
+    # the mock /usr/sbin/lxd will still be present, so we need to remove it
     rm --verbose --force /usr/sbin/lxd
 fi
