@@ -27,5 +27,5 @@ else
     yes | /usr/local/sbin/unminimize
     # as the lxd-installer package was not installed and thus not removed by `unminimize`
     # the mock /usr/sbin/lxd will still be present, so we need to remove it
-    rm --verbose --force /usr/sbin/lxd
+    rm -v /usr/sbin/lxd
 fi
