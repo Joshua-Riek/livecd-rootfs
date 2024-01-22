@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.37) UNRELEASED; urgency=medium
+
+  * Add a largemem subarch for ubuntu-server that ships a 64k kernel variant
+    by default (LP: #2050209)
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 22 Jan 2024 16:46:49 +0100
+
 livecd-rootfs (2.765.36) jammy; urgency=medium
 
   * Use correct /etc/ssh/sshd_config.d/ filename so cloud-init overrides
