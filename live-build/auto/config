@@ -1038,15 +1038,8 @@ case $PROJECT in
 		    # or by passing --no-install-recommends to apt-get install.
 		    # Apt config is set using `APT_OPTIONS` variable in this script.
 		    # This fixes LP: #2031640
-		    #
-		    # We're also installing python3-systemd for now because it's needed by
-		    # ubuntu-advantage-tools. This will eventually be dropped in the next
-		    # release of u-a-t. This is being discussed and tracked at
-		    # https://github.com/canonical/ubuntu-pro-client/issues/2692.
-		    # Once python3-systemd is dropped from u-a-t, we can remove it
-		    # from here, too.
 		    APT_OPTIONS="${APT_OPTIONS:+$APT_OPTIONS }--no-install-recommends"
-			add_package install ubuntu-cloud-minimal python3-systemd
+			add_package install ubuntu-cloud-minimal
 		else
 			add_task install minimal standard cloud-image
 			add_package install ubuntu-minimal
