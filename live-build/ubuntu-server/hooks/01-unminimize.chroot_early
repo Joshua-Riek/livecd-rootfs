@@ -10,14 +10,30 @@ case ${PASS} in
         ;;
 esac
 
-# The unminimize script will try to install the lxd snap. We can't
-# do that at this stage so just neuter the snap command (the snap
+# The unminimize script will try to install the lxd snap using the shim script
+# /usr/sbin/lxd from the lxd-installer package.
+# We can't do that at this stage so just neuter the lxd command (the snap
 # will get properly seeded by generic machinery).
-dpkg-divert --add --divert /usr/bin/snap.REAL --rename /usr/bin/snap
-ln -s /bin/true /usr/bin/snap
-yes | /usr/local/sbin/unminimize
-rm /usr/bin/snap
-dpkg-divert --remove --rename /usr/bin/snap
+if [ -f "/usr/sbin/lxd" ]; then
+    dpkg-divert --add --divert /usr/sbin/lxd.REAL --rename /usr/sbin/lxd
+    ln -s /bin/true /usr/sbin/lxd
+    yes | /usr/local/sbin/unminimize
+    # unminimize also uninstalls lxd-installer package
+    # and also removed `/usr/sbin/lxd` as a result, so we don't need to restore, but
+    # we do need to remove the mock we used as part of dpkg-divert
+    # first we need to remove the diversion
+    dpkg-divert --remove --no-rename /usr/sbin/lxd
+    # now remove the renamed file that we originally diverted to
+    rm -v /usr/sbin/lxd.REAL
+else
+    # if /usr/sbin/lxd doesn't exist then lxd-installer package isn't installed.
+    # Instead, we can mock the command to avoid the unminimize script failing
+    ln -s /bin/true /usr/sbin/lxd
+    yes | /usr/local/sbin/unminimize
+    # as the lxd-installer package was not installed and thus not removed by `unminimize`
+    # the mock /usr/sbin/lxd will still be present, so we need to remove it
+    rm -v /usr/sbin/lxd
+fi
 
 # Fix up missing recommends.  Other non-layered flavors handle this in
 # live-build/auto/build, but we need to do it here.  Also, there are
