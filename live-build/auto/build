@@ -17,72 +17,6 @@ fi
 
 . config/functions
 
-# New nf_tables-based versions of iptables don't work well on old kernels.
-# We aren't sure exactly how old is a problem: 4.15 works, but with 4.4 new
-# rules are added to all chains in the requested table rather than just one,
-# and the new rules seem to have no useful effect.  In such cases,
-# iptables-legacy works better.
-#
-# We can simplify this once livecd-rootfs no longer needs to support running
-# on Ubuntu 16.04 (that is, once Launchpad's build VMs are upgraded to
-# Ubuntu 18.04).
-run_iptables () {
-    local kver kver_major kver_minor
-
-    kver="$(uname -r)"
-    kver="${kver%%-*}"
-    kver_major="${kver%%.*}"
-    kver="${kver#*.}"
-    kver_minor="${kver%%.*}"
-
-
-    # LP: #1917920
-    # I'm seeing issues after iptables got upgraded from 1.8.5 to
-    # 1.8.7 Somehow installing our nat rule doesn't get activated, and
-    # no networking is happening at all.
-
-    # But somehow calling both iptables -S makes things start working.
-    # Maybe no default chains are installed in our network namespace?!
-    # Or 1.8.7 is somehow broken?
-    iptables -v -t nat -S
-    iptables-legacy -v -t nat -S
-
-    if [ "$kver_major" -lt 4 ] || \
-       ([ "$kver_major" = 4 ] && [ "$kver_minor" -lt 15 ]); then
-        iptables-legacy "$@"
-    else
-        iptables "$@"
-    fi
-}
-
-if [ -n "$REPO_SNAPSHOT_STAMP" ]; then
-    if [ "`whoami`" != "root" ]; then
-        echo "Magic repo snapshots only work when running as root." >&2
-        exit 1
-    fi
-
-    apt-get -qyy install iptables
-
-    # Redirect all outgoing traffic to port 80 to proxy instead.
-    run_iptables -v -t nat -A OUTPUT -p tcp --dport 80 \
-        -m owner ! --uid-owner daemon -j REDIRECT --to 8080
-
-    # Run proxy as "daemon" to avoid infinite loop.
-    LB_PARENT_MIRROR_BOOTSTRAP=$LB_PARENT_MIRROR_BOOTSTRAP \
-    /usr/share/livecd-rootfs/magic-proxy \
-        --address="127.0.0.1" \
-        --port=8080 \
-        --run-as=daemon \
-        --cutoff-time="$REPO_SNAPSHOT_STAMP" \
-        --log-file=/build/livecd.magic-proxy.log \
-        --pid-file=config/magic-proxy.pid \
-        --background \
-        --setsid
-
-    # Quick check that magic proxy & iptables chains are working
-    timeout 3m apt-get update
-fi
-
 # Link output files somewhere launchpad-buildd will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
@@ -546,12 +480,6 @@ EOF
 if [ -e binary.success ]; then
 	rm -f binary.success
 else
-	# Dump the magic-proxy log to stdout on failure to aid debugging
-	if [ -f /build/livecd.magic-proxy.log ] ; then
-		echo "================= Magic proxy log (start) ================="
-		cat /build/livecd.magic-proxy.log
-		echo "================== Magic proxy log (end) =================="
-	fi
 	exit 1
 fi
 
@@ -711,15 +639,6 @@ case $SUBARCH in
 		cp $PREFIX.kernel $UBOOT_BOOT/vmlinuz || true
 		;;
 esac
-
-if [ -f "config/magic-proxy.pid" ]; then
-    kill -TERM $(cat config/magic-proxy.pid)
-    rm -f config/magic-proxy.pid
-
-    # Remove previously-inserted iptables rule.
-    run_iptables -t nat -D OUTPUT -p tcp --dport 80 \
-        -m owner ! --uid-owner daemon -j REDIRECT --to 8080
-fi
 
 case $PROJECT in
     ubuntu-cpc)

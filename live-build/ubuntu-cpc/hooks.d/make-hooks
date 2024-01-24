@@ -237,14 +237,10 @@ class MakeHooks:
         """
         with open(os.path.join(self._script_dir, "explicit_provides"), "w",
                   encoding="utf-8") as fp:
-            empty = True
             for provides in self._provides:
                 if not self._quiet:
                     print("[PROVIDES] %s" % provides)
                 fp.write("%s\n" % provides)
-                empty = False
-            if not empty:
-                fp.write('livecd.magic-proxy.log\n')
 
     def cli(self, args):
         """Command line interface to the hooks generator."""
