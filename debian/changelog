@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.21) UNRELEASED; urgency=medium
+
+  * live-build/functions: avoid losetup -P as it appears to race with udev and
+    do it a bit more by-hand instead. (LP: #2045586)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 25 Jan 2024 07:45:58 +1300
+
 livecd-rootfs (24.04.20) noble; urgency=medium
 
   * fix: Fix for calling unminimize if lxd-installer package

@@ -62,12 +62,25 @@ mount_image() {
     trap clean_loops EXIT
     backing_img="$1"
     local rootpart="$2"
-    loop_device=$(losetup --show -f -P -v ${backing_img})
+
+    # As explained in excruciating detail in LP: #2045586, "losetup
+    # -P" (a.k.a. --partscan) appears to race with udev in a way that
+    # prevents the device nodes for the partitions from being
+    # created. So instead we run losetup without -P, wait for udev to
+    # settle, then run partprobe and then settle udev again (which is
+    # probably unnecessary but at this point a bit more superstition
+    # can't hurt)
+
+    loop_device=$(losetup --show -f -v ${backing_img})
 
     if [ ! -b ${loop_device} ]; then
         echo "unable to find loop device for ${backing_img}"
         exit 1
     fi
+
+    udevadm settle
+    partprobe ${loop_device}
+    udevadm settle
 
     # Find the rootfs location
     rootfs_dev_mapper="${loop_device}p${rootpart}"
