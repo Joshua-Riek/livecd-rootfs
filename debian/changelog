@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.20) noble; urgency=medium
+
+  * live-build/functions: mount_disk_image: add rootpart parameter
+
+ -- Tomáš Virtus <tomas.virtus@canonical.com>  Wed, 24 Jan 2024 12:52:29 +0000
+
 livecd-rootfs (24.04.19) noble; urgency=medium
 
   * live-build/auto/config: don't repeatedly add the same pass name to the

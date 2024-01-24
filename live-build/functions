@@ -207,7 +207,8 @@ get_lowerdirs_for_pass () {
 mount_disk_image() {
     local disk_image=${1}
     local mountpoint=${2}
-    mount_image ${disk_image} 1
+    local rootpart=${3:-1}
+    mount_image ${disk_image} "${rootpart}"
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
     local boot_dev="${loop_device}p16"
