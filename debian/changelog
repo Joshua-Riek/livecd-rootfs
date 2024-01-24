@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.21) noble; urgency=medium
+
+  * Do not exit live image build if PASSES_TO_LAYERS is true and layer
+    is already registered.
+
+ -- Philip Roche <phil.roche@canonical.com>  Wed, 24 Jan 2024 17:59:06 +0000
+
 livecd-rootfs (24.04.20) noble; urgency=medium
 
   * fix: Fix for calling unminimize if lxd-installer package

@@ -109,7 +109,13 @@ _register_pass () {
 
 	case "$PASSES" in
 		*$1*)
-			return
+			# The pass is already registered in the list of layers.
+			# If PASSES_TO_LAYERS is true, then the above if statement's error
+			# code will be non-zero and a return statement with no argument
+			# will return the error code of the if statement, non-zero, thus
+			# exiting the script and build. This is not our intent. So we need
+			# to return 0 here.
+			return 0
 			;;
 	esac
 
