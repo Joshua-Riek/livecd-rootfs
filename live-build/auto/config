@@ -867,6 +867,9 @@ case $PROJECT in
 						# However, for RISC-V we only offer one kernel
 						variants='ga'
 						;;
+					arm64+largemem)
+						variants='ga-64k hwe-64k'
+						;;
 					*)
 						variants='ga hwe'
 						;;
@@ -879,6 +882,12 @@ case $PROJECT in
 					elif [ "$variant" = "hwe" ]; then
 						kernel_metapkg=linux-generic-hwe-$(lsb_release -sr)
 						flavor=generic-hwe
+					elif [ "$variant" = "ga-64k" ]; then
+						kernel_metapkg=linux-generic-64k
+						flavor=generic-64k
+					elif [ "$variant" = "hwe-64k" ]; then
+						kernel_metapkg=linux-generic-64k-hwe-$(lsb_release -sr)
+						flavor=generic-64k-hwe
 					elif [ "$variant" = "intel" ]; then
 						kernel_metapkg=linux-intel-iotg
 						flavor=intel-iotg
