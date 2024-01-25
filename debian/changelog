@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.22) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.22) noble; urgency=medium
 
   * Add a largemem subarch for ubuntu-server that ships a 64k kernel variant
     by default (LP: #2050209).
