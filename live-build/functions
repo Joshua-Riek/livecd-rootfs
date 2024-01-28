@@ -63,36 +63,29 @@ mount_image() {
     backing_img="$1"
     local rootpart="$2"
 
-    # As explained in excruciating detail in LP: #2045586, "losetup
-    # -P" (a.k.a. --partscan) appears to race with udev in a way that
-    # prevents the device nodes for the partitions from being
-    # created. So instead we run losetup without -P, wait for udev to
-    # settle, then run partprobe and then settle udev again (which is
-    # probably unnecessary but at this point a bit more superstition
-    # can't hurt)
-
-    loop_device=$(losetup --show -f -v ${backing_img})
+    loop_device=$(losetup --show -f -P -v ${backing_img})
 
     if [ ! -b ${loop_device} ]; then
         echo "unable to find loop device for ${backing_img}"
         exit 1
     fi
 
-    udevadm settle
-    partprobe ${loop_device}
-    udevadm settle
+    # As explained in excruciating detail in LP: #2045586, losetup
+    # races with udev in a way that can cause partition device files
+    # to briefly vanish. systemd docs say we can hold udev off by using
+    # flocks: https://systemd.io/BLOCK_DEVICE_LOCKING/
+    # `udevadm lock` isn't yet usable in Ubuntu, so we'll use flock for now
 
     # Find the rootfs location
     rootfs_dev_mapper="${loop_device}p${rootpart}"
-    if [ ! -b "${rootfs_dev_mapper}" ]; then
+    if flock -x ${loop_device} [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
-        ls -l ${loop_device}p*
         exit 1
     fi
 
     # Add some information to the debug logs
     echo "Mounted disk image ${backing_img} to ${rootfs_dev_mapper}"
-    blkid ${rootfs_dev_mapper} \
+    flock -x ${loop_device} blkid ${rootfs_dev_mapper} \
     || echo "blkid failed; continuing"
 
     return 0
@@ -225,9 +218,13 @@ mount_disk_image() {
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
     local boot_dev="${loop_device}p16"
-    if [ -b ${boot_dev} -a -e $mountpoint/boot ]; then
-        mount "${boot_dev}" $mountpoint/boot
+    if flock -x ${loop_device} \
+        [ -b ${boot_dev} -a -e $mountpoint/boot ]; then
+        flock -x ${loop_device} mount "${boot_dev}" $mountpoint/boot
     fi
+
+    # Having one partition mounted should avoid udev-triggered partition
+    # rescans on that device, so we no longer need to flock.
 
     local uefi_dev="${loop_device}p15"
     if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
