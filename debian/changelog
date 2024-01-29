@@ -1,8 +1,12 @@
-livecd-rootfs (24.04.20) noble; urgency=medium
+livecd-rootfs (24.04.24) noble; urgency=medium
 
+  [ Tomáš Virtus ]
   * live-build/functions: mount_disk_image: add rootpart parameter
 
- -- Tomáš Virtus <tomas.virtus@canonical.com>  Wed, 24 Jan 2024 12:52:29 +0000
+  [ Utkarsh Gupta ]
+  * live-build/auto/config: drop python3-systemd from CPC's minimized builds.
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Mon, 22 Jan 2024 18:01:53 +0530
 
 livecd-rootfs (24.04.23) noble; urgency=medium
 
