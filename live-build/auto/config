@@ -993,16 +993,16 @@ case $PROJECT in
 				done
 				case $ARCH in
 					amd64)
-						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot grub-pc shim-signed pxelinux
+						add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor.netboot grub-pc shim-signed pxelinux
 						;;
 					arm64)
-						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot shim-signed
+						add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor.netboot shim-signed
 						;;
 					*)
-						add_package ubuntu-server-minimal.ubuntu-server.installer.generic.netboot
+						add_package ubuntu-server-minimal.ubuntu-server.installer.$flavor.netboot
 						;;
 				esac
-				NO_SQUASHFS_PASSES=ubuntu-server-minimal.ubuntu-server.installer.generic.netboot
+				NO_SQUASHFS_PASSES=ubuntu-server-minimal.ubuntu-server.installer.$flavor.netboot
 
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations

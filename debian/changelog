@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.25) UNRELEASED; urgency=medium
+
+  * live-build/auto/config: for ubuntu-server, consider the actual kernel
+    flavor when dealing with netboot layers - even if we don't really care.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 30 Jan 2024 11:27:46 +0100
+
 livecd-rootfs (24.04.24) noble; urgency=medium
 
   [ Tomáš Virtus ]
