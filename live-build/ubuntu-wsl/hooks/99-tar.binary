@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash -eu
 # vi: ts=4 expandtab
 #
 # Generate the compressed root directory for WSL manually.
@@ -16,13 +16,102 @@ esac
 setfattr -x system.posix_acl_access chroot/var/log/journal
 setfattr -x system.posix_acl_default chroot/var/log/journal
 
+# is_lts returns true if the given release is a LTS.
+is_lts() {
+    release_version="$1"
+    year=$(echo "${release_version}" | cut -d'.' -f1)
+    month=$(echo "${release_version}" | cut -d'.' -f2)
+
+    if [ "${month}" != "04" ]; then
+        echo "false"
+        return
+    fi
+
+    last_year_digit="${year: -1}"
+    if [ $((last_year_digit % 2)) -ne 0 ]; then
+        echo "false"
+        return
+    fi
+
+    echo "true"
+}
+
+# is_current_lts_release returns for a given lts release is we are in the year preceeding or 2 years succeeding a release.
+# Note that it will mark as "current" a lts release zeven if there is a next one released until the end of the +2 year.
+is_current_lts_release() {
+    release_version="$1"
+    current_year="$2"
+    year=$(echo "$release_version" | cut -d'.' -f1)
+
+    if [ $(is_lts "${version}") != "true" ]; then
+        echo "false"
+        return
+    fi
+
+    if [ "$((year - 1))" -le "${current_year}" ] && [ "${current_year}" -le "$((year + 2))" ]; then
+        echo "true"
+        return
+    fi
+
+    echo "false"
+}
+
+# Function to check if a version is a development release
+is_development_release() {
+    local version=$1
+    local current_year=$2
+    local current_month=$3
+    local year=$(echo $version | cut -d. -f1)
+    local month=$(echo $version | cut -d. -f2)
+
+    if [ "${year}" -gt "${current_year}" ] || ([ "${year}" -eq "${current_year}" ] && [ "${month}" -gt "${current_month}" ]); then
+        echo "true"
+        return
+    fi
+
+    echo "false"
+}
+
+# create_archive_with_upgrade_policy modifies the prompting upgrade policy
+# and create a separate rootfs for this upgrade policy, named after app_id.
 # The reason not using just tar .. -C chroot . is that using '.' was found
 # not working once and checking if using the simpler command is safe needs
 # verification of the app installation on all Windows 10 builds we support
 # with WSL.
-cd chroot
-tar --xattrs --sort=name -czf ../livecd.ubuntu-wsl.rootfs.tar.gz *
-cd ..
+create_archive_with_upgrade_policy() {
+    upgrade_policy=$1
+    app_id=$2
+
+    cd chroot
+    sed -i "s#Prompt=.*#Prompt=${upgrade_policy}#" ./etc/update-manager/release-upgrades
+    tar --xattrs --sort=name -czf ../livecd.ubuntu-wsl.${app_id}.rootfs.tar.gz *
+    cd ..
+}
+
+# release-upgrader configuration, 3 cases:
+# Ubuntu-Version: never
+# ubuntu (latest LTS): lts
+# preview (current dev): normal
+
+# We produce the following tar with this policy:
+# Any XY.04, where Y is pair: upgrade-never
+# Any XY.04, where Y is pair and current year is between XY-1 to XY+2 (included): upgrade-lts
+# Any releases, where XY.04, where current date is comprised within 6 months.
+
+version=$(chroot chroot lsb_release --release --short)
+
+if [ $(is_lts "${version}") = "true" ]; then
+    create_archive_with_upgrade_policy "never" "ubuntu${version}lts"
+fi
+
+if [ $(is_current_lts_release "${version}" $(date +"%y")) = "true" ]; then
+    create_archive_with_upgrade_policy "lts" "ubuntu"
+fi
+
+if [ $(is_development_release "${version}" $(date +"%y") $(date +"%m")) = "true" ]; then
+    create_archive_with_upgrade_policy "normal" "ubuntupreview"
+fi
+
 
 # Remove initial ext4-formatted fs
 rm -f binary/boot/filesystem.ext4
