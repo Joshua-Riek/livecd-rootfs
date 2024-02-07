@@ -1,3 +1,12 @@
+livecd-rootfs (24.04.27) noble; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  [ Didier Roche-Tolomelli ]
+  * Create different WSL tarballs depending on upgrade policy.
+  * Enable systemd as part of image creation instead of launcher hack.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Wed, 07 Feb 2024 17:01:15 +0100
+
 livecd-rootfs (24.04.26) noble; urgency=medium
 
   [ Steve Langasek ]
