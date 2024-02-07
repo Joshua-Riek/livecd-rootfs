@@ -1,0 +1,10 @@
+#!/bin/bash -eu
+# vi: ts=4 expandtab
+#
+#	Enable systemd by default on our WSL image
+#
+
+cat <<EOF >/etc/wsl.conf
+[boot]
+systemd=true
+EOF
