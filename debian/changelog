@@ -1,8 +1,8 @@
-livecd-rootfs (24.04.28) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.28) noble; urgency=medium
 
   * Add missing mkdir invocation from 24.04.26 (LP: #2052617).
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 09 Feb 2024 13:31:42 -0600
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 09 Feb 2024 13:32:40 -0600
 
 livecd-rootfs (24.04.27) noble; urgency=medium
 
