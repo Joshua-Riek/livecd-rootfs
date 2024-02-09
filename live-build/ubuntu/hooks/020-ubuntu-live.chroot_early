@@ -10,6 +10,7 @@ case ${PASS:-} in
         ;;
 esac
 
+mkdir -p /etc/initramfs-tools/conf.d/
 cat <<EOF > /etc/initramfs-tools/conf.d/default-layer.conf
 LAYERFS_PATH=${PASS}.squashfs
 EOF
