@@ -1426,9 +1426,12 @@ deb $LB_PARENT_MIRROR_BINARY_VOLATILE $SUITE-proposed universe multiverse
 EOF
 		fi
 		;;
+esac
 
+case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
-		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*)
+		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*| \
+		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
