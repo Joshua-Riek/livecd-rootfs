@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.30) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv: install u-boot-starfive on VisionFive 2 preinstalled image.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 12 Feb 2024 17:06:59 +0100
+
 livecd-rootfs (24.04.29) noble; urgency=medium
 
   * Fix ubuntu-wsl images to be published in cloud-images.
