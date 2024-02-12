@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.31) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.31) noble; urgency=medium
 
   * Use the ubuntu-desktop-bootstrap snap as the Ubuntu Desktop installer
 
