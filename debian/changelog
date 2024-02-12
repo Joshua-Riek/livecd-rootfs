@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.32) noble; urgency=medium
+
+  * Switch from sources.list to ubuntu.sources (LP: #2048129)
+  * Setup preinstalled pool in preinstalled-pool.sources
+
+ -- Julian Andres Klode <juliank@ubuntu.com>  Mon, 12 Feb 2024 21:55:42 +0100
+
 livecd-rootfs (24.04.31) noble; urgency=medium
 
   * Use the ubuntu-desktop-bootstrap snap as the Ubuntu Desktop installer
