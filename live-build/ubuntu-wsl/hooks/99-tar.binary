@@ -84,7 +84,7 @@ create_archive_with_upgrade_policy() {
 
     cd chroot
     sed -i "s#Prompt=.*#Prompt=${upgrade_policy}#" ./etc/update-manager/release-upgrades
-    tar --xattrs --sort=name -czf ../livecd.ubuntu-wsl.${app_id}.rootfs.tar.gz *
+    tar --xattrs --sort=name -czf ../livecd.${app_id}.ubuntu-wsl.rootfs.tar.gz *
     cd ..
 }
 
