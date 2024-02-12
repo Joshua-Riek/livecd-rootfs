@@ -366,7 +366,7 @@ EOF
 				mkdir -p chroot/var/lib/preinstalled-pool/dists/$LB_DISTRIBUTION/$component/binary-$LB_ARCHITECTURES
 			done
 			apt-ftparchive generate config/indices/apt.conf
-			cat << @@EOF > chroot/etc/apt/sources.list.preinstall
+			cat << @@EOF > chroot/etc/apt/sources.list.d/preinstalled-pool.sources
 # This is a sources.list entry for a small pool of packages
 # provided on your preinstalled filesystem for your convenience.
 #
@@ -374,12 +374,13 @@ EOF
 # it references, should you want to save disk space and fetch the
 # packages remotely instead.
 #
-deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
-#
+Types: deb
+URIs: file:/var/lib/preinstalled-pool/
+Suites: $LB_DISTRIBUTION
+Components: $LB_PARENT_ARCHIVE_AREAS
+Signed-By: /etc/apt/keyrings/preinstalled-pool.gpg
 @@EOF
 
-			cp chroot/etc/apt/sources.list chroot/etc/apt/sources.list.orig
-			cp chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list
 
 			echo "Waiting on gnupg ("$GPG_PROCESS") to finish generating a key."
 			wait $GPG_PROCESS
@@ -403,13 +404,10 @@ deb file:/var/lib/preinstalled-pool/ $LB_DISTRIBUTION $LB_PARENT_ARCHIVE_AREAS
 				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release
 			mv config/gnupg/Release.asc \
 				chroot/var/lib/preinstalled-pool/dists/$R_CODENAME/Release.gpg
-			cp config/gnupg/pubring.gpg chroot/etc/apt/trusted.gpg.d/livecd-rootfs.gpg
+			cp config/gnupg/pubring.gpg chroot/etc/apt/keyrings/preinstalled-pool.gpg
 			find chroot/var/lib/preinstalled-pool/ -name Packages | xargs rm
-
-			Chroot chroot "apt-get update"
-			cat chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig \
-				> chroot/etc/apt/sources.list
-			rm chroot/etc/apt/sources.list.preinstall chroot/etc/apt/sources.list.orig
+			# We only want to have a cache for the pre-installed pool at this point
+			Chroot chroot "apt-get update -o Dir::Etc::SourceParts=/dev/null -oDir::Etc::SourceList=etc/apt/sources.list.d/preinstalled-pool.sources"
 		fi
 		case $PROJECT:$SUBPROJECT in
 			*)
