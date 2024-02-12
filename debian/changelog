@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.30) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.30) noble; urgency=medium
 
   [ Heinrich Schuchardt ]
   * riscv: install u-boot-starfive on VisionFive 2 preinstalled image.
