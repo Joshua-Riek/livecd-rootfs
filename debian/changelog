@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.29) noble; urgency=medium
+
+  * Fix ubuntu-wsl images to be published in cloud-images.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 12 Feb 2024 11:01:18 +0100
+
 livecd-rootfs (24.04.28) noble; urgency=medium
 
   * Add missing mkdir invocation from 24.04.26 (LP: #2052617).
