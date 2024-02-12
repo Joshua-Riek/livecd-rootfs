@@ -779,7 +779,7 @@ case $PROJECT in
 		add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
 		add_task minimal.standard.live ubuntu-live
 		remove_package minimal.standard.live ubiquity-frontend-gtk
-		add_snap minimal.standard.live ubuntu-desktop-installer/classic
+		add_snap minimal.standard.live ubuntu-desktop-bootstrap/classic
 		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
 
 		cat <<-EOF > config/minimal.catalog-in.yaml

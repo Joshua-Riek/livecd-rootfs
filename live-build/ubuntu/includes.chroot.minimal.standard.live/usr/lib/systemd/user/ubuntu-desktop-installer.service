@@ -10,6 +10,6 @@ Conflicts=gnome-session@gnome-login.target
 
 [Service]
 Type=oneshot
-ExecStart=/snap/bin/ubuntu-desktop-installer --try-or-install
+ExecStart=/snap/bin/ubuntu-desktop-bootstrap --try-or-install
 ExecStopPost=sh -c "gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true; gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true; gnome-extensions enable ding@rastersoft.com"
 Restart=no
