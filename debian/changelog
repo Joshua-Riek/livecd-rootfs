@@ -2,7 +2,7 @@ livecd-rootfs (24.04.33) UNRELEASED; urgency=medium
 
   * Edubuntu, Ubuntu Studio and Ubuntu Budgie have hooks in
     live-build/${PROJECT}/hooks now but they need to be copied to config/ to
-    do anything.
+    do anything.  LP: #2052617.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 12 Feb 2024 08:54:35 +1300
 
