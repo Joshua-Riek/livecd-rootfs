@@ -1,7 +1,11 @@
 livecd-rootfs (24.04.34) UNRELEASED; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * Hooks and other things need to go in live-build/$PROJECT and $PROJECT for
     Ubuntu Studio is ubuntustudio-dvd, not ubuntustudio.
+
+  [ Erich Eickmeyer ]
+  * Change Ubuntu Cinnamon to layered image.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Feb 2024 09:32:10 +1300
 
