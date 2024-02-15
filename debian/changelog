@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.34) UNRELEASED; urgency=medium
+
+  * Hooks and other things need to go in live-build/$PROJECT and $PROJECT for
+    Ubuntu Studio is ubuntustudio-dvd, not ubuntustudio.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Feb 2024 09:32:10 +1300
+
 livecd-rootfs (24.04.33) noble; urgency=medium
 
   [ Michael Hudson-Doyle ]
