@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.35) UNRELEASED; urgency=medium
+
+  * Drop references to ubuntu-gnome which is not a current flavor.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 15 Feb 2024 14:20:36 -0800
+
 livecd-rootfs (24.04.34) noble; urgency=medium
 
   [ Michael Hudson-Doyle ]

@@ -637,7 +637,7 @@ case $PROJECT in
 	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	edubuntu|kubuntu|ubuntu-budgie|ubuntu-gnome|ubuntucinnamon|ubuntukylin)
+	edubuntu|kubuntu|ubuntu-budgie|ubuntucinnamon|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
 	lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
@@ -874,7 +874,7 @@ case $PROJECT in
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
-	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntukylin)
+	lubuntu|ubuntu-unity|ubuntukylin)
 		add_task install minimal standard ${PROJECT}-desktop
 		LIVE_TASK=${PROJECT}-live
 		;;

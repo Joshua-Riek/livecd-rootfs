@@ -28,7 +28,6 @@ ALL_TRIPLETS="
  ubuntu-cpc::ubuntu-cpc
  ubuntu-cpc:minimized:ubuntu-cpc
  ubuntu-dvd::
- ubuntu-gnome::
  ubuntukylin::
  ubuntu-mate::
  ubuntu-mate-core::
