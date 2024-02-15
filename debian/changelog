@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.34) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.34) noble; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * Hooks and other things need to go in live-build/$PROJECT and $PROJECT for
@@ -7,7 +7,7 @@ livecd-rootfs (24.04.34) UNRELEASED; urgency=medium
   [ Erich Eickmeyer ]
   * Change Ubuntu Cinnamon to layered image.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Feb 2024 09:32:10 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Feb 2024 10:17:27 +1300
 
 livecd-rootfs (24.04.33) noble; urgency=medium
 
