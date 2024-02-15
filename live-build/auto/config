@@ -569,7 +569,7 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio-dvd|edubuntu)
+			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon)
 				;;
 			*)
 				add_package live casper
@@ -841,8 +841,40 @@ case $PROJECT in
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
+	
+	ubuntucinnamon)
+		# Ubuntu Cinnamon now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS=generic
+		add_task minimal minimal standard ubuntucinnamon-desktop-minimal
+		add_task minimal.standard ubuntucinnamon-desktop
+		add_task minimal.standard.live ubuntucinnamon-live
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Ubuntu Cinnamon Desktop (minimized)"
+			description: >-
+			  A minimal installation of the Ubuntu Cinnamon Desktop.
+			id: ubuntucinnamon-desktop-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+		EOF
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
+			name: "Ubuntu Cinnamon Desktop"
+			description: >-
+			  A full featured Ubuntu Cinnamon Desktop.
+			id: ubuntucinnamon-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
+		;;
 
-	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntucinnamon|ubuntukylin)
+	lubuntu|ubuntu-gnome|ubuntu-unity|ubuntukylin)
 		add_task install minimal standard ${PROJECT}-desktop
 		LIVE_TASK=${PROJECT}-live
 		;;
