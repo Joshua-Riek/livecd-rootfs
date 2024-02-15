@@ -1463,7 +1463,7 @@ esac
 case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
 		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*| \
-		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*)
+		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
