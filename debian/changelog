@@ -1,3 +1,11 @@
+livecd-rootfs (2.765.41) UNRELEASED; urgency=medium
+
+  [Jess Jang ]
+  * add 5.15 apparmor directory for snap preseeding with 5.15 kernel
+    (LP: #2052789)
+
+ -- Philip Roche <phil.roche@canonical.com>  Wed, 21 Feb 2024 11:31507 +0000
+ 
 livecd-rootfs (2.765.40) jammy; urgency=medium
 
   * Handle the allwinner kernel in the same way as we handle generic. This
