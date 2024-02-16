@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.36) noble; urgency=medium
+
+  * live-build/buildd/hooks/00-mirror.binary: Patch all sources files
+
+ -- Julian Andres Klode <juliank@ubuntu.com>  Fri, 16 Feb 2024 22:04:07 +0100
+
 livecd-rootfs (24.04.35) noble; urgency=medium
 
   [ Steve Langasek ]
