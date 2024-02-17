@@ -569,7 +569,7 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon)
+			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon|xubuntu)
 				;;
 			*)
 				add_package live casper
@@ -882,13 +882,59 @@ case $PROJECT in
 	xubuntu)
 		case ${SUBPROJECT:-} in
 			minimal)
-				add_task install minimal standard xubuntu-minimal
+				# Xubuntu now ships the new installer.
+				touch config/universe-enabled
+				PASSES_TO_LAYERS="true"
+				KERNEL_FLAVOURS=generic
+				add_task minimal minimal standard xubuntu-minimal
+				add_task minimal.standard xubuntu-minimal
+				add_task minimal.standard.live xubuntu-live
+				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+				cat <<-EOF > config/minimal.standard.catalog-in.yaml
+					name: "Xubuntu Desktop"
+					description: >-
+					A full featured Xubuntu Desktop.
+					id: xubuntu-minimal
+					type: fsimage-layered
+					variant: desktop
+					locale_support: langpack
+					default: yes
+				EOF
+				/usr/share/livecd-rootfs/checkout-translations-branch \
+					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 			*)
-				add_task install minimal standard xubuntu-desktop
+				# Xubuntu now ships the new installer.
+				touch config/universe-enabled
+				PASSES_TO_LAYERS="true"
+				KERNEL_FLAVOURS=generic
+				add_task minimal minimal standard xubuntu-desktop
+				add_task minimal.standard xubuntu-desktop
+				add_task minimal.standard.live xubuntu-live
+				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+				cat <<-EOF > config/minimal.catalog-in.yaml
+					name: "Xubuntu Desktop (minimized)"
+					description: >-
+					A minimal installation of the Xubuntu Desktop.
+					id: xubuntu-desktop-minimal
+					type: fsimage-layered
+					variant: desktop
+					locale_support: langpack
+				EOF
+				cat <<-EOF > config/minimal.standard.catalog-in.yaml
+					name: "Xubuntu Desktop"
+					description: >-
+					A full featured Xubuntu Desktop.
+					id: xubuntu-desktop
+					type: fsimage-layered
+					variant: desktop
+					locale_support: langpack
+					default: yes
+				EOF
+				/usr/share/livecd-rootfs/checkout-translations-branch \
+					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 		esac
-		LIVE_TASK='xubuntu-live'
 		;;
 
 	ubuntu-budgie)
@@ -1463,7 +1509,7 @@ esac
 case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
 		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*| \
-		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*)
+		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*|xubuntu:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
