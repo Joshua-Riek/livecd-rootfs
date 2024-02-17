@@ -880,38 +880,28 @@ case $PROJECT in
 		;;
 
 	xubuntu)
+		# Xubuntu now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS=generic
 		case ${SUBPROJECT:-} in
 			minimal)
-				# Xubuntu now ships the new installer.
-				touch config/universe-enabled
-				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS=generic
 				add_task minimal minimal standard xubuntu-minimal
 				add_task minimal.standard xubuntu-minimal
-				add_task minimal.standard.live xubuntu-live
-				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
-					name: "Xubuntu Desktop"
+					name: "Xubuntu Minimal"
 					description: >-
-					A full featured Xubuntu Desktop.
+					A minimal installation of the Xubuntu Desktop.
 					id: xubuntu-minimal
 					type: fsimage-layered
 					variant: desktop
 					locale_support: langpack
 					default: yes
 				EOF
-				/usr/share/livecd-rootfs/checkout-translations-branch \
-					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 			*)
-				# Xubuntu now ships the new installer.
-				touch config/universe-enabled
-				PASSES_TO_LAYERS="true"
-				KERNEL_FLAVOURS=generic
 				add_task minimal minimal standard xubuntu-desktop
 				add_task minimal.standard xubuntu-desktop
-				add_task minimal.standard.live xubuntu-live
-				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 				cat <<-EOF > config/minimal.catalog-in.yaml
 					name: "Xubuntu Desktop (minimized)"
 					description: >-
@@ -931,10 +921,12 @@ case $PROJECT in
 					locale_support: langpack
 					default: yes
 				EOF
-				/usr/share/livecd-rootfs/checkout-translations-branch \
-					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 		esac
+		add_task minimal.standard.live xubuntu-live
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-budgie)
