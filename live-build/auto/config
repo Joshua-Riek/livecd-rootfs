@@ -894,10 +894,10 @@ case $PROJECT in
 			type: fsimage-layered
 			variant: desktop
 			locale_support: langpack
-			default: yes
 		EOF
 		case ${SUBPROJECT:-} in
 			minimal)
+				echo "default: yes" >> config/minimal.catalog-in.yaml
 				add_task minimal.live xubuntu-minimal-live
 				add_package minimal.live linux-$KERNEL_FLAVOURS
 			*)
