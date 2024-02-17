@@ -884,33 +884,24 @@ case $PROJECT in
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=generic
+		# the minimal layer, for minimal installs (minimal and desktop iso)
+		add_task minimal minimal standard xubuntu-minimal
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Xubuntu Minimal"
+			description: >-
+			A minimal installation of the Xubuntu Desktop.
+			id: xubuntu-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		add_task minimal.live xubuntu-minimal-live
+		add_package minimal.live linux-$KERNEL_FLAVOURS
 		case ${SUBPROJECT:-} in
-			minimal)
-				add_task minimal minimal standard xubuntu-minimal
-				add_task minimal.standard xubuntu-minimal
-				cat <<-EOF > config/minimal.standard.catalog-in.yaml
-					name: "Xubuntu Minimal"
-					description: >-
-					A minimal installation of the Xubuntu Desktop.
-					id: xubuntu-minimal
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-					default: yes
-				EOF
-				;;
 			*)
-				add_task minimal minimal standard xubuntu-desktop
+				# the standard layer, for standard installs (desktop iso)
 				add_task minimal.standard xubuntu-desktop
-				cat <<-EOF > config/minimal.catalog-in.yaml
-					name: "Xubuntu Desktop (minimized)"
-					description: >-
-					A minimal installation of the Xubuntu Desktop.
-					id: xubuntu-desktop-minimal
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-				EOF
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Xubuntu Desktop"
 					description: >-
@@ -921,10 +912,10 @@ case $PROJECT in
 					locale_support: langpack
 					default: yes
 				EOF
+				add_task minimal.standard.live xubuntu-live
+				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 				;;
 		esac
-		add_task minimal.standard.live xubuntu-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
