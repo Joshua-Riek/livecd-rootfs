@@ -1209,14 +1209,6 @@ case $SUBPROJECT in
 		;;
 esac
 
-case $PROJECT in
-	kubuntu|ubuntu-mate|ubuntu-unity|ubuntukylin)
-		# only used now for the 'minimal-remove' functionality,
-		# which is not used at all in layered images
-		BASE_SEED='desktop'
-		;;
-esac
-
 if [ "$PROJECT:${SUBPROJECT:-}" = ubuntu-cpc:minimized ]; then
 	# We install a lxc script that installs the snap when invoked and
 	# don't want any other snaps.
@@ -1232,6 +1224,14 @@ fi
 
 # grab a list of packags to remove for a "minimal" installation from the seed
 # mirror for this project
+case $PROJECT in
+	kubuntu|ubuntu-mate|ubuntu-unity|ubuntukylin)
+		# only used now for the 'minimal-remove' functionality,
+		# which is not used at all in layered images
+		BASE_SEED='desktop'
+		;;
+esac
+
 if [ -n "${BASE_SEED}" ]; then
 	minimal_packages_url=${SEEDMIRROR}/${SEED}/${BASE_SEED}.minimal-remove
 	echo -n "Checking ${minimal_packages_url} for a minimal installation list... "
