@@ -1,3 +1,11 @@
+livecd-rootfs (2.765.39) UNRELEASED; urgency=medium
+
+  [ dann frazier ]
+  * Use flock to avoid races with systemd-udevd that cause loop device
+    partitions to briefly disappear. (LP: #2045586)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 25 Jan 2024 07:45:58 +1300
+
 livecd-rootfs (2.765.38) jammy; urgency=medium
 
   * Add a largemem subarch for ubuntu-server that ships a 64k kernel variant

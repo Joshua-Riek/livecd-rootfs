@@ -67,16 +67,23 @@ mount_image() {
         exit 1
     fi
 
+    # As explained in excruciating detail in LP: #2045586, losetup
+    # races with udev in a way that can cause partition device files
+    # to briefly vanish. systemd docs say we can hold udev off by using
+    # flocks: https://systemd.io/BLOCK_DEVICE_LOCKING/
+    # `udevadm lock` isn't yet usable in Ubuntu, so we'll use flock for now
+
     # Find the rootfs location
     rootfs_dev_mapper="${loop_device}p${rootpart}"
-    if [ ! -b "${rootfs_dev_mapper}" ]; then
+    if flock -x ${loop_device} [ ! -b "${rootfs_dev_mapper}" ]; then
         echo "${rootfs_dev_mapper} is not a block device";
         exit 1
     fi
 
     # Add some information to the debug logs
     echo "Mounted disk image ${backing_img} to ${rootfs_dev_mapper}"
-    blkid ${rootfs_dev_mapper}
+    flock -x ${loop_device} blkid ${rootfs_dev_mapper} \
+    || echo "blkid failed; continuing"
 
     return 0
 }
@@ -206,9 +213,13 @@ mount_disk_image() {
     mount_partition "${rootfs_dev_mapper}" $mountpoint
 
     local uefi_dev="${loop_device}p15"
-    if [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
-        mount "${uefi_dev}" $mountpoint/boot/efi
+    if flock -x ${loop_device} \
+        [ -b ${uefi_dev} -a -e $mountpoint/boot/efi ]; then
+        flock -x ${loop_device} mount "${uefi_dev}" $mountpoint/boot/efi
     fi
+
+    # Having one partition mounted should avoid udev-triggered partition
+    # rescans on that device, so we no longer need to flock.
 
     # This is needed to allow for certain operations
     # such as updating grub and installing software
