@@ -898,6 +898,7 @@ case $PROJECT in
 		case ${SUBPROJECT:-} in
 			minimal)
 				LIVE_LAYER_PARENT=minimal
+				;;
 			*)
 				# the standard layer, for standard installs (desktop iso)
 				LIVE_LAYER_PARENT=minimal.standard
