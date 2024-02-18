@@ -897,11 +897,10 @@ case $PROJECT in
 		EOF
 		case ${SUBPROJECT:-} in
 			minimal)
-				echo "default: yes" >> config/minimal.catalog-in.yaml
-				add_task minimal.live xubuntu-minimal-live
-				add_package minimal.live linux-$KERNEL_FLAVOURS
+				LIVE_LAYER_PARENT=minimal
 			*)
 				# the standard layer, for standard installs (desktop iso)
+				LIVE_LAYER_PARENT=minimal.standard
 				add_task minimal.standard xubuntu-desktop
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Xubuntu Desktop"
@@ -913,10 +912,10 @@ case $PROJECT in
 					locale_support: langpack
 					default: yes
 				EOF
-				add_task minimal.standard.live xubuntu-live
-				add_package minimal.standard.live linux-$KERNEL_FLAVOURS
 				;;
 		esac
+		add_task ${LIVE_LAYER_PARENT}.live xubuntu-live
+		add_package ${LIVE_LAYER_PARENT}.live linux-$KERNEL_FLAVORS
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
