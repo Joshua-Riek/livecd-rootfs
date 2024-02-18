@@ -1,9 +1,9 @@
-livecd-rootfs (24.04.37) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.37) noble; urgency=medium
 
   [ Sean Davis ]
   * Move Xubuntu to the new installer.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 18 Feb 2024 09:03:49 -0800
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 18 Feb 2024 09:08:50 -0800
 
 livecd-rootfs (24.04.36) noble; urgency=medium
 
