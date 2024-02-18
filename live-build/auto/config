@@ -1209,29 +1209,10 @@ case $SUBPROJECT in
 		;;
 esac
 
-# we'll expand the base seed given here according to the STRUCTURE file, and
-# then look in all of the seeds found to see which snaps are seeded
-case $PROJECT:${SUBPROJECT:-} in
-	ubuntu-wsl:*)
-		BASE_SEED='wsl'
-		;;
-	ubuntu-cpc:*)
-		# we don't preseed any snaps in minimized images, so no need to set
-		# BASE_SEED in that case.
-		if [ "${SUBPROJECT:-}" != minimized ]; then
-			BASE_SEED='server'
-		fi
-		;;
-	ubuntu-server:live)
-		BASE_SEED='server'
-		;;
-	ubuntu-base:*|ubuntu-core:*|ubuntu-mini-iso:|ubuntu-oci:*|\
-        xubuntu:minimal)
-		;;
-        edubuntu:*)
-		BASE_SEED='desktop-gnome'
-		;;
-	*)
+case $PROJECT in
+	kubuntu|ubuntu-mate|ubuntu-unity|ubuntukylin)
+		# only used now for the 'minimal-remove' functionality,
+		# which is not used at all in layered images
 		BASE_SEED='desktop'
 		;;
 esac

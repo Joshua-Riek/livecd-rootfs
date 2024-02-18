@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.39) UNRELEASED; urgency=medium
+
+  * Pare down 'BASE_SEED' handling to only those flavors which still use it.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 18 Feb 2024 10:27:50 -0800
+
 livecd-rootfs (24.04.38) noble; urgency=medium
 
   * Fix overlooked syntax error
