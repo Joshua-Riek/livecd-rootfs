@@ -916,7 +916,7 @@ case $PROJECT in
 				;;
 		esac
 		add_task ${LIVE_LAYER_PARENT}.live xubuntu-live
-		add_package ${LIVE_LAYER_PARENT}.live linux-$KERNEL_FLAVORS
+		add_package ${LIVE_LAYER_PARENT}.live linux-$KERNEL_FLAVOURS
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
