@@ -1,8 +1,12 @@
-livecd-rootfs (24.04.39) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.39ubuntu1) UNRELEASED; urgency=medium
 
+  [ Steve Langasek ]
   * Pare down 'BASE_SEED' handling to only those flavors which still use it.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 18 Feb 2024 10:27:50 -0800
+  [ Łukasz 'sil2100' Zemczak ]
+  * Attempt building netboot tarballs for largemem arm64 server images.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 20 Feb 2024 17:04:01 +0100
 
 livecd-rootfs (24.04.38) noble; urgency=medium
 
