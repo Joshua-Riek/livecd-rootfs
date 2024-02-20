@@ -1,3 +1,10 @@
+livecd-rootfs (2.765.40) UNRELEASED; urgency=medium
+
+  * Handle the allwinner kernel in the same way as we handle generic. This
+    change seems to been missed, as it was present in noble. (LP: #2054412)
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 20 Feb 2024 09:48:10 +0100
+
 livecd-rootfs (2.765.39) jammy; urgency=medium
 
   [ dann frazier ]

@@ -590,7 +590,7 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		continue
 	fi
 	case $FLAVOUR in
-		virtual|generic-hwe-*)
+		allwinner|virtual|generic-hwe-*)
 			FLAVOUR="generic"
 			;;
 		lowlatency-hwe-*)
