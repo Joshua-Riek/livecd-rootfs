@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.39ubuntu1) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.39) UNRELEASED; urgency=medium
 
   [ Steve Langasek ]
   * Pare down 'BASE_SEED' handling to only those flavors which still use it.
