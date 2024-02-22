@@ -889,7 +889,7 @@ case $PROJECT in
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Xubuntu Minimal"
 			description: >-
-			A minimal installation of the Xubuntu Desktop.
+			  A minimal installation of the Xubuntu Desktop.
 			id: xubuntu-minimal
 			type: fsimage-layered
 			variant: desktop
@@ -906,7 +906,7 @@ case $PROJECT in
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Xubuntu Desktop"
 					description: >-
-					A full featured Xubuntu Desktop.
+					  A full featured Xubuntu Desktop.
 					id: xubuntu-desktop
 					type: fsimage-layered
 					variant: desktop
