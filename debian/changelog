@@ -1,9 +1,10 @@
 livecd-rootfs (24.04.41) noble; urgency=medium
 
+  [Simon Poirier]
   * live-build/buildd/includes.chroot/etc/apt:
     unpin backports for buildd images (lp: #2009871)
 
- -- Simon Poirier <simon.poirier@canonical.com>  Thu, 22 Feb 2024 12:02:50 -0500
+ -- Philip Roche <phil.roche@canonical.com>  Thu, 22 Feb 2024 17:39:57 +0000
 
 livecd-rootfs (24.04.40) noble; urgency=medium
 
