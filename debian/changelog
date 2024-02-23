@@ -1,9 +1,9 @@
-livecd-rootfs (24.04.42) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.42) noble; urgency=medium
 
   [ Sean Davis ]
   * xubuntu: Fix description 2-line indentation.
 
- -- Brian Murray <brian@ubuntu.com>  Thu, 22 Feb 2024 17:49:30 -0800
+ -- Brian Murray <brian@ubuntu.com>  Thu, 22 Feb 2024 17:52:12 -0800
 
 livecd-rootfs (24.04.41) noble; urgency=medium
 
