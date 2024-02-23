@@ -130,6 +130,9 @@ install_grub() {
         amd64)
             chroot mountpoint apt-get install -qqy ${package_install_recommends_option} grub-pc shim-signed
             efi_target=x86_64-efi
+            # set the required debconf settings to allow for non interactive grub updates in cloud images LP: #2054103
+            echo "grub-pc grub-efi/cloud_style_installation boolean true" | chroot mountpoint debconf-set-selections
+            echo "grub-pc grub-pc/cloud_style_installation boolean true" | chroot mountpoint debconf-set-selections
             ;;
         riscv64)
             chroot mountpoint apt-get install -qqy ${package_install_recommends_option} u-boot-menu grub-efi-riscv64
