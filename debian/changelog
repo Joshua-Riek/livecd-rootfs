@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.43) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.43) noble; urgency=medium
 
   * Set the required debconf settings to allow for noninteractive
     grub updates in cloud images (LP: #2054103)
