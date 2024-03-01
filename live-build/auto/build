@@ -24,7 +24,7 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 	# Use ubuntu-image instead of live-build
 
 	export SNAPPY_STORE_NO_CDN=1
-	LB_UBUNTU_IMAGE_CHANNEL="${LB_UBUNTU_IMAGE_CHANNEL:-stable}"
+	LB_UBUNTU_IMAGE_CHANNEL="${LB_UBUNTU_IMAGE_CHANNEL:-candidate}"
 	snap install \
             --classic --channel="$LB_UBUNTU_IMAGE_CHANNEL" ubuntu-image
 

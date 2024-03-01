@@ -1,3 +1,11 @@
+livecd-rootfs (24.04.44) UNRELEASED; urgency=medium
+
+  * Switch to using the candidate channel for the ubuntu-image snap. This way
+    we can more easily make use of fixes in ubuntu-image without having to
+    wait for the full validation process to finish.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Fri, 01 Mar 2024 12:08:13 +0100
+
 livecd-rootfs (24.04.43) noble; urgency=medium
 
   * Set the required debconf settings to allow for noninteractive
