@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.50) UNRELEASED; urgency=medium
+
+  * Use the same includes.chroot* overrides from desktop for the
+    subiquity-backed oem and flavor installer ISOs. (LP: #2055077)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 18 Mar 2024 16:54:11 -0600
+
 livecd-rootfs (24.04.49) noble; urgency=medium
 
   [ Erich Eickmeyer]
