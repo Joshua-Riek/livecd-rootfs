@@ -1099,6 +1099,7 @@ EOF
         # Allow cloud-init clean to inform of strict network-manager config
         mkdir -p chroot/etc/cloud/clean.d
         cat <<EOF > chroot/etc/cloud/clean.d/99-installer-use-networkmanager
+#!/bin/sh
 # Inform clone image creators about strict network-manager cfg for cloud-init
 if [ -f /etc/cloud/cloud.cfg.d/99-installer-use-networkmanager.cfg ]; then
   echo "WARNING: cloud-init network config is limited to using network-manager."

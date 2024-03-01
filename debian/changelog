@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.45) UNRELEASED; urgency=medium
+
+  [ Chad Smith ]
+  * Fix cloud-init clean script, by declaring the interpreter
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 01 Mar 2024 15:21:21 -0700
+
 livecd-rootfs (24.04.44) noble; urgency=medium
 
   * Switch to using the candidate channel for the ubuntu-image snap. This way
