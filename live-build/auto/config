@@ -1029,6 +1029,7 @@ case $PROJECT in
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=lowlatency
+		LIVE_LAYER_PARENT=standard
 		add_task standard minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
 		add_task standard.live ubuntustudio-dvd-live
 		add_package standard.live linux-$KERNEL_FLAVOURS
@@ -1564,6 +1565,27 @@ case $PROJECT:${SUBPROJECT:-} in
 
 		if [ "$IMAGEFORMAT" = none ]; then
 			rm -f config/hooks/*.binary*
+		fi
+		;;
+esac
+
+case $PROJECT in
+	ubuntu-oem|ubuntustudio-dvd|edubuntu|ubuntu-budgie|ubuntucinnamon| \
+	xubuntu|ubuntukylin|ubuntu-mate)
+		cp -af /usr/share/livecd-rootfs/live-build/ubuntu/includes.chroot \
+			config/includes.chroot
+
+		LIVE_LAYER=${LIVE_LAYER_PARENT:-minimal.standard}.live
+		cp -af /usr/share/livecd-rootfs/live-build/ubuntu/includes.chroot.minimal.standard.live \
+			config/includes.chroot.$LIVE_LAYER
+
+		if [ $PROJECT != ubuntu-oem ]; then
+			# Per note at
+			# https://code.launchpad.net/~dbungert/livecd-rootfs/+git/livecd-rootfs/+merge/461665/comments/1240590,
+			# these files are expected to be moved out of livecd-rootfs,
+			# and are also incorrect for flavors.
+			rm -f config/includes.chroot.$LIVE_LAYER/usr/lib/systemd/user/ubuntu-desktop-installer.service
+			rm -f config/includes.chroot.$LIVE_LAYER/share/glib-2.0/schemas/casper.gschema.override
 		fi
 		;;
 esac
