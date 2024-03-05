@@ -1,16 +1,12 @@
-livecd-rootfs (24.04.46) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.45) noble; urgency=medium
 
-  [ jess ]
+  [ Jess Jang ]
   * fix: Missing apparmor feature for 6.8 kernel (LP: #2056078)
 
- -- Jess Jang <jess.jang@canoical.com>  Mon, 04 Mar 2024 15:17:53 -0600
-
-livecd-rootfs (24.04.45) UNRELEASED; urgency=medium
-
   [ Chad Smith ]
-  * Fix cloud-init clean script, by declaring the interpreter
+  * Fix cloud-init clean script, by declaring the interpreter.
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Fri, 01 Mar 2024 15:21:21 -0700
+ -- Jess Jang <jess.jang@canoical.com>  Mon, 04 Mar 2024 15:17:53 -0600
 
 livecd-rootfs (24.04.44) noble; urgency=medium
 
