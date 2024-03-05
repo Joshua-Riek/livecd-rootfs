@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.46) UNRELEASED; urgency=medium
+
+  * mini-iso: move depends to mini-iso-tools package
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Tue, 05 Mar 2024 16:48:20 -0700
+
 livecd-rootfs (24.04.45) noble; urgency=medium
 
   [ Jess Jang ]

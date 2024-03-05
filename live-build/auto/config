@@ -1084,7 +1084,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=none
 		BINARY_REMOVE_LINUX=false
 
-		add_package install mini-iso-tools openssl ca-certificates isc-dhcp-client linux-generic
+		add_package install mini-iso-tools linux-generic
 		case $ARCH in
 			amd64)
 				add_package install cd-boot-images-amd64
