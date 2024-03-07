@@ -569,7 +569,8 @@ case $IMAGEFORMAT in
 	*)
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon|xubuntu)
+			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon|xubuntu|\
+		        ubuntukylin)
 				;;
 			*)
 				add_package live casper
@@ -874,9 +875,40 @@ case $PROJECT in
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
-	lubuntu|ubuntu-unity|ubuntukylin)
+	lubuntu|ubuntu-unity)
 		add_task install minimal standard ${PROJECT}-desktop
 		LIVE_TASK=${PROJECT}-live
+		;;
+        ubuntukylin)
+		# Ubuntu Kylin now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS=generic
+		add_task minimal minimal standard ubuntukylin-desktop-minimal
+		add_task minimal.standard ubuntukylin-desktop
+		add_task minimal.standard.live ubuntukylin-live
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Ubuntu Kylin Desktop (minimized)"
+			description: >-
+			  A minimal installation of the Ubuntu Kylin Desktop.
+			id: ubuntukylin-desktop-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+		EOF
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
+			name: "Ubuntu Kylin Desktop"
+			description: >-
+			  A full featured Ubuntu Kylin Desktop.
+			id: ubuntukylin-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	xubuntu)
@@ -1474,7 +1506,8 @@ esac
 case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
 		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*| \
-		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*|xubuntu:*)
+		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*|xubuntu:*| \
+	        ubuntukylin:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in
