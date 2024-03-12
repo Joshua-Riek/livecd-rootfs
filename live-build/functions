@@ -955,7 +955,6 @@ configure_oci() {
     # at https://github.com/tianon/docker-brew-ubuntu-core/blob/master/update.sh
 
     local chroot=$1
-    local serial=$2
 
     if [ ! -d "${chroot}" ]; then
         echo "The chroot does not exist"

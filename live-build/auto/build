@@ -438,7 +438,7 @@ build_name: $PROJECT:${SUBPROJECT:}
 serial: $BUILDSTAMP
 EOF
 				if [ "${PROJECT}" = "ubuntu-oci" ]; then
-					configure_oci chroot "$BUILDSTAMP"
+					configure_oci chroot
 				fi
 			else
 				echo "The \$BUILDSTAMP variable is empty"
