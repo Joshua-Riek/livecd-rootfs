@@ -970,13 +970,6 @@ configure_oci() {
     Chroot ${chroot} "chmod +x /usr/sbin/policy-rc.d"
 
 
-    # Inject a build stamp into the image
-    mkdir -p ${chroot}/etc/cloud
-    cat > ${chroot}/etc/cloud/build.info << EOF
-serial: $serial
-EOF
-
-
     # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L54-L56
     Chroot ${chroot} "dpkg-divert --local --rename --add /sbin/initctl"
     cp -a ${chroot}/usr/sbin/policy-rc.d ${chroot}/sbin/initctl
