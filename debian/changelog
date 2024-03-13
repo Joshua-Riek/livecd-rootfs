@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.47) noble; urgency=medium
+
+  * drop support for armhf uefi booting vm images (LP: #2057776) 
+
+ -- jchittum <john.chittum@canonical.com>  Wed, 13 Mar 2024 08:43:13 -0400
+
 livecd-rootfs (24.04.46) noble; urgency=medium
 
   [ Dan Bungert ]
