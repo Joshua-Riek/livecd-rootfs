@@ -1,8 +1,12 @@
 livecd-rootfs (24.04.47) noble; urgency=medium
 
-  * drop support for armhf uefi booting vm images (LP: #2057776) 
+  [ Utkarsh Gupta ]
+  * Add build_name metadata to build.info file for OCI and Base images.
 
- -- jchittum <john.chittum@canonical.com>  Wed, 13 Mar 2024 08:43:13 -0400
+  [ jchittum ]
+  * Drop support for armhf uefi booting vm images. (LP: #2057776)
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Wed, 13 Mar 2024 18:27:01 +0530
 
 livecd-rootfs (24.04.46) noble; urgency=medium
 
