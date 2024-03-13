@@ -434,7 +434,7 @@ EOF
 			if [ -n "$BUILDSTAMP" ]; then
 				mkdir -p chroot/etc/cloud
 				cat > chroot/etc/cloud/build.info << EOF
-build_name: $PROJECT:${SUBPROJECT:}
+build_name: $PROJECT:${SUBPROJECT:-}
 serial: $BUILDSTAMP
 EOF
 				if [ "${PROJECT}" = "ubuntu-oci" ]; then
