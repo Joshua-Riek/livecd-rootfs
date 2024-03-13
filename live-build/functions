@@ -955,7 +955,6 @@ configure_oci() {
     # at https://github.com/tianon/docker-brew-ubuntu-core/blob/master/update.sh
 
     local chroot=$1
-    local serial=$2
 
     if [ ! -d "${chroot}" ]; then
         echo "The chroot does not exist"
@@ -968,13 +967,6 @@ configure_oci() {
     echo '#!/bin/sh' > ${chroot}/usr/sbin/policy-rc.d
     echo 'exit 101' >> ${chroot}/usr/sbin/policy-rc.d
     Chroot ${chroot} "chmod +x /usr/sbin/policy-rc.d"
-
-
-    # Inject a build stamp into the image
-    mkdir -p ${chroot}/etc/cloud
-    cat > ${chroot}/etc/cloud/build.info << EOF
-serial: $serial
-EOF
 
 
     # https://github.com/docker/docker/blob/9a9fc01af8fb5d98b8eec0740716226fadb3735c/contrib/mkimage/debootstrap#L54-L56

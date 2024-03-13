@@ -430,9 +430,16 @@ serial: $BUILDSTAMP
 EOF
 		fi
 
-		if [ "$PROJECT" = "ubuntu-oci" ]; then
+		if [ "${PROJECT}" = ubuntu-base ] || [ "${PROJECT}" = "ubuntu-oci" ]; then
 			if [ -n "$BUILDSTAMP" ]; then
-				configure_oci chroot "$BUILDSTAMP"
+				mkdir -p chroot/etc/cloud
+				cat > chroot/etc/cloud/build.info << EOF
+build_name: $PROJECT:${SUBPROJECT:}
+serial: $BUILDSTAMP
+EOF
+				if [ "${PROJECT}" = "ubuntu-oci" ]; then
+					configure_oci chroot
+				fi
 			else
 				echo "The \$BUILDSTAMP variable is empty"
 				exit 1
