@@ -64,12 +64,14 @@ live_build_rootfs() {
          SUBPROJECT=$SUBPROJECT \
          SUITE=$SUITE \
          ARCH=$ARCH \
+         NOW=$(date '+%Y%m%d') \
          lb config
     mkdir chroot
     # this part needs root rights, but right now the whole script ran as root by autopkgtest
     env PROJECT=$PROJECT \
          SUBPROJECT=$SUBPROJECT \
          ARCH=$ARCH \
+         NOW=$(date '+%Y%m%d') \
          lb build
     echo "Build results for project: '$PROJECT' subproject: '$SUBPROJECT' template: '$TEMPLATE' in $PWD"
     du -sh *
