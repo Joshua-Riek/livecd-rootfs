@@ -2,6 +2,7 @@ livecd-rootfs (24.04.62) UNRELEASED; urgency=medium
 
   * Invert check for whether to include casper since the "yes" list is now
     much shorter than the "no" list
+  * Refactor task/package handling for new installer images
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 18 Mar 2024 14:44:32 -0700
 

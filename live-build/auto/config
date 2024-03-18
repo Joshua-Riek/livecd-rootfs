@@ -648,6 +648,46 @@ if ! [ -e config/germinate-output/structure ]; then
                 -s $FLAVOUR.$SUITE $GERMINATE_ARG -a $ARCH)
 fi
 
+do_layered_desktop_image() {
+	touch config/universe-enabled
+	PASSES_TO_LAYERS="true"
+	if [ -n "$HAS_MINIMAL" ]; then
+		if [ -z "$MINIMAL_TASKS" ]; then
+			MINIMAL_TASKS="${FLAVOUR}-desktop-minimal"
+			if [ -n "$HAS_DEFAULT_LANGUAGES" ]; then
+				MINIMAL_TASKS="$MINIMAL_TASKS ${FLAVOUR}-desktop-minimal-default-languages"
+			fi
+		fi
+		# the minimal layer, for minimal installs
+		add_task minimal minimal standard $MINIMAL_TASKS
+		# fixme: this should go in seeds, not be in code here
+		add_package minimal cloud-init
+		MINIMAL_PREFIX=minimal.
+	fi
+
+	LIVE_PREFIX=$MINIMAL_PREFIX
+	# the standard layer, contains all base common packages for later layers
+	if [ "$HAS_STANDARD" != no ]; then
+		if [ -z "$STANDARD_TASKS" ]; then
+			STANDARD_TASKS="${FLAVOUR}-desktop"
+			if [ -n "$HAS_DEFAULT_LANGUAGES" ]; then
+				STANDARD_TASKS="$STANDARD_TASKS ${FLAVOUR}-desktop-default-languages"
+			fi
+		fi
+		if [ -z "$HAS_MINIMAL" ]; then
+			STANDARD_TASKS="minimal standard $STANDARD_TASKS"
+			add_package standard cloud-init
+		fi
+		add_task ${MINIMAL_PREFIX}standard $STANDARD_TASKS
+		LIVE_PREFIX="${LIVE_PREFIX}standard."
+	fi
+
+	# the live layer, contains all packages for the live session installer
+	[ -n "$LIVE_TASK" ] || LIVE_TASK=${FLAVOUR}-live
+	add_task ${LIVE_PREFIX}live "$LIVE_TASK"
+	add_package ${LIVE_PREFIX}live linux-$KERNEL_FLAVOURS casper
+}
+
 case $PROJECT in
 	ubuntu)
 		case ${SUBPROJECT:-} in
@@ -679,17 +719,10 @@ case $PROJECT in
 				esac
 				;;
 			*)
-				touch config/universe-enabled
+				HAS_MINIMAL=yes
+				HAS_DEFAULT_LANGUAGES=yes
 				KERNEL_FLAVOURS='generic-hwe-24.04'
-				PASSES_TO_LAYERS="true"
-				# the minimal layer, for minimal installs
-				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
-				add_package minimal cloud-init
-				# the standard layer, contains all base common packages for later layers
-				add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
-				# the live layer, contains all packages for the live session installer
-				add_task minimal.standard.live ubuntu-live
-				add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
+				do_layered_desktop_image
 				# language support
 				seeded_langs="$(get_seeded_languages desktop)"
 				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
@@ -754,18 +787,11 @@ case $PROJECT in
 		;;
 
 	ubuntu-oem)
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
+		HAS_DEFAULT_LANGUAGES=yes
 		#KERNEL_FLAVOURS='oem-24.04'
 		KERNEL_FLAVOURS='generic-hwe-24.04'
-		add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
-		add_package minimal cloud-init
-		add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
-		add_task minimal.standard.live ubuntu-live
-		remove_package minimal.standard.live ubiquity-frontend-gtk
-		add_snap minimal.standard.live ubuntu-desktop-bootstrap/classic
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
-
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu Desktop for OEM (minimal)"
 			description: >-
@@ -796,14 +822,11 @@ case $PROJECT in
 
 	edubuntu)
 		# Edubuntu now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
+		MINIMAL_TASKS=edubuntu-desktop-gnome-minimal
+		STANDARD_TASKS=edubuntu-desktop-gnome
 		KERNEL_FLAVOURS=generic
-		add_task minimal minimal standard edubuntu-desktop-gnome-minimal
-		add_package minimal cloud-init
-		add_task minimal.standard edubuntu-desktop-gnome
-		add_task minimal.standard.live edubuntu-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Edubuntu Desktop (minimized)"
 			description: >-
@@ -829,14 +852,9 @@ case $PROJECT in
 	
 	ubuntucinnamon)
 		# Ubuntu Cinnamon now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
 		KERNEL_FLAVOURS=generic
-		add_task minimal minimal standard ubuntucinnamon-desktop-minimal
-		add_package minimal cloud-init
-		add_task minimal.standard ubuntucinnamon-desktop
-		add_task minimal.standard.live ubuntucinnamon-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu Cinnamon Desktop (minimized)"
 			description: >-
@@ -866,14 +884,9 @@ case $PROJECT in
 		;;
         ubuntukylin)
 		# Ubuntu Kylin now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
 		KERNEL_FLAVOURS=generic
-		add_task minimal minimal standard ubuntukylin-desktop-minimal
-		add_package minimal cloud-init
-		add_task minimal.standard ubuntukylin-desktop
-		add_task minimal.standard.live ubuntukylin-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu Kylin Desktop (minimized)"
 			description: >-
@@ -899,12 +912,15 @@ case $PROJECT in
 
 	xubuntu)
 		# Xubuntu now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
+		MINIMAL_TASKS=xubuntu-minimal
 		KERNEL_FLAVOURS=generic
-		# the minimal layer, for minimal installs (minimal and desktop iso)
-		add_task minimal minimal standard xubuntu-minimal
-		add_package minimal cloud-init
+		case ${SUBPROJECT:-} in
+			minimal)
+				HAS_STANDARD=no
+				;;
+		esac
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Xubuntu Minimal"
 			description: >-
@@ -916,12 +932,9 @@ case $PROJECT in
 		EOF
 		case ${SUBPROJECT:-} in
 			minimal)
-				LIVE_LAYER_PARENT=minimal
 				;;
 			*)
 				# the standard layer, for standard installs (desktop iso)
-				LIVE_LAYER_PARENT=minimal.standard
-				add_task minimal.standard xubuntu-desktop
 				cat <<-EOF > config/minimal.standard.catalog-in.yaml
 					name: "Xubuntu Desktop"
 					description: >-
@@ -934,23 +947,16 @@ case $PROJECT in
 				EOF
 				;;
 		esac
-		add_task ${LIVE_LAYER_PARENT}.live xubuntu-live
-		add_package ${LIVE_LAYER_PARENT}.live linux-$KERNEL_FLAVOURS
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-budgie)
-		# By default Ubuntu Budgie now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		# Ubuntu Budgie now ships the new installer.
+		HAS_MINIMAL=yes
+		HAS_DEFAULT_LANGUAGES=yes
 		KERNEL_FLAVOURS='generic-hwe-24.04'
-		add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
-		add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
-		add_task minimal.standard.live ubuntu-budgie-live
-		add_package minimal cloud-init
-		remove_package minimal.standard.live ubiquity-frontend-gtk
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
+		do_layered_desktop_image
 		seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
 		echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
 		derive_language_layers minimal budgie-desktop-minimal budgie-desktop-minimal-default-languages "$seeded_langs"
@@ -980,14 +986,10 @@ case $PROJECT in
 
 	ubuntu-mate)
 		# Ubuntu MATE now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		HAS_MINIMAL=yes
+		MINIMAL_TASKS=ubuntu-mate-core
 		KERNEL_FLAVOURS=generic
-		add_task minimal minimal standard ubuntu-mate-core
-		add_package minimal cloud-init
-		add_task minimal.standard ubuntu-mate-desktop
-		add_task minimal.standard.live ubuntu-mate-live
-		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		do_layered_desktop_image
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu MATE Desktop (minimized)"
 			description: >-
@@ -1013,14 +1015,10 @@ case $PROJECT in
 
 	ubuntustudio-dvd)
 		# By default Ubuntu Studio now ships the new installer.
-		touch config/universe-enabled
-		PASSES_TO_LAYERS="true"
+		STANDARD_TASKS="ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography"
+		LIVE_TASK=ubuntustudio-dvd-live
 		KERNEL_FLAVOURS=lowlatency
-		LIVE_LAYER_PARENT=standard
-		add_task standard minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
-		add_package standard cloud-init
-		add_task standard.live ubuntustudio-dvd-live
-		add_package standard.live linux-$KERNEL_FLAVOURS
+		do_layered_desktop_image
 		cat <<-EOF > config/standard.catalog-in.yaml
 			name: "Ubuntu Studio Desktop"
 			description: >-
@@ -1557,7 +1555,7 @@ case $PROJECT in
 		cp -af /usr/share/livecd-rootfs/live-build/ubuntu/includes.chroot \
 			config/includes.chroot
 
-		LIVE_LAYER=${LIVE_LAYER_PARENT:-minimal.standard}.live
+		LIVE_LAYER=${LIVE_PREFIX}live
 		cp -af /usr/share/livecd-rootfs/live-build/ubuntu/includes.chroot.minimal.standard.live \
 			config/includes.chroot.$LIVE_LAYER
 
