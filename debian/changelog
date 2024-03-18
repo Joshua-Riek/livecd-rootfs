@@ -1,9 +1,9 @@
-livecd-rootfs (24.04.49) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.49) noble; urgency=medium
 
   [ Erich Eickmeyer]
   * Move Ubuntu MATE to the new Ubuntu desktop installer snap.
 
- -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 18 Mar 2024 13:09:08 -0700
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 18 Mar 2024 13:18:54 -0700
 
 livecd-rootfs (24.04.48) noble; urgency=medium
 
