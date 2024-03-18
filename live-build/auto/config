@@ -558,11 +558,7 @@ case $IMAGEFORMAT in
 		;;
 	*)
 		case $PROJECT in
-			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
-			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon|xubuntu|\
-		        ubuntukylin|ubuntu-mate)
-				;;
-			*)
+			kubuntu|lubuntu|ubuntu-unity)
 				add_package live casper
 				;;
 		esac
