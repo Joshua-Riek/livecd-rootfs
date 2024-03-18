@@ -570,7 +570,7 @@ case $IMAGEFORMAT in
 		case $PROJECT in
 			ubuntu-server|ubuntu-wsl|ubuntu-oem|ubuntu|\
 			ubuntu-budgie|ubuntustudio-dvd|edubuntu|ubuntucinnamon|xubuntu|\
-		        ubuntukylin)
+		        ubuntukylin|ubuntu-mate)
 				;;
 			*)
 				add_package live casper
@@ -993,8 +993,35 @@ case $PROJECT in
 		;;
 
 	ubuntu-mate)
-		add_task install minimal standard ubuntu-mate-core ubuntu-mate-desktop
-		LIVE_TASK='ubuntu-mate-live'
+		# Ubuntu MATE now ships the new installer.
+		touch config/universe-enabled
+		PASSES_TO_LAYERS="true"
+		KERNEL_FLAVOURS=generic
+		add_task minimal minimal standard ubuntu-mate-core
+		add_task minimal.standard ubuntu-mate-desktop
+		add_task minimal.standard.live ubuntu-mate-live
+		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "Ubuntu MATE Desktop (minimized)"
+			description: >-
+			  A minimal installation of the Ubuntu MATE Desktop.
+			id: ubuntu-mate-desktop-minimal
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+		EOF
+		cat <<-EOF > config/minimal.standard.catalog-in.yaml
+			name: "Ubuntu MATE Desktop"
+			description: >-
+			  A full featured Ubuntu MATE Desktop.
+			id: ubuntu-mate-desktop
+			type: fsimage-layered
+			variant: desktop
+			locale_support: langpack
+			default: yes
+		EOF
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntustudio-dvd)
