@@ -1,9 +1,14 @@
-livecd-rootfs (24.04.50) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.50) noble; urgency=medium
 
+  [ Dan Bungert ]
   * Use the same includes.chroot* overrides from desktop for the
     subiquity-backed oem and flavor installer ISOs. (LP: #2055077)
+  * copy include.* directories for subiquity desktop install ISOs (LP: #2055077)
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 18 Mar 2024 16:54:11 -0600
+  [ Utkarsh Gupta ]
+  * Add NOW env variable in autopkgtest.
+
+ -- Utkarsh Gupta <utkarsh@ubuntu.com>  Thu, 21 Mar 2024 01:23:00 +0530
 
 livecd-rootfs (24.04.49) noble; urgency=medium
 
