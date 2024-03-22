@@ -1585,7 +1585,7 @@ case $PROJECT in
 			# these files are expected to be moved out of livecd-rootfs,
 			# and are also incorrect for flavors.
 			rm -f config/includes.chroot.$LIVE_LAYER/usr/lib/systemd/user/ubuntu-desktop-installer.service
-			rm -f config/includes.chroot.$LIVE_LAYER/share/glib-2.0/schemas/casper.gschema.override
+			rm -f config/includes.chroot.$LIVE_LAYER/share/glib-2.0/schemas/livecd-rootfs.gschema.override
 		fi
 		;;
 esac
