@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.51) noble; urgency=medium
+
+  * Rename the casper.gschema override to livecd-rootfs.override
+    to try to avoid conflicts with the override generated in casper
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 25 Mar 2024 11:46:35 +0100
+
 livecd-rootfs (24.04.50) noble; urgency=medium
 
   [ Dan Bungert ]
