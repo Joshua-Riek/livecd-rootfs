@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.52) UNRELEASED; urgency=medium
+
+  * Move from hwe-22.04 to hwe-24.04 throughout, hwe-22.04 is obsolete and
+    to be dropped from the release pocket imminently.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 27 Mar 2024 12:01:56 -0700
+
 livecd-rootfs (24.04.51) noble; urgency=medium
 
   * Rename the casper.gschema override to livecd-rootfs.override

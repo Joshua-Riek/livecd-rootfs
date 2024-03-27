@@ -694,7 +694,7 @@ case $PROJECT in
 				;;
 			*)
 				touch config/universe-enabled
-				KERNEL_FLAVOURS='generic-hwe-22.04'
+				KERNEL_FLAVOURS='generic-hwe-24.04'
 				if [ "$SUBARCH" = "x13s" ]; then
 					KERNEL_FLAVOURS='laptop-23.10'
 				fi
@@ -773,8 +773,8 @@ case $PROJECT in
 	ubuntu-oem)
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
-		#KERNEL_FLAVOURS='oem-22.04'
-		KERNEL_FLAVOURS='generic-hwe-22.04'
+		#KERNEL_FLAVOURS='oem-24.04'
+		KERNEL_FLAVOURS='generic-hwe-24.04'
 		add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages
 		add_package minimal cloud-init
 		add_task minimal.standard ubuntu-desktop ubuntu-desktop-default-languages
@@ -957,7 +957,7 @@ case $PROJECT in
 		# By default Ubuntu Budgie now ships the new installer.
 		touch config/universe-enabled
 		PASSES_TO_LAYERS="true"
-		KERNEL_FLAVOURS='generic-hwe-22.04'
+		KERNEL_FLAVOURS='generic-hwe-24.04'
 		add_task minimal minimal standard ubuntu-budgie-desktop-minimal ubuntu-budgie-desktop-minimal-default-languages
 		add_task minimal.standard ubuntu-budgie-desktop ubuntu-budgie-desktop-default-languages
 		add_task minimal.standard.live ubuntu-budgie-live
