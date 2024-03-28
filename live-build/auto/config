@@ -703,6 +703,55 @@ do_layered_desktop_image() {
 				"$seeded_langs"
 		fi
 	fi
+
+	# now let's create the necessary catalog files
+	[ -n "$LOCALE_SUPPORT" ] || LOCALE_SUPPORT=langpack
+
+	[ -n "$UCFLAVOUR" ] || UCFLAVOUR=$(echo $FLAVOUR | sed -e's/^./\U&\E/')
+	[ -n "$STANDARD_NAME" ] || STANDARD_NAME="$UCFLAVOUR Desktop"
+	[ -n "$STANDARD_DESC" ] \
+	|| STANDARD_DESC="A full featured $UCFLAVOUR Desktop."
+
+	if [ -z "$MINIMAL_IS_DEFAULT" ]; then
+		if [ "$HAS_STANDARD" = no ]; then
+			MINIMAL_IS_DEFAULT=yes
+		else
+			MINIMAL_IS_DEFAULT=no
+		fi
+	fi
+	if [ "$MINIMAL_IS_DEFAULT" = yes ]; then
+		STANDARD_IS_DEFAULT=no
+	else
+		STANDARD_IS_DEFAULT=yes
+	fi
+
+	if [ -n "$HAS_MINIMAL" ]; then
+		[ -n "$MINIMAL_NAME" ] \
+		|| MINIMAL_NAME="$STANDARD_NAME (minimized)"
+
+		cat <<-EOF > config/minimal.catalog-in.yaml
+			name: "$MINIMAL_NAME"
+			description: >-
+			  $MINIMAL_DESC
+			id: ${FLAVOUR}-desktop-minimal
+			type: fsimage-layered
+			default: $MINIMAL_IS_DEFAULT
+			variant: desktop
+			locale_support: $LOCALE_SUPPORT
+		EOF
+	fi
+	if [ "$HAS_STANDARD" != no ]; then
+		cat <<-EOF > config/${MINIMAL_PREFIX}standard.catalog-in.yaml
+			name: "$STANDARD_NAME"
+			description: >-
+			  $STANDARD_DESC
+			id: ${FLAVOUR}-desktop
+			type: fsimage-layered
+			default: $STANDARD_IS_DEFAULT
+			variant: desktop
+			locale_support: $LOCALE_SUPPORT
+		EOF
+	fi
 }
 
 case $PROJECT in
@@ -737,9 +786,11 @@ case $PROJECT in
 				;;
 			*)
 				HAS_MINIMAL=yes
+				MINIMAL_DESC="A minimal but usable Ubuntu Desktop."
+				MINIMAL_IS_DEFAULT=yes
 				HAS_DEFAULT_LANGUAGES=yes
-				KERNEL_FLAVOURS='generic-hwe-24.04'
 				LANGUAGE_BASE=desktop
+				KERNEL_FLAVOURS='generic-hwe-24.04'
 				do_layered_desktop_image
 
 				# Enchanced secureboot stuff
@@ -753,6 +804,8 @@ case $PROJECT in
 					cat <<-EOF > config/minimal.enhanced-secureboot.catalog-in.yaml
 						id: ubuntu-desktop-minimal
 						variations:
+						  minimal:
+						    path: minimal.squashfs
 						  minimal-enhanced-secureboot:
 						    path: minimal.enhanced-secureboot.squashfs
 						    snapd_system_label: enhanced-secureboot-desktop
@@ -760,6 +813,8 @@ case $PROJECT in
 					cat <<-EOF > config/minimal.standard.enhanced-secureboot.catalog-in.yaml
 						id: ubuntu-desktop
 						variations:
+						  standard:
+						    path: minimal.standard.squashfs
 						  enhanced-secureboot:
 						    path: minimal.standard.enhanced-secureboot.squashfs
 						    snapd_system_label: enhanced-secureboot-desktop
@@ -767,32 +822,6 @@ case $PROJECT in
 					;;
 				esac
 
-				# now let's create the neccessary catalog files
-				cat <<-EOF > config/minimal.catalog-in.yaml
-					name: "Ubuntu Desktop (minimized)"
-					description: >-
-					  A minimal but usable Ubuntu Desktop.
-					id: ubuntu-desktop-minimal
-					type: fsimage-layered
-					default: yes
-					variant: desktop
-					locale_support: langpack
-					variations:
-					  minimal:
-					    path: minimal.squashfs
-				EOF
-				cat <<-EOF > config/minimal.standard.catalog-in.yaml
-					name: "Ubuntu Desktop"
-					description: >-
-					  A full featured Ubuntu Desktop.
-					id: ubuntu-desktop
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-					variations:
-					  standard:
-					    path: minimal.standard.squashfs
-				EOF
 				/usr/share/livecd-rootfs/checkout-translations-branch \
 					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
@@ -801,29 +830,15 @@ case $PROJECT in
 
 	ubuntu-oem)
 		HAS_MINIMAL=yes
+		MINIMAL_NAME="Ubuntu Desktop for OEM (minimal)"
+		MINIMAL_DESC="Ubuntu Desktop (minimal) for OEM preinstallation."
+		STANDARD_NAME="Ubuntu Desktop for OEM"
+		STANDARD_DESC="Ubuntu Desktop for OEM preinstallation."
 		HAS_DEFAULT_LANGUAGES=yes
 		#KERNEL_FLAVOURS='oem-24.04'
 		KERNEL_FLAVOURS='generic-hwe-24.04'
+		LOCALE_SUPPORT=none
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Ubuntu Desktop for OEM (minimal)"
-			description: >-
-			  Ubuntu Desktop (minimal) for OEM preinstallation.
-			id: ubuntu-desktop-oem-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: none
-			default: yes
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Ubuntu Desktop for OEM"
-			description: >-
-			  Ubuntu Desktop for OEM preinstallation.
-			id: ubuntu-desktop-oem
-			type: fsimage-layered
-			variant: desktop
-			locale_support: none
-		EOF
 		;;
 
 	kubuntu)
@@ -837,56 +852,21 @@ case $PROJECT in
 		# Edubuntu now ships the new installer.
 		HAS_MINIMAL=yes
 		MINIMAL_TASKS=edubuntu-desktop-gnome-minimal
+		MINIMAL_DESC="A minimal installation of the Edubuntu Desktop."
 		STANDARD_TASKS=edubuntu-desktop-gnome
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Edubuntu Desktop (minimized)"
-			description: >-
-			  A minimal installation of the Edubuntu Desktop.
-			id: edubuntu-desktop-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Edubuntu Desktop"
-			description: >-
-			  A full featured Edubuntu Desktop.
-			id: edubuntu-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
-	
+
 	ubuntucinnamon)
 		# Ubuntu Cinnamon now ships the new installer.
+		UCFLAVOUR="Ubuntu Cinnamon"
 		HAS_MINIMAL=yes
+		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Ubuntu Cinnamon Desktop (minimized)"
-			description: >-
-			  A minimal installation of the Ubuntu Cinnamon Desktop.
-			id: ubuntucinnamon-desktop-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Ubuntu Cinnamon Desktop"
-			description: >-
-			  A full featured Ubuntu Cinnamon Desktop.
-			id: ubuntucinnamon-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
@@ -897,28 +877,11 @@ case $PROJECT in
 		;;
         ubuntukylin)
 		# Ubuntu Kylin now ships the new installer.
+		UCFLAVOUR="Ubuntu Kylin"
 		HAS_MINIMAL=yes
+		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Ubuntu Kylin Desktop (minimized)"
-			description: >-
-			  A minimal installation of the Ubuntu Kylin Desktop.
-			id: ubuntukylin-desktop-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Ubuntu Kylin Desktop"
-			description: >-
-			  A full featured Ubuntu Kylin Desktop.
-			id: ubuntukylin-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
@@ -927,6 +890,8 @@ case $PROJECT in
 		# Xubuntu now ships the new installer.
 		HAS_MINIMAL=yes
 		MINIMAL_TASKS=xubuntu-minimal
+		MINIMAL_NAME="Xubuntu Minimal"
+		MINIMAL_DESC="A minimal installation of the Xubuntu Desktop."
 		KERNEL_FLAVOURS=generic
 		case ${SUBPROJECT:-} in
 			minimal)
@@ -934,111 +899,42 @@ case $PROJECT in
 				;;
 		esac
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Xubuntu Minimal"
-			description: >-
-			  A minimal installation of the Xubuntu Desktop.
-			id: xubuntu-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		case ${SUBPROJECT:-} in
-			minimal)
-				;;
-			*)
-				# the standard layer, for standard installs (desktop iso)
-				cat <<-EOF > config/minimal.standard.catalog-in.yaml
-					name: "Xubuntu Desktop"
-					description: >-
-					  A full featured Xubuntu Desktop.
-					id: xubuntu-desktop
-					type: fsimage-layered
-					variant: desktop
-					locale_support: langpack
-					default: yes
-				EOF
-				;;
-		esac
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-budgie)
 		# Ubuntu Budgie now ships the new installer.
+		UCFLAVOUR="Ubuntu Budgie"
 		HAS_MINIMAL=yes
+		MINIMAL_DESC="A minimal but usable $UCFLAVOUR Desktop."
 		HAS_DEFAULT_LANGUAGES=yes
-		KERNEL_FLAVOURS='generic-hwe-24.04'
 		LANGUAGE_BASE=desktop
+		KERNEL_FLAVOURS='generic-hwe-24.04'
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Ubuntu Budgie Desktop (minimized)"
-			description: >-
-			  A minimal but usable Ubuntu Budgie Desktop.
-			id: ubuntu-budgie-desktop-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Ubuntu Budgie Desktop"
-			description: >-
-			  A full featured Ubuntu Budgie Desktop.
-			id: ubuntu-budgie-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-mate)
 		# Ubuntu MATE now ships the new installer.
+		UCFLAVOUR="Ubuntu MATE"
 		HAS_MINIMAL=yes
 		MINIMAL_TASKS=ubuntu-mate-core
+		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		cat <<-EOF > config/minimal.catalog-in.yaml
-			name: "Ubuntu MATE Desktop (minimized)"
-			description: >-
-			  A minimal installation of the Ubuntu MATE Desktop.
-			id: ubuntu-mate-desktop-minimal
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-		EOF
-		cat <<-EOF > config/minimal.standard.catalog-in.yaml
-			name: "Ubuntu MATE Desktop"
-			description: >-
-			  A full featured Ubuntu MATE Desktop.
-			id: ubuntu-mate-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntustudio-dvd)
 		# By default Ubuntu Studio now ships the new installer.
+		UCFLAVOUR="Ubuntu Studio"
 		STANDARD_TASKS="ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography"
 		LIVE_TASK=ubuntustudio-dvd-live
 		KERNEL_FLAVOURS=lowlatency
 		do_layered_desktop_image
-		cat <<-EOF > config/standard.catalog-in.yaml
-			name: "Ubuntu Studio Desktop"
-			description: >-
-			  A full featured Ubuntu Studio Desktop.
-			id: ubuntustudio-desktop
-			type: fsimage-layered
-			variant: desktop
-			locale_support: langpack
-			default: yes
-		EOF
 		/usr/share/livecd-rootfs/checkout-translations-branch \
 			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
