@@ -1313,12 +1313,6 @@ case "$ARCH${SUBARCH:++$SUBARCH}" in
 		KERNEL_FLAVOURS="nvidia-$SUBARCH"
 		;;
 	riscv*+*)
-		if [ "${SUBARCH:-}" = "licheerv" ]; then
-			# The wifi driver of the licheerv is an out-of-tree driver packaged
-			# in universe for now, so to ease its installation for those without
-			# network, install its dependencies.
-			add_package install dkms
-		fi
 		# We'll add wpasupplicant to the seeds when we work on RISC-V seeds.
 		add_package install wpasupplicant
 		;;
