@@ -752,6 +752,12 @@ do_layered_desktop_image() {
 			locale_support: $LOCALE_SUPPORT
 		EOF
 	fi
+
+	if [ "$LOCALE_SUPPORT" != none ]; then
+		/usr/share/livecd-rootfs/checkout-translations-branch \
+			https://git.launchpad.net/subiquity po \
+			config/catalog-translations
+	fi
 }
 
 case $PROJECT in
@@ -822,8 +828,6 @@ case $PROJECT in
 					;;
 				esac
 
-				/usr/share/livecd-rootfs/checkout-translations-branch \
-					https://git.launchpad.net/subiquity po config/catalog-translations
 				;;
 		esac
 		;;
@@ -856,8 +860,6 @@ case $PROJECT in
 		STANDARD_TASKS=edubuntu-desktop-gnome
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntucinnamon)
@@ -867,8 +869,6 @@ case $PROJECT in
 		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	lubuntu|ubuntu-unity)
@@ -882,8 +882,6 @@ case $PROJECT in
 		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	xubuntu)
@@ -899,8 +897,6 @@ case $PROJECT in
 				;;
 		esac
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-budgie)
@@ -912,8 +908,6 @@ case $PROJECT in
 		LANGUAGE_BASE=desktop
 		KERNEL_FLAVOURS='generic-hwe-24.04'
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-mate)
@@ -924,8 +918,6 @@ case $PROJECT in
 		MINIMAL_DESC="A minimal installation of the $UCFLAVOUR Desktop."
 		KERNEL_FLAVOURS=generic
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntustudio-dvd)
@@ -935,8 +927,6 @@ case $PROJECT in
 		LIVE_TASK=ubuntustudio-dvd-live
 		KERNEL_FLAVOURS=lowlatency
 		do_layered_desktop_image
-		/usr/share/livecd-rootfs/checkout-translations-branch \
-			https://git.launchpad.net/subiquity po config/catalog-translations
 		;;
 
 	ubuntu-server)
