@@ -476,46 +476,33 @@ case $IMAGEFORMAT in
 					;;
 				*) ;;
 			esac
-			case $SUITE in
-				xenial)
-					# Ubuntu Core 16
-					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
+
+			# Ubuntu Core 24
+			# For now we stick to updating this by hand, but a more tasteful solution
+			# will follow
+			CORE_MAJOR=24
+
+			# Currently uc24 assertions do not support global channel overrides,
+			# instead we have per-channel models
+			case $CHANNEL in
+				stable)
+					MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}"
 					;;
-				bionic)
-					# Ubuntu Core 18
-					MODEL="ubuntu-core-18-${MODEL#pc-}"
+				candidate|beta|edge|dangerous)
+					MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}-${CHANNEL}"
+					;;
+				dangerous-*)
+					# That being said, the dangerous grade *does*
+					# support channel overrides, so we can use the
+					# dangerous model assertion and override the channel
+					# freely.
+					MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}-dangerous"
+					CHANNEL=${CHANNEL#dangerous-}
 					UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
 					;;
 				*)
-					if [ "$SUITE" = "focal" ]; then
-						CORE_MAJOR=20
-					else
-						CORE_MAJOR=22
-					fi
-					# Ubuntu Core 2x
-					# Currently uc2x assertions do not support global
-					# channel overrides, instead we have per-channel models
-					case $CHANNEL in
-						stable)
-							MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}"
-							;;
-						candidate|beta|edge|dangerous)
-							MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}-${CHANNEL}"
-							;;
-						dangerous-*)
-							# That being said, the dangerous grade *does*
-							# support channel overrides, so we can use the
-							# dangerous model assertion and override the channel
-							# freely.
-							MODEL="ubuntu-core-${CORE_MAJOR}-${MODEL#pc-}-dangerous"
-							CHANNEL=${CHANNEL#dangerous-}
-							UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS -c $CHANNEL"
-							;;
-						*)
-							echo "Unknown CHANNEL ${CHANNEL} specification for ${SUITE}"
-							exit 1
-							;;
-					esac
+					echo "Unknown CHANNEL ${CHANNEL} specification for ${SUITE}"
+					exit 1
 					;;
 			esac
 
