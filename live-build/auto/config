@@ -686,6 +686,23 @@ do_layered_desktop_image() {
 	[ -n "$LIVE_TASK" ] || LIVE_TASK=${FLAVOUR}-live
 	add_task ${LIVE_PREFIX}live "$LIVE_TASK"
 	add_package ${LIVE_PREFIX}live linux-$KERNEL_FLAVOURS casper
+
+	if [ -n "$LANGUAGE_BASE" ]; then
+		# language support
+		seeded_langs="$(get_seeded_languages $LANGUAGE_BASE)"
+		echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
+		if [ -n "$HAS_MINIMAL" ]; then
+			derive_language_layers minimal \
+				${LANGUAGE_BASE}-minimal \
+				${LANGUAGE_BASE}-minimal-default-languages \
+				"$seeded_langs"
+		fi
+		if [ "$HAS_STANDARD" != no ]; then
+			derive_language_layers ${LIVE_PREFIX%.} $LANGUAGE_BASE \
+				${LANGUAGE_BASE}-default-languages \
+				"$seeded_langs"
+		fi
+	fi
 }
 
 case $PROJECT in
@@ -722,12 +739,8 @@ case $PROJECT in
 				HAS_MINIMAL=yes
 				HAS_DEFAULT_LANGUAGES=yes
 				KERNEL_FLAVOURS='generic-hwe-24.04'
+				LANGUAGE_BASE=desktop
 				do_layered_desktop_image
-				# language support
-				seeded_langs="$(get_seeded_languages desktop)"
-				echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-				derive_language_layers minimal desktop-minimal desktop-minimal-default-languages "$seeded_langs"
-				derive_language_layers minimal.standard desktop desktop-default-languages "$seeded_langs"
 
 				# Enchanced secureboot stuff
 				case "$ARCH" in
@@ -956,11 +969,8 @@ case $PROJECT in
 		HAS_MINIMAL=yes
 		HAS_DEFAULT_LANGUAGES=yes
 		KERNEL_FLAVOURS='generic-hwe-24.04'
+		LANGUAGE_BASE=desktop
 		do_layered_desktop_image
-		seeded_langs="$(get_seeded_languages budgie-desktop-minimal budgie-desktop)"
-		echo "$seeded_langs" | tr ' ' ',' > config/seeded-languages
-		derive_language_layers minimal budgie-desktop-minimal budgie-desktop-minimal-default-languages "$seeded_langs"
-		derive_language_layers minimal.standard budgie-desktop budgie-desktop-default-languages "$seeded_langs"
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Ubuntu Budgie Desktop (minimized)"
 			description: >-
