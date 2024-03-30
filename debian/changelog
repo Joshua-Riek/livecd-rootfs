@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.55) UNRELEASED; urgency=medium
+
+  * No-change rebuild for CVE-2024-3094
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sat, 30 Mar 2024 11:25:45 -0700
+
 livecd-rootfs (24.04.54) noble; urgency=medium
 
   [ Steve Langasek ]
