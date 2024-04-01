@@ -97,7 +97,19 @@ Expire-Date: 0
 		GPG_PROCESS=$!
 	fi
 
-	lb bootstrap "$@"
+	ec=0
+	lb bootstrap "$@" || ec=$?
+	if [ $ec -ne 0 ] ; then
+		if [ ! -f chroot/debootstrap/debootstrap.log ] ; then
+			echo "debootstrap.log not found"
+			exit $ec
+		fi
+
+		echo "################# BEGIN debootstrap.log ################"
+		cat chroot/debootstrap/debootstrap.log
+		echo "################### END debootstrap.log ################"
+		exit $ec
+	fi
 
 	# Set locale to C.UTF-8 by default.  This may be overridden later.
 	echo "LANG=C.UTF-8" > chroot/etc/default/locale
