@@ -804,6 +804,7 @@ case $PROJECT in
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=generic
 		add_task minimal minimal standard edubuntu-desktop-gnome-minimal
+		add_package minimal cloud-init
 		add_task minimal.standard edubuntu-desktop-gnome
 		add_task minimal.standard.live edubuntu-live
 		add_package minimal.standard.live linux-$KERNEL_FLAVOURS casper
@@ -836,6 +837,7 @@ case $PROJECT in
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=generic
 		add_task minimal minimal standard ubuntucinnamon-desktop-minimal
+		add_package minimal cloud-init
 		add_task minimal.standard ubuntucinnamon-desktop
 		add_task minimal.standard.live ubuntucinnamon-live
 		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
@@ -872,6 +874,7 @@ case $PROJECT in
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=generic
 		add_task minimal minimal standard ubuntukylin-desktop-minimal
+		add_package minimal cloud-init
 		add_task minimal.standard ubuntukylin-desktop
 		add_task minimal.standard.live ubuntukylin-live
 		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
@@ -905,6 +908,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=generic
 		# the minimal layer, for minimal installs (minimal and desktop iso)
 		add_task minimal minimal standard xubuntu-minimal
+		add_package minimal cloud-init
 		cat <<-EOF > config/minimal.catalog-in.yaml
 			name: "Xubuntu Minimal"
 			description: >-
@@ -985,6 +989,7 @@ case $PROJECT in
 		PASSES_TO_LAYERS="true"
 		KERNEL_FLAVOURS=generic
 		add_task minimal minimal standard ubuntu-mate-core
+		add_package minimal cloud-init
 		add_task minimal.standard ubuntu-mate-desktop
 		add_task minimal.standard.live ubuntu-mate-live
 		add_package minimal.standard.live linux-$KERNEL_FLAVOURS
@@ -1018,6 +1023,7 @@ case $PROJECT in
 		KERNEL_FLAVOURS=lowlatency
 		LIVE_LAYER_PARENT=standard
 		add_task standard minimal standard ubuntustudio-desktop ubuntustudio-audio ubuntustudio-graphics ubuntustudio-video ubuntustudio-photography
+		add_package standard cloud-init
 		add_task standard.live ubuntustudio-dvd-live
 		add_package standard.live linux-$KERNEL_FLAVOURS
 		cat <<-EOF > config/standard.catalog-in.yaml
