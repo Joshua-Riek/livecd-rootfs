@@ -3,7 +3,7 @@ livecd-rootfs (24.04.56) noble; urgency=medium
   * l/a/build: if debootstrap fails, cat deboostrap.log
   * flavors: cloud-init needs to be present in Subiquity-based installers.
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 01 Apr 2024 19:35:43 -0600
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 01 Apr 2024 19:39:25 -0600
 
 livecd-rootfs (24.04.55) noble; urgency=medium
 
