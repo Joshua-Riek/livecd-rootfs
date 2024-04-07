@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.57) noble; urgency=medium
+
+  * Ensure the proper hooks are copied for Ubuntu MATE (LP: #2058161).
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Sun, 07 Apr 2024 17:37:21 -0500
+
 livecd-rootfs (24.04.56) noble; urgency=medium
 
   * l/a/build: if debootstrap fails, cat deboostrap.log
