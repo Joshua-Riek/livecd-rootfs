@@ -7,7 +7,7 @@ livecd-rootfs (24.04.59) noble; urgency=medium
   * budgie: remove add_snap of ubuntu-budgie-installer,
     ubuntu-desktop-bootstrap is used instead. (LP: #2060568)
 
- -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 08 Apr 2024 13:46:25 -0600
+ -- Dan Bungert <daniel.bungert@canonical.com>  Mon, 08 Apr 2024 14:09:15 -0600
 
 livecd-rootfs (24.04.58) noble; urgency=medium
 
