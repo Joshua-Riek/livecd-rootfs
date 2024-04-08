@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.58) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.58) noble; urgency=medium
 
   * Add console-conf to UC24 extra snaps by default, as the models define
     it as optional so we need to explicitly request it to be added.
