@@ -685,9 +685,6 @@ case $PROJECT in
 			*)
 				touch config/universe-enabled
 				KERNEL_FLAVOURS='generic-hwe-24.04'
-				if [ "$SUBARCH" = "x13s" ]; then
-					KERNEL_FLAVOURS='laptop-23.10'
-				fi
 				PASSES_TO_LAYERS="true"
 				# the minimal layer, for minimal installs
 				add_task minimal minimal standard ubuntu-desktop-minimal ubuntu-desktop-minimal-default-languages

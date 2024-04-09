@@ -587,9 +587,6 @@ for FLAVOUR in $LB_LINUX_FLAVOURS; do
 		oem-*)
 			FLAVOUR="oem"
 			;;
-		laptop-*)
-			FLAVOUR="laptop"
-			;;
 		image-intel)
 			FLAVOUR="intel"
 			;;
