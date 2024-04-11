@@ -516,7 +516,7 @@ case $IMAGEFORMAT in
 					;;
 			esac
 			for snap in $EXTRA_SNAPS; do
-				UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --extra-snaps $snap"
+				UBUNTU_IMAGE_ARGS="$UBUNTU_IMAGE_ARGS --snap=$snap"
 			done
 			echo "IMAGEFORMAT=$IMAGEFORMAT" >> config/common
 			echo "UBUNTU_IMAGE_ARGS=\"$UBUNTU_IMAGE_ARGS\"" >> config/common

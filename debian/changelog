@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.61) UNRELEASED; urgency=medium
+
+  * Fix the UC24 builds: use --snap instead of --extra-snaps.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 11 Apr 2024 10:44:04 +0200
+
 livecd-rootfs (24.04.60) noble; urgency=medium
 
   * Drop use of 'laptop' for x13s as this is now migrated to generic.
