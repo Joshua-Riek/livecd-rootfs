@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.63) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.63) noble; urgency=medium
 
   * Re-enable armhf disk-image-uefi building. (LP: #2062024)
     This reverts commit 4f51ff45 (fix: Remove UEFI booting armhf, 2024-03-12).
