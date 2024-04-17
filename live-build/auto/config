@@ -528,8 +528,13 @@ case $IMAGEFORMAT in
 		else
 			# classic images
 
+			# Sometimes per-project quirks are necessary
 			IMAGE_PROJECT=$PROJECT
-			[ "$IMAGE_PROJECT" = "ubuntu-cpc" ] && IMAGE_PROJECT="ubuntu-server"
+			case "$IMAGE_PROJECT" in
+				ubuntu-cpc)
+					IMAGE_PROJECT="ubuntu-server"
+					;;
+			esac
 
 			LB_UBUNTU_IMAGES_REPO="${LB_UBUNTU_IMAGES_REPO:-git://git.launchpad.net/ubuntu-images}"
 			LB_UBUNTU_IMAGES_BRANCH="${LB_UBUNTU_IMAGES_BRANCH:-$SUITE}"
@@ -830,6 +835,26 @@ case $PROJECT in
 
 				;;
 		esac
+		;;
+
+	ubuntu-core-desktop)
+		touch config/universe-enabled
+		KERNEL_FLAVOURS='generic-hwe-22.04'
+		PASSES_TO_LAYERS="true"
+
+		# the minimal layer, for minimal installs
+		add_task minimal minimal
+		# the live layer, contains all packages for the live session installer
+		add_snap minimal.live ubuntu-core-desktop-installer/classic core22 snapd
+		add_package minimal.live linux-$KERNEL_FLAVOURS plymouth-theme-spinner squashfs-tools snapd cloud-init gsettings-desktop-schemas yaru-theme-gtk lshw
+
+		echo "Configuring for additional payload preparation"
+		UBUNTU_IMAGE_PAYLOAD_ARGS="--image-size 12G"
+		EXTRA_SNAPS="$EXTRA_SNAPS evince firefox gnome-calculator gnome-characters gnome-clocks gnome-font-viewer gnome-logs gnome-system-monitor gnome-text-editor gnome-weather loupe snapd-desktop-integration snap-store ubuntu-core-desktop-init workshops"
+		for snap in $EXTRA_SNAPS; do
+			UBUNTU_IMAGE_PAYLOAD_ARGS="$UBUNTU_IMAGE_PAYLOAD_ARGS --snap $snap"
+		done
+		echo "UBUNTU_IMAGE_PAYLOAD_ARGS=\"$UBUNTU_IMAGE_PAYLOAD_ARGS\"" >> config/common
 		;;
 
 	ubuntu-oem)
@@ -1411,7 +1436,7 @@ case $PROJECT:${SUBPROJECT:-} in
 	ubuntu-cpc:*|ubuntu-server:live|ubuntu:desktop-preinstalled| \
 		ubuntu-wsl:*|ubuntu-mini-iso:*|ubuntu:|ubuntu-oem:*| \
 		ubuntustudio-dvd:*|edubuntu:*|ubuntu-budgie:*|ubuntucinnamon:*|xubuntu:*| \
-	        ubuntukylin:*|ubuntu-mate:*)
+	        ubuntukylin:*|ubuntu-mate:*|ubuntu-core-desktop:*)
 		# Ensure that most things e.g. includes.chroot are copied as is
 		for entry in /usr/share/livecd-rootfs/live-build/${PROJECT}/*; do
 			case $entry in

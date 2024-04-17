@@ -20,19 +20,17 @@ fi
 # Link output files somewhere launchpad-buildd will be able to find them.
 PREFIX="livecd.$PROJECT${SUBARCH:+-$SUBARCH}"
 
-if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
-	# Use ubuntu-image instead of live-build
+if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ] \
+	|| [ "$PROJECT" = "ubuntu-core-desktop" ]; then
+	# Use ubuntu-image instead (or as part) of live-build
 
 	export SNAPPY_STORE_NO_CDN=1
-	LB_UBUNTU_IMAGE_CHANNEL="${LB_UBUNTU_IMAGE_CHANNEL:-candidate}"
+	LB_UBUNTU_IMAGE_CHANNEL="${LB_UBUNTU_IMAGE_CHANNEL:-stable}"
 	snap install \
             --classic --channel="$LB_UBUNTU_IMAGE_CHANNEL" ubuntu-image
 
-	# TODO: eventually, this should be handled by a single ubuntu-image
-	#  call without having to do a conditional on ubuntu-core/classic.
-	#  We could already do that, but then we'd still have to do the
-	#  compressing for the core images.
 	if [ "$PROJECT" = "ubuntu-core" ]; then
+		# Ubuntu Core images
 		/snap/bin/ubuntu-image snap $UBUNTU_IMAGE_ARGS \
 			-O output "$PREFIX".model-assertion
 		# XXX: currently we only have one image generated, but really
@@ -41,8 +39,43 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 		mv output/*.img "$PREFIX".img
 		xz -0 -T4 "$PREFIX".img
 		mv output/seed.manifest "$PREFIX".manifest
+
+		# All the builds are finished now, exit
+		exit 0
+	elif [ "$PROJECT" = "ubuntu-core-desktop" ]; then
+		# Ubuntu Core Desktop payload image
+		# Special case for ubuntu-core-desktop - we need to call
+		# ubuntu-image twice, once for the core image payload and
+		# then for the actual image.
+		echo "Building the core image payload"
+		cd config/
+		/snap/bin/ubuntu-image snap $UBUNTU_IMAGE_PAYLOAD_ARGS \
+			-O output ubuntu-core-desktop*.model-assertion
+		mv output/*.img pc.img
+		xz -0 -T4 pc.img
+		rm -rf output/
+
+		# Prepare the source catalogue
+		cat install-sources-in.yaml | sed "s/@SIZE@/$(stat -c%s pc.img.xz)/g" > ../"$PREFIX".install-sources.yaml
+
+		# We need to rename the image file so that it can be pulled
+		# by the builder.
+		mv pc.img.xz ../"$PREFIX".img.xz
+
+		# We need to make sure the autoinstall file is also exported.
+		mv autoinstall.yaml ../"$PREFIX".autoinstall.yaml
+
+		# Useful to have the model-assertion exported as well.
+		mv ubuntu-core-desktop*.model-assertion ../"$PREFIX".model-assertion
+
+		# Important: return to the previous directory
+		cd ../
+
+		# Payload build finished, but now we need to build the rest with the
+		# usual live-build tools.
 	else
-		/snap/bin/ubuntu-image classic --debug $UBUNTU_IMAGE_ARGS \
+		# Ubuntu classic preinstalled images
+		/snap/bin/ubuntu-image classic --verbose $UBUNTU_IMAGE_ARGS \
 			-O output "$IMAGE_DEFINITION"
 		# Since the output of the ubuntu-image call can vary based on what
 		# kind of an image we build, the safest bet is to 'export' all the
@@ -59,9 +92,10 @@ if [ "${IMAGEFORMAT:-}" = "ubuntu-image" ]; then
 			mv $artifact "$PREFIX".$extension
 		done
 		[ -f $PREFIX.img ] && xz -0 -T4 "$PREFIX".img
-	fi
 
-	exit 0
+		# All the builds are finished now, exit
+		exit 0
+	fi
 fi
 
 # Setup cleanup function
