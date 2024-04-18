@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.64) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.64) noble; urgency=medium
 
   * Update the Ubuntu classic model assertion for TPM FDE to the 24.04 model.
 
