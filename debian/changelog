@@ -1,3 +1,12 @@
+livecd-rootfs (24.04.65) UNRELEASED; urgency=medium
+
+  [ Aaron Rainbolt ]
+  * Allows Multiverse packages to be pulled into Kubuntu. This is necessary so
+    that fonts-ibm-plex can be installed on the ISO, which is going to be used
+    by kubuntu-installer-prompt as part of Kubuntu's rebrand.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Thu, 18 Apr 2024 19:35:49 +0200
+
 livecd-rootfs (24.04.64) noble; urgency=medium
 
   * Update the Ubuntu classic model assertion for TPM FDE to the 24.04 model.
