@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.65) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.65) noble; urgency=medium
 
   [ Aaron Rainbolt ]
   * Allows Multiverse packages to be pulled into Kubuntu. This is necessary so
