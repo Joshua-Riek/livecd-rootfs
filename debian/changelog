@@ -1,4 +1,4 @@
-livecd-rootfs (24.04.67) UNRELEASED; urgency=medium
+livecd-rootfs (24.04.67) noble; urgency=medium
 
   [ Julian Andres Klode ]
   * Update wording for universe sources
