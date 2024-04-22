@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.66) UNRELEASED; urgency=medium
+
+  [ Heinrich Schuchardt ]
+  * riscv: add pre-installed image for Milk-V Mars.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Mon, 22 Apr 2024 09:11:59 +0100
+
 livecd-rootfs (24.04.65) noble; urgency=medium
 
   [ Aaron Rainbolt ]
