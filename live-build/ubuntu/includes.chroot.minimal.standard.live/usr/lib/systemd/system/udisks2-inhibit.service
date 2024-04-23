@@ -1,0 +1,19 @@
+[Unit]
+Description=inhibit disk automounting
+Before=udisks2.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStart=mkdir -p /run/udev/rules.d
+ExecStart=sh -c "echo 'SUBSYSTEM==\"block\", ENV{UDISKS_IGNORE}=\"1\"' > /run/udev/rules.d/10-udisks-inhibit.rules"
+ExecStart=udevadm control --reload
+ExecStart=udevadm trigger --subsystem-match=block
+
+ExecStopPost=rm -f /run/udev/rules.d/10-udisks-inhibit.rules
+ExecStopPost=udevadm control --reload
+ExecStopPost=udevadm trigger --subsystem-match=block
+
+[Install]
+WantedBy=graphical.target
