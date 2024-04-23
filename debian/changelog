@@ -1,3 +1,9 @@
+livecd-rootfs (24.04.69) UNRELEASED; urgency=medium
+
+  * 
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Tue, 23 Apr 2024 08:09:29 -0600
+
 livecd-rootfs (24.04.68) noble; urgency=medium
 
   * Rename the milk-v-mars SUBARCH to milkvmars.
