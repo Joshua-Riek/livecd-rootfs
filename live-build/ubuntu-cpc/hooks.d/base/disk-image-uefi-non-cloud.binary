@@ -132,7 +132,7 @@ create_partitions() {
                         --change-name=3:uEnv \
                         --new=1:: \
                         --attributes=1:set:2
-            elif [ "${SUBARCH:-}" = "visionfive2" ] || [ "${SUBARCH:-}" = "milk-v-mars" ]; then
+            elif [ "${SUBARCH:-}" = "visionfive2" ] || [ "${SUBARCH:-}" = "milkvmars" ]; then
                 # VisionFive 2, Milk-V Mars
                 sgdisk "${disk_image}" \
                         --set-alignment=4096 \
@@ -285,7 +285,7 @@ install_grub() {
                         loader="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/microchip_icicle/u-boot.payload of=$loader
                         ;;
-                    "milk-v-mars")
+                    "milkvmars")
                         cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
                         # flash-kernel is needed to install the dtb for update-grub: it uses the
                         # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
