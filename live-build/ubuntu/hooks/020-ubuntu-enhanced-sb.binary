@@ -20,14 +20,14 @@ fi
 . config/binary
 . config/functions
 
-# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2310-amd64 > config/classic-model.model
+# env SNAPPY_STORE_NO_CDN=1 snap known --remote model series=16 brand-id=canonical model=ubuntu-classic-2404-amd64 > config/classic-model.model
 cat <<EOF > config/classic-model.model
 type: model
 authority-id: canonical
-revision: 5
+revision: 2
 series: 16
 brand-id: canonical
-model: ubuntu-classic-2310-amd64
+model: ubuntu-classic-2404-amd64
 architecture: amd64
 base: core22
 classic: true
@@ -35,12 +35,12 @@ distribution: ubuntu
 grade: signed
 snaps:
   -
-    default-channel: classic-23.10/stable
+    default-channel: classic-24.04/stable
     id: UqFziVZDHLSyO3TqSWgNBoAdHbLI4dAH
     name: pc
     type: gadget
   -
-    default-channel: 23.10/stable
+    default-channel: 24/stable
     id: pYVQrBcKmBa0mZ4CCN7ExT6jH8rY1hza
     name: pc-kernel
     type: kernel
@@ -60,48 +60,48 @@ snaps:
     name: bare
     type: base
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: 3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk
     name: firefox
     type: app
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: lATO8HzwVvrAPrlZRAWpfyrJKlAJrZS3
     name: gnome-42-2204
     type: app
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: jZLfBRzf1cYlYysIjD2bwSzNtngY0qit
     name: gtk-common-themes
     type: app
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: gjf3IPXoRiipCu9K0kVu52f0H56fIksg
     name: snap-store
     type: app
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: IrwRHakqtzhFRHJOOPxKVPU0Kk7Erhcu
     name: snapd-desktop-integration
     type: app
   -
-    default-channel: latest/stable/ubuntu-23.10
+    default-channel: latest/stable/ubuntu-24.04
     id: EI0D1KHjP8XiwMZKqSjuh6W8zvcowUVP
     name: firmware-updater
     type: app
-timestamp: 2023-10-03T12:00:00.0Z
+timestamp: 2024-04-21T12:00:00.0Z
 sign-key-sha3-384: 9tydnLa6MTJ-jaQTFUXEwHl1yRx7ZS4K5cyFDhYDcPzhS7uyEkDxdUjg9g08BtNn
 
-AcLBXAQAAQoABgUCZRxdbAAKCRDgT5vottzAEhE1D/9tkrF4Zsq3YI4TpnNrXIlRoA8xF8E1ldPQ
-R8J3HTs85/VudYEg4yhnfny9NwngSUHYPrUdMDPlG03QF+hsp5jMcTCnHnwWaHAFTmSp4YlkKww/
-cBn8NAEKni9JL9K1y8A7fMUxojZ3QV/XI3fQl/cuLrWb0MJNl/aaC740DINqY+ZGaRwjPD/RNiGg
-iD90xDn2it0YMOw1qe/tg8EKNe45PXDKUARc3tL8vYVmzSXLkUMwjJeZMRR3LcUWeFLFrctOXnc3
-EFFp8r2WDssdGbgI1qHp4lGykbHH/yE0f3g+eBWv7etogmmOVqwoCp9+rYn6LbyW6aNY8Gcv77ak
-DuSaJwiGkkxaCtb3CnCj6i+YVn55DVBLFEgfGBL7/yVtCSfcNYYAgjFa3cEz35pwtLQ47R5c+wwD
-VQ47fVL1VdWjQ2HHkbmhUq9OgkjdadLRuqrX2u64ZcO69sP2uQAjhYdd62rR4A8L6mF4dQ/99kTE
-3x9ivIhQkBXh6hzBIdDDx0OcWS/Ia7DsM2QXYRtgfE0tgRmflxWjSVGuCUUHE/ZL+7h/fCeylAxz
-QtDdGTG8gi/RhIyXdgfQXUGwOyKl7EgRYenhH0wQngc6PsZKE6vQNyV7CFESRbgReQJ4bmCEuiDW
-/mJmiy3rAhZHfq8Sz9+jj44zTzqf+2ZZ8tDze4gyZw==
+AcLBXAQAAQoABgUCZiZYsgAKCRDgT5vottzAEir/EACXgxl3zMAplZZDP33gyk7dENrDD3VaindS
+sL91VFtNzrDQiK0ovuPUTuxg4N0XqDcGxIxBQUDggHA36n4+B+EP68Uu4kTS8PzJAeVfK2NzpleL
+1tgXjGCvb2JmRZIZozJ8x3DVIMeBByPcEKv+nULhnAcOIpZfBvbv/fs/pF5QKqsWQIlMPk23X5aF
+ZmcaOAT8S+d73i/SWJxAEjcS9SeKf+iHxDQ6niuOhGgM20+hvCiWT0YLefG9fYsu5FjNaT0o9p0Y
+hbYKb0SaILWrXrip209yciweVgUfRBDqYMnGWVojjW+dpS/IqLYvFL0y0hm5gQI4QmALXY+9p3Qc
+97YCbPsj0rOSGcPDUkLKu+vkVdIkIsYg44QMtJEhGs9dBBj5nt7welli5sjuQBUzRECWOlH1dJgd
+7PJi9Hl/6X3/CNUruK5t342B70BJ1IWp49dIKf9zfSvoJzDiBlRx6pl6/F54XU4Xef4Nl7+2Cc7z
+45FpV16tft9KhufXKksvTIaHDEWY5E4fbAL4YjCEf5TD2JZDI16cc8lrrGKO1R+hWjA943JgK1Ac
+kio/LUlP0oYPq9hxzdRQq4vynRt+MYro+/0yNzaX3IBODQ+7uX3KIakbaI6y/d6nCz8Z94PoJC2/
+9OnsJlX1QIsavtl5ct0Buqzk8AdLFwCHGM8xlT81Jw==
 EOF
 
 channel=""

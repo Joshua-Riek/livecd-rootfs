@@ -9,7 +9,8 @@ case $ARCH:$SUBARCH in
 	i386:|\
 	ppc64el:|\
 	riscv64:|riscv64:generic|riscv64:icicle|riscv64:licheerv|\
-	riscv64:nezha|riscv64:unmatched|riscv64:visionfive|riscv64:visionfive2|\
+	riscv64:milk-v-mars|riscv64:nezha|riscv64:unmatched|riscv64:visionfive|\
+	riscv64:visionfive2|\
 	s390x:|\
 	*appliance*)
 		;;
@@ -392,8 +393,9 @@ fi
 if [ "$IMAGEFORMAT" = "ext4" ] && [ "$PROJECT" = "ubuntu-cpc" ]; then
 	case $ARCH:$SUBARCH in
 		riscv64:icicle | \
-		riscv64:nezha | \
 		riscv64:licheerv | \
+		riscv64:milk-v-mars | \
+		riscv64:nezha | \
 		riscv64:unmatched | \
 		riscv64:visionfive | \
 		riscv64:visionfive2 | \
@@ -629,10 +631,10 @@ case $PROJECT in
 	ubuntu-server|ubuntu-mini-iso)
 		COMPONENTS='main'
 		;;
-	edubuntu|kubuntu|ubuntu-budgie|ubuntucinnamon|ubuntukylin)
+	edubuntu|ubuntu-budgie|ubuntucinnamon|ubuntukylin)
 		COMPONENTS='main restricted universe'
 		;;
-	lubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
+	lubuntu|kubuntu|ubuntu-mate|ubuntu-unity|ubuntustudio-dvd|xubuntu)
 		COMPONENTS='main restricted universe multiverse'
 		;;
 esac

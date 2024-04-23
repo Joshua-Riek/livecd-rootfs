@@ -132,8 +132,8 @@ create_partitions() {
                         --change-name=3:uEnv \
                         --new=1:: \
                         --attributes=1:set:2
-            elif [ "${SUBARCH:-}" = "visionfive2" ]; then
-                # VisionFive 2
+            elif [ "${SUBARCH:-}" = "visionfive2" ] || [ "${SUBARCH:-}" = "milk-v-mars" ]; then
+                # VisionFive 2, Milk-V Mars
                 sgdisk "${disk_image}" \
                         --set-alignment=4096 \
 			--new=13:4096:8191 \
@@ -284,6 +284,21 @@ install_grub() {
                         chroot mountpoint apt-get install -qqy u-boot-microchip
                         loader="${loop_device}p13"
                         dd if=mountpoint/usr/lib/u-boot/microchip_icicle/u-boot.payload of=$loader
+                        ;;
+                    "milk-v-mars")
+                        cp ${my_d}/riscv64/grub/90_watchdog-thresh.cfg mountpoint/etc/default/grub.d/
+                        # flash-kernel is needed to install the dtb for update-grub: it uses the
+                        # /proc/device-tree/model value to pick the correct dtb and as we are in a chroot,
+                        # the model value is wrong and we need to use /etc/flash-kernel/machine instead.
+                        # This explains why we install flash-kernel here.
+                        chroot mountpoint bash -c "echo 'Milk-V Mars' > /etc/flash-kernel/machine"
+                        chroot mountpoint apt-get install -qqy u-boot-starfive
+                        # U-Boot SPL
+                        loader1="${loop_device}p13"
+                        # Main U-Boot
+                        loader2="${loop_device}p2"
+                        dd if=mountpoint/usr/lib/u-boot/starfive_visionfive2/u-boot-spl.bin.normal.out of=$loader1
+                        dd if=mountpoint/usr/lib/u-boot/starfive_visionfive2/u-boot.itb of=$loader2
                         ;;
                     "nezha"|"licheerv")
                         echo "Reducing initramfs size for ${SUBARCH} board"
