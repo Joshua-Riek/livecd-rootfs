@@ -1,3 +1,10 @@
+livecd-rootfs (24.04.70) UNRELEASED; urgency=medium
+
+  * Add experimental support for building ubuntu-core-desktop installer images
+    (LP: #2063203)
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Wed, 24 Apr 2024 10:53:27 +0100
+
 livecd-rootfs (24.04.69) noble; urgency=medium
 
   * desktop: move udisks2-inhibit to service (LP: #2063192)
