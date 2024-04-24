@@ -1,3 +1,15 @@
+livecd-rootfs (24.04.69) noble; urgency=medium
+
+  * desktop: move udisks2-inhibit to service (LP: #2063192)
+
+ -- Dan Bungert <daniel.bungert@canonical.com>  Tue, 23 Apr 2024 13:37:05 -0600
+
+livecd-rootfs (24.04.68) noble; urgency=medium
+
+  * Rename the milk-v-mars SUBARCH to milkvmars.
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@ubuntu.com>  Tue, 23 Apr 2024 15:20:56 +0100
+
 livecd-rootfs (24.04.67) noble; urgency=medium
 
   [ Julian Andres Klode ]
