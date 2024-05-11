@@ -104,6 +104,9 @@ Setup_cleanup
 preinstall_snaps() {
 	setup_mountpoint chroot
 
+    mkdir -p chroot/var/lib/snapd/device/
+    cp -r /var/lib/snapd/device/* chroot/var/lib/snapd/device/
+
 	snap_prepare chroot
 
 	for snap in "$@"; do
