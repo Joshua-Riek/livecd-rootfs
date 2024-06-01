@@ -68,7 +68,7 @@ if [ "$SUBPROJECT" == "desktop-preinstalled" ]; then
     sed -i 's/#WaylandEnable=false/WaylandEnable=true/g' /etc/gdm3/custom.conf
 
     # Adjust kernel command line arguments for desktop
-    echo -n "quiet splash plymouth.ignore-serial-consoles" >> /etc/kernel/cmdline
+    echo -n " quiet splash plymouth.ignore-serial-consoles" >> /etc/kernel/cmdline
 fi
 
 if [ "$LB_DISTRIBUTION" == "jammy" ]; then
